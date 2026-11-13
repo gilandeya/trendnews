@@ -3307,3 +3307,17 @@ track` والفيديو وثانيته، وسطر «🔁 ختام الريل…�
   `real_yt_details` يطلب `snippet` أيضًا (العنوان والتاريخ).
 - **الضبط:** `reel.render.exact.relaxed_ratio` (0.6): نسبة بين هذا والحد (0.7) تُقبل بتفرّد النافذة (`align_quote(min_ratio=)`) و`render_crops[i].exact.relaxed`؛
   مقطع فارسي صحيح الموضع بنسبة 0.677 كان يُحذف. `render_version` بلا تغيير.
+
+## السياق يتناوب مع مقاطعه، والقناة في السياق للحصري وحده (ملاحظات صاحب المشروع 13/11) — `tests/test_youtube.py:test_reel_context_beats_1313b`
+
+- **التناوب:** حين اختار صاحب المشروع مقاطع سياق، يكتب Opus (`meta_script.write_frame`) السياق في `beats` = [{text, clip}] مرقّمة كما عُرضت عليه
+  (`frame_message`: المقاطع مرقّمة، ثم «الأسئلة والإجابات التي اخترتُها… آخر جزء يمهّد للسؤال الأول»)، والبرومبت `youtube.meta_topics.script.system`:
+  كلام ← مقطع ← كلام ← مقطع ← كلام، تمهيد لكل مقطع بلا تكرار كلامه، ومكان الحدث باسمه (خريطة السياق)، ولا اسم قناة. `beats_problems`: كل مقطع مرة برقم معروف
+  ولكل جزء كلام؛ المخالفة تُعاد مرة في المحادثة، وبقاؤها ← الكلام كله ثم المقاطع كما كان مع تنبيه `texts.beats_failed`. الطول يُعدّ من كلام beats.
+  `make_builder` يحوّل الأرقام إلى معرّفات النقاط و`reel_script._build_v2(context_beats=)` يبني مشهد راوٍ `role: context` لكل جزء يليه مقطعه (`q: c<k>`).
+  ما يقرأ السياق صار يجمع كل مشاهده (`fit_message`، `reel_hook_search.subject_text`، سطور المحرر). `repair_v2`: ما قبل أول بطاقة سؤال يبقى بترتيبه عند
+  إعادة ترتيب الأدوار (كانت مقاطع السياق تضيع هناك).
+- **القناة:** `gemini_bites` يحفظ `setting_source: "model"` حين أعاد Gemini الإطار (وإلا فارغ)، و`meta_original.decide` يضع `"original"`؛ `valid_clips` تضع
+  `exclusive` = studio بحكم النموذج، وتنتقل إلى المشهد (`_CLIP_COPY`). مقطع سياق غير حصري ← `hide_channel` ← `relay_view` بلا قناة في الشريط وعلى البلاطة
+  (`reel.render.context_channel_exclusive_only`، false ← كما كان). وتعريف studio في `qa.gemini.system`: برنامج هذه القناة وحدها؛ مسؤول يتكلم لعدة صحفيين
+  ليس studio ولو صوّرته. `render_version` بلا تغيير.

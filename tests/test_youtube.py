@@ -6124,7 +6124,8 @@ def test_reel_context_clips() -> None:
         ctx = meta_script.selected_context(marks, priv, ans)
         check("selected_context: مقطع الوزير", [b["bite_id"] for b in ctx] == ["v0:g300"])
         msg = meta_script.frame_message("هل يُعزل الوزير؟", topic, qs, {b["bite_id"]: b for b in ans + ctx}, [], ["v0:g300"])
-        check("نداء السياق يرى مقاطع أطراف الحدث ليمهّد لها", "مقاطع أطراف الحدث" in msg and "إنها مهزلة" in msg)
+        check("نداء السياق يرى مقاطع السياق مرقّمة ليمهّد لها", "مقاطع السياق" in msg and "1. بيت هيغسيث" in msg
+              and "إنها مهزلة" in msg)
     finally:
         for k, v in saved.items():
             setattr(review, k, v)
@@ -6159,19 +6160,24 @@ def test_meta_frame_condense() -> None:
     cfg = real_load()
     calls = {"frame": 0}
 
-    def frame_of(words):
+    def frame_of(words, clips=0):
         def frame(client, **kw):
             calls["frame"] += 1
             calls["system"] = kw.get("system", "")
+            inp = {"context": [" ".join(["كلمة"] * words) + "."], "closing_question": "ماذا بعد؟"}
+            if clips:
+                # 13/11: بمقاطع سياق يتوزع الكلام بينها في beats (الكلمات نفسها مقسومة)
+                half = words // 2
+                inp["beats"] = [{"text": " ".join(["كلمة"] * half) + ".", "clip": 1},
+                                {"text": " ".join(["كلمة"] * (words - half)) + ".", "clip": 2}]
             return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="write_reel_frame", id=f"t{calls['frame']}",
-                                                           input={"context": [" ".join(["كلمة"] * words) + "."],
-                                                                  "closing_question": "ماذا بعد؟"})])
+                                                           input=inp)])
         return frame
     saved = meta_script._create
     base = int(cfg.path("reel.script.v2.context_max_words"))
     per = int(cfg.path("youtube.meta_topics.script.words_per_context_clip"))
     try:
-        meta_script._create = frame_of(base + per)
+        meta_script._create = frame_of(base + per, clips=2)
         data, reason = meta_script.write_frame("س؟", {"title": "ت"}, [], {}, [], cfg, object(), {}, context_ids=["a", "b"])
         check("الحد يتسع بمقاطع السياق المعلَّمة: لا إعادة ولا تنبيه", data is not None and calls["frame"] == 1
               and str(base + 2 * per) in calls["system"], (reason, calls["frame"]))
@@ -6438,3 +6444,104 @@ def test_reel_scenario_fallbacks_1313() -> None:
           [b["speaker"] for b in kept] == ["ص", "ع"] and stats.get("read_dropped") == 1 and stats["read_dropped_speakers"] == ["س"])
     check("drop_read: false ← يبقى",
           len(meta_qa.drop_read([{"delivery": "read"}], _cfg_with(cfg, "youtube.meta_topics.qa.gemini.drop_read", False), {})) == 1)
+
+
+def test_reel_context_beats_1313b() -> None:
+    """ملاحظات صاحب المشروع 13/11: السياق كتب كله ثم جاء مقطعا السياق متتاليين، والمطلوب كلام ← مقطع ← كلام ← مقطع ← كلام ثم
+    الأسئلة، يكتبه Opus من اختياراته؛ واسم القناة في مقاطع السياق لا يُكتب إلا حين المرئيات حصرية لها."""
+    from types import SimpleNamespace as NS
+
+    from src import gemini_bites, meta_script, reel_render, reel_script
+    from src.config import Config, load_config as real_load
+
+    cfg = real_load()
+    check("القناة في السياق للحصري وحده مفعّل في الإعداد", cfg.path("reel.render.context_channel_exclusive_only") is True)
+    good = {"context": ["أ ب."], "closing_question": "ماذا بعد؟",
+            "beats": [{"text": "جملة أولى.", "clip": 2}, {"text": "جملة ثانية.", "clip": 1}, {"text": "جملة تربط.", "clip": 0}]}
+    check("توزيع صالح: كل مقطع مرة ولكل جزء كلام", meta_script.beats_problems(good, 2) == [])
+    check("توزيع ناقص أو مكرر أو بلا كلام يُرفض بأسبابه",
+          meta_script.beats_problems({"beats": [{"text": "x", "clip": 1}, {"text": "", "clip": 1}]}, 2)
+          == ["جزء من السياق بلا كلام", "المقطع 1 مكرر", "مقاطع لم تُوضع في السياق: 2"]
+          and meta_script.beats_problems({}, 2) == ["لم يُوزَّع السياق على مقاطعه في beats"]
+          and meta_script.beats_problems({}, 0) == [])
+
+    calls = []
+
+    def frame(client, **kw):
+        calls.append(kw["messages"])
+        inp = dict(good) if len(calls) > 1 else {"context": ["أ."], "closing_question": "ماذا بعد؟"}
+        return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="write_reel_frame", id=f"t{len(calls)}", input=inp)])
+    by = {"b1": {"speaker": "وزير", "summary_ar": "يرد", "text_ar": "نص1"}, "b2": {"speaker": "نائب", "summary_ar": "يطالب",
+                                                                                   "text_ar": "نص2"}}
+    qs = [{"text": "هل؟", "bite_ids": ["a1", "a2"]}]
+    valid = [{"point_id": p, "speaker_name": n, "speaker_verified": True, "quote_original": "x", "quote_arabic": "ق",
+              "channel_display": "قناة", "start": 0, "end": 10, "exclusive": ex}
+             for p, n, ex in (("p1", "أ", False), ("p2", "ب", False), ("pc1", "وزير", False), ("pc2", "نائب", True))]
+    pid_of = {"a1": "p1", "a2": "p2", "b1": "pc1", "b2": "pc2"}
+    saved = meta_script._create
+    try:
+        meta_script._create = frame
+        info: dict = {}
+        build = meta_script.make_builder("س؟", ["س؟"], {"title": "ت"}, qs, by, pid_of, [], Config(dict(cfg)), object(),
+                                         [], context_ids=["b1", "b2"])
+        script, reason = build(valid, "female", info)
+    finally:
+        meta_script._create = saved
+    check("بلا توزيع: إعادة واحدة في المحادثة بالسبب", len(calls) == 2 and calls[1][-1]["content"][0]["is_error"]
+          and "beats" in calls[1][-1]["content"][0]["content"], calls[-1][-1] if calls else None)
+    seq = [(s["kind"], s.get("role"), s.get("point_id")) for s in script["scenes"]][:7] if script else reason
+    check("السيناريو: كلام ← مقطع ← كلام ← مقطع ← كلام ثم بطاقة السؤال، بترتيب الكاتب",
+          seq == [("title_card", None, None), ("narration", "context", None), ("clip", "context", "pc2"),
+                  ("narration", "context", None), ("clip", "context", "pc1"), ("narration", "context", None),
+                  ("narration", "question", None)], seq)
+    sc = {s.get("point_id"): s for s in script["scenes"]}
+    check("القناة تُخفى في مقطع سياق غير حصري وتبقى للحصري",
+          sc["pc1"].get("hide_channel") is True and not sc["pc2"].get("hide_channel")
+          and reel_render.relay_view(sc["pc1"])["channel_display"] == "" and reel_render.relay_view(sc["pc2"])["channel_display"] == "قناة"
+          and not sc["p1"].get("hide_channel"))
+    check("context_channel_exclusive_only: false ← القناة تبقى",
+          not reel_script._build_v2({"main_question": "س؟", "context": ["ج."], "context_clips": ["pc1"], "questions": [],
+                                     "closing_question": "خ؟"}, valid, "female", {},
+                                    _cfg_with(cfg, "reel.render.context_channel_exclusive_only", False))["scenes"][2].get("hide_channel"))
+
+    def bad(client, **kw):
+        return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="write_reel_frame", id="x",
+                                                       input={"context": ["أ."], "closing_question": "ماذا بعد؟"})])
+    try:
+        meta_script._create = bad
+        info2: dict = {}
+        data, reason = meta_script.write_frame("س؟", {"title": "ت"}, qs, by, [], cfg, object(), info2, context_ids=["b1", "b2"])
+    finally:
+        meta_script._create = saved
+    check("توزيع لم يصلح بعد محاولتين: السياق لا يسقط، الكلام ثم المقاطع وتنبيه",
+          data is not None and not reason and "beats" not in data
+          and any("لم يتوزع السياق" in w for w in info2.get("warnings", [])), (reason, info2))
+
+    # repair_v2: إعادة ترتيب الأسئلة لا تُسقط مقاطع السياق المتناوبة
+    script2 = {"version": 2, "scenes": [
+        {"kind": "title_card", "text": "س؟"}, {"kind": "narration", "role": "context", "text": "أ."},
+        {"kind": "clip", "role": "context", "point_id": "pc1", "q": "c0"}, {"kind": "narration", "role": "context", "text": "ب."},
+        {"kind": "narration", "role": "question", "qrole": "why_now", "q": 0, "text": "لماذا؟"},
+        {"kind": "clip", "point_id": "p1", "q": 0}, {"kind": "clip", "point_id": "p2", "q": 0},
+        {"kind": "narration", "role": "question", "qrole": "core", "q": 1, "text": "ماذا؟"},
+        {"kind": "clip", "point_id": "p3", "q": 1}, {"kind": "clip", "point_id": "p4", "q": 1},
+        {"kind": "question", "text": "خ؟"}, {"kind": "outro"}]}
+    valid2 = [{"point_id": p, "speaker_name": p, "speaker_text": p, "type": "opinion"} for p in ("pc1", "p1", "p2", "p3", "p4")]
+    fixed, _notes = reel_script.repair_v2(script2, valid2, cfg)
+    order = [s.get("point_id") or s.get("qrole") or s.get("role") or s["kind"] for s in fixed["scenes"]]
+    check("repair_v2: ترتيب الأسئلة بأدوارها لا يُسقط مقطع السياق ولا ينقله من بين جملتي السياق",
+          order[:6] == ["title_card", "context", "pc1", "context", "core", "p3"], order)
+
+    ok, _ = gemini_bites.to_bites({"speakers": [], "bites": [
+        {"start": "01:00", "end": "01:15", "speaker": "", "type": "fact", "summary_ar": "ي", "text_original": "x", "text_ar": "نص",
+         "setting": "studio"},
+        {"start": "02:00", "end": "02:15", "speaker": "", "type": "fact", "summary_ar": "ي", "text_original": "y", "text_ar": "نص"}]},
+        "vid", "ع", cfg, 600)
+    pts = reel_script.valid_clips([{"timestamp": 60 + k, "start": 60 + k, "end": 75 + k, "quote_original": f"x{k}",
+                                    "statement": f"ق{k}", "speaker": "وزير",
+                                    "video_url": "https://youtu.be/vid", "channel": "ق", "setting": s, "setting_source": src}
+                                   for k, (s, src) in enumerate((("studio", "model"), ("studio", ""), ("external", "model")))],
+                                  [], cfg)
+    check("الحصرية بحكم النموذج وحده: إطار غائب لا يُعدّ حصريًا",
+          [b.get("setting_source") for b in ok] == ["model", ""] and [p.get("exclusive") for p in pts] == [True, False, False],
+          ([b.get("setting_source") for b in ok], [p.get("exclusive") for p in pts]))

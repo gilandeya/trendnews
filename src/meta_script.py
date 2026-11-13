@@ -31,6 +31,13 @@ CONTEXT_TOOL = {
         "properties": {
             "context": {"type": "array", "items": {"type": "string"},
                         "description": "جمل السياق: وقائع الحدث التي يحتاجها المشاهد ليفهم الأسئلة، بلا وصف للنقاش"},
+            # 13/11 (صاحب المشروع): السياق يتناوب مع مقاطع أطراف الحدث كلامًا ← مقطعًا ← كلامًا، لا كل الكلام ثم المقاطع متتالية
+            "beats": {"type": "array", "description": "حين أُرفقت مقاطع سياق: السياق أجزاءً بالترتيب، كل جزء كلام الراوي ثم رقم المقطع "
+                      "الذي يُعرض بعده مباشرة (0 = بلا مقطع بعده). كل مقطع مرة واحدة، ولا جزء بلا كلام.",
+                      "items": {"type": "object", "properties": {
+                          "text": {"type": "string", "description": "كلام الراوي في هذا الجزء"},
+                          "clip": {"type": "integer", "description": "رقم مقطع السياق الذي يلي هذا الكلام، أو 0"}},
+                          "required": ["text", "clip"]}},
             "closing_question": {"type": "string", "description": "سؤال الختام للمشاهد، بلا «برأيك» وبلا واو عطف في أوله"},
         },
         "required": ["context", "closing_question"],
@@ -138,14 +145,14 @@ def frame_message(title: str, topic: dict, questions: list[dict], by_bite: dict,
                   context_ids: list[str] | None = None) -> str:
     lines = [f"الموضوع: {topic.get('title', '')}", f"السؤال الرئيس (عنوان الريل): {title}", ""]
     if context_ids:
-        # السياق يمهّد لمقاطع أطراف الحدث التي تُعرض بعده مباشرة (12/11): يذكر من هم وما فعلوا ولا يكرر كلامهم
-        lines.append("مقاطع أطراف الحدث التي تُعرض بعد جمل السياق مباشرة وقبل الأسئلة (مهّد لها ولا تكرر كلامها):")
-        for bid in context_ids:
+        # مقاطع أطراف الحدث مرقّمة: الكاتب يوزّعها بين أجزاء السياق (beats) ويمهّد لكل منها قبله، ولا يكرر كلامها (13/11)
+        lines.append("مقاطع السياق التي اخترتُها (وزّعها بين أجزاء السياق في beats بأرقامها؛ مهّد لكل مقطع قبله ولا تكرر كلامه):")
+        for k, bid in enumerate(context_ids, 1):
             b = by_bite.get(bid) or {}
-            lines.append(f"   - {b.get('speaker') or b.get('speaker_original') or 'متحدث'}"
+            lines.append(f"   {k}. {b.get('speaker') or b.get('speaker_original') or 'متحدث'}"
                          f"{' — ' + b['speaker_role'] if b.get('speaker_role') else ''}: {b.get('summary_ar', '')} — «{b.get('text_ar', '')}»")
         lines.append("")
-    lines.append("الأسئلة وإجاباتها:")
+    lines.append("الأسئلة والإجابات التي اخترتُها للتحليل بعد السياق (السياق يقود إليها؛ آخر جزء منه يمهّد للسؤال الأول):")
     for k, q in enumerate(questions, 1):
         lines.append(f"{k}. {q['text']}")
         for bid in q["bite_ids"]:
@@ -157,12 +164,50 @@ def frame_message(title: str, topic: dict, questions: list[dict], by_bite: dict,
     return "\n".join(lines)
 
 
-def frame_problems(data: dict, cfg, limit: int | None = None) -> list[str]:
-    """ما يرفض الكود من نداء السياق: سياق فارغ أو أطول من الحد، وختام فارغ أو يبدأ بـ«برأيك» (التركيب يضيفها هو)."""
+def beats_problems(data: dict, n_clips: int) -> list[str]:
+    """ما يرفض الكود من توزيع السياق على مقاطعه (13/11): كل مقطع مرة واحدة برقم معروف، ولا جزء بلا كلام."""
+    from . import reel_script
+    if not n_clips:
+        return []
+    beats = [b for b in reel_script._listish(data.get("beats")) or [] if isinstance(b, dict)]
+    if not beats:
+        return ["لم يُوزَّع السياق على مقاطعه في beats"]
+    out, seen = [], []
+    for b in beats:
+        if not " ".join(str(b.get("text") or "").split()):
+            out.append("جزء من السياق بلا كلام")
+        try:
+            k = int(b.get("clip") or 0)
+        except (TypeError, ValueError):
+            k = -1
+        if k:
+            if not 1 <= k <= n_clips:
+                out.append(f"رقم مقطع غير معروف: {b.get('clip')}")
+            elif k in seen:
+                out.append(f"المقطع {k} مكرر")
+            else:
+                seen.append(k)
+    missing = [k for k in range(1, n_clips + 1) if k not in seen]
+    if missing:
+        out.append("مقاطع لم تُوضع في السياق: " + "، ".join(str(k) for k in missing))
+    return out
+
+
+def beats_text(data: dict) -> list[str]:
+    from . import reel_script
+    return [" ".join(str(b.get("text") or "").split()) for b in reel_script._listish(data.get("beats")) or []
+            if isinstance(b, dict) and " ".join(str(b.get("text") or "").split())]
+
+
+def frame_problems(data: dict, cfg, limit: int | None = None, n_clips: int = 0) -> list[str]:
+    """ما يرفض الكود من نداء السياق: سياق فارغ أو أطول من الحد، وختام فارغ أو يبدأ بـ«برأيك» (التركيب يضيفها هو)، وتوزيع
+    السياق على مقاطعه حين أُرفقت (beats_problems). بمقاطع السياق يُعدّ كلام beats نفسه لا حقل context."""
     from . import reel_script
     out = []
     ctx = " ".join(str(x) for x in reel_script._listish(data.get("context")) or ([data.get("context")] if isinstance(
         data.get("context"), str) else []))
+    if n_clips and beats_text(data):
+        ctx = " ".join(beats_text(data))
     n = len(ctx.split())
     limit = limit if limit is not None else int(cfg.path("reel.script.v2.context_max_words", 25))
     if not n:
@@ -174,7 +219,7 @@ def frame_problems(data: dict, cfg, limit: int | None = None) -> list[str]:
         out.append("سؤال الختام فارغ")
     elif closing.startswith("برأيك"):
         out.append("سؤال الختام يبدأ بـ«برأيك» والتركيب يضيفها")
-    return out
+    return out + beats_problems(data, n_clips)
 
 
 def write_frame(title: str, topic: dict, questions: list[dict], by_bite: dict, facts: list[str], cfg, client=None,
@@ -199,7 +244,7 @@ def write_frame(title: str, topic: dict, questions: list[dict], by_bite: dict, f
         if block is None:
             return None, "لم يُرجع النموذج السياق"
         data = dict(block.input or {})
-        reasons = frame_problems(data, cfg, limit)
+        reasons = frame_problems(data, cfg, limit, n_clips=len(context_ids or []))
         if info is not None and reasons:
             info.setdefault("attempts", []).append({"attempt": attempt, "reasons": reasons})
         if not reasons:
@@ -208,6 +253,18 @@ def write_frame(title: str, topic: dict, questions: list[dict], by_bite: dict, f
                                                          "input": block.input}]},
                      {"role": "user", "content": [{"type": "tool_result", "tool_use_id": block.id, "is_error": True,
                                                    "content": "؛ ".join(reasons) + " — صحّحه دون تغيير ما سواه."}]}]
+    # توزيع لم يصلح بعد المحاولتين: السياق لا يسقط، يُعرض كلامه كله ثم المقاطع كما كان (تنبيه للمراجع)
+    if data and reasons and context_ids and beats_problems(data, len(context_ids)):
+        bad = beats_problems(data, len(context_ids))
+        if beats_text(data) and not " ".join(str(x) for x in (data.get("context") or [])).strip():
+            data["context"] = beats_text(data)
+        data.pop("beats", None)
+        if info is not None:
+            info.setdefault("warnings", []).append(_texts(cfg).get(
+                "beats_failed", "🔧 لم يتوزع السياق بين مقاطعه ({why}) فعُرض الكلام ثم المقاطع").format(why="؛ ".join(bad)))
+        reasons = [r for r in reasons if r not in bad]
+        if not reasons:
+            return data, ""
     # قضية 1862 (قرار صاحب المشروع): المادة اختارها هو، فطول السياق لا يُسقط السيناريو أبدًا؛ يُقبل آخر ما كُتب وينبَّه المراجع
     if data and reasons and all(r.startswith("السياق أطول من") for r in reasons):
         if info is not None:
@@ -220,6 +277,8 @@ def write_frame(title: str, topic: dict, questions: list[dict], by_bite: dict, f
 
 def _ctx_words(data: dict) -> int:
     from . import reel_script
+    if beats_text(data):
+        return len(" ".join(beats_text(data)).split())
     ctx = data.get("context")
     parts = reel_script._listish(ctx) or ([ctx] if isinstance(ctx, str) else [])
     return len(" ".join(str(x) for x in parts).split())
@@ -254,8 +313,16 @@ def make_builder(title: str, titles: list[str], topic: dict, questions: list[dic
         data, reason = write_frame(title, topic, questions, by_bite, facts, cfg, client, info, context_ids=ctx_ids)
         if data is None:
             return None, reason
+        # التوزيع بأرقام المقاطع كما عُرضت على الكاتب (ctx_ids بترتيبها) ← معرّفات النقاط
+        beats = []
+        if ctx_ids and data.get("beats"):
+            for b in reel_script._listish(data.get("beats")) or []:
+                if not isinstance(b, dict):
+                    continue
+                k = int(b.get("clip") or 0) if str(b.get("clip") or "0").lstrip("-").isdigit() else 0
+                beats.append({"text": b.get("text", ""), "clip": pid_of[ctx_ids[k - 1]] if 1 <= k <= len(ctx_ids) else None})
         script = reel_script._build_v2({"main_question": title, "context": data.get("context"), "questions": qs,
-                                        "context_clips": [pid_of[bid] for bid in ctx_ids],
+                                        "context_clips": [pid_of[bid] for bid in ctx_ids], "context_beats": beats,
                                         "closing_question": data.get("closing_question")}, valid, narrator, topic, cfg)
         info["headlines"] = [title] + [t for t in titles if t != title]
         return script, ""
