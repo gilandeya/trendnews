@@ -1,0 +1,528 @@
+{
+  "id": "c8e636f835d0",
+  "created_at": "2026-11-13T07:31:16.208410+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "استقالة جنسن هوانغ من إنفيديا وسط فضيحة علاقة وتجسس مزعوم",
+  "event": "استقالة جنسن هوانغ من إنفيديا وسط فضيحة علاقة وتجسس مزعوم",
+  "tier": 5,
+  "blocs": [
+    "chinese",
+    "english",
+    "french",
+    "russian",
+    "turkish"
+  ],
+  "channels": [
+    "CNN",
+    "CNN Türk",
+    "FRANCE 24",
+    "RTVI",
+    "SÖZCÜ",
+    "TVBS新聞",
+    "Дождь"
+  ],
+  "agreement": "",
+  "score": 0,
+  "warnings": [],
+  "run_date": "2026-11-13",
+  "topic_date": "2026-11-13",
+  "arabic": {
+    "post_title": "هل أسقطت جاسوسة صينية أقوى رجل في عالم الرقائق؟",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "CNN",
+      "CNN Türk",
+      "FRANCE 24",
+      "RTVI",
+      "SÖZCÜ",
+      "TVBS新聞",
+      "Дождь"
+    ]
+  },
+  "source_videos": [],
+  "meta_topic_id": "2bc8f7b9d703",
+  "meta_issue": 1870,
+  "hook_pick": 3,
+  "cost_qa": {
+    "claude": {
+      "claude-opus-5": 0.36723
+    },
+    "gemini": 0.6603
+  },
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "404bbb822f20",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "تي في بي إس"
+      },
+      {
+        "point_id": "99a34407e7e5",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن"
+      },
+      {
+        "point_id": "5c5f984b5012",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "no",
+        "incomplete_reason": "يبدأ بمنتصف الجملة ('vis-à-vis du conseil...') ويفتقر إلى فعل رئيسي واضح",
+        "channel": "فرانس 24 الفرنسية"
+      },
+      {
+        "point_id": "0931a034aa98",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن"
+      },
+      {
+        "point_id": "0ddab7745742",
+        "speaker_said_it": "no",
+        "other_name": "ري وانغ (مصفف الشعر) يحكي عنه المتحدث غيره؛ المتحدث نفسه هنا يُقرأ عنه",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "آر تي في آي"
+      },
+      {
+        "point_id": "a7f21f3b64a0",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "آر تي في آي"
+      },
+      {
+        "point_id": "9bf829f08c0e",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن"
+      },
+      {
+        "point_id": "91eea49b95a3",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن"
+      }
+    ]
+  },
+  "clip_dropped": [
+    {
+      "point_id": "5c5f984b5012",
+      "channel": "فرانس 24 الفرنسية",
+      "reason": "اقتباس مبتور — يبدأ بمنتصف الجملة ('vis-à-vis du conseil...') ويفتقر إلى فعل رئيسي واضح"
+    },
+    {
+      "point_id": "0ddab7745742",
+      "channel": "آر تي في آي",
+      "reason": "ملخّص النقطة ينسبها إلى شخص آخر: ري وانغ (مصفف الشعر) يحكي عنه المتحدث غيره؛ المتحدث نفسه هنا يُقرأ عنه"
+    }
+  ],
+  "names_audit": [
+    {
+      "arabic": "جيفري سونينفيلد",
+      "latin": "Jeffrey Sonnenfeld"
+    },
+    {
+      "arabic": "آنا كوبان",
+      "latin": "Anna Cooban"
+    },
+    {
+      "arabic": "أندرو مكابي",
+      "latin": "Andrew McCabe"
+    },
+    {
+      "arabic": "ماو نينغ",
+      "latin": "Mao Ning"
+    },
+    {
+      "arabic": "حكيم جيفريز",
+      "latin": "Hakeem Jeffries"
+    },
+    {
+      "arabic": "جون كينيدي",
+      "latin": "John Kennedy"
+    },
+    {
+      "arabic": "جنسن هوانغ",
+      "latin": "Jensen Huang"
+    }
+  ],
+  "headlines": [
+    "هل أسقطت جاسوسة صينية أقوى رجل في عالم الرقائق؟",
+    "من يقود إنفيديا بعد سقوط مؤسسها؟",
+    "فضيحة علاقة أم حرب دولة على شركة؟"
+  ],
+  "headline_selected": 0,
+  "script": {
+    "version": 2,
+    "narrator": "male",
+    "title": "هل أسقطت جاسوسة صينية أقوى رجل في عالم الرقائق؟",
+    "question": "هل سقط جنسن هوانغ بسبب اختراق أمني فعلي، أم بسبب صراع نفوذ على سوق الرقائق؟",
+    "event": "",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "هل أسقطت جاسوسة صينية أقوى رجل في عالم الرقائق؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "استقال جنسن هوانغ من رئاسة شركة الرقائق الأمريكية إنفيديا، بعد كشف علاقته بامرأة يشتبه الأمريكيون في أنها جاسوسة صينية، وفتح مجلس إدارة الشركة تحقيقًا في القضية. وتتردد في قطاع التكنولوجيا أسماء مرشحة لخلافته، بينما يطالب مشرعون أمريكيون بإحاطة سرية وبالتحقيق في صفقات بيع الرقائق المتقدمة."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "a7f21f3b64a0",
+        "q": "c0",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=TsJFRE9N7zE",
+        "start": 105.0,
+        "end": 115.0,
+        "speaker_name": "ماو نينغ",
+        "speaker_role": "المتحدثة الرسمية باسم وزارة الخارجية الصينية",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Mao Ning",
+        "channel_display": "آر تي في آي",
+        "channel_original": "RTVI",
+        "quote_arabic": "فيما يتعلق بما يسمى رواية التجسس الصيني، ينبغي للجانب الأمريكي الكف عن فبركتها.",
+        "quote_original": "Что касается так называемого шпионского нарратива о Китае, американская сторона должна прекратить фабриковать его.",
+        "language": "ru",
+        "video_published": "2026-11-12T20:08:58Z",
+        "relay": "",
+        "relay_source": ""
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "9bf829f08c0e",
+        "q": "c1",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=ICV59saeue0",
+        "start": 48.0,
+        "end": 66.0,
+        "speaker_name": "حكيم جيفريز",
+        "speaker_role": "زعيم الأقلية الديمقراطية في مجلس النواب الأمريكي",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Hakeem Jeffries",
+        "channel_display": "سي إن إن",
+        "channel_original": "CNN",
+        "quote_arabic": "نحتاج إلى تقديم إحاطة سرية لأعضاء الكونغرس الأمريكي تتعلق بوضع شركة إنفيديا ومدى تعرض أمننا القومي الأمريكي للاختراق، فالشعب الأمريكي يستحق إجابات، وسنعمل على ضمان تحقيق ذلك.",
+        "quote_original": "We need a classified briefing made available to members of Congress as it relates to the Nvidia situation and to the extent that our national security has been compromised. The American people deserve answers, and we're going to work to make sure that happens.",
+        "language": "en",
+        "video_published": "2026-11-12T23:03:15Z",
+        "relay": "",
+        "relay_source": ""
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "91eea49b95a3",
+        "q": "c2",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=ICV59saeue0",
+        "start": 253.0,
+        "end": 290.0,
+        "speaker_name": "جون كينيدي",
+        "speaker_role": "عضو مجلس الشيوخ الأمريكي",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "Kennedy",
+        "channel_display": "سي إن إن",
+        "channel_original": "CNN",
+        "quote_arabic": "يبدو أن وزارة التجارة الأمريكية منحت الضوء الأخضر لبيع ما قيمته أربعة مليارات دولار من الرقائق المتقدمة لشركة تتبع للجاسوسة الصينية. وأريد أن أعرف، فلا أكتفي بطلب حضور الرئيس التنفيذي، بل أود الاستماع إلى وزير الخزانة الأمريكي وسكوت بيسنت، والأهم من ذلك وزير التجارة الأمريكي هوارد لوتنيك؛ فلماذا كانوا يبيعون هذه الرقائق؟ وهل تتبعوا مسارها؟ وكيف يتأكدون أنها ذهبت للشركة وليس إلى الحزب الشيوعي الصيني؟",
+        "quote_original": "Apparently, the Department of Commerce greenlit the sale of $4 billion in advanced chips to the spy's company. And I want to know, I don't only want the CEO to come down, I'd like to hear from the Secretary of the Treasury and more to the point the Secretary of Commerce. I mean, why were they selling the chips? Did they follow the trail? How do they know the chips went to the company and not to the Communist Party of China?",
+        "language": "en",
+        "video_published": "2026-11-12T23:03:15Z",
+        "relay": "",
+        "relay_source": ""
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 0,
+        "text": "هل كان رحيل جنسن هوانغ عن رئاسة إنفيديا أمرًا حتميًا؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "404bbb822f20",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=odnsKkpjmvY",
+        "start": 290.0,
+        "end": 303.0,
+        "speaker_name": "جيفري سونينفيلد",
+        "speaker_role": "نائب عميد كلية الإدارة بجامعة ييل الأمريكية",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Jeffrey Sonnenfeld",
+        "channel_display": "تي في بي إس",
+        "channel_original": "TVBS新聞",
+        "quote_arabic": "نعم، سيتنحى بالتأكيد، وأعتقد أنه سيتنحى قريبًا جدًا إن لم يكن قد فعل بنهاية هذه المقابلة، سيتعين عليه التنحي حتمًا لأنه فقد شرعية القيادة وفقد مصداقيته.",
+        "quote_original": "Yes, he definitely will. I think he'll step down, if he hasn't by the end of this interview, he will very soon. But he will have to step down. He has lost his legitimacy to lead, he's lost his credibility.",
+        "language": "en",
+        "video_published": "2026-11-12T13:00:06Z",
+        "relay": "",
+        "relay_source": ""
+      },
+      {
+        "kind": "clip",
+        "point_id": "99a34407e7e5",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=kzgk7CLBB9I",
+        "start": 517.0,
+        "end": 542.0,
+        "speaker_name": "آنا كوبان",
+        "speaker_role": "مراسلة شؤون الأعمال والاقتصاد في سي إن إن",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Anna Cooban",
+        "channel_display": "سي إن إن",
+        "channel_original": "CNN",
+        "quote_arabic": "يشكل هذا عبئًا هائلًا، ونرى ذلك الآن مع فتح مجلس إدارة إنفيديا تحقيقًا معه، ولا نعلم إن كان سيُعزل، لكن العديد من المحللين يستبعدون إقالته لسبب رئيسي وهو اعتقادهم بأن الشركة لن تنجح بالمستوى نفسه من دون جنسن هوانغ على رأسها.",
+        "quote_original": "So this is all just a massive liability because, of course, we know that CEOs are not infallible, they can die unexpectedly, they can become ill, and so that leaves a yawning gap. And we're seeing that now with Nvidia with the board investigating him. We don't know if he'll be ousted. Many analysts are telling CNN they don't think that'll be the case, for one very big reason, is that they just don't think that Nvidia is going to fare quite as well without Huang at the helm.",
+        "language": "en",
+        "video_published": "2026-11-11T20:55:20Z",
+        "relay": "",
+        "relay_source": ""
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 1,
+        "text": "ما خطورة علاقة رئيس إنفيديا بجاسوسة صينية مزعومة؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "0931a034aa98",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=ICV59saeue0",
+        "start": 499.0,
+        "end": 534.0,
+        "speaker_name": "أندرو مكابي",
+        "speaker_role": "النائب السابق لمدير مكتب التحقيقات الفيدرالي الأمريكي",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Andrew McCabe",
+        "channel_display": "سي إن إن",
+        "channel_original": "CNN",
+        "quote_arabic": "حين تكون هناك شخصية يشتبه في كونها جاسوسة وتربطها علاقة ثقة وثيقة للغاية بمواطن أمريكي يدير شركة بالغة الأهمية لاقتصادنا، وأساسية لتطوير الذكاء الاصطناعي عالميًا، وتعتبر إلى حد ما جوهرية لأمننا القومي الأمريكي، فإن هذا بحد ذاته يفرض مخاطر جسيمة، تنبع ببساطة من قدرة الجاسوسة على جمع معلومات حول الرقائق والإنتاج وخطط الشركة المؤسسية، وكل ما يثير اهتمام الصين بشكل كبير.",
+        "quote_original": "When you have a person who is an alleged spy, who is in a very, very close trusted relationship with a US citizen who runs a company that is essential to our economy, essential to the development of AI worldwide, and to some degree essential to our national security, that alone poses massive risk simply from that the spy's ability to collect information about the chips, about the production, about the corporate plans, all sorts of things that would be of great interest to the Chinese.",
+        "language": "en",
+        "video_published": "2026-11-12T23:03:15Z",
+        "relay": "",
+        "relay_source": ""
+      },
+      {
+        "kind": "question",
+        "text": "هل سقط جنسن هوانغ بسبب اختراق أمني فعلي، أم بسبب صراع نفوذ على سوق الرقائق؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": []
+  },
+  "editor_review": {
+    "at": "2026-11-13T07:31:30.582056+00:00",
+    "applied": [],
+    "notes": [],
+    "error": null,
+    "searches": 2,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "hook_clash": {
+    "error": "لا زوج ولا جملة صالحة",
+    "rejected": [
+      "مدة الجملة 6.5 ث خارج [1.5، 6]",
+      "مدة الجملة 7.7 ث خارج [1.5، 6]",
+      "مدة الجملة 18.8 ث خارج [1.5، 6]"
+    ],
+    "shape": {
+      "pairs": 3,
+      "relations": [
+        "opposite",
+        "partial_agree",
+        "partial_opposite"
+      ],
+      "single": false,
+      "pairs_type": "list"
+    }
+  },
+  "reel_bg": {
+    "url": "https://photo2.idnfinancials.com/fly/idn/ai-image/jensen-huang-skandal.jpg",
+    "kind": "news_photo",
+    "publisher": "IDNFinancials",
+    "shows": "رجل وامرأة يتناولان النبيذ على شرفة مطلة على نهر ومبانٍ، وصور أخرى لرجل وامرأة في مناسبات وممر خارجي",
+    "text_checked": true,
+    "judged": true
+  },
+  "hook_candidates": [],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-11-11T00:00:00Z",
+          "2026-11-15T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "مقر إنفيديا في سانتا كلara",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "Nvidia headquarters Santa Clara employees leaving building",
+            "raw": 12,
+            "channel_ok": 2
+          },
+          {
+            "query": "Jensen Huang press conference reporters crowd",
+            "raw": 4,
+            "channel_ok": 1
+          }
+        ],
+        "duration_ok": 3,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "The Empire Index",
+          "Hyperframe",
+          "KPIX | CBS NEWS BAY AREA",
+          "Stick Figure Finance",
+          "Boom. Bust. Gone.",
+          "Neon Bulletin",
+          "Decision Files",
+          "Atlas of Causes"
+        ]
+      },
+      {
+        "broad": true,
+        "window": [
+          "2026-11-09T00:00:00Z",
+          "2026-11-16T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "جنسن هوانغ إنفيديا",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "Jensen Huang Nvidia resignation",
+            "raw": 30,
+            "channel_ok": 3
+          },
+          {
+            "query": "Nvidia CEO Jensen Huang",
+            "raw": 30,
+            "channel_ok": 8
+          }
+        ],
+        "duration_ok": 9,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "NBC News",
+          "Inside Edition",
+          "LiveNOW from FOX",
+          "Forbes",
+          "NewsNation",
+          "TODAY",
+          "ABC7",
+          "Bloomberg News"
+        ]
+      }
+    ],
+    "picked": []
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "استقال جنسن هوانغ من رئاسة شركة الرقائق الأمريكية إنفيديا، بعد كشف علاقته بامرأة يشتبه الأمريكيون في أنها جاسوسة صينية، وفتح مجلس إدارة الشركة تحقيقًا في القضية.",
+      "visual": "رجل أعمال يغادر مبنى شركة بخطى سريعة"
+    },
+    {
+      "scene": 1,
+      "sentence": 1,
+      "text": "وتتردد في قطاع التكنولوجيا أسماء مرشحة لخلافته، بينما يطالب مشرعون أمريكيون بإحاطة سرية وبالتحقيق في صفقات بيع الرقائق المتقدمة.",
+      "visual": "شاشات تداول وأسهم شركة تقنية في بورصة"
+    },
+    {
+      "scene": 5,
+      "sentence": 0,
+      "text": "هل كان رحيل جنسن هوانغ عن رئاسة إنفيديا أمرًا حتميًا؟",
+      "visual": ""
+    },
+    {
+      "scene": 8,
+      "sentence": 0,
+      "text": "ما خطورة علاقة رئيس إنفيديا بجاسوسة صينية مزعومة؟",
+      "visual": ""
+    }
+  ],
+  "cost_script": {
+    "claude": {
+      "claude-haiku-5-5": 0.00311,
+      "claude-sonnet-5": 0.03067,
+      "claude-opus-5": 1.31523
+    },
+    "web_search": 2
+  },
+  "review_issue": 1872,
+  "stage2_issue": 1872
+}
