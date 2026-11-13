@@ -6545,3 +6545,33 @@ def test_reel_context_beats_1313b() -> None:
     check("الحصرية بحكم النموذج وحده: إطار غائب لا يُعدّ حصريًا",
           [b.get("setting_source") for b in ok] == ["model", ""] and [p.get("exclusive") for p in pts] == [True, False, False],
           ([b.get("setting_source") for b in ok], [p.get("exclusive") for p in pts]))
+
+
+def test_reel_like_bar_1313c() -> None:
+    """الشريط الذهبي في شريط المتحدث يبدأ عند أبعد نقطة يسارًا في دائرة زر الإعجاب (لقطة ريل منشور 13/11 أظهرت فراغًا بينهما)."""
+    from PIL import Image, ImageDraw
+    from src import reel_render
+    cfg = load_config()
+    b = cfg.path("reel.render.band")
+    like = b["like_button"]
+    left = int(like["x"]) - int(like["r"])
+    check("زر الإعجاب بالقياس الجديد", (int(like["x"]), int(like["r"])) == (951, 39), str(like))
+    # الشريط يمتد تحت الدائرة (يختفي جزؤه تحت الزر) والكتابة قبله داخل الهامش الآمن
+    check("الشريط الذهبي يدخل الدائرة", left + int(b["edge"]) > left and left < int(like["x"]))
+    check("الكتابة قبل الشريط وداخل الإطار الآمن",
+          reel_render.band_text_right(cfg) < left and reel_render.band_text_right(cfg) <= 1080 - int(cfg.path("reel.render.safe.side")))
+
+    class P:
+        pass
+    p = P()
+    img = Image.new("RGBA", (1080, 1920), (0, 0, 0, 0))
+    p.d = ImageDraw.Draw(img)
+    p.gold = (228, 176, 48)
+    calls = []
+    orig = p.d.rectangle
+    p.d.rectangle = lambda box, **kw: (calls.append(box), orig(box, **kw))
+    try:
+        reel_render._draw_band_inline(p, cfg, {"speaker_name": ""}, 1258, 240, False)
+    except Exception:
+        pass
+    check("أول مستطيل هو الشريط الذهبي عند حافة الدائرة", bool(calls) and calls[0][0] == left, str(calls[:1]))
