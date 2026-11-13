@@ -38,6 +38,22 @@ def with_notes(system: str, cfg) -> str:
     return (system or "") + ("\n" + notes if notes else "")
 
 
+def tool_json(value, kind: type):
+    """حقل أداة كما أرسله النموذج بنوعه المطلوب (dict أو list): كما هو، أو نص JSON يُحلّ (ولو تبعته بقايا وسم)، وإلا None.
+    درس #1741 يتكرر في كل أداة متداخلة: هوك المواجهة لريل 12/11 سقط «لا زوج ولا جملة صالحة» بلا أي سبب مرفوض، والقائمة لا تُرى
+    أزواجًا حين تصل نصًا."""
+    if isinstance(value, kind):
+        return value
+    if isinstance(value, str) and value.strip()[:1] in ("[", "{"):
+        import json
+        try:
+            got, _ = json.JSONDecoder().raw_decode(value.strip())
+        except ValueError:
+            return None
+        return got if isinstance(got, kind) else None
+    return None
+
+
 def _reset_for_tests() -> None:
     _FALLBACK_LOGGED.clear()
     _PARAMS_REJECTED.clear()

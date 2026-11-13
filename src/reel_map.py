@@ -37,6 +37,11 @@ def norm(text: str) -> str:
     return " ".join(t.split())
 
 
+def compact(text: str) -> str:
+    """الاسم المطبَّع بلا مسافات: مفتاح المعجم، فلا يمنع اختلاف الفصل («أبو ظبي»/«أبوظبي»، «عبد الله»/«عبدالله») المطابقة."""
+    return norm(text).replace(" ", "")
+
+
 def _bare(name: str) -> str:
     """الاسم بلا «ال» في أوله: «الحديدة» تُكتب «للحديدة» بعد اللام فيسقط ألفها."""
     return name[2:] if name.startswith("ال") and len(name) > 3 else name
@@ -48,7 +53,8 @@ def mentioned(name: str, sentence: str) -> bool:
     if not n:
         return False
     forms = {n, _bare(n)}
-    alt = "|".join(re.escape(f) for f in sorted(forms, key=len, reverse=True))
+    # المسافة داخل الاسم اختيارية في الاتجاهين: «أبوظبي» في الجملة و«أبو ظبي» في المعجم (ريل مفاوضات أبوظبي 12/11 بلا خريطة)
+    alt = "|".join(r"\s?".join(re.escape(ch) for ch in compact(f)) for f in sorted(forms, key=len, reverse=True))
     pre = "|".join(_PREFIXES)
     return re.search(rf"(?<!{_LETTER})(?:{pre})?(?:{alt})(?!{_LETTER})", s) is not None
 
@@ -93,17 +99,17 @@ class Gazetteer:
             # «مدينة الكويت»، «مدينة بروكسل»: الاسم بلا «مدينة» هو ما تكتبه الجملة
             names |= {n[len("مدينة "):] for n in names if n.startswith("مدينة ")}
             for n in names:
-                self.places.setdefault(norm(n), []).append(p)
+                self.places.setdefault(compact(n), []).append(p)
         self.country_names: dict[str, str] = {}
         aliases = mcfg.get("country_aliases") or {}
         for code, c in self.countries.items():
             for n in [c.get("ar"), *(aliases.get(code) or [])]:
                 if n:
-                    self.country_names.setdefault(norm(n), code)
+                    self.country_names.setdefault(compact(n), code)
 
     def _strip(self, name: str, index: dict) -> list[str]:
         """الاسم كما هو ثم بلا سابقة ملتصقة، ما دام الباقي في الفهرس (النموذج قد ينقل «وصنعاء» كما وردت)."""
-        n = norm(name)
+        n = compact(name)
         out = [n]
         for p in _PREFIXES:
             if n.startswith(p) and len(n) > len(p) + 1:
@@ -217,6 +223,55 @@ def resolve(spec: Any, sentence: str, cfg) -> tuple[dict | None, str]:
     if not out_p and not out_c:
         return None, skipped[0] if skipped else "none"
     return {"places": out_p, "countries": out_c, "arrows": out_a, "skipped": skipped}, ""
+
+
+def detect(sentence: str, cfg) -> dict | None:
+    """أماكن الجملة من المعجم في الكود، احتياطًا لخطة لم تقترح خريطة (ريل مفاوضات أبوظبي 12/11: جملة السياق تسمّي أبوظبي والخطة
+    بلا خريطة). القاعدة نفسها: لا يُرسم إلا ما في نص الجملة وفي المعجم، وresolve يتحقق بعده كما يتحقق من اقتراح النموذج. المدن
+    كلمات قد تكون عادية («العين»، «جدة»)، فلا تُقبل منها إلا العاصمة أو ما بلغ سكانه auto_detect.min_pop أو ما أضافه الإعداد
+    (extra_places)؛ الدول بأسمائها لا بصفاتها («روسيا» لا «روسية»). الأطول أولًا ولا تداخل («أبو ظبي» لا «ظبي»)."""
+    acfg = cfg.path("reel.maps.auto_detect", {}) or {}
+    g = gazetteer(cfg)
+    orig = re.sub(r"[^\w\s]", " ", str(sentence or "")).split()
+    words = [norm(w) for w in orig]
+    min_pop = int(acfg.get("min_pop", 1000000))
+    places: list[str] = []
+    cnames: list[str] = []
+    used: set[int] = set()
+    for size in (3, 2, 1):
+        for i in range(len(words) - size + 1):
+            if used & set(range(i, i + size)):
+                continue
+            text = " ".join(words[i:i + size])
+            hits_c = g._strip(text, g.country_names)
+            hits_p = g._strip(text, g.places)
+            # الاسم المعروض: رسم المعجم («أبو ظبي») إن ورد في الجملة، وإلا كلمات الجملة نفسها كما كُتبت
+            seen = " ".join(orig[i:i + size])
+            if hits_c:
+                canon = g.countries.get(g.country_names[hits_c[0]], {}).get("ar") or ""
+                cnames.append(canon if canon and mentioned(canon, sentence) else seen)
+            elif hits_p and any(p.get("capital") or p.get("extra") or int(p.get("pop", 0)) >= min_pop
+                                for p in g.places[hits_p[0]]):
+                canon = g.places[hits_p[0]][0].get("ar") or ""
+                places.append(canon if canon and mentioned(canon, sentence) else seen)
+            else:
+                continue
+            used |= set(range(i, i + size))
+    if not places and not cnames:
+        return None
+    return {"places": places[:int(cfg.path("reel.maps.max_places", 4))],
+            "countries": cnames[:int(cfg.path("reel.maps.max_countries", 3))], "auto": True}
+
+
+def spec_for(entry: dict, sentence: str, role: str | None, cfg) -> Any:
+    """خريطة جملة الخطة: ما اقترحه النموذج، وإلا ما يجده detect في جمل أدوار auto_detect.roles (السياق وحده افتراضيًا: الأسئلة لها
+    بطاقتها، وجملة الراوي الأخرى قد تذكر دولة عابرة)."""
+    if isinstance(entry, dict) and entry.get("map"):
+        return entry["map"]
+    acfg = cfg.path("reel.maps.auto_detect", {}) or {}
+    if not acfg.get("enabled") or role not in (acfg.get("roles") or ["context"]):
+        return None
+    return detect(sentence, cfg)
 
 
 def reason_text(code: str, cfg) -> str:

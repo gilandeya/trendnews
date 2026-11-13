@@ -194,9 +194,21 @@ def decide(raw: dict, cands_list: list[dict], cfg) -> dict:
     خطأ. زوج صالح = جملتان صالحتان من مقطعين مختلفين لمتحدثين من كتلتين مختلفتين. عنوان الهوك المرفوض يُترك فارغًا فيُعرض السؤال الرئيس."""
     cands = {c["point_id"]: c for c in cands_list}
     order = [r for r in (ccfg(cfg).get("relations") or RELATIONS) if r in RELATIONS]
+    from .llm import tool_json
     rejected: list[str] = []
-    pairs = [p for p in (raw or {}).get("pairs") or [] if isinstance(p, dict)]
+    raw = dict(raw or {})
+    # الأزواج وأجزاؤها قد تصل نصًا JSON (أداة متداخلة)، فتبدو فارغة ويسقط الهوك بلا سبب مرفوض (ريل 12/11)
+    pairs = []
+    for p in tool_json(raw.get("pairs"), list) or []:
+        p = tool_json(p, dict)
+        if p:
+            pairs.append({**p, "a": tool_json(p.get("a"), dict) or {}, "b": tool_json(p.get("b"), dict) or {}})
+    raw["single"] = tool_json(raw.get("single"), dict)
     out: dict = {}
+    # علاقة خارج القائمة كانت تُتخطّى بصمت فيخرج «لا زوج» بلا سبب مرفوض
+    for p in pairs:
+        if p.get("relation") not in order:
+            rejected.append(f"علاقة غير معروفة: {str(p.get('relation'))[:30]}")
     for rel in order:
         for p in pairs:
             if p.get("relation") != rel:
@@ -223,7 +235,10 @@ def decide(raw: dict, cands_list: list[dict], cfg) -> dict:
         else:
             if why:
                 rejected.append(why)
-            return {"error": "لا زوج ولا جملة صالحة", "rejected": rejected[:6]}
+            # شكل الرد بلا كلام المتحدثين (المسودة في المستودع العام): ما يلزم لمعرفة لماذا لم يبقَ شيء
+            shape = {"pairs": len(pairs), "relations": sorted({str(p.get("relation")) for p in pairs}),
+                     "single": bool(raw.get("single")), "pairs_type": type(raw.get("pairs")).__name__}
+            return {"error": "لا زوج ولا جملة صالحة", "rejected": rejected[:6], "shape": shape}
     ht = " ".join(str((raw or {}).get("hook_text") or "").split())
     out["hook_text"] = ht if hook_text_ok(ht, cfg) else ""
     if rejected:

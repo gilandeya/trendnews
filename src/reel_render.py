@@ -5590,7 +5590,9 @@ def _prepare_maps(script: dict, nar_idx: list[int], speech_cache: dict, plan: li
     out: dict[int, list[dict]] = {}
     for i in nar_idx:
         scene = script["scenes"][i]
-        if scene.get("role") == "question" or not any(e.get("map") for e in by_scene.get(i, {}).values()):
+        # جملة بلا خريطة في الخطة تُفحص أماكنها في الكود (reel_map.spec_for) في أدوار auto_detect.roles
+        if scene.get("role") == "question" or not any(reel_map.spec_for(e, e.get("text", ""), scene.get("role"), cfg)
+                                                     for e in by_scene.get(i, {}).values()):
             continue
         parts = speech_cache[i][1]
         texts = tts.split_sentences(scene.get("text", ""))
@@ -5602,10 +5604,13 @@ def _prepare_maps(script: dict, nar_idx: list[int], speech_cache: dict, plan: li
             cursor += dur
             b = lead + cursor
             e = by_scene.get(i, {}).get(k)
-            if not e or not e.get("map") or _plain(e.get("text")) != _plain(texts[k]):
+            spec = reel_map.spec_for(e, texts[k], scene.get("role"), cfg) if e else None
+            if not spec or _plain(e.get("text")) != _plain(texts[k]):
                 continue
             rec: dict = {"scene": i, "sentence": k}
-            resolved, why = reel_map.resolve(e["map"], texts[k], cfg)
+            if not e.get("map"):
+                rec["auto"] = True
+            resolved, why = reel_map.resolve(spec, texts[k], cfg)
             if resolved is None:
                 rec["rejected"] = why
                 results.append(rec)
