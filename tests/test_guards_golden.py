@@ -24945,14 +24945,17 @@ def test_reel_band_inline_guards() -> None:
 
     import numpy as np
     right = reel_render.band_text_right(cfg)
-    check("g853: الكتابة تنتهي قبل حافة زر الإعجاب", right == 920 - 42 - 12, right)
+    # القياس من config (أُعيد 13/11) لا رقم ثابت: الكتابة قبل أبعد نقطة يسارًا في الدائرة بفراغ text_gap
+    like = cfg.path("reel.render.band.like_button")
+    like_left = int(like["x"]) - int(like["r"])
+    check("g853: الكتابة تنتهي قبل حافة زر الإعجاب", right == like_left - 12, right)
     boxes: list = []
     scene = {"speaker_verified": True, "speaker_name": "مراد يتكين", "speaker_name_latin": "Murat Yetkin",
              "speaker_role": " ".join(["محلل"] * 20), "channel_display": "سي إن إن ترك", "channel_original": "CNN TÜRK"}
     st, bd = reel_render.frame_clip_layers(cfg, scene, boxes, cover=False, quote=False)
     a = np.asarray(bd)
     top = reel_render.band_top(cfg)
-    gold = a[top + 120, 878 + 12][:3].tolist()
+    gold = a[top + 120, like_left + 12][:3].tolist()
     check("g853: الشريط الذهبي عند حافة الزر لا عند حافة الشاشة",
           gold[0] > 200 and gold[2] < 100 and a[top + 120, 1075][0] < 100, (gold, a[top + 120, 1075][:3].tolist()))
     p = reel_render._Pen(cfg, [])
