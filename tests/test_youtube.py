@@ -6575,3 +6575,55 @@ def test_reel_like_bar_1313c() -> None:
     except Exception:
         pass
     check("أول مستطيل هو الشريط الذهبي عند حافة الدائرة", bool(calls) and calls[0][0] == left, str(calls[:1]))
+def test_reel_question_wording_1313d() -> None:
+    """ملاحظة صاحب المشروع 13/11: السؤال «ما خطورة علاقة رئيس إنفيديا بجاسوسة صينية مزعومة؟» جاء نكرةً بعد سياق قدّمها؛ الأسئلة
+    كُتبت قبل السياق، فكاتب السياق يعيد صياغتها لتتصل به، والكود يقبل الصياغة سؤالًا سؤالًا بشروطه ويعرضها للمراجع."""
+    from types import SimpleNamespace as NS
+
+    from src import meta_script
+    from src.config import Config, load_config as real_load
+
+    cfg = real_load()
+    check("إعادة الصياغة مفعّلة في الإعداد", meta_script._scfg(cfg).get("reword_questions") is True)
+    check("برومبت السياق يطلب صياغة الأسئلة بحدها", "{question_max_words}" in meta_script._scfg(cfg)["system"]
+          and "questions" in meta_script.CONTEXT_TOOL["input_schema"]["properties"])
+    orig = ["ما خطورة علاقة رئيس إنفيديا بجاسوسة صينية مزعومة؟", "ماذا بعد؟"]
+    texts, notes = meta_script.reword_questions(
+        {"questions": ["ما خطورة علاقة رئيس إنفيديا بهذه المرأة؟", "ماذا بعد؟"]}, orig, cfg)
+    check("صياغة صالحة تُقبل وتُعرض بنصّيها، والسؤال الذي لم يتغير بلا سطر",
+          texts == ["ما خطورة علاقة رئيس إنفيديا بهذه المرأة؟", "ماذا بعد؟"] and len(notes) == 1
+          and "كان «ما خطورة" in notes[0] and "صار «ما خطورة علاقة رئيس إنفيديا بهذه المرأة؟»" in notes[0], (texts, notes))
+    long_q = "ما " + " ".join(["كلمة"] * 12) + "؟"
+    texts, notes = meta_script.reword_questions({"questions": [long_q, "ماذا بعد"]}, orig, cfg)
+    check("صياغة أطول من الحد أو بلا «؟» تُرفض ويبقى نص المحرر", texts == orig and notes == [], (texts, notes))
+    check("عدد مختلف أو غياب الحقل ← نص المحرر كما هو",
+          meta_script.reword_questions({"questions": ["أ؟"]}, orig, cfg) == (orig, [])
+          and meta_script.reword_questions({}, orig, cfg) == (orig, []))
+    off = Config(dict(cfg))
+    off["youtube"] = dict(off["youtube"])
+    off["youtube"]["meta_topics"] = dict(off["youtube"]["meta_topics"])
+    off["youtube"]["meta_topics"]["script"] = {**off["youtube"]["meta_topics"]["script"], "reword_questions": False}
+    check("reword_questions: false ← نص المحرر",
+          meta_script.reword_questions({"questions": ["أ؟", "ب؟"]}, orig, off) == (orig, []))
+
+    # في الباني: السؤال الثاني يسقط (لا إجابة صالحة) فتُطابَق الصياغة بفهرس السؤال لا بموضعه في الباقي
+    def frame(client, **kw):
+        return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="write_reel_frame", id="t", input={
+            "context": ["قدّم السياق امرأة يُشتبه في أنها جاسوسة صينية."], "closing_question": "ماذا بعد؟",
+            "questions": ["سؤال لن يبقى؟", "ما خطورة علاقة رئيس إنفيديا بهذه المرأة؟"]})])
+    qs = [{"text": "سؤال يسقط؟", "bite_ids": ["x"]}, {"text": orig[0], "bite_ids": ["a1", "a2"]}]
+    valid = [{"point_id": p, "speaker_name": n, "speaker_verified": True, "quote_original": "x", "quote_arabic": "ق",
+              "channel_display": "قناة", "start": 0, "end": 10} for p, n in (("p1", "أ"), ("p2", "ب"))]
+    saved = meta_script._create
+    try:
+        meta_script._create = frame
+        info: dict = {}
+        build = meta_script.make_builder("س؟", ["س؟"], {"title": "ت"}, qs, {}, {"a1": "p1", "a2": "p2", "x": "px"}, [],
+                                         Config(dict(cfg)), object(), [])
+        script, reason = build(valid, "female", info)
+    finally:
+        meta_script._create = saved
+    cards = [s["text"] for s in (script or {}).get("scenes", []) if s.get("role") == "question"]
+    check("بطاقة السؤال الباقي بصياغته المتصلة بالسياق وسطرها في التنبيهات",
+          cards == ["ما خطورة علاقة رئيس إنفيديا بهذه المرأة؟"]
+          and any(w.startswith("✏️ صيغ السؤال 2") for w in info.get("warnings", [])), (cards, reason, info.get("warnings")))
