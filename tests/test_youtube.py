@@ -5650,7 +5650,7 @@ def test_meta_reel_points() -> None:
 
 def test_reel_1850_fixes() -> None:
     """ريل 1850: (أ) اسم قرأه Gemini من الشريط يوثّق المتحدث وقت السيناريو (بلاه سقط هوك المواجهة)؛ (ب) نافذة تقديرية لا يطابق
-    مسموعها الاقتباس تُحذف (عُرضت المذيعة تحت اسم الضيف وترجمته)؛ (ج) المتحدث المسمّى يجيب سؤالًا واحدًا؛ (د) الميادين موقوفة."""
+    مسموعها الاقتباس تُحذف (عُرضت المذيعة تحت اسم الضيف وترجمته)؛ (ج) المتحدث المسمّى يجيب سؤالًا واحدًا؛ (د) مدخل الميادين واحد (أُعيدت في 1868)."""
     import copy
     from src import meta_qa, meta_script, reel_render, reel_script
     from src.config import load_config as real_load
@@ -5715,9 +5715,9 @@ def test_reel_1850_fixes() -> None:
           q_sel[1]["bite_ids"] == ["s2:2"] and len(notes) == 1 and "زيد" in notes[0], (q_sel, notes))
     check("1850: بلا cfg السلوك القديم", meta_script.selected_material(marks, priv)[0][1]["bite_ids"] == ["s0:9", "s2:2"])
 
-    # (د) الميادين موقوفة ومدخلها باقٍ
+    # (د) الميادين أُوقفت ثم أُعيدت (قضية 1868) ومدخلها واحد
     ch = [c for c in cfg["channels"] if c.get("name") == "الميادين"]
-    check("1850: الميادين موقوفة", len(ch) == 1 and ch[0].get("active") is False)
+    check("1850: مدخل الميادين واحد ومفعَّل منذ 1868", len(ch) == 1 and ch[0].get("active") is True)
 
 
 def test_reel_1856_fixes() -> None:
@@ -6248,3 +6248,71 @@ def _cfg_with(cfg, dotted: str, value):
         node = node.setdefault(k, {})
     node[keys[-1]] = value
     return c
+
+
+def test_meta_actor_originals_1868() -> None:
+    """قضية 1868: تصريح محسن رضائي حكمه Gemini «طرفًا» في BBC Persian و«محللًا» في CNN Türk، فظهر في جدول السياق وبين إجابات
+    الأسئلة. الطرف في مقطع طرفٌ في كل مقاطعه، وكلامه يُبحث له عن ظهوره الأصلي ولو من قناة ليست في القائمة، بترتيب القنوات المفضلة
+    ثم قناة لم تنقله، ومرشّح ينقل هو نفسه عن غيره مرفوض؛ والظهور الأصلي يتقدّم في جدول السياق. والميادين مفعّلة."""
+    from src import meta_original, meta_qa
+    from src.config import Config, load_config as real_load
+
+    cfg = Config(dict(real_load()))
+    may = next(ch for ch in cfg["channels"] if ch.get("name_latin") == "Al Mayadeen")
+    check("الميادين مفعّلة (قرار صاحب المشروع 13/11)", may.get("active") is True)
+
+    bbc = {"bite_id": "B1:g931", "video_id": "B1", "channel": "BBC Persian", "speaker": "محسن رضائي",
+           "speaker_original": "Mohsen Rezaei", "voice": "actor", "setting": "studio", "is_host": False,
+           "text_original": "we will strike all the near bases and the far bases too", "text_ar": "سنضرب", "start": 931.0,
+           "end": 947.0}
+    cnn = {**bbc, "bite_id": "C1:g908", "video_id": "C1", "channel": "CNN Türk", "voice": "analyst"}
+    other = {**bbc, "bite_id": "C1:g1189", "speaker": "حياتي أونلو", "speaker_original": "", "voice": "analyst"}
+    host = {**bbc, "bite_id": "C1:g5", "speaker": "محسن رضائي", "is_host": True, "voice": "analyst"}
+    bites = [dict(bbc), dict(cnn), dict(other), dict(host)]
+    n = meta_qa.mark_actors(bites, cfg)
+    check("الطرف في مقطع طرفٌ في كل مقاطعه، والمحلل والمقدّم لا يُمسّان",
+          n == 1 and meta_qa.is_actor(bites[1]) and bites[1]["voice_from"] == "speaker" and not meta_qa.is_actor(bites[2])
+          and not meta_qa.is_actor(bites[3]), [b.get("voice") for b in bites])
+    off = Config(dict(cfg))
+    off["youtube"] = {**cfg["youtube"], "meta_topics": {**cfg["youtube"]["meta_topics"], "qa": {
+        **cfg.path("youtube.meta_topics.qa"), "context": {**cfg.path("youtube.meta_topics.qa.context"), "by_speaker": False}}}}
+    check("by_speaker: false ← لا تغيير", meta_qa.mark_actors([dict(bbc), dict(cnn)], off) == 0)
+
+    results = [{"video_id": "C1", "channel": "CNN Türk"}, {"video_id": "X1", "channel": "BBC Persian"},
+               {"video_id": "Z1", "channel": "Random Vlog"}, {"video_id": "M1", "channel": "Al Mayadeen"}]
+    det = {i: {"duration": 900} for i in ("C1", "X1", "Z1", "M1")}
+    cands = meta_original.pick_candidates(results, bites[1], det, cfg, {"B1": "BBC Persian", "C1": "CNN Türk"})
+    check("بلا قناة مصدر: المفضلة أولًا ثم قناة لم تنقله ثم غيرها، ولا فيديو نقل منه",
+          [c["video_id"] for c in cands] == ["M1", "Z1", "X1"], [c["video_id"] for c in cands])
+
+    posted = []
+
+    class R:
+        status_code = 200
+
+        def __init__(self, out):
+            self._p = {"candidates": [{"finishReason": "STOP", "content": {"parts": [{"text": json.dumps(out)}]}}],
+                       "usageMetadata": {"promptTokenCount": 100, "candidatesTokenCount": 10}}
+
+        def json(self):
+            return self._p
+
+    def post(url, json=None, timeout=None, headers=None):
+        posted.append(json)
+        # المرشّح الأول (الميادين هنا) ينقل عن قناة أخرى، والثاني ظهوره الأصلي
+        relay = len(posted) == 1
+        return R({"found": True, "start": "01:00", "end": "01:15", "speaker_on_screen": True, "is_relay": relay,
+                  "text_original": "we will strike all the near bases and the far bases too"})
+
+    stats: dict = {}
+    out = meta_original.find_originals([dict(b) for b in bites[:3]], "2026-11-13", cfg, "KEY", post=post,
+                                       search=lambda q, a, b, n: results, details=lambda ids: det, stats=stats)
+    found = [b for b in out if b.get("original_of")]
+    check("كلام الطرف يُبحث له مرة لكل متحدث، والمرشّح الناقل مرفوض ويُقبل الأصلي التالي",
+          len(posted) == 2 and len(found) == 1 and found[0]["video_id"] == "Z1" and found[0]["voice"] == "actor"
+          and stats["originals"][0]["candidates"] == ["M1", "Z1"], (len(posted), stats.get("originals")))
+    check("مقطع المحلل لا يُبحث له", all(b["bite_id"] != "C1:g1189" or not b.get("original_of") for b in out))
+    actors = [b for b in out if meta_qa.is_actor(b)]
+    ctx = meta_qa.pick_context(actors, cfg)
+    check("جدول السياق متحدث واحد مرة والظهور الأصلي أولًا",
+          len(ctx) == 1 and actors[ctx[0]["n"] - 1].get("original_of"), ctx)

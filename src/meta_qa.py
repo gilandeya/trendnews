@@ -162,7 +162,8 @@ def gemini_topic_bites(topic: dict, data: dict, cfg, key: str, post=None,
         for b in res.get("bites") or []:
             bites.append({"video_id": v["video_id"], "channel": v.get("channel", ""), "bloc": v.get("bloc"),
                           "orientation": v.get("orientation"), "language": meta.get("language", ""), **b})
-    # مقطع منقول عن برنامج قناة أخرى يُستبدل بأصله من قناته إن وُجد (بعد قضية 1856)؛ لا يرفع
+    mark_actors(bites, cfg)
+    # مقطع منقول عن برنامج قناة أخرى، أو كلام طرف في الحدث، يُستبدل بأصله إن وُجد (بعد قضيتي 1856 و1868)؛ لا يرفع
     from . import meta_original
     bites = meta_original.find_originals(bites, data["date"], cfg, key, post=post, search=search, details=details, stats=stats)
     return bites, failures, False
@@ -313,6 +314,27 @@ def is_actor(b: dict) -> bool:
     return b.get("setting") == "external"
 
 
+def mark_actors(bites: list[dict], cfg) -> int:
+    """طرف في الحدث في مقطع واحد طرفٌ في كل مقاطعه (قضية 1868): Gemini حكم على تصريح محسن رضائي «طرف» في BBC Persian و«محلل»
+    في CNN Türk، فظهر التصريح نفسه في جدول السياق وبين إجابات الأسئلة. الحكم بالاسم بعد التطبيع (العربي أو الأصلي)، والمقدّم لا
+    يُمسّ. يعيد عدد المقاطع التي تغيّر حكمها. `context.by_speaker: false` ← لا شيء."""
+    if not ((_qcfg(cfg).get("context") or {}).get("by_speaker", True)):
+        return 0
+    from .meta_original import _fold
+    names = set()
+    for b in bites:
+        if is_actor(b):
+            names |= {_fold(b.get(k) or "") for k in ("speaker", "speaker_original")} - {""}
+    changed = 0
+    for b in bites:
+        if b.get("is_host") or is_actor(b):
+            continue
+        if {_fold(b.get(k) or "") for k in ("speaker", "speaker_original")} & names:
+            b["voice"], b["voice_from"] = "actor", "speaker"
+            changed += 1
+    return changed
+
+
 def pick_context(actors: list[dict], cfg) -> list[dict]:
     """مقاطع السياق المعروضة: حتى `context.max_shown`، المسمّى أولًا ثم الصوت الأصلي ثم الأقصر، ومتحدث واحد مرة؛ ويُعلَّم منها
     حتى `context.max_clips` (من متحدثين مختلفين) ضمن `context.max_seconds` للمقطع. يعيد [{n, selected}] بفهارس actors (من 1)."""
@@ -320,7 +342,9 @@ def pick_context(actors: list[dict], cfg) -> list[dict]:
     if not c.get("enabled", True):
         return []
     shown_max, pick_max, sec_max = int(c.get("max_shown", 4)), int(c.get("max_clips", 2)), float(c.get("max_seconds", 30))
+    # الظهور الأصلي (meta_original) قبل النقل: التصريح نفسه من قناة المسؤول لا من قناة نقلته
     order = sorted(range(len(actors)), key=lambda i: (not (actors[i].get("speaker") or actors[i].get("speaker_original")),
+                                                      not actors[i].get("original_of"),
                                                       actors[i].get("audio_track", "original") != "original", _sec(actors[i])))
     out, seen = [], set()
     for i in order:
@@ -558,7 +582,8 @@ def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: d
                 qa["notified_proxy"] = True
             topic["qa"] = qa
             return qa["status"]
-        # أطراف الحدث (وزير، نائب) مادة السياق لا إجابات (12/11): الأسئلة تُبنى من كلام المحللين وحده
+        # أطراف الحدث (وزير، نائب) مادة السياق لا إجابات (12/11): الأسئلة تُبنى من كلام المحللين وحده؛ وبالاسم في كل مقاطعه (1868)
+        mark_actors(bites, cfg)
         actors = [b for b in bites if is_actor(b)]
         if (q.get("context") or {}).get("enabled", True):
             bites = [b for b in bites if not is_actor(b)]

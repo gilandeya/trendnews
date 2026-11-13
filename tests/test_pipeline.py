@@ -275,6 +275,7 @@ from tests.test_youtube import (
     test_reel_context_clips,
     test_meta_frame_condense,
     test_reel_map_autodetect_clash_json,
+    test_meta_actor_originals_1868,
     test_meta_script,
     test_youtube_channel_handles,
 )
@@ -728,6 +729,7 @@ def main() -> int:
     test_reel_context_clips()
     test_meta_frame_condense()
     test_reel_map_autodetect_clash_json()
+    test_meta_actor_originals_1868()
     test_meta_script()
     test_youtube_channel_handles()
     print("\n── وحدة المراحل المشتركة stages.py (Issue #1180) ──")
