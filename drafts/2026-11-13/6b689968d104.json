@@ -451,7 +451,8 @@
     "publisher": "https://www.youlyou.com/",
     "shows": "علم الولايات المتحدة وعلم إيران يرفرفان على سارِيتين معدنيتين، مع مبانٍ شاهقة غير واضحة في الخلفية",
     "text_checked": true,
-    "judged": true
+    "judged": true,
+    "layout": "A"
   },
   "hook_candidates": [],
   "hook_search": {
@@ -552,6 +553,419 @@
   },
   "review_issue": 1869,
   "stage2_issue": 1869,
-  "render_status": "queued",
-  "approved_script_at": "2026-11-13T05:56:54.029796+00:00"
+  "render_status": "rendered",
+  "approved_script_at": "2026-11-13T05:56:54.029796+00:00",
+  "reel_file": "reels/2026-11-13/6b689968d104.mp4",
+  "reel_gif": "reels/2026-11-13/6b689968d104.gif",
+  "duration_seconds": 143.6,
+  "render_version": 77,
+  "render_attempts": 0,
+  "reel_music": "nastelbom-news-news-2-473288.mp3",
+  "render_sources": "الجزيرة، بي بي سي نيوز، سي إن إن ترك",
+  "render_crops": {
+    "2": {
+      "x": 456,
+      "source": "speaker",
+      "speaker_score": 0.79,
+      "tracks": 1,
+      "gate": {
+        "start": 1.14,
+        "end": 26.56,
+        "source": "silence"
+      },
+      "exact": {
+        "t0": 3517.54,
+        "t1": 3542.98,
+        "ratio": 0.957,
+        "source": "words"
+      },
+      "panel_q": "c0",
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 424,
+        "y": 0,
+        "w": 470,
+        "h": 546,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": false,
+      "lower_graphics": {
+        "top": 0.76,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.78,
+          0.78,
+          0.78
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "word"
+    },
+    "4": {
+      "x": 637,
+      "source": "speaker",
+      "speaker_score": 1.04,
+      "tracks": 1,
+      "gate": {
+        "start": 0.96,
+        "end": 26.58,
+        "source": "silence"
+      },
+      "exact": {
+        "t0": 174.82,
+        "t1": 200.28,
+        "ratio": 0.97,
+        "source": "words"
+      },
+      "panel_q": 0,
+      "tile_crop": {
+        "x": 540,
+        "y": 0,
+        "w": 598,
+        "h": 532,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 610,
+        "y": 0,
+        "w": 458,
+        "h": 532,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": false,
+      "lower_graphics": {
+        "top": 0.74,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.76,
+          0.76,
+          0.76
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "line"
+    },
+    "6": {
+      "x": 509,
+      "source": "speaker_vision",
+      "speaker_score": 0.6,
+      "tracks": 2,
+      "vision": {
+        "pick": 1,
+        "agree": 3,
+        "archive": []
+      },
+      "gate": {
+        "start": 0.88,
+        "end": 27.9,
+        "source": "transcript"
+      },
+      "exact": {
+        "t0": 3416.78,
+        "t1": 3443.56,
+        "ratio": 0.932,
+        "source": "words"
+      },
+      "panel_q": 0,
+      "tile_crop": {
+        "x": 404,
+        "y": 0,
+        "w": 614,
+        "h": 546,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 476,
+        "y": 0,
+        "w": 470,
+        "h": 546,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": false,
+      "lower_graphics": {
+        "top": 0.76,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.78,
+          0.78,
+          0.78
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "word"
+    },
+    "8": {
+      "x": 608,
+      "source": "speaker_vision",
+      "speaker_score": 0.55,
+      "tracks": 5,
+      "vision": {
+        "pick": 3,
+        "agree": 3,
+        "archive": [
+          2,
+          4,
+          5
+        ]
+      },
+      "gate": {
+        "start": 0.88,
+        "end": 14.9,
+        "source": "transcript"
+      },
+      "exact": {
+        "t0": 1188.58,
+        "t1": 1202.36,
+        "ratio": 0.875,
+        "source": "words"
+      },
+      "panel_q": 1,
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 606,
+        "y": 0,
+        "w": 408,
+        "h": 474,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        23,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.66,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.68,
+          0.68,
+          0.68
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "line"
+    },
+    "closing": {
+      "source": "freeze"
+    }
+  },
+  "render_speakers": {
+    "2": {
+      "name_original": "",
+      "name_arabic": "",
+      "role_arabic": "",
+      "is_presenter": false,
+      "frames_agreeing": 0,
+      "rejected": "",
+      "accepted": false
+    },
+    "4": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "6": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "8": {
+      "accepted": false,
+      "source": "gemini"
+    }
+  },
+  "render_roster": {
+    "Jk9lDPbrodA": [
+      {
+        "name_arabic": "محجوب الزويري",
+        "name_original": "الدكتور محجوب الزويري",
+        "role_arabic": "أكاديمي وخبير بسياسات الشرق الأوسط",
+        "is_host": false
+      },
+      {
+        "name_arabic": "لقاء مكي",
+        "name_original": "الدكتور لقاء مكي",
+        "role_arabic": "الباحث الأول بمركز الجزيرة للدراسات",
+        "is_host": false
+      },
+      {
+        "name_arabic": "إبراهيم فريحات",
+        "name_original": "الدكتور ابراهيم فريحات",
+        "role_arabic": "أستاذ الصراعات الدولية بمعهد الدوحة للدراسات العليا",
+        "is_host": false
+      },
+      {
+        "name_arabic": "سيرجيو دي لابينيا",
+        "name_original": "السيد سيرجيو دي لابينيا",
+        "role_arabic": "نائب مساعد وزير الدفاع الأمريكي السابق",
+        "is_host": false
+      },
+      {
+        "name_arabic": "علي الساري",
+        "name_original": "السيد علي الساري",
+        "role_arabic": "النائب السابق في البرلمان الإيراني",
+        "is_host": false
+      },
+      {
+        "name_arabic": "سالم اليامي",
+        "name_original": "السيد سالم اليامي",
+        "role_arabic": "المستشار السابق في وزارة الخارجية",
+        "is_host": false
+      },
+      {
+        "name_arabic": "صالح المطيري",
+        "name_original": "الدكتور صالح المطيري",
+        "role_arabic": "رئيس مركز المدار للدراسات السياسية",
+        "is_host": false
+      },
+      {
+        "name_arabic": "حسني عبيدي",
+        "name_original": "الدكتور حسني عبيدي",
+        "role_arabic": "أستاذ العلاقات الدولية بجامعة جنيف",
+        "is_host": false
+      }
+    ]
+  },
+  "render_roster_source": {
+    "Jk9lDPbrodA": "built"
+  },
+  "render_attribution": [
+    {
+      "point_id": "0b81043a16bf",
+      "speaker": "علي الساري",
+      "evidence": "[3511] >> سيد علي التهديدات الايرانية لاوروبا",
+      "accepted": true,
+      "reason": "المقطع يتضمن ترداد مقدم البرنامج «سيد علي» مخاطبًا الضيف، وبعده يبدأ الكلام المقتبس الذي يبدو إجابة الضيف (المتكلم المسمى «علي») عن التهديدات الإيراني"
+    }
+  ],
+  "render_map_errors": {
+    "Jk9lDPbrodA": "ffmpeg: #0/image2 @ 0x5bdbbe326880] Output file does not contain any stream Error opening output file /tmp/reel_render_s"
+  },
+  "render_gemini_speakers": [
+    {
+      "point_id": "0b81043a16bf",
+      "video_id": "Jk9lDPbrodA",
+      "start": 3517.5,
+      "end": 3543.0,
+      "name": "",
+      "applied": false
+    },
+    {
+      "point_id": "a4997e665473",
+      "video_id": "Jk9lDPbrodA",
+      "start": 3416.8,
+      "end": 3443.6,
+      "name": "سالم اليامي",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "350f0aaf2cab",
+      "video_id": "S8sEl5AZXoU",
+      "start": 174.8,
+      "end": 200.3,
+      "name": "پرهام قبادي",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "2cdede3f6823",
+      "video_id": "q5YKYXffNX4",
+      "start": 1188.6,
+      "end": 1202.4,
+      "name": "حياتي أونلو",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    }
+  ],
+  "render_gemini_cost": 0.147,
+  "render_exact_selfcheck": {
+    "ok": true,
+    "reason": ""
+  },
+  "render_dropped": [
+    {
+      "point_id": "fb2e404d05ae",
+      "kind": "clip",
+      "reason": "تعذّر ضبط المقطع كلمة بكلمة: النسبة 0.677 أقل من 0.7"
+    }
+  ],
+  "render_approx": [
+    {
+      "point_id": "350f0aaf2cab",
+      "kind": "clip",
+      "start": 174,
+      "end": 202,
+      "reason": "الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة",
+      "aligned": true
+    },
+    {
+      "point_id": "2cdede3f6823",
+      "kind": "clip",
+      "start": 1188,
+      "end": 1204,
+      "reason": "تعذّر جلب نص الفيديو: لا نص متاح: Could not retrieve a transcript for the video https://www.youtube.com/watch?v=q5YKYXffNX4! This is most likely caused by: Subtitles are disabled for this video If you are sure that the des",
+      "aligned": true
+    }
+  ],
+  "rendered_at": "2026-11-13T06:41:31.325004+00:00",
+  "cost_renders": [
+    {
+      "claude": {
+        "claude-haiku-5-5": 0.00524,
+        "claude-sonnet-5": 0.02385
+      },
+      "gemini": 0.147,
+      "proxy_bytes": 48162813,
+      "at": "2026-11-13T06:41:31.325051+00:00"
+    }
+  ],
+  "render_notes": [
+    "### 🎬 تركيب الريل",
+    "- ⏱️ المدة: 143.6 ث",
+    "- 🎞️ [الملف](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-11-13/6b689968d104.mp4) · [المعاينة](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-11-13/6b689968d104.gif)",
+    "- ✂️ حُذف 1: clip (تعذّر ضبط المقطع كلمة بكلمة: النسبة 0.677 أقل من 0.7)",
+    "- 🎞️ لم أجد لقطة صالحة من الحدث — الهوك بصورة الخبر",
+    "- 👥 ضيوف الجزيرة: محجوب الزويري، لقاء مكي، إبراهيم فريحات، سيرجيو دي لابينيا، علي الساري، سالم اليامي، صالح المطيري، حسني عبيدي",
+    "- ⚠️ تعذّر بناء خريطة متكلمي الجزيرة: ffmpeg: #0/image2 @ 0x5bdbbe326880] Output file does not contain any stream Error opening output file /tmp/reel_render_s",
+    "- ✅ النص يؤكد المتكلم: علي الساري (الجزيرة)",
+    "- ✅ Gemini يؤكد المتكلم: برهام قبادي (بي بي سي نيوز)",
+    "- ✅ Gemini يؤكد المتكلم: سالم اليامي (الجزيرة)",
+    "- ✅ Gemini يؤكد المتكلم: حياتي أونلو (سي إن إن ترك)",
+    "- ✂️ أُخفي شريط القناة في الجزيرة: قُصّ أسفل 24%",
+    "- ✂️ أُخفي شريط القناة في بي بي سي نيوز: قُصّ أسفل 26%",
+    "- 🎯 مقطع الجزيرة: 2 وجوه — المتكلم بالرؤية",
+    "- 🎯 مقطع سي إن إن ترك: 5 وجوه — المتكلم بالرؤية",
+    "- ✂️ أُخفي شريط القناة في سي إن إن ترك: قُصّ أسفل 34%",
+    "- ▭ مقطع سي إن إن ترك: أُزيلت أشرطة سوداء",
+    "- 🧊 ختام الريل: لا لقطات تسبق الهوك — جُمّد أول إطار منه مع اقتراب بطيء",
+    "- 🎙️ الصوت: ElevenLabs (باقي الرصيد نحو ? حرف)",
+    "- 💵 كلفة الريل: 3.87$ — المقاطع والأسئلة 1.03$ · السيناريو 2.67$ · التركيب 0.18$ (Opus 2.89$ · Sonnet 0.06$ · Haiku 0.01$ · Gemini 0.87$ · بحث ويب 4 · بروكسي 48 MB) · البروكسي خارج المجموع"
+  ],
+  "reel_review_issue": 1871
 }
