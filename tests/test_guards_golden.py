@@ -20246,7 +20246,8 @@ def test_reel_exact_q13_guards() -> None:
         xc = cfg.path("reel.render.exact") or {}
         check("g608: الإعداد", xc == {"enabled": True, "model": "small", "margin": 4, "approx_margin": 20, "min_ratio": 0.7, "pad": 0.12,
                                      "snap": 0.3, "require": False, "word_similarity": 0.7, "word_min_len": 3,
-                                     "drop_approx_reasons": ["low_ratio", "no_words"]}, xc)   # S7 أضاف المفتاحين
+                                     "drop_approx_reasons": ["low_ratio", "no_words"], "relaxed_ratio": 0.6}, xc)
+        # S7 أضاف المفتاحين، وريلا 13/11 relaxed_ratio
         check("g608: نصوص الإعداد", all(cfg.path(f"reel.texts.{k}") for k in ("clip_drop_incomplete", "scene_heard", "scene_written"))
               and all(cfg.path(f"reel.render.texts.{k}") for k in ("comment_exact_failed", "drop_exact_failed")), None)
         check("g608: render.version >= 46", int(cfg.path("reel.render.version")) >= 46, cfg.path("reel.render.version"))

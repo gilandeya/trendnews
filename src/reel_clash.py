@@ -205,6 +205,8 @@ def decide(raw: dict, cands_list: list[dict], cfg) -> dict:
             pairs.append({**p, "a": tool_json(p.get("a"), dict) or {}, "b": tool_json(p.get("b"), dict) or {}})
     raw["single"] = tool_json(raw.get("single"), dict)
     out: dict = {}
+    # جملة صالحة من زوج سقط طرفه الآخر (ريلا 13/11: لم يُعطِ النموذج single فسقط الهوك كله مع أن في أزواجه جملًا صالحة)
+    spare: list[dict] = []
     # علاقة خارج القائمة كانت تُتخطّى بصمت فيخرج «لا زوج» بلا سبب مرفوض
     for p in pairs:
         if p.get("relation") not in order:
@@ -215,8 +217,11 @@ def decide(raw: dict, cands_list: list[dict], cfg) -> dict:
                 continue
             a, why_a = check_line(p.get("a") or {}, cands, cfg)
             b, why_b = check_line(p.get("b") or {}, cands, cfg)
+            for line in (a, b):
+                if line is not None and line not in spare:
+                    spare.append(line)
             if a is None or b is None:
-                rejected.append(why_a or why_b)
+                rejected += [w for w in (why_a, why_b) if w]
                 continue
             if a["point_id"] == b["point_id"]:
                 rejected.append("الجملتان من مقطع واحد")
@@ -230,6 +235,8 @@ def decide(raw: dict, cands_list: list[dict], cfg) -> dict:
             break
     if not out:
         single, why = check_line((raw or {}).get("single") or {}, cands, cfg) if (raw or {}).get("single") else (None, "")
+        if single is None and spare and ccfg(cfg).get("salvage_single", True):
+            single = spare[0]
         if single is not None:
             out = {"mode": "single", "relation": "single", "a": single}
         else:
@@ -286,11 +293,33 @@ def plan(draft: dict, cfg, client=None) -> None:
         if getattr(resp, "stop_reason", "") == "max_tokens":
             draft["hook_clash"] = {"error": "رد مقطوع"}
             return
-        raw = next((b.input for b in getattr(resp, "content", []) or [] if getattr(b, "type", "") == "tool_use"), None)
+        block = next((b for b in getattr(resp, "content", []) or [] if getattr(b, "type", "") == "tool_use"), None)
+        raw = getattr(block, "input", None)
         if not isinstance(raw, dict):
             draft["hook_clash"] = {"error": "لا رد بالأداة"}
             return
-        draft["hook_clash"] = decide(raw, cands, cfg)
+        hc = decide(raw, cands, cfg)
+        # ريلا 13/11: جمل أطول من الحد أو حدود ليست حرفيًا في الكلام فسقط الهوك؛ إعادة واحدة في المحادثة نفسها بالأسباب (نمط Q8)
+        # لا نداء جديد يكتب من الصفر. تبقى نتيجة الأولى إن لم تصلح الثانية
+        if hc.get("error") and hc.get("rejected") and int(c.get("retries", 1)) > 0 and getattr(block, "id", None):
+            msgs = [{"role": "user", "content": user_message(script, cands, cfg)},
+                    {"role": "assistant", "content": [{"type": "tool_use", "id": block.id, "name": TOOL["name"], "input": raw}]},
+                    {"role": "user", "content": [{"type": "tool_result", "tool_use_id": block.id, "is_error": True,
+                                                  "content": str(c.get("retry_result", "رُفض: {reasons}")).format(
+                                                      reasons="؛ ".join(hc["rejected"]))}]}]
+            resp2 = _create(client, cfg=cfg, model=c.get("model", "claude-sonnet-5"), max_tokens=int(c.get("max_tokens", 2000)),
+                            system=str(c.get("system", "")), tools=[TOOL], tool_choice={"type": "tool", "name": TOOL["name"]},
+                            messages=msgs)
+            raw2 = next((b.input for b in getattr(resp2, "content", []) or [] if getattr(b, "type", "") == "tool_use"), None) \
+                if resp2 is not None and getattr(resp2, "stop_reason", "") != "max_tokens" else None
+            if isinstance(raw2, dict):
+                hc2 = decide(raw2, cands, cfg)
+                if not hc2.get("error"):
+                    hc2["retried"] = hc["rejected"]
+                    hc = hc2
+                else:
+                    hc["retry_rejected"] = hc2.get("rejected", [])
+        draft["hook_clash"] = hc
     except Exception as exc:  # noqa: BLE001 -- الهوك تحسين: يعود الهوك القديم
         log.warning("تعذّر اختيار هوك المواجهة: %s", str(exc)[:150])
         draft["hook_clash"] = {"error": str(exc)[:150]}

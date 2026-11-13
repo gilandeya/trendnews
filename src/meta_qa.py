@@ -166,7 +166,26 @@ def gemini_topic_bites(topic: dict, data: dict, cfg, key: str, post=None,
     # مقطع منقول عن برنامج قناة أخرى، أو كلام طرف في الحدث، يُستبدل بأصله إن وُجد (بعد قضيتي 1856 و1868)؛ لا يرفع
     from . import meta_original
     bites = meta_original.find_originals(bites, data["date"], cfg, key, post=post, search=search, details=details, stats=stats)
+    bites = drop_read(bites, cfg, stats)
     return bites, failures, False
+
+
+def drop_read(bites: list[dict], cfg, stats: dict) -> list[dict]:
+    """ريلا 13/11: تصريح محسن رضائي قرأه مقدّم BBC Persian فعُرض في جدول السياق واختير، ثم أسقطه فحص القائلين بعد الاختيار؛ ومقطع
+    RTVI بالحكاية نفسها. ما بقي «يقرؤه غيره» (delivery: read) بلا أصل بصوت صاحبه بعد البحث يُترك قبل الأسئلة والسياق، ويُسجَّل
+    عدده وأسماؤه في stats (أرقام وأسماء لا كلام). `qa.gemini.drop_read: false` ← يبقى."""
+    if not cfg.path("youtube.meta_topics.qa.gemini.drop_read", True):
+        return bites
+    keep, gone = [], []
+    for b in bites:
+        if b.get("delivery") == "read" and not b.get("original_of"):
+            gone.append(b.get("speaker") or b.get("speaker_original") or "?")
+        else:
+            keep.append(b)
+    if gone:
+        stats["read_dropped"] = stats.get("read_dropped", 0) + len(gone)
+        stats["read_dropped_speakers"] = sorted(set(stats.get("read_dropped_speakers", []) + gone))
+    return keep
 
 
 def topic_bites(topic: dict, data: dict, cfg, client, fetch, now: datetime) -> tuple[list[dict], list[dict], bool]:

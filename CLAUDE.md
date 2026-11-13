@@ -3291,3 +3291,19 @@ track` والفيديو وثانيته، وسطر «🔁 ختام الريل…�
   ثانية الهوك بطول المشهد (`_footage`)، ويُقصّ بـ`_hook_crop` (بلا شريط القناة)، وتصير إطاراته خلفية الأوراق تحت `footage_veil` = ضباب الريل ×
   `loop.fog_start` (أو `footage_fog`)، وهو ما ينتهي به ضباب الختام. ويُبلغ `hook_info` الختامَ `mode=clip` بملف اللقطة وقصّها، فيلتحم بها كهوك لقطة
   (`pre_hook` أو المزج إلى أول إطارها، خ2). بلا `hook_video` أو فشل التنزيل ← الفيديو المموّه تحت `bg_dim` وسطر ⚠️. `render_version` = 76؛ g903 (ffmpeg).
+
+## دروس ريلي 13/11 (6b689968d104، c8e636f835d0) — `tests/test_youtube.py:test_reel_scenario_fallbacks_1313`
+
+- **مخطط Gemini:** `setting`/`audio`/`source_channel` كانت في تعليمات `qa.gemini.system` منذ قضية 1856 لا في `gemini_bites.SCHEMA`، والمخرج المقيَّد
+  بمخطط لا يعيد غيره، فكان كل مقطع «studio» بصوت أصلي ولم يُبحث عن أصل منقول قط. أُضيفت إلى المخطط ومعها `delivery` (own · read = يقرؤه غير صاحبه:
+  مقدّم يقرأ تصريحًا، راوٍ فوق صورته). المقروء هدف أول للبحث عن الأصل (`meta_original.is_target`، وترتيب البحث: المقروء ثم المنقول ثم الطرف)، وما بقي
+  مقروءًا بلا أصل يُترك قبل الأسئلة والسياق (`meta_qa.drop_read`، `qa.gemini.drop_read`؛ `qa.read_dropped`/`read_dropped_speakers`) — كان تصريح رضائي يُختار
+  في السياق ثم يسقطه فحص القائلين بعد الاختيار.
+- **هوك المواجهة:** جملة صالحة من زوج سقط طرفه الآخر تصير هوكًا بورقة واحدة (`clash.salvage_single`)، وبلا شيء صالح إعادة واحدة في المحادثة نفسها بالأسباب
+  (`clash.retries`/`retry_result`، `hook_clash.retried` أو `retry_rejected`)، والبرومبت يطلب single دائمًا. الريلان سقط هوكهما بجمل 6.5–18 ث وحدود غير حرفية.
+- **مرشّحو لقطة الحدث:** `hook_search.require_footage_title: false` (العنوان قلّما يقول «لقطات» والفحص البصري هو الحكم؛ المرجَّح لقطاتٍ يتقدّم)، وقنوات إخبارية
+  معروفة أُضيفت إلى `hook_search.channels`، و`topic_fallback`: بلا مرشّح بعد المحاولتين تُستعمل فيديوهات موضوع العناوين نفسه (≤ `max_video_seconds`) الأقصر أولًا
+  (`reel_hook_search.topic_video_candidates`، `hook_search.topic_fallback`). بلا مرشّح كان يسقط الهوك ولقطات الجمل وشريط الخلفية وخلفية المواجهة معًا.
+  `real_yt_details` يطلب `snippet` أيضًا (العنوان والتاريخ).
+- **الضبط:** `reel.render.exact.relaxed_ratio` (0.6): نسبة بين هذا والحد (0.7) تُقبل بتفرّد النافذة (`align_quote(min_ratio=)`) و`render_crops[i].exact.relaxed`؛
+  مقطع فارسي صحيح الموضع بنسبة 0.677 كان يُحذف. `render_version` بلا تغيير.

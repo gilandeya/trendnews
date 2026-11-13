@@ -6316,3 +6316,125 @@ def test_meta_actor_originals_1868() -> None:
     ctx = meta_qa.pick_context(actors, cfg)
     check("جدول السياق متحدث واحد مرة والظهور الأصلي أولًا",
           len(ctx) == 1 and actors[ctx[0]["n"] - 1].get("original_of"), ctx)
+
+
+def test_reel_scenario_fallbacks_1313() -> None:
+    """ريلا 13/11 (6b689968d104 وc8e636f835d0): سقط هوك المواجهة (جمل أطول من الحد وحدود غير حرفية ولا single)، ولم يبقَ مرشّح
+    للقطة الحدث (كل العناوين «ليست لقطات» وقنوات معروفة خارج القائمة) فسقطت معه اللقطات وشريط الخلفية، وحُذف مقطع فارسي بنسبة ضبط
+    0.677، وتصريح قرأه المقدّم عُرض في السياق ثم سقط بعد الاختيار — وحقول setting/audio/delivery لم تكن في مخطط Gemini أصلًا."""
+    import json
+    from types import SimpleNamespace as NS
+
+    from src import gemini_bites, meta_original, meta_qa, reel_clash, reel_clips, reel_hook_search
+    from src.config import load_config as real_load
+
+    cfg = real_load()
+    # (1) هوك المواجهة: جملة صالحة من زوج سقط طرفه الآخر تصير هوكًا بورقة واحدة
+    toks = [chr(0x0628 + k // 6) + chr(0x0628 + k % 6) + "ة" for k in range(40)]
+    words = " ".join(toks)
+    ca = {"point_id": "a", "speaker": "س", "channel": "ق1", "bloc": "x", "quote_original": words, "quote_arabic": "أ ب",
+          "language": "ar", "verified": True}
+    cb = {**ca, "point_id": "b", "channel": "ق2", "bloc": "y"}
+    ok_line = {"point_id": "a", "first_words": toks[0], "last_words": toks[7], "text_ar": ""}
+    long_line = {"point_id": "b", "first_words": toks[0], "last_words": toks[30], "text_ar": ""}
+    pair = {"pairs": [{"a": ok_line, "b": long_line, "relation": "opposite"}], "hook_text": ""}
+    out = reel_clash.decide(pair, [ca, cb], cfg)
+    check("جملة صالحة من زوج سقط طرفه تصير هوكًا بورقة واحدة، والسبب محفوظ",
+          out.get("mode") == "single" and out["a"]["point_id"] == "a" and any("خارج" in r for r in out.get("rejected", [])), out)
+    check("salvage_single: false ← الخطأ كما كان",
+          reel_clash.decide(pair, [ca, cb], _cfg_with(cfg, "reel.render.clash.salvage_single", False)).get("error"))
+    check("المخطط يطلب single دائمًا", "دائمًا أقوى جملة واحدة" in cfg.path("reel.render.clash.system"))
+
+    calls = []
+
+    def fake(client, **kw):
+        calls.append(kw["messages"])
+        if len(calls) == 1:
+            return NS(stop_reason="tool_use", content=[NS(type="tool_use", id="t1", input={"pairs": [
+                {"a": long_line, "b": long_line, "relation": "opposite"}]})])
+        return NS(stop_reason="tool_use", content=[NS(type="tool_use", id="t2", input={"pairs": [
+            {"a": ok_line, "b": {**ok_line, "point_id": "b"}, "relation": "opposite"}], "hook_text": "إيران تهدد أوروبا"})])
+    script = {"title": "س؟", "scenes": [
+        {"kind": "clip", "q": 0, "point_id": "a", "speaker_name": "س", "speaker_verified": True, "channel_display": "ق1",
+         "quote_original": words, "quote_arabic": "أ ب", "language": "ar"},
+        {"kind": "clip", "q": 0, "point_id": "b", "speaker_name": "ص", "speaker_verified": True, "channel_display": "ق2",
+         "quote_original": words, "quote_arabic": "أ ب", "language": "ar"}]}
+    saved_create, saved_bloc = reel_clash._create, reel_clash.channel_bloc
+    try:
+        reel_clash._create = fake
+        reel_clash.channel_bloc = lambda s, c: "x" if s.get("channel_display") == "ق1" else "y"
+        d = {"script": script}
+        reel_clash.plan(d, cfg, client=object())
+    finally:
+        reel_clash._create, reel_clash.channel_bloc = saved_create, saved_bloc
+    hc = d.get("hook_clash") or {}
+    tr = calls[1][-1]["content"][0] if len(calls) > 1 else {}
+    check("المحاولة الأولى بلا شيء صالح ← إعادة واحدة في المحادثة نفسها بالأسباب، والثانية تُعتمد",
+          len(calls) == 2 and tr.get("type") == "tool_result" and tr.get("tool_use_id") == "t1" and tr.get("is_error")
+          and "خارج" in tr.get("content", "") and hc.get("mode") == "pair" and hc.get("retried"), (len(calls), hc))
+
+    # (2) مرشّحو لقطة الحدث: الصلة تكفي، والقنوات المعروفة، واحتياط فيديوهات الموضوع
+    check("قنوات إخبارية معروفة صارت في القائمة",
+          all(reel_hook_search.channel_allowed(n, cfg.path("reel.hook_search")) for n in ("NBC News", "Bloomberg News", "قناة الغد"))
+          and not reel_hook_search.channel_allowed("Edward Vlogs", cfg.path("reel.hook_search")))
+    import os
+    from datetime import date as _d
+    from src import meta_topics
+    pub = meta_topics.public_dir()
+    pub.mkdir(parents=True, exist_ok=True)
+    day = "2031-01-02"
+    (pub / f"{day}.json").write_text(json.dumps({"date": day, "topics": [{"id": "T1", "videos": [
+        {"video_id": "LONG", "channel": "ق", "minutes": 60}, {"video_id": "SHORT", "channel": "ق", "minutes": 3},
+        {"video_id": "MID", "channel": "ق", "minutes": 8}]}]}), encoding="utf-8")
+    deps = reel_hook_search.HookDeps(
+        make_queries=lambda *a: ["q"],
+        yt_search=lambda q, a, b, n, dur: [{"video_id": "V1", "channel": "NBC News", "title": "t", "published": ""},
+                                           {"video_id": "V2", "channel": "CNN", "title": "t2", "published": ""}],
+        yt_details=lambda ids: {i: {"duration": {"LONG": 3600, "SHORT": 180, "MID": 480}.get(i, 300), "views": 5,
+                                    "title": "عنوان", "published": "2031-01-02T00:00:00Z"} for i in ids},
+        judge_titles=lambda items, ev, c: {"V1": {"relevant": True, "footage": False}, "V2": {"relevant": True, "footage": True}})
+    old = os.environ.get("YOUTUBE_API_KEY")
+    os.environ["YOUTUBE_API_KEY"] = "x"
+    try:
+        dr = {"script": {"title": "س", "scenes": []}, "topic_date": day, "meta_topic_id": "T1"}
+        reel_hook_search.pick_hook_candidates(dr, cfg, deps)
+        check("الصلة تكفي، وما يُرجَّح عنوانه لقطاتٍ يتقدّم",
+              [c["video_id"] for c in dr["hook_candidates"]] == ["V2", "V1"], dr.get("hook_candidates"))
+        strict = _cfg_with(cfg, "reel.hook_search.require_footage_title", True)
+        nodeps = reel_hook_search.HookDeps(make_queries=deps.make_queries, yt_search=deps.yt_search, yt_details=deps.yt_details,
+                                           judge_titles=lambda items, ev, c: {})
+        dr2 = {"script": {"title": "س", "scenes": []}, "topic_date": day, "meta_topic_id": "T1"}
+        reel_hook_search.pick_hook_candidates(dr2, strict, nodeps)
+        check("بلا مرشّح من البحث: فيديوهات الموضوع ضمن المدة الأقصر أولًا",
+              [c["video_id"] for c in dr2["hook_candidates"]] == ["SHORT", "MID"]
+              and dr2["hook_search"].get("topic_fallback") == ["SHORT", "MID"] and dr2["hook_candidates"][0]["source"] == "topic",
+              dr2.get("hook_search"))
+        off = _cfg_with(strict, "reel.hook_search.topic_fallback", {"enabled": False})
+        dr3 = {"script": {"title": "س", "scenes": []}, "topic_date": day, "meta_topic_id": "T1"}
+        reel_hook_search.pick_hook_candidates(dr3, off, nodeps)
+        check("topic_fallback مطفأ ← بلا مرشّح كما كان", dr3["hook_candidates"] == [])
+    finally:
+        if old is None:
+            os.environ.pop("YOUTUBE_API_KEY", None)
+        else:
+            os.environ["YOUTUBE_API_KEY"] = old
+        (pub / f"{day}.json").unlink(missing_ok=True)
+
+    # (3) الضبط بنسبة بين relaxed_ratio والحد
+    q = "a b c d e f g h i j"
+    heard = [(k * 0.5, k * 0.5 + 0.4, w) for k, w in enumerate("x y a b c z z z z h i j x y".split())]
+    check("ضبط بنسبة دون الحد وفوق relaxed_ratio بالتفرّد",
+          reel_clips.align_quote(q, heard, cfg) is None and reel_clips.align_quote(q, heard, cfg, min_ratio=0.6) is not None)
+
+    # (4) Gemini: الحقول في المخطط، والمقروء بلا أصل يُترك
+    props = gemini_bites.SCHEMA["properties"]["bites"]["items"]["properties"]
+    check("setting/audio/delivery/source_channel في مخطط Gemini (كانت في التعليمات وحدها)",
+          all(k in props for k in ("setting", "audio", "delivery", "source_channel")))
+    check("المقروء يُبحث له عن أصل", meta_original.is_target({"speaker": "س", "delivery": "read", "setting": "studio"}, cfg))
+    stats: dict = {}
+    kept = meta_qa.drop_read([{"speaker": "س", "delivery": "read"}, {"speaker": "ص", "delivery": "read", "original_of": {"x": 1}},
+                              {"speaker": "ع", "delivery": "own"}], cfg, stats)
+    check("ما بقي مقروءًا بلا أصل يُترك ويُسجَّل اسمه، والأصل الموجود يبقى",
+          [b["speaker"] for b in kept] == ["ص", "ع"] and stats.get("read_dropped") == 1 and stats["read_dropped_speakers"] == ["س"])
+    check("drop_read: false ← يبقى",
+          len(meta_qa.drop_read([{"delivery": "read"}], _cfg_with(cfg, "youtube.meta_topics.qa.gemini.drop_read", False), {})) == 1)

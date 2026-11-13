@@ -183,7 +183,8 @@ def _fail(diag: dict | None, reason: str, best: float, toks: list, n_heard: int,
                 min_ratio=min_ratio)
 
 
-def align_quote(quote_original: str, words: list, cfg=None, diag: dict | None = None) -> dict | None:
+def align_quote(quote_original: str, words: list, cfg=None, diag: dict | None = None,
+                min_ratio: float | None = None) -> dict | None:
     """يطابق الاقتباس الأصلي بكلمات مفرَّغة بتوقيتها [(بداية، نهاية، كلمة)] (Issue #1681، Q13). دالة خالصة. الطرفان يُطبَّعان بـ
     _normalize_for_anchor وتُبحث أفضل نافذة بأطول تتابع مشترك كما في youtube_extract._fuzzy_locate؛ تُقبل بنسبة exact.min_ratio وبتفرّد
     (لا نافذة بعيدة أكثر من طول الاقتباس بالدرجة نفسها) وإلا None. الحدّ يمتد إلى الكلمة المفرَّغة المجاورة إن لم تطابق
@@ -191,7 +192,8 @@ def align_quote(quote_original: str, words: list, cfg=None, diag: dict | None = 
     from . import youtube_extract
     from .config import load_config
     cfg = cfg or load_config()
-    min_ratio = float(cfg.path("reel.render.exact.min_ratio", 0.7))
+    # min_ratio صريح: إعادة الضبط بحد أرخى (exact.relaxed_ratio) من reel_render._exact_align
+    min_ratio = float(cfg.path("reel.render.exact.min_ratio", 0.7) if min_ratio is None else min_ratio)
     q = youtube_extract._normalize_for_anchor(str(quote_original or "")).split()
     toks: list[tuple[str, int]] = []
     for k, w in enumerate(words or []):

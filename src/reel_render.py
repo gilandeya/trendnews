@@ -2457,6 +2457,13 @@ def _exact_align(file: Path, lang: str | None, point: dict, cfg, deps: Deps, dia
         return None, "تفريغ فارغ"
     d: dict = diag if diag is not None else {}
     res = reel_clips.align_quote(point.get("quote_original", ""), words, cfg, diag=d)
+    # ريل 13/11: مقطع فارسي بنسبة 0.677 (الحد 0.7) حُذف وموضعه صحيح؛ المفرِّغ يخطئ في الفارسية والتركية أكثر. نسبة بين relaxed_ratio
+    # والحد مع تفرّد النافذة (align_quote يشترطه بأي نسبة) تُقبل ضبطًا ويُعلَّم relaxed للمراجعة؛ ما دونها يبقى فشلًا كما كان
+    relaxed = cfg.path("reel.render.exact.relaxed_ratio")
+    if res is None and relaxed is not None and d.get("reason") == "low_ratio" and float(d.get("best_ratio") or 0) >= float(relaxed):
+        res = reel_clips.align_quote(point.get("quote_original", ""), words, cfg, min_ratio=float(relaxed))
+        if res is not None:
+            res["relaxed"] = round(float(d.get("best_ratio") or 0), 3)
     if res is None:
         t = cfg.path("reel.render.texts.exact_reasons") or {}
         reason = d.get("reason", "")
@@ -2535,7 +2542,8 @@ def _exact_apply(clip: dict, scene: dict, point: dict, dstart: int, wstart: int,
     clip["sync"] = "words"
     clip["approx"] = False
     clip["exact"] = {"t0": round(a0, 2), "t1": round(a1, 2), "ratio": res["ratio"], "source": "words",
-                     **({"saved": True} if kept is not None else {})}
+                     **({"saved": True} if kept is not None else {}), **({"relaxed": True} if res.get("relaxed") else {})}
+    # نسبة دون الحد قُبلت بالتفرّد (relaxed_ratio): يُحفظ للمراجعة في render_crops بلا سطر تعليق لكل مقطع
     if is_approx and approx:
         approx[-1]["aligned"] = True
     return "words", ""
