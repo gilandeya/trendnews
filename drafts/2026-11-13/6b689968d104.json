@@ -1,0 +1,555 @@
+{
+  "id": "6b689968d104",
+  "created_at": "2026-11-13T05:50:24.776181+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "تهديد إيران بضرب القواعد الأمريكية في أوروبا",
+  "event": "تهديد إيران بضرب القواعد الأمريكية في أوروبا",
+  "tier": 6,
+  "blocs": [
+    "arabic",
+    "chinese",
+    "english",
+    "israeli",
+    "persian",
+    "turkish"
+  ],
+  "channels": [
+    "BBC News",
+    "BBC Persian",
+    "CNN Türk",
+    "ILTV",
+    "Iran International",
+    "SÖZCÜ",
+    "الجزيرة",
+    "العربية",
+    "سكاي نيوز عربية",
+    "凤凰卫视"
+  ],
+  "agreement": "",
+  "score": 0,
+  "warnings": [
+    "🔧 برهام قبادي أجاب سؤالًا سابقًا فتُركت إجابته عن: ماذا تريد طهران من تهديد أوروبا؟",
+    "🔧 تُرك مقطع سياق بعد فحص قائلي المقاطع: محسن رضائي",
+    "⏱️ السياق 45 كلمة (الحد 37) فقُبل كما هو لأن المادة من اختيارك — راجعه"
+  ],
+  "run_date": "2026-11-13",
+  "topic_date": "2026-11-13",
+  "arabic": {
+    "post_title": "هل تصل صواريخ إيران إلى قواعد أمريكا في أوروبا؟",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "BBC News",
+      "BBC Persian",
+      "CNN Türk",
+      "ILTV",
+      "Iran International",
+      "SÖZCÜ",
+      "الجزيرة",
+      "العربية",
+      "سكاي نيوز عربية",
+      "凤凰卫视"
+    ]
+  },
+  "source_videos": [],
+  "meta_topic_id": "f3701fbafaae",
+  "meta_issue": 1868,
+  "hook_pick": 3,
+  "cost_qa": {
+    "claude": {
+      "claude-opus-5": 0.29857
+    },
+    "gemini": 0.7271
+  },
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "350f0aaf2cab",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "بي بي سي نيوز"
+      },
+      {
+        "point_id": "fb2e404d05ae",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "هذا الاحتمال وارد، لكنه يستوجب دفع تكاليف باهظة. ومن منظور عقلاني، ما الذي تريد الجمهورية الإسلامية الإيرانية تحقيقه من ذلك إذا اعتمدت على التهديد؟ فنحن نعلم أن حجم التهديد ووزنه في منطقتنا يختلفان كثيرًا عنه في أوروبا. فهل ستكون الجمهورية الإسلامية قادرة على اتخاذ الأوروبيين درعًا واقيًا، فيتراجعون، أم أنها ستُقدم فعلًا على ذلك؟",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "a4997e665473",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "2cdede3f6823",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "الأمر عقلاني للغاية من إيران؛ فهي توجه إلى أوروبا هذه الرسالة: أنتم حلفاء، لكن إذا قدمتم المساعدة للولايات المتحدة في هذه الحرب، وقدمتم المساعدة لإسرائيل، فسيكون لذلك تكلفة استراتيجية. وهي في الحقيقة ترسل هذه الإشارة منذ الآن.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن ترك"
+      },
+      {
+        "point_id": "cf32ecf294b3",
+        "speaker_said_it": "no",
+        "other_name": "مقدّم البرنامج",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "بي بي سي فارسي"
+      },
+      {
+        "point_id": "0b81043a16bf",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      }
+    ]
+  },
+  "quote_retranslated": [
+    "fb2e404d05ae",
+    "2cdede3f6823"
+  ],
+  "clip_dropped": [
+    {
+      "point_id": "cf32ecf294b3",
+      "channel": "بي بي سي فارسي",
+      "reason": "ملخّص النقطة ينسبها إلى شخص آخر: مقدّم البرنامج"
+    }
+  ],
+  "names_audit": [
+    {
+      "arabic": "برهام قبادي",
+      "latin": "Bahram Ghobadi"
+    },
+    {
+      "arabic": "رضا طالبي",
+      "latin": "Reza Talaei"
+    },
+    {
+      "arabic": "سالم اليامي",
+      "latin": ""
+    },
+    {
+      "arabic": "حياتي أونلو",
+      "latin": "Hayati Onlu"
+    },
+    {
+      "arabic": "علي الساري",
+      "latin": ""
+    },
+    {
+      "arabic": "مجتبى خامنئي",
+      "latin": "Mojtaba Khamenei"
+    }
+  ],
+  "script_attempts": [
+    {
+      "attempt": 1,
+      "reasons": [
+        "السياق أطول من 37 كلمة (59)"
+      ]
+    },
+    {
+      "attempt": 2,
+      "reasons": [
+        "السياق أطول من 37 كلمة (45)"
+      ]
+    }
+  ],
+  "headlines": [
+    "هل تصل صواريخ إيران إلى قواعد أمريكا في أوروبا؟",
+    "لماذا أسقطت طهران قيد الألفي كيلومتر على صواريخها؟",
+    "تهديد إيران لأوروبا: ورقة ضغط أم مواجهة مع الناتو؟"
+  ],
+  "headline_selected": 0,
+  "script": {
+    "version": 2,
+    "narrator": "female",
+    "title": "هل تصل صواريخ إيران إلى قواعد أمريكا في أوروبا؟",
+    "question": "هل هذه التهديدات ورقة ضغط على الأوروبيين لإبعادهم عن الحرب، أم إعلان مبكر عن ساحة قتال جديدة؟",
+    "event": "",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "هل تصل صواريخ إيران إلى قواعد أمريكا في أوروبا؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "ألغى الحرس الثوري الإيراني سقف مدى صواريخه البالغ ألفي كيلومتر، ليطال رده قواعد أمريكية بعيدة خارج المنطقة، ومنها قواعد في أوروبا."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "0b81043a16bf",
+        "q": "c0",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=Jk9lDPbrodA",
+        "start": 3517.0,
+        "end": 3542.0,
+        "speaker_name": "علي الساري",
+        "speaker_role": "نائب سابق في البرلمان الإيراني",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "علي الساري",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "إيران تعلن بصراحة أنها سترد على أي مكان تُشن منه حرب عليها، حتى لو كان من أوروبا، لوجود قواعد أمريكية وتقديم الدول الأوروبية دعماً لوجستياً، ولهذا السبب تؤكد طهران عدم التزامها بأي قيود جغرافية في الرد.",
+        "quote_original": "جلال، إيران بصراحة تقول: عندما يُشن عليّ حرباً من أي مكان ما، سأرد على نفس المكان، هذا إما كان المكان من أوروبا لأن يوجد هناك قواعد أمريكية ويوجد هناك إسناد لوجستي من قبل الدول الأوروبية، لهذا السبب إيران تشير إلى البعد الجغرافي ودون قيود جغرافية، هذا أولاً.",
+        "language": "ar",
+        "video_published": "2026-11-11T20:54:34Z",
+        "relay": "",
+        "relay_source": ""
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 0,
+        "text": "هل تملك إيران القدرة على ضرب قواعد أمريكية في أوروبا؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "350f0aaf2cab",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=S8sEl5AZXoU",
+        "start": 174.0,
+        "end": 202.0,
+        "speaker_name": "برهام قبادي",
+        "speaker_role": "صحفي في بي بي سي فارسي",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Parham Ghobadi",
+        "channel_display": "بي بي سي نيوز",
+        "channel_original": "BBC News",
+        "quote_arabic": "تأتي هذه التصريحات بعدما قال المرشد الإيراني مجتبى خامنئي قبل بضعة أيام إنه في حال مهاجمة إيران فينبغي ألا تقيد قواتها المسلحة جغرافيًا حتى توسع قائمة أهدافها ونطاق ردها. وعقب ذلك مباشرة، أعلن المتحدث باسم الحرس الثوري الإيراني إلغاء سقف المدى البالغ ألفي كيلومتر للصواريخ الإيرانية.",
+        "quote_original": "So these comments are coming after Iranian Supreme Leader Mojtaba Khamenei a few days ago said that if Iran is attacked, its armed forces should not be limited geographically so they can expand their target list geographically and the scope of their retaliation. Right after Iranian Supreme Leader said that, Iranian Revolutionary Guard spokesperson said that they have removed the cap of 2,000 km for Iranian missiles.",
+        "language": "en",
+        "video_published": "2026-11-11T21:00:03Z",
+        "relay": "",
+        "relay_source": ""
+      },
+      {
+        "kind": "clip",
+        "point_id": "fb2e404d05ae",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=8mNL_No1sSc",
+        "start": 1693.0,
+        "end": 1725.0,
+        "speaker_name": "رضا طالبي",
+        "speaker_role": "صحفي",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "رضا طالبی",
+        "channel_display": "إيران إنترناشيونال",
+        "channel_original": "Iran International",
+        "quote_arabic": "هذا الاحتمال وارد، لكنه يستوجب دفع تكاليف باهظة. ومن منظور عقلاني، ما الذي تريد الجمهورية الإسلامية الإيرانية تحقيقه من ذلك إذا اعتمدت على التهديد؟ فنحن نعلم أن حجم التهديد ووزنه في منطقتنا يختلفان كثيرًا عنه في أوروبا. فهل ستكون الجمهورية الإسلامية قادرة على اتخاذ الأوروبيين درعًا واقيًا، فيتراجعون، أم أنها ستُقدم فعلًا على ذلك؟",
+        "quote_original": "بله این امکان وجود داره ولی باید هزینه‌های بسیاری را پرداخت بکنه یعنی من می‌خوام که به صورت منطقی به این مسئله نگاه بکنم یعنی در این مسئله جمهوری اسلامی ایران می‌خواد چه چیزی رو به دست بیاره اگر با استفاده از تهدید که خب ما می‌دانیم که میزان تهدید اندازه تهدید و وزن تهدیدی که وجود داره در منطقه ما با اروپا بسیار فرق می‌کنه آیا جمهوری اسلامی قادر خواهد بود که از اروپایی‌ها به عنوان یک سپر بلا استفاده بکنه بلکه آن‌ها عقب‌نشینی بکنند و یا اینکه جداً به این مسئله مبادرت خواهد ورزید",
+        "language": "fa",
+        "video_published": "2026-11-11T19:28:19Z",
+        "relay": "",
+        "relay_source": ""
+      },
+      {
+        "kind": "clip",
+        "point_id": "a4997e665473",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=Jk9lDPbrodA",
+        "start": 3417.0,
+        "end": 3444.0,
+        "speaker_name": "سالم اليامي",
+        "speaker_role": "مستشار سابق في وزارة الخارجية السعودية",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "سالم اليامي",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "التهديد شيء والفعل شيء آخر، وعندما يزعمون أن صواريخهم ستصل إلى أوروبا، لا أظن أن لديهم القدرة أو الجرأة على إطلاقها؛ لأنهم باستهداف أي دولة أوروبية سيضعون أنفسهم في مواجهة مباشرة مع حلف شمال الأطلسي، وهو ما يعد في تقديري انتحاراً لإيران بأكملها وليس للنظام فقط.",
+        "quote_original": "الشيء الثاني: التهديد دائماً شيء والفعل شيء، يعني عندما يقولون ستصل صواريخنا إلى أوروبا، أنا ليس لدي تأكيد حقيقة أن لديهم القدرة النووية، ولا الشجاعة لإرسال هذا الصاروخ؛ لسبب بسيط جداً: هم سيضعون أنفسهم أمام الناتو في هذه الحالة، عندما يضربون أي بلد أوروبي سيضعون أنفسهم في مواجهة الناتو، وهذا أنا في تقديري انتحار، ليس للنظام، ربما لإيران بأكملها.",
+        "language": "ar",
+        "video_published": "2026-11-11T20:54:34Z",
+        "relay": "",
+        "relay_source": ""
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 1,
+        "text": "ماذا تريد طهران من تهديد أوروبا؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "2cdede3f6823",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=q5YKYXffNX4",
+        "start": 1188.0,
+        "end": 1204.0,
+        "speaker_name": "حياتي أونلو",
+        "speaker_role": "أكاديمي تركي",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Hayati Ünlü",
+        "channel_display": "سي إن إن ترك",
+        "channel_original": "CNN Türk",
+        "quote_arabic": "الأمر عقلاني للغاية من إيران؛ فهي توجه إلى أوروبا هذه الرسالة: أنتم حلفاء، لكن إذا قدمتم المساعدة للولايات المتحدة في هذه الحرب، وقدمتم المساعدة لإسرائيل، فسيكون لذلك تكلفة استراتيجية. وهي في الحقيقة ترسل هذه الإشارة منذ الآن.",
+        "quote_original": "İran açısından çok rasyonel aslında Avrupa'ya şu mesajı veriyor: Eğer siz tamam ittifaksınız ama bu savaşta ABD'ye yardım ederseniz, İsrail'e yardım ederseniz bunun stratejik bir maliyeti olacak. Bunu şimdiden aslında sinyalini yolluyor.",
+        "language": "tr",
+        "video_published": "2026-11-12T13:36:36Z",
+        "relay": "",
+        "relay_source": ""
+      },
+      {
+        "kind": "question",
+        "text": "هل هذه التهديدات ورقة ضغط على الأوروبيين لإبعادهم عن الحرب، أم إعلان مبكر عن ساحة قتال جديدة؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": []
+  },
+  "editor_revision": {
+    "at": "2026-11-13T05:50:51.429587+00:00",
+    "applied": true,
+    "error": null,
+    "before": [
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "فسحبت واشنطن قاذفاتها من بريطانيا ورفعت تأهب قواعدها",
+        "fix": "ألغى الحرس الثوري الإيراني سقف مدى صواريخه البالغ ألفي كيلومتر، ليطال رده قواعد أمريكية بعيدة خارج المنطقة، ومنها قواعد في أوروبا.",
+        "note": "واقعة لا تسندها وقائع الحدث المرفقة ولا أي من المقاطع: لا ذكر لسحب قاذفات أمريكية من بريطانيا ولا لرفع تأهب القواعد. يضاف إلى ذلك أن السياق 45 كلمة (فوق الحد) ويكرر ما يقوله مقطع برهام قبادي عن دعوة المرشد وإلغاء سقف المدى. البديل المقترح يلتزم بوقائع الحدث وبحدود السياق (جملة واحدة، 21 كلمة).",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "هل تملك إيران فعلاً القدرة على ضرب قواعد أمريكية في أوروبا؟",
+        "fix": "هل تملك إيران القدرة على ضرب قواعد أمريكية في أوروبا؟",
+        "note": "السؤال 11 كلمة ويتجاوز حد العشر كلمات؛ حذف «فعلاً» يضبط الطول ويزيل نبرة التشكيك.",
+        "sources": []
+      }
+    ],
+    "unresolved": []
+  },
+  "editor_review": {
+    "at": "2026-11-13T05:50:51.429587+00:00",
+    "applied": [
+      {
+        "category": "headline_contradicts",
+        "severity": "high",
+        "location": "headline_2",
+        "original": "لماذا تنقل واشنطن طائراتها من بريطانيا على عجل؟",
+        "fix": "لماذا أسقطت طهران قيد الألفي كيلومتر على صواريخها؟",
+        "note": "العنوان يتحدث عن موضوع غير موضوع الريل: لا مقطع ولا واقعة مرفقة تذكر نقل طائرات أمريكية من بريطانيا، ومصدره الوحيد جملة غير مسندة في السياق. كما أن «على عجل» إضافة تهويلية.",
+        "sources": []
+      },
+      {
+        "category": "headline_judgmental",
+        "severity": "low",
+        "location": "headline_3",
+        "original": "تهديد أوروبا: ورقة ردع إيرانية أم انتحار؟",
+        "fix": "تهديد إيران لأوروبا: ورقة ضغط أم مواجهة مع الناتو؟",
+        "note": "كلمة «انتحار» حكم قيمي يخص رأي ضيف واحد (المستشار السابق في وزارة الخارجية السعودية سالم اليامي) ولا تسنده بقية المادة، وتظهر في العنوان بلا نسبة.",
+        "sources": []
+      }
+    ],
+    "notes": [
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "ليطال رده قواعد أمريكية بعيدة خارج المنطقة، ومنها قواعد في أوروبا",
+        "fix": "ألغى الحرس الثوري الإيراني سقف مدى صواريخه البالغ ألفي كيلومتر، لتوسيع دائرة أهداف رده خارج المنطقة، وتهديد قواعد أمريكية بعيدة.",
+        "note": "جملة السياق تتجاوز الواقعة إلى نتيجة غير مؤكدة: الإعلان رفع القيد السياسي فقط، والمصادر تقول إنه لا يُعرف عن إيران امتلاك صواريخ تتجاوز ألفي كيلومتر، فبلوغ قواعد أوروبا احتمال لا واقعة. الأفضل الاكتفاء بما حدث فعلاً.",
+        "sources": [
+          "https://www.mtv.com.lb/news/1756448",
+          "https://www.eremnews.com/news/world/smwrg70"
+        ]
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "هل تملك إيران القدرة على ضرب قواعد أمريكية في أوروبا؟",
+        "fix": "",
+        "note": "أول إجابة تحت هذا السؤال (مقطع برهام قبادي) لا تتناول القدرة، بل تعيد سرد خبر إلغاء سقف الألفي كيلومتر الوارد في جملة السياق، فيقع تكرار بين السياق والإجابة الأولى. يُستحسن تقديم إجابة تتصل بالقدرة أو إعادة ترتيب المقاطع في المرحلة السابقة.",
+        "sources": []
+      }
+    ],
+    "error": null,
+    "searches": 4,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "hook_clash": {
+    "error": "لا زوج ولا جملة صالحة",
+    "rejected": [
+      "مدة الجملة 6.5 ث خارج [1.5، 6]",
+      "الجملة ليست حرفيًا في كلام المقطع",
+      "الجملة ليست حرفيًا في كلام المقطع",
+      "الجملة ليست حرفيًا في كلام المقطع"
+    ],
+    "shape": {
+      "pairs": 4,
+      "relations": [
+        "opposite",
+        "partial_agree",
+        "partial_opposite"
+      ],
+      "single": false,
+      "pairs_type": "list"
+    }
+  },
+  "reel_bg": {
+    "url": "https://media.youlyou.com/2026/11/Landscape/306914732116872026111211070878.jpg",
+    "kind": "news_photo",
+    "publisher": "https://www.youlyou.com/",
+    "shows": "علم الولايات المتحدة وعلم إيران يرفرفان على سارِيتين معدنيتين، مع مبانٍ شاهقة غير واضحة في الخلفية",
+    "text_checked": true,
+    "judged": true
+  },
+  "hook_candidates": [],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-11-11T00:00:00Z",
+          "2026-11-15T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "صواريخ باليستية تنطلق من منصة إطلاق",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "Iranian missile launch footage IRGC drill",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "قاعدة عسكرية أمريكية في أوروبا حراسة جنود",
+            "raw": 0,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 0,
+        "judged_ok": 0,
+        "rejected_channels": []
+      },
+      {
+        "broad": true,
+        "window": [
+          "2026-11-09T00:00:00Z",
+          "2026-11-16T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "صواريخ إيران أوروبا",
+            "raw": 30,
+            "channel_ok": 6
+          },
+          {
+            "query": "Iran missiles US bases Europe",
+            "raw": 30,
+            "channel_ok": 3
+          },
+          {
+            "query": "İran füzeleri Avrupa üsleri",
+            "raw": 14,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 9,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "Dr. Josh McConkey",
+          "من صلب الواقع",
+          "elteddy27 Official",
+          "Max Afterburner",
+          "Alghad TV - قناة الغد",
+          "Cross World News",
+          "العربي - أخبار",
+          "صدى الميادين"
+        ]
+      }
+    ],
+    "picked": []
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "ألغى الحرس الثوري الإيراني سقف مدى صواريخه البالغ ألفي كيلومتر، ليطال رده قواعد أمريكية بعيدة خارج المنطقة، ومنها قواعد في أوروبا.",
+      "visual": ""
+    },
+    {
+      "scene": 3,
+      "sentence": 0,
+      "text": "هل تملك إيران القدرة على ضرب قواعد أمريكية في أوروبا؟",
+      "visual": ""
+    },
+    {
+      "scene": 7,
+      "sentence": 0,
+      "text": "ماذا تريد طهران من تهديد أوروبا؟",
+      "visual": ""
+    }
+  ],
+  "cost_script": {
+    "claude": {
+      "claude-haiku-5-5": 0.00306,
+      "claude-sonnet-5": 0.03503,
+      "claude-opus-5": 2.59041
+    },
+    "web_search": 4
+  },
+  "review_issue": 1869,
+  "stage2_issue": 1869
+}
