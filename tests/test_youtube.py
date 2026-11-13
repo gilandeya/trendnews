@@ -5650,7 +5650,7 @@ def test_meta_reel_points() -> None:
 
 def test_reel_1850_fixes() -> None:
     """ريل 1850: (أ) اسم قرأه Gemini من الشريط يوثّق المتحدث وقت السيناريو (بلاه سقط هوك المواجهة)؛ (ب) نافذة تقديرية لا يطابق
-    مسموعها الاقتباس تُحذف (عُرضت المذيعة تحت اسم الضيف وترجمته)؛ (ج) المتحدث المسمّى يجيب سؤالًا واحدًا؛ (د) الميادين موقوفة."""
+    مسموعها الاقتباس تُحذف (عُرضت المذيعة تحت اسم الضيف وترجمته)؛ (ج) المتحدث المسمّى يجيب سؤالًا واحدًا؛ (د) مدخل الميادين واحد (أُعيدت في 1868)."""
     import copy
     from src import meta_qa, meta_script, reel_render, reel_script
     from src.config import load_config as real_load
@@ -5715,9 +5715,9 @@ def test_reel_1850_fixes() -> None:
           q_sel[1]["bite_ids"] == ["s2:2"] and len(notes) == 1 and "زيد" in notes[0], (q_sel, notes))
     check("1850: بلا cfg السلوك القديم", meta_script.selected_material(marks, priv)[0][1]["bite_ids"] == ["s0:9", "s2:2"])
 
-    # (د) الميادين موقوفة ومدخلها باقٍ
+    # (د) الميادين أُوقفت ثم أُعيدت (قضية 1868) ومدخلها واحد
     ch = [c for c in cfg["channels"] if c.get("name") == "الميادين"]
-    check("1850: الميادين موقوفة", len(ch) == 1 and ch[0].get("active") is False)
+    check("1850: مدخل الميادين واحد ومفعَّل منذ 1868", len(ch) == 1 and ch[0].get("active") is True)
 
 
 def test_reel_1856_fixes() -> None:
