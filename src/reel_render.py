@@ -1683,6 +1683,9 @@ def relay_view(scene: dict) -> dict:
     """المشهد كما يُعرض اسم قناته (قضية 1856): كلام قيل خارج برامج القناة (relay = external: مؤتمر صحفي، خطاب، جلسة) لا تُذكر
     قناته، ومقطع تعيد القناة بثه من قناة أخرى (other_channel) يُذكر مصدره الأصلي إن عُرف وإلا لا قناة. الحقول الداخلية لا تُمسّ:
     الكتلة والهوية والملاحظات تبقى على القناة التي نزّلنا منها."""
+    if scene.get("hide_channel"):
+        # مقطع سياق ليس حصريًا للقناة (13/11): مسؤول يتكلم للصحافة عامةً لا تُذكر قناة من صوّره
+        return {**scene, "channel_display": "", "channel_original": ""}
     relay = scene.get("relay") or ""
     if relay not in ("external", "other_channel"):
         return scene

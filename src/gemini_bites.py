@@ -116,8 +116,10 @@ def to_bites(data: dict, video_id: str, topic: str, cfg, duration: float | None 
         if audio in (g.get("reject_audio") or []):
             bad.append({"index": i, "reason": "ترجمة صوتية بلغة غير العربية فوق المتحدث"})
             continue
-        setting = str(b.get("setting") or "studio")
-        if setting not in ("studio", "external", "other_channel"):
+        setting = str(b.get("setting") or "")
+        # «حصري للقناة» يُبنى على حكم النموذج وحده (13/11): مقطع بلا إطار معروف لا يُنسب إلى القناة في السياق
+        setting_known = setting in ("studio", "external", "other_channel")
+        if not setting_known:
             setting = "studio"
         name = " ".join(str(b.get("speaker") or "").split())
         rec = people.get(name, {})
@@ -134,6 +136,7 @@ def to_bites(data: dict, video_id: str, topic: str, cfg, duration: float | None 
                    "summary_ar": " ".join(str(b.get("summary_ar") or "").split()), "text_ar": text_ar,
                    "answers": " ".join(str(b.get("answers") or "").split()), "text_original": original,
                    "source": "gemini", "audio_track": audio, "setting": setting,
+                   "setting_source": "model" if setting_known else "",
                    "source_channel": " ".join(str(b.get("source_channel") or "").split()),
                    # طرف في الحدث يتكلم عنه (مسؤول، نائب، متحدث رسمي) أم محلل يعلّق عليه: الأول مادة السياق لا إجابة سؤال (12/11)
                    "voice": "actor" if str(b.get("voice") or "") == "actor" else "analyst",

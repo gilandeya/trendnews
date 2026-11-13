@@ -85,8 +85,9 @@ def event_text(script: dict, draft: dict) -> str:
 def subject_text(script: dict, draft: dict) -> str:
     """موضوع الريل (Issue #1662، Q7): السؤال الرئيس script.title ثم سياقه (مشهد narration بـrole == "context") إن وُجد. الحدث
     وحده كان يُفهم عسكريًا فيُرفض ما يُظهر الطرف الذي يسأل الريل عن أثره عليه (ناخبون لريل عن أثر التصعيد على الانتخابات)."""
-    ctx = next((str(sc.get("text") or "") for sc in (script or {}).get("scenes") or []
-                if isinstance(sc, dict) and sc.get("kind") == "narration" and sc.get("role") == "context"), "")
+    # السياق قد يتوزع على عدة مشاهد بين مقاطعه (13/11)
+    ctx = " ".join(str(sc.get("text") or "") for sc in (script or {}).get("scenes") or []
+                   if isinstance(sc, dict) and sc.get("kind") == "narration" and sc.get("role") == "context")
     return " — ".join(p for p in (str((script or {}).get("title") or ""), ctx) if p)
 
 

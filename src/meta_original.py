@@ -169,6 +169,7 @@ def decide(data: dict, bite: dict, cand: dict, cfg) -> tuple[dict | None, str]:
     new.update(video_id=cand["video_id"], bite_id=f"{cand['video_id']}:g{int(t0)}", start=round(t0, 1), end=round(t1, 1),
                seconds=round(t1 - t0, 1), text_original=heard, first_words="", last_words="",
                channel=ch.get("name") or cand.get("channel", ""), setting="studio", source_channel="", delivery="own",
+               setting_source="original",
                original_of={"video_id": bite.get("video_id"), "bite_id": bite.get("bite_id"), "channel": bite.get("channel", ""),
                             "ratio": round(ratio, 2)})
     # كتلة القناة الأصلية وتوجّهها إن عُرفت؛ وإلا تبقى كتلة الناقلة (الريل يحتاج كتلة لكل مقطع، وهي أقرب تخمين لا أكثر)
