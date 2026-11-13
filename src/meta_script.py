@@ -39,6 +39,10 @@ CONTEXT_TOOL = {
                           "clip": {"type": "integer", "description": "رقم مقطع السياق الذي يلي هذا الكلام، أو 0"}},
                           "required": ["text", "clip"]}},
             "closing_question": {"type": "string", "description": "سؤال الختام للمشاهد، بلا «برأيك» وبلا واو عطف في أوله"},
+            # 13/11 (صاحب المشروع): الأسئلة كُتبت قبل السياق فتأتي نكرةً عمّا عرّفه السياق («بجاسوسة صينية مزعومة» بعد أن قدّمها)
+            "questions": {"type": "array", "items": {"type": "string"},
+                          "description": "الأسئلة المختارة نفسها بترتيبها وعددها، مصوغةً لتتصل بالسياق: ما قدّمه السياق يُذكر معرفةً "
+                                         "أو باسمه، والمعنى لا يتغير"},
         },
         "required": ["context", "closing_question"],
     },
@@ -230,7 +234,8 @@ def write_frame(title: str, topic: dict, questions: list[dict], by_bite: dict, f
     limit = int(cfg.path("reel.script.v2.context_max_words", 25)) + int(
         cfg.path("youtube.meta_topics.script.words_per_context_clip", 0) or 0) * len(context_ids or [])
     from . import llm
-    system = llm.with_notes(str(s.get("system", "")).replace("{context_max_words}", str(limit)), cfg)
+    system = llm.with_notes(str(s.get("system", "")).replace("{context_max_words}", str(limit)).replace(
+        "{question_max_words}", str(int(cfg.path("reel.script.v2.question_max_words", 10)))), cfg)
     messages: list[dict] = [{"role": "user", "content": frame_message(title, topic, questions, by_bite, facts, context_ids)}]
     reasons: list[str] = []
     for attempt in (1, 2):
@@ -275,6 +280,27 @@ def write_frame(title: str, topic: dict, questions: list[dict], by_bite: dict, f
     return None, "؛ ".join(reasons)
 
 
+def reword_questions(data: dict, originals: list[str], cfg) -> tuple[list[str], list[str]]:
+    """(نصوص الأسئلة، سطور التنبيه). صياغة الكاتب تُقبل لكل سؤال وحده إن كانت غير فارغة وتنتهي بعلامة استفهام وفي حد
+    `question_max_words`، وعدد ما أعاده يساوي عدد المختار؛ وإلا يبقى نص المحرر. كل تغيير يُعرض للمراجع بنصّيه (13/11)."""
+    from . import reel_script
+    if not _scfg(cfg).get("reword_questions", True):
+        return list(originals), []
+    got = [" ".join(str(x or "").split()) for x in reel_script._listish(data.get("questions")) or []]
+    if len(got) != len(originals):
+        return list(originals), []
+    qmax = int(cfg.path("reel.script.v2.question_max_words", 10))
+    tpl = _texts(cfg).get("question_reworded", "✏️ صيغ السؤال {n} ليتصل بالسياق: كان «{old}» صار «{new}»")
+    out, notes = [], []
+    for n, (old, new) in enumerate(zip(originals, got), 1):
+        if new and new != old and reel_script._ends_q(new) and reel_script._words(new) <= qmax:
+            out.append(new)
+            notes.append(tpl.format(n=n, old=old, new=new))
+        else:
+            out.append(old)
+    return out, notes
+
+
 def _ctx_words(data: dict) -> int:
     from . import reel_script
     if beats_text(data):
@@ -293,12 +319,13 @@ def make_builder(title: str, titles: list[str], topic: dict, questions: list[dic
     def build(valid: list[dict], narrator: str, info: dict) -> tuple[dict | None, str]:
         valid_ids = {c["point_id"] for c in valid}
         info.setdefault("warnings", []).extend(n for n in notes or [] if n not in info["warnings"])
-        qs = []
-        for q in questions:
+        qs, kept = [], []
+        for qi, q in enumerate(questions):
             ans = [{"point_id": pid_of[bid], "stance": "", "angle": ""} for bid in q["bite_ids"]
                    if pid_of.get(bid) in valid_ids]
             if ans:
                 qs.append({"role": "", "text": q["text"], "answers": ans})
+                kept.append(qi)
             else:
                 info.setdefault("warnings", []).append(
                     _texts(cfg).get("question_dropped", "🔧 تُرك سؤال لم تبق له إجابة بعد فحص المقاطع: {q}").format(q=q["text"]))
@@ -313,6 +340,11 @@ def make_builder(title: str, titles: list[str], topic: dict, questions: list[dic
         data, reason = write_frame(title, topic, questions, by_bite, facts, cfg, client, info, context_ids=ctx_ids)
         if data is None:
             return None, reason
+        # الكاتب يرى كل الأسئلة المختارة (questions بفهارسها)، فتُطابَق صياغته بها قبل إسقاط ما لم تبق له إجابة
+        texts, reworded = reword_questions(data, [q["text"] for q in questions], cfg)
+        for q, qi in zip(qs, kept):
+            q["text"] = texts[qi]
+        info.setdefault("warnings", []).extend(reworded)
         # التوزيع بأرقام المقاطع كما عُرضت على الكاتب (ctx_ids بترتيبها) ← معرّفات النقاط
         beats = []
         if ctx_ids and data.get("beats"):
