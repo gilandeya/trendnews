@@ -409,7 +409,8 @@
     "publisher": "IDNFinancials",
     "shows": "رجل وامرأة يتناولان النبيذ على شرفة مطلة على نهر ومبانٍ، وصور أخرى لرجل وامرأة في مناسبات وممر خارجي",
     "text_checked": true,
-    "judged": true
+    "judged": true,
+    "layout": "A"
   },
   "hook_candidates": [],
   "hook_search": {
@@ -525,6 +526,371 @@
   },
   "review_issue": 1872,
   "stage2_issue": 1872,
-  "render_status": "queued",
-  "approved_script_at": "2026-11-13T07:57:32.910851+00:00"
+  "render_status": "rendered",
+  "approved_script_at": "2026-11-13T07:57:32.910851+00:00",
+  "reel_file": "reels/2026-11-13/c8e636f835d0.mp4",
+  "reel_gif": "reels/2026-11-13/c8e636f835d0.gif",
+  "duration_seconds": 157.4,
+  "render_version": 77,
+  "render_attempts": 0,
+  "reel_music": "sigmamusicart-breaking-news-551355.mp3",
+  "render_sources": "آر تي في آي، سي إن إن",
+  "render_crops": {
+    "2": {
+      "x": 502,
+      "source": "speaker",
+      "speaker_score": 0.54,
+      "tracks": 1,
+      "gate": {
+        "start": 1.0,
+        "end": 8.7,
+        "source": "transcript"
+      },
+      "exact": {
+        "source": "line",
+        "error": "النسبة 0.0 أقل من 0.7",
+        "reason": "low_ratio",
+        "best_ratio": 0.0,
+        "heard_words": 3,
+        "heard_head": [
+          "расскажет",
+          "мария",
+          "зарукина"
+        ]
+      },
+      "panel_q": "c0",
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 460,
+        "y": 0,
+        "w": 488,
+        "h": 568,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.79,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.81,
+          0.81,
+          0.81
+        ]
+      },
+      "quote_sync": "transcript",
+      "quote_mode": "line"
+    },
+    "3": {
+      "x": 282,
+      "source": "speaker",
+      "speaker_score": 0.91,
+      "tracks": 1,
+      "gate": {
+        "start": 0.88,
+        "end": 19.04,
+        "source": "silence"
+      },
+      "exact": {
+        "t0": 49.2,
+        "t1": 67.14,
+        "ratio": 0.977,
+        "source": "words"
+      },
+      "panel_q": "c1",
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 262,
+        "y": 0,
+        "w": 310,
+        "h": 360,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.75,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.78,
+          0.78,
+          0.77
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "line"
+    },
+    "4": {
+      "x": 731,
+      "source": "speaker_vision",
+      "speaker_score": 1.19,
+      "tracks": 2,
+      "vision": {
+        "pick": 1,
+        "agree": 3,
+        "archive": []
+      },
+      "gate": {
+        "start": 0.59,
+        "end": 37.11,
+        "source": "silence"
+      },
+      "exact": {
+        "t0": 253.64,
+        "t1": 289.56,
+        "ratio": 0.988,
+        "source": "words"
+      },
+      "panel_q": "c2",
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 702,
+        "y": 0,
+        "w": 464,
+        "h": 540,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.75,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.78,
+          0.78,
+          0.77
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "line"
+    },
+    "9": {
+      "x": 851,
+      "source": "speaker_vision",
+      "speaker_score": 0.92,
+      "tracks": 2,
+      "vision": {
+        "pick": 1,
+        "agree": 3,
+        "archive": []
+      },
+      "gate": {
+        "start": 0.58,
+        "end": 35.56,
+        "source": "silence"
+      },
+      "exact": {
+        "t0": 499.92,
+        "t1": 534.36,
+        "ratio": 0.977,
+        "source": "words"
+      },
+      "panel_q": 1,
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 816,
+        "y": 0,
+        "w": 464,
+        "h": 540,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.75,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.78,
+          0.78,
+          0.77
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "line"
+    },
+    "closing": {
+      "source": "freeze"
+    }
+  },
+  "render_speakers": {
+    "2": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "3": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "4": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "6": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "7": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "9": {
+      "accepted": false,
+      "source": "gemini"
+    }
+  },
+  "render_gemini_speakers": [
+    {
+      "point_id": "a7f21f3b64a0",
+      "video_id": "TsJFRE9N7zE",
+      "start": 107.0,
+      "end": 114.7,
+      "name": "ماو نينغ",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "9bf829f08c0e",
+      "video_id": "ICV59saeue0",
+      "start": 49.2,
+      "end": 67.1,
+      "name": "حكيم جيفريز",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "91eea49b95a3",
+      "video_id": "ICV59saeue0",
+      "start": 253.6,
+      "end": 289.6,
+      "name": "جون كينيدي",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "0931a034aa98",
+      "video_id": "ICV59saeue0",
+      "start": 499.9,
+      "end": 534.4,
+      "name": "أندرو مكابي",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "404bbb822f20",
+      "video_id": "odnsKkpjmvY",
+      "start": 291.4,
+      "end": 302.5,
+      "name": "جيفري سوننفيلد",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "99a34407e7e5",
+      "video_id": "kzgk7CLBB9I",
+      "start": 518.8,
+      "end": 542.2,
+      "name": "آنا كوبان",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    }
+  ],
+  "render_gemini_cost": 0.0565,
+  "render_exact_selfcheck": {
+    "ok": true,
+    "reason": ""
+  },
+  "render_dropped": [
+    {
+      "point_id": "404bbb822f20",
+      "kind": "clip",
+      "reason": "المتكلم في لحظة اقتباس جيفري سونينفيلد هو جيفري سوننفيلد بحسب Gemini — حُذف المقطع"
+    },
+    {
+      "point_id": "99a34407e7e5",
+      "kind": "clip",
+      "reason": "✂️ حُذف السؤال «هل كان رحيل جنسن هوانغ عن رئاسة إنفيديا أمرًا حتميًا؟» لأن إجابته الأخرى حُذفت"
+    }
+  ],
+  "render_approx": [
+    {
+      "point_id": "91eea49b95a3",
+      "kind": "clip",
+      "start": 253,
+      "end": 290,
+      "reason": "الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة",
+      "aligned": true
+    },
+    {
+      "point_id": "404bbb822f20",
+      "kind": "clip",
+      "start": 290,
+      "end": 303,
+      "reason": "تعذّر جلب نص الفيديو: لا نص متاح: Could not retrieve a transcript for the video https://www.youtube.com/watch?v=odnsKkpjmvY! This is most likely caused by: Subtitles are disabled for this video If you are sure that the des",
+      "aligned": true
+    }
+  ],
+  "rendered_at": "2026-11-13T08:17:19.292915+00:00",
+  "cost_renders": [
+    {
+      "claude": {
+        "claude-sonnet-5": 0.03078,
+        "claude-haiku-5-5": 0.0023
+      },
+      "gemini": 0.0565,
+      "proxy_bytes": 39640900,
+      "at": "2026-11-13T08:17:19.292967+00:00"
+    }
+  ],
+  "render_notes": [
+    "### 🎬 تركيب الريل",
+    "- ⏱️ المدة: 157.4 ث",
+    "- 🎞️ [الملف](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-11-13/c8e636f835d0.mp4) · [المعاينة](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-11-13/c8e636f835d0.gif)",
+    "- ✂️ حُذف 2: clip (المتكلم في لحظة اقتباس جيفري سونينفيلد هو جيفري سوننفيلد بحسب Gemini — حُذف المقطع)؛ clip (✂️ حُذف السؤال «هل كان رحيل جنسن هوانغ عن رئاسة إنفيديا أمرًا حتميًا؟» لأن إجابته الأخرى حُذفت)",
+    "- ⚠️ لم يُضبط مقطع آر تي في آي كلمة بكلمة: النسبة 0.0 أقل من 0.7 — قد يُسمع ما قبله أو بعده",
+    "- 🎞️ لم أجد لقطة صالحة من الحدث — الهوك بصورة الخبر",
+    "- ✅ Gemini يؤكد المتكلم: ماو نينغ (آر تي في آي)",
+    "- ✅ Gemini يؤكد المتكلم: حكيم جيفريز (سي إن إن)",
+    "- ✅ Gemini يؤكد المتكلم: جون كينيدي (سي إن إن)",
+    "- ✅ Gemini يؤكد المتكلم: آنا كوبان (سي إن إن)",
+    "- ✅ Gemini يؤكد المتكلم: أندرو مكابي (سي إن إن)",
+    "- ✂️ حُذف السؤال «هل كان رحيل جنسن هوانغ عن رئاسة إنفيديا أمرًا حتميًا؟» لأن إجابته الأخرى حُذفت",
+    "- ✂️ أُخفي شريط القناة في آر تي في آي: قُصّ أسفل 21%",
+    "- ✂️ أُخفي شريط القناة في سي إن إن: قُصّ أسفل 25%",
+    "- 🎯 مقطع سي إن إن: 2 وجوه — المتكلم بالرؤية",
+    "- 🎯 مقطع سي إن إن: 2 وجوه — المتكلم بالرؤية",
+    "- 🧊 ختام الريل: لا لقطات تسبق الهوك — جُمّد أول إطار منه مع اقتراب بطيء",
+    "- 🎙️ الصوت: ElevenLabs (باقي الرصيد نحو ? حرف)",
+    "- 💵 كلفة الريل: 2.49$ — المقاطع والأسئلة 1.03$ · السيناريو 1.37$ · التركيب 0.09$ (Opus 1.68$ · Sonnet 0.06$ · Haiku 0.01$ · Gemini 0.72$ · بحث ويب 2 · بروكسي 40 MB) · البروكسي خارج المجموع"
+  ],
+  "reel_review_issue": 1874
 }
