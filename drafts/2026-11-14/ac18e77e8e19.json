@@ -1,0 +1,595 @@
+{
+  "id": "ac18e77e8e19",
+  "created_at": "2026-11-14T06:34:43.041461+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "تصريح ترامب بعدم الحاجة لاتفاق مع إيران",
+  "event": "تصريح ترامب بعدم الحاجة لاتفاق مع إيران",
+  "tier": 5,
+  "blocs": [
+    "arabic",
+    "english",
+    "israeli",
+    "persian",
+    "turkish"
+  ],
+  "channels": [
+    "BBC News",
+    "BBC Persian",
+    "CNN Türk",
+    "Habertürk",
+    "ILTV",
+    "Iran International",
+    "SÖZCÜ",
+    "الجزيرة",
+    "العربية",
+    "الميادين",
+    "سكاي نيوز عربية"
+  ],
+  "agreement": "",
+  "score": 0,
+  "warnings": [
+    "🔧 تُرك سؤال لم تبق له إجابة بعد فحص المقاطع: هل تتجه واشنطن إلى ضربة عسكرية جديدة ضد إيران؟"
+  ],
+  "run_date": "2026-11-14",
+  "topic_date": "2026-11-14",
+  "arabic": {
+    "post_title": "هل أغلق باب التفاوض مع إيران نهائياً أم أنها مناورة؟",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "BBC News",
+      "BBC Persian",
+      "CNN Türk",
+      "Habertürk",
+      "ILTV",
+      "Iran International",
+      "SÖZCÜ",
+      "الجزيرة",
+      "العربية",
+      "الميادين",
+      "سكاي نيوز عربية"
+    ]
+  },
+  "source_videos": [],
+  "meta_topic_id": "974e0bccf0f2",
+  "meta_issue": 1880,
+  "hook_pick": 3,
+  "cost_qa": {
+    "claude": {
+      "claude-opus-5": 0.33172
+    },
+    "gemini": 1.111
+  },
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "3e67dc664a2b",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن ترك"
+      },
+      {
+        "point_id": "25286e5851fd",
+        "speaker_said_it": "no",
+        "other_name": "دونالد ترامب",
+        "faithful": false,
+        "quote_arabic_fixed": "هذا ما أعتبره أسلوبي وطريقتي في العمل، فيبدو أنه لا يوجد اتفاق، وفجأة يُبرم اتفاق.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الميادين"
+      },
+      {
+        "point_id": "2049fb228898",
+        "speaker_said_it": "no",
+        "other_name": "دونالد ترامب",
+        "faithful": false,
+        "quote_arabic_fixed": "ثمة احتمال لتصعيد جديد، لكن قراءتي للأمر هي أنه طالما أن الحصار والعقوبات يؤتيان ثمارهما، فلا داعي لأن تتعجل واشنطن وتقبل شروط إيران، ويريد التأكيد على ذلك. إنها في الواقع رسالة مفادها أن الانتظار في صالحنا، وهي رسالة مهمة، غير أن المشهد الميداني لا يشير إلى مسار تتحكم فيه واشنطن وحدها.",
+        "complete": "no",
+        "incomplete_reason": "المقطع يبدأ بعبارة ثمة احتمال لتصعيد جديد، ويتضمن سياقًا سابقًا غير مكتمل لا يمكن فهمه وحده",
+        "channel": "سي إن إن ترك"
+      },
+      {
+        "point_id": "eb87de205f52",
+        "speaker_said_it": "no",
+        "other_name": "دونالد ترامب",
+        "faithful": false,
+        "quote_arabic_fixed": "يداه مقيدتان للغاية، ويتطلب الأمر شيئًا بالغ الأهمية للتصعيد والعودة إلى حملة قصف، ما يتركنا أمام خيارين فقط. وأفترض أنه بالنظر إلى ثلاثة خيارات سيئة، قرر ترامب أن التفاوض هو الأقل سوءًا بينها.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "ILTV"
+      },
+      {
+        "point_id": "35d0394492a6",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "ILTV"
+      }
+    ]
+  },
+  "clip_dropped": [
+    {
+      "point_id": "25286e5851fd",
+      "channel": "الميادين",
+      "reason": "ملخّص النقطة ينسبها إلى شخص آخر: دونالد ترامب"
+    },
+    {
+      "point_id": "2049fb228898",
+      "channel": "سي إن إن ترك",
+      "reason": "ملخّص النقطة ينسبها إلى شخص آخر: دونالد ترامب"
+    },
+    {
+      "point_id": "eb87de205f52",
+      "channel": "ILTV",
+      "reason": "ملخّص النقطة ينسبها إلى شخص آخر: دونالد ترامب"
+    }
+  ],
+  "names_audit": [
+    {
+      "arabic": "ترامب",
+      "latin": "Trump"
+    },
+    {
+      "arabic": "دونالد ترامب",
+      "latin": "Donald Trump"
+    }
+  ],
+  "script_attempts": [
+    {
+      "attempt": 1,
+      "reasons": [
+        "السياق أطول من 37 كلمة (41)"
+      ]
+    }
+  ],
+  "headlines": [
+    "هل أغلق ترامب باب التفاوض مع إيران أم أنها مناورة؟",
+    "ترامب: لا حاجة إلى اتفاق مع إيران.. ماذا بعد؟",
+    "إعلان ترامب عدم الحاجة إلى اتفاق مع إيران.. مناورة أم موقف ثابت؟"
+  ],
+  "headline_selected": 0,
+  "script": {
+    "version": 2,
+    "narrator": "female",
+    "title": "هل أغلق ترامب باب التفاوض مع إيران أم أنها مناورة؟",
+    "question": "هل يعود التفاوض المباشر بين واشنطن وطهران؟",
+    "event": "",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "هل أغلق ترامب باب التفاوض مع إيران أم أنها مناورة؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "قال الرئيس الأمريكي دونالد ترامب في 12 نوفمبر إنه لا حاجة إلى اتفاق مع إيران، بعد قوله في 9 نوفمبر إن الحرب انتهت عسكريًا."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "35d0394492a6",
+        "q": "c0",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=fvAsQCrxcF4",
+        "start": 75.0,
+        "end": 94.0,
+        "speaker_name": "ترامب",
+        "speaker_role": "الرئيس الأمريكي",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "Trump",
+        "channel_display": "ILTV",
+        "channel_original": "ILTV",
+        "quote_arabic": "في ظل هذه الإدارة، وقد حان الوقت، تصدى أحد ما. جميعنا رددنا وقاتلنا. وقاتلنا بجدية، وانتصرنا. إنها فقط مسألة متى نريد إنهاء ذلك، ونريد أن نضمن تحقيق نصر كامل، وليس نصرًا بنسبة 93 في المئة، سيكون نصرًا كاملًا.",
+        "quote_original": "Under this administration, and it was about time, somebody fought back. All of us fought back, we fought back. And we seriously fought back, and we won. Just a question of when we want to end it. We want to make sure we have a total victory, not a 93% victory, it's going to be total.",
+        "language": "en",
+        "video_published": "2026-11-12T18:00:30Z",
+        "relay": "external",
+        "relay_source": "",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "وقال ترامب في 12 نوفمبر إن إدارته انتصرت في المواجهة مع إيران وإنها تسعى إلى نصر كامل لا منقوص."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 0,
+        "text": "هل أغلق ترامب باب التفاوض مع إيران فعلاً أم أنها مناورة؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "3e67dc664a2b",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=FjCzhgiAnOk",
+        "start": 959.0,
+        "end": 996.0,
+        "speaker_name": "ترامب",
+        "speaker_role": "الرئيس الأمريكي",
+        "speaker_verified": true,
+        "speaker_verified_from": "title",
+        "speaker_name_latin": "Trump",
+        "channel_display": "سي إن إن ترك",
+        "channel_original": "CNN Türk",
+        "quote_arabic": "كلما قال إنه لن يشن هجومًا ولا حاجة للحرب وما إلى ذلك نفذ هجومًا جديدًا بعد بضعة أيام. وحين صرح الأسبوع الماضي بأنه لا داعي للهجوم وسنتفاوض مجددًا اعتقدنا جميعًا أنه دخل في هذه الدائرة المعتادة، ووصوله اليوم مجددًا إلى نقطة عدم الحاجة للمفاوضات يثبت أنه يتحرك ضمن نمطه المتكرر.",
+        "quote_original": "Ne zaman artık saldırmayacağım, savaşa gerek yok vesaire dese, birkaç gün sonra yeni bir saldırı gerçekleştirdi. Geçen hafta yaptığı saldırıya gerek yok, yine müzakere ederiz söyleminde de açıkçası hepimiz artık yine bu döngüye girdiğini düşünüyorduk. Ve bugün geldiğimiz yerde de yeniden müzakereye gerek yok noktasına gelmesi aslında biraz da kendi döngüsü içerisinde yer aldığını gösteriyor.",
+        "language": "tr",
+        "video_published": "2026-11-12T14:18:26Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "question",
+        "text": "هل يعود التفاوض المباشر بين واشنطن وطهران؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": []
+  },
+  "editor_revision": {
+    "at": "2026-11-14T06:35:08.883145+00:00",
+    "applied": true,
+    "error": null,
+    "before": [
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "ترامب · الرئيس الأمريكي · سي إن إن ترك",
+        "fix": "تولغا ساكمان · رئيس مركز العلاقات الدبلوماسية والأبحاث السياسية التركي (DİPAM) · ضيف على قناة سي إن إن ترك",
+        "note": "الشريط ينسب كلام المقطع إلى ترامب، بينما النقطة المصدرية والاقتباس نفسه («كلما قال إنه لن يشن هجومًا… يثبت أنه يتحرك ضمن نمطه المتكرر») كلام عن ترامب بصيغة الغائب، وقائله تولغا ساكمان، محلل تركي ورئيس مركز DİPAM. نسبة خاطئة لمتحدث موثَّق تستوجب العودة للمرحلة 2.",
+        "sources": [
+          "https://www.aa.com.tr/tr/analiz/avrupa-guvenliginde-safe-donemi-turkiyenin-katilmasi-neden-onemli/3731486",
+          "https://www.aa.com.tr/tr/analiz/g7-disisleri-bakanlari-toplantisi-degisen-jeopolitik-duzene-adaptasyon/4123850"
+        ],
+        "video": ""
+      },
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "والمفاوضات المباشرة بين طهران وواشنطن لم تكن قائمة أصلاً، بل عبر وسطاء.",
+        "fix": "وأكد ترامب أن إدارته انتصرت في المواجهة مع إيران وأنها تسعى إلى نصر كامل لا منقوص.",
+        "note": "مشهد سياق (role=context) لا يروي حدثًا (من فعل ماذا ومتى)، بل يقدّم خلفية/تقديرًا من الكاتب بلا نسبة. يجب استبداله بجملة سياق من وقائع الحدث المرفقة.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "ما الذي قد يدفع طهران إلى طاولة التفاوض المباشر؟",
+        "fix": "هل يعود التفاوض المباشر بين واشنطن وطهران؟",
+        "note": "سؤال الختام غير محايد: يفترض أن الامتناع عن التفاوض المباشر مسؤولية طهران وحدها، بينما المادة تقوم على إعلان أمريكي بعدم الحاجة إلى اتفاق.",
+        "sources": []
+      }
+    ],
+    "unresolved": [
+      {
+        "n": 1,
+        "reason": "الشريط السفلي للمقطع [3]/[6] من سطور المقاطع (🎥) وهي للقراءة فقط وليست من الحقول القابلة للتصحيح؛ تصحيح نسبة القول إلى تولغا ساكمان (ضيف على قناة سي إن إن ترك) يتطلب إعادة الريل إلى المرحلة 2."
+      }
+    ]
+  },
+  "editor_review": {
+    "at": "2026-11-14T06:35:08.883145+00:00",
+    "applied": [
+      {
+        "category": "stale_time",
+        "severity": "high",
+        "location": "body",
+        "original": "قال الرئيس الأمريكي دونالد ترامب إنه لا حاجة إلى اتفاق مع إيران، بعد تصريحه الأسبوع الماضي بأن التفاوض سيُستأنف.",
+        "fix": "قال الرئيس الأمريكي دونالد ترامب في 12 نوفمبر/تشرين الثاني إنه لا حاجة إلى اتفاق مع إيران، بعد قوله في 9 نوفمبر/تشرين الثاني إن الحرب انتهت عسكريًا.",
+        "note": "زمن نسبي يخالف التاريخ: تصريح «لا حاجة إلى اتفاق» صدر في 12 نوفمبر، وتصريحه السابق بأن الحرب انتهت عسكريًا فعليًا كان يوم الاثنين 9 نوفمبر، أي الأسبوع نفسه لا «الأسبوع الماضي». كما أن مضمون التصريح السابق هو انتهاء الحرب عسكريًا وتراجع احتمال الضربات، لا إعلان استئناف التفاوض.",
+        "sources": [
+          "https://oilprice.com/Latest-Energy-News/World-News/Brent-Briefly-Hits-94-After-Trump-Says-US-Has-No-Need-for-Iran-Deal.html",
+          "https://www.npr.org/2026/11/13/g-s1-153578/whats-trumps-strategy-now-with-iran-to-keep-things-as-they-are"
+        ]
+      },
+      {
+        "category": "headline_contradicts",
+        "severity": "high",
+        "location": "headline_2",
+        "original": "حرب جديدة أم صفقة مفاجئة مع طهران؟",
+        "fix": "ترامب: لا حاجة إلى اتفاق مع إيران.. ماذا بعد؟",
+        "note": "العنوان يطرح موضوعًا غير موضوع المادة: لا المقاطع ولا المتن يتحدثان عن حرب جديدة أو صفقة مفاجئة، وقد حُذف سؤال الضربة العسكرية لعدم وجود إجابة. المادة عن إعلان ترامب عدم الحاجة إلى اتفاق.",
+        "sources": []
+      },
+      {
+        "category": "headline_overclaims",
+        "severity": "high",
+        "location": "headline_3",
+        "original": "من أنهى المفاوضات: شروط طهران أم حسابات البيت الأبيض؟",
+        "fix": "إعلان ترامب عدم الحاجة إلى اتفاق مع إيران.. مناورة أم موقف ثابت؟",
+        "note": "يفترض أن مفاوضات كانت قائمة وأنها انتهت، ويناقض المتن الذي يقول إن التفاوض المباشر لم يكن قائمًا؛ كما أن «شروط طهران» لا ترد في أي من المقطعين ولا في النقاط المصدرية.",
+        "sources": []
+      },
+      {
+        "category": "h1_overclaims",
+        "severity": "low",
+        "location": "h1",
+        "original": "هل أغلق باب التفاوض مع إيران نهائياً أم أنها مناورة؟",
+        "fix": "هل أغلق ترامب باب التفاوض مع إيران أم أنها مناورة؟",
+        "note": "«نهائياً» تجزم بأكثر مما تسنده المادة؛ التصريح يتحدث عن انتفاء الحاجة إلى اتفاق في الوقت الراهن لا عن إغلاق نهائي. كما يغيب ذكر صاحب القرار في العنوان.",
+        "sources": [
+          "https://capitalisminstitute.org/trump-says-america-doesnt-need-an-iran-deal-as-the-regime-collapses/"
+        ]
+      },
+      {
+        "category": "headline_overclaims",
+        "severity": "high",
+        "location": "headline_1",
+        "original": "هل أغلق باب التفاوض مع إيران نهائياً أم أنها مناورة؟",
+        "fix": "هل أغلق ترامب باب التفاوض مع إيران أم أنها مناورة؟",
+        "note": "العنوان بلا فاعل (من الذي أغلق؟)، ولفظة «نهائياً» تجزم بما لا تسنده المصادر: ترامب قال في 12 نوفمبر/تشرين الثاني إنه «لا حاجة» إلى اتفاق وسحب نائبه من ملف المفاوضات، وهو ما لا يعني إغلاقًا نهائيًا، خصوصًا مع استمرار وساطة قطر وتصريحات أخرى عن احتمال استمرار المسار.",
+        "sources": [
+          "https://www.npr.org/2026/11/13/g-s1-153578/whats-trumps-strategy-now-with-iran-to-keep-things-as-they-are",
+          "https://www.cnn.com/2026/11/12/politics/trump-vance-iran-deal"
+        ]
+      },
+      {
+        "category": "stale_time",
+        "severity": "low",
+        "location": "body",
+        "original": "وأكد ترامب أن إدارته انتصرت في المواجهة مع إيران وأنها تسعى إلى نصر كامل لا منقوص.",
+        "fix": "وقال ترامب في 12 نوفمبر/تشرين الثاني إن إدارته انتصرت في المواجهة مع إيران وإنها تسعى إلى نصر كامل لا منقوص.",
+        "note": "مشهد السياق يجب أن يحدد متى قيل الكلام؛ الجملة بلا تاريخ رغم أن المقطع نُشر في 12 نوفمبر/تشرين الثاني. كما أن «أكد … انتصرت» يمنح الادعاء قوة تقريرية؛ «قال» أدق لأن الحرب موصوفة في المصادر بأنها مستمرة.",
+        "sources": [
+          "https://www.npr.org/2026/11/13/g-s1-153578/whats-trumps-strategy-now-with-iran-to-keep-things-as-they-are"
+        ]
+      }
+    ],
+    "notes": [
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "مقطع 3e67dc664a2b — ترامب · الرئيس الأمريكي · سي إن إن ترك",
+        "fix": "تولغا ساكمان · رئيس مركز DİPAM التركي · سي إن إن ترك",
+        "note": "الشريط ينسب الكلام إلى الرئيس الأمريكي دونالد ترامب، بينما نقطة المصدر تقول إن القائل هو المحلل التركي تولغا ساكمان، ونص الاقتباس نفسه يتحدث عن ترامب بضمير الغائب («كلما قال إنه لن يشن هجومًا… يثبت أنه يتحرك ضمن نمطه المتكرر»)، فهو تعليق عليه لا كلام له. ساكمان موثق كرئيس مركز العلاقات الدبلوماسية والأبحاث السياسية (DİPAM) ومحلل يظهر في الإعلام التركي. خطأ نسبة جسيم يوجب إعادة الريل.",
+        "sources": [
+          "https://www.aa.com.tr/tr/analiz/g7-disisleri-bakanlari-toplantisi-degisen-jeopolitik-duzene-adaptasyon/4123850",
+          "https://www.aa.com.tr/tr/analiz/avrupa-guvenliginde-safe-donemi-turkiyenin-katilmasi-neden-onemli/3731486"
+        ],
+        "video": ""
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "بعد قوله في 9 نوفمبر إن الحرب انتهت عسكريًا",
+        "fix": "قال الرئيس الأمريكي دونالد ترامب في 12 نوفمبر إنه لا حاجة إلى اتفاق مع إيران.",
+        "note": "تاريخ 9 نوفمبر غير مؤكد في المصادر المتاحة؛ ما ورد هو قول ترامب في مقابلة إن إيران «عسكريًا انتهت فعليًا» مع إبقاء الوضع القائم، دون تأكيد اليوم. كما أن صياغة «الحرب انتهت عسكريًا» تقرير مطلق يناقض وصف المصادر للحرب بأنها مستمرة في شهرها التاسع. الأسلم حذف الشق غير الموثق من مشهد السياق.",
+        "sources": [
+          "https://www.yahoo.com/news/politics/articles/trump-says-deal-iran-not-223633935.html",
+          "https://www.cnbc.com/2026/11/12/trump-iran-deal-hormuz-strait.html"
+        ]
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "h1",
+        "original": "هل أغلق ترامب باب التفاوض مع إيران أم أنها مناورة؟",
+        "fix": "هل أغلق الرئيس الأمريكي ترامب باب التفاوض مع إيران؟",
+        "note": "العنوان على الشاشة يرد قبل أي ذكر آخر، ويجب أن تُذكر دولة المسؤول عند أول ذكر: «الرئيس الأمريكي ترامب».",
+        "sources": []
+      }
+    ],
+    "error": null,
+    "searches": 4,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "hook_clash": {
+    "mode": "single",
+    "relation": "single",
+    "a": {
+      "point_id": "3e67dc664a2b",
+      "first_words": "yine müzakere ederiz",
+      "last_words": "bu döngüye girdiğini",
+      "text_ar": "وسنتفاوض مجددًا اعتقدنا جميعًا أنه دخل في هذه الدائرة المعتادة",
+      "sub_original": "yine müzakere ederiz söyleminde de açıkçası hepimiz artık yine bu döngüye girdiğini",
+      "arabic": false,
+      "word_from": 22,
+      "word_to": 33,
+      "words_total": 55,
+      "est_seconds": 4.62,
+      "original_words": 12,
+      "channel": "سي إن إن ترك",
+      "bloc": "turkish",
+      "speaker": "ترامب"
+    },
+    "hook_text": "ترامب بين إغلاق التفاوض وتكرار المناورة",
+    "rejected": [
+      "ترجمة الجملة ليست قطعة من الترجمة المعتمدة"
+    ],
+    "retried": [
+      "مدة الجملة 7.3 ث خارج [1.5، 6]",
+      "مدة الجملة 14.2 ث خارج [1.5، 6]",
+      "مدة الجملة 7.3 ث خارج [1.5، 6]"
+    ]
+  },
+  "reel_bg": {
+    "url": "https://www.annahar.com/Assets/ContentPhotos/Photos/AFP__20261111__2304634297__v1__MidRes__PresidentTrumpVisitsArlingtonNationalCemetery_151308_large.webp",
+    "kind": "web_search",
+    "publisher": "annahar.com",
+    "shows": "الرئيس الأمريكي دونالد ترامب يتحدث من منصة عليها شعار الرئاسة، أمام علم أمريكي كبير",
+    "text_checked": true,
+    "judged": true
+  },
+  "hook_candidates": [
+    {
+      "video_id": "o_cfiXomO-Y",
+      "title": "الاستخبارات الإسرائيلية تحاول تسريع ساعة الصفر لضرب إيران.. وهذا موقف ترامب | #التاسعة",
+      "channel": "سكاي نيوز عربية",
+      "views": 26034,
+      "duration": 950,
+      "published": "2026-11-13T19:45:24Z",
+      "views_per_hour": 2390.2
+    },
+    {
+      "video_id": "gUNLwykcZkY",
+      "title": "Trump says Iran war could end soon as Tehran insists on conditions",
+      "channel": "Al Jazeera English",
+      "views": 208017,
+      "duration": 392,
+      "published": "2026-11-10T07:49:18Z",
+      "views_per_hour": 2193.6
+    },
+    {
+      "video_id": "dy_fwbZEoto",
+      "title": "Trump says US could cripple Iran in just 3 days, but allies want him to hold off",
+      "channel": "13WHAM ABC News",
+      "views": 7794,
+      "duration": 122,
+      "published": "2026-11-13T21:55:37Z",
+      "views_per_hour": 893.6
+    },
+    {
+      "video_id": "WRPSEn8JCL8",
+      "title": "Trump Vance Fight | Iran War Sparks Trump-Vance Rift, VP's Role Changes After Midterm Rout | N18G",
+      "channel": "CNN-News18",
+      "views": 3402,
+      "duration": 292,
+      "published": "2026-11-13T21:00:09Z",
+      "views_per_hour": 352.7
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-11-12T00:00:00Z",
+          "2026-11-16T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "ترامب يتحدث للصحفيين في البيت الأبيض",
+            "raw": 13,
+            "channel_ok": 1
+          },
+          {
+            "query": "شوارع طهران المواطنون يتابعون التصريحات",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "Trump speaks to reporters White House briefing room",
+            "raw": 30,
+            "channel_ok": 7
+          }
+        ],
+        "duration_ok": 8,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "The Hill",
+          "TheDC Shorts",
+          "electron media group, inc.",
+          "News 4 Reno",
+          "Black Star Network",
+          "DOWN 2 EARTH  NetWork",
+          "The Clay Travis & Buck Sexton Show",
+          "CELEBRITY STARS"
+        ]
+      },
+      {
+        "broad": true,
+        "window": [
+          "2026-11-10T00:00:00Z",
+          "2026-11-17T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "ترامب إيران تفاوض",
+            "raw": 30,
+            "channel_ok": 10
+          },
+          {
+            "query": "Trump Iran negotiations",
+            "raw": 30,
+            "channel_ok": 3
+          },
+          {
+            "query": "Trump Iran Verhandlungen",
+            "raw": 30,
+            "channel_ok": 4
+          }
+        ],
+        "duration_ok": 16,
+        "judged_ok": 15,
+        "rejected_channels": [
+          "Ali Hamade   علي حماده",
+          "PBS NewsHour",
+          "GNS ملخص الأخبار العالمية",
+          "الجنرال-99",
+          "AlQahera News -  القاهرة الإخبارية",
+          "بلدنا اليوم | Baladna Today",
+          "America First Drive",
+          "Cross World News"
+        ]
+      }
+    ],
+    "picked": [
+      "o_cfiXomO-Y",
+      "gUNLwykcZkY",
+      "dy_fwbZEoto",
+      "WRPSEn8JCL8"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "قال الرئيس الأمريكي دونالد ترامب في 12 نوفمبر إنه لا حاجة إلى اتفاق مع إيران، بعد قوله في 9 نوفمبر إن الحرب انتهت عسكريًا.",
+      "visual": ""
+    },
+    {
+      "scene": 3,
+      "sentence": 0,
+      "text": "وقال ترامب في 12 نوفمبر إن إدارته انتصرت في المواجهة مع إيران وإنها تسعى إلى نصر كامل لا منقوص.",
+      "visual": ""
+    },
+    {
+      "scene": 4,
+      "sentence": 0,
+      "text": "هل أغلق ترامب باب التفاوض مع إيران فعلاً أم أنها مناورة؟",
+      "visual": ""
+    }
+  ],
+  "cost_script": {
+    "claude": {
+      "claude-haiku-5-5": 0.00299,
+      "claude-sonnet-5": 0.04475,
+      "claude-opus-5": 2.46307
+    },
+    "web_search": 4
+  },
+  "review_issue": 1881,
+  "stage2_issue": 1881
+}
