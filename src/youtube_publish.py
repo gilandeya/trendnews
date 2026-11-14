@@ -906,7 +906,7 @@ def _reel_item_lines(idx: int, d: dict, cfg) -> list[str]:
                 # ما صُرف حتى الآن على هذا الريل (costs)، قبل قرار التركيب الذي يضيف إليه
                 *([f"  {cost}"] if (cost := _reel_cost_line(d, cfg)) else []),
                 "", f"  {texts.get('timeline_header', '')}", "",
-                *reel_script.timeline_lines(script, cfg), "",
+                *reel_script.timeline_lines(script, cfg, d.get("hook_clash")), "",
                 *_reel_clip_note_lines(d, script, texts),
                 *_reel_clash_lines(d, cfg),
                 *_reel_hook_lines(d, texts),
