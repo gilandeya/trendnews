@@ -6627,3 +6627,22 @@ def test_reel_question_wording_1313d() -> None:
     check("بطاقة السؤال الباقي بصياغته المتصلة بالسياق وسطرها في التنبيهات",
           cards == ["ما خطورة علاقة رئيس إنفيديا بهذه المرأة؟"]
           and any(w.startswith("✏️ صيغ السؤال 2") for w in info.get("warnings", [])), (cards, reason, info.get("warnings")))
+
+
+def test_reel_timeline_clash_1881() -> None:
+    """قضية 1881: هوك المواجهة يحلّ محل بطاقة السؤال الرئيس في التركيب، فأول سطر في جدول المرحلة 2 يعرضه هو."""
+    from src import reel_script
+    cfg = load_config()
+    script = {"version": 2, "title": "سؤال رئيس؟", "question": "ختام؟", "scenes": [
+        {"kind": "title_card", "text": "سؤال رئيس؟"},
+        {"kind": "narration", "role": "context", "text": "سياق قصير."},
+        {"kind": "question", "text": "ختام؟"}, {"kind": "outro"}]}
+    hc = {"mode": "single", "relation": "single", "hook_text": "عنوان الهوك هنا",
+          "a": {"channel": "قناة أ", "text_ar": "جملة الورقة"}}
+    tl = reel_script.timeline_lines(script, cfg, hc)
+    check("أول سطر في الجدول هو هوك المواجهة بورقته وعنوانه",
+          "🃏" in tl[0] and "جملة الورقة" in tl[0] and "عنوان الهوك هنا" in tl[0] and "السؤال الرئيس" not in tl[0], tl[0])
+    plain = reel_script.timeline_lines(script, cfg)
+    failed = reel_script.timeline_lines(script, cfg, {"error": "لا زوج"})
+    check("بلا هوك مواجهة (أو بخطئه) يبقى سطر السؤال الرئيس كما كان",
+          "السؤال الرئيس" in plain[0] and failed == plain, (plain[0], failed[0]))

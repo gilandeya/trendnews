@@ -1466,8 +1466,23 @@ def video_link(scene: dict) -> str:
     return f"{url}{'&' if '?' in url else '?'}t={int(scene.get('start', 0))}" if url else ""
 
 
-def timeline_lines(script: dict, cfg: Any) -> list[str]:
+def _clash_hook_line(hook_clash: dict | None, t: dict) -> str:
+    """سطر الهوك في الجدول حين يحلّ هوك المواجهة محل بطاقة السؤال الرئيس (قضية 1881): التركيب يرسم الأوراق
+    ويقرأ hook_text لا السؤال الرئيس، فعرض «السؤال الرئيس» في أول الجدول أوهم أن الريل بلا هوك قبل السياق."""
+    hc = hook_clash if isinstance(hook_clash, dict) else {}
+    if not hc or hc.get("error"):
+        return ""
+    cards = [f"{x.get('channel', '')}: «{x.get('text_ar', '')}»" for k in ("a", "b")
+             if isinstance(x := hc.get(k), dict) and x.get("text_ar")]
+    if not cards:
+        return ""
+    return t.get("scene_clash_hook", "🃏 الهوك: {cards} ← {text}").format(
+        cards=" ثم ".join(cards), text=hc.get("hook_text") or "")
+
+
+def timeline_lines(script: dict, cfg: Any, hook_clash: dict | None = None) -> list[str]:
     t = cfg.path("reel.texts", {}) or {}
+    clash_line = _clash_hook_line(hook_clash, t)
     v2 = is_v2(script)
     out, now = [], 0.0
     durs = scene_durations(script, cfg)
@@ -1501,6 +1516,8 @@ def timeline_lines(script: dict, cfg: Any) -> list[str]:
                 key = "scene_qcard"
             line = t.get(key, "").format(text=scene.get("text", ""),
                                          role_label=(t.get("qroles") or {}).get(scene.get("qrole"), scene.get("qrole") or ""))
+            if kind == "title_card" and clash_line:
+                line = clash_line
         out.append(f"  - [{_mmss(now)}–{_mmss(now + dur)}] {line}")
         out += [f"    {x}" for x in extra_lines]
         if extra:

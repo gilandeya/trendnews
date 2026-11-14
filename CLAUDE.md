@@ -3330,3 +3330,10 @@ track` والفيديو وثانيته، وسطر «🔁 ختام الريل…�
 كل سؤال وحده إن كان غير فارغ وينتهي بـ«؟» وفي حد `reel.script.v2.question_max_words` وعدد ما أُعيد يساوي المختار، وإلا يبقى نص المحرر. المطابقة بفهرس السؤال
 في المختار قبل إسقاط ما لم تبق له إجابة (`make_builder`)، وكل تغيير سطر «✏️ صيغ السؤال n…» بنصّيه في تنبيهات قضية السيناريو. `script.reword_questions: false` ←
 نص المحرر كما هو. الاختبار `tests/test_youtube.py:test_reel_question_wording_1313d`.
+
+## هوك المواجهة في جدول المرحلة 2 (قضية 1881)
+
+هوك المواجهة يحلّ في التركيب محل بطاقة السؤال الرئيس (`reel_clash.render_scene` على مشهد `title_card`، ويقرأ `hook_text` لا السؤال الرئيس)،
+لكن جدول المرحلة 2 كان يعرض «🎬 السؤال الرئيس» أول سطر فبدا الريل بلا هوك قبل السياق. `reel_script.timeline_lines(script, cfg, hook_clash=None)`:
+حين يُمرَّر `hook_clash` بلا `error` وبورقة على الأقل، يصير سطر `title_card` «🃏 الهوك: القناة: «الجملة» ← العنوان: …» (`reel.texts.scene_clash_hook`)؛
+`youtube_publish` يمرّره من المسودة. عرض فقط، لا أثر على التركيب. الاختبار `tests/test_youtube.py:test_reel_timeline_clash_1881`.
