@@ -14297,6 +14297,27 @@ def test_w4_reel_autorender_guards() -> None:
             g419()
         except Exception as exc:  # noqa: BLE001
             check("g419: استثناء", False, repr(exc))
+
+        # ── g1890: ريل رُفض ضمنًا في قضيته ثم عُلِّم وأُعيد الوسم ← يعود ويُطلَق تركيبه (لا queued بلا تركيب) ──
+        def g1890():
+            a = ready_reel("a1890000000a")
+            body = body_of(a)
+            store.update_draft(store.load_draft(a)[0], status="rejected", implicit_reject_issue=9390)
+            msgs = run_main(tick_marker(body, f"go:go3:{a}"), 9390)
+            got = store.load_draft(a)[1]
+            check("g1890: المرفوض ضمنًا في القضية نفسها ← approved_script وqueued",
+                  got["status"] == "approved_script" and got.get("render_status") == "queued", got)
+            check("g1890: وأُطلق التركيب مرة", [f for f, _ in dispatched] == ["reel-render.yml"], dispatched)
+            check("g1890: سطر «بدأ التركيب»", any(started_txt in m for m in msgs), msgs)
+            b = ready_reel("a1890000000b")
+            store.update_draft(store.load_draft(b)[0], status="rejected", implicit_reject_issue=9391)
+            run_main(tick_marker(body_of(b), f"go:go3:{b}"), 9392)
+            check("g1890: رفض قضية أخرى لا يُحيا ولا تركيب",
+                  store.load_draft(b)[1]["status"] == "rejected" and not dispatched, dispatched)
+        try:
+            g1890()
+        except Exception as exc:  # noqa: BLE001
+            check("g1890: استثناء", False, repr(exc))
     finally:
         reel_render._render, publish_mod.publish_reel_draft, review.ensure_labels, review.create_issue, \
             facebook.publish_reel = sv

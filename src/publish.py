@@ -2145,7 +2145,10 @@ def main() -> int:
 
     reel_blocked: list[str] = []
     if reel_ids and not args.urgent_only:
-        pending_before = {i for i in reel_ids if (store.load_draft(i) or (None, {}))[1].get("status") == "pending"}
+        # المرفوض ضمنًا في هذه القضية يعيده approve_reel_scripts إلى pending، فيُعدّ هنا كالمعلّق وإلا لم يُطلَق تركيبه (قضية 1890)
+        pending_before = {i for i in reel_ids
+                          if (d := (store.load_draft(i) or (None, {}))[1]).get("status") == "pending"
+                          or _implicitly_rejected_here(d, args.issue)}
         reel_blocked = approve_reel_scripts(args.issue, reel_ids, body, cfg, actions=actions)
         started = [i for i in pending_before if i not in reel_blocked
                    and (store.load_draft(i) or (None, {}))[1].get("render_status") == "queued"]
