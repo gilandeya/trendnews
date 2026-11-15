@@ -1620,6 +1620,15 @@ step (`article.wide_days`).
   ناقص `unresolved`) وتحته `<details>` بالملاحظات المصلَحة، أو «⚠️ تعذّر تصحيح المحرر: {السبب}» عند الفشل، ثم «⛔ بقي بعد تصحيح المحرر: …» إن بقي حاجب.
 - **الكلفة:** نداء Opus إضافي ومراجعة ثانية، فقط حين تبقى ملاحظة high. `editor.revise.paths.<مسار>: false` ← لا جولة لذلك المسار.
 
+### خفض كلفة الريل (تقييم 15/11، وثيقة المشروع `claude/reel-path-review-2026-11-15.md`) — `editor.path_cfg`
+
+قياس 7 ريلات: ~3.7$ للريل، منها ~2.3$ Opus في مرحلة السيناريو (المحرر: مراجعة ببحث ويب ← تصحيح ← مراجعة ثانية) و0.77$ Gemini و0.42$ Opus للأسئلة.
+`editor.path_overrides.<مسار>` يُدمج فوق كتلة `editor` العامة (`path_cfg`، يقرؤه `converse` و`revise_round`): للريل `model: claude-sonnet-5` و
+`max_searches: 0` (لا أداة بحث ولا عدّاد) و`second_review: false` — بعد جولة التصحيح لا مراجعة ثانية: ما لم يذكره المحرر في `unresolved` يزول من
+`notes` (فحوص المسار في الكود مرّت قبله) وما ذكره يبقى ملاحظةً تحكم فيها البوابة. بقية المسارات بلا تغيير. و`youtube.meta_topics.qa.model` صار Sonnet
+و`qa.max_videos` 7 (كان 10)؛ السياق والختام (`script.model`) باقيان على Opus. `tests.helpers.load_config` يحذف `path_overrides`؛ الاختبار
+`tests/test_youtube.py:test_reel_cost_cut`.
+
 ## ذاكرة الصحافة (Issue #1255) — `src/press_events.py`
 
 بيانات فقط (لا نموذج ولا قضايا، ولا أثر على المرشحين أو قضية الترشيح أو الترتيب): تحفظ **من غطّى الحدث وبأي عنوان ولغة**، لأن

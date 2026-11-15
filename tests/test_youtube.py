@@ -6249,6 +6249,69 @@ def test_meta_frame_truncation_1885() -> None:
         meta_script._create = saved
 
 
+def test_reel_cost_cut() -> None:
+    """تقييم 15/11: محرر الريل كان معظم كلفة الريل (~2.3$ من ~3.7$) بإعداد صُمّم للمقال. `editor.path_overrides.reel` يجعله Sonnet
+    بلا بحث ويب وبلا مراجعة ثانية بعد جولة التصحيح؛ بقية المسارات على الإعداد العام. وأسئلة الموضوع على Sonnet وسبعة فيديوهات."""
+    from types import SimpleNamespace as NS
+
+    from src import editor
+    from src.config import load_config as real_load
+
+    cfg = real_load()
+    ov = cfg.path("editor.path_overrides.reel")
+    check("إعداد محرر الريل: Sonnet بلا بحث ولا مراجعة ثانية", ov == {"model": "claude-sonnet-5", "max_searches": 0,
+                                                                     "second_review": False}, ov)
+    check("بقية المسارات على الإعداد العام", editor.path_cfg(cfg, "news")["model"] == cfg.path("editor.model")
+          and editor.path_cfg(cfg, "news").get("second_review", True) is True
+          and editor.path_cfg(cfg, "reel")["model"] == "claude-sonnet-5")
+    check("أسئلة الموضوع على Sonnet وسبعة فيديوهات", cfg.path("youtube.meta_topics.qa.model") == "claude-sonnet-5"
+          and cfg.path("youtube.meta_topics.qa.max_videos") == 7 and cfg.path("youtube.meta_topics.script.model") == "claude-opus-5")
+
+    class Ad(editor.Adapter):
+        def __init__(self, name):
+            self.name = name
+
+        def read(self, d):
+            return d["t"], d["b"], list(d["h"])
+
+        def write(self, d, t, b, h):
+            d["t"], d["b"], d["h"] = t, b, list(h)
+
+    calls: list[dict] = []
+    high = [{"category": "other", "severity": "high", "location": "body", "note": "خطأ", "original": "", "fix": ""},
+            {"category": "other", "severity": "low", "location": "body", "note": "هيّن", "original": "", "fix": ""}]
+
+    def make(unresolved):
+        def fake(client, **kw):
+            calls.append(kw)
+            name = kw["tools"][-1]["name"]
+            inp = ({"title": "ع", "body": "متن مصحَّح", "headlines": ["ع1"], "unresolved": unresolved}
+                   if name == "report_revision" else {"notes": [dict(n) for n in high]})
+            return NS(content=[NS(type="tool_use", name=name, id="t", input=inp)], stop_reason="tool_use",
+                      usage=NS(input_tokens=1, output_tokens=1))
+        return fake
+
+    d = {"t": "ع", "b": "متن", "h": ["ع1"]}
+    rev = editor.run(d, Ad("reel"), None, cfg, None, create=make([]))
+    names = [[t.get("name") for t in k["tools"]] for k in calls]
+    check("الريل: مراجعة واحدة ثم تصحيح، بلا مراجعة ثانية وبلا أداة بحث وكلها Sonnet",
+          names == [["report_review"], ["report_revision"]] and all(k["model"] == "claude-sonnet-5" for k in calls), names)
+    check("ما صحّحه المحرر يزول من الملاحظات فلا يحجب، والمتن المصحَّح مكتوب", rev["notes"] == [] and d["b"] == "متن مصحَّح"
+          and d["editor_revision"]["applied"] is True and not editor.blocking_reasons(d, cfg), rev)
+    calls.clear()
+    d = {"t": "ع", "b": "متن", "h": ["ع1"]}
+    rev = editor.run(d, Ad("reel"), None, cfg, None, create=make([{"n": 1, "reason": "لا مصدر"}]))
+    check("ما أعلن المحرر عجزه عنه يبقى ملاحظة high تحجب", len(rev["notes"]) == 1 and rev["notes"][0]["severity"] == "high"
+          and bool(editor.blocking_reasons(d, cfg)), rev)
+    calls.clear()
+    d = {"t": "ع", "b": "متن", "h": ["ع1"]}
+    editor.run(d, Ad("analysis"), None, cfg, None, create=make([]))
+    names = [[t.get("name") for t in k["tools"]] for k in calls]
+    check("مسار آخر: بحث ويب ومراجعة ثانية بنموذج الإعداد العام كما كان",
+          names == [["web_search", "report_review"], ["report_revision"], ["web_search", "report_review"]]
+          and all(k["model"] == cfg.path("editor.model") for k in calls), names)
+
+
 def test_reel_map_autodetect_clash_json() -> None:
     """ريل مفاوضات أبوظبي (12/11): جملة السياق تسمّي «أبوظبي» والخطة بلا خريطة، والمعجم يكتبها «أبو ظبي»؛ وهوك المواجهة سقط
     «لا زوج ولا جملة صالحة» بلا سبب مرفوض. الكود يجد أماكن جملة السياق، والمسافة داخل الاسم لا تمنع المطابقة، وحقول أداة المواجهة

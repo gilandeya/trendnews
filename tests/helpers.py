@@ -85,6 +85,10 @@ def load_config(path=None):
         # الخلفية الكحلية المحضَّرة (قضية 1856) تغيّر أوامر الريل بلا صورة التي تثبّتها المراجع القديمة؛ test_reel_1856_fixes يطلبها
         if isinstance(rcfg.get("background"), dict):
             rcfg["background"]["navy_canvas"] = False
+        # إعداد محرر الريل الخاص (15/11: Sonnet بلا بحث ولا مراجعة ثانية) يغيّر ما تثبّته اختبارات المحرر وجولة التصحيح
+        # القديمة؛ test_reel_cost_cut يطلبه من config الحقيقي
+        if isinstance(cfg.get("editor"), dict):
+            cfg["editor"].pop("path_overrides", None)
         # صوت ElevenLabs (12/11) يضيف سطر «🎙️ الصوت» إلى تعليقات التركيب التي تثبّتها الاختبارات؛ test_tts_elevenlabs يطلبه
         el = ((cfg.get("reel") or {}).get("tts") or {}).get("elevenlabs")
         if isinstance(el, dict):

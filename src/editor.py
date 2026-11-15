@@ -124,6 +124,14 @@ def ecfg(cfg: Any) -> dict:
     return cfg.path("editor", {}) or {}
 
 
+def path_cfg(cfg: Any, name: str) -> dict:
+    """إعداد المحرر لمسار بعينه: الكتلة العامة وفوقها `editor.path_overrides.<مسار>` (النموذج وحدّ البحث والمراجعة الثانية).
+    السبب (تقييم 15/11): محرر الريل كان ~60% من كلفة الريل بإعداد صُمّم لمقال طويل يكتبه نموذج."""
+    e = dict(ecfg(cfg))
+    e.update((e.get("path_overrides", {}) or {}).get(name, {}) or {})
+    return e
+
+
 def texts(cfg: Any) -> dict:
     return ecfg(cfg).get("texts", {}) or {}
 
@@ -235,18 +243,18 @@ def converse(draft: dict, adapter: Adapter, ctx: Any, cfg: Any, client, today: s
              create=None) -> tuple[dict, int, bool]:
     """يعيد (تقرير report_review، عدد عمليات البحث المنفَّذة، هل مُنع البحث بالسقف). يرفع عند الفشل."""
     create = create or _create
-    e = ecfg(cfg)
+    e = path_cfg(cfg, adapter.name)
     model = e.get("model", "claude-opus-5")
     max_tokens = int(e.get("max_tokens", 6000))
     system = system_prompt(cfg, adapter)
-    capped = search_usage() >= int(e.get("monthly_search_cap", 300))
+    max_searches = int(e.get("max_searches", 3))
+    capped = max_searches > 0 and search_usage() >= int(e.get("monthly_search_cap", 300))
     msg = user_message(draft, adapter, ctx, today)
     searches = 0
 
     tools: list[dict] = [REPORT_TOOL]
-    if not capped:
-        tools = [{"type": "web_search_20250305", "name": "web_search",
-                  "max_uses": int(e.get("max_searches", 3))}, REPORT_TOOL]
+    if not capped and max_searches > 0:     # max_searches: 0 لمسار ← مراجعته بلا بحث ويب (نتائجه تُحسب رموز إدخال)
+        tools = [{"type": "web_search_20250305", "name": "web_search", "max_uses": max_searches}, REPORT_TOOL]
     resp = create(client, model=model, max_tokens=max_tokens, system=system,
                   tools=tools, tool_choice={"type": "auto"},
                   messages=[{"role": "user", "content": msg}])
@@ -417,7 +425,7 @@ def revise_round(draft: dict, adapter: Adapter, ctx: Any, cfg: Any, client, toda
     أي فشل (نداء، مخرج غير صالح، مخالفة جديدة، عطل المراجعة الثانية) ← تُرمى النسخة وتبقى المسودة والمراجعة كما كانتا.
     تعيد editor_revision الذي يحفظه المستدعي؛ والمراجعة الجديدة تُكتب في review نفسه."""
     create = create or _create
-    e = ecfg(cfg)
+    e = path_cfg(cfg, adapter.name)
     r = e.get("revise", {}) or {}
     notes = [dict(n) for n in review["notes"]]
     rev: dict = {"at": review["at"], "applied": False, "error": None, "before": notes, "unresolved": []}
@@ -461,6 +469,13 @@ def revise_round(draft: dict, adapter: Adapter, ctx: Any, cfg: Any, client, toda
         adapter.write(copy.deepcopy(draft), title, body, heads)     # يلتقط عطل الكتابة قبل المساس بالمسودة
         adapter.write(draft, title, body, heads)
         rev["unresolved"] = _unresolved_of(out.get("unresolved"), len(notes))
+        if not e.get("second_review", True):
+            # بلا مراجعة ثانية (نداء كامل آخر): ما قال المحرر إنه أصلحه يُعدّ مصلَحًا — وفحوص المسار في الكود مرّت أعلاه —
+            # ويبقى ما أعلن عجزه عنه ملاحظةً كما كان فتحكم فيه البوابة
+            left = {u["n"] for u in rev["unresolved"]}
+            review["notes"] = [n for k, n in enumerate(notes, 1) if k in left]
+            rev["applied"] = True
+            return rev
         report, searches, capped = converse(draft, adapter, ctx, cfg, client, today, create)
         try:
             bump_usage(searches)
