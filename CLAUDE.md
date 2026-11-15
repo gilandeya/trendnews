@@ -1644,6 +1644,15 @@ step (`article.wide_days`).
 `youtube.meta_topics.qa.verify` (`enabled: false` ← كما كان). `install_fakes` يطفئه (`meta_verify.enabled`، والأصل `_enabled_real`).
 الاختبار `tests/test_youtube.py:test_meta_verify`. **لم يُجرَّب على يوتيوب ولا whisper حقيقيين.**
 
+### وسم approved بلا أي تعليم ليس رفضًا (قضية 1890) — `src/publish.py:main`
+
+الحادثة: قضية سيناريو وُسمت `approved` قبل أن يُحفظ تعليم المربعات؛ المسار السريع رفض الريل ضمنًا ثم علّق «لم يُعلَّم… علّم ثم أعد الوسم»، فلما
+عُلِّم وأُعيد الوسم تخطّاه `approve_reel_scripts` (ليس pending) وأُغلقت القضية بلا تركيب. الآن: قضية المرحلة 2 لا شيء فيها معلَّم إطلاقًا
+(`nothing_marked`: لا publish/go3 ولا go1 ولا ريل ولا «➕ أضف») لا يُرفض منها شيء — الرسالة وإزالة الوسم فقط، لكل المسارات؛ الرفض الضمني باقٍ لما
+تُرك بجانب شيء معلَّم (ويحفظ `implicit_reject_issue`)، وإغلاق القضية طريق تجاهل الكل. وريل مرفوض ضمنًا في القضية نفسها
+(`_implicitly_rejected_here`: الحقل، أو لمسودة أقدم `stage2_issue`/`review_issue`) يعود pending حين يُعلَّم ويُعاد الوسم. الاختبار داخل
+`tests/test_guards_golden.py:test_w4_reel_autorender_guards` (`g1890`).
+
 ## ذاكرة الصحافة (Issue #1255) — `src/press_events.py`
 
 بيانات فقط (لا نموذج ولا قضايا، ولا أثر على المرشحين أو قضية الترشيح أو الترتيب): تحفظ **من غطّى الحدث وبأي عنوان ولغة**، لأن

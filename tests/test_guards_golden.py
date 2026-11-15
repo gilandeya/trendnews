@@ -5175,7 +5175,8 @@ def test_reel_script_guards() -> None:
         # ترك الريل بلا تعليم = رفضه
         store.update_draft(store.load_draft(reel_id)[0], status="pending", remove=["render_status"])
         run_main(s2, 9103)
-        check("g178: ريل بلا تعليم ← مرفوض", store.load_draft(reel_id)[1]["status"] == "rejected")
+        # قضية 1890: قضية لا شيء فيها معلَّم إطلاقًا لا ترفض (الرسالة تطلب التعليم وإعادة الوسم)؛ الرفض لما تُرك بجانب معلَّم
+        check("g178: ريل بلا تعليم في قضية لا شيء فيها معلَّم ← يبقى معلَّقًا", store.load_draft(reel_id)[1]["status"] == "pending")
 
         # ── g179) ملاحظة high غير مطبَّقة ← go3 لا يُنفَّذ ويبقى pending مع تعليق البوابة ──
         gd = new_draft("c3c3c3c3c3c3")

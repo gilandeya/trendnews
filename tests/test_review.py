@@ -10531,9 +10531,13 @@ def test_stage1_return_pipeline() -> None:
 
         # ── و: بعد (أ)، رفض لاحق للخبر نفسه في مرحلة 2 جديدة بلا تعليم ──
         res_rej = _run_publish_issue((review_issue or {}).get("body", ""), "approved", ["--now"])
-        check("(#1184-و) رفض لاحق بلا تعليم ← rejected_unchecked يُسجَّل رغم «returned» السابق",
-              state(cand_a["id"])["status"] == "rejected"
-              and any(e["id"] == cand_a["id"] and e["decision"] == "rejected_unchecked"
+        # قضية 1890: قضية لا شيء فيها معلَّم لا ترفض؛ تسجيل الرفض بعد «returned» يُفحص بالدالة نفسها التي يستدعيها الرفض الضمني
+        check("(#1184-و) قضية بلا أي تعليم ← الخبر يبقى معلَّقًا ورسالة «لم يُعلَّم»",
+              state(cand_a["id"])["status"] == "pending"
+              and any("لم يُعلَّم" in t for _, t in res_rej["comments"]), res_rej["comments"])
+        decisions.record_rejected_unchecked(state(cand_a["id"]))
+        check("(#1184-و) رفض لاحق ← rejected_unchecked يُسجَّل رغم «returned» السابق",
+              any(e["id"] == cand_a["id"] and e["decision"] == "rejected_unchecked"
                       for e in decisions.load())
               and any(e["id"] == cand_a["id"] and e["decision"] == "returned"
                       for e in decisions.load()), res_rej["code"])

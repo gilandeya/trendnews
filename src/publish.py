@@ -1254,6 +1254,17 @@ def _write_reel_script(draft: dict, topic_date: str, cfg, client=None, issue_num
     return result
 
 
+def _implicitly_rejected_here(d: dict, issue_number: int) -> bool:
+    """ريل مرفوض ضمنًا («لم يُعتمد») في هذه القضية نفسها. المسودات المرفوضة قبل قضية 1890 بلا implicit_reject_issue: تُقبل
+    إن كانت قضيتها هذه."""
+    if d.get("status") != "rejected" or d.get("format") != "reel":
+        return False
+    here = d.get("implicit_reject_issue")
+    if here is not None:
+        return int(here) == int(issue_number)
+    return int(d.get("stage2_issue") or d.get("review_issue") or 0) == int(issue_number)
+
+
 def approve_reel_scripts(issue_number: int, reel_ids: list[str], body: str, cfg, actions: dict | None = None) -> list[str]:
     """go3 للريل في قضية المرحلة 2 (Issue #1338، R2): يُطبَّق ما عدّله المراجع في كتلة النص على المشاهد بالرقم، ثم
     status="approved_script" وrender_status="queued" بلا نشر ولا بطاقة (التركيب في R3). سيناريو غير جاهز أو ملاحظة
@@ -1271,6 +1282,10 @@ def approve_reel_scripts(issue_number: int, reel_ids: list[str], body: str, cfg,
     blocked: list[str] = []
     for did in reel_ids:
         found = store.load_draft(did)
+        # قضية 1890: ريل رُفض ضمنًا في هذه القضية نفسها (وُسمت approved قبل أن يُحفظ التعليم) ثم عُلِّم وأُعيد الوسم ← يعود معلَّقًا
+        # ويُعتمد؛ كان يُتخطّى صامتًا وتُغلق القضية بلا تركيب. ريل رُفض في قضية أخرى أو بأمر /reject لا يعود
+        if found and _implicitly_rejected_here(found[1], issue_number):
+            found = (found[0], store.update_draft(found[0], status="pending", remove=["implicit_reject_issue"]))
         if not found or found[1].get("status") != "pending":
             continue           # إعادة تشغيل المسارين لحدث واحد بلا أثر ثانٍ
         path, d = found
@@ -2101,14 +2116,18 @@ def main() -> int:
     # المسار لنفس الـIssue (مثلًا مسار urgent ثم normal لنفس حدث approved).
     unapproved = [i for i in review.all_draft_ids(body)
                   if i not in ids and i not in go1_ids and i not in reel_ids]
-    if unapproved:
+    # قضية 1890: قضية وُسمت approved ولا شيء فيها معلَّم إطلاقًا ليست قرار رفض (التعليم لم يُحفظ بعد، أو وسمٌ بالخطأ)، ورسالتها
+    # تطلب «علّم ثم أعد الوسم»؛ كان كل ما فيها يُرفض قبل تلك الرسالة فلا ينفع التعليم بعدها. الرفض الضمني لما تُرك
+    # بجانب شيء معلَّم، وإغلاق القضية يبقى طريق تجاهل الكل
+    nothing_marked = not (ids or go1_ids or reel_ids or add_requests)
+    if unapproved and not nothing_marked:
         entries = feedback.load()
         rejected_now = 0
         for draft_id in unapproved:
             found = store.load_draft(draft_id)
             if not found or found[1].get("status") != "pending":
                 continue
-            store.update_draft(found[0], status="rejected")
+            store.update_draft(found[0], status="rejected", implicit_reject_issue=int(args.issue))
             feedback.record(entries, found[1], tag="لم يُعتمد", note="")
             decisions.record_rejected_unchecked(found[1])
             rejected_now += 1
