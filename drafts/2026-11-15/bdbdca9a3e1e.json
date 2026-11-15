@@ -1,0 +1,672 @@
+{
+  "id": "bdbdca9a3e1e",
+  "created_at": "2026-11-15T11:19:51.928605+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "محادثات أبوظبي بين أمريكا وروسيا وأوكرانيا",
+  "event": "محادثات أبوظبي بين أمريكا وروسيا وأوكرانيا",
+  "tier": 5,
+  "blocs": [
+    "arabic",
+    "chinese",
+    "french",
+    "russian",
+    "turkish"
+  ],
+  "channels": [
+    "FRANCE 24",
+    "RTVI",
+    "SÖZCÜ",
+    "Дождь",
+    "Настоящее Время",
+    "الجزيرة",
+    "凤凰卫视"
+  ],
+  "agreement": "",
+  "score": 0,
+  "warnings": [
+    "⏱️ السياق 60 كلمة (الحد 49) فقُبل كما هو لأن المادة من اختيارك — راجعه"
+  ],
+  "run_date": "2026-11-15",
+  "topic_date": "2026-11-15",
+  "arabic": {
+    "post_title": "هل تقترب الحرب الروسية الأوكرانية من نهايتها فعلا؟",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "FRANCE 24",
+      "RTVI",
+      "SÖZCÜ",
+      "Дождь",
+      "Настоящее Время",
+      "الجزيرة",
+      "凤凰卫视"
+    ]
+  },
+  "source_videos": [],
+  "meta_topic_id": "2273cedb79d9",
+  "meta_issue": 1889,
+  "hook_pick": 3,
+  "cost_qa": {
+    "claude": {
+      "claude-sonnet-5": 0.03405
+    },
+    "gemini": 0.8004
+  },
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "d047e010a68c",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "تلفزيون دوشد"
+      },
+      {
+        "point_id": "be466adc1c32",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "لم يقولوا إنهم سيعمّقون المسألة، وأنا أرى أنها لم تتعمّق؛ أولًا لم يحصلوا على موافقة من القيادات العليا لروسيا وأوكرانيا. فمن حيث أعضاء الوفد، لا يملك أحدهم تفويضًا حكوميًا عليا حقيقيًا، فلا يمكن إجراء حوار معمّق. ورغم إعلانهم التفهم واستعدادهم للحديث، لا بد من تواصل معمّق مع قادة بلدانهم، ولذلك قد تكون هناك خدمات دبلوماسية مكوكية لاحقة.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "فينكس"
+      },
+      {
+        "point_id": "7e600dd00f8b",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "فرانس 24 الفرنسية"
+      },
+      {
+        "point_id": "db7fad2972a8",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "ce40505e5928",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "تلفزيون دوشد"
+      },
+      {
+        "point_id": "f679b7ab4ba9",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "تلفزيون دوشد"
+      }
+    ]
+  },
+  "quote_retranslated": [
+    "be466adc1c32"
+  ],
+  "names_audit": [
+    {
+      "arabic": "فلاديمير باستوخوف",
+      "latin": "Vladimir Pastukhov"
+    },
+    {
+      "arabic": "تشانغ هونغ",
+      "latin": ""
+    },
+    {
+      "arabic": "لوران لارشيه",
+      "latin": "Laurent Larcher"
+    },
+    {
+      "arabic": "ريناتو كوين",
+      "latin": "Renato Coen"
+    },
+    {
+      "arabic": "فلاديمير ميدينسكي",
+      "latin": "Vladimir Medinsky"
+    },
+    {
+      "arabic": "فلاديمير بوتين",
+      "latin": "Vladimir Putin"
+    },
+    {
+      "arabic": "فلاديمير ميدينسكي",
+      "latin": "Medinsky"
+    },
+    {
+      "arabic": "فلاديمير بوتين",
+      "latin": "Putin"
+    }
+  ],
+  "script_attempts": [
+    {
+      "attempt": 1,
+      "reasons": [
+        "السياق أطول من 49 كلمة (60)"
+      ]
+    }
+  ],
+  "headlines": [
+    "هل تقترب الحرب الروسية الأوكرانية من نهايتها فعلا؟",
+    "لماذا استُبعد الأوروبيون عن طاولة التفاوض في أبوظبي؟",
+    "من المستفيد الحقيقي من مفاوضات أبوظبي؟"
+  ],
+  "headline_selected": 0,
+  "script": {
+    "version": 2,
+    "narrator": "male",
+    "title": "هل تقترب الحرب الروسية الأوكرانية من نهايتها فعلا؟",
+    "question": "هل يملك الأوروبيون ما يفرضون به حضورهم داخل القاعة؟",
+    "event": "",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "هل تقترب الحرب الروسية الأوكرانية من نهايتها فعلا؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "في أبوظبي اجتمع وفدا روسيا وأوكرانيا بوساطة أمريكية، وغاب الأوروبيون عن القاعة الرئيسية."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "ce40505e5928",
+        "q": "c0",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=w2r-ETPghLs",
+        "start": 1083.0,
+        "end": 1092.0,
+        "speaker_name": "فلاديمير ميدينسكي",
+        "speaker_role": "مساعد الرئيس الروسي ورئيس وفد التفاوض",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Владимир Мединский",
+        "channel_display": "تلفزيون دوشد",
+        "channel_original": "Дождь",
+        "quote_arabic": "تكمن المهمة في إنشاء منظومة أمن شامل في أوروبا تشكل يالطا وبوتسدام جديدة ومعاصرة.",
+        "quote_original": "Задача в том, чтобы создать такую систему комплексной безопасности в Европе, которая станет новой современной Ялтой и Потсдамом.",
+        "language": "ru",
+        "video_published": "2026-11-13T16:46:15Z",
+        "relay": "other_channel",
+        "relay_source": "Россия 1",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "أما الرئيس الروسي فلاديمير بوتين فحسم مسألة خط التماس الذي تقبل به بلاده."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "f679b7ab4ba9",
+        "q": "c1",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=w2r-ETPghLs",
+        "start": 176.0,
+        "end": 186.0,
+        "speaker_name": "فلاديمير بوتين",
+        "speaker_role": "الرئيس الروسي",
+        "speaker_verified": true,
+        "speaker_verified_from": "title",
+        "speaker_name_latin": "Путин",
+        "channel_display": "تلفزيون دوشد",
+        "channel_original": "Дождь",
+        "quote_arabic": "بالنسبة لنا لا يوجد سوى خط ترسيم واحد وهو خط حدود الدولة لأن ذلك سيكون واضحا ومفهوما حيث تكونون أنتم هنا ونكون نحن هناك.",
+        "quote_original": "Для нас есть только одна линия разграничения — это линия государственной границы. Потому что это будет тогда понятно и ясно: здесь вы, а здесь мы.",
+        "language": "ru",
+        "video_published": "2026-11-13T16:46:15Z",
+        "relay": "external",
+        "relay_source": "",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "وفي موازاة ذلك، قرر الأوروبيون تكرار صيغة أبوظبي بالحضور خارج القاعة الرئيسية، مع ضم بولندا إلى بريطانيا وألمانيا وفرنسا وإيطاليا."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 0,
+        "text": "هل تقترب الحرب الروسية الأوكرانية من نهايتها فعلا؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "d047e010a68c",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=w2r-ETPghLs",
+        "start": 3574.0,
+        "end": 3600.0,
+        "speaker_name": "فلاديمير باستوخوف",
+        "speaker_role": "محلل سياسي",
+        "speaker_verified": true,
+        "speaker_verified_from": "title",
+        "speaker_name_latin": "Пастухов",
+        "channel_display": "تلفزيون دوشد",
+        "channel_original": "Дождь",
+        "quote_arabic": "آمل أنه لأول مرة منذ ربيع عام 2022 باتت هناك في هذه العملية التفاوضية البطيئة فرص غير معدومة لإنهاء الحرب في مدى زمني قصير نسبيا.",
+        "quote_original": "Я надеюсь на то, что впервые с апреля или марта 2022 года в этом вялотекущем шизофреноидном переговорном процессе есть ненулевые шансы на то, чтобы завершить войну в довольно короткие сроки.",
+        "language": "ru",
+        "video_published": "2026-11-13T16:46:15Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "be466adc1c32",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=T8m4C5mffFk",
+        "start": 381.0,
+        "end": 411.0,
+        "speaker_name": "تشانغ هونغ",
+        "speaker_role": "باحث في معهد بحوث روسيا وشرق أوروبا وآسيا الوسطى بالأكاديمية الصينية للعلوم الاجتماعية",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Zhang Hong",
+        "channel_display": "فينكس",
+        "channel_original": "凤凰卫视",
+        "quote_arabic": "لم يقولوا إنهم سيعمّقون المسألة، وأنا أرى أنها لم تتعمّق؛ أولًا لم يحصلوا على موافقة من القيادات العليا لروسيا وأوكرانيا. فمن حيث أعضاء الوفد، لا يملك أحدهم تفويضًا حكوميًا عليا حقيقيًا، فلا يمكن إجراء حوار معمّق. ورغم إعلانهم التفهم واستعدادهم للحديث، لا بد من تواصل معمّق مع قادة بلدانهم، ولذلك قد تكون هناك خدمات دبلوماسية مكوكية لاحقة.",
+        "quote_original": "但是他們沒有說要把問題繼續深入，我覺得沒深入，首先是沒有得到俄烏兩國高層領導人的認可。因為從代表團的這些成員來說，他沒有真正的政府高層授權是無法進行深入的交流。雖然表示理解、願意談，但是還需要跟各自國家的領導人進行深入交流，所以可能後續還會有一些外交的穿梭服務。",
+        "language": "zh",
+        "video_published": "2026-11-14T11:00:08Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 1,
+        "text": "لماذا استُبعد الأوروبيون عن طاولة التفاوض في أبوظبي؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "7e600dd00f8b",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=gDJpAVzaVxY",
+        "start": 987.0,
+        "end": 1014.0,
+        "speaker_name": "لوران لارشيه",
+        "speaker_role": "صحفي ومراسل في صحيفة لاكروا",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Laurent Larcher",
+        "channel_display": "فرانس 24 الفرنسية",
+        "channel_original": "FRANCE 24",
+        "quote_arabic": "نعم بالطبع، إنه أمر تراجيدي ومؤسف ومثير للشفقة أن نرى أوروبا مستبعدة تمامًا. وأضيف لمعرفتي بالنزاع في أوكرانيا أن شروط السلام لم تكتمل بعد على الإطلاق. ينتابني انطباع بأن هذه الاجتماعات ليست سوى مجرد حراك شكلي.",
+        "quote_original": "Oui, bien sûr. C'est assez... C'est assez tragique ou consternant ou pathétique, je ne sais pas quoi dire de plus que de voir une Europe qui est totalement disqualifiée. Mais à cela, j'ajouterais aussi, pour connaître assez bien le conflit en Ukraine, que les conditions d'une paix ne sont absolument pas réunies. Moi, j'ai l'impression que ces réunions sont plutôt une forme d'agitation.",
+        "language": "fr",
+        "video_published": "2026-11-13T20:21:07Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "db7fad2972a8",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=IJC0xROnt-I",
+        "start": 186.0,
+        "end": 216.0,
+        "speaker_name": "ريناتو كوين",
+        "speaker_role": "صحفي إيطالي متخصص في الشؤون الدولية",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "ريناتو كوين",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "قرر الأوروبيون الآن أن يكرروا ما رأيناه في أبوظبي، إذ لم يكونوا في القاعة الرئيسية لكنهم كانوا موجودين هناك، ورأينا حينها بريطانيا وألمانيا وفرنسا وإيطاليا، لكن بولندا ستنضم الآن نظرا لأهميتها وموقعها الجغرافي ودورها في الاتحاد الأوروبي.",
+        "quote_original": "So what they decided now, they decided to repeat what we've seen in Abu Dhabi because Europeans were not in the main room but they were there. In Abu Dhabi we saw UK, Germany, France, and Italy, but now Poland will join because also of the geographical importance and the EU as well.",
+        "language": "en",
+        "video_published": "2026-11-13T19:00:29Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "question",
+        "text": "هل يملك الأوروبيون ما يفرضون به حضورهم داخل القاعة؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": []
+  },
+  "editor_revision": {
+    "at": "2026-11-15T11:20:11.107273+00:00",
+    "applied": true,
+    "error": null,
+    "before": [
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "في أبوظبي اجتمع وفدا روسيا وأوكرانيا بوساطة أمريكية، وغاب الأوروبيون عن القاعة الرئيسية. رئيس وفد التفاوض الروسي فلاديمير ميدينسكي حدّد سقف ما تريده موسكو من هذه المحادثات.",
+        "fix": "",
+        "note": "هذا المشهد (سطر [2]) تجاوز حدود السياق المسموحة (حتى 25 كلمة وحتى 3 جمل)؛ كما يصح المحتوى لكن طوله مخالف للقاعدة التقنية للسيناريو.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "رئيس وفد التفاوض الروسي فلاديمير ميدينسكي حدّد سقف ما تريده موسكو من هذه المحادثات.",
+        "fix": "مساعد الرئيس الروسي ورئيس وفد التفاوض فلاديمير ميدينسكي حدّد سقف ما تريده موسكو من هذه المحادثات.",
+        "note": "ميدينسكي ليس رئيس وفد تفاوض بالمعنى الرسمي لدولة بل مساعد الرئيس الروسي ورئيس وفد التفاوض الروسي؛ يفضل ذكر صفته الكاملة كما في شريط المقطع (مساعد الرئيس الروسي ورئيس وفد التفاوض) لتفادي اللبس، خاصة أنه أول ذكر له في المتن.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "headline_3",
+        "original": "من المستفيد الحقيقي من مفاوضات أبوظبي؟",
+        "fix": "",
+        "note": "العنوان الثالث \"من المستفيد الحقيقي من مفاوضات أبوظبي؟\" يحمل إيحاء تحليليًا حكميًا (البحث عن مستفيد خفي) لا تسنده المادة بشكل مباشر، فالمقاطع تتحدث عن استبعاد أوروبا وفرص إنهاء الحرب لا عن \"المستفيد الحقيقي\" بالمعنى التآمري.",
+        "sources": []
+      }
+    ],
+    "unresolved": [
+      {
+        "n": 1,
+        "reason": "تعذر اختصار سطر [2] إلى 25 كلمة/3 جمل مع الإبقاء على ذكر ميدينسكي وسقف مطالب موسكو دون حذف واقعة؛ فضّلت نقل جملة ميدينسكي بكامل تفاصيلها (مع تصحيح صفته) لتُحذف من سطر السياق تفاديًا لتجاوز الحد، لكن لا يوجد سطر بديل في بنية [n] لنقلها إليه دون إضافة أو حذف سطر، فتُرك التعديل جزئيًا على سطر [2] فقط."
+      },
+      {
+        "n": 3,
+        "reason": "العنوان الثالث اقتراح بديل غير متوفر من المصادر المرفقة دون معلومة إضافية تبرر صياغة جديدة؛ أُبقي كما هو لعدم توفر صياغة محايدة بديلة من الوقائع المتاحة."
+      }
+    ]
+  },
+  "editor_review": {
+    "at": "2026-11-15T11:20:11.107273+00:00",
+    "applied": [],
+    "notes": [
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "في أبوظبي اجتمع وفدا روسيا وأوكرانيا بوساطة أمريكية، وغاب الأوروبيون عن القاعة الرئيسية. رئيس وفد التفاوض الروسي فلاديمير ميدينسكي حدّد سقف ما تريده موسكو من هذه المحادثات.",
+        "fix": "",
+        "note": "هذا المشهد (سطر [2]) تجاوز حدود السياق المسموحة (حتى 25 كلمة وحتى 3 جمل)؛ كما يصح المحتوى لكن طوله مخالف للقاعدة التقنية للسيناريو.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "headline_3",
+        "original": "من المستفيد الحقيقي من مفاوضات أبوظبي؟",
+        "fix": "",
+        "note": "العنوان الثالث \"من المستفيد الحقيقي من مفاوضات أبوظبي؟\" يحمل إيحاء تحليليًا حكميًا (البحث عن مستفيد خفي) لا تسنده المادة بشكل مباشر، فالمقاطع تتحدث عن استبعاد أوروبا وفرص إنهاء الحرب لا عن \"المستفيد الحقيقي\" بالمعنى التآمري.",
+        "sources": []
+      }
+    ],
+    "error": null,
+    "searches": 0,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "hook_clash": {
+    "mode": "pair",
+    "relation": "partial_opposite",
+    "why": "الفرنسي يصف الاجتماعات بأنها حراك شكلي لا قيمة له، بينما العربي يصفها كتوسع جدي بانضمام بولندا لأهميتها",
+    "a": {
+      "point_id": "7e600dd00f8b",
+      "first_words": "j'ai l'impression que",
+      "last_words": "forme d'agitation",
+      "text_ar": "ينتابني انطباع بأن هذه الاجتماعات ليست سوى مجرد حراك شكلي",
+      "sub_original": "j'ai l'impression que ces réunions sont plutôt une forme d'agitation.",
+      "arabic": false,
+      "word_from": 53,
+      "word_to": 62,
+      "words_total": 63,
+      "est_seconds": 3.85,
+      "original_words": 10,
+      "channel": "فرانس 24 الفرنسية",
+      "bloc": "french",
+      "speaker": "لوران لارشيه"
+    },
+    "b": {
+      "point_id": "db7fad2972a8",
+      "first_words": "Poland will join because",
+      "last_words": "and the EU as well",
+      "text_ar": "بولندا ستنضم الآن نظرا لأهميتها وموقعها الجغرافي ودورها في الاتحاد الأوروبي",
+      "sub_original": "Poland will join because also of the geographical importance and the EU as well.",
+      "arabic": false,
+      "word_from": 39,
+      "word_to": 52,
+      "words_total": 53,
+      "est_seconds": 5.38,
+      "original_words": 14,
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "speaker": "ريناتو كوين"
+    },
+    "hook_text": "فرص السلام بين أمل وشك",
+    "rejected": [
+      "مدة الجملة 11.5 ث خارج [1.5، 6]",
+      "مدة الجملة 11.5 ث خارج [1.5، 6]",
+      "الجملة ليست حرفيًا في كلام المقطع"
+    ]
+  },
+  "reel_bg": {
+    "url": "https://assets-news.asharq.com/images/articles/864x648/4-3/8zifHBcF4z_1794300247.webp",
+    "kind": "web_search",
+    "publisher": "asharq.com",
+    "shows": "اجتماع رسمي على طاولة طويلة، يجلس حولها مسؤولون بأعلام روسيا وأوكرانيا والولايات المتحدة والإمارات، في قاعة فاخرة",
+    "text_checked": true,
+    "judged": true,
+    "rejected": [
+      {
+        "url": "https://media.cnn.com/api/v1/images/stellar/prod/349867.jpg?c=16x9&q=w_800,c_fill",
+        "shows": "اجتماع في غرفة مكتب رسمية؛ رجلان في بدلات يجلسان مقابل رجل بلحية بسترة سوداء، وطاولة زجاجية عليها كؤوس وزجاجات مياه، وتل",
+        "reason": "الصورة تُظهر اجتماعًا في غرفة عادية لا تحمل أي إشارة إلى أبوظبي أو وفدي روسيا وأوكرانيا أو المفاوضات المذكورة في السؤال، ولا يمكن التعرف على الأشخاص من الصورة، فلا تصلح خلفية لهذا السؤال."
+      }
+    ]
+  },
+  "hook_candidates": [
+    {
+      "video_id": "8vfocimbsaU",
+      "title": "Russia-Ukraine War Escalates Amid Peace Talks In Abu Dhabi | WION Originals",
+      "channel": "WION",
+      "views": 5013,
+      "duration": 82,
+      "published": "2026-11-11T07:54:30Z",
+      "views_per_hour": 50.4
+    },
+    {
+      "video_id": "IJvE4cO9sZ0",
+      "title": "Russia-Ukraine War: Abu Dhabi Hosts Fresh Round Of Peace Talks | WION News",
+      "channel": "WION",
+      "views": 4139,
+      "duration": 205,
+      "published": "2026-11-11T03:02:33Z",
+      "views_per_hour": 39.7
+    },
+    {
+      "video_id": "Zflu0KUvWVM",
+      "title": "قتلى في هجمات متبادلة بين روسيا وأوكرانيا وحراك دبلوماسي لإحياء مفاوضات السلام",
+      "channel": "AlJazeera Arabic  قناة الجزيرة",
+      "views": 1232,
+      "duration": 483,
+      "published": "2026-11-13T15:45:06Z",
+      "views_per_hour": 28.2
+    },
+    {
+      "video_id": "B6lHcjc0dGc",
+      "title": "استمرار المفاوضات الروسية الأوكرانية برعاية أمريكية في أبو ظبي وسط تصعيد الهجمات على منشآت الطاقة",
+      "channel": "AlJazeera Arabic  قناة الجزيرة",
+      "views": 2200,
+      "duration": 582,
+      "published": "2026-11-11T13:00:08Z",
+      "views_per_hour": 23.3
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-11-13T00:00:00Z",
+          "2026-11-17T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "وفدا روسيا وأوكرانيا يجتمعان في أبوظبي",
+            "raw": 4,
+            "channel_ok": 0
+          },
+          {
+            "query": "Abu Dhabi Russia Ukraine talks delegations arrive",
+            "raw": 22,
+            "channel_ok": 2
+          },
+          {
+            "query": "Ukrainians rally Kyiv war peace hopes",
+            "raw": 2,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 2,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "Bizna TV",
+          "Я не Юрист.",
+          "NDTV",
+          "Active Group",
+          "Dario Caucasus",
+          "War & Politics 24 Shorts",
+          "ЛЕОНИД ДЗЮНИК",
+          "Kanal13"
+        ]
+      },
+      {
+        "broad": true,
+        "window": [
+          "2026-11-11T00:00:00Z",
+          "2026-11-18T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "مفاوضات السلام الروسية الأوكرانية",
+            "raw": 30,
+            "channel_ok": 11
+          },
+          {
+            "query": "Russia Ukraine peace talks",
+            "raw": 30,
+            "channel_ok": 16
+          },
+          {
+            "query": "Abu Dhabi Russia Ukraine talks",
+            "raw": 30,
+            "channel_ok": 16
+          }
+        ],
+        "duration_ok": 38,
+        "judged_ok": 37,
+        "rejected_channels": [
+          "Geo.Arabic",
+          "ПУТИН LIVE",
+          "DRM News",
+          "مونت كارلو الدولية / Monte Carlo Doualiya",
+          "DWS News",
+          "The Wall Street Journal",
+          "Shams TV",
+          "Baku TV | RU"
+        ]
+      }
+    ],
+    "picked": [
+      "8vfocimbsaU",
+      "IJvE4cO9sZ0",
+      "Zflu0KUvWVM",
+      "B6lHcjc0dGc"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "في أبوظبي اجتمع وفدا روسيا وأوكرانيا بوساطة أمريكية، وغاب الأوروبيون عن القاعة الرئيسية.",
+      "visual": ""
+    },
+    {
+      "scene": 3,
+      "sentence": 0,
+      "text": "أما الرئيس الروسي فلاديمير بوتين فحسم مسألة خط التماس الذي تقبل به بلاده.",
+      "visual": ""
+    },
+    {
+      "scene": 5,
+      "sentence": 0,
+      "text": "وفي موازاة ذلك، قرر الأوروبيون تكرار صيغة أبوظبي بالحضور خارج القاعة الرئيسية، مع ضم بولندا إلى بريطانيا وألمانيا وفرنسا وإيطاليا.",
+      "visual": ""
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "text": "هل تقترب الحرب الروسية الأوكرانية من نهايتها فعلا؟",
+      "visual": ""
+    },
+    {
+      "scene": 9,
+      "sentence": 0,
+      "text": "لماذا استُبعد الأوروبيون عن طاولة التفاوض في أبوظبي؟",
+      "visual": ""
+    }
+  ],
+  "cost_script": {
+    "claude": {
+      "claude-haiku-5-5": 0.00409,
+      "claude-sonnet-5": 0.16975,
+      "claude-opus-5": 0.11883
+    }
+  },
+  "review_issue": 1890,
+  "stage2_issue": 1890
+}
