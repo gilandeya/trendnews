@@ -1650,7 +1650,7 @@ step (`article.wide_days`).
 عُلِّم وأُعيد الوسم تخطّاه `approve_reel_scripts` (ليس pending) وأُغلقت القضية بلا تركيب. الآن: قضية المرحلة 2 لا شيء فيها معلَّم إطلاقًا
 (`nothing_marked`: لا publish/go3 ولا go1 ولا ريل ولا «➕ أضف») لا يُرفض منها شيء — الرسالة وإزالة الوسم فقط، لكل المسارات؛ الرفض الضمني باقٍ لما
 تُرك بجانب شيء معلَّم (ويحفظ `implicit_reject_issue`)، وإغلاق القضية طريق تجاهل الكل. وريل مرفوض ضمنًا في القضية نفسها
-(`_implicitly_rejected_here`: الحقل، أو لمسودة أقدم `stage2_issue`/`review_issue`) يعود pending حين يُعلَّم ويُعاد الوسم. الاختبار داخل
+(`_implicitly_rejected_here`: الحقل، أو لمسودة أقدم `stage2_issue`/`review_issue`) يعود pending حين يُعلَّم ويُعاد الوسم، ويُعدّ في `pending_before` بـ`publish.main` كي يُطلَق تركيبه (كان يصير queued بلا تركيب). الاختبار داخل
 `tests/test_guards_golden.py:test_w4_reel_autorender_guards` (`g1890`).
 
 ## ذاكرة الصحافة (Issue #1255) — `src/press_events.py`
