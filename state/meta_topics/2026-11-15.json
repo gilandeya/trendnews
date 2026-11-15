@@ -206,7 +206,787 @@
     }
    ],
    "topic_issue": 1889,
-   "qa_requested_at": "2026-11-15T10:11:33.233544+00:00"
+   "qa_requested_at": "2026-11-15T10:11:33.233544+00:00",
+   "qa": {
+    "attempts": 1,
+    "at": "2026-11-15T10:13:07.477783+00:00",
+    "source": "gemini",
+    "gemini_cost": 0.8004,
+    "gemini_rejected": 9,
+    "originals": [
+     {
+      "bite_id": "NvP7DWrEEWg:g278",
+      "source_channel": "",
+      "found": false,
+      "candidate": "U4_J3OsOaWA",
+      "candidates": [
+       "jZOj7yET3xE",
+       "U4_J3OsOaWA"
+      ],
+      "reason": "زمن غير صالح"
+     },
+     {
+      "bite_id": "w2r-ETPghLs:g215",
+      "source_channel": "Россия 1",
+      "found": false,
+      "reason": "لا مرشّح من قناة المصدر"
+     },
+     {
+      "bite_id": "w2r-ETPghLs:g1084",
+      "source_channel": "Россия 1",
+      "found": false,
+      "reason": "لا مرشّح من قناة المصدر"
+     },
+     {
+      "bite_id": "w2r-ETPghLs:g1169",
+      "source_channel": "Россия 1",
+      "found": false,
+      "reason": "لا مرشّح من قناة المصدر"
+     }
+    ],
+    "originals_found": 0,
+    "read_dropped": 3,
+    "read_dropped_speakers": [
+     "إكرم أتشيكيل"
+    ],
+    "failures": [],
+    "verify": {
+     "checked": 10,
+     "ok": 0,
+     "no_match": 0,
+     "failed": 10,
+     "no_text": 0,
+     "left": 23,
+     "audio_seconds": 0,
+     "skipped": ""
+    },
+    "selected_seconds": 109.0,
+    "status": "ready",
+    "titles": [
+     "هل تقترب الحرب الروسية الأوكرانية من نهايتها فعلا؟",
+     "لماذا استُبعد الأوروبيون عن طاولة التفاوض في أبوظبي؟",
+     "من المستفيد الحقيقي من مفاوضات أبوظبي؟"
+    ],
+    "questions": [
+     {
+      "text": "هل تقترب الحرب الروسية الأوكرانية من نهايتها فعلا؟",
+      "answers": [
+       {
+        "n": 2,
+        "fit": "direct",
+        "view": "فرصة حقيقية لإنهاء الحرب قريبا",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "w2r-ETPghLs:g3575"
+       },
+       {
+        "n": 9,
+        "fit": "direct",
+        "view": "المفاوضات لن تثمر نتيجة ملموسة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "gDJpAVzaVxY:g1068"
+       },
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "شروط السلام لم تنضج بعد",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "gDJpAVzaVxY:g988"
+       },
+       {
+        "n": 13,
+        "fit": "weak",
+        "view": "اتفاق جزئي فقط على تبادل الأسرى",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "T8m4C5mffFk:g3"
+       },
+       {
+        "n": 16,
+        "fit": "weak",
+        "view": "الوفدان يفتقران لتفويض حاسم",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "T8m4C5mffFk:g382"
+       }
+      ]
+     },
+     {
+      "text": "لماذا استُبعد الأوروبيون عن طاولة التفاوض في أبوظبي؟",
+      "answers": [
+       {
+        "n": 7,
+        "fit": "direct",
+        "view": "استُبعدوا بطلب روسي من موسكو",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "gDJpAVzaVxY:g922"
+       },
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "إقصاء أوروبا أمر تراجيدي ومؤسف",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "gDJpAVzaVxY:g988"
+       },
+       {
+        "n": 11,
+        "fit": "direct",
+        "view": "بوتين يهمّش دور الأوروبيين عمدا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "gDJpAVzaVxY:g1278"
+       },
+       {
+        "n": 3,
+        "fit": "weak",
+        "view": "الحرب بين ثلاثة أطراف فعلية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "w2r-ETPghLs:g3650"
+       },
+       {
+        "n": 19,
+        "fit": "weak",
+        "view": "الأوروبيون موجودون خارج القاعة فقط",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "IJC0xROnt-I:g187"
+       }
+      ]
+     },
+     {
+      "text": "من المستفيد الحقيقي من مفاوضات أبوظبي؟",
+      "answers": [
+       {
+        "n": 5,
+        "fit": "direct",
+        "view": "واشنطن تغض الطرف لمكاسب تجارية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "LRXjIuBehuY:g707"
+       },
+       {
+        "n": 10,
+        "fit": "direct",
+        "view": "واشنطن تمنح بوتين هامش مناورة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "gDJpAVzaVxY:g1147"
+       },
+       {
+        "n": 4,
+        "fit": "direct",
+        "view": "الموقف الأمريكي لم يعد معارضا لروسيا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "LRXjIuBehuY:g360"
+       },
+       {
+        "n": 12,
+        "fit": "direct",
+        "view": "واشنطن خضعت لشروط روسية مستحيلة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "gDJpAVzaVxY:g1335"
+       },
+       {
+        "n": 1,
+        "fit": "weak",
+        "view": "موسكو تسعى لفرض هيمنتها الإقليمية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "w2r-ETPghLs:g1487"
+       }
+      ]
+     },
+     {
+      "text": "ماذا تريد روسيا فعليا من هيكل الأمن الأوروبي الجديد؟",
+      "answers": [
+       {
+        "n": 1,
+        "fit": "direct",
+        "view": "فرض هيمنة ونزع سلاح الجوار",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "w2r-ETPghLs:g1487"
+       },
+       {
+        "n": 6,
+        "fit": "direct",
+        "view": "رفض نشر قوات أوروبية في أوكرانيا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "LRXjIuBehuY:g1036"
+       },
+       {
+        "n": 11,
+        "fit": "direct",
+        "view": "إعادة صياغة الأمن الأوروبي لصالحها",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "gDJpAVzaVxY:g1278"
+       },
+       {
+        "n": 15,
+        "fit": "direct",
+        "view": "حاجة لأمن مستدام غير قابل للتجزئة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "T8m4C5mffFk:g327"
+       },
+       {
+        "n": 17,
+        "fit": "weak",
+        "view": "واشنطن تطالب موسكو بتقديم خطة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "T8m4C5mffFk:g504"
+       }
+      ]
+     },
+     {
+      "text": "هل حققت محادثات أبوظبي أي تقدم ملموس؟",
+      "answers": [
+       {
+        "n": 13,
+        "fit": "direct",
+        "view": "اتفاق مبدئي على تبادل الأسرى فقط",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "T8m4C5mffFk:g3"
+       },
+       {
+        "n": 14,
+        "fit": "direct",
+        "view": "ارتقاء النقاش لهيكل أمني أوسع",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "T8m4C5mffFk:g218"
+       },
+       {
+        "n": 16,
+        "fit": "direct",
+        "view": "غياب تفويض يمنع حسم القضايا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "T8m4C5mffFk:g382"
+       },
+       {
+        "n": 18,
+        "fit": "direct",
+        "view": "مرحلة حساسة تستدعي لقاء بوتين مباشرة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "T8m4C5mffFk:g745"
+       },
+       {
+        "n": 9,
+        "fit": "weak",
+        "view": "المفاوضات لن تثمر نتيجة ملموسة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "gDJpAVzaVxY:g1068"
+       }
+      ]
+     }
+    ],
+    "context": [
+     {
+      "n": 20,
+      "selected": true,
+      "bite_id": "w2r-ETPghLs:g1084"
+     },
+     {
+      "n": 21,
+      "selected": true,
+      "bite_id": "w2r-ETPghLs:g177"
+     },
+     {
+      "n": 22,
+      "selected": false,
+      "bite_id": "w2r-ETPghLs:g960"
+     },
+     {
+      "n": 23,
+      "selected": false,
+      "bite_id": "w2r-ETPghLs:g215"
+     }
+    ],
+    "bites": [
+     {
+      "bite_id": "w2r-ETPghLs:g1487",
+      "video_id": "w2r-ETPghLs",
+      "channel": "Дождь",
+      "bloc": "russian",
+      "orientation": "معارض في المنفى",
+      "speaker": "ألكسندر موروزوف",
+      "speaker_original": "Александр Морозов",
+      "speaker_role": "محلل سياسي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1487.0,
+      "end": 1520.0,
+      "summary_ar": "رأى المحلل السياسي ألكسندر موروزوف أن مفهوم موسكو للأمن الأوروبي يقوم على فرض الهيمنة ونزع سلاح الدول المجاورة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "w2r-ETPghLs:g3575",
+      "video_id": "w2r-ETPghLs",
+      "channel": "Дождь",
+      "bloc": "russian",
+      "orientation": "معارض في المنفى",
+      "speaker": "فلاديمير باسطوخوف",
+      "speaker_original": "Владимир Пастухов",
+      "speaker_role": "محلل سياسي وأستاذ في كلية لندن الجامعية",
+      "is_host": false,
+      "type": "forecast",
+      "start": 3575.0,
+      "end": 3600.0,
+      "summary_ar": "توقع المحلل السياسي فلاديمير باسطوخوف وجود فرصة غير معدومة لإنهاء الحرب في غضون فترة وجيزة عبر المفاوضات الجارية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "w2r-ETPghLs:g3650",
+      "video_id": "w2r-ETPghLs",
+      "channel": "Дождь",
+      "bloc": "russian",
+      "orientation": "معارض في المنفى",
+      "speaker": "فلاديمير باسطوخوف",
+      "speaker_original": "Владимир Пастухов",
+      "speaker_role": "محلل سياسي وأستاذ في كلية لندن الجامعية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 3650.0,
+      "end": 3667.0,
+      "summary_ar": "اعتبر المحلل السياسي فلاديمير باسطوخوف أن انضمام الأوروبيين للمفاوضات المباشرة إقرار بأن النزاع له ثلاثة أطراف فاعلة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "LRXjIuBehuY:g360",
+      "video_id": "LRXjIuBehuY",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "orientation": "قريب من السلطة",
+      "speaker": "أندريه كورتونوف",
+      "speaker_original": "Андрей Кортунов",
+      "speaker_role": "خبير في نادي فالداي الدولي للحوار",
+      "is_host": false,
+      "type": "opinion",
+      "start": 360.0,
+      "end": 381.0,
+      "summary_ar": "الخبير في نادي فالداي الدولي للحوار يرى أن الموقف الأمريكي يتطور ولم يعد يتعارض مباشرة مع الموقف الروسي بشأن الأمن الأوروبي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "LRXjIuBehuY:g707",
+      "video_id": "LRXjIuBehuY",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "orientation": "قريب من السلطة",
+      "speaker": "أندريه زولوتاريوف",
+      "speaker_original": "Андрей Золотарёв",
+      "speaker_role": "محلل سياسي أوكراني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 707.0,
+      "end": 729.0,
+      "summary_ar": "المحلل السياسي الأوكراني يرى أن واشنطن ستتغاضى عن السيطرة الروسية في أوكرانيا لتحقيق مكاسب تجارية وفق نهج دونالد ترامب الدبلوماسي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "LRXjIuBehuY:g1036",
+      "video_id": "LRXjIuBehuY",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "orientation": "قريب من السلطة",
+      "speaker": "نيكولاي سوكوف",
+      "speaker_original": "Николай Соков",
+      "speaker_role": "كبير باحثي مركز فيينا لنزع السلاح وعدم الانتشار",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1036.0,
+      "end": 1069.0,
+      "summary_ar": "كبير باحثي مركز فيينا يرى أن الضمانات الورقية غير كافية لكييف والاتحاد الأوروبي ومسألة نشر قوات أوروبية تظل مرفوضة روسيًا.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "gDJpAVzaVxY:g922",
+      "video_id": "gDJpAVzaVxY",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "orientation": "فرنسي حكومي",
+      "speaker": "أشرين فرديان",
+      "speaker_original": "Achren Verdian",
+      "speaker_role": "مقدمة برامج في فرانس 24",
+      "is_host": true,
+      "type": "report",
+      "start": 922.0,
+      "end": 943.0,
+      "summary_ar": "استئناف المفاوضات الثلاثية بشأن أوكرانيا في أبوظبي لأول مرة منذ ثمانية أشهر بمشاركة أمريكية وروسية وأوكرانية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "gDJpAVzaVxY:g988",
+      "video_id": "gDJpAVzaVxY",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "orientation": "فرنسي حكومي",
+      "speaker": "لوران لارشيه",
+      "speaker_original": "Laurent Larcher",
+      "speaker_role": "صحفي ومراسل في صحيفة لاكروا",
+      "is_host": false,
+      "type": "opinion",
+      "start": 988.0,
+      "end": 1014.0,
+      "summary_ar": "الصحفي لوران لارشيه يرى أن استبعاد أوروبا من المفاوضات تراجيدي وأن شروط السلام لم تنضج بعد.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "gDJpAVzaVxY:g1068",
+      "video_id": "gDJpAVzaVxY",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "orientation": "فرنسي حكومي",
+      "speaker": "لوران لارشيه",
+      "speaker_original": "Laurent Larcher",
+      "speaker_role": "صحفي ومراسل في صحيفة لاكروا",
+      "is_host": false,
+      "type": "forecast",
+      "start": 1068.0,
+      "end": 1082.0,
+      "summary_ar": "الصحفي لوران لارشيه يستبعد تمامًا أن تثمر مفاوضات أبوظبي عن أي اتفاق ملموس.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "gDJpAVzaVxY:g1147",
+      "video_id": "gDJpAVzaVxY",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "orientation": "فرنسي حكومي",
+      "speaker": "زياد ليمام",
+      "speaker_original": "Zyad Limam",
+      "speaker_role": "مدير ورئيس تحرير مجلة أفريك ماغازين",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1147.0,
+      "end": 1167.0,
+      "summary_ar": "المحلل زياد ليمام يحمل الإدارة الأمريكية مسؤولية إعطاء هامش مناورة لبوتين في الحرب.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "gDJpAVzaVxY:g1278",
+      "video_id": "gDJpAVzaVxY",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "orientation": "فرنسي حكومي",
+      "speaker": "باتريسيا أليمونيير",
+      "speaker_original": "Patricia Allémonière",
+      "speaker_role": "مراسلة وصحفية متخصصة في الشؤون الدولية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1278.0,
+      "end": 1300.0,
+      "summary_ar": "الصحفية باتريسيا أليمونيير ترى أن بوتين يناور لإعادة تشكيل الأمن الأوروبي وتهميش الأوروبيين.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "gDJpAVzaVxY:g1335",
+      "video_id": "gDJpAVzaVxY",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "orientation": "فرنسي حكومي",
+      "speaker": "باتريسيا أليمونيير",
+      "speaker_original": "Patricia Allémonière",
+      "speaker_role": "مراسلة وصحفية متخصصة في الشؤون الدولية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1335.0,
+      "end": 1359.0,
+      "summary_ar": "الصحفية باتريسيا أليمونيير تعتبر موافقة واشنطن على الشروط الروسية خضوعًا لمطالب يستحيل قبولها.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "T8m4C5mffFk:g3",
+      "video_id": "T8m4C5mffFk",
+      "channel": "凤凰卫视",
+      "bloc": "chinese",
+      "orientation": "هونغ كونغ قريب من بكين",
+      "speaker": "وو ويتينغ",
+      "speaker_original": "Wu Weiting",
+      "speaker_role": "مقدمة البرنامج",
+      "is_host": true,
+      "type": "report",
+      "start": 3.0,
+      "end": 33.0,
+      "summary_ar": "المذيعة وو ويتينغ تعلن اختتام اليوم الثاني من محادثات أبوظبي بين الولايات المتحدة وروسيا وأوكرانيا بالاتفاق على تبادل الأسرى دون حسم القضايا الجوهرية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "T8m4C5mffFk:g218",
+      "video_id": "T8m4C5mffFk",
+      "channel": "凤凰卫视",
+      "bloc": "chinese",
+      "orientation": "هونغ كونغ قريب من بكين",
+      "speaker": "تشانغ هونغ",
+      "speaker_original": "Zhang Hong",
+      "speaker_role": "باحث في معهد بحوث روسيا وشرق أوروبا وآسيا الوسطى بالأكاديمية الصينية للعلوم الاجتماعية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 218.0,
+      "end": 241.0,
+      "summary_ar": "الباحث الصيني تشانغ هونغ يرى أن اليوم الثاني من محادثات أبوظبي شهد ارتقاءً في جدول الأعمال بالانتقال من التفاصيل الثنائية إلى الهيكل الأمني الأوروبي الأوسع.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "T8m4C5mffFk:g327",
+      "video_id": "T8m4C5mffFk",
+      "channel": "凤凰卫视",
+      "bloc": "chinese",
+      "orientation": "هونغ كونغ قريب من بكين",
+      "speaker": "تشانغ هونغ",
+      "speaker_original": "Zhang Hong",
+      "speaker_role": "باحث في معهد بحوث روسيا وشرق أوروبا وآسيا الوسطى بالأكاديمية الصينية للعلوم الاجتماعية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 327.0,
+      "end": 355.0,
+      "summary_ar": "الباحث الصيني تشانغ هونغ يوضح أن الطرفين في أبوظبي توصلا إلى فهم متبادل بشأن متطلبات الضمانات الأمنية لكلا البلدين.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "T8m4C5mffFk:g382",
+      "video_id": "T8m4C5mffFk",
+      "channel": "凤凰卫视",
+      "bloc": "chinese",
+      "orientation": "هونغ كونغ قريب من بكين",
+      "speaker": "تشانغ هونغ",
+      "speaker_original": "Zhang Hong",
+      "speaker_role": "باحث في معهد بحوث روسيا وشرق أوروبا وآسيا الوسطى بالأكاديمية الصينية للعلوم الاجتماعية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 382.0,
+      "end": 411.0,
+      "summary_ar": "الباحث الصيني تشانغ هونغ يوضح أن وفدي روسيا وأوكرانيا في محادثات أبوظبي افتقرا إلى تفويض قيادي كافٍ يتيح حسم القضايا المعقدة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "T8m4C5mffFk:g504",
+      "video_id": "T8m4C5mffFk",
+      "channel": "凤凰卫视",
+      "bloc": "chinese",
+      "orientation": "هونغ كونغ قريب من بكين",
+      "speaker": "تشانغ هونغ",
+      "speaker_original": "Zhang Hong",
+      "speaker_role": "باحث في معهد بحوث روسيا وشرق أوروبا وآسيا الوسطى بالأكاديمية الصينية للعلوم الاجتماعية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 504.0,
+      "end": 532.0,
+      "summary_ar": "الباحث الصيني تشانغ هونغ يشير إلى أن واشنطن طلبت من موسكو تقديم مقترح لهيكل الأمن الأوروبي لإلقاء عبء المبادرة التفاوضية على عاتقها.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "T8m4C5mffFk:g745",
+      "video_id": "T8m4C5mffFk",
+      "channel": "凤凰卫视",
+      "bloc": "chinese",
+      "orientation": "هونغ كونغ قريب من بكين",
+      "speaker": "تشانغ هونغ",
+      "speaker_original": "Zhang Hong",
+      "speaker_role": "باحث في معهد بحوث روسيا وشرق أوروبا وآسيا الوسطى بالأكاديمية الصينية للعلوم الاجتماعية",
+      "is_host": false,
+      "type": "forecast",
+      "start": 745.0,
+      "end": 766.0,
+      "summary_ar": "الباحث الصيني تشانغ هونغ يرى أن المفاوضات دخلت مرحلة حساسة دفعت المبعوثين الأمريكيين للتواصل المباشر مع بوتين لافتقار المفاوضين في أبوظبي للصلاحيات.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "IJC0xROnt-I:g187",
+      "video_id": "IJC0xROnt-I",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "ريناتو كوين",
+      "speaker_original": "Renato Coen",
+      "speaker_role": "صحفي إيطالي متخصص في الشؤون الدولية",
+      "is_host": false,
+      "type": "fact",
+      "start": 187.0,
+      "end": 216.0,
+      "summary_ar": "يوضح ريناتو كوين أن الأوروبيين قرروا تكرار صيغة محادثات أبوظبي بالتواجد خارج القاعة الرئيسية مع ضم بولندا إلى الدول الأربع الكبرى.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "w2r-ETPghLs:g1084",
+      "video_id": "w2r-ETPghLs",
+      "channel": "Дождь",
+      "bloc": "russian",
+      "orientation": "معارض في المنفى",
+      "speaker": "فلاديمير ميدينسكي",
+      "speaker_original": "Владимир Мединский",
+      "speaker_role": "مساعد الرئيس الروسي ورئيس وفد التفاوض",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1084.0,
+      "end": 1092.0,
+      "summary_ar": "أكد رئيس وفد التفاوض الروسي فلاديمير ميدينسكي أن الهدف الأساسي هو بناء منظومة أمنية شاملة في أوروبا كنسخة حديثة من يالطا وبوتسدام.",
+      "setting": "other_channel",
+      "source_channel": "Россия 1",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "w2r-ETPghLs:g177",
+      "video_id": "w2r-ETPghLs",
+      "channel": "Дождь",
+      "bloc": "russian",
+      "orientation": "معارض في المنفى",
+      "speaker": "فلاديمير بوتين",
+      "speaker_original": "Владимир Путин",
+      "speaker_role": "الرئيس الروسي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 177.0,
+      "end": 186.0,
+      "summary_ar": "أكد الرئيس الروسي فلاديمير بوتين أن خط التماس الوحيد المقبول لروسيا هو خط حدود الدولة لتكون الأمور واضحة تمامًا.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "w2r-ETPghLs:g960",
+      "video_id": "w2r-ETPghLs",
+      "channel": "Дождь",
+      "bloc": "russian",
+      "orientation": "معارض في المنفى",
+      "speaker": "سيرغي لافروف",
+      "speaker_original": "Сергей Лавров",
+      "speaker_role": "وزير الخارجية الروسي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 960.0,
+      "end": 974.0,
+      "summary_ar": "اعتبر وزير الخارجية الروسي سيرغي لافروف أن تحديد أطر المنظومة الأمنية في أوروبا قبل تسوية النزاع مع أوكرانيا فكرة معقولة.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "w2r-ETPghLs:g215",
+      "video_id": "w2r-ETPghLs",
+      "channel": "Дождь",
+      "bloc": "russian",
+      "orientation": "معارض في المنفى",
+      "speaker": "أوليغ موروزوف",
+      "speaker_original": "Олег Морозов",
+      "speaker_role": "نائب في الدوما الروسي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 215.0,
+      "end": 230.0,
+      "summary_ar": "أكد النائب في الدوما الروسي أوليغ موروزوف أن روسيا تطالب باعتراف الغرب وأوكرانيا بحدودها كشرط لتحقيق السلام.",
+      "setting": "other_channel",
+      "source_channel": "Россия 1",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     }
+    ],
+    "error": "",
+    "extracted": 24,
+    "cost": {
+     "claude": {
+      "claude-sonnet-5": 0.03405
+     },
+     "gemini": 0.8004
+    }
+   }
   },
   {
    "id": "a6beb74d3fca",
