@@ -425,6 +425,12 @@ def install_fakes() -> None:
     reel_render._extract_gray_frames = (  # type: ignore
         lambda clip, fractions: [np.full((720, 1280), 120, dtype=np.uint8) for _ in fractions])
 
+    # التحقق من مقاطع الموضوع بالصوت (meta_verify، 15/11) ينزّل ويفرّغ: مطفأ في كل اختبار قديم يقرأ config الحقيقي، والأصل
+    # محفوظ ليعيده test_meta_verify
+    from src import meta_verify as _meta_verify
+    if not hasattr(_meta_verify, "_enabled_real"):
+        _meta_verify._enabled_real = _meta_verify.enabled  # type: ignore
+    _meta_verify.enabled = lambda cfg: False  # type: ignore
     # حكم Opus على مناسبة إجابات الريل (R14) بلا شبكة: ردّ بلا أداة ← لا إجابة غير مناسبة فيبقى كل سيناريو كما كان؛ ولا يستهلك
     # ردًّا من عملاء الاختبار المزيَّفين المتسلسلين. اختبار يحتاج غيره يستبدل reel_script._fit_create بنفسه
     from src import reel_script as _reel_script

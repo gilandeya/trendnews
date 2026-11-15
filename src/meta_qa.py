@@ -21,7 +21,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from types import SimpleNamespace
 
-from . import llm
+from . import llm, meta_verify
 
 log = logging.getLogger(__name__)
 
@@ -382,7 +382,8 @@ def _speaker_key(b: dict) -> str:
 
 def _rank(b: dict, fit: str) -> tuple:
     # المباشر قبل الضعيف، والرأي والتوقع قبل الواقعة والخبر (الريل منظورات لا نشرة)، والمقدّم آخرًا
-    return (fit != "direct", b.get("type") not in ("opinion", "forecast"), bool(b.get("is_host")))
+    # ما طابق صوتُه كلامَه (meta_verify) قبل ما لم يُفحص: غير المفحوص قد يسقط في التركيب. بلا تحقق الكل سواء فلا يتغير شيء
+    return (not b.get("heard"), fit != "direct", b.get("type") not in ("opinion", "forecast"), bool(b.get("is_host")))
 
 
 def auto_select(questions: list[dict], bites: list[dict], cfg) -> float:
@@ -509,6 +510,8 @@ def issue_body(topic: dict, data: dict, qa: dict, cfg, full_bites: list | None =
             lines.append(row)
             kind = (t.get("types") or {}).get(b.get("type"), b.get("type") or "")
             weak = " · " + t.get("weak_label", "صلة ضعيفة") if a["fit"] == "weak" else ""
+            # 🎧 = صوت المقطع طابق كلامه المكتوب (meta_verify)؛ ما بلا علامة لم يُفحص (نفد الوقت أو تعطّل) وحارسه التركيب
+            weak += t.get("heard_mark", " · 🎧") if b.get("heard") else ""
             boxes.append(f"- [{'x' if a.get('selected') else ' '}] "
                          + t.get("answer_box", "{k} · {who} · {seconds} ث · {kind}{weak}").format(
                              k=k, who=who, seconds=_fmt_sec(_sec(b)), kind=kind, weak=weak)
@@ -516,6 +519,13 @@ def issue_body(topic: dict, data: dict, qa: dict, cfg, full_bites: list | None =
         lines += [""] + boxes + [""]
     lines.append(t.get("total_line", "⏱️ مجموع الإجابات المعلَّمة: {seconds} ث من {budget}").format(
         seconds=_fmt_sec(seconds if gone else (qa.get("selected_seconds") or 0)), budget=_fmt_sec(float(_qcfg(cfg).get("max_seconds", 120)))))
+    vs = qa.get("verify") or {}
+    if vs.get("skipped"):
+        lines += ["", t.get("verify_skipped", "⚠️ لم يُفحص صوت المقاطع: {reason}").format(reason=vs["skipped"])]
+    elif vs.get("checked"):
+        lines += ["", t.get("verify_line", "🎧 فُحص صوت {checked} مقطعًا: {ok} طابق، {no_match} لم يطابق فلم يُعرض، {rest} بلا حكم").format(
+            checked=vs["checked"], ok=vs.get("ok", 0), no_match=vs.get("no_match", 0),
+            rest=int(vs.get("failed", 0)) + int(vs.get("left", 0)) + int(vs.get("no_text", 0)))]
     if qa.get("failures"):
         lines += ["", t.get("failures_header", "⚠️ فيديوهات لم تدخل:")]
         for f in qa["failures"]:
@@ -567,7 +577,7 @@ def public_bite(b: dict) -> dict:
     """ما يُحفظ في ملف الحالة العام: بلا ترجمة ولا كلام بلغته؛ الترجمة تُعرض في جسم القضية وحده (issue_body)."""
     return {k: b.get(k) for k in ("bite_id", "video_id", "channel", "bloc", "orientation", "speaker", "speaker_original",
                                   "speaker_role", "is_host", "type", "start", "end", "summary_ar", "setting", "source_channel",
-                                  "voice", "original_of")}
+                                  "voice", "original_of", "heard")}
 
 
 def process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: datetime | None = None,
@@ -630,6 +640,19 @@ def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: d
         titles, questions, err = plan_questions(topic, bites, cfg, client)
         if err:
             raise RuntimeError(err)
+        # الخطوة «ب» (15/11): صوت المقاطع يُطابَق بكلامها قبل أن تُعرض، فما لا يُسمع كما كُتب لا يُختار ولا يُكتب له سيناريو
+        if meta_verify.enabled(cfg):
+            vs = meta_verify.verify(meta_verify.priority(questions, bites, actors), cfg)
+            if (q.get("verify") or {}).get("drop_no_match", True):
+                for qu in questions:
+                    qu["answers"] = [a for a in qu["answers"] if not meta_verify.unheard(bites[a["n"] - 1])]
+                questions = [qu for qu in questions if qu["answers"]]
+                actors = [b for b in actors if not meta_verify.unheard(b)]
+            qa["verify"] = vs
+            if not questions:
+                # لا إعادة: المحاولة التالية تعيد نداءات Gemini كلها (نحو 0.8$) على الفيديوهات نفسها
+                qa["attempts"] = max(qa["attempts"], int(q.get("max_attempts", 3)))
+                raise RuntimeError(t.get("no_heard", "لم يطابق صوت أي مقطع كلامه المكتوب"))
         # المقاطع التي لم تدخل سؤالًا لا تُحفظ في العام: لا تُعرض ولا تلزم الخطوة التالية
         keep = sorted({a["n"] for qu in questions for a in qu["answers"]})
         remap = {n: i for i, n in enumerate(keep, 1)}

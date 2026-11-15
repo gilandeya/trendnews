@@ -1629,6 +1629,21 @@ step (`article.wide_days`).
 و`qa.max_videos` 7 (كان 10)؛ السياق والختام (`script.model`) باقيان على Opus. `tests.helpers.load_config` يحذف `path_overrides`؛ الاختبار
 `tests/test_youtube.py:test_reel_cost_cut`.
 
+### التحقق من مقاطع الموضوع بالصوت قبل العرض (خطة 15/11، الخطوة «ب») — `src/meta_verify.py`
+
+السبب: نافذة Gemini تقديرية، وما لا يطابق مسموعُه نصَّه كان يُكتشف في التركيب بعد اختيار الأسئلة وكتابة السيناريو (قضية 1881، و20 سيناريو
+فاشلًا من 45). في `meta_qa._process_topic` بعد `plan_questions` وقبل الترتيب والاختيار (خطوة الأسئلة في `reel-render.yml` فيها البروكسي
+والمفرِّغ؛ `publish.yml` بلا أيٍّ منهما): `meta_verify.verify(priority(questions, bites, actors), cfg)` ينزّل لكل فيديو صوت نوافذ مقاطعه وحدها
+(`bite_audio._real_download` بأقسام مدمجة، أدنى جودة) ويفرّغ ويطابق `text_original` بـ`reel_clips.align_quote` (والحد الأرخى كما في التركيب)،
+بالنافذة الضيقة `margin` ثم الواسعة `wide_margin` مرة. المطابق: `bite["audio"] = {status: ok, ratio, t0, t1, words}` (الملف الخاص وحده)
+و`heard: true` وحدّاه من الصوت (ضمن `span_seconds`)، فيأخذ التركيب كلماته (`audio_words`) بلا تفريغ ثانٍ. `no_match`: إجابته تُحذف، والسؤال
+الذي فرغ يسقط، ومقطع السياق لا يُعرض (`drop_no_match`)؛ لا سؤال باقٍ ← فشل بلا إعادة (الإعادة تكرّر نداءات Gemini). عطل تنزيل أو تفريغ،
+أو نفاد `budget_seconds`/`max_bites`، أو فشل الفحص الذاتي للمفرِّغ ← المقطع معروض بلا 🎧 وحارس التركيب (الحذف وإعادة الاختيار) شبكة أمان؛
+لا يرفع أبدًا. `priority`: أول إجابة لكل سؤال ثم السياق ثم البقية. `auto_select` يقدّم المطابق (`_rank`). الأرقام وحدها في `qa.verify`
+وسطر «🎧 فُحص صوت…» أو «⚠️ لم يُفحص…» في قضية الموضوع، و«· 🎧» في مربع الإجابة. بايتات البروكسي في دفتر الكلفة. الإعداد
+`youtube.meta_topics.qa.verify` (`enabled: false` ← كما كان). `install_fakes` يطفئه (`meta_verify.enabled`، والأصل `_enabled_real`).
+الاختبار `tests/test_youtube.py:test_meta_verify`. **لم يُجرَّب على يوتيوب ولا whisper حقيقيين.**
+
 ## ذاكرة الصحافة (Issue #1255) — `src/press_events.py`
 
 بيانات فقط (لا نموذج ولا قضايا، ولا أثر على المرشحين أو قضية الترشيح أو الترتيب): تحفظ **من غطّى الحدث وبأي عنوان ولغة**، لأن

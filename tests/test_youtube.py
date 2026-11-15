@@ -6249,6 +6249,167 @@ def test_meta_frame_truncation_1885() -> None:
         meta_script._create = saved
 
 
+def test_meta_verify() -> None:
+    """الخطوة «ب» (15/11): صوت مقاطع الموضوع يُطابَق بكلامها قبل أن تُعرض للاختيار. المطابق يأخذ حدّيه من الصوت وتُحفظ كلماته في
+    الملف الخاص وحده، وغير المطابق لا يُعرض، وعطل التنزيل أو المفرِّغ يترك المقاطع معروضة بلا حكم ولا يُسقط الأسئلة."""
+    from pathlib import Path
+    from types import SimpleNamespace as NS
+
+    from src import bite_audio, meta_qa, meta_verify, review, youtube_bites, youtube_transcripts
+    from src.config import Config, load_config as real_load
+
+    base = real_load()
+    cfg = Config(dict(base))
+    cfg["youtube"] = {**base["youtube"], "meta_topics": {**base["youtube"]["meta_topics"], "enabled": True}}
+    check("التحقق بالصوت مفعَّل في الإعداد", meta_verify._enabled_real(cfg) is True)
+
+    qs = [{"answers": [{"n": 1}, {"n": 2}, {"n": 3}]}, {"answers": [{"n": 4}, {"n": 1}]}]
+    bs = [{"k": i} for i in range(1, 5)]
+    extra = [{"k": 9}]
+    check("ترتيب التحقق: أول إجابة لكل سؤال ثم السياق ثم الباقي، وكل مقطع مرة",
+          [b["k"] for b in meta_verify.priority(qs, bs, extra)] == [1, 4, 9, 2, 3])
+    check("نافذة الصوت لا تسبق أول الفيديو ولا تتجاوز مدته",
+          meta_verify.window({"start": 3, "end": 20, "duration_seconds": 25}, 8) == (0, 25))
+
+    class R:
+        def __init__(self, payload):
+            self.status_code, self._p = 200, payload
+            self.text = json.dumps(payload, ensure_ascii=False)
+
+        def json(self):
+            return self._p
+
+    def post(url, json=None, timeout=None, headers=None):
+        vid = json["contents"][0]["parts"][0]["file_data"]["file_uri"].split("v=")[1]
+        k = int(vid[1:])
+        bites = [{"start": f"0{n}:00", "end": f"0{n}:25", "speaker": f"ضيف{k}", "type": "opinion", "summary_ar": f"يرى {k}{n}",
+                  "text_original": f"alpha beta gamma delta w{k}{n}", "text_ar": f"كلام سري {k}{n}"} for n in (1, 2)]
+        out = {"speakers": [{"name_ar": f"ضيف{k}", "is_host": False, "name_source": "chyron"}], "bites": bites}
+        return R({"candidates": [{"finishReason": "STOP", "content": {"parts": [{"text": __import__("json").dumps(out)}]}}],
+                  "usageMetadata": {"promptTokenCount": 1000, "candidatesTokenCount": 200}})
+
+    cuts: dict = {}
+    calls = {"dl": [], "tr": 0}
+
+    def dl(vid, out, ranges):
+        calls["dl"].append((vid, list(ranges)))
+        if vid == "v2":
+            raise RuntimeError("HTTP Error 402: Payment Required http://user:pw@proxy")
+        res = []
+        for a, b in ranges:
+            f = Path(out) / f"sec_{vid}_{a}.webm"
+            f.write_bytes(b"0" * 1000)
+            res.append((a, b, f))
+        return res
+
+    def cut(src, start, end, tmp):
+        vid, a = src.stem.split("_")[1:3]
+        p = Path(tmp) / f"cut_{vid}_{len(cuts)}.wav"
+        cuts[str(p)] = (vid, int(a) + start)
+        return p
+
+    def transcribe(path, lang, cfg):
+        calls["tr"] += 1
+        vid, w0 = cuts[str(path)]
+        k = int(vid[1:])
+        out = []
+        for n in (1, 2):
+            # الكلام يبدأ بعد ما قاله Gemini بثانيتين؛ ومقطع v0 الثاني يُسمع فيه كلام آخر
+            said = "totally different words here now" if (vid, n) == ("v0", 2) else f"alpha beta gamma delta w{k}{n}"
+            t = n * 60 + 2 - w0
+            for j, w in enumerate(said.split()):
+                if t + j >= 0:
+                    out.append((t + j, t + j + 0.4, w))
+        return out
+
+    saved = {k: getattr(review, k) for k in ("comment", "update_issue_body")}
+    saved_create, saved_load = meta_qa._create, youtube_transcripts.load
+    saved_enabled, saved_deps = meta_verify.enabled, meta_verify.default_deps
+    old_key = os.environ.get("GEMINI_API_KEY")
+    d = tempfile.mkdtemp()
+    old_dir = os.environ.get("TRENDNEWS_YOUTUBE_BITES_DIR")
+    os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = d
+    bodies: list = []
+    try:
+        review.comment = lambda n, text: None
+        review.update_issue_body = lambda n, b: bodies.append(b)
+        youtube_transcripts.load = lambda vid: None
+        meta_verify.enabled = meta_verify._enabled_real
+        meta_verify.default_deps = lambda: bite_audio.Deps(download_sections=dl, cut=cut, transcribe=transcribe,
+                                                           selfcheck=lambda c: (True, ""))
+
+        def plan(client, **kw):
+            # المقاطع بترتيبها: v0 (1، 2)، v1 (3، 4)، v2 (5، 6)
+            return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="plan_questions", input={
+                "titles": ["ع1", "ع2", "ع3"],
+                "questions": [{"text": "السؤال الأول؟", "answers": [{"n": 1, "fit": "direct"}, {"n": 3, "fit": "direct"},
+                                                                   {"n": 5, "fit": "direct"}]},
+                              {"text": "السؤال الثاني؟", "answers": [{"n": 2, "fit": "direct"}]}]})])
+        meta_qa._create = plan
+        vids = [{"video_id": f"v{i}", "channel": f"ch{i}", "bloc": b, "orientation": o, "minutes": 30}
+                for i, (b, o) in enumerate([("arabic", "قطري"), ("turkish", "معارض"), ("persian", "معارض للنظام")])]
+        topic = {"id": "mv1", "title": "حدث", "blocs": ["arabic", "turkish"], "orientations": 3, "minutes": 90,
+                 "channels": [], "videos": vids, "topic_issue": 971}
+        data = {"date": "2026-11-15", "topics": [topic]}
+        os.environ["GEMINI_API_KEY"] = "KEY"
+        status = meta_qa.process_topic(topic, data, cfg, client=object(), gemini_post=post)
+        qa = topic["qa"]
+        vs = qa.get("verify") or {}
+        check("التحقق: الموضوع جاهز، وتنزيل واحد لكل فيديو بأقسام نوافذه",
+              status == "ready" and [v for v, _ in calls["dl"]] == ["v0", "v1", "v2"], (status, qa.get("error"), calls["dl"]))
+        check("التحقق: الأرقام — مطابقان، وواحد لم يطابق، وواحد تعطّل تنزيله",
+              (vs.get("checked"), vs.get("ok"), vs.get("no_match"), vs.get("failed")) == (4, 2, 1, 1), vs)
+        check("غير المطابق جُرّب بالنافذة الضيقة ثم الواسعة مرة", calls["tr"] == 4, calls["tr"])
+        ids = [a["bite_id"] for q in qa["questions"] for a in q["answers"]]
+        check("غير المطابق لا يُعرض وسؤاله الذي فرغ يسقط، ومتعطل التنزيل يبقى معروضًا",
+              sorted(ids) == ["v0:g60", "v1:g60", "v2:g60"] and len(qa["questions"]) == 1, ids)
+        priv = json.loads(meta_qa.private_path("mv1").read_text(encoding="utf-8"))
+        b0 = next(b for b in priv["bites"] if b["bite_id"] == "v0:g60")
+        check("المطابق يأخذ حدّيه من الصوت وتُحفظ كلماته في الملف الخاص",
+              b0["start"] == 62.0 and abs(b0["end"] - 66.4) < 0.01 and len(b0["audio"]["words"]) == 5
+              and b0["audio"]["status"] == "ok", (b0["start"], b0["end"], b0.get("audio")))
+        pts = youtube_bites.bites_as_points(priv["bites"])
+        p0 = next(p for p in pts if p.get("bite_id") == "v0:g60")
+        check("كلمات التحقق تصل التركيب (audio_words) فلا تفريغ ثانٍ", bool(p0.get("audio_words")) and p0.get("audio_status") == "ok")
+        pub = json.dumps(data, ensure_ascii=False)
+        check("العام بلا كلمات الصوت ولا كلام القناة ولا بيانات البروكسي",
+              "alpha" not in pub and "words" not in pub and "user:pw" not in pub and "user:pw" not in json.dumps(priv))
+        body = bodies[-1] if bodies else ""
+        check("القضية: 🎧 للمطابق وسطر أرقام الفحص", body.count("· 🎧") == 2 and "🎧 فُحص صوت 4 مقطعًا" in body, body[-600:])
+
+        # المفرِّغ غير متاح: لا تنزيل ولا إسقاط، وسطر تنبيه في القضية
+        calls["dl"].clear()
+        meta_verify.default_deps = lambda: bite_audio.Deps(download_sections=dl, cut=cut, transcribe=transcribe,
+                                                           selfcheck=lambda c: (False, "faster-whisper غير مثبّت"))
+        t2 = {**topic, "id": "mv2", "qa": None}
+        status2 = meta_qa.process_topic(t2, data, cfg, client=object(), gemini_post=post)
+        check("مفرِّغ معطَّل: الموضوع جاهز بكل مقاطعه بلا تنزيل، والسبب في القضية",
+              status2 == "ready" and not calls["dl"] and len(t2["qa"]["questions"]) == 2
+              and "لم يُفحص صوت المقاطع" in bodies[-1], (status2, t2["qa"].get("error")))
+
+        # كل الإجابات لم تطابق: لا أسئلة تُعرض
+        meta_verify.default_deps = lambda: bite_audio.Deps(
+            download_sections=dl, cut=cut, selfcheck=lambda c: (True, ""),
+            transcribe=lambda p, lang, c: [(k * 0.5, k * 0.5 + 0.4, w) for k, w in enumerate("nothing matches at all here".split())])
+        t3 = {**topic, "id": "mv3", "qa": None, "videos": vids[:2]}
+        status3 = meta_qa.process_topic(t3, data, cfg, client=object(), gemini_post=post)
+        check("لا مقطع طابق: الموضوع يفشل بسببه بدل عرض ما لا يُسمع",
+              status3 == "failed" and "لم يطابق" in t3["qa"]["error"], (status3, t3["qa"].get("error")))
+    finally:
+        for k, v in saved.items():
+            setattr(review, k, v)
+        meta_qa._create, youtube_transcripts.load = saved_create, saved_load
+        meta_verify.enabled, meta_verify.default_deps = saved_enabled, saved_deps
+        if old_key is None:
+            os.environ.pop("GEMINI_API_KEY", None)
+        else:
+            os.environ["GEMINI_API_KEY"] = old_key
+        if old_dir is None:
+            os.environ.pop("TRENDNEWS_YOUTUBE_BITES_DIR", None)
+        else:
+            os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = old_dir
+
+
 def test_reel_cost_cut() -> None:
     """تقييم 15/11: محرر الريل كان معظم كلفة الريل (~2.3$ من ~3.7$) بإعداد صُمّم للمقال. `editor.path_overrides.reel` يجعله Sonnet
     بلا بحث ويب وبلا مراجعة ثانية بعد جولة التصحيح؛ بقية المسارات على الإعداد العام. وأسئلة الموضوع على Sonnet وسبعة فيديوهات."""
