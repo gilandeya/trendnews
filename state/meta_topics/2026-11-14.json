@@ -1383,10 +1383,17 @@
       "claude-opus-5": 0.33172
      },
      "gemini": 1.111
-    }
+    },
+    "excluded": [
+     {
+      "bite_id": "FjCzhgiAnOk:g960",
+      "reason": "تعذّر ضبط المقطع كلمة بكلمة: النسبة 0.0 أقل من 0.7",
+      "draft": "ac18e77e8e19",
+      "at": "2026-11-15T04:56:15.591186+00:00"
+     }
+    ]
    },
-   "script_issue": 1881,
-   "script_draft": "ac18e77e8e19"
+   "script_redo": 1
   },
   {
    "id": "036b5aff59fa",

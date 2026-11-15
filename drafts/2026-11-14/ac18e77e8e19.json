@@ -1,7 +1,7 @@
 {
   "id": "ac18e77e8e19",
   "created_at": "2026-11-14T06:34:43.041461+00:00",
-  "status": "approved_script",
+  "status": "superseded",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -602,25 +602,49 @@
     ]
   },
   "hook_picked": 0,
-  "render_error": "بقي 0 مقطعًا من 2 بعد الحذف والأدنى المطلوب 2",
   "render_dropped": [
-    {
-      "point_id": "35d0394492a6",
-      "kind": "clip",
-      "reason": "تعذّر ضبط المقطع كلمة بكلمة: النسبة 0.536 أقل من 0.7"
-    },
     {
       "point_id": "3e67dc664a2b",
       "kind": "clip",
-      "reason": "تعذّر ضبط المقطع كلمة بكلمة: النسبة 0.0 أقل من 0.7"
+      "reason": "تعذّر ضبط المقطع كلمة بكلمة: النسبة 0.0 أقل من 0.7",
+      "exact": {
+        "reason": "low_ratio",
+        "best_ratio": 0.0,
+        "heard_words": 223,
+        "lang": "en",
+        "approx": true,
+        "saved_words": false,
+        "window": [
+          939.0,
+          1016.0
+        ],
+        "quote_words": 55
+      }
     }
   ],
-  "render_approx": [],
-  "rendered_at": "2026-11-14T08:15:08.308007+00:00",
+  "render_approx": [
+    {
+      "point_id": "35d0394492a6",
+      "kind": "clip",
+      "start": 75,
+      "end": 94,
+      "reason": "الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة",
+      "aligned": true
+    }
+  ],
+  "rendered_at": "2026-11-15T04:56:11.255044+00:00",
   "cost_renders": [
     {
       "proxy_bytes": 17639088,
       "at": "2026-11-14T08:15:08.308031+00:00"
+    },
+    {
+      "proxy_bytes": 17641343,
+      "at": "2026-11-15T04:56:11.255071+00:00"
     }
-  ]
+  ],
+  "render_attempts": 0,
+  "render_error": "بقي 1 مقطعًا من 2 بعد الحذف والأدنى المطلوب 2",
+  "superseded_reason": "render_failed_reselect",
+  "superseded_at": "2026-11-15T04:56:15.593511+00:00"
 }
