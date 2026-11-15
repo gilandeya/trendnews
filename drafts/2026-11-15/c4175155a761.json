@@ -1,0 +1,570 @@
+{
+  "id": "c4175155a761",
+  "created_at": "2026-11-15T18:00:55.674408+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "توقف الرحلات الجوية في أمريكا",
+  "event": "توقف الرحلات الجوية في أمريكا",
+  "tier": 4,
+  "blocs": [
+    "arabic",
+    "english",
+    "russian",
+    "turkish"
+  ],
+  "channels": [
+    "CNN",
+    "Fox News",
+    "Habertürk",
+    "SÖZCÜ",
+    "Дождь",
+    "الجزيرة",
+    "الميادين",
+    "سكاي نيوز عربية"
+  ],
+  "agreement": "",
+  "score": 0,
+  "warnings": [
+    "اسم لم يُحسم: ماركواين مولين (بلا أصل لاتيني) — الرسم الحالي موثَّق في نطاقات عربية بالقدر نفسه",
+    "🔧 تُرك مقطع سياق بعد فحص قائلي المقاطع: ماركواين مولين",
+    "⏱️ السياق 41 كلمة (الحد 37) فقُبل كما هو لأن المادة من اختيارك — راجعه"
+  ],
+  "run_date": "2026-11-15",
+  "topic_date": "2026-11-15",
+  "arabic": {
+    "post_title": "هل شُلّ الطيران الأمريكي بهجوم سيبراني أم بعطل متهالك؟",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "CNN",
+      "Fox News",
+      "Habertürk",
+      "SÖZCÜ",
+      "Дождь",
+      "الجزيرة",
+      "الميادين",
+      "سكاي نيوز عربية"
+    ]
+  },
+  "source_videos": [],
+  "meta_topic_id": "5c08fff1b4ee",
+  "meta_issue": 1885,
+  "hook_pick": 3,
+  "cost_qa": {
+    "claude": {
+      "claude-opus-5": 0.40599
+    },
+    "gemini": 1.2405
+  },
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "01e0a409fb5b",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "إذا أخذنا في الحسبان اتساع القارة الأمريكية حيث يستغرق الطيران من أقصى شرقها إلى غربها نحو ست ساعات، فهذا بالتأكيد هجوم منظم، وسواء كان هجومًا سيبرانيًا بحتًا أو مدعومًا بأساليب أخرى، فهو بلا شك هجوم تشويش وضغط على الترددات.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سوزجو"
+      },
+      {
+        "point_id": "39719de2a471",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "الخلاصة أن أي خلل حدث تسبب في زيادة الحمل على النظام، وهذا هو عدم الاستقرار الذي سمعناه من المسؤولين اليوم، إذ قالوا إنهم بدأوا يرصدون عدم استقرار في نحو سبع عشرة منشأة، ولنحو خمس وأربعين دقيقة لم يكن واضحًا السبب ولا المصدر، وبينما كانوا يعملون على تحديد ما يسبب عدم الاستقرار أو على الأقل موقعه، اتخذوا قرار الدعوة إلى وقف الرحلات الجوية على مستوى البلاد.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن"
+      },
+      {
+        "point_id": "f86553431db1",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "أول ما لفت انتباهي أننا نناقش هذه المسألة بوصفها إزعاجًا كبيرًا جدًا، وهو ما كانت عليه بالفعل، ولا نناقشها بوصفها قضية سلامة حرجة أو مأساة. وأكرر ما قاله الوزير: النظام نجح. فإذا كانت أسوأ نتيجة إزعاجًا كبيرًا وصداعًا وتكلفة، فهذا يظل أفضل بكثير من أي مأساة.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن"
+      },
+      {
+        "point_id": "92901d70758f",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن"
+      },
+      {
+        "point_id": "3ac0daf169e0",
+        "speaker_said_it": "no",
+        "other_name": "<UNKNOWN>",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "فوكس نيوز"
+      },
+      {
+        "point_id": "11aacb516b3d",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن"
+      }
+    ]
+  },
+  "quote_retranslated": [
+    "01e0a409fb5b",
+    "39719de2a471",
+    "f86553431db1"
+  ],
+  "clip_dropped": [
+    {
+      "point_id": "3ac0daf169e0",
+      "channel": "فوكس نيوز",
+      "reason": "ملخّص النقطة ينسبها إلى شخص آخر: <UNKNOWN>"
+    }
+  ],
+  "names_audit": [
+    {
+      "arabic": "ظافر يشيل غول",
+      "latin": "Zafer Yeşil Gül"
+    },
+    {
+      "arabic": "رينيه مارش",
+      "latin": "Renee Marsh"
+    },
+    {
+      "arabic": "ستيفن والاس",
+      "latin": "Stephen Wallace"
+    },
+    {
+      "arabic": "كريس سونونو",
+      "latin": "Chris Sununu"
+    },
+    {
+      "arabic": "برايان بيدفورد",
+      "latin": "Brian Bedford"
+    },
+    {
+      "arabic": "ماركواين مولين",
+      "latin": ""
+    }
+  ],
+  "script_attempts": [
+    {
+      "attempt": 1,
+      "reasons": [
+        "السياق أطول من 37 كلمة (41)"
+      ]
+    }
+  ],
+  "headlines": [
+    "هل شُلّ الطيران الأمريكي بهجوم سيبراني أم بعطل متهالك؟",
+    "من يتحمل مسؤولية إغلاق سماء أمريكا بالكامل؟"
+  ],
+  "headline_selected": 0,
+  "name_unresolved": [
+    {
+      "arabic": "ماركواين مولين",
+      "latin": "",
+      "reason": "الرسم الحالي موثَّق في نطاقات عربية بالقدر نفسه"
+    }
+  ],
+  "script": {
+    "version": 2,
+    "narrator": "female",
+    "title": "هل شُلّ الطيران الأمريكي بهجوم سيبراني أم بعطل متهالك؟",
+    "question": "ما الذي يمنع تكرار شلل كهذا في سماء أمريكا؟",
+    "event": "",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "هل شُلّ الطيران الأمريكي بهجوم سيبراني أم بعطل متهالك؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "بدأ خلل اتصالات في سبع عشرة منشأة للملاحة الجوية، فأوقفت إدارة الطيران الفيدرالية الأمريكية الرحلات في عموم البلاد."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "11aacb516b3d",
+        "q": "c0",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=PiuUecze-qE",
+        "start": 382.0,
+        "end": 395.0,
+        "speaker_name": "برايان بيدفورد",
+        "speaker_role": "مدير إدارة الطيران الفيدرالية الأمريكية",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Bryan Bedford",
+        "channel_display": "سي إن إن",
+        "channel_original": "CNN",
+        "quote_arabic": "نظرًا لعجزنا عن تحديد السبب الجذري، لم نكن مستعدين لتحمل أي مخاطرة قد يؤدي معها هذا الانتشار إلى فقدان أحد المراكز الاتصال بالطائرات.",
+        "quote_original": "Because of our lack of identifying the root cause, we were unwilling to take any risk that this propagation could actually result in a center losing connectivity with aircraft.",
+        "language": "en",
+        "video_published": "2026-11-14T18:01:45Z",
+        "relay": "external",
+        "relay_source": "",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "واستؤنفت الرحلات بعد ساعتين، فيما أكد مدير إدارة الطيران الفيدرالية الأمريكية عدم وجود أدلة على هجوم سيبراني."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 0,
+        "text": "هل ما شلّ الطيران الأمريكي هجوم سيبراني أم عطل في البنية التحتية؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "01e0a409fb5b",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=MpM-zmAkVUA",
+        "start": 2977.0,
+        "end": 3010.0,
+        "speaker_name": "ظافر يشيل غول",
+        "speaker_role": "خبير مراقبة الملاحة الجوية التركي المتقاعد",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Zafer Yeşilgül",
+        "channel_display": "سوزجو",
+        "channel_original": "SÖZCÜ",
+        "quote_arabic": "إذا أخذنا في الحسبان اتساع القارة الأمريكية حيث يستغرق الطيران من أقصى شرقها إلى غربها نحو ست ساعات، فهذا بالتأكيد هجوم منظم، وسواء كان هجومًا سيبرانيًا بحتًا أو مدعومًا بأساليب أخرى، فهو بلا شك هجوم تشويش وضغط على الترددات.",
+        "quote_original": "Amerika kıtasında bir uçtan bir uca 6 saatlik bir ülke olduğunu, doğu-batı 5 saat, 6 saat uçulan büyük bir ülke olduğunu düşünürseniz bu tabii ki bir saldırıdır. Bu saldırı siber saldırı mıdır, siber destekli farklı bir saldırı mıdır bunu bilemem. Ama bu bir saldırıdır, bu bir frekans karıştırmasıdır, bu frekanslara bir baskı saldırısıdır.",
+        "language": "tr",
+        "video_published": "2026-11-13T23:03:01Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "39719de2a471",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=PiuUecze-qE",
+        "start": 153.0,
+        "end": 187.0,
+        "speaker_name": "رينيه مارش",
+        "speaker_role": "مراسلة شبكة سي إن إن",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "René Marsh",
+        "channel_display": "سي إن إن",
+        "channel_original": "CNN",
+        "quote_arabic": "الخلاصة أن أي خلل حدث تسبب في زيادة الحمل على النظام، وهذا هو عدم الاستقرار الذي سمعناه من المسؤولين اليوم، إذ قالوا إنهم بدأوا يرصدون عدم استقرار في نحو سبع عشرة منشأة، ولنحو خمس وأربعين دقيقة لم يكن واضحًا السبب ولا المصدر، وبينما كانوا يعملون على تحديد ما يسبب عدم الاستقرار أو على الأقل موقعه، اتخذوا قرار الدعوة إلى وقف الرحلات الجوية على مستوى البلاد.",
+        "quote_original": "The bottom line is whatever went wrong, it caused the system to overload. And that is the instability that we kept on hearing these officials today talking about. They said that they started to see instability at some 17 facilities, and for roughly 45 minutes, it was unclear why and where it was coming from. So as they were working to pinpoint exactly what was causing the instability or at least the location, that is when they made the decision to call for that nationwide ground stop.",
+        "language": "en",
+        "video_published": "2026-11-14T18:01:45Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 1,
+        "text": "هل كانت سلامة الطائرات والركاب في خطر فعلي؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "f86553431db1",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=PiuUecze-qE",
+        "start": 636.0,
+        "end": 672.0,
+        "speaker_name": "ستيفن والاس",
+        "speaker_role": "مدير سابق لمكتب التحقيق في الحوادث بإدارة الطيران الفيدرالية الأمريكية",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Steven Wallace",
+        "channel_display": "سي إن إن",
+        "channel_original": "CNN",
+        "quote_arabic": "أول ما لفت انتباهي أننا نناقش هذه المسألة بوصفها إزعاجًا كبيرًا جدًا، وهو ما كانت عليه بالفعل، ولا نناقشها بوصفها قضية سلامة حرجة أو مأساة. وأكرر ما قاله الوزير: النظام نجح. فإذا كانت أسوأ نتيجة إزعاجًا كبيرًا وصداعًا وتكلفة، فهذا يظل أفضل بكثير من أي مأساة.",
+        "quote_original": "The first thing that jumped out at me is that we are discussing this matter as a major, major inconvenience, which it was, and we're not discussing it as a critical safety issue. We're not discussing it as a tragedy. So, again, to echo what the secretary said, the system worked. I mean, if the worst result is a major inconvenience, headache, and cost, that's still better than anything tragic happening.",
+        "language": "en",
+        "video_published": "2026-11-14T18:01:45Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "92901d70758f",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=PiuUecze-qE",
+        "start": 941.0,
+        "end": 959.0,
+        "speaker_name": "كريس سونونو",
+        "speaker_role": "الرئيس التنفيذي لمنظمة خطوط الطيران الأمريكية وحاكم ولاية نيوهامبشير السابق",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Chris Sununu",
+        "channel_display": "سي إن إن",
+        "channel_original": "CNN",
+        "quote_arabic": "قرار وقف الطيران كان الإجراء الصحيح، فعندما لا تكون متأكدًا بنسبة مئة بالمئة مما يحدث، يجب أن تضمن سلامة الجميع وتوقف النظام مؤقتًا، ثم في غضون ساعتين أعادوا تشغيل كل شيء بنجاح، وكان هذا أمرًا رائعًا، ورغم أنه شكل اختناقًا وإزعاجًا كبيرًا للعديد من العملاء، إلا أنهم كانوا شفافين ومتعاونين للغاية في التواصل طوال هذه العملية، وبصراحة كانوا شريكًا رائعًا.",
+        "quote_original": "The ground stop was the right thing. When you're not 100% sure what's happening, you make sure everyone's safe, you take a pause on the system, and then within a couple of hours they had everybody up and running again, which was terrific. Obviously, a traffic jam, big hassle for a lot of the customers, but through this process they've been very transparent, very communicative, and frankly a great partner.",
+        "language": "en",
+        "video_published": "2026-11-14T18:01:45Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "question",
+        "text": "ما الذي يمنع تكرار شلل كهذا في سماء أمريكا؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": []
+  },
+  "editor_revision": {
+    "at": "2026-11-15T18:01:17.170187+00:00",
+    "applied": true,
+    "error": null,
+    "before": [
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "نفى المسؤول الأمريكي ماركواين مولين وجود أدلة على هجوم سيبراني",
+        "fix": "",
+        "note": "اسم ماركواين مولين غير مرتبط بأي شريط موثّق في المقاطع المرفقة، ولا يظهر في أي مقطع كمتحدث بشريط قناة. السطر [4] يسند له قولاً دون مصدر مرئي موثَّق يثبت هويته أو صفته، وتنبيه المسودة يؤكد أن الاسم غير محسوم الرسم. يجب التحقق من الاسم والصفة قبل النشر أو حذف الإسناد.",
+        "sources": [],
+        "video": ""
+      },
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "في الولايات المتحدة، بدأ خلل في الاتصالات بمنشأتين للملاحة الجوية ثم اتسع إلى نحو سبع عشرة منشأة، فأوقفت إدارة الطيران الفيدرالية الأمريكية الرحلات في عموم البلاد.",
+        "fix": "بدأ خلل اتصالات في سبع عشرة منشأة للملاحة الجوية، فأوقفت إدارة الطيران الفيدرالية الأمريكية الرحلات في عموم البلاد.",
+        "note": "جملة السياق [2] تتجاوز حد 25 كلمة/3 جمل، وتجمع مع [4] أكثر من 37 كلمة كما نبهت المسودة. يجب اختصارها لتبقى ضمن الحد.",
+        "sources": []
+      },
+      {
+        "category": "vague_attribution",
+        "severity": "low",
+        "location": "body",
+        "original": "فيما نفى المسؤول الأمريكي ماركواين مولين وجود أدلة على هجوم سيبراني",
+        "fix": "",
+        "note": "صفة \"المسؤول الأمريكي\" غامضة ولا تحدد منصبه أو جهته الرسمية، خلافًا للقاعدة التحريرية التي تطلب ذكر الصفة والدولة بدقة.",
+        "sources": []
+      }
+    ],
+    "unresolved": []
+  },
+  "editor_review": {
+    "at": "2026-11-15T18:01:17.170187+00:00",
+    "applied": [
+      {
+        "category": "headline_contradicts",
+        "severity": "low",
+        "location": "headline_3",
+        "original": "هل كانت أزمة الطيران الأمريكي مفتعلة لتمرير المليارات؟",
+        "fix": "",
+        "note": "لا يوجد في المتن أو المقاطع أي إشارة إلى دافع مالي أو \"تمرير مليارات\"؛ هذا العنوان يطرح فرضية لا تسندها أي مادة مرفقة ويُقحم زاوية غريبة عن الموضوع.",
+        "sources": []
+      }
+    ],
+    "notes": [],
+    "error": null,
+    "searches": 0,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "hook_clash": {
+    "mode": "single",
+    "relation": "single",
+    "a": {
+      "point_id": "39719de2a471",
+      "first_words": "The bottom line is",
+      "last_words": "overload",
+      "text_ar": "الخلاصة أن أي خلل حدث تسبب في زيادة الحمل على النظام",
+      "sub_original": "The bottom line is whatever went wrong, it caused the system to overload.",
+      "arabic": false,
+      "word_from": 0,
+      "word_to": 12,
+      "words_total": 87,
+      "est_seconds": 5.0,
+      "original_words": 13,
+      "channel": "سي إن إن",
+      "bloc": "english",
+      "speaker": "رينيه مارش"
+    },
+    "hook_text": "توقف طيران أمريكا: هجوم أم عطل؟",
+    "rejected": [
+      "مدة الجملة 10.0 ث خارج [1.5، 6]",
+      "مدة الجملة 8.5 ث خارج [1.5، 6]",
+      "مدة الجملة 8.8 ث خارج [1.5، 6]",
+      "مدة الجملة 10.0 ث خارج [1.5، 6]",
+      "مدة الجملة 7.3 ث خارج [1.5، 6]",
+      "مدة الجملة 6.2 ث خارج [1.5، 6]"
+    ]
+  },
+  "reel_bg": {
+    "url": "https://imgs.search.brave.com/DQDZ2HpYnkeb3l5IozA8fy2eQ5aLo4ycqJyTS-RtGH8/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZW1pbmkubWVk/aWEvaW1nL2xhcmdl/LzIwMjUvMTIvMjYv/MjAyNV8xMl8yNl8x/NF81Nl8yOF82ODQu/d2VicA",
+    "kind": "web_search",
+    "publisher": "www.masrawy.com",
+    "shows": "لوحة معلومات رحلات في مطار مع عبارة \"Cancelled\" باللون الأحمر، وممرات مطار في الخلفية",
+    "text_checked": true,
+    "judged": true
+  },
+  "hook_candidates": [
+    {
+      "video_id": "ZRwv8ypbOfw",
+      "title": "Nationwide ground stop ordered at airports: FAA",
+      "channel": "ABC News",
+      "views": 269519,
+      "duration": 320,
+      "published": "2026-11-13T21:30:20Z",
+      "views_per_hour": 6049.9
+    },
+    {
+      "video_id": "1hf95H__vqo",
+      "title": "BREAKING: FAA issues nationwide ground stop due to 'reasons of safety'",
+      "channel": "NBC News",
+      "views": 98003,
+      "duration": 654,
+      "published": "2026-11-13T22:04:04Z",
+      "views_per_hour": 2228.0
+    },
+    {
+      "video_id": "ZMGzI8etgyg",
+      "title": "Flight ground stop nationwide putting thousands in limbo: What to expect next",
+      "channel": "FOX 9 Minneapolis-St. Paul",
+      "views": 8033,
+      "duration": 475,
+      "published": "2026-11-13T22:43:44Z",
+      "views_per_hour": 185.4
+    },
+    {
+      "video_id": "XNzzfW6Ki2I",
+      "title": "FAA grounds all flights: What aviation experts know so far",
+      "channel": "CNN",
+      "views": 722831,
+      "duration": 938,
+      "published": "2026-11-13T23:49:52Z",
+      "views_per_hour": 17119.2
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-11-13T00:00:00Z",
+          "2026-11-17T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "مراقبو الحركة الجوية في مركز تحكم",
+            "raw": 9,
+            "channel_ok": 0
+          },
+          {
+            "query": "FAA control center air traffic halted flights",
+            "raw": 30,
+            "channel_ok": 5
+          },
+          {
+            "query": "Flughafen Anzeigetafel Flugausfälle USA",
+            "raw": 2,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 5,
+        "judged_ok": 5,
+        "rejected_channels": [
+          "World From Here",
+          "Bud Taylor",
+          "Track the House",
+          "The Navy Channel",
+          "globely",
+          "Planet Within",
+          "One Detail Away",
+          "The Last Decision"
+        ]
+      }
+    ],
+    "picked": [
+      "ZRwv8ypbOfw",
+      "1hf95H__vqo",
+      "ZMGzI8etgyg",
+      "XNzzfW6Ki2I"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "بدأ خلل اتصالات في سبع عشرة منشأة للملاحة الجوية، فأوقفت إدارة الطيران الفيدرالية الأمريكية الرحلات في عموم البلاد.",
+      "visual": ""
+    },
+    {
+      "scene": 3,
+      "sentence": 0,
+      "text": "واستؤنفت الرحلات بعد ساعتين، فيما أكد مدير إدارة الطيران الفيدرالية الأمريكية عدم وجود أدلة على هجوم سيبراني.",
+      "visual": ""
+    },
+    {
+      "scene": 4,
+      "sentence": 0,
+      "text": "هل ما شلّ الطيران الأمريكي هجوم سيبراني أم عطل في البنية التحتية؟",
+      "visual": ""
+    },
+    {
+      "scene": 7,
+      "sentence": 0,
+      "text": "هل كانت سلامة الطائرات والركاب في خطر فعلي؟",
+      "visual": ""
+    }
+  ],
+  "cost_script": {
+    "claude": {
+      "claude-haiku-5-5": 0.00275,
+      "claude-sonnet-5": 0.15049,
+      "claude-opus-5": 0.11298
+    }
+  },
+  "review_issue": 1895,
+  "stage2_issue": 1895
+}
