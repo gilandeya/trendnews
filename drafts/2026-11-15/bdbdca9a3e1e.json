@@ -506,7 +506,8 @@
         "shows": "اجتماع في غرفة مكتب رسمية؛ رجلان في بدلات يجلسان مقابل رجل بلحية بسترة سوداء، وطاولة زجاجية عليها كؤوس وزجاجات مياه، وتل",
         "reason": "الصورة تُظهر اجتماعًا في غرفة عادية لا تحمل أي إشارة إلى أبوظبي أو وفدي روسيا وأوكرانيا أو المفاوضات المذكورة في السؤال، ولا يمكن التعرف على الأشخاص من الصورة، فلا تصلح خلفية لهذا السؤال."
       }
-    ]
+    ],
+    "layout": "A"
   },
   "hook_candidates": [
     {
@@ -623,10 +624,7 @@
       }
     ],
     "picked": [
-      "8vfocimbsaU",
-      "IJvE4cO9sZ0",
-      "Zflu0KUvWVM",
-      "B6lHcjc0dGc"
+      "IJvE4cO9sZ0"
     ]
   },
   "broll_plan": [
@@ -670,7 +668,7 @@
   },
   "review_issue": 1890,
   "stage2_issue": 1890,
-  "render_status": "queued",
+  "render_status": "rendered",
   "approved_script_at": "2026-11-15T13:42:36.700862+00:00",
   "editor_override": {
     "at": "2026-11-15T13:42:36.700790+00:00",
@@ -678,5 +676,552 @@
       "هذا المشهد (سطر [2]) تجاوز حدود السياق المسموحة (حتى 25 كلمة وحتى 3 جمل)؛ كما يصح المحتوى لكن طوله مخالف للقاعدة التقنية للسيناريو."
     ]
   },
-  "hook_picked": 0
+  "hook_picked": 0,
+  "hook_video": {
+    "video_id": "IJvE4cO9sZ0",
+    "start": 151,
+    "end": 163,
+    "channel": "WION",
+    "title": "Russia-Ukraine War: Abu Dhabi Hosts Fresh Round Of Peace Talks | WION News",
+    "source": "auto_topic",
+    "views": 4139,
+    "reason": "لقطات ميدانية عن الموضوع بلا لقطة للحدث نفسه"
+  },
+  "reel_file": "reels/2026-11-15/bdbdca9a3e1e.mp4",
+  "reel_gif": "reels/2026-11-15/bdbdca9a3e1e.gif",
+  "duration_seconds": 69.1,
+  "render_version": 78,
+  "render_attempts": 0,
+  "reel_music": "kulakovka-financial-news-614884.mp3",
+  "render_sources": "تلفزيون دوشد، WION",
+  "render_crops": {
+    "2": {
+      "x": 684,
+      "source": "face",
+      "tracks": 3,
+      "vision": {
+        "pick": 0,
+        "agree": 1,
+        "archive": [
+          1,
+          2,
+          3
+        ]
+      },
+      "gate": {
+        "start": 1.14,
+        "end": 9.82,
+        "source": "silence"
+      },
+      "exact": {
+        "t0": 1083.78,
+        "t1": 1092.46,
+        "ratio": 0.889,
+        "source": "words"
+      },
+      "panel_q": "c0",
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 682,
+        "y": 0,
+        "w": 408,
+        "h": 474,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.66,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.8,
+          0.68,
+          0.8
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "line"
+    },
+    "4": {
+      "x": 504,
+      "source": "speaker_vision",
+      "speaker_score": 0.98,
+      "tracks": 5,
+      "vision": {
+        "pick": 1,
+        "agree": 2,
+        "archive": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "gate": {
+        "start": 0.88,
+        "end": 11.2,
+        "source": "silence"
+      },
+      "exact": {
+        "t0": 176.06,
+        "t1": 186.14,
+        "ratio": 0.875,
+        "source": "words"
+      },
+      "panel_q": "c1",
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 502,
+        "y": 0,
+        "w": 408,
+        "h": 474,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.66,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.8,
+          0.68,
+          0.8
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "line"
+    },
+    "hook": {
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.76,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.78,
+          0.78,
+          0.78
+        ]
+      }
+    },
+    "closing": {
+      "source": "freeze",
+      "pre_footage": 0.083
+    }
+  },
+  "render_speakers": {
+    "2": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "4": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "7": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "8": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "10": {
+      "name_original": "Laurent LARCHER",
+      "name_arabic": "لوران لارشيه",
+      "role_arabic": "مراسل كبير في القسم الدولي لصحيفة La Croix",
+      "is_presenter": false,
+      "frames_agreeing": 2,
+      "rejected": "",
+      "accepted": true
+    }
+  },
+  "render_roster": {
+    "gDJpAVzaVxY": [
+      {
+        "name_arabic": "باتريسيا آلمونيير",
+        "name_original": "Patricia Alémonière",
+        "role_arabic": "كبيرة مراسلين متخصصة في القضايا الدولية، مؤلفة كتاب عن الجيوسياسة",
+        "is_host": true
+      },
+      {
+        "name_arabic": "زياد لعيمام",
+        "name_original": "Ziad l'imam",
+        "role_arabic": "مدير مجلة أفريقيا الشهرية (Afrique Magazine)",
+        "is_host": false
+      },
+      {
+        "name_arabic": "لوران لارشيه",
+        "name_original": "Laurent Larcher",
+        "role_arabic": "كبير المراسلين في القسم الدولي لصحيفة لا كروا",
+        "is_host": false
+      },
+      {
+        "name_arabic": "سيمو",
+        "name_original": "Simo",
+        "role_arabic": "المديرة التحريرية لمنظمة Cartooning for Peace",
+        "is_host": false
+      }
+    ]
+  },
+  "render_roster_source": {
+    "gDJpAVzaVxY": "built"
+  },
+  "render_attribution": [
+    {
+      "point_id": "7e600dd00f8b",
+      "speaker": "لوران لارشيه",
+      "evidence": "Laurent, les décidément les les",
+      "accepted": true,
+      "reason": "المقدمة (باتريسيا) تنادي لوران بالاسم في السطر [983] قبل كلام «نعم بالطبع... تراجيدي ومؤسف» مباشرة، فالقائل لوران لارشيه."
+    }
+  ],
+  "render_map_errors": {
+    "gDJpAVzaVxY": "ffmpeg: #0/image2 @ 0x61b676e2f880] Output file does not contain any stream Error opening output file /tmp/reel_render_a"
+  },
+  "render_maps": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "auto": true,
+      "map": "أبو ظبي · روسيا · أوكرانيا"
+    },
+    {
+      "scene": 5,
+      "sentence": 0,
+      "auto": true,
+      "map": "أبو ظبي · بولندا · المملكة المتحدة · ألمانيا"
+    }
+  ],
+  "render_gemini_speakers": [
+    {
+      "point_id": "ce40505e5928",
+      "video_id": "w2r-ETPghLs",
+      "start": 1083.8,
+      "end": 1092.5,
+      "name": "فلاديمير ميدينسكي",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "f679b7ab4ba9",
+      "video_id": "w2r-ETPghLs",
+      "start": 176.1,
+      "end": 186.1,
+      "name": "فلاديمير بوتين",
+      "source": "introduced",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "d047e010a68c",
+      "video_id": "w2r-ETPghLs",
+      "start": 3584.0,
+      "end": 3599.3,
+      "name": "فلاديمير باستوخوف",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "be466adc1c32",
+      "video_id": "T8m4C5mffFk",
+      "start": 381.0,
+      "end": 411.0,
+      "name": "تشانغ هونغ",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "7e600dd00f8b",
+      "video_id": "gDJpAVzaVxY",
+      "start": 989.2,
+      "end": 1013.6,
+      "name": "",
+      "applied": false
+    }
+  ],
+  "render_gemini_cost": 0.1495,
+  "render_exact_selfcheck": {
+    "ok": true,
+    "reason": ""
+  },
+  "render_broll": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "map": true
+    },
+    {
+      "scene": 3,
+      "sentence": 0,
+      "photo": "جملة مجرّدة"
+    },
+    {
+      "scene": 5,
+      "sentence": 0,
+      "map": true
+    }
+  ],
+  "broll_scan": {
+    "videos": {
+      "8vfocimbsaU": {
+        "downloaded": 82,
+        "classified": 82,
+        "sheets": 7,
+        "kinds": {
+          "event_footage": 33,
+          "text_heavy": 41,
+          "graphic": 2,
+          "studio": 6
+        },
+        "footage_relevant": 5,
+        "footage_other": 28,
+        "chains": 3,
+        "longest": 12
+      },
+      "IJvE4cO9sZ0": {
+        "downloaded": 204,
+        "classified": 204,
+        "sheets": 11,
+        "kinds": {
+          "anchor": 139,
+          "event_footage": 29,
+          "studio": 25,
+          "text_heavy": 5,
+          "other": 2,
+          "graphic": 4
+        },
+        "footage_relevant": 29,
+        "footage_other": 0,
+        "chains": 4,
+        "longest": 14
+      },
+      "Zflu0KUvWVM": {
+        "downloaded": 482,
+        "classified": 288,
+        "sheets": 12,
+        "kinds": {
+          "graphic": 2,
+          "anchor": 184,
+          "event_footage": 28,
+          "text_heavy": 36,
+          "studio": 38
+        },
+        "footage_relevant": 22,
+        "footage_other": 6,
+        "chains": 5,
+        "longest": 10
+      }
+    },
+    "sheets_used": 30,
+    "chains": [
+      {
+        "video_id": "8vfocimbsaU",
+        "start": 12,
+        "end": 24,
+        "desc": "علم روسي يرفرف بين أوراق شجر، لقطة هادئة لا تتصل بالحدث · منظر للكرملين وجسر على النهر، مشهد هادئ دون صلة مباشرة بالمحادثات · منظر للكرملين وجسر على النهر، مشهد هادئ",
+        "channel": "WION",
+        "relevant": false
+      },
+      {
+        "video_id": "8vfocimbsaU",
+        "start": 46,
+        "end": 52,
+        "desc": "فرق إطفاء ليلاً في موقع دمار يتصاعد منه الدخان، دون نص يغطي الإطار · فرق إطفاء ليلاً في موقع دمار مع دخان أبيض وعمود إضاءة · مسيرة رباعية المراوح تحلّق فوق حقل عشبي، عليها تجهيزات حمولة، والنص المترجم يغطي أسفل الإطار",
+        "channel": "WION",
+        "relevant": false
+      },
+      {
+        "video_id": "8vfocimbsaU",
+        "start": 65,
+        "end": 74,
+        "desc": "انفجار أبيض كثيف وسط شجيرات جافة، لقطة ميدانية · دخان ونار بين الأشجار الجافة، لقطة ميدانية · آلية عسكرية مموهة بين الأغصان في الميدان",
+        "channel": "WION",
+        "relevant": false
+      },
+      {
+        "video_id": "IJvE4cO9sZ0",
+        "start": 108,
+        "end": 112,
+        "desc": "جنود مسلحون ينزلون درجا معدنيا على جسر، حركة آلية · جنود مسلحون ينزلون الدرج نفسه بحركة",
+        "channel": "WION",
+        "relevant": true
+      },
+      {
+        "video_id": "IJvE4cO9sZ0",
+        "start": 128,
+        "end": 132,
+        "desc": "زيلينسكي بسترة واقية أمام مبنى مدمر وركام · زيلينسكي بسترة واقية أمام ركام مبنى متضرر",
+        "channel": "WION",
+        "relevant": true
+      },
+      {
+        "video_id": "IJvE4cO9sZ0",
+        "start": 170,
+        "end": 176,
+        "desc": "روبيو يمشي وسط حشد من الحراس والمرافقين · روبيو يمشي وسط حشد أمني في القاعة · روبيو يمشي وسط حشد أمني ومرافقين",
+        "channel": "WION",
+        "relevant": true
+      },
+      {
+        "video_id": "Zflu0KUvWVM",
+        "start": 12,
+        "end": 16,
+        "desc": "نيران وألسنة لهب ودخان فوق مدينة ليلاً · نيران كثيفة ودخان متصاعد فوق المدينة",
+        "channel": "AlJazeera Arabic  قناة الجزيرة",
+        "relevant": true
+      },
+      {
+        "video_id": "Zflu0KUvWVM",
+        "start": 24,
+        "end": 34,
+        "desc": "حريق وانفجارات ليلية فوق مبانٍ بعيدة، شريط عاجل عن هجوم أوكراني على مفلوغراد الروسية · نيران ودخان كثيف فوق منطقة ليلية، الشريط نفسه عن مفلوغراد · ألسنة لهب ودخان فوق مدينة ليلاً، الشريط نفسه",
+        "channel": "AlJazeera Arabic  قناة الجزيرة",
+        "relevant": false
+      },
+      {
+        "video_id": "Zflu0KUvWVM",
+        "start": 42,
+        "end": 46,
+        "desc": "رجل إطفاء بخوذة وقناع داخل مبنى، لوحة رقم 2 في الخلفية · رجل إطفاء بقناع داخل مبنى، لوحة رقم 2، تملأ اللقطة",
+        "channel": "AlJazeera Arabic  قناة الجزيرة",
+        "relevant": true
+      },
+      {
+        "video_id": "Zflu0KUvWVM",
+        "start": 56,
+        "end": 60,
+        "desc": "مشهد ليلي لمبنى ومرافقين، رجل بدلة داكنة يتحدث بجوار زيلينسكي · زيلينسكي بقميص داكن وخلفه شخصيات بدلات يقفون أمام المبنى ليلاً",
+        "channel": "AlJazeera Arabic  قناة الجزيرة",
+        "relevant": true
+      },
+      {
+        "video_id": "Zflu0KUvWVM",
+        "start": 96,
+        "end": 102,
+        "desc": "رجل بمعطف أسود أمام مجموعة من الحراس والمرافقين بالبدلات السوداء أمام مبنى · رجل بمعطف بني وربطة عنق بنفسجية أمام مجموعة من الحراس بالبدلات السوداء · رجل بمعطف أسود بجانب رجل بمعطف بني أمام حراس ومركبة إسعاف",
+        "channel": "AlJazeera Arabic  قناة الجزيرة",
+        "relevant": true
+      }
+    ],
+    "assign": [],
+    "hook_assign": [
+      {
+        "n": 0,
+        "chain": 6
+      }
+    ]
+  },
+  "render_dropped": [
+    {
+      "point_id": "db7fad2972a8",
+      "kind": "clip",
+      "reason": "تعذّر ضبط المقطع كلمة بكلمة: النسبة 0.0 أقل من 0.7",
+      "exact": {
+        "reason": "low_ratio",
+        "best_ratio": 0.0,
+        "heard_words": 107,
+        "lang": "ar",
+        "approx": true,
+        "saved_words": false,
+        "window": [
+          166.0,
+          236.0
+        ],
+        "quote_words": 53
+      }
+    },
+    {
+      "point_id": "d047e010a68c",
+      "kind": "clip",
+      "reason": "المتكلم في لحظة اقتباس فلاديمير باسطوخوف هو فلاديمير باستوخوف بحسب Gemini — حُذف المقطع"
+    },
+    {
+      "point_id": "be466adc1c32",
+      "kind": "clip",
+      "reason": "✂️ حُذف السؤال «هل تقترب الحرب الروسية الأوكرانية من نهايتها فعلا؟» لأن إجابته الأخرى حُذفت"
+    },
+    {
+      "point_id": "7e600dd00f8b",
+      "kind": "clip",
+      "reason": "✂️ حُذف السؤال «لماذا استُبعد الأوروبيون عن طاولة التفاوض في أبوظبي؟» لأن إجابته الأخرى حُذفت"
+    }
+  ],
+  "render_approx": [
+    {
+      "point_id": "d047e010a68c",
+      "kind": "clip",
+      "start": 3574,
+      "end": 3600,
+      "reason": "الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة",
+      "aligned": true
+    },
+    {
+      "point_id": "be466adc1c32",
+      "kind": "clip",
+      "start": 381,
+      "end": 411,
+      "reason": "تعذّر جلب نص الفيديو: لا نص متاح: Could not retrieve a transcript for the video https://www.youtube.com/watch?v=T8m4C5mffFk! This is most likely caused by: Subtitles are disabled for this video If you are sure that the des"
+    }
+  ],
+  "rendered_at": "2026-11-15T14:47:04.471099+00:00",
+  "cost_renders": [
+    {
+      "claude": {
+        "claude-haiku-5-5": 0.02572,
+        "claude-sonnet-5": 0.02449
+      },
+      "gemini": 0.1495,
+      "proxy_bytes": 92743402,
+      "at": "2026-11-15T14:47:04.471152+00:00"
+    }
+  ],
+  "render_notes": [
+    "### 🎬 تركيب الريل",
+    "- ⏱️ المدة: 69.1 ث",
+    "- 🎞️ [الملف](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-11-15/bdbdca9a3e1e.mp4) · [المعاينة](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-11-15/bdbdca9a3e1e.gif)",
+    "- ✂️ حُذف 4: clip (تعذّر ضبط المقطع كلمة بكلمة: النسبة 0.0 أقل من 0.7)؛ clip (المتكلم في لحظة اقتباس فلاديمير باسطوخوف هو فلاديمير باستوخوف بحسب Gemini — حُذف المقطع)؛ clip (✂️ حُذف السؤال «هل تقترب الحرب الروسية الأوكرانية من نهايتها فعلا؟» لأن إجابته الأخرى حُذفت)؛ clip (✂️ حُذف السؤال «لماذا استُبعد الأوروبيون عن طاولة التفاوض في أبوظبي؟» لأن إجابته الأخرى حُذفت)",
+    "- ⚠️ نافذة تقديرية لمقطع فينكس (6:21–6:51): تعذّر جلب نص الفيديو: لا نص متاح: Could not retrieve a transcript for the video https://www.youtube.com/watch?v=T8m4C5mffFk! This is most likely caused by: Subtitles are disabled for this video If you are sure that the des — راجع بداية المقطع ونهايته",
+    "- ⚠️ لم يُضبط مقطع فينكس كلمة بكلمة: الاقتباس أقصر من أن يُطابَق — قد يُسمع ما قبله أو بعده",
+    "- 🎞️ المرشّحون لم يحوِ أيٌّ منهم لقطات صالحة من الحدث — الهوك بصورة الخبر",
+    "- 🎞️ الهوك من لقطات الموضوع (لا لقطة للحدث نفسه): WION — Russia-Ukraine War: Abu Dhabi Hosts Fresh Round Of Peace Talks | WION News (151–163)",
+    "- 👥 ضيوف فرانس 24 الفرنسية: زياد لعيمام، لوران لارشيه، سيمو",
+    "- ⚠️ تعذّر بناء خريطة متكلمي فرانس 24 الفرنسية: ffmpeg: #0/image2 @ 0x61b676e2f880] Output file does not contain any stream Error opening output file /tmp/reel_render_a",
+    "- ✅ Gemini يؤكد المتكلم: فلاديمير ميدينسكي (تلفزيون دوشد)",
+    "- ✅ Gemini يؤكد المتكلم: فلاديمير بوتين (تلفزيون دوشد)",
+    "- ✅ Gemini يؤكد المتكلم: تشانغ هونغ (فينكس)",
+    "- ✅ الشريط يؤكد المتكلم: لوران لارشيه (فرانس 24 الفرنسية)",
+    "- ✂️ حُذف السؤال «هل تقترب الحرب الروسية الأوكرانية من نهايتها فعلا؟» لأن إجابته الأخرى حُذفت",
+    "- ✂️ حُذف السؤال «لماذا استُبعد الأوروبيون عن طاولة التفاوض في أبوظبي؟» لأن إجابته الأخرى حُذفت",
+    "- 🗺️ خرائط السياق: 2 — أبو ظبي · روسيا · أوكرانيا، أبو ظبي · بولندا · المملكة المتحدة · ألمانيا",
+    "- 🎞️ لقطات الحدث: 0 من 3 جمل — 1 بالصورة",
+    "- ✂️ أُخفي شريط القناة في WION: قُصّ أسفل 26%",
+    "- ⚠️ تعذّر بناء شريط الخلفية — الخلفية بالطريقة القديمة (لقطة لكل جملة فوق الصورة)",
+    "- 🃏 سقطت ورقة فرانس 24 الفرنسية من هوك المواجهة: المقطع لم يبقَ في الريل",
+    "- 🃏 سقطت ورقة الجزيرة من هوك المواجهة: المقطع لم يبقَ في الريل",
+    "- ✂️ أُخفي شريط القناة في WION: قُصّ أسفل 24%",
+    "- 🎯 مقطع تلفزيون دوشد: 3 وجوه — المتكلم أكبر وجه",
+    "- ✂️ أُخفي شريط القناة في تلفزيون دوشد: قُصّ أسفل 34%",
+    "- 🎯 مقطع تلفزيون دوشد: 5 وجوه — المتكلم بالرؤية",
+    "- 🧊 ختام الريل: لا لقطات تسبق الهوك — جُمّد أول إطار منه مع اقتراب بطيء",
+    "- 🎙️ الصوت: ElevenLabs (باقي الرصيد نحو ? حرف)",
+    "- 💵 كلفة الريل: 1.33$ — المقاطع والأسئلة 0.83$ · السيناريو 0.29$ · التركيب 0.20$ (Sonnet 0.23$ · Opus 0.12$ · Haiku 0.03$ · Gemini 0.95$ · بروكسي 93 MB) · البروكسي خارج المجموع"
+  ],
+  "reel_review_issue": 1892
 }
