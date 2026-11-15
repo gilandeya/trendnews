@@ -5735,7 +5735,7 @@ def test_reel_1856_fixes() -> None:
                       {"start": "02:00", "end": "02:20", "speaker": "توماس ماسي", "type": "opinion", "summary_ar": "يرى العزل",
                        "text_original": "words", "text_ar": "يجب عزله فورا", "audio": "original", "setting": "external"},
                       {"start": "03:00", "end": "03:20", "speaker": "توماس ماسي", "type": "opinion", "summary_ar": "يرى الاستعراض",
-                       "text_original": "words", "text_ar": "هذا استعراض سياسي", "audio": "dubbed_ar", "setting": "other_channel",
+                       "text_original": "هذا استعراض سياسي لا أكثر", "text_ar": "هذا استعراض سياسي", "audio": "dubbed_ar", "setting": "other_channel",
                        "source_channel": "فوكس نيوز"},
                       {"start": "04:00", "end": "04:20", "speaker": "توماس ماسي", "type": "opinion", "summary_ar": "قديم",
                        "text_original": "words", "text_ar": "رد بلا حقول جديدة"}]}
@@ -6822,6 +6822,87 @@ def test_reel_context_beats_1313b() -> None:
     check("الحصرية بحكم النموذج وحده: إطار غائب لا يُعدّ حصريًا",
           [b.get("setting_source") for b in ok] == ["model", ""] and [p.get("exclusive") for p in pts] == [True, False, False],
           ([b.get("setting_source") for b in ok], [p.get("exclusive") for p in pts]))
+
+
+def test_reel_hollow_1890() -> None:
+    """ريل 1890 خرج «ناجحًا» بلا هوك ولا تحليل: رسمان لاسم واحد عُدّا شخصين، ومدبلج بالعربية كُتب نصه بالإنجليزية فلم يطابق مسموعه،
+    وفحص الصوت قبل العرض فشل تنزيله لكل الفيديوهات، وبقاء مقطعَي السياق أخفى أن الأسئلة كلها سقطت."""
+    import tempfile
+    from pathlib import Path
+
+    from src import bite_audio, gemini_bites, meta_verify, reel_clips, reel_render, speaker_map
+    from src.config import load_config as real_load
+
+    cfg = real_load()
+    sm = reel_render.speaker_matches
+    check("1890: رسمان لاسم أجنبي واحد شخص واحد", sm("فلاديمير باستوخوف", "", "فلاديمير باسطوخوف، محلل سياسي", cfg) is True)
+    check("1890: اسم أول مشترك واسم عائلة مختلف يبقيان شخصين", sm("علي البخيتي", "", "علي صدرزاده، محلل", cfg) is False
+          and sm("فلاديمير بوتين", "", "فلاديمير ميدينسكي", cfg) is False)
+    import copy
+    off = copy.deepcopy(cfg)
+    off["reel"]["render"]["chyron"]["name_similarity"] = 0
+    check("1890: name_similarity 0 ← المطابقة الحرفية وحدها", sm("فلاديمير باستوخوف", "", "فلاديمير باسطوخوف", off) is False)
+
+    def bite(start, original, audio):
+        return {"start": start, "end": start[:3] + "20", "speaker": "", "type": "opinion", "summary_ar": "يرى",
+                "text_original": original, "text_ar": "بولندا ستنضم الآن", "audio": audio}
+    ok, bad = gemini_bites.to_bites({"speakers": [], "bites": [
+        bite("01:00", "Poland will join because of its role", "dubbed_ar"),
+        bite("02:00", "بولندا ستنضم الآن نظرا لدورها", "dubbed_ar"),
+        bite("03:00", "Poland will join because of its role", "original")]}, "v", "ع", cfg, 600)
+    check("1890: مدبلج بالعربية ونصه بلغة المتحدث يُرفض، وبنصه العربي المسموع يُقبل، والأصلي لا يُمسّ",
+          [b["bite_id"] for b in ok] == ["v:g120", "v:g180"] and any("مدبلج" in r["reason"] for r in bad), (ok, bad))
+    check("1890: البرومبت يطلب العربية المسموعة في dubbed_ar",
+          "بالعربية المسموعة" in str(cfg.path("youtube.meta_topics.qa.gemini.system")))
+
+    # ريل فقد كل إجابات أسئلته وبقي له مقطع سياق ← يفشل (فيعود اختياره) بدل أن يُعرض أجوف
+    script = {"version": 2, "title": "", "scenes": [
+        {"kind": "narration", "role": "context", "text": "س"},
+        {"kind": "clip", "role": "context", "q": "c0", "point_id": "c", "speaker_text": ""},
+        {"kind": "narration", "role": "question", "q": 0, "text": "لماذا؟"},
+        {"kind": "clip", "q": 0, "point_id": "a", "speaker_text": "أ"}, {"kind": "clip", "q": 0, "point_id": "b", "speaker_text": "ب"}]}
+    clips = {1: {"seconds": 6.0}, 3: {"seconds": 6.0}, 4: {"seconds": 6.0}}
+    real = reel_render._apply_chyron
+    reel_render._apply_chyron = lambda sc, clip, c, d, spk, notes, i, roster=None: (
+        {"chyron": "آخر", "speaker": "س"} if sc.get("point_id") == "a" else None)
+    try:
+        try:
+            reel_render._prune_mismatched(script, clips, cfg, None, {}, [], [])
+            check("1890: كل الأسئلة سقطت ومقطع السياق باقٍ ← فشل", False, "لم يرفع")
+        except RuntimeError as exc:
+            check("1890: كل الأسئلة سقطت ومقطع السياق باقٍ ← فشل", "لم يبقَ سؤال" in str(exc), str(exc))
+    finally:
+        reel_render._apply_chyron = real
+
+    # فحص الصوت: تنزيل الصوت وحده تعطّل ← طريق التركيب المجرَّب لكل قسم، ويُحفظ السبب والعدد
+    saved = (bite_audio._real_download, reel_clips.download_clip, speaker_map.proxy_url)
+    calls = []
+
+    def boom(*a, **k):
+        raise RuntimeError("ERROR: ffmpeg exited with code 251 http://user:secret@proxy.example:80")
+
+    def fake_clip(vid, a, b, height, out_path, proxy, **k):
+        calls.append((vid, a, b, height))
+        Path(out_path).write_bytes(b"x")
+        return {"bytes": 1}
+    bite_audio._real_download, reel_clips.download_clip, speaker_map.proxy_url = boom, fake_clip, lambda: None
+    try:
+        with tempfile.TemporaryDirectory() as td:
+            stats: dict = {}
+            got = meta_verify.download_sections("vid", Path(td), [(10, 40), (100, 130)], cfg, stats)
+            check("1890: الاحتياط ينزّل كل قسم بطريق التركيب", [(a, b) for a, b, _ in got] == [(10, 40), (100, 130)]
+                  and calls == [("vid", 10, 40, 144), ("vid", 100, 130, 144)] and stats.get("fallback") == 2, (got, calls, stats))
+            check("1890: السبب محفوظ بلا سرّ البروكسي", "251" in stats.get("download_error", "")
+                  and "secret" not in stats.get("download_error", ""), stats)
+            no = copy.deepcopy(cfg)
+            no["youtube"]["meta_topics"]["qa"]["verify"]["fallback_video"] = False
+            try:
+                meta_verify.download_sections("vid", Path(td), [(10, 40)], no, {})
+                check("1890: fallback_video false ← يرفع كما كان", False)
+            except RuntimeError:
+                check("1890: fallback_video false ← يرفع كما كان", True)
+    finally:
+        bite_audio._real_download, reel_clips.download_clip, speaker_map.proxy_url = saved
 
 
 def test_reel_like_bar_1313c() -> None:

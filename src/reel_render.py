@@ -3746,8 +3746,20 @@ def speaker_matches(name_arabic: str, name_original: str, speaker_text: str, cfg
     # S6: اسم أول مشترك وحده بين اسمين كاملين ليس الشخص نفسه («علي البخيتي» و«علي صدرزاده»): حارس التكرار في _relabel حذف مقطعًا
     # صحّحته خريطة الحلقة لأن ضيفًا آخر في السؤال اسمه الأول «علي». الاسم الواحد («مصطفى») يبقى بالقاعدة القديمة
     if len(spoken_list) >= 2 and len(chyron_list) >= 2 and shared == {spoken_list[0]} == {chyron_list[0]}:
-        return False
+        # ريل 1890: «فلاديمير باسطوخوف» و«فلاديمير باستوخوف» رسمان لاسم واحد (ط/ت في نقل الاسم الأجنبي) فحُذف مقطعه وسقط سؤاله.
+        # الاسمان بعدد الكلمات نفسه وكل كلمة تقابل نظيرتها حرفًا أو بتشابه حروف عالٍ ← الشخص نفسه؛ «علي البخيتي»/«علي صدرزاده» يبقيان مختلفين
+        return _same_name_spelling(spoken_list, chyron_list, cfg)
     return bool(shared)
+
+
+def _same_name_spelling(a: list[str], b: list[str], cfg) -> bool:
+    """اسمان كاملان بالعدد نفسه من الكلمات، كل كلمة فيهما تقابل نظيرتها بترتيبها حرفًا أو بتشابه حروف ≥ chyron.name_similarity
+    (للكلمات من name_similarity_min_len فأكثر). دالة خالصة؛ 0 ← لا تسامح (السلوك القديم)."""
+    sim = float(cfg.path("reel.render.chyron.name_similarity", 0) or 0)
+    if not sim or len(a) != len(b):
+        return False
+    min_len = int(cfg.path("reel.render.chyron.name_similarity_min_len", 5) or 5)
+    return all(reel_clips.word_close(x, y, sim, min_len) for x, y in zip(a, b))
 
 
 def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, notes: list, index: int,
@@ -5572,7 +5584,9 @@ def _prune_mismatched(script: dict, clips: dict, cfg, deps: Deps, speakers: dict
             dead.add(i)
             key = "drop_question_empty" if dead_q[sc.get("q")] == "empty" else "drop_question_min"
             notes.append(t[key].format(text=sc.get("text", "")))
-    if dead_q and not any(i in clips for i, sc in order if sc.get("kind") == "clip"):
+    # ريل 1890: سقط السؤالان وبقي مقطعا السياق فخرج ريل «ناجح» بلا تحليل. ما يُعدّ إجابات الأسئلة وحدها (مقطع السياق role=context
+    # ليس تحليلًا)، فريل فقد كل إجاباته يفشل ويعود اختياره إليك (reopen_after_render) بدل أن يُعرض أجوف
+    if dead_q and not any(i in clips for i, sc in order if sc.get("kind") == "clip" and sc.get("role") != "context"):
         raise RuntimeError(t["fail_min_answers"])
     return clips, dead
 
@@ -5719,7 +5733,7 @@ def _bg_track(order, script, hook_idx, panel_skip, groups, clips, speech_cache, 
     try:
         path = _build_bg_track(pieces, total, nar_bg, nar_plan, files, cfg, deps, tmp, notes)
     except Exception as exc:  # noqa: BLE001 -- الشريط تحسين: العطل يعيد الطريقة القديمة
-        log.warning("تعذّر بناء شريط الخلفية: %s", reel_clips.scrub_text(str(exc))[:150])
+        log.warning("تعذّر بناء شريط الخلفية: %s", reel_clips.scrub_text(str(exc))[:400])   # 150 قطعت سبب ffmpeg (ريل 1890)
         notes.append(t["comment_bg_track_failed"])
         return None
     if path is None or not any(p["src"] == "footage" for p in pieces):

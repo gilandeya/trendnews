@@ -116,6 +116,11 @@ def to_bites(data: dict, video_id: str, topic: str, cfg, duration: float | None 
         if audio in (g.get("reject_audio") or []):
             bad.append({"index": i, "reason": "ترجمة صوتية بلغة غير العربية فوق المتحدث"})
             continue
+        # ريل 1890: مقطع مدبلج بالعربية كُتب كلامه بالإنجليزية (ما تحت الدبلجة) فلم يطابق المسموعَ شيء (0.0) وحُذف في التركيب وسقط
+        # سؤاله. المدبلج بالعربية يُقبل فقط إن كان text_original عربيًا (ما يُسمع فعلًا)، وإلا فلا نص نطابق به الصوت ولا نعرض به الكلام
+        if audio == "dubbed_ar" and g.get("dubbed_ar_needs_arabic", True) and not youtube_bites.is_arabic_text(original, cfg):
+            bad.append({"index": i, "reason": "مدبلج بالعربية ونصه الأصلي ليس ما يُسمع"})
+            continue
         setting = str(b.get("setting") or "")
         # «حصري للقناة» يُبنى على حكم النموذج وحده (13/11): مقطع بلا إطار معروف لا يُنسب إلى القناة في السياق
         setting_known = setting in ("studio", "external", "other_channel")
