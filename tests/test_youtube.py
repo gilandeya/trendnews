@@ -5048,6 +5048,8 @@ def test_meta_script() -> None:
         base = real_load()
         cfg = Config(dict(base))
         cfg["reel"] = {**base["reel"], "enabled": True, "hook_search": {**base["reel"].get("hook_search", {}), "enabled": True}}
+        # هذا الاختبار يثبت آلية الإعادة بالسبب، والطول وحده يُقبل فورًا في الإنتاج منذ قضية 1885
+        base["youtube"]["meta_topics"]["script"]["retry_on_length"] = True
         data = {"date": "2026-11-05", "topics": [{"id": "abc123abc123", "title": "ضربة محتملة على إيران",
                                                   "blocs": ["arabic", "israeli"], "orientations": 2, "minutes": 60,
                                                   "channels": ["الجزيرة", "ערוץ 14"], "videos": [], "topic_issue": 970}]}
