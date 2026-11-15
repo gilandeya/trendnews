@@ -6646,3 +6646,93 @@ def test_reel_timeline_clash_1881() -> None:
     failed = reel_script.timeline_lines(script, cfg, {"error": "لا زوج"})
     check("بلا هوك مواجهة (أو بخطئه) يبقى سطر السؤال الرئيس كما كان",
           "السؤال الرئيس" in plain[0] and failed == plain, (plain[0], failed[0]))
+
+
+def test_reel_fail_reselect_1881() -> None:
+    """قضية 1881: تركيب ريل موضوع العناوين فشل لأن مقاطعه حُذفت (ضبط كلمة بكلمة)، وعُلّق السبب على قضية مغلقة. الآن: يُحفظ
+    تشخيص الضبط بالأرقام مع المقطع المحذوف، وتُعاد فتح قضية اختيار الأسئلة نفسها بلا المقاطع الساقطة، والمسودة الفاشلة superseded،
+    واعتماد جديد يكتب سيناريو بمعرّف آخر ولا يعيد مقطعًا ساقطًا؛ وريل غير موضوع العناوين تُعاد فتح قضيته المغلقة."""
+    from pathlib import Path as _P
+
+    from src import meta_qa, meta_script, meta_topics as mt, reel_render, reel_script, review, store
+    from src.config import Config, load_config as real_load
+
+    d = tempfile.mkdtemp()
+    old = os.environ.get("TRENDNEWS_YOUTUBE_BITES_DIR")
+    os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = d
+    names = ("update_issue_body", "reopen_issue", "remove_label", "issue_state", "comment")
+    saved = {k: getattr(review, k) for k in names}
+    bodies, reopened, removed = [], [], []
+    try:
+        review.update_issue_body = lambda n, body: bodies.append((n, body))
+        review.reopen_issue = lambda n: reopened.append(n)
+        review.remove_label = lambda n, label: removed.append((n, label))
+        review.issue_state = lambda n: "closed"
+        review.comment = lambda n, text: None
+        cfg = Config(dict(real_load()))
+        bites = [{"bite_id": f"v{k}:g{k}", "video_id": f"v{k}", "channel": ch, "bloc": "arabic", "speaker": sp,
+                  "type": "opinion", "start": 10.0 * k, "end": 10.0 * k + 20, "summary_ar": f"ملخص {k}",
+                  "text_ar": f"ترجمة {k}", "text_original": f"words {k}"}
+                 for k, (ch, sp) in enumerate([("ILTV", "أ"), ("سي إن إن ترك", "ب"), ("الجزيرة", "ج")])]
+        questions = [{"text": "هل أغلق الباب؟", "answers": [{"n": 2, "fit": "direct", "selected": True, "bite_id": "v1:g1"},
+                                                           {"n": 3, "fit": "direct", "selected": False, "bite_id": "v2:g2"}]}]
+        qa = {"status": "ready", "titles": ["عنوان؟"], "questions": questions,
+              "context": [{"n": 1, "bite_id": "v0:g0", "selected": True}], "bites": [meta_qa.public_bite(b) for b in bites]}
+        data = {"date": "2026-11-14", "topics": [{"id": "fed00fed00fe", "title": "التفاوض", "topic_issue": 1880,
+                                                  "blocs": ["arabic", "turkish"], "orientations": 2, "minutes": 40,
+                                                  "channels": ["ILTV", "سي إن إن ترك"], "videos": [],
+                                                  "script_issue": 1881, "script_draft": "x", "qa": qa}]}
+        mt._save_public(data)
+        pp = meta_qa.private_path("fed00fed00fe")
+        pp.parent.mkdir(parents=True, exist_ok=True)
+        pp.write_text(json.dumps({"titles": ["عنوان؟"], "questions": questions, "bites": bites}, ensure_ascii=False),
+                      encoding="utf-8")
+        topic = data["topics"][0]
+        draft = meta_script.build_draft(topic, data, "عنوان؟")
+        path = store.save_draft({**draft, "status": "approved_script"})
+        pts = meta_script.bites_points(bites, "2026-11-14")
+        pid = {b["bite_id"]: reel_script.point_key_id(p) for b, p in zip(bites, pts)}
+        dropped = [{"point_id": pid["v0:g0"], "kind": "clip", "reason": "تعذّر ضبط المقطع: 0.54"},
+                   {"point_id": pid["v1:g1"], "kind": "clip", "reason": "تعذّر ضبط المقطع: 0.0"}]
+
+        res = meta_script.reopen_after_render(path, store.load_draft(draft["id"])[1], dropped, cfg)
+        pub = mt._load_public("2026-11-14")["topics"][0]
+        check("1881: المقطعان الساقطان مستبعدان في الموضوع، وscript_issue ممسوح، وscript_redo = 1",
+              res == {"issue": 1880, "excluded": 2} and {e["bite_id"] for e in pub["qa"]["excluded"]} == {"v0:g0", "v1:g1"}
+              and "script_issue" not in pub and pub["script_redo"] == 1, (res, pub))
+        check("1881: المسودة الفاشلة superseded فلا يلتقطها طابور التركيب",
+              store.load_draft(draft["id"])[1]["status"] == "superseded")
+        body = bodies[-1][1] if bodies else ""
+        check("1881: قضية الأسئلة أُعيد بناؤها بلا مربعات الساقطة وبقسمها، وأُعيد فتحها وأُزيلت approved",
+              bodies and bodies[-1][0] == 1880 and "ma:1:v1:g1" not in body and "mc:v0:g0" not in body
+              and "ma:1:v2:g2" in body and "🚫" in body and "ترجمة 1" not in body
+              and reopened == [1880] and (1880, "approved") in removed, body[-900:])
+
+        marks = meta_script.drop_excluded({"title": 0, "questions": [1], "answers": {1: ["v1:g1", "v2:g2"]},
+                                           "context": ["v0:g0"]}, pub)
+        check("1881: تعليم باقٍ على مقطع ساقط لا يعود إلى السيناريو",
+              marks["answers"] == {1: ["v2:g2"]} and marks["context"] == [])
+        check("1881: السيناريو الجديد بمعرّف آخر لا يكتب فوق الأول",
+              meta_script.build_draft(pub, data, "عنوان؟")["id"] != draft["id"])
+        check("1881: لا مقطع جديد ساقط ← لا إعادة فتح", meta_script.reopen_after_render(path, draft, dropped, cfg) is None)
+
+        # تشخيص الضبط بالأرقام مع المقطع المحذوف، بلا كلام القناة
+        drops: list = []
+        reel_render._drop(drops, {"point_id": "p", "kind": "clip"}, "سبب", exact={"best_ratio": 0.0, "heard_words": 120})
+        src = _P("src/reel_render.py").read_text(encoding="utf-8")
+        diag_src = src[src.index('clip["exact_diag"] = {'): src.index('clip["exact_diag"] = {') + 600]
+        check("1881: render_dropped يحمل تشخيص الضبط بالأرقام ولا يحمل النص المسموع",
+              drops[0]["exact"]["best_ratio"] == 0.0 and "heard_head" not in diag_src and "best_ratio" in diag_src)
+
+        # ريل غير موضوع العناوين: قضيته المغلقة تُعاد فتحها ليُرى تعليق الفشل
+        reopened.clear(); removed.clear()
+        issue, extra = reel_render._after_failure(path, {"id": "z", "review_issue": 1700}, [], cfg, 1700)
+        check("1881: تركيب فاشل لريل آخر يعيد فتح قضيته المغلقة",
+              issue == 1700 and extra == "" and reopened == [1700] and (1700, "approved") in removed)
+    finally:
+        for k, v in saved.items():
+            setattr(review, k, v)
+        if old is None:
+            os.environ.pop("TRENDNEWS_YOUTUBE_BITES_DIR", None)
+        else:
+            os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = old

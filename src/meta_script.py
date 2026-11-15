@@ -368,8 +368,10 @@ def build_draft(topic: dict, data: dict, title: str, hook_options: int = 3) -> d
     """مسودة ريل تحليل لموضوع العناوين. بلا topic_id عمدًا: ذلك الحقل يربط بمواضيع youtube_topics (العودة إلى الترشيح وخيارا
     «➕ أضف»)، وموضوع العناوين لا يعيش هناك؛ رابطه meta_topic_id."""
     from .important import point_id
+    # بعد إعادة الاختيار (قضية 1881) معرّف جديد: السيناريو الأول باقٍ على القرص superseded، والثاني لا يكتب فوقه
+    redo = int(topic.get("script_redo") or 0)
     return {
-        "id": point_id(f"{topic['id']}:metareel"),
+        "id": point_id(f"{topic['id']}:metareel" + (f":r{redo}" if redo else "")),
         "created_at": datetime.now(timezone.utc).isoformat(),
         "status": "pending", "origin": "analysis", "format": "reel", "script_status": "awaiting_script",
         "title": topic["title"], "event": topic["title"], "tier": len(topic.get("blocs") or []),
@@ -383,6 +385,67 @@ def build_draft(topic: dict, data: dict, title: str, hook_options: int = 3) -> d
         # ما صُرف على مقاطع الموضوع وأسئلته (meta_qa) يدخل كلفة هذا الريل (costs.reel_line)
         **({"cost_qa": (topic.get("qa") or {})["cost"]} if isinstance((topic.get("qa") or {}).get("cost"), dict) else {}),
     }
+
+
+def excluded_ids(topic: dict) -> set:
+    """المقاطع التي سقطت في تركيب سابق لهذا الموضوع (قضية 1881)."""
+    return {e.get("bite_id") for e in (topic.get("qa") or {}).get("excluded") or [] if e.get("bite_id")}
+
+
+def drop_excluded(marks: dict, topic: dict) -> dict:
+    """تعليم بقي على مقطع ساقط (قضية فُتحت قبل إعادة بنائها، أو تعليم يدوي) لا يعود إلى السيناريو: سقط لأن مسموعه لا يطابق نصه."""
+    gone = excluded_ids(topic)
+    if not gone:
+        return marks
+    return {**marks, "answers": {qi: [b for b in ids if b not in gone] for qi, ids in (marks.get("answers") or {}).items()},
+            "context": [b for b in marks.get("context") or [] if b not in gone]}
+
+
+def reopen_after_render(path, draft: dict, dropped: list, cfg) -> dict | None:
+    """فشل تركيب ريل موضوع العناوين لأن مقاطعه حُذفت (قضية 1881): تُعاد فتح قضية اختيار الأسئلة نفسها بلا المقاطع الساقطة، فيختار
+    صاحب المشروع إجابات أخرى ويعيد وسم approved فيُكتب سيناريو جديد. إعادة التركيب كما هو تفشل للسبب نفسه، والسيناريو مبني على تلك
+    المقاطع. المسودة الفاشلة تصير superseded (لا يلتقطها طابور التركيب)، وscript_issue يُمسح كي لا يمنع finalize سيناريو ثانيًا.
+    يعيد {issue, excluded} أو None (لا موضوع، لا قضية، لا مقطع معروف سقط، أو أُطفئ)."""
+    from . import meta_qa, meta_topics, reel_script, review, store
+    if not _scfg(cfg).get("reopen_on_render_fail", True):
+        return None
+    data = meta_topics._load_public(draft.get("topic_date") or draft.get("run_date") or "")
+    topic = next((x for x in (data or {}).get("topics") or [] if x.get("id") == draft.get("meta_topic_id")), None)
+    if topic is None or not topic.get("topic_issue") or not isinstance(topic.get("qa"), dict):
+        return None
+    priv = json.loads(meta_qa.private_path(topic["id"]).read_text(encoding="utf-8"))
+    bites = [b for b in priv.get("bites") or [] if b.get("bite_id") and b.get("video_id")]
+    # معرّف نقطة المشهد من الفيديو والملخّص (point_key) كما كتبه finalize، ومنه إلى bite_id
+    pid_to_bite = {reel_script.point_key_id(p): b for p, b in zip(bites_points(bites, data["date"]), bites)}
+    qa = topic["qa"]
+    excluded = list(qa.get("excluded") or [])
+    known = {e.get("bite_id") for e in excluded}
+    added = 0
+    for d in dropped:
+        b = pid_to_bite.get(d.get("point_id") or "")
+        if b is None or b["bite_id"] in known:
+            continue
+        known.add(b["bite_id"])
+        excluded.append({"bite_id": b["bite_id"], "reason": str(d.get("reason") or "")[:200],
+                         "draft": draft.get("id"), "at": datetime.now(timezone.utc).isoformat()})
+        added += 1
+    if not added:
+        return None
+    qa["excluded"] = excluded
+    topic.pop("script_issue", None)
+    topic.pop("script_draft", None)
+    topic["script_redo"] = int(topic.get("script_redo") or 0) + 1
+    meta_topics._save_public(data)
+    store.update_draft(path, status="superseded", superseded_reason="render_failed_reselect",
+                       superseded_at=datetime.now(timezone.utc).isoformat())
+    number = int(topic["topic_issue"])
+    review.update_issue_body(number, meta_qa.issue_body(topic, data, qa, cfg, full_bites=priv.get("bites") or []))
+    try:
+        if review.issue_state(number) == "closed":
+            review.reopen_issue(number)
+    finally:
+        review.remove_label(number, "approved")
+    return {"issue": number, "excluded": added}
 
 
 def qa_in_flight(topic: dict, cfg, now: datetime) -> bool:
@@ -454,7 +517,7 @@ def finalize(issue_number: int, body: str, cfg, client=None) -> int:
         review.comment(issue_number, t.get("no_qa", "⚠️ لا أسئلة جاهزة لهذا الموضوع بعد — انتظر تعليق ✅ ثم أعد الوسم."))
         review.remove_label(issue_number, "approved")
         return 0  # فشل معلَّق عليه لا انهيار: رمز غير صفري يكتب publish.yml عليه «انهارت خطوة النشر» (قضية 1862)
-    marks = meta_qa.read_marks(body)
+    marks = drop_excluded(meta_qa.read_marks(body), topic)
     notes: list = []
     questions, bites = selected_material(marks, priv, cfg, notes)
     if not questions:

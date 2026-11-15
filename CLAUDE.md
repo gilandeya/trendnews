@@ -3337,3 +3337,18 @@ track` والفيديو وثانيته، وسطر «🔁 ختام الريل…�
 لكن جدول المرحلة 2 كان يعرض «🎬 السؤال الرئيس» أول سطر فبدا الريل بلا هوك قبل السياق. `reel_script.timeline_lines(script, cfg, hook_clash=None)`:
 حين يُمرَّر `hook_clash` بلا `error` وبورقة على الأقل، يصير سطر `title_card` «🃏 الهوك: القناة: «الجملة» ← العنوان: …» (`reel.texts.scene_clash_hook`)؛
 `youtube_publish` يمرّره من المسودة. عرض فقط، لا أثر على التركيب. الاختبار `tests/test_youtube.py:test_reel_timeline_clash_1881`.
+
+## تركيب فاشل يعيد اختيار الأسئلة بلا المقاطع الساقطة (قضية 1881) — `meta_script.reopen_after_render`، `reel_render._after_failure`
+
+الحادثة: ريل «التفاوض مع إيران» فشل تركيبه لأن مقطعيه الوحيدين حُذفا (نافذة تقديرية من Gemini لا يطابق مسموعها الاقتباس: 0.54 و0.0)،
+وعُلّق السبب على قضية سيناريو مغلقة فلم يره أحد، ولم يُحفظ ما يفسّر النسبتين.
+- **التشخيص:** `_exact_apply` يضع `clip["exact_diag"]` (السبب، `best_ratio`، `heard_words`، اللغة، النافذة، تقديرية أم لا، عدد كلمات الاقتباس،
+  كلمات محفوظة أم تفريغ) و`_drop(..., exact=)` يحفظه في `render_dropped[i].exact`. أرقام وحدها: لا `heard_head` (كلام القناة لا يدخل المستودع العام).
+- **ريل موضوع العناوين (`meta_topic_id`) فشل وفيه مقاطع محذوفة:** `reopen_after_render` يربط كل `point_id` محذوف بـ`bite_id` (عبر `bites_points` +
+  `reel_script.point_key_id`)، ويضيفه إلى `topic.qa.excluded` ({bite_id, reason, draft, at}) في ملف الحالة العام، ويمسح `script_issue`/`script_draft`
+  ويزيد `script_redo`، ويجعل المسودة `superseded` (`superseded_reason: render_failed_reselect`)، ثم يعيد بناء جسم قضية الموضوع (`meta_qa.issue_body`
+  بلا مربعات الساقطة وبقسم «🚫 مقاطع سقطت»، والسؤال الذي سقطت كل إجاباته لا يُعرض والترقيم كما هو) ويعيد فتحها ويزيل approved؛ وتعليق الفشل
+  يُكتب عليها مع `reel.render.texts.comment_reselect`. لا مقطع جديد معروف سقط ← None والسلوك العادي. `youtube.meta_topics.script.reopen_on_render_fail`.
+- **الاعتماد الجديد:** `finalize` يمرّ بـ`drop_excluded` (تعليم باقٍ على مقطع ساقط لا يعود)، و`build_draft` بمعرّف `…:metareel:r<n>` فلا يكتب فوق الأول.
+- **غيره:** قضية التعليق المغلقة تُعاد فتحها وتُزال approved (`reel.render.reopen_failed_issue`). لا يرفع أبدًا.
+- الاختبار `tests/test_youtube.py:test_reel_fail_reselect_1881`. `render_version` بلا تغيير.

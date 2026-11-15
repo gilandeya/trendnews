@@ -2284,8 +2284,12 @@ def closing_text_frames(cfg, question: str, times: list[float], seconds: float, 
     return word_drop_frames(cfg, question, times, seconds, top, tmp, tag, size_key="question", label=label, label_at=label_at)
 
 
-def _drop(dropped: list, scene: dict, reason: str) -> None:
-    dropped.append({"point_id": scene.get("point_id", ""), "kind": scene.get("kind", ""), "reason": reason})
+def _drop(dropped: list, scene: dict, reason: str, exact: dict | None = None) -> None:
+    entry = {"point_id": scene.get("point_id", ""), "kind": scene.get("kind", ""), "reason": reason}
+    if exact:
+        # قضية 1881: تركيب فاشل لا يحفظ render_crops، فبلا هذه الأرقام لا يُعرف لماذا فشل الضبط (توقيت خاطئ أم نص لا يطابق المسموع)
+        entry["exact"] = exact
+    dropped.append(entry)
 
 
 def _approx_window(point: dict, scene: dict) -> tuple[int, int] | None:
@@ -2504,6 +2508,11 @@ def _exact_apply(clip: dict, scene: dict, point: dict, dstart: int, wstart: int,
         res, why = (None, off) if off else _exact_align(clip["file"], lang, point, cfg, deps, diag)
     channel = scene.get("channel_display", "")
     if res is None:
+        # تشخيص بالأرقام وحدها يُحفظ مع المقطع إن حُذف (قضية 1881). لا heard_head: كلام القناة لا يدخل المستودع العام
+        clip["exact_diag"] = {"reason": diag.get("reason", ""), "best_ratio": diag.get("best_ratio"),
+                              "heard_words": diag.get("heard_words"), "lang": lang or "", "approx": bool(is_approx),
+                              "saved_words": kept is not None, "window": [float(dstart), round(float(dstart) + fsecs, 1)],
+                              "quote_words": len(str(point.get("quote_original") or "").split())}
         if xcfg.get("require", False):
             return "drop", why
         # نافذة تقديرية (الاقتباس ليس في نص مجلوب) والمسموع فيها لا يطابق الاقتباس: لا شيء يضمن أن الترجمة المكتوبة هي ما يُقال.
@@ -2778,8 +2787,8 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
             exact_tried = True
             aligned, why = _exact_apply(clips[i], scene, point, dstart, wstart, wend, is_approx_win, cfg, deps, exact_fails, approx, exact_off)
             if aligned == "drop":
-                clips.pop(i)
-                _drop(dropped, scene, cfg.path("reel.render.texts.drop_exact_failed").format(reason=why))
+                diag_x = clips.pop(i).get("exact_diag")
+                _drop(dropped, scene, cfg.path("reel.render.texts.drop_exact_failed").format(reason=why), exact=diag_x)
                 if is_approx_win:
                     approx.pop()
                 continue
@@ -6736,6 +6745,10 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
         changes["render_notes"] = text.split("\n")
     updated = store.update_draft(path, remove=remove, **changes)
     issue = _render_comment_issue(updated or draft)
+    if not ok:
+        issue, extra = _after_failure(path, updated or draft, dropped, cfg, issue)
+        if extra:
+            text += "\n\n" + extra
     # «انشر فورًا» من المرحلة 2 (Issue #1538، W4): تركيب ناجح لمسودة publish_on_render ينشر في الحال بلا قضية مراجعة
     # الفيديو، ويُعلَّق بالنتيجة على قضية المرحلة 2. فشل النشر يفتح قضية المراجعة بسطر الفشل (إعادة approved عليها تعيد
     # المحاولة). فشل التركيب لا يصل هنا: publish_on_render يبقى فيُنشر إن نجح تركيب لاحق.
@@ -6758,6 +6771,31 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
         except Exception as exc:  # noqa: BLE001 -- التعليق إخبار لا شرط للتركيب
             log.warning("تعذّر التعليق على القضية %s: %s", issue, str(exc)[:150])
     return result
+
+
+def _after_failure(path: Path, draft: dict, dropped: list, cfg, issue):
+    """تركيب فشل: أين يُعلَّق، وما يُضاف إلى التعليق. قضية 1881: فشل ريل موضوع العناوين لأن مقاطعه حُذفت، وعُلّق السبب على
+    قضية سيناريو مغلقة لم يرها أحد. ريل موضوع عناوين سقطت مقاطعه ← تُعاد فتح قضية اختيار الأسئلة نفسها بلا المقاطع الساقطة
+    (meta_script.reopen_after_render) ويُعلَّق عليها؛ وغيره ← قضيته تُعاد فتحها إن كانت مغلقة. لا يرفع أبدًا."""
+    from . import review
+    t = cfg.path("reel.render.texts") or {}
+    if draft.get("meta_topic_id") and dropped:
+        try:
+            from . import meta_script
+            res = meta_script.reopen_after_render(path, draft, dropped, cfg)
+        except Exception as exc:  # noqa: BLE001 -- إعادة الفتح إخبار لا شرط
+            log.warning("تعذّرت إعادة فتح قضية الأسئلة للريل %s: %s", path.stem, str(exc)[:150])
+            res = None
+        if res:
+            return res["issue"], t.get("comment_reselect", "").format(n=res["excluded"])
+    if issue and cfg.path("reel.render.reopen_failed_issue", True):
+        try:
+            if review.issue_state(int(issue)) == "closed":
+                review.reopen_issue(int(issue))
+                review.remove_label(int(issue), "approved")
+        except Exception as exc:  # noqa: BLE001
+            log.warning("تعذّرت إعادة فتح القضية %s: %s", issue, str(exc)[:150])
+    return issue, ""
 
 
 def _publish_on_render(path: Path, draft: dict, cfg, deps: Deps, notes_text: str) -> bool:
