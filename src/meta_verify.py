@@ -134,7 +134,7 @@ def verify(targets: list[dict], cfg: Any, deps: bite_audio.Deps | None = None) -
     try:
         v = _vcfg(cfg)
         deps = deps or default_deps()
-        section_dl = deps.download_sections or (lambda vid, out, ranges: bite_audio._real_download(vid, out, cfg, ranges))
+        section_dl = deps.download_sections or (lambda vid, out, ranges: download_sections(vid, out, ranges, cfg, stats))
         deps = bite_audio.Deps(cut=deps.cut or bite_audio._real_cut, transcribe=deps.transcribe or bite_audio._real_transcribe,
                                selfcheck=deps.selfcheck or bite_audio._real_selfcheck)
         ok, why = deps.selfcheck(cfg)
@@ -183,6 +183,33 @@ def verify(targets: list[dict], cfg: Any, deps: bite_audio.Deps | None = None) -
         log.warning("التحقق من مقاطع الموضوع: %s", exc)
         stats["skipped"] = f"{type(exc).__name__}: {str(exc)[:100]}"
     return stats
+
+
+def download_sections(vid: str, out: Path, ranges: list, cfg: Any, stats: dict | None = None) -> list:
+    """أقسام الصوت بالطريق الرخيص (صوت وحده)، وإن تعطّل فبطريق التركيب المجرَّب (reel_clips.download_clip: صورة بأدنى دقة وصوت،
+    بدرجاته الثلاث) لكل قسم. السبب (ريل 1890): أول تشغيل حقيقي فشل تنزيل الصوت وحده لكل الفيديوهات («ffmpeg exited with code 251»)
+    فلم يُفحص مقطع، وسقط في التركيب ما كان الفحص سيُسقطه قبل اختيارك. يُحفظ أول سبب وعدد ما نزل بالاحتياط (أرقام وحدها)."""
+    from . import reel_clips, speaker_map
+    try:
+        return bite_audio._real_download(vid, out, cfg, ranges)
+    except Exception as exc:  # noqa: BLE001 -- الاحتياط أدناه؛ ما لم ينجح يرفع
+        v = _vcfg(cfg)
+        if stats is not None and not stats.get("download_error"):
+            stats["download_error"] = _safe(exc)
+        if not v.get("fallback_video", True):
+            raise
+        got = []
+        for a, b in ranges:
+            path = out / f"vsec_{vid}_{int(a)}.mp4"
+            reel_clips.download_clip(vid, int(a), int(b), int(v.get("fallback_height", 144)), path, speaker_map.proxy_url())
+            hit = path if path.exists() else next(iter(sorted(out.glob(path.stem + ".*"))), None)
+            if hit is not None:
+                got.append((a, b, hit))
+        if not got:
+            raise
+        if stats is not None:
+            stats["fallback"] = stats.get("fallback", 0) + len(got)
+        return got
 
 
 def unheard(b: dict) -> bool:
