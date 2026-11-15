@@ -446,7 +446,8 @@
     "publisher": "www.masrawy.com",
     "shows": "لوحة معلومات رحلات في مطار مع عبارة \"Cancelled\" باللون الأحمر، وممرات مطار في الخلفية",
     "text_checked": true,
-    "judged": true
+    "judged": true,
+    "layout": "A"
   },
   "hook_candidates": [
     {
@@ -527,10 +528,14 @@
       }
     ],
     "picked": [
-      "ZRwv8ypbOfw",
-      "1hf95H__vqo",
-      "ZMGzI8etgyg",
-      "XNzzfW6Ki2I"
+      "ZRwv8ypbOfw"
+    ],
+    "compared": [
+      {
+        "video_id": "ZRwv8ypbOfw",
+        "impact": 3,
+        "footage_ratio": 0.521
+      }
     ]
   },
   "broll_plan": [
@@ -568,7 +573,547 @@
   },
   "review_issue": 1895,
   "stage2_issue": 1895,
-  "render_status": "queued",
+  "render_status": "rendered",
   "approved_script_at": "2026-11-15T18:07:12.102025+00:00",
-  "hook_picked": 0
+  "hook_picked": 0,
+  "hook_video": {
+    "video_id": "ZRwv8ypbOfw",
+    "start": 42,
+    "end": 48,
+    "channel": "ABC News",
+    "title": "Nationwide ground stop ordered at airports: FAA",
+    "source": "auto",
+    "views": 269519,
+    "impact": 3,
+    "pre_ok": true,
+    "strong_start": 42,
+    "reason": "أقوى 3 ث (قوة 3)",
+    "render_version": 78
+  },
+  "reel_file": "reels/2026-11-15/c4175155a761.mp4",
+  "reel_gif": "reels/2026-11-15/c4175155a761.gif",
+  "duration_seconds": 112.5,
+  "render_version": 78,
+  "render_attempts": 0,
+  "reel_music": "nastelbom-news-501715.mp3",
+  "render_sources": "سي إن إن، ABC News، NBC News",
+  "render_crops": {
+    "2": {
+      "x": 544,
+      "source": "speaker_vision",
+      "speaker_score": 0.72,
+      "tracks": 2,
+      "vision": {
+        "pick": 1,
+        "agree": 3,
+        "archive": []
+      },
+      "gate": {
+        "start": 0.88,
+        "end": 12.9,
+        "source": "transcript"
+      },
+      "exact": {
+        "t0": 382.9,
+        "t1": 394.68,
+        "ratio": 1.0,
+        "source": "words"
+      },
+      "panel_q": "c0",
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 530,
+        "y": 0,
+        "w": 434,
+        "h": 504,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.7,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.72,
+          0.77,
+          0.72
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "line"
+    },
+    "8": {
+      "x": 432,
+      "source": "speaker",
+      "speaker_score": 0.86,
+      "tracks": 1,
+      "gate": {
+        "start": 0.88,
+        "end": 34.96,
+        "source": "transcript"
+      },
+      "exact": {
+        "t0": 638.08,
+        "t1": 671.98,
+        "ratio": 0.972,
+        "source": "words"
+      },
+      "panel_q": 1,
+      "tile_crop": {
+        "x": 350,
+        "y": 0,
+        "w": 568,
+        "h": 504,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 418,
+        "y": 0,
+        "w": 434,
+        "h": 504,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.7,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.72,
+          0.77,
+          0.72
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "line"
+    },
+    "9": {
+      "x": 26,
+      "source": "speaker_vision",
+      "speaker_score": 0.55,
+      "tracks": 2,
+      "vision": {
+        "pick": 1,
+        "agree": 3,
+        "archive": []
+      },
+      "gate": {
+        "start": 0.88,
+        "end": 17.78,
+        "source": "silence"
+      },
+      "exact": {
+        "t0": 941.78,
+        "t1": 958.62,
+        "ratio": 0.971,
+        "source": "words"
+      },
+      "panel_q": 1,
+      "tile_crop": {
+        "x": 0,
+        "y": 0,
+        "w": 568,
+        "h": 504,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 12,
+        "y": 0,
+        "w": 434,
+        "h": 504,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.7,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.72,
+          0.77,
+          0.72
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "line"
+    },
+    "hook": {
+      "ticker": false,
+      "lower_graphics": {
+        "top": 0.78,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.8,
+          0.8,
+          0.8
+        ]
+      }
+    },
+    "closing": {
+      "source": "track",
+      "pre_footage": 0.0,
+      "video_id": "ZRwv8ypbOfw",
+      "start": 94.42,
+      "how": "continue"
+    }
+  },
+  "render_speakers": {
+    "2": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "5": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "6": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "8": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "9": {
+      "accepted": false,
+      "source": "gemini"
+    }
+  },
+  "render_gemini_speakers": [
+    {
+      "point_id": "11aacb516b3d",
+      "video_id": "PiuUecze-qE",
+      "start": 382.9,
+      "end": 394.7,
+      "name": "برايان بيدفورد",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "39719de2a471",
+      "video_id": "PiuUecze-qE",
+      "start": 154.0,
+      "end": 187.5,
+      "name": "رينيه مارش",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "f86553431db1",
+      "video_id": "PiuUecze-qE",
+      "start": 638.1,
+      "end": 672.0,
+      "name": "ستيفن والاس",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "92901d70758f",
+      "video_id": "PiuUecze-qE",
+      "start": 941.8,
+      "end": 958.6,
+      "name": "كريس سونونو",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "01e0a409fb5b",
+      "video_id": "MpM-zmAkVUA",
+      "start": 2978.9,
+      "end": 3001.3,
+      "name": "ظفر يشيلغول",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    }
+  ],
+  "render_gemini_cost": 0.1257,
+  "render_bg_track": {
+    "pieces": [
+      {
+        "t0": 0.0,
+        "t1": 10.85,
+        "src": "footage",
+        "video_id": "1hf95H__vqo",
+        "start": 144,
+        "channel": "NBC News",
+        "how": "spare",
+        "joined": false
+      },
+      {
+        "t0": 10.85,
+        "t1": 24.28,
+        "src": "footage",
+        "video_id": "1hf95H__vqo",
+        "start": 154.85,
+        "channel": "NBC News",
+        "how": "continue",
+        "joined": true
+      },
+      {
+        "t0": 24.28,
+        "t1": 35.5,
+        "src": "footage",
+        "video_id": "1hf95H__vqo",
+        "start": 168.28,
+        "channel": "NBC News",
+        "how": "continue",
+        "joined": true
+      },
+      {
+        "t0": 35.5,
+        "t1": 40.75,
+        "src": "footage",
+        "video_id": "ZRwv8ypbOfw",
+        "start": 89.17,
+        "channel": "ABC News",
+        "how": "assigned",
+        "joined": false
+      }
+    ],
+    "summary": {
+      "video": 40.8,
+      "photo": 0,
+      "runs": 2,
+      "how": {
+        "spare": 10.8,
+        "continue": 24.6,
+        "assigned": 5.2
+      }
+    },
+    "total": 40.75
+  },
+  "render_exact_selfcheck": {
+    "ok": true,
+    "reason": ""
+  },
+  "render_broll": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "photo": "جملة مجرّدة"
+    },
+    {
+      "scene": 3,
+      "sentence": 0,
+      "photo": "جملة مجرّدة"
+    },
+    {
+      "scene": 7,
+      "sentence": 0,
+      "video_id": "ZRwv8ypbOfw",
+      "start": 89.175,
+      "end": 93.825,
+      "channel": "ABC News",
+      "desc": "مشهد ميداني هادئ لمطار مع طائرات على المدرج، شريط: FAA يصدر إيقافاً وطنياً للرحلات · مشهد ميداني هادئ لمطار وطائرات على المدرج، شريط إيقاف الرحلات · مطار من بعيد، طائرات تتحرك على المدرج بين الأشجار",
+      "fallback": true
+    }
+  ],
+  "broll_scan": {
+    "videos": {
+      "ZRwv8ypbOfw": {
+        "downloaded": 319,
+        "classified": 216,
+        "sheets": 15,
+        "kinds": {
+          "graphic": 8,
+          "anchor": 66,
+          "event_footage": 115,
+          "text_heavy": 27
+        },
+        "footage_relevant": 115,
+        "footage_other": 0,
+        "chains": 3,
+        "longest": 57
+      },
+      "1hf95H__vqo": {
+        "downloaded": 600,
+        "classified": 360,
+        "sheets": 15,
+        "kinds": {
+          "anchor": 58,
+          "event_footage": 170,
+          "studio": 16,
+          "text_heavy": 78,
+          "graphic": 38
+        },
+        "footage_relevant": 170,
+        "footage_other": 0,
+        "chains": 9,
+        "longest": 44
+      }
+    },
+    "sheets_used": 30,
+    "chains": [
+      {
+        "video_id": "ZRwv8ypbOfw",
+        "start": 63,
+        "end": 120,
+        "desc": "مشهد ميداني هادئ لمطار مع طائرات على المدرج، شريط: FAA يصدر إيقافاً وطنياً للرحلات · مشهد ميداني هادئ لمطار وطائرات على المدرج، شريط إيقاف الرحلات · مطار من بعيد، طائرات تتحرك على المدرج بين الأشجار",
+        "channel": "ABC News",
+        "relevant": true
+      },
+      {
+        "video_id": "ZRwv8ypbOfw",
+        "start": 132,
+        "end": 166,
+        "desc": "مدرج مطار بعيد، طائرات ركاب على الأرض، شريط ABC: توقف الرحلات بسبب خلل اتصالات · مدرج مطار بعيد، طائرات على الأرض، شريط ABC عاجل · طائرات راكنة على المدرج ومبانٍ بعيدة، شريط ABC عاجل",
+        "channel": "ABC News",
+        "relevant": true
+      },
+      {
+        "video_id": "ZRwv8ypbOfw",
+        "start": 192,
+        "end": 210,
+        "desc": "مطار ريغان الوطني من بعيد، طائرات على المدرج ومشهد هادئ",
+        "channel": "ABC News",
+        "relevant": true
+      },
+      {
+        "video_id": "1hf95H__vqo",
+        "start": 8,
+        "end": 20,
+        "desc": "طائرات على مدرج مطار، مشهد ميداني هادئ · طائرة تقترب من المدرج والمطار يبدو هادئًا · طائرات تتحرك على المدرج والممرات",
+        "channel": "NBC News",
+        "relevant": true
+      },
+      {
+        "video_id": "1hf95H__vqo",
+        "start": 54,
+        "end": 72,
+        "desc": "طائرة على المدرج مع تراكب شفاف للشريط والترجمة · طائرة تتحرك على مدرج مطار مع ترجمة محروقة في الأسفل · طائرات على المدرج بعيدا عن الكاميرا مع ترجمة في الأسفل",
+        "channel": "NBC News",
+        "relevant": true
+      },
+      {
+        "video_id": "1hf95H__vqo",
+        "start": 128,
+        "end": 132,
+        "desc": "مطار من الجو، طائرات متوقفة عند البوابات وسيارات في الموقف، مشهد هادئ دون نص يغطي الإطار · مطار من الجو، طائرات متوقفة عند البوابات ومواقف السيارات، مشهد هادئ",
+        "channel": "NBC News",
+        "relevant": true
+      },
+      {
+        "video_id": "1hf95H__vqo",
+        "start": 134,
+        "end": 140,
+        "desc": "مطار من الجو، طائرات متوقفة عند البوابات، مشهد هادئ · مطار من الجو، طائرات متوقفة عند البوابات ومواقف السيارات، مشهد هادئ",
+        "channel": "NBC News",
+        "relevant": true
+      },
+      {
+        "video_id": "1hf95H__vqo",
+        "start": 144,
+        "end": 188,
+        "desc": "طائرات متوقفة عند بوابات مطار، لقطة جوية هادئة · طائرات متوقفة عند البوابات وطائرة تقلع في الخلفية · صف طائرات متوقفة عند البوابات، حركة أرضية خفيفة",
+        "channel": "NBC News",
+        "relevant": true
+      },
+      {
+        "video_id": "1hf95H__vqo",
+        "start": 202,
+        "end": 216,
+        "desc": "مطار مع طائرات على البوابات، لقطة تنتقل بتلاشٍ وتتداخل مع شريط العنوان · طائرات متوقفة عند بوابات مطار، مشهد ميداني هادئ · طائرات متوقفة عند بوابات مطار في الضباب، مشهد هادئ",
+        "channel": "NBC News",
+        "relevant": true
+      },
+      {
+        "video_id": "1hf95H__vqo",
+        "start": 218,
+        "end": 252,
+        "desc": "طائرة Southwest تتحرك على المدرج بهدوء · طائرة Southwest تتحرك على ممر الطائرات · طائرة Southwest على المدرج بعيدا عن الكاميرا",
+        "channel": "NBC News",
+        "relevant": true
+      },
+      {
+        "video_id": "1hf95H__vqo",
+        "start": 274,
+        "end": 288,
+        "desc": "طائرة تهبط على مدرج ليلاً، إضاءة الهبوط مفعلة · طائرة تهبط على المدرج باتجاه الكاميرا · طائرة قريبة من المدرج تقترب من الكاميرا",
+        "channel": "NBC News",
+        "relevant": true
+      },
+      {
+        "video_id": "1hf95H__vqo",
+        "start": 336,
+        "end": 360,
+        "desc": "مدرج ومطار من الجو، طائرات متوقفة على الأرض مع شريط عاجل عن وقف الرحلات · طائرات متوقفة على بوابات المطار، المشهد هادئ مع شريط العنوان · طائرات تتحرك على المدرج قرب صالات المطار",
+        "channel": "NBC News",
+        "relevant": true
+      }
+    ],
+    "assign": []
+  },
+  "render_dropped": [
+    {
+      "point_id": "01e0a409fb5b",
+      "kind": "clip",
+      "reason": "المتكلم في لحظة اقتباس ظافر يشيل غول هو ظفر يشيلغول بحسب Gemini — حُذف المقطع"
+    },
+    {
+      "point_id": "39719de2a471",
+      "kind": "clip",
+      "reason": "✂️ حُذف السؤال «هل ما شلّ الطيران الأمريكي هجوم سيبراني أم عطل في البنية التحتية؟» لأن إجابته الأخرى حُذفت"
+    }
+  ],
+  "render_approx": [],
+  "rendered_at": "2026-11-15T18:49:53.716226+00:00",
+  "cost_renders": [
+    {
+      "claude": {
+        "claude-haiku-5-5": 0.02282,
+        "claude-sonnet-5": 0.02331
+      },
+      "gemini": 0.1257,
+      "proxy_bytes": 71035365,
+      "at": "2026-11-15T18:49:53.716280+00:00"
+    }
+  ],
+  "render_notes": [
+    "### 🎬 تركيب الريل",
+    "- ⏱️ المدة: 112.5 ث",
+    "- 🎞️ [الملف](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-11-15/c4175155a761.mp4) · [المعاينة](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-11-15/c4175155a761.gif)",
+    "- ✂️ حُذف 2: clip (المتكلم في لحظة اقتباس ظافر يشيل غول هو ظفر يشيلغول بحسب Gemini — حُذف المقطع)؛ clip (✂️ حُذف السؤال «هل ما شلّ الطيران الأمريكي هجوم سيبراني أم عطل في البنية التحتية؟» لأن إجابته الأخرى حُذفت)",
+    "- 🎞️ لقطة الهوك: ABC News — [Nationwide ground stop ordered at airports: FAA](https://www.youtube.com/watch?v=ZRwv8ypbOfw&t=42) (42–48 ث) · 269,519 مشاهدة",
+    "- ✅ Gemini يؤكد المتكلم: برايان بيدفورد (سي إن إن)",
+    "- ✅ Gemini يؤكد المتكلم: رينيه مارش (سي إن إن)",
+    "- ✅ Gemini يؤكد المتكلم: ستيفن والاس (سي إن إن)",
+    "- ✅ Gemini يؤكد المتكلم: كريس سونونو (سي إن إن)",
+    "- ✂️ حُذف السؤال «هل ما شلّ الطيران الأمريكي هجوم سيبراني أم عطل في البنية التحتية؟» لأن إجابته الأخرى حُذفت",
+    "- ✂️ أُخفي شريط القناة في ABC News: قُصّ أسفل 22%",
+    "- 🎞️ لقطات الحدث: 1 من 3 جمل (منها 1 احتياطية) (ABC News ×1) — 2 بالصورة",
+    "- ✂️ أُخفي شريط القناة في NBC News: قُصّ أسفل 24%",
+    "- 🎞️ شريط الخلفية: 41 من 41 ث فيديو متصل (2 مقاطع، منها 35 ث إكمالًا) — 0 ث صورة",
+    "- 🃏 سقطت ورقة سي إن إن من هوك المواجهة: المقطع لم يبقَ في الريل",
+    "- 🎯 مقطع سي إن إن: 2 وجوه — المتكلم بالرؤية",
+    "- ✂️ أُخفي شريط القناة في سي إن إن: قُصّ أسفل 30%",
+    "- 🎯 مقطع سي إن إن: 2 وجوه — المتكلم بالرؤية",
+    "- 🔁 ختام الريل: يكمل فيديو الخلفية (ABC News) ثم يمتزج بأول إطار من الهوك",
+    "- 🎙️ الصوت: ElevenLabs (باقي الرصيد نحو ? حرف)",
+    "- 💵 كلفة الريل: 2.08$ — المقاطع والأسئلة 1.65$ · السيناريو 0.27$ · التركيب 0.17$ (Opus 0.52$ · Sonnet 0.17$ · Haiku 0.03$ · Gemini 1.37$ · بروكسي 71 MB) · البروكسي خارج المجموع"
+  ],
+  "reel_review_issue": 1896
 }
