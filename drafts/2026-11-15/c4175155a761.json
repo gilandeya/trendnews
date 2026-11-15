@@ -1,7 +1,7 @@
 {
   "id": "c4175155a761",
   "created_at": "2026-11-15T18:00:55.674408+00:00",
-  "status": "pending",
+  "status": "approved_script",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -456,7 +456,8 @@
       "views": 269519,
       "duration": 320,
       "published": "2026-11-13T21:30:20Z",
-      "views_per_hour": 6049.9
+      "views_per_hour": 6049.9,
+      "picked": true
     },
     {
       "video_id": "1hf95H__vqo",
@@ -566,5 +567,8 @@
     }
   },
   "review_issue": 1895,
-  "stage2_issue": 1895
+  "stage2_issue": 1895,
+  "render_status": "queued",
+  "approved_script_at": "2026-11-15T18:07:12.102025+00:00",
+  "hook_picked": 0
 }
