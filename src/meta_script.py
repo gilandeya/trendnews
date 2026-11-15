@@ -238,11 +238,24 @@ def write_frame(title: str, topic: dict, questions: list[dict], by_bite: dict, f
         "{question_max_words}", str(int(cfg.path("reel.script.v2.question_max_words", 10)))), cfg)
     messages: list[dict] = [{"role": "user", "content": frame_message(title, topic, questions, by_bite, facts, context_ids)}]
     reasons: list[str] = []
+    data: dict = {}
+    # قضية 1885: رد مقطوع لا يُقبل، لكنه يُعاد مرة بميزانية أكبر بدل أن يُسقط السيناريو؛ والرد يحمل الآن beats والأسئلة المعاد
+    # صياغتها فصار أطول بكثير مما قُدّرت له 1500 أول مرة
+    budgets = [int(s.get("max_tokens", 4000)), int(s.get("max_tokens_retry", 8000))]
     for attempt in (1, 2):
-        resp = _create(client, model=s.get("model", "claude-opus-5"), max_tokens=int(s.get("max_tokens", 1500)),
-                       system=system, tools=[CONTEXT_TOOL], tool_choice={"type": "tool", "name": CONTEXT_TOOL["name"]},
-                       messages=messages)
+        resp = None
+        for budget in budgets:
+            resp = _create(client, model=s.get("model", "claude-opus-5"), max_tokens=budget, system=system,
+                           tools=[CONTEXT_TOOL], tool_choice={"type": "tool", "name": CONTEXT_TOOL["name"]},
+                           messages=messages)
+            if getattr(resp, "stop_reason", "") != "max_tokens":
+                break
+            if info is not None:
+                info.setdefault("attempts", []).append({"attempt": attempt, "reasons": [f"رد مقطوع عند {budget}"]})
         if getattr(resp, "stop_reason", "") == "max_tokens":
+            # بقي مقطوعًا بالميزانية الكبرى: ما كتبه في المحاولة السابقة يُقبل إن كان عيبه الطول وحده، وإلا يفشل كما كان
+            if data and reasons and all(r.startswith("السياق أطول من") for r in reasons):
+                break
             return None, "رد السياق مقطوع عند حد الطول"
         block = next((b for b in getattr(resp, "content", []) or []
                       if getattr(b, "type", "") == "tool_use" and getattr(b, "name", "") == CONTEXT_TOOL["name"]), None)
@@ -254,6 +267,10 @@ def write_frame(title: str, topic: dict, questions: list[dict], by_bite: dict, f
             info.setdefault("attempts", []).append({"attempt": attempt, "reasons": reasons})
         if not reasons:
             return data, ""
+        # قرار صاحب المشروع (قضية 1885): «لا مانع أن يطول السياق»؛ مخالفة الطول وحدها لا تستحق نداءً ثانيًا قد يُقطع فيُسقط
+        # ما كُتب، فتُقبل فورًا بتنبيه (أدناه). true يعيد طلب الاختصار كما كان
+        if not s.get("retry_on_length", False) and all(r.startswith("السياق أطول من") for r in reasons):
+            break
         messages += [{"role": "assistant", "content": [{"type": "tool_use", "id": block.id, "name": block.name,
                                                          "input": block.input}]},
                      {"role": "user", "content": [{"type": "tool_result", "tool_use_id": block.id, "is_error": True,

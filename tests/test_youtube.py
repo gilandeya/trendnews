@@ -5048,6 +5048,8 @@ def test_meta_script() -> None:
         base = real_load()
         cfg = Config(dict(base))
         cfg["reel"] = {**base["reel"], "enabled": True, "hook_search": {**base["reel"].get("hook_search", {}), "enabled": True}}
+        # هذا الاختبار يثبت آلية الإعادة بالسبب، والطول وحده يُقبل فورًا في الإنتاج منذ قضية 1885
+        base["youtube"]["meta_topics"]["script"]["retry_on_length"] = True
         data = {"date": "2026-11-05", "topics": [{"id": "abc123abc123", "title": "ضربة محتملة على إيران",
                                                   "blocs": ["arabic", "israeli"], "orientations": 2, "minutes": 60,
                                                   "channels": ["الجزيرة", "ערוץ 14"], "videos": [], "topic_issue": 970}]}
@@ -6185,8 +6187,9 @@ def test_meta_frame_condense() -> None:
         meta_script._create = frame_of(base + 6)
         info: dict = {}
         data, reason = meta_script.write_frame("س؟", {"title": "ت"}, [], {}, [], cfg, object(), info)
-        check("سياق أطول من الحد بعد محاولتين يُقبل ولا يُسقط السيناريو", data is not None and not reason
-              and calls["frame"] == 2, (reason, calls))
+        # قضية 1885: الطول وحده يُقبل فورًا بلا نداء ثانٍ
+        check("سياق أطول من الحد يُقبل فورًا ولا يُسقط السيناريو", data is not None and not reason
+              and calls["frame"] == 1, (reason, calls))
         check("تنبيه الطول للمراجع", any("قُبل كما هو" in w for w in info.get("warnings", [])), info)
     finally:
         meta_script._create = saved
@@ -6194,6 +6197,56 @@ def test_meta_frame_condense() -> None:
     src = inspect.getsource(meta_script.finalize)
     check("فشل السيناريو المعلَّق عليه يعيد 0 (لا «انهارت خطوة النشر»)", "return 1\n    path = store.save_draft" not in src
           and "return 0   # السبب في التعليق" in src)
+
+
+def test_meta_frame_truncation_1885() -> None:
+    """قضية 1885: المحاولة الأولى سياقها أطول من حده فأُعيدت، والثانية قُطعت عند 1500 فسقط السيناريو. الآن الطول وحده يُقبل
+    فورًا، والرد المقطوع يُعاد مرة بميزانية أكبر، والمقطوع مرتين لا يُقبل أبدًا."""
+    from types import SimpleNamespace as NS
+
+    from src import meta_script
+    from src.config import load_config as real_load
+
+    cfg = real_load()
+    s = cfg.path("youtube.meta_topics.script")
+    check("ميزانية السياق رُفعت ولها ميزانية إعادة", int(s["max_tokens"]) >= 4000
+          and int(s["max_tokens_retry"]) > int(s["max_tokens"]) and s.get("retry_on_length") is False, s)
+    calls: list = []
+
+    def make(stops, words=10):
+        def frame(client, **kw):
+            calls.append(kw["max_tokens"])
+            stop = stops[min(len(calls) - 1, len(stops) - 1)]
+            inp = {"context": [" ".join(["كلمة"] * words) + "."], "closing_question": "ماذا بعد؟"}
+            return NS(stop_reason=stop, content=[NS(type="tool_use", name="write_reel_frame", id=f"t{len(calls)}", input=inp)])
+        return frame
+    saved = meta_script._create
+    try:
+        meta_script._create = make(["max_tokens", "tool_use"])
+        info: dict = {}
+        data, reason = meta_script.write_frame("س؟", {"title": "ت"}, [], {}, [], cfg, object(), info)
+        check("رد مقطوع يُعاد بالميزانية الكبرى فيُقبل", data is not None and not reason
+              and calls == [int(s["max_tokens"]), int(s["max_tokens_retry"])], (reason, calls))
+        check("القطع يُسجَّل في المحاولات", any("مقطوع" in r for a in info.get("attempts", []) for r in a["reasons"]), info)
+        calls.clear()
+        meta_script._create = make(["max_tokens"])
+        data, reason = meta_script.write_frame("س؟", {"title": "ت"}, [], {}, [], cfg, object(), {})
+        check("مقطوع بالميزانيتين لا يُقبل", data is None and "مقطوع" in reason and len(calls) == 2, (reason, calls))
+        calls.clear()
+        meta_script._create = make(["tool_use"], words=200)
+        info = {}
+        data, reason = meta_script.write_frame("س؟", {"title": "ت"}, [], {}, [], cfg, object(), info)
+        check("سياق 200 كلمة يُقبل بتنبيه بنداء واحد", data is not None and len(calls) == 1
+              and any("قُبل كما هو" in w for w in info.get("warnings", [])), (reason, calls))
+        calls.clear()
+        cfg2 = real_load()
+        cfg2["youtube"]["meta_topics"]["script"]["retry_on_length"] = True
+        meta_script._create = make(["tool_use", "max_tokens"], words=200)
+        data, reason = meta_script.write_frame("س؟", {"title": "ت"}, [], {}, [], cfg2, object(), {})
+        check("بإعادة الطول: الثانية مقطوعة ← تُقبل الأولى الطويلة لا يسقط السيناريو", data is not None and not reason,
+              (reason, calls))
+    finally:
+        meta_script._create = saved
 
 
 def test_reel_map_autodetect_clash_json() -> None:
