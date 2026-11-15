@@ -461,16 +461,28 @@ def issue_body(topic: dict, data: dict, qa: dict, cfg, full_bites: list | None =
         head.pop()
     lines = head + [""]
     bites = qa.get("bites") or []
+    # مقاطع سقطت في تركيب سابق (قضية 1881) لا تُعرض للاختيار ثانية؛ الترقيم (mq وn) يبقى كما هو لأن read_marks وfinalize يقرآنه
+    gone = {e.get("bite_id") for e in qa.get("excluded") or [] if e.get("bite_id")}
     if qa.get("titles"):
         lines += [t.get("titles_header", "### 📝 العنوان"), ""]
         for k, title in enumerate(qa["titles"]):
             lines.append(f"- [{'x' if k == 0 else ' '}] {title} <!-- mhl:{k} -->")
         lines.append("")
-    if qa.get("context"):
+    if gone:
+        lines += [t.get("excluded_header", "### 🚫 مقاطع سقطت في التركيب ولن تُعرض"), ""]
+        by_id = {b.get("bite_id"): b for b in bites}
+        for e in qa.get("excluded") or []:
+            b = by_id.get(e.get("bite_id")) or {}
+            who = b.get("speaker") or b.get("speaker_original") or t.get("unnamed", "متحدث غير مسمّى")
+            lines.append(t.get("excluded_line", "- {who} · {channel} — {reason}").format(
+                who=who, channel=b.get("channel") or "", reason=e.get("reason") or ""))
+        lines.append("")
+    context_rows = [e for e in qa.get("context") or [] if bites[e["n"] - 1].get("bite_id") not in gone]
+    if context_rows:
         lines += [t.get("context_header", "### 🎬 مقاطع السياق (أطراف الحدث)"), "", t.get("context_explainer", ""), "",
                   t.get("table_header", "| # | المقولة | القائل | القناة والتوجّه |"), "|:-:|---|---|---|"]
         boxes = []
-        for k, e in enumerate(qa["context"], 1):
+        for k, e in enumerate(context_rows, 1):
             b = bites[e["n"] - 1]
             row, who = _bite_row(k, b, {"fit": "direct"}, t, full_bites, e["n"])
             lines.append(row)
@@ -479,14 +491,19 @@ def issue_body(topic: dict, data: dict, qa: dict, cfg, full_bites: list | None =
                          + f" <!-- mc:{b['bite_id']} -->")
         lines += [""] + boxes + [""]
     lines += [t.get("questions_header", "### ❓ الأسئلة والإجابات"), "", t.get("questions_explainer", ""), ""]
+    seconds = 0.0
     for qi, qu in enumerate(qa.get("questions") or [], 1):
-        any_sel = any(a.get("selected") for a in qu["answers"])
+        answers = [a for a in qu["answers"] if bites[a["n"] - 1].get("bite_id") not in gone]
+        if gone and not answers:
+            continue      # سؤال سقطت كل إجاباته: لا يُعرض، وترقيم الباقي كما هو
+        seconds += sum(_sec(bites[a["n"] - 1]) for a in answers if a.get("selected"))
+        any_sel = any(a.get("selected") for a in answers)
         lines.append(f"- [{'x' if any_sel else ' '}] **{qi}. {qu['text']}** <!-- mq:{qi} -->")
         # جدول للقراءة ومربعات للاختيار (قرار صاحب المشروع 11/11: السطر الواحد بكل البيانات مرهق للنظر). GitHub لا يجعل
         # المربع داخل الجدول قابلًا للنقر، فالمربعات تحت الجدول برقم الصف واسم القائل
         lines += ["", t.get("table_header", "| # | المقولة | القائل | القناة والتوجّه |"), "|:-:|---|---|---|"]
         boxes = []
-        for k, a in enumerate(qu["answers"], 1):
+        for k, a in enumerate(answers, 1):
             b = bites[a["n"] - 1]
             row, who = _bite_row(k, b, a, t, full_bites, a["n"])
             lines.append(row)
@@ -498,7 +515,7 @@ def issue_body(topic: dict, data: dict, qa: dict, cfg, full_bites: list | None =
                          + f" <!-- ma:{qi}:{b['bite_id']} -->")
         lines += [""] + boxes + [""]
     lines.append(t.get("total_line", "⏱️ مجموع الإجابات المعلَّمة: {seconds} ث من {budget}").format(
-        seconds=_fmt_sec(qa.get("selected_seconds") or 0), budget=_fmt_sec(float(_qcfg(cfg).get("max_seconds", 120)))))
+        seconds=_fmt_sec(seconds if gone else (qa.get("selected_seconds") or 0)), budget=_fmt_sec(float(_qcfg(cfg).get("max_seconds", 120)))))
     if qa.get("failures"):
         lines += ["", t.get("failures_header", "⚠️ فيديوهات لم تدخل:")]
         for f in qa["failures"]:
