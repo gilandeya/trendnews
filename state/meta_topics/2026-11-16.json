@@ -364,7 +364,25 @@
     }
    ],
    "topic_issue": 1900,
-   "qa_requested_at": "2026-11-16T09:41:04.038552+00:00"
+   "qa_requested_at": "2026-11-16T09:41:04.038552+00:00",
+   "qa": {
+    "attempts": 1,
+    "at": "2026-11-16T09:42:30.699967+00:00",
+    "source": "gemini",
+    "gemini_cost": 0.501,
+    "gemini_rejected": 0,
+    "originals": [],
+    "originals_found": 0,
+    "failures": [],
+    "status": "failed",
+    "error": "RuntimeError: لم يقترح النموذج سؤالًا له إجابات",
+    "cost": {
+     "claude": {
+      "claude-sonnet-5": 0.03243
+     },
+     "gemini": 0.501
+    }
+   }
   },
   {
    "id": "d3465c7281ac",
