@@ -58,6 +58,9 @@ def load_config(path=None):
     """إعداد الاختبارات: كالحقيقي لكن preset ترميز الريل ultrafast (الترميز الحقيقي لفيديو 1080×1920 عشرات المرات هو
     ثلث مدة الحزمة؛ config.yaml نفسه لا يُمسّ فيبقى veryfast في الإنتاج) — Issue #1422."""
     cfg = _real_load_config(path)
+    # سطر ذكر صاحب المشروع (16/11) يُلحق بأجسام قضايا تثبّتها اختبارات قديمة حرفًا؛ test_meta_notify_remaining يطلبه
+    if isinstance(cfg.get("notifications"), dict):
+        cfg["notifications"]["mention"] = ""
     # حكم العناوين القديم (الصلة واللقطات معًا) في الاختبارات: g339 يثبّت فلاتره الثلاثة؛ test_reel_scenario_fallbacks_1313 يقرأ
     # config.yaml الحقيقي فيثبّت require_footage_title: false في الإنتاج
     hs = cfg.get("reel", {}).get("hook_search") if isinstance(cfg.get("reel"), dict) else None

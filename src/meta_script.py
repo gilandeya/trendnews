@@ -566,7 +566,8 @@ def finalize(issue_number: int, body: str, cfg, client=None) -> int:
     repo = os.environ.get("GITHUB_REPOSITORY", "")
     branch = os.environ.get("GITHUB_REF_NAME", "main")
     issue = review.create_issue(t.get("issue_title", "🎬 سيناريو: {title}").format(title=title),
-                                youtube_publish.build_review_body([draft], repo, branch, cfg), labels=["youtube-review"])
+                                review.with_notify(youtube_publish.build_review_body([draft], repo, branch, cfg), cfg),
+                                labels=["youtube-review"])
     store.update_draft(path, review_issue=issue["number"], stage2_issue=issue["number"])
     topic.update(script_issue=issue["number"], script_draft=draft["id"])
     meta_topics._save_public(data)

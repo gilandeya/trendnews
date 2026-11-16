@@ -597,11 +597,19 @@ def process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: da
 def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: datetime | None = None,
                    gemini_post=None) -> str:
     """يملأ topic["qa"] ويحدّث قضية الموضوع. يعيد الحالة: ready · waiting_proxy · failed. لا يرفع."""
-    from . import review
+    from . import meta_topics, review
     now = now or datetime.now(timezone.utc)
     q = _qcfg(cfg)
     t = _texts(cfg)
     qa = dict(topic.get("qa") or {})
+    if qa.get("status") == "ready" and not topic.get("topic_issue"):
+        # الأسئلة حُفظت وتعذّر فتح قضيتها (عطل GitHub): تُفتح من الملف المحفوظ بلا استخراج ثانٍ (نداءات Gemini مدفوعة)
+        try:
+            priv = json.loads(private_path(topic["id"]).read_text(encoding="utf-8"))
+            meta_topics.ensure_topic_issue(topic, data, cfg, issue_body(topic, data, qa, cfg, full_bites=priv.get("bites") or []))
+        except Exception as exc:  # noqa: BLE001
+            log.warning("تعذّر فتح قضية الموضوع %s: %s", topic.get("id"), str(exc)[:150])
+        return "ready"
     qa["attempts"] = int(qa.get("attempts") or 0) + 1
     qa["at"] = now.isoformat()
     try:
@@ -624,7 +632,10 @@ def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: d
         if exhausted and len(bites) < int(q.get("min_bites", 4)):
             qa["status"] = "waiting_proxy"
             if not qa.get("notified_proxy"):
-                review.comment(topic["topic_issue"], t.get("waiting_proxy", ""))
+                # قضية لم تُفتح بعد (16/11) تُفتح الآن بسبب الانتظار في جسمها: إعادة وسم approved عليها هي طريق إعادة الطلب
+                if not meta_topics.ensure_topic_issue(topic, data, cfg, meta_topics.topic_body(
+                        topic, data, cfg, note=t.get("waiting_proxy", ""))):
+                    review.comment(topic["topic_issue"], t.get("waiting_proxy", ""))
                 qa["notified_proxy"] = True
             topic["qa"] = qa
             return qa["status"]
@@ -679,16 +690,26 @@ def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: d
                         encoding="utf-8")
         qa.update(status="ready", titles=titles, questions=questions, context=context, bites=[public_bite(b) for b in kept],
                   error="", extracted=len(bites))
-        review.update_issue_body(topic["topic_issue"], issue_body(topic, data, qa, cfg, full_bites=kept))
-        review.comment(topic["topic_issue"], t.get("ready", "").format(
-            q=len(questions), seconds=_fmt_sec(qa["selected_seconds"])))
+        try:
+            # القضية تُفتح هنا والأسئلة فيها (طلب صاحب المشروع 16/11)، فبريد إنشائها هو إشعار «جاهزة للاختيار» ولا تعليق يكرّره؛
+            # قضية مفتوحة من قبل (إعادة طلب، أو مسار قديم) يُكتب جسمها ويُعلَّق عليها كما كان
+            if not meta_topics.ensure_topic_issue(topic, data, cfg, issue_body(topic, data, qa, cfg, full_bites=kept)):
+                review.update_issue_body(topic["topic_issue"], issue_body(topic, data, qa, cfg, full_bites=kept))
+                review.comment(topic["topic_issue"], t.get("ready", "").format(
+                    q=len(questions), seconds=_fmt_sec(qa["selected_seconds"])))
+        except Exception as exc:  # noqa: BLE001 — الأسئلة محفوظة؛ عطل GitHub لا يعيد استخراجها (pending_topics يعيد فتح القضية)
+            if topic.get("topic_issue"):
+                raise
+            log.warning("تعذّر فتح قضية الموضوع %s: %s", topic.get("id"), str(exc)[:150])
     except Exception as exc:  # noqa: BLE001 — موضوع واحد لا يوقف الباقي ولا التركيب
         qa["status"] = "failed"
         qa["error"] = f"{type(exc).__name__}: {str(exc)[:200]}"
         log.warning("أسئلة الموضوع %s: %s", topic.get("id"), qa["error"])
         if qa["attempts"] >= int(q.get("max_attempts", 3)):
             try:
-                review.comment(topic["topic_issue"], t.get("failed", "").format(error=qa["error"]))
+                note = t.get("failed", "").format(error=qa["error"])
+                if not meta_topics.ensure_topic_issue(topic, data, cfg, meta_topics.topic_body(topic, data, cfg, note=note)):
+                    review.comment(topic["topic_issue"], note)
             except Exception:  # noqa: BLE001
                 pass
     topic["qa"] = qa
@@ -705,7 +726,10 @@ def pending_topics(cfg, now: datetime) -> list[tuple[dict, dict]]:
         data = _load_public(date)
         for topic in (data or {}).get("topics") or []:
             qa = topic.get("qa") or {}
-            if not topic.get("topic_issue") or qa.get("status") == "ready":
+            # المختار = له قضية (المسار القديم) أو طُلب استخراجه (16/11: القضية تُفتح بعد الاستخراج)
+            if not (topic.get("topic_issue") or topic.get("qa_requested_at")):
+                continue
+            if qa.get("status") == "ready" and topic.get("topic_issue"):
                 continue
             if qa.get("status") == "failed" and int(qa.get("attempts") or 0) >= int(q.get("max_attempts", 3)):
                 continue

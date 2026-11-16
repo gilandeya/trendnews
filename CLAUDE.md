@@ -3430,3 +3430,20 @@ track` والفيديو وثانيته، وسطر «🔁 ختام الريل…�
 - **سرعة الراوي:** `reel.tts.speed` (1.2) ← `reel_render._tempo` يضيف `atempo` إلى أمر صوت كل جملة في `_speech` قبل قياس مدتها (لكل مزوّد، وكل
   التوقيتات تتبع المدة المقيسة)، و`reel_script.narration_wps(cfg)` = `narration_wps` × السرعة لتقدير المدة. 1 ← الأمر كما كان.
 - `tests.helpers.load_config` يُبقي `speed: 1` و`min_answers: 2` للاختبارات القديمة. `render_version` بلا تغيير (للقادم فقط).
+
+## قضية «المتبقية»، وقضية الموضوع بعد الاستخراج، وذكر صاحب المشروع (طلبه 16/11) — `tests/test_youtube.py:test_meta_notify_remaining`
+
+- **قضية ترشيح بالمتبقي:** `meta_topics.finalize` بعد اختيار موضوع جديد وإغلاق قضية `meta-selection` يستدعي `_open_remaining`: قضية ترشيح
+  جديدة (`texts.selection_rest_title`) بما لم يُختر وحده (`selection_body(topics=, note=)`؛ القراءة بالمعرّف فلا يضرّها الترقيم)، ورقمها يصير
+  `selection_issue`، وتعليق برابطها على المغلقة. قضية «متبقية» أحدث مفتوحة ← يُحدَّث جسمها بدل قضية ثالثة. لا متبقٍ أو
+  `reopen_remaining: false` ← لا شيء. لا ترفع.
+- **قضية الموضوع تُفتح بعد الاستخراج:** بريد GitHub يُرسل عند الإنشاء، فكان يصل «⏳ تُجلب النصوص». مع `topic_issue_when_ready` و`qa.enabled`
+  (`meta_topics.deferred`) لا يفتح `finalize` قضية: يختم `qa_requested_at` و`selected_from` على الموضوع (وبه يجده `meta_qa.pending_topics`)،
+  و`meta_qa._process_topic` يفتحها عند الجاهزية بـ`meta_topics.ensure_topic_issue` بعنوان `texts.topic_title` («❓ اختيار الأسئلة: …») والأسئلة
+  في جسمها وبلا تعليق «استُخرجت» (البريد واحد). قضية مفتوحة من قبل (إعادة طلب) ← جسم وتعليق كما كان. انتظار البروكسي والفشل الأخير يفتحانها
+  بسببهما في جسمها (`topic_body(note=)`) لأن إعادة وسم `approved` عليها هي طريق إعادة الطلب. عطل GitHub عند الفتح لا يُضيع الأسئلة: الحالة
+  ready بلا `topic_issue` تبقى معلَّقة وتُفتح في التشغيلة التالية من الملف الخاص بلا استخراج ثانٍ. موضوع مختار بلا قضية أُعيد تعليمه ← سطر
+  «أسئلته تُستخرج» بلا طلب ثانٍ. بلا خطوة الأسئلة تُفتح فورًا كما كانت.
+- **الذكر:** `review.with_notify(body, cfg)` يُلحق `notifications.line` («🔔 @gilandeya») بجسم القضية **عند الإنشاء وحده** (الذكر يضمن البريد
+  ولو بلا مراقبة للمستودع): قضية الموضوع، قضية السيناريو (`meta_script.finalize`، و`youtube_publish.open_review` لمجموعة كلها ريل)، وقضية
+  مراجعة الريل (`reel_review.open_or_update`). `mention` فارغ ← لا سطر؛ `tests.helpers.load_config` يفرغه.

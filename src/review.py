@@ -577,6 +577,16 @@ def parse_headline_choice(body: str) -> dict[str, int]:
 # ──────────────────────────── عمليات GitHub ────────────────────────────
 
 
+def with_notify(body: str, cfg) -> str:
+    """يُلحق بجسم قضية جديدة سطر ذكر صاحب المشروع (`notifications.mention`): الذكر يضمن بريد GitHub عند إنشائها ولو لم يكن
+    يراقب المستودع كله (طلبه 16/11 لقضايا اختيار الأسئلة والسيناريو ومراجعة الريل). عند الإنشاء وحده: إعادة كتابة الجسم لاحقًا
+    لا ترسل بريدًا فلا حاجة إليه فيها. فارغ ← الجسم كما هو."""
+    mention = str(cfg.path("notifications.mention", "") or "").strip()
+    if not mention:
+        return body
+    return body + "\n\n" + str(cfg.path("notifications.line", "🔔 {mention}")).format(mention=mention)
+
+
 def create_issue(title: str, body: str, labels: list[str] | None = None) -> dict:
     repo = _repo()
     resp = requests.post(

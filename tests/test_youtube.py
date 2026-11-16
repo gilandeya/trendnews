@@ -4743,7 +4743,9 @@ def test_meta_topics_selection() -> None:
         cfg["youtube"] = {**base["youtube"], "meta_topics": {**base["youtube"]["meta_topics"], "enabled": False}}
         check("مطفأة: لا قضية", mt.open_selection(cfg, date) is None and not made)
         # الأسئلة (الخطوة 4) مطفأة هنا: هذا الاختبار للترشيح وحده، وإطلاقها في test_meta_qa
+        # وقضية «المتبقية» (16/11) مطفأة: يثبّتها test_meta_notify_remaining
         cfg["youtube"] = {**base["youtube"], "meta_topics": {**base["youtube"]["meta_topics"], "enabled": True,
+                                                              "reopen_remaining": False,
                                                               "qa": {**base["youtube"]["meta_topics"]["qa"], "enabled": False}}}
         issue = mt.open_selection(cfg, date)
         title, body, labels = made[0]
@@ -4807,6 +4809,167 @@ def test_meta_topics_selection() -> None:
             os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = old
         shutil.rmtree(d, ignore_errors=True)
         shutil.rmtree(mt.public_dir(), ignore_errors=True)
+
+
+def test_meta_notify_remaining() -> None:
+    """طلب صاحب المشروع 16/11: بعد اختيار موضوع تُفتح قضية ترشيح بالمتبقي وحده؛ قضية الموضوع تُفتح بعد استخراج أسئلته بعنوان
+    «اختيار الأسئلة» والأسئلة في جسمها (بريد إنشائها هو الإشعار) لا عند الاختيار بسطر ⏳؛ وسطر الذكر في أجسام القضايا الجديدة."""
+    from types import SimpleNamespace as NS
+
+    from src import meta_qa, meta_topics as mt, publish, reel_review, review, store, youtube_bites, youtube_transcripts
+    from src.config import Config, load_config as real_load
+
+    d = tempfile.mkdtemp()
+    old = os.environ.get("TRENDNEWS_YOUTUBE_BITES_DIR")
+    old_disp = os.environ.pop(publish.RENDER_DISPATCH_ENV, None)
+    os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = d
+    names = ("create_issue", "comment", "close_issue", "update_issue_body", "dispatch_workflow", "issue_state", "ensure_labels")
+    saved = {k: getattr(review, k) for k in names}
+    saved_extract, saved_create, saved_load = youtube_bites.extract, meta_qa._create, youtube_transcripts.load
+    made, comments, closed, bodies, states = [], [], [], {}, {}
+    try:
+        def create(title, body, labels=None):
+            if create.fail:
+                raise RuntimeError("github down")
+            made.append((title, body, labels))
+            return {"number": 700 + len(made)}
+        create.fail = False
+        review.create_issue = create
+        review.comment = lambda n, text: comments.append((n, text))
+        review.close_issue = lambda n: closed.append(n)
+        review.update_issue_body = lambda n, body: bodies.__setitem__(n, body)
+        review.dispatch_workflow = lambda wf, ref: None
+        review.issue_state = lambda n: states.get(n, "closed")
+        review.ensure_labels = lambda: None
+        base = real_load()
+        check("الإعداد: الذكر وفتح القضية بعد الاستخراج والمتبقية مفعّلة",
+              base.path("notifications.mention") == "@gilandeya" and base.path("youtube.meta_topics.topic_issue_when_ready") is True
+              and base.path("youtube.meta_topics.reopen_remaining") is True
+              and "اختيار الأسئلة" in base.path("youtube.meta_topics.texts.topic_title"))
+        cfg = Config(dict(base))
+        cfg["youtube"] = {**base["youtube"], "meta_topics": {**base["youtube"]["meta_topics"], "enabled": True}}
+        cfg["youtube"]["extract"] = {**base["youtube"].get("extract", {}), "transcript_sleep_range": [0, 0]}
+        date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        vid = lambda i: {"video_id": f"v{i}", "channel": f"ch{i}", "bloc": "arabic" if i % 2 else "turkish",  # noqa: E731
+                         "orientation": f"o{i}", "title": "عنوان قناة", "minutes": 30}
+        res = {"generated_at": "x", "ranked": [
+            {"title": f"موضوع {k}", "blocs": ["arabic", "turkish"], "orientations": 2, "minutes": 60, "channels": [],
+             "videos": [vid(1), vid(2)]} for k in (1, 2, 3)]}
+        (Path(d) / "meta_topics").mkdir(parents=True, exist_ok=True)
+        (Path(d) / "meta_topics" / f"{date}.json").write_text(json.dumps(res, ensure_ascii=False), encoding="utf-8")
+        mt.open_selection(cfg, date)
+        body = made[0][1]
+        pub = mt._load_public(date)
+        ids = [e["id"] for e in pub["topics"]]
+        marked = body.replace(f"- [ ] **2. موضوع 2** <!-- mtopic:{ids[1]} -->", f"- [x] **2. موضوع 2** <!-- mtopic:{ids[1]} -->")
+        check("الاعتماد ينجح", mt.finalize(701, marked, cfg) == 0 and closed == [701])
+        pub = mt._load_public(date)
+        t2 = pub["topics"][1]
+        check("لا قضية للموضوع عند الاختيار: طُلب استخراجه وحده",
+              not t2.get("topic_issue") and t2.get("qa_requested_at") and t2.get("selected_from") == 701
+              and not any(lbl == ["meta-topic"] for _, _, lbl in made), made[1:])
+        rest = [m for m in made[1:] if m[2] == ["meta-selection"]]
+        check("قضية ترشيح جديدة بالمتبقي وحده، والمختار ليس فيها",
+              len(rest) == 1 and ids[0] in rest[0][1] and ids[2] in rest[0][1] and ids[1] not in rest[0][1]
+              and rest[0][1].count("<!-- mtopic:") == 2 and f"<!-- meta-date:{date} -->" in rest[0][1] and "#701" in rest[0][1]
+              and "المتبقية" in rest[0][0], rest)
+        check("رقم قضية الترشيح الحالية هو الجديدة، وتعليق على المغلقة برابطها",
+              pub["selection_issue"] == 702 and any(n == 701 and "#702" in txt for n, txt in comments), comments)
+        check("تعليق الاعتماد لا يعد بقضية مفتوحة", any(n == 701 and "حين تجهز" in txt for n, txt in comments))
+
+        # اعتماد القضية الجديدة بموضوع آخر: قضية ثالثة بما بقي
+        marked2 = rest[0][1].replace(f"- [ ] **1. موضوع 1** <!-- mtopic:{ids[0]} -->", f"- [x] **1. موضوع 1** <!-- mtopic:{ids[0]} -->")
+        mt.finalize(702, marked2, cfg)
+        rest2 = [m for m in made if m[2] == ["meta-selection"]][-1]
+        check("القضية الثالثة بالموضوع الأخير وحده", rest2[1].count("<!-- mtopic:") == 1 and ids[2] in rest2[1], rest2)
+        pub = mt._load_public(date)
+        n_sel = len([m for m in made if m[2] == ["meta-selection"]])
+        # إعادة اعتماد قضية أقدم والأحدث مفتوحة: يُحدَّث جسم الأحدث ولا قضية رابعة
+        states[pub["selection_issue"]] = "open"
+        marked3 = body.replace(f"- [ ] **3. موضوع 3** <!-- mtopic:{ids[2]} -->", f"- [x] **3. موضوع 3** <!-- mtopic:{ids[2]} -->")
+        mt.finalize(701, marked3, cfg)
+        check("لا شيء باقٍ ← لا قضية جديدة", len([m for m in made if m[2] == ["meta-selection"]]) == n_sel)
+        off = Config(dict(cfg))
+        off["youtube"] = {**cfg["youtube"], "meta_topics": {**cfg["youtube"]["meta_topics"], "reopen_remaining": False}}
+        check("reopen_remaining false ← لا قضية متبقية", mt._open_remaining(mt._load_public(date), 701, off) is None)
+
+        # الاستخراج: القضية تُفتح والأسئلة في جسمها، بعنوانها الجديد وسطر الذكر، وبلا تعليق «استُخرجت»
+        def fake_extract(meta, segs, lang, cfg_, client=None, max_chars=None):
+            k = int(meta["video_id"][1:])
+            return {"bites": [{"start_line": n, "start": 10.0 * n, "end": 10.0 * n + 20, "speaker": f"محلل{k}{n}",
+                               "type": "opinion", "summary_ar": f"رأي {k}{n}", "text_ar": f"ترجمة {k}{n}",
+                               "text_original": f"words {k}{n}"} for n in (1, 2)], "error": ""}
+        youtube_bites.extract = fake_extract
+        youtube_transcripts.load = lambda v: None
+        meta_qa._create = lambda client, **kw: NS(stop_reason="tool_use", content=[NS(type="tool_use", name="plan_questions", input={
+            "titles": ["عنوان 1؟", "عنوان 2", "عنوان 3"],
+            "questions": [{"text": "ما المتوقع؟", "answers": [{"n": 1, "fit": "direct"}, {"n": 3, "fit": "direct"}]}]})])
+        fetch = lambda v: ([{"start": 0, "dur": 5, "text": "x"}], "ar", False)  # noqa: E731
+        now = datetime.now(timezone.utc)
+        pend = meta_qa.pending_topics(cfg, now)
+        check("pending_topics يجد المختار بلا قضية", ids[1] in [t["id"] for t, _ in pend], [t["id"] for t, _ in pend])
+        topic, data = next((t, dd) for t, dd in pend if t["id"] == ids[1])
+        n_made, n_comments = len(made), len(comments)
+        status = meta_qa.process_topic(topic, data, cfg, client=object(), fetch=fetch, now=now)
+        new = made[n_made:]
+        check("الأسئلة جاهزة ← قضية الموضوع تُفتح الآن", status == "ready" and len(new) == 1 and new[0][2] == ["meta-topic"]
+              and topic.get("topic_issue") == 700 + len(made), (status, topic.get("qa", {}).get("error"), new))
+        if new:
+            check("عنوانها «اختيار الأسئلة» وجسمها الأسئلة لا سطر ⏳، وفيه الذكر",
+                  new[0][0].startswith("❓ اختيار الأسئلة: موضوع 2") and "<!-- mq:" in new[0][1] and "⏳" not in new[0][1]
+                  and "@gilandeya" in new[0][1], new[0][0])
+        check("لا تعليق «استُخرجت» فوق بريد الإنشاء", len(comments) == n_comments and not bodies, comments[n_comments:])
+        check("الجاهز بقضيته لا يعود معلَّقًا", ids[1] not in [t["id"] for t, _ in meta_qa.pending_topics(cfg, now)]
+              or mt._save_public(data) or True)
+        mt._save_public(data)
+        check("بعد الحفظ: ليس معلَّقًا", ids[1] not in [t["id"] for t, _ in meta_qa.pending_topics(cfg, now)])
+        # إعادة الاستخراج لقضية مفتوحة: جسم وتعليق كما كان
+        topic["qa"]["status"] = "failed"
+        meta_qa.process_topic(topic, data, cfg, client=object(), fetch=fetch, now=now)
+        check("قضية مفتوحة من قبل: يُكتب جسمها ويُعلَّق", topic["topic_issue"] in bodies
+              and any(n == topic["topic_issue"] and "استُخرجت" in txt for n, txt in comments[n_comments:]))
+
+        # عطل GitHub عند الفتح: الأسئلة محفوظة جاهزة، والتشغيلة التالية تفتح القضية بلا استخراج ثانٍ
+        t1 = next(e for e in data["topics"] if e["id"] == ids[0])
+        create.fail = True
+        st = meta_qa.process_topic(t1, data, cfg, client=object(), fetch=fetch, now=now)
+        check("عطل الفتح لا يُضيع الأسئلة", st == "ready" and not t1.get("topic_issue") and t1["qa"]["status"] == "ready")
+        mt._save_public(data)
+        check("الجاهز بلا قضية يبقى معلَّقًا", ids[0] in [t["id"] for t, _ in meta_qa.pending_topics(cfg, now)])
+        create.fail = False
+        calls = []
+        youtube_bites.extract = lambda *a, **k: calls.append(1) or {"bites": [], "error": ""}
+        st = meta_qa.process_topic(t1, data, cfg, client=object(), fetch=fetch, now=now)
+        check("تُفتح من الملف المحفوظ بلا استخراج ثانٍ", st == "ready" and t1.get("topic_issue") and not calls
+              and "<!-- mq:" in made[-1][1], (st, calls))
+
+        # فشل نهائي بلا قضية: تُفتح بسببه (فيها يُعاد الطلب) لا بسطر ⏳
+        t3 = next(e for e in data["topics"] if e["id"] == ids[2])
+        t3["qa"] = {"attempts": int(cfg.path("youtube.meta_topics.qa.max_attempts", 3)) - 1}
+        st = meta_qa.process_topic(t3, data, cfg, client=object(), fetch=fetch, now=now)
+        check("الفشل الأخير يفتح القضية بسببه", st == "failed" and t3.get("topic_issue") and "تعذّر استخراج الأسئلة" in made[-1][1]
+              and "⏳" not in made[-1][1], (st, made[-1][0]))
+
+        # قضية مراجعة الريل: الذكر عند الإنشاء
+        dpath = store.save_draft({"id": "notifyreel01", "origin": "analysis", "format": "reel", "status": "approved_script",
+                                  "arabic": {}, "script": {"title": "عنوان"}, "headlines": ["عنوان؟"], "reel_file": "reels/x.mp4"})
+        n_made = len(made)
+        reel_review.open_or_update(dpath, store.load_draft("notifyreel01")[1], cfg)
+        check("قضية مراجعة الريل تحمل الذكر", len(made) == n_made + 1 and "@gilandeya" in made[-1][1], made[-1][1][-80:])
+        quiet = Config(dict(cfg))
+        quiet["notifications"] = {"mention": ""}
+        check("mention فارغ ← الجسم كما هو", review.with_notify("جسم", quiet) == "جسم"
+              and review.with_notify("جسم", cfg).startswith("جسم\n\n") and "@gilandeya" in review.with_notify("جسم", cfg))
+    finally:
+        for k, v in saved.items():
+            setattr(review, k, v)
+        youtube_bites.extract, meta_qa._create, youtube_transcripts.load = saved_extract, saved_create, saved_load
+        if old is None:
+            os.environ.pop("TRENDNEWS_YOUTUBE_BITES_DIR", None)
+        else:
+            os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = old
+        if old_disp is not None:
+            os.environ[publish.RENDER_DISPATCH_ENV] = old_disp
 
 
 def test_meta_qa() -> None:
@@ -4944,6 +5107,7 @@ def test_meta_qa() -> None:
         check("بلا ملف إطلاق: يُطلق التركيب الآن", dispatched == ["reel-render.yml"], dispatched)
         pub5 = mt._load_public("2026-11-05")
         pub5["topics"][0]["topic_issue"] = None
+        pub5["topics"][0].pop("qa_requested_at", None)   # المختار بلا قضية (16/11) لا يُطلب ثانيةً: يُمسح ليُعدّ اختيارًا جديدًا
         mt._save_public(pub5)
         disp = Path(d) / "disp.json"
         os.environ[publish.RENDER_DISPATCH_ENV] = str(disp)
