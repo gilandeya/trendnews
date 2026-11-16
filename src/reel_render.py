@@ -2847,7 +2847,7 @@ def _speech(text: str, voice: str, cfg, deps: Deps, tmp: Path, tag: str) -> tupl
         mp3.write_bytes(res["audio"])
         wav = tmp / f"{tag}_{k}.wav"
         deps.run(_base("-i", str(mp3), "-af",
-                       f"aresample={rcfg.get('audio_rate', 48000)},aformat=channel_layouts=stereo,{_loudnorm(cfg)},"
+                       f"{_tempo(cfg)}aresample={rcfg.get('audio_rate', 48000)},aformat=channel_layouts=stereo,{_loudnorm(cfg)},"
                        f"apad=pad_dur={silence}",
                        str(wav)))
         dur = deps.probe(wav)
@@ -2858,6 +2858,14 @@ def _speech(text: str, voice: str, cfg, deps: Deps, tmp: Path, tag: str) -> tupl
     audio = tmp / f"{tag}_audio.wav"
     deps.run(_base("-f", "concat", "-safe", "0", "-i", str(lst), "-c", "copy", str(audio)))
     return audio, parts
+
+
+def _tempo(cfg) -> str:
+    """سرعة صوت الراوي (ملاحظة صاحب المشروع 16/11: القراءة بطيئة): atempo يسرّع بلا تغيير طبقة الصوت، ويُطبَّق على ملف كل
+    جملة قبل قياس مدتها فتتبعه كل التوقيتات (نزول الكلمات والمشاهد). في ffmpeg لا عند المزوّد كي يستوي ElevenLabs وGoogle.
+    1 ← لا فلتر (الأمر كما كان)."""
+    speed = float(cfg.path("reel.tts.speed", 1) or 1)
+    return "" if abs(speed - 1) < 1e-6 else f"atempo={speed:g},"
 
 
 def scene_seconds(body: float, tail: float, lead: float) -> float:
@@ -3749,6 +3757,10 @@ def speaker_matches(name_arabic: str, name_original: str, speaker_text: str, cfg
         # ريل 1890: «فلاديمير باسطوخوف» و«فلاديمير باستوخوف» رسمان لاسم واحد (ط/ت في نقل الاسم الأجنبي) فحُذف مقطعه وسقط سؤاله.
         # الاسمان بعدد الكلمات نفسه وكل كلمة تقابل نظيرتها حرفًا أو بتشابه حروف عالٍ ← الشخص نفسه؛ «علي البخيتي»/«علي صدرزاده» يبقيان مختلفين
         return _same_name_spelling(spoken_list, chyron_list, cfg)
+    if not shared:
+        # ريل 1895: «ظافر يشيل غول» (السيناريو) و«ظفر يشيلغول» (Gemini) اسم واحد بتقطيع ورسم مختلفين فلا كلمة مشتركة بينهما،
+        # فحُذف المقطع وسقط معه سؤاله وورقة الهوك. الاسمان ملتصقين بلا مسافات يكادان يتطابقان ← الشخص نفسه
+        return _same_name_compact(spoken_list, chyron_list, cfg)
     return bool(shared)
 
 
@@ -3760,6 +3772,23 @@ def _same_name_spelling(a: list[str], b: list[str], cfg) -> bool:
         return False
     min_len = int(cfg.path("reel.render.chyron.name_similarity_min_len", 5) or 5)
     return all(reel_clips.word_close(x, y, sim, min_len) for x, y in zip(a, b))
+
+
+def _same_name_compact(a: list[str], b: list[str], cfg) -> bool:
+    """اسمان بلا كلمة مشتركة يُقارنان ملتصقين (بلا مسافات): تشابه حروف ≥ chyron.name_compact_similarity وطول كلٍّ منهما ≥
+    name_compact_min_len. العتبة أعلى من مقارنة الكلمات والحد الأدنى للطول يمنعان تطابق اسمين قصيرين مختلفين. دالة خالصة؛
+    0 ← لا تسامح (السلوك القديم)."""
+    sim = float(cfg.path("reel.render.chyron.name_compact_similarity", 0) or 0)
+    if not sim:
+        return False
+    min_len = int(cfg.path("reel.render.chyron.name_compact_min_len", 8) or 8)
+
+    def close(x: str, y: str) -> bool:
+        return min(len(x), len(y)) >= min_len and 1 - reel_clips._lev(x, y) / max(len(x), len(y)) >= sim
+    # نص القائل قد يحمل بعد الاسم كلمات صفة لم تُحذف («… مراقبة الملاحة الجوية»)، فيُقارَن الاسم الآخر كاملًا بأوائل كلماته
+    full_a, full_b = "".join(a), "".join(b)
+    return (any(close("".join(a[:k]), full_b) for k in range(1, len(a) + 1))
+            or any(close(full_a, "".join(b[:k])) for k in range(1, len(b) + 1)))
 
 
 def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, notes: list, index: int,

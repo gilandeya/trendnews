@@ -273,7 +273,7 @@ from tests.test_youtube import (
     test_tts_elevenlabs,
     test_reel_country_terms,
     test_reel_context_clips,
-    test_meta_frame_condense, test_meta_frame_truncation_1885, test_reel_cost_cut, test_meta_verify, test_reel_hollow_1890,
+    test_meta_frame_condense, test_meta_frame_truncation_1885, test_reel_cost_cut, test_meta_verify, test_reel_hollow_1890, test_reel_1895_fixes,
     test_reel_map_autodetect_clash_json,
     test_meta_actor_originals_1868,
     test_reel_scenario_fallbacks_1313,
@@ -738,6 +738,7 @@ def main() -> int:
     test_reel_cost_cut()
     test_meta_verify()
     test_reel_hollow_1890()
+    test_reel_1895_fixes()
     test_reel_map_autodetect_clash_json()
     test_meta_actor_originals_1868()
     test_reel_scenario_fallbacks_1313()

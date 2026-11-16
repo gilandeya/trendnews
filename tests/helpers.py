@@ -93,6 +93,11 @@ def load_config(path=None):
         el = ((cfg.get("reel") or {}).get("tts") or {}).get("elevenlabs")
         if isinstance(el, dict):
             el["enabled"] = False
+        # سرعة الراوي (16/11) تضيف atempo إلى أوامر الصوت وتغيّر تقدير المدة، وmin_answers: 1 يُبقي سؤالًا بإجابة واحدة؛
+        # الاختبارات القديمة على القيم السابقة وtest_reel_1895_fixes يثبّت قيم config.yaml
+        if isinstance((cfg.get("reel") or {}).get("tts"), dict):
+            cfg["reel"]["tts"]["speed"] = 1
+        rcfg["min_answers"] = 2
         if isinstance(rcfg.get("outro"), dict):
             rcfg["outro"]["logo_width"] = 420
         if isinstance(rcfg.get("hook"), dict):
