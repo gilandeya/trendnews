@@ -1241,13 +1241,13 @@ def open_review(cfg=None, now: datetime | None = None) -> dict:
             title = f"📰 مراجعة مقالات تحليلية {now:%Y-%m-%d %H:%M} UTC — {len(group)} مقال"
         else:
             title = f"📰 مراجعة: {group[0]['title']}"
-        issue = review.create_issue(
-            # الذكر لقضايا الريل وحدها (16/11): قضية سيناريو أُضيف ريلها أو أُعيدت من المراجعة تُفتح من هنا
-            title=title, body=(review.with_notify(build_review_body(group, repo, branch, cfg), cfg)
-                               if all(d.get("format") == "reel" for d in group)
-                               else build_review_body(group, repo, branch, cfg)),
-            labels=["youtube-review"],
-        )
+        issue = review.create_issue(title=title, body=build_review_body(group, repo, branch, cfg),
+                                    labels=["youtube-review"])
+        if all(d.get("format") == "reel" for d in group):
+            # إشعار الصندوق لقضايا الريل وحدها (16/11): قضية سيناريو أُضيف ريلها أو أُعيدت من المراجعة تُفتح من هنا
+            from . import notify
+            notify.say("script_ready", cfg, issue["number"],
+                       title=(group[0].get("script") or {}).get("title") or group[0].get("title", ""))
         for d in group:
             # stage2_issue (Issue #1536، W2b): open_final_review تكتب فوق review_issue رقم قضية البطاقة،
             # فيُحفظ رقم المرحلة 2 مستقلًا ليعود إليه «عد» من المراجعة النهائية

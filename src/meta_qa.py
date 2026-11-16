@@ -657,7 +657,7 @@ def process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: da
 def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: datetime | None = None,
                    gemini_post=None) -> str:
     """يملأ topic["qa"] ويحدّث قضية الموضوع. يعيد الحالة: ready · waiting_proxy · failed. لا يرفع."""
-    from . import meta_topics, review
+    from . import meta_topics, notify, review
     now = now or datetime.now(timezone.utc)
     q = _qcfg(cfg)
     t = _texts(cfg)
@@ -666,7 +666,8 @@ def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: d
         # الأسئلة حُفظت وتعذّر فتح قضيتها (عطل GitHub): تُفتح من الملف المحفوظ بلا استخراج ثانٍ (نداءات Gemini مدفوعة)
         try:
             priv = json.loads(private_path(topic["id"]).read_text(encoding="utf-8"))
-            meta_topics.ensure_topic_issue(topic, data, cfg, issue_body(topic, data, qa, cfg, full_bites=priv.get("bites") or []))
+            if meta_topics.ensure_topic_issue(topic, data, cfg, issue_body(topic, data, qa, cfg, full_bites=priv.get("bites") or [])):
+                notify.say("questions_ready", cfg, topic["topic_issue"], title=topic["title"])
         except Exception as exc:  # noqa: BLE001
             log.warning("تعذّر فتح قضية الموضوع %s: %s", topic.get("id"), str(exc)[:150])
         return "ready"
@@ -704,6 +705,7 @@ def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: d
                 if not meta_topics.ensure_topic_issue(topic, data, cfg, meta_topics.topic_body(
                         topic, data, cfg, note=t.get("waiting_proxy", ""))):
                     review.comment(topic["topic_issue"], t.get("waiting_proxy", ""))
+                notify.say("questions_waiting_proxy", cfg, topic["topic_issue"], title=topic["title"])
                 qa["notified_proxy"] = True
             topic["qa"] = qa
             return qa["status"]
@@ -765,12 +767,11 @@ def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: d
         qa.update(status="ready", titles=titles, questions=questions, context=context, bites=[public_bite(b) for b in kept],
                   error="", extracted=len(bites))
         try:
-            # القضية تُفتح هنا والأسئلة فيها (طلب صاحب المشروع 16/11)، فبريد إنشائها هو إشعار «جاهزة للاختيار» ولا تعليق يكرّره؛
-            # قضية مفتوحة من قبل (إعادة طلب، أو مسار قديم) يُكتب جسمها ويُعلَّق عليها كما كان
+            # القضية تُفتح هنا والأسئلة فيها (طلب صاحب المشروع 16/11)؛ قضية مفتوحة من قبل (إعادة طلب) يُكتب جسمها. إشعار
+            # «جاهزة للاختيار» في الصندوق لا تعليقًا في القضية (تعليقها يرسل بريدًا لكل مشترك فيها، ولا شيء فيه لا يقوله الجسم)
             if not meta_topics.ensure_topic_issue(topic, data, cfg, issue_body(topic, data, qa, cfg, full_bites=kept)):
                 review.update_issue_body(topic["topic_issue"], issue_body(topic, data, qa, cfg, full_bites=kept))
-                review.comment(topic["topic_issue"], t.get("ready", "").format(
-                    q=len(questions), seconds=_fmt_sec(qa["selected_seconds"])))
+            notify.say("questions_ready", cfg, topic["topic_issue"], title=topic["title"])
         except Exception as exc:  # noqa: BLE001 — الأسئلة محفوظة؛ عطل GitHub لا يعيد استخراجها (pending_topics يعيد فتح القضية)
             if topic.get("topic_issue"):
                 raise
@@ -785,6 +786,7 @@ def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: d
                 note = t.get("failed", "").format(error=qa["error"])
                 if not meta_topics.ensure_topic_issue(topic, data, cfg, meta_topics.topic_body(topic, data, cfg, note=note)):
                     review.comment(topic["topic_issue"], note)
+                notify.say("questions_failed", cfg, topic["topic_issue"], title=topic["title"])
             except Exception:  # noqa: BLE001
                 pass
     topic["qa"] = qa

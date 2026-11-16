@@ -670,9 +670,12 @@ def ensure_topic_issue(topic: dict, data: dict, cfg, body: str) -> bool:
     m = _mcfg(cfg)
     t = m.get("texts") or {}
     issue = review.create_issue(t.get("topic_title", "🎬 {title}").format(title=topic["title"]),
-                                review.with_notify(body, cfg), labels=[m.get("topic_label", "meta-topic")])
+                                body, labels=[m.get("topic_label", "meta-topic")])
     topic["topic_issue"] = issue["number"]
     return True
+
+
+RESULT_MARK = "<!-- meta-result -->"
 
 
 def finalize(issue_number: int, body: str, cfg) -> int:
@@ -711,17 +714,27 @@ def finalize(issue_number: int, body: str, cfg) -> int:
             opened = True
             lines.append(f"- {topic['title']} ← #{topic['topic_issue']}")
     _save_public(data)
-    review.comment(issue_number, "\n".join([t.get("finalize_header", "فُتحت قضية لكل موضوع:")] + lines) if lines
-                   else t.get("finalize_none", "لم يُعلَّم موضوع — لا شيء يُفتح."))
+    rest = _open_remaining(data, issue_number, cfg) if opened else None
+    if rest:
+        lines.append(t.get("selection_rest_opened", "🧭 المواضيع المتبقية ({n}) ← #{issue}").format(n=rest[1], issue=rest[0]))
+    summary = "\n".join([t.get("finalize_header", "فُتحت قضية لكل موضوع:")] + lines) if lines \
+        else t.get("finalize_none", "لم يُعلَّم موضوع — لا شيء يُفتح.")
+    # النتيجة في جسم القضية لا تعليقًا (16/11): كل تعليق بريدٌ لمن أعاد فتحها ليختار ثانيةً، والإغلاق بعده بريد آخر؛ إعادة
+    # كتابة الجسم بلا بريد. العطل يرجع إلى التعليق كي لا تضيع النتيجة
+    try:
+        # نتيجة اعتماد سابق (أُعيد فتحها) تُستبدل لا تتراكم
+        kept = (body or "").split(RESULT_MARK)[0].rstrip()
+        review.update_issue_body(issue_number, kept + f"\n\n{RESULT_MARK}\n---\n" + summary)
+    except Exception as exc:  # noqa: BLE001
+        log.warning("تعذّرت كتابة نتيجة الترشيح في جسم #%s: %s", issue_number, str(exc)[:120])
+        review.comment(issue_number, summary)
     review.close_issue(issue_number)
-    if opened:
-        _open_remaining(data, issue_number, cfg)
     if opened and (m.get("qa") or {}).get("enabled"):
         request_qa_run(issue_number, cfg)
     return 0
 
 
-def _open_remaining(data: dict, closed_issue: int, cfg) -> int | None:
+def _open_remaining(data: dict, closed_issue: int, cfg) -> tuple[int, int] | None:
     """بعد اختيار موضوع وإغلاق قضية الترشيح تُفتح قضية ترشيح جديدة بما لم يُختر وحده (طلب صاحب المشروع 16/11): المغلقة لا يُختار
     منها ثانيةً إلا بإعادة فتحها، والمختار لا يُعرض مرة أخرى. إن كانت قضية «متبقية» أحدث مفتوحة (اعتُمدت قضية أقدم أُعيد فتحها)
     يُحدَّث جسمها بدل قضية ثالثة. لا ترفع: عطل GitHub لا يُفشل الاعتماد."""
@@ -747,9 +760,8 @@ def _open_remaining(data: dict, closed_issue: int, cfg) -> int | None:
             number = int(issue["number"])
             data["selection_issue"] = number
             _save_public(data)
-        review.comment(closed_issue, t.get("selection_rest_opened", "🧭 المواضيع المتبقية ({n}) ← #{issue}").format(
-            n=len(rest), issue=number))
-        return number
+        # رابطها في جسم القضية المغلقة (finalize) لا تعليقًا عليها
+        return number, len(rest)
     except Exception as exc:  # noqa: BLE001
         log.warning("تعذّر فتح قضية المواضيع المتبقية: %s", str(exc)[:150])
         return None
@@ -790,6 +802,8 @@ def _reselect(topic: dict, cfg) -> str:
             review.reopen_issue(number)
         review.remove_label(number, "approved")
         review.comment(number, t.get("reselect_comment", "↩️ أُعيد فتحها: عدّل الاختيار ثم ضع `approved`."))
+        from . import notify
+        notify.say("questions_reopened", cfg, number, title=topic.get("title", ""))
         return t.get("reselect_line", " (أُعيد فتحها لاختيار الأسئلة من جديد)")
     except Exception as exc:  # noqa: BLE001
         log.warning("تعذّرت إعادة فتح قضية الموضوع %s: %s", number, exc)

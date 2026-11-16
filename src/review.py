@@ -577,14 +577,12 @@ def parse_headline_choice(body: str) -> dict[str, int]:
 # ──────────────────────────── عمليات GitHub ────────────────────────────
 
 
-def with_notify(body: str, cfg) -> str:
-    """يُلحق بجسم قضية جديدة سطر ذكر صاحب المشروع (`notifications.mention`): الذكر يضمن بريد GitHub عند إنشائها ولو لم يكن
-    يراقب المستودع كله (طلبه 16/11 لقضايا اختيار الأسئلة والسيناريو ومراجعة الريل). عند الإنشاء وحده: إعادة كتابة الجسم لاحقًا
-    لا ترسل بريدًا فلا حاجة إليه فيها. فارغ ← الجسم كما هو."""
-    mention = str(cfg.path("notifications.mention", "") or "").strip()
-    if not mention:
-        return body
-    return body + "\n\n" + str(cfg.path("notifications.line", "🔔 {mention}")).format(mention=mention)
+def list_open_issues(label: str, limit: int = 10) -> list[dict]:
+    """القضايا المفتوحة بوسم، الأحدث أولًا (صندوق الإشعارات، src/notify.py). ترفع عند العطل."""
+    resp = requests.get(f"{API}/repos/{_repo()}/issues", headers=_headers(), timeout=45,
+                        params={"labels": label, "state": "open", "sort": "created", "direction": "desc", "per_page": limit})
+    resp.raise_for_status()
+    return [i for i in resp.json() if not i.get("pull_request")]
 
 
 def create_issue(title: str, body: str, labels: list[str] | None = None) -> dict:

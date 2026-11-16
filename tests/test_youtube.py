@@ -4813,7 +4813,8 @@ def test_meta_topics_selection() -> None:
 
 def test_meta_notify_remaining() -> None:
     """طلب صاحب المشروع 16/11: بعد اختيار موضوع تُفتح قضية ترشيح بالمتبقي وحده؛ قضية الموضوع تُفتح بعد استخراج أسئلته بعنوان
-    «اختيار الأسئلة» والأسئلة في جسمها (بريد إنشائها هو الإشعار) لا عند الاختيار بسطر ⏳؛ وسطر الذكر في أجسام القضايا الجديدة."""
+    «اختيار الأسئلة» والأسئلة في جسمها لا عند الاختيار بسطر ⏳؛ والبريد لما ينتظر قراره وحده: إشعار في قضية الصندوق
+    (src/notify.py) لا ذكر في قضايا العمل ولا تعليقات إعلامية فيها."""
     from types import SimpleNamespace as NS
 
     from src import meta_qa, meta_topics as mt, publish, reel_review, review, store, youtube_bites, youtube_transcripts
@@ -4823,19 +4824,28 @@ def test_meta_notify_remaining() -> None:
     old = os.environ.get("TRENDNEWS_YOUTUBE_BITES_DIR")
     old_disp = os.environ.pop(publish.RENDER_DISPATCH_ENV, None)
     os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = d
-    names = ("create_issue", "comment", "close_issue", "update_issue_body", "dispatch_workflow", "issue_state", "ensure_labels")
+    names = ("create_issue", "comment", "close_issue", "update_issue_body", "dispatch_workflow", "issue_state", "ensure_labels",
+             "list_open_issues", "remove_label")
     saved = {k: getattr(review, k) for k in names}
     saved_extract, saved_create, saved_load = youtube_bites.extract, meta_qa._create, youtube_transcripts.load
     made, comments, closed, bodies, states = [], [], [], {}, {}
+    inbox = []   # (رقم الصندوق، النص) — إشعارات صاحب المشروع، خارج made/comments كي تبقى عدّادات القضايا كما هي
     try:
         def create(title, body, labels=None):
+            if labels == ["notify-inbox"]:
+                inbox.append((900, body))
+                create.box = True
+                return {"number": 900}
             if create.fail:
                 raise RuntimeError("github down")
             made.append((title, body, labels))
             return {"number": 700 + len(made)}
         create.fail = False
+        create.box = False
         review.create_issue = create
-        review.comment = lambda n, text: comments.append((n, text))
+        review.comment = lambda n, text: inbox.append((n, text)) if n == 900 else comments.append((n, text))
+        review.list_open_issues = lambda label, limit=10: [{"number": 900, "comments": len(inbox)}] if create.box else []
+        review.remove_label = lambda n, label: None
         review.close_issue = lambda n: closed.append(n)
         review.update_issue_body = lambda n, body: bodies.__setitem__(n, body)
         review.dispatch_workflow = lambda wf, ref: None
@@ -4873,9 +4883,12 @@ def test_meta_notify_remaining() -> None:
               len(rest) == 1 and ids[0] in rest[0][1] and ids[2] in rest[0][1] and ids[1] not in rest[0][1]
               and rest[0][1].count("<!-- mtopic:") == 2 and f"<!-- meta-date:{date} -->" in rest[0][1] and "#701" in rest[0][1]
               and "المتبقية" in rest[0][0], rest)
-        check("رقم قضية الترشيح الحالية هو الجديدة، وتعليق على المغلقة برابطها",
-              pub["selection_issue"] == 702 and any(n == 701 and "#702" in txt for n, txt in comments), comments)
-        check("تعليق الاعتماد لا يعد بقضية مفتوحة", any(n == 701 and "حين تجهز" in txt for n, txt in comments))
+        check("رقم قضية الترشيح الحالية هو الجديدة، ورابطها في جسم المغلقة لا تعليقًا عليها",
+              pub["selection_issue"] == 702 and "#702" in bodies.get(701, "") and not any(n == 701 for n, _ in comments),
+              comments)
+        check("نتيجة الاعتماد في الجسم لا تعد بقضية مفتوحة", "حين تجهز" in bodies.get(701, "")
+              and bodies[701].count(mt.RESULT_MARK) == 1)
+        check("لا تعليق «بدأ الاستخراج» ولا إشعار عند الاختيار", not inbox, inbox)
 
         # اعتماد القضية الجديدة بموضوع آخر: قضية ثالثة بما بقي
         marked2 = rest[0][1].replace(f"- [ ] **1. موضوع 1** <!-- mtopic:{ids[0]} -->", f"- [x] **1. موضوع 1** <!-- mtopic:{ids[0]} -->")
@@ -4887,8 +4900,10 @@ def test_meta_notify_remaining() -> None:
         # إعادة اعتماد قضية أقدم والأحدث مفتوحة: يُحدَّث جسم الأحدث ولا قضية رابعة
         states[pub["selection_issue"]] = "open"
         marked3 = body.replace(f"- [ ] **3. موضوع 3** <!-- mtopic:{ids[2]} -->", f"- [x] **3. موضوع 3** <!-- mtopic:{ids[2]} -->")
-        mt.finalize(701, marked3, cfg)
+        mt.finalize(701, bodies[701].replace(f"- [ ] **3. موضوع 3** <!-- mtopic:{ids[2]} -->",
+                                             f"- [x] **3. موضوع 3** <!-- mtopic:{ids[2]} -->"), cfg)
         check("لا شيء باقٍ ← لا قضية جديدة", len([m for m in made if m[2] == ["meta-selection"]]) == n_sel)
+        check("إعادة الاعتماد تستبدل النتيجة في الجسم ولا تراكمها", bodies[701].count(mt.RESULT_MARK) == 1, bodies[701][-300:])
         off = Config(dict(cfg))
         off["youtube"] = {**cfg["youtube"], "meta_topics": {**cfg["youtube"]["meta_topics"], "reopen_remaining": False}}
         check("reopen_remaining false ← لا قضية متبقية", mt._open_remaining(mt._load_public(date), 701, off) is None)
@@ -4915,19 +4930,24 @@ def test_meta_notify_remaining() -> None:
         check("الأسئلة جاهزة ← قضية الموضوع تُفتح الآن", status == "ready" and len(new) == 1 and new[0][2] == ["meta-topic"]
               and topic.get("topic_issue") == 700 + len(made), (status, topic.get("qa", {}).get("error"), new))
         if new:
-            check("عنوانها «اختيار الأسئلة» وجسمها الأسئلة لا سطر ⏳، وفيه الذكر",
+            check("عنوانها «اختيار الأسئلة» وجسمها الأسئلة لا سطر ⏳، وبلا ذكر (لا يُشرَك صاحب المشروع في القضية)",
                   new[0][0].startswith("❓ اختيار الأسئلة: موضوع 2") and "<!-- mq:" in new[0][1] and "⏳" not in new[0][1]
-                  and "@gilandeya" in new[0][1], new[0][0])
-        check("لا تعليق «استُخرجت» فوق بريد الإنشاء", len(comments) == n_comments and not bodies, comments[n_comments:])
+                  and "@gilandeya" not in new[0][1], new[0][0])
+        check("لا تعليق في القضية", len(comments) == n_comments, comments[n_comments:])
+        check("إشعار واحد في الصندوق: الصندوق يُنشأ بذكره والأسئلة جاهزة برابط القضية",
+              len(inbox) == 1 and inbox[0][0] == 900 and "@gilandeya" in inbox[0][1] and "جاهزة للاختيار" in inbox[0][1]
+              and f"#{topic.get('topic_issue')}" in inbox[0][1], inbox)
         check("الجاهز بقضيته لا يعود معلَّقًا", ids[1] not in [t["id"] for t, _ in meta_qa.pending_topics(cfg, now)]
               or mt._save_public(data) or True)
         mt._save_public(data)
         check("بعد الحفظ: ليس معلَّقًا", ids[1] not in [t["id"] for t, _ in meta_qa.pending_topics(cfg, now)])
-        # إعادة الاستخراج لقضية مفتوحة: جسم وتعليق كما كان
+        # إعادة الاستخراج لقضية مفتوحة: جسمها يُكتب، والإشعار تعليق في الصندوق لا في القضية
         topic["qa"]["status"] = "failed"
+        n_inbox = len(inbox)
         meta_qa.process_topic(topic, data, cfg, client=object(), fetch=fetch, now=now)
-        check("قضية مفتوحة من قبل: يُكتب جسمها ويُعلَّق", topic["topic_issue"] in bodies
-              and any(n == topic["topic_issue"] and "استُخرجت" in txt for n, txt in comments[n_comments:]))
+        check("قضية مفتوحة من قبل: يُكتب جسمها ولا يُعلَّق عليها، والإشعار في الصندوق",
+              topic["topic_issue"] in bodies and not any(n == topic["topic_issue"] for n, _ in comments[n_comments:])
+              and len(inbox) == n_inbox + 1 and inbox[-1][0] == 900, (comments[n_comments:], inbox[n_inbox:]))
 
         # عطل GitHub عند الفتح: الأسئلة محفوظة جاهزة، والتشغيلة التالية تفتح القضية بلا استخراج ثانٍ
         t1 = next(e for e in data["topics"] if e["id"] == ids[0])
@@ -4950,16 +4970,33 @@ def test_meta_notify_remaining() -> None:
         check("الفشل الأخير يفتح القضية بسببه", st == "failed" and t3.get("topic_issue") and "تعذّر استخراج الأسئلة" in made[-1][1]
               and "⏳" not in made[-1][1], (st, made[-1][0]))
 
-        # قضية مراجعة الريل: الذكر عند الإنشاء
+        check("الفشل يُشعَر به في الصندوق", "تعذّر استخراج أسئلة" in inbox[-1][1], inbox[-1])
+
+        # قضية مراجعة الريل: بلا ذكر في جسمها، وإشعار في الصندوق عند الإنشاء وعند تركيب جديد فيها
         dpath = store.save_draft({"id": "notifyreel01", "origin": "analysis", "format": "reel", "status": "approved_script",
                                   "arabic": {}, "script": {"title": "عنوان"}, "headlines": ["عنوان؟"], "reel_file": "reels/x.mp4"})
-        n_made = len(made)
+        n_made, n_inbox = len(made), len(inbox)
+        num = reel_review.open_or_update(dpath, store.load_draft("notifyreel01")[1], cfg)
+        check("قضية مراجعة الريل بلا ذكر، وإشعار «جاهز للمراجعة» برابطها",
+              len(made) == n_made + 1 and "@gilandeya" not in made[-1][1] and len(inbox) == n_inbox + 1
+              and "جاهز للمراجعة" in inbox[-1][1] and f"#{num}" in inbox[-1][1], inbox[n_inbox:])
+        states[num] = "open"
         reel_review.open_or_update(dpath, store.load_draft("notifyreel01")[1], cfg)
-        check("قضية مراجعة الريل تحمل الذكر", len(made) == n_made + 1 and "@gilandeya" in made[-1][1], made[-1][1][-80:])
+        check("تركيب جديد في القضية نفسها ← إشعار ثانٍ بلا قضية جديدة", len(made) == n_made + 1 and len(inbox) == n_inbox + 2)
+
+        # الصندوق الممتلئ يُنزع وسمه ويُنشأ غيره
+        from src import notify
+        removed = []
+        review.list_open_issues = lambda label, limit=10: [{"number": 900, "comments": 100}]
+        review.remove_label = lambda n, label: removed.append((n, label))
+        n_inbox = len(inbox)
+        notify.owner("اختبار", cfg, 5)
+        check("صندوق ممتلئ ← نزع وسمه وصندوق جديد في جسمه الإشعار", removed == [(900, "notify-inbox")]
+              and len(inbox) == n_inbox + 1 and "اختبار ← #5" in inbox[-1][1], (removed, inbox[n_inbox:]))
         quiet = Config(dict(cfg))
         quiet["notifications"] = {"mention": ""}
-        check("mention فارغ ← الجسم كما هو", review.with_notify("جسم", quiet) == "جسم"
-              and review.with_notify("جسم", cfg).startswith("جسم\n\n") and "@gilandeya" in review.with_notify("جسم", cfg))
+        review.list_open_issues = lambda *a, **k: (_ for _ in ()).throw(RuntimeError("down"))
+        check("بلا mention ← لا إشعار، والعطل لا يرفع", notify.owner("س", quiet) is False and notify.owner("س", cfg) is False)
     finally:
         for k, v in saved.items():
             setattr(review, k, v)
@@ -5153,7 +5190,8 @@ def test_meta_qa() -> None:
               and "secret words" not in body, body[:600])
         check("القضية تعرض ترجمة كل إجابة في خلية المقولة بالجدول ولا تعرض الكلام بلغته",
               "| «كلام سري" in body and "secret words" not in body, body[:600])
-        check("سقف الثواني في القضية وتعليق الجاهزية", "من 120" in body and any("✅" in c[1] for c in comments))
+        # لا تعليق جاهزية في القضية (16/11): الإشعار في الصندوق (test_meta_notify_remaining)
+        check("سقف الثواني في القضية بلا تعليق جاهزية", "من 120" in body and not any("✅" in c[1] for c in comments))
         marks = meta_qa.read_marks(body)
         check("قراءة المعلَّم", marks["title"] == 0 and 1 in marks["questions"] and 3 not in marks["questions"]
               and len(sum(marks["answers"].values(), [])) == 4, marks)
