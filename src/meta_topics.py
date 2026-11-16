@@ -675,7 +675,9 @@ def finalize(issue_number: int, body: str, cfg) -> int:
             # وقت طلب الاستخراج: به يميّز meta_script.qa_in_flight «لم تُحفظ النتيجة بعد» من «لم يُطلب أو ضاع الطلب»
             topic["qa_requested_at"] = datetime.now(timezone.utc).isoformat()
             opened = True
-        lines.append(f"- {topic['title']} ← #{topic['topic_issue']}")
+            lines.append(f"- {topic['title']} ← #{topic['topic_issue']}")
+        else:
+            lines.append(f"- {topic['title']} ← #{topic['topic_issue']}{_reselect(topic, cfg)}")
     _save_public(data)
     review.comment(issue_number, "\n".join([t.get("finalize_header", "فُتحت قضية لكل موضوع:")] + lines) if lines
                    else t.get("finalize_none", "لم يُعلَّم موضوع — لا شيء يُفتح."))
@@ -683,6 +685,47 @@ def finalize(issue_number: int, body: str, cfg) -> int:
     if opened and (m.get("qa") or {}).get("enabled"):
         request_qa_run(issue_number, cfg)
     return 0
+
+
+def _reselect(topic: dict, cfg) -> str:
+    """إعادة تعليم موضوع فُتحت قضيته من قبل = طلب اختيار أسئلته من جديد (حادثة 15/11: أُعيد اعتماد قضية الترشيح بعد ريل أجوف
+    فعدّد التعليق قضيتين مغلقتين «فُتحتا» ولم يُفتح شيء). قضية الموضوع المغلقة تُعاد فتحها بتعليمها كما هو، وسيناريو لم يُنشر
+    ريله يُترك (superseded) ويُمسح script_issue كي يكتب اعتمادها سيناريو جديدًا. ريل منشور لا يُمسّ. يعيد ذيل سطر التعليق،
+    ولا يرفع: عطل GitHub لا يُفشل الاعتماد."""
+    from . import review, store
+    t = _mcfg(cfg).get("texts") or {}
+    number = int(topic["topic_issue"])
+    try:
+        found = store.load_draft(topic["script_draft"]) if topic.get("script_draft") else None
+        path, draft = found if found else (None, {})
+        if draft.get("status") == "published":
+            return t.get("reselect_published", " (نُشر ريله — لا إعادة)")
+        closed = review.issue_state(number) == "closed"
+        if not closed and not topic.get("script_issue"):
+            return ""
+        if topic.get("script_issue"):
+            if path is not None and draft.get("status") != "superseded":
+                store.update_draft(path, status="superseded", superseded_reason="reselect_requested",
+                                   superseded_at=datetime.now(timezone.utc).isoformat())
+            for old in {topic.get("script_issue"), draft.get("reel_review_issue")} - {None}:
+                # قضيتا السيناريو والمراجعة القديمتان تُغلقان: مسودتهما لم تعد تُركَّب ولا تُنشر
+                try:
+                    if review.issue_state(int(old)) != "closed":
+                        review.comment(int(old), t.get("reselect_old", "♻️ أُعيد اختيار الأسئلة في #{issue}.").format(issue=number))
+                        review.close_issue(int(old))
+                except Exception as exc:  # noqa: BLE001
+                    log.warning("تعذّر إغلاق القضية القديمة %s: %s", old, exc)
+            topic.pop("script_issue", None)
+            topic.pop("script_draft", None)
+            topic["script_redo"] = int(topic.get("script_redo") or 0) + 1
+        if closed:
+            review.reopen_issue(number)
+        review.remove_label(number, "approved")
+        review.comment(number, t.get("reselect_comment", "↩️ أُعيد فتحها: عدّل الاختيار ثم ضع `approved`."))
+        return t.get("reselect_line", " (أُعيد فتحها لاختيار الأسئلة من جديد)")
+    except Exception as exc:  # noqa: BLE001
+        log.warning("تعذّرت إعادة فتح قضية الموضوع %s: %s", number, exc)
+        return t.get("reselect_failed", " (⚠️ تعذّرت إعادة فتحها)")
 
 
 def request_qa_run(issue_number: int, cfg) -> None:

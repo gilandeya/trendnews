@@ -4760,8 +4760,43 @@ def test_meta_topics_selection() -> None:
         check("قضية واحدة للمعلَّم بوسم meta-topic", len(made) == 2 and made[1][2] == ["meta-topic"]
               and "ضربة على إيران" in made[1][0] and "الانتخابات" not in made[1][0], made[1][:1])
         check("تعليق بالرابط وإغلاق", comments and "#902" in comments[-1][1] and closed == [901], comments)
+        # إعادة الاعتماد (15/11): لا قضية ثانية؛ قضية الموضوع المفتوحة بلا سيناريو لا تُمسّ، والمغلقة تُعاد فتحها،
+        # وسيناريو لم يُنشر يُترك ويُمسح script_issue، والريل المنشور لا يُمسّ
+        from src import store
+        states, reopened, unlabeled = {902: "open"}, [], []
+        saved.update({k: getattr(review, k) for k in ("issue_state", "reopen_issue", "remove_label")})
+        review.issue_state = lambda n: states.get(n, "closed")
+        review.reopen_issue = lambda n: reopened.append(n)
+        review.remove_label = lambda n, label: unlabeled.append((n, label))
         mt.finalize(901, marked, cfg)
-        check("إعادة الاعتماد لا تفتح قضية ثانية للموضوع نفسه", len(made) == 2)
+        check("إعادة الاعتماد لا تفتح قضية ثانية للموضوع نفسه", len(made) == 2 and not reopened)
+        states[902] = "closed"
+        n_before = len(comments)
+        mt.finalize(901, marked, cfg)
+        check("قضية الموضوع المغلقة تُعاد فتحها ويُزال approved ويُعلَّق عليها",
+              reopened == [902] and (902, "approved") in unlabeled and any(n == 902 for n, _ in comments[n_before:])
+              and "أُعيد فتحها" in comments[-1][1], comments[n_before:])
+        dpath = store.save_draft({"id": "metareel01", "origin": "analysis", "format": "reel", "status": "approved_script",
+                                  "reel_review_issue": 905, "arabic": {}})
+        pub = json.loads((mt.public_dir() / f"{date}.json").read_text(encoding="utf-8"))
+        pub["topics"][0].update(script_issue=904, script_draft="metareel01")
+        mt._save_public(pub)
+        states.update({904: "closed", 905: "open"})
+        reopened.clear()
+        mt.finalize(901, marked, cfg)
+        pub = json.loads((mt.public_dir() / f"{date}.json").read_text(encoding="utf-8"))
+        check("سيناريو لم يُنشر: المسودة superseded وscript_issue يُمسح والعدّاد يزيد وقضية المراجعة المفتوحة تُغلق",
+              store.load_draft("metareel01")[1]["status"] == "superseded" and "script_issue" not in pub["topics"][0]
+              and pub["topics"][0].get("script_redo") == 1 and reopened == [902] and 905 in closed and 904 not in closed,
+              (pub["topics"][0], closed))
+        store.update_draft(dpath, status="published")
+        pub["topics"][0].update(script_issue=904, script_draft="metareel01")
+        mt._save_public(pub)
+        reopened.clear()
+        mt.finalize(901, marked, cfg)
+        pub = json.loads((mt.public_dir() / f"{date}.json").read_text(encoding="utf-8"))
+        check("ريل منشور لا يُعاد", not reopened and pub["topics"][0].get("script_issue") == 904
+              and store.load_draft("metareel01")[1]["status"] == "published" and "نُشر ريله" in comments[-1][1], comments[-1])
         check("قضية بلا ملف تعلّق وتفشل", mt.finalize(903, "<!-- meta-date:2020-01-01 -->", cfg) == 1)
     finally:
         for k, f in saved.items():
