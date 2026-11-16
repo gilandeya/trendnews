@@ -372,9 +372,9 @@ def estimate_seconds(script: dict, cfg: Any) -> float:
             if s.get("kind") in CLIP_KINDS and s.get("q") is not None:
                 counts[s["q"]] = counts.get(s["q"], 0) + 1
         intro = float(cfg.path("reel.render.panel.intro", 0) or 0) * sum(1 for c in counts.values() if c >= 2)
-        return (spoken_words_v2(script, cfg) / float(_rcfg(cfg, "narration_wps", 1.7)) + clips
+        return (spoken_words_v2(script, cfg) / narration_wps(cfg) + clips
                 + float(_rcfg(cfg, "v2.fixed_seconds", 9)) + intro)
-    return spoken_words(script) / float(_rcfg(cfg, "narration_wps", 1.7)) + clips + float(_rcfg(cfg, "fixed_seconds", 8))
+    return spoken_words(script) / narration_wps(cfg) + clips + float(_rcfg(cfg, "fixed_seconds", 8))
 
 
 def _unverified_name_violations(script: dict, valid: list[dict], cfg: Any) -> list[str]:
@@ -1419,9 +1419,14 @@ def _mmss(sec: float) -> str:
     return f"{sec // 60}:{sec % 60:02d}"
 
 
+def narration_wps(cfg: Any) -> float:
+    """كلمات الراوي في الثانية بعد سرعة الصوت (reel.tts.speed): تقدير المدة يتبع ما يُسمع فعلًا."""
+    return float(_rcfg(cfg, "narration_wps", 1.7)) * float(cfg.path("reel.tts.speed", 1) or 1)
+
+
 def scene_duration(scene: dict, cfg: Any, version: int = 1) -> float:
     kind = scene.get("kind")
-    wps = float(_rcfg(cfg, "narration_wps", 1.7))
+    wps = narration_wps(cfg)
     if kind in CLIP_KINDS:
         return max(0.0, float(scene.get("end", 0)) - float(scene.get("start", 0)))
     if version == 2:

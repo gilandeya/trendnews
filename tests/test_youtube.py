@@ -6899,7 +6899,7 @@ def test_reel_hollow_1890() -> None:
     clips = {1: {"seconds": 6.0}, 3: {"seconds": 6.0}, 4: {"seconds": 6.0}}
     real = reel_render._apply_chyron
     reel_render._apply_chyron = lambda sc, clip, c, d, spk, notes, i, roster=None: (
-        {"chyron": "آخر", "speaker": "س"} if sc.get("point_id") == "a" else None)
+        {"chyron": "آخر", "speaker": "س"} if sc.get("point_id") in ("a", "b") else None)
     try:
         try:
             reel_render._prune_mismatched(script, clips, cfg, None, {}, [], [])
@@ -6938,6 +6938,66 @@ def test_reel_hollow_1890() -> None:
                 check("1890: fallback_video false ← يرفع كما كان", True)
     finally:
         bite_audio._real_download, reel_clips.download_clip, speaker_map.proxy_url = saved
+
+
+def test_reel_1895_fixes() -> None:
+    """ريل 1895 قصر من 184 إلى 112 ث وبلا هوك مواجهة: اسم واحد بتقطيع مختلف عُدّ شخصين فحُذف مقطعه، فسقط سؤاله كله ومعه إجابة
+    سليمة وورقة الهوك المأخوذة منها. وسرعة الراوي 1.2 (ملاحظة صاحب المشروع)."""
+    import copy
+
+    from src import reel_render, reel_script
+    from src.config import load_config as real_load
+
+    cfg = real_load()
+    sm = reel_render.speaker_matches
+    check("1895: اسم واحد بتقطيع ورسم مختلفين شخص واحد", sm("ظفر يشيلغول", "", "ظافر يشيل غول، خبير مراقبة الملاحة الجوية", cfg) is True)
+    check("1895: اسمان مختلفان بلا كلمة مشتركة يبقيان شخصين",
+          sm("منيف عماش الحربي", "", "علي البخيتي، محلل", cfg) is False and sm("رينيه مارش", "", "ستيفن والاس", cfg) is False
+          and sm("أحمد علي", "", "محمد علي", cfg) is True and sm("سامي حسن", "", "رامي حسين", cfg) is False)
+    off = copy.deepcopy(cfg)
+    off["reel"]["render"]["chyron"]["name_compact_similarity"] = 0
+    check("1895: name_compact_similarity 0 ← كما كان", sm("ظفر يشيلغول", "", "ظافر يشيل غول", off) is False)
+
+    # سؤال فقد إحدى إجابتيه يبقى بالأخرى (min_answers: 1)، ولا يسقط إلا ما فقد كل إجاباته
+    check("1895: config.yaml على min_answers 1 وسرعة 1.2",
+          int(cfg.path("reel.render.min_answers")) == 1 and float(cfg.path("reel.tts.speed")) == 1.2)
+    script = {"version": 2, "title": "", "scenes": [
+        {"kind": "narration", "role": "question", "q": 0, "text": "لماذا؟"},
+        {"kind": "clip", "q": 0, "point_id": "a", "speaker_text": "أ"}, {"kind": "clip", "q": 0, "point_id": "b", "speaker_text": "ب"},
+        {"kind": "narration", "role": "question", "q": 1, "text": "وماذا بعد؟"},
+        {"kind": "clip", "q": 1, "point_id": "c", "speaker_text": "ج"}, {"kind": "clip", "q": 1, "point_id": "d", "speaker_text": "د"}]}
+    real = reel_render._apply_chyron
+    reel_render._apply_chyron = lambda sc, clip, c, d, spk, notes, i, roster=None: (
+        {"chyron": "آخر", "speaker": "س"} if sc.get("point_id") == "a" else None)
+    try:
+        dropped: list = []
+        clips, dead = reel_render._prune_mismatched(script, {i: {"seconds": 6.0} for i in (1, 2, 4, 5)}, cfg, None, {}, [], dropped)
+        check("1895: الإجابة السليمة وسؤالها يبقيان", sorted(clips) == [2, 4, 5] and not dead and len(dropped) == 1, (clips, dead, dropped))
+        two = copy.deepcopy(cfg)
+        two["reel"]["render"]["min_answers"] = 2
+        clips, dead = reel_render._prune_mismatched(script, {i: {"seconds": 6.0} for i in (1, 2, 4, 5)}, two, None, {}, [], [])
+        check("1895: min_answers 2 ← السؤال كله يسقط كما كان", sorted(clips) == [4, 5] and dead == {0}, (clips, dead))
+    finally:
+        reel_render._apply_chyron = real
+
+    # السرعة: فلتر atempo قبل قياس المدة، وتقدير مدة الراوي يتبعها؛ 1 ← لا فلتر
+    one = copy.deepcopy(cfg)
+    one["reel"]["tts"]["speed"] = 1
+    check("1895: atempo بسرعة الإعداد ولا فلتر عند 1", reel_render._tempo(cfg) == "atempo=1.2," and reel_render._tempo(one) == "")
+    check("1895: تقدير كلمات الراوي في الثانية يتبع السرعة",
+          abs(reel_script.narration_wps(cfg) - 1.2 * reel_script.narration_wps(one)) < 1e-9)
+    cmds: list = []
+
+    class D:
+        diacritize = staticmethod(lambda text: (text, None))
+        synthesize = staticmethod(lambda text, voice: {"ok": True, "audio": b"x"})
+        run = staticmethod(lambda cmd: cmds.append(cmd))
+        probe = staticmethod(lambda path: 2.0)
+    import tempfile
+    from pathlib import Path
+    with tempfile.TemporaryDirectory() as td:
+        reel_render._speech("جملة أولى.", "v", cfg, D, Path(td), "t")
+    check("1895: أمر صوت الجملة يحمل atempo قبل إعادة العيّنة", any("atempo=1.2,aresample=" in " ".join(map(str, c)) for c in cmds), cmds[:1])
 
 
 def test_reel_like_bar_1313c() -> None:
