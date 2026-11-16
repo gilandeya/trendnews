@@ -1242,7 +1242,10 @@ def open_review(cfg=None, now: datetime | None = None) -> dict:
         else:
             title = f"📰 مراجعة: {group[0]['title']}"
         issue = review.create_issue(
-            title=title, body=build_review_body(group, repo, branch, cfg),
+            # الذكر لقضايا الريل وحدها (16/11): قضية سيناريو أُضيف ريلها أو أُعيدت من المراجعة تُفتح من هنا
+            title=title, body=(review.with_notify(build_review_body(group, repo, branch, cfg), cfg)
+                               if all(d.get("format") == "reel" for d in group)
+                               else build_review_body(group, repo, branch, cfg)),
             labels=["youtube-review"],
         )
         for d in group:

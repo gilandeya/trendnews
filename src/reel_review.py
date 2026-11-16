@@ -76,7 +76,8 @@ def open_or_update(path: Path, draft: dict, cfg) -> int:
         review.update_issue_body(int(number), body)
         return int(number)
     review.ensure_labels()
-    created = review.create_issue(issue_title(draft, cfg), body, labels=[cfg.path("reel.review.label")])
+    created = review.create_issue(issue_title(draft, cfg), review.with_notify(body, cfg),
+                                  labels=[cfg.path("reel.review.label")])
     number = int(created["number"])
     store.update_draft(path, reel_review_issue=number)
     log.info("قضية مراجعة الريل #%s للمسودة %s", number, draft["id"])

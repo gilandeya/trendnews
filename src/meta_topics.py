@@ -581,11 +581,14 @@ def _fmt_minutes(m) -> str:
     return str(round(m or 0))
 
 
-def selection_body(data: dict, cfg) -> str:
+def selection_body(data: dict, cfg, topics: list | None = None, note: str = "") -> str:
+    """`topics` = المعروض (الافتراضي كل مواضيع اليوم)؛ قضية «المتبقية» تمرّر ما لم يُختر وحده، والقراءة بالمعرّف فلا يضرّها الترقيم."""
     t = _mcfg(cfg).get("texts") or {}
     lines = [t.get("selection_header", "## 🧭 مواضيع اليوم من عناوين الفيديوهات وأوصافها"),
              "", t.get("selection_explainer", ""), "", f"<!-- meta-date:{data['date']} -->", ""]
-    for k, e in enumerate(data["topics"], 1):
+    if note:
+        lines += [note, ""]
+    for k, e in enumerate(data["topics"] if topics is None else topics, 1):
         lines.append(f"- [ ] **{k}. {e['title']}** <!-- mtopic:{e['id']} -->")
         lines.append("  " + t.get("selection_meta", "{blocs} كتل ({bloc_names})، {orientations} توجهات، {minutes} دقيقة (تقديرية)").format(
             blocs=len(e["blocs"]), bloc_names=_bloc_names(e["blocs"], cfg), orientations=e["orientations"],
@@ -637,7 +640,8 @@ def open_selection(cfg, date: str) -> dict | None:
         return None
 
 
-def topic_body(topic: dict, data: dict, cfg) -> str:
+def topic_body(topic: dict, data: dict, cfg, note: str | None = None) -> str:
+    """`note` يحل محل سطر «تُجلب النصوص»: القضية تُفتح الآن بعد المحاولة (16/11)، فحين تُفتح بلا أسئلة تحمل سببه."""
     t = _mcfg(cfg).get("texts") or {}
     lines = [f"## 🎬 {topic['title']}", "", f"<!-- mtopic-issue:{topic['id']} -->", f"<!-- meta-date:{data['date']} -->", "",
              t.get("selection_meta", "").format(blocs=len(topic["blocs"]), bloc_names=_bloc_names(topic["blocs"], cfg),
@@ -646,8 +650,29 @@ def topic_body(topic: dict, data: dict, cfg) -> str:
     for v in topic["videos"]:
         lines.append(f"- [{v['channel']}](https://youtu.be/{v['video_id']}) · {v.get('orientation') or ''} · "
                      f"{_fmt_minutes(v['minutes'])} د")
-    lines += ["", t.get("topic_pending", "⏳ تُجلب نصوص هذه الفيديوهات وتُستخرج الأسئلة والإجابات في الخطوة التالية.")]
+    lines += ["", note if note is not None
+              else t.get("topic_pending", "⏳ تُجلب نصوص هذه الفيديوهات وتُستخرج الأسئلة والإجابات في الخطوة التالية.")]
     return "\n".join(lines)
+
+
+def deferred(cfg) -> bool:
+    """قضية الموضوع تُفتح بعد استخراج أسئلته لا عند اختياره (طلب صاحب المشروع 16/11): بريد GitHub يُرسل عند الإنشاء، فكان يصله
+    «⏳ تُجلب النصوص» ولا شيء يُختار بعد. بلا خطوة الأسئلة (qa.enabled) لا أحد يفتحها لاحقًا فتُفتح فورًا كما كانت."""
+    m = _mcfg(cfg)
+    return bool(m.get("topic_issue_when_ready", True) and (m.get("qa") or {}).get("enabled"))
+
+
+def ensure_topic_issue(topic: dict, data: dict, cfg, body: str) -> bool:
+    """تفتح قضية الموضوع إن لم تُفتح، وتعيد True إن أُنشئت الآن (فبريد إنشائها يحمل جسمها ولا حاجة إلى تعليق يكرّره)."""
+    from . import review
+    if topic.get("topic_issue"):
+        return False
+    m = _mcfg(cfg)
+    t = m.get("texts") or {}
+    issue = review.create_issue(t.get("topic_title", "🎬 {title}").format(title=topic["title"]),
+                                review.with_notify(body, cfg), labels=[m.get("topic_label", "meta-topic")])
+    topic["topic_issue"] = issue["number"]
+    return True
 
 
 def finalize(issue_number: int, body: str, cfg) -> int:
@@ -668,23 +693,66 @@ def finalize(issue_number: int, body: str, cfg) -> int:
         topic = by_id.get(tid)
         if not topic:
             continue
-        if not topic.get("topic_issue"):
-            issue = review.create_issue(t.get("topic_title", "🎬 {title}").format(title=topic["title"]),
-                                        topic_body(topic, data, cfg), labels=[m.get("topic_label", "meta-topic")])
-            topic["topic_issue"] = issue["number"]
-            # وقت طلب الاستخراج: به يميّز meta_script.qa_in_flight «لم تُحفظ النتيجة بعد» من «لم يُطلب أو ضاع الطلب»
-            topic["qa_requested_at"] = datetime.now(timezone.utc).isoformat()
+        now_iso = datetime.now(timezone.utc).isoformat()
+        if topic.get("topic_issue"):
+            lines.append(f"- {topic['title']} ← #{topic['topic_issue']}{_reselect(topic, cfg)}")
+        elif topic.get("qa_requested_at"):
+            # اختير من قبل وقضيته لم تُفتح بعد (أسئلته تُستخرج): لا طلب ثانٍ
+            lines.append(f"- {topic['title']}{t.get('finalize_in_progress', ' — أسئلته تُستخرج')}")
+        elif deferred(cfg):
+            # وقت طلب الاستخراج: به يجده meta_qa.pending_topics، وبه يميّز meta_script.qa_in_flight «لم تُحفظ النتيجة بعد»
+            topic["qa_requested_at"] = now_iso
+            topic["selected_from"] = issue_number
+            opened = True
+            lines.append(f"- {topic['title']}{t.get('finalize_pending', ' — تُفتح قضية اختيار أسئلته حين تجهز')}")
+        else:
+            ensure_topic_issue(topic, data, cfg, topic_body(topic, data, cfg))
+            topic["qa_requested_at"] = now_iso
             opened = True
             lines.append(f"- {topic['title']} ← #{topic['topic_issue']}")
-        else:
-            lines.append(f"- {topic['title']} ← #{topic['topic_issue']}{_reselect(topic, cfg)}")
     _save_public(data)
     review.comment(issue_number, "\n".join([t.get("finalize_header", "فُتحت قضية لكل موضوع:")] + lines) if lines
                    else t.get("finalize_none", "لم يُعلَّم موضوع — لا شيء يُفتح."))
     review.close_issue(issue_number)
+    if opened:
+        _open_remaining(data, issue_number, cfg)
     if opened and (m.get("qa") or {}).get("enabled"):
         request_qa_run(issue_number, cfg)
     return 0
+
+
+def _open_remaining(data: dict, closed_issue: int, cfg) -> int | None:
+    """بعد اختيار موضوع وإغلاق قضية الترشيح تُفتح قضية ترشيح جديدة بما لم يُختر وحده (طلب صاحب المشروع 16/11): المغلقة لا يُختار
+    منها ثانيةً إلا بإعادة فتحها، والمختار لا يُعرض مرة أخرى. إن كانت قضية «متبقية» أحدث مفتوحة (اعتُمدت قضية أقدم أُعيد فتحها)
+    يُحدَّث جسمها بدل قضية ثالثة. لا ترفع: عطل GitHub لا يُفشل الاعتماد."""
+    from . import review
+    m = _mcfg(cfg)
+    if not m.get("reopen_remaining", True):
+        return None
+    t = m.get("texts") or {}
+    rest = [e for e in data["topics"] if not e.get("topic_issue") and not e.get("qa_requested_at")]
+    if not rest:
+        return None
+    try:
+        body = selection_body(data, cfg, topics=rest,
+                              note=t.get("selection_rest_note", "").format(issue=closed_issue))
+        current = data.get("selection_issue")
+        if current and int(current) != int(closed_issue) and review.issue_state(int(current)) != "closed":
+            review.update_issue_body(int(current), body)
+            number = int(current)
+        else:
+            issue = review.create_issue(
+                t.get("selection_rest_title", "🧭 المواضيع المتبقية — {date}").format(date=data["date"], n=len(rest)),
+                body, labels=[m.get("selection_label", "meta-selection")])
+            number = int(issue["number"])
+            data["selection_issue"] = number
+            _save_public(data)
+        review.comment(closed_issue, t.get("selection_rest_opened", "🧭 المواضيع المتبقية ({n}) ← #{issue}").format(
+            n=len(rest), issue=number))
+        return number
+    except Exception as exc:  # noqa: BLE001
+        log.warning("تعذّر فتح قضية المواضيع المتبقية: %s", str(exc)[:150])
+        return None
 
 
 def _reselect(topic: dict, cfg) -> str:
