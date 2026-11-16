@@ -1376,8 +1376,10 @@ def dispatch_qa(issue_number: int, cfg, skip: bool = False) -> bool:
     except Exception as exc:  # noqa: BLE001
         log.warning("تعذّر إطلاق %s للأسئلة: %s", wf, exc)
         review.comment(issue_number, texts.get("start_failed", ""))
+        from . import notify
+        notify.say("qa_start_failed", cfg, issue_number)
         return False
-    review.comment(issue_number, texts.get("started", ""))
+    # لا تعليق «بدأ» (16/11): يرسل بريدًا لكل مشترك في قضية الترشيح ولا شيء يُفعل به؛ قضية «اختيار الأسئلة» تصل إشعارًا حين تجهز
     return True
 
 

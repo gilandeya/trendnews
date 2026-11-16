@@ -7402,8 +7402,9 @@ def test_reel_no_partial_r3b2a2_guards() -> None:
         msg["t"] = "فشلت كل الدرجات: ERROR: ffmpeg exited with code 8"
         check("g843: waiting_proxy بلا زيادة محاولة ولا failed",
               s.get("render_status") == "waiting_proxy" and s.get("render_attempts") == 2 and s.get("reel_file") == "reels/old.mp4", s)
-        check("g843: التعليق يذكر صاحب المشروع ونفاد الرصيد",
-              any("@gilandeya" in c and "نفد رصيد البروكسي" in c for c in log["comments"]), log["comments"])
+        # الذكر انتقل إلى صندوق الإشعارات (src/notify.py، 16/11): ذكرٌ في القضية يُشرك صاحب المشروع في كل تعليق بعده
+        check("g843: التعليق يذكر نفاد الرصيد بلا ذكر صاحب المشروع",
+              any("@gilandeya" not in c and "نفد رصيد البروكسي" in c for c in log["comments"]), log["comments"])
         check("g844: waiting_proxy لا يلتقطه طابور التركيب ولو كانت نسخته أقدم",
               not any(d.get("id") == "e3b2a2000f01" for _p, d in reel_render.queued_reels(cfg)))
         from src import publish as publish_mod

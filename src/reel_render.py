@@ -26,7 +26,7 @@ from typing import Any, Callable
 
 from PIL import Image, ImageDraw
 
-from . import imaging, reel_bgtrack, reel_broll, reel_clash, reel_clips, reel_hook_search, reel_map, reel_script, store, tts
+from . import imaging, notify, reel_bgtrack, reel_broll, reel_clash, reel_clips, reel_hook_search, reel_map, reel_script, store, tts
 from . import gemini_speakers as gemini_speakers_mod
 from .config import MUSIC_DIR, REELS_DIR, load_config
 
@@ -5037,6 +5037,11 @@ def _roster_prior(draft: dict) -> tuple[dict, bool]:
     return ({} if rebuild else dict(draft.get("render_roster") or {})), rebuild
 
 
+def _notify_title(draft: dict) -> str:
+    """عنوان الريل في إشعار الصندوق: عنوان الشاشة ثم العنوان المختار."""
+    return str((draft.get("script") or {}).get("title") or (draft.get("headlines") or [""])[0] or draft.get("id", ""))
+
+
 def _render_comment_issue(draft: dict):
     """قضية تعليقات الريل: مراجعة الريل إن فُتحت وإلا المرحلة 2 (Q16). النشر الفوري له قاعدته (W4) ولا يمرّ بها."""
     return draft.get("reel_review_issue") or draft.get("review_issue")
@@ -6739,8 +6744,10 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
             # قرار صاحب المشروع 6/11: لا إعادة تلقائية ولا محاولة تُحسب؛ ينتظر حتى يعيد وسم approved بعد تجديد الرصيد
             # (publish.resume_proxy_waits)، والذكر في التعليق يصله بريدًا
             changes = {"render_status": "waiting_proxy", "render_error": exc.reason}
-            text = t["comment_proxy_exhausted"].format(
-                notify=cfg.path("reel.render.proxy_wait.notify", ""), channel=exc.channel)
+            mention = str(cfg.path("reel.render.proxy_wait.notify", "") or "").strip()
+            text = t["comment_proxy_exhausted"].format(notify=f"{mention} " if mention else "", channel=exc.channel)
+            # الإشعار في الصندوق لا في القضية: ذكرٌ فيها يُشرك صاحب المشروع فيصله بريد كل تعليق بعده (16/11)
+            notify.say("render_proxy", cfg, _render_comment_issue(draft), title=_notify_title(draft))
         elif attempts < limit:
             changes = {"render_status": "queued", "render_attempts": attempts}
             text = t["comment_download_retry"].format(channel=exc.channel, n=attempts, max=limit)

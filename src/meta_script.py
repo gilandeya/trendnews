@@ -423,7 +423,7 @@ def reopen_after_render(path, draft: dict, dropped: list, cfg) -> dict | None:
     صاحب المشروع إجابات أخرى ويعيد وسم approved فيُكتب سيناريو جديد. إعادة التركيب كما هو تفشل للسبب نفسه، والسيناريو مبني على تلك
     المقاطع. المسودة الفاشلة تصير superseded (لا يلتقطها طابور التركيب)، وscript_issue يُمسح كي لا يمنع finalize سيناريو ثانيًا.
     يعيد {issue, excluded} أو None (لا موضوع، لا قضية، لا مقطع معروف سقط، أو أُطفئ)."""
-    from . import meta_qa, meta_topics, reel_script, review, store
+    from . import meta_qa, meta_topics, notify, reel_script, review, store
     if not _scfg(cfg).get("reopen_on_render_fail", True):
         return None
     data = meta_topics._load_public(draft.get("topic_date") or draft.get("run_date") or "")
@@ -462,6 +462,7 @@ def reopen_after_render(path, draft: dict, dropped: list, cfg) -> dict | None:
             review.reopen_issue(number)
     finally:
         review.remove_label(number, "approved")
+    notify.say("questions_reopened", cfg, number, title=topic.get("title", ""))
     return {"issue": number, "excluded": added}
 
 
@@ -515,7 +516,7 @@ def requeue_qa(issue_number: int, topic: dict, data: dict, cfg, now: datetime | 
 def finalize(issue_number: int, body: str, cfg, client=None) -> int:
     """اعتماد قضية الموضوع: سيناريو من المعلَّم ← مسودة ← قضية سيناريو، ثم تعليق برابطها وإغلاق قضية الموضوع. لا علامة ← تعليق
     وتبقى القضية مفتوحة (تُزال approved) ليعلّم صاحب المشروع ويعيد الوسم."""
-    from . import meta_qa, meta_topics, review, store, reel_script, youtube_publish
+    from . import meta_qa, meta_topics, notify, review, store, reel_script, youtube_publish
     t = _texts(cfg)
     m_tid, m_date = TOPIC_ISSUE_RE.search(body or ""), meta_topics.DATE_RE.search(body or "")
     data = meta_topics._load_public(m_date.group(1)) if m_date else None
@@ -561,16 +562,17 @@ def finalize(issue_number: int, body: str, cfg, client=None) -> int:
         review.comment(issue_number, t.get("failed", "⚠️ تعذّر السيناريو: {reason}").format(reason=result.get("reason", ""))
                        + (f"\n{t.get('attempts_label', 'محاولات الكتابة:')} {tries}" if tries else ""))
         review.remove_label(issue_number, "approved")
+        notify.say("script_failed", cfg, issue_number, title=title)
         return 0   # السبب في التعليق؛ رمز غير صفري كان يضيف تعليق «انهارت خطوة النشر» المضلِّل (قضية 1862)
     path = store.save_draft(draft)
     repo = os.environ.get("GITHUB_REPOSITORY", "")
     branch = os.environ.get("GITHUB_REF_NAME", "main")
     issue = review.create_issue(t.get("issue_title", "🎬 سيناريو: {title}").format(title=title),
-                                review.with_notify(youtube_publish.build_review_body([draft], repo, branch, cfg), cfg),
-                                labels=["youtube-review"])
+                                youtube_publish.build_review_body([draft], repo, branch, cfg), labels=["youtube-review"])
     store.update_draft(path, review_issue=issue["number"], stage2_issue=issue["number"])
     topic.update(script_issue=issue["number"], script_draft=draft["id"])
     meta_topics._save_public(data)
     review.comment(issue_number, t.get("done", "🎬 كُتب السيناريو ← #{n}").format(n=issue["number"]))
     review.close_issue(issue_number)
+    notify.say("script_ready", cfg, issue["number"], title=title)
     return 0

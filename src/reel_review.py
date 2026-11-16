@@ -8,7 +8,7 @@ from __future__ import annotations
 import logging
 from pathlib import Path
 
-from . import review, stages, store
+from . import notify, review, stages, store
 
 log = logging.getLogger("trendnews.reel_review")
 
@@ -74,11 +74,13 @@ def open_or_update(path: Path, draft: dict, cfg) -> int:
         except Exception as exc:  # noqa: BLE001 -- إعادة الفتح تحسين لا شرط
             log.warning("تعذّرت إعادة فتح قضية مراجعة الريل #%s: %s", number, str(exc)[:120])
         review.update_issue_body(int(number), body)
+        # تركيب جديد في قضية قائمة ريلٌ جديد ينتظر المراجعة كالأول، وإعادة كتابة الجسم لا ترسل بريدًا
+        notify.say("reel_ready", cfg, int(number), title=(draft.get("script") or {}).get("title", ""))
         return int(number)
     review.ensure_labels()
-    created = review.create_issue(issue_title(draft, cfg), review.with_notify(body, cfg),
-                                  labels=[cfg.path("reel.review.label")])
+    created = review.create_issue(issue_title(draft, cfg), body, labels=[cfg.path("reel.review.label")])
     number = int(created["number"])
     store.update_draft(path, reel_review_issue=number)
+    notify.say("reel_ready", cfg, number, title=(draft.get("script") or {}).get("title", ""))
     log.info("قضية مراجعة الريل #%s للمسودة %s", number, draft["id"])
     return number
