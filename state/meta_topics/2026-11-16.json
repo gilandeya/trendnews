@@ -1,0 +1,964 @@
+{
+ "date": "2026-11-16",
+ "generated_at": "2026-11-16T02:03:20.835092+00:00",
+ "topics": [
+  {
+   "id": "077b9af4d834",
+   "title": "تهديد أمريكي بضربة عسكرية ضد إيران",
+   "blocs": [
+    "arabic",
+    "israeli",
+    "persian",
+    "russian",
+    "turkish"
+   ],
+   "orientations": 9,
+   "minutes": 453,
+   "channels": [
+    "CNN Türk",
+    "Habertürk",
+    "ILTV",
+    "Iran International",
+    "RTVI",
+    "SÖZCÜ",
+    "الجزيرة",
+    "العربية",
+    "الميادين",
+    "سكاي نيوز عربية"
+   ],
+   "videos": [
+    {
+     "video_id": "7-XKDIMy5zI",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 32.53333333333333
+    },
+    {
+     "video_id": "B2dKZujSrKc",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 5.025
+    },
+    {
+     "video_id": "zRtd4mPPzqM",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 5.3
+    },
+    {
+     "video_id": "IzzVaAtUwCk",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 28.741666666666667
+    },
+    {
+     "video_id": "AM0VCrPRxYI",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 69.43333333333334
+    },
+    {
+     "video_id": "s3fUxXQQWqc",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 16.55
+    },
+    {
+     "video_id": "LLhBy6X0yx4",
+     "channel": "Habertürk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 6.155555555555555
+    },
+    {
+     "video_id": "4lD6LYzJkng",
+     "channel": "ILTV",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 15.208333333333334
+    },
+    {
+     "video_id": "HL_9MdVbgA0",
+     "channel": "ILTV",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 7.416666666666667
+    },
+    {
+     "video_id": "jr9IpBcNatE",
+     "channel": "Iran International",
+     "bloc": "persian",
+     "orientation": "معارض للنظام",
+     "minutes": 4.0055555555555555
+    },
+    {
+     "video_id": "QGkPKQ5TYYc",
+     "channel": "Iran International",
+     "bloc": "persian",
+     "orientation": "معارض للنظام",
+     "minutes": 7.988888888888888
+    },
+    {
+     "video_id": "cQ6SmyCO5VM",
+     "channel": "RTVI",
+     "bloc": "russian",
+     "orientation": "قريب من السلطة",
+     "minutes": 11.83
+    },
+    {
+     "video_id": "J6x6DIg56d8",
+     "channel": "SÖZCÜ",
+     "bloc": "turkish",
+     "orientation": "معارض",
+     "minutes": 2.54
+    },
+    {
+     "video_id": "R1VfIuJaKxA",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 5.966666666666667
+    },
+    {
+     "video_id": "SDHqQqIEnhg",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 19.994444444444444
+    },
+    {
+     "video_id": "fUILpigGqus",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 7.975
+    },
+    {
+     "video_id": "Zo5yU35Qu-U",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 12.85
+    },
+    {
+     "video_id": "qL6wu7glj4k",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 24.008333333333333
+    },
+    {
+     "video_id": "jtTkCzm9iAA",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 10.833333333333334
+    },
+    {
+     "video_id": "5tC4HED2ong",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 25.325
+    },
+    {
+     "video_id": "46jMOLAEcdE",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 13.983333333333333
+    },
+    {
+     "video_id": "NCspycApC_Q",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 4.066666666666666
+    },
+    {
+     "video_id": "PAXQHUspUug",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 26.275
+    },
+    {
+     "video_id": "yyOVtSucXnk",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 53.81666666666667
+    },
+    {
+     "video_id": "eJoY7vzATLU",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 17.227777777777778
+    },
+    {
+     "video_id": "25PaCyVevhE",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 18.283333333333335
+    }
+   ]
+  },
+  {
+   "id": "f189529f019e",
+   "title": "احتجاجات غلاء المعيشة في أوروبا وفرنسا",
+   "blocs": [
+    "arabic",
+    "french",
+    "russian",
+    "turkish"
+   ],
+   "orientations": 5,
+   "minutes": 191,
+   "channels": [
+    "BFMTV",
+    "RTVI",
+    "SÖZCÜ",
+    "العربية",
+    "الميادين"
+   ],
+   "videos": [
+    {
+     "video_id": "2I_cdnJe4lQ",
+     "channel": "BFMTV",
+     "bloc": "french",
+     "orientation": "خاص (وسط)",
+     "minutes": 16.233333333333334
+    },
+    {
+     "video_id": "oJ4I5k3MCWA",
+     "channel": "BFMTV",
+     "bloc": "french",
+     "orientation": "خاص (وسط)",
+     "minutes": 13.9
+    },
+    {
+     "video_id": "cQ6SmyCO5VM",
+     "channel": "RTVI",
+     "bloc": "russian",
+     "orientation": "قريب من السلطة",
+     "minutes": 11.83
+    },
+    {
+     "video_id": "kJfsHODhn3Q",
+     "channel": "SÖZCÜ",
+     "bloc": "turkish",
+     "orientation": "معارض",
+     "minutes": 4.6499999999999995
+    },
+    {
+     "video_id": "J6x6DIg56d8",
+     "channel": "SÖZCÜ",
+     "bloc": "turkish",
+     "orientation": "معارض",
+     "minutes": 2.54
+    },
+    {
+     "video_id": "1FeJ-8K2GWU",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 5.475
+    },
+    {
+     "video_id": "GY0duityVsA",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 52.3
+    },
+    {
+     "video_id": "mABXugKjWBs",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 53.36666666666667
+    },
+    {
+     "video_id": "r5xn7yxiwiI",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 17.433333333333334
+    },
+    {
+     "video_id": "hlJ1LvKx3gU",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 13.445833333333333
+    }
+   ]
+  },
+  {
+   "id": "4b2ccc299f97",
+   "title": "مزاعم مخطط إيراني لاغتيال ترامب بطائرة مسيّرة",
+   "blocs": [
+    "arabic",
+    "persian",
+    "russian",
+    "turkish"
+   ],
+   "orientations": 4,
+   "minutes": 103,
+   "channels": [
+    "CNN Türk",
+    "Iran International",
+    "Дождь",
+    "سكاي نيوز عربية"
+   ],
+   "videos": [
+    {
+     "video_id": "dV12oTITBi8",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 14.816666666666666
+    },
+    {
+     "video_id": "IzzVaAtUwCk",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 28.741666666666667
+    },
+    {
+     "video_id": "M8scky4BXYs",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 23.95
+    },
+    {
+     "video_id": "nZsJ_NK-gos",
+     "channel": "Iran International",
+     "bloc": "persian",
+     "orientation": "معارض للنظام",
+     "minutes": 14.655555555555557
+    },
+    {
+     "video_id": "vEZVMK1tGdI",
+     "channel": "Дождь",
+     "bloc": "russian",
+     "orientation": "معارض في المنفى",
+     "minutes": 12.545833333333333
+    },
+    {
+     "video_id": "wGpZmssj6F4",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 8.225
+    }
+   ]
+  },
+  {
+   "id": "d3465c7281ac",
+   "title": "الانتخابات النصفية الأمريكية وتداعياتها",
+   "blocs": [
+    "arabic",
+    "israeli",
+    "russian",
+    "turkish"
+   ],
+   "orientations": 4,
+   "minutes": 49,
+   "channels": [
+    "CNN Türk",
+    "RTVI",
+    "כאן חדשות",
+    "سكاي نيوز عربية"
+   ],
+   "videos": [
+    {
+     "video_id": "zRtd4mPPzqM",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 5.3
+    },
+    {
+     "video_id": "cQ6SmyCO5VM",
+     "channel": "RTVI",
+     "bloc": "russian",
+     "orientation": "قريب من السلطة",
+     "minutes": 11.83
+    },
+    {
+     "video_id": "vLTjQUIvBLQ",
+     "channel": "כאן חדשות",
+     "bloc": "israeli",
+     "orientation": "عام (وسط)",
+     "minutes": 6.308333333333334
+    },
+    {
+     "video_id": "cOd273bQbGo",
+     "channel": "כאן חדשות",
+     "bloc": "israeli",
+     "orientation": "عام (وسط)",
+     "minutes": 5.9
+    },
+    {
+     "video_id": "OHqiH-TC4us",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 19.4
+    }
+   ]
+  },
+  {
+   "id": "45b198d66b4e",
+   "title": "أزمة تشكيل الحكومة الإسرائيلية بين نتنياهو وآيزنكوت",
+   "blocs": [
+    "arabic",
+    "israeli",
+    "persian"
+   ],
+   "orientations": 6,
+   "minutes": 322,
+   "channels": [
+    "Iran International",
+    "כאן חדשות",
+    "ערוץ 14",
+    "الجزيرة",
+    "العربية",
+    "سكاي نيوز عربية"
+   ],
+   "videos": [
+    {
+     "video_id": "jr9IpBcNatE",
+     "channel": "Iran International",
+     "bloc": "persian",
+     "orientation": "معارض للنظام",
+     "minutes": 4.0055555555555555
+    },
+    {
+     "video_id": "cOd273bQbGo",
+     "channel": "כאן חדשות",
+     "bloc": "israeli",
+     "orientation": "عام (وسط)",
+     "minutes": 5.9
+    },
+    {
+     "video_id": "BFKe9EKRO0M",
+     "channel": "ערוץ 14",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 38.666666666666664
+    },
+    {
+     "video_id": "W3eIQnku1EY",
+     "channel": "ערוץ 14",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 77.58333333333333
+    },
+    {
+     "video_id": "5uTfjxB_CqI",
+     "channel": "ערוץ 14",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 9.266666666666667
+    },
+    {
+     "video_id": "dFY0_DJzylk",
+     "channel": "ערוץ 14",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 11.35
+    },
+    {
+     "video_id": "TuQu4NNqNTU",
+     "channel": "ערוץ 14",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 6.091666666666667
+    },
+    {
+     "video_id": "n22i7iwaMdA",
+     "channel": "ערוץ 14",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 74.23333333333333
+    },
+    {
+     "video_id": "o6RMWmRh9qw",
+     "channel": "ערוץ 14",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 23.15
+    },
+    {
+     "video_id": "AYhloNgEgyo",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 5.1000000000000005
+    },
+    {
+     "video_id": "WtE6FRH_Ae0",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 11.55
+    },
+    {
+     "video_id": "6tlhAUPe_hA",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 5.183333333333334
+    },
+    {
+     "video_id": "X8o7XEgV868",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 19.266666666666666
+    },
+    {
+     "video_id": "Z-vrXexRpfE",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 16.266666666666666
+    },
+    {
+     "video_id": "TiV8BTRHZdU",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 5.675
+    },
+    {
+     "video_id": "rFvV34M6JEc",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 8.45
+    }
+   ]
+  },
+  {
+   "id": "e3adf78b09c0",
+   "title": "قمة ثلاثية مرتقبة بين ترامب وبوتين وشي جين بينغ",
+   "blocs": [
+    "arabic",
+    "israeli",
+    "turkish"
+   ],
+   "orientations": 5,
+   "minutes": 193,
+   "channels": [
+    "CNN Türk",
+    "Habertürk",
+    "ILTV",
+    "SÖZCÜ",
+    "الجزيرة",
+    "العربية"
+   ],
+   "videos": [
+    {
+     "video_id": "GdbxOFiRvss",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 49.7
+    },
+    {
+     "video_id": "ncdwvjeP8Pg",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 18.7
+    },
+    {
+     "video_id": "Bxjo8gRL3aA",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 52.0
+    },
+    {
+     "video_id": "LLhBy6X0yx4",
+     "channel": "Habertürk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 6.155555555555555
+    },
+    {
+     "video_id": "HL_9MdVbgA0",
+     "channel": "ILTV",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 7.416666666666667
+    },
+    {
+     "video_id": "DiP6IAR34LY",
+     "channel": "SÖZCÜ",
+     "bloc": "turkish",
+     "orientation": "معارض",
+     "minutes": 3.6555555555555554
+    },
+    {
+     "video_id": "wNOqCY0Vkes",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 29.833333333333332
+    },
+    {
+     "video_id": "SDHqQqIEnhg",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 19.994444444444444
+    },
+    {
+     "video_id": "Tx-D38R5L0A",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 5.066666666666666
+    }
+   ]
+  },
+  {
+   "id": "fd054333dda6",
+   "title": "مقترح أمريكي لتبادل دونباس بعضوية الناتو لأوكرانيا",
+   "blocs": [
+    "arabic",
+    "russian",
+    "turkish"
+   ],
+   "orientations": 5,
+   "minutes": 64,
+   "channels": [
+    "SÖZCÜ",
+    "Дождь",
+    "الجزيرة",
+    "العربية",
+    "سكاي نيوز عربية"
+   ],
+   "videos": [
+    {
+     "video_id": "NvP7DWrEEWg",
+     "channel": "SÖZCÜ",
+     "bloc": "turkish",
+     "orientation": "معارض",
+     "minutes": 2.6566666666666667
+    },
+    {
+     "video_id": "ujBlDGO9JpE",
+     "channel": "Дождь",
+     "bloc": "russian",
+     "orientation": "معارض في المنفى",
+     "minutes": 5.788888888888889
+    },
+    {
+     "video_id": "oBMkiEclgNQ",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 6.183333333333334
+    },
+    {
+     "video_id": "qL6wu7glj4k",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 24.008333333333333
+    },
+    {
+     "video_id": "VWQ09AAbhEQ",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 14.8
+    },
+    {
+     "video_id": "-5eGAG_kgJw",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 10.241666666666667
+    }
+   ]
+  },
+  {
+   "id": "72e75247faa8",
+   "title": "أزمة الطيران الأمريكي وتوقف الرحلات الجوية",
+   "blocs": [
+    "arabic",
+    "russian",
+    "turkish"
+   ],
+   "orientations": 4,
+   "minutes": 268,
+   "channels": [
+    "CNN Türk",
+    "Habertürk",
+    "SÖZCÜ",
+    "Дождь",
+    "الميادين"
+   ],
+   "videos": [
+    {
+     "video_id": "qat_bXEjOVo",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 18.616666666666667
+    },
+    {
+     "video_id": "9KsvrxTibzk",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 25.616666666666667
+    },
+    {
+     "video_id": "OitDG4MPGJ0",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 53.36666666666667
+    },
+    {
+     "video_id": "IzzVaAtUwCk",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 28.741666666666667
+    },
+    {
+     "video_id": "-g6YFKhuIgA",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 45.416666666666664
+    },
+    {
+     "video_id": "eCLZjmA_q4s",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 27.183333333333334
+    },
+    {
+     "video_id": "Mj1yQq3bdag",
+     "channel": "Habertürk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 6.525
+    },
+    {
+     "video_id": "DiP6IAR34LY",
+     "channel": "SÖZCÜ",
+     "bloc": "turkish",
+     "orientation": "معارض",
+     "minutes": 3.6555555555555554
+    },
+    {
+     "video_id": "BgZLGA3s2i8",
+     "channel": "SÖZCÜ",
+     "bloc": "turkish",
+     "orientation": "معارض",
+     "minutes": 5.016666666666667
+    },
+    {
+     "video_id": "NvP7DWrEEWg",
+     "channel": "SÖZCÜ",
+     "bloc": "turkish",
+     "orientation": "معارض",
+     "minutes": 2.6566666666666667
+    },
+    {
+     "video_id": "J6x6DIg56d8",
+     "channel": "SÖZCÜ",
+     "bloc": "turkish",
+     "orientation": "معارض",
+     "minutes": 2.54
+    },
+    {
+     "video_id": "Dwtn-p_gC-M",
+     "channel": "Дождь",
+     "bloc": "russian",
+     "orientation": "معارض في المنفى",
+     "minutes": 3.988888888888889
+    },
+    {
+     "video_id": "WYSZ5AnNXn8",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 26.966666666666665
+    },
+    {
+     "video_id": "r5xn7yxiwiI",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 17.433333333333334
+    }
+   ]
+  },
+  {
+   "id": "68d5b0386d57",
+   "title": "نشر حاملة الطائرات روزفلت وحشد القوات الأمريكية في المنطقة",
+   "blocs": [
+    "arabic",
+    "persian",
+    "turkish"
+   ],
+   "orientations": 4,
+   "minutes": 154,
+   "channels": [
+    "CNN Türk",
+    "Iran International",
+    "العربية",
+    "سكاي نيوز عربية"
+   ],
+   "videos": [
+    {
+     "video_id": "JnBWlLXLCB4",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 17.216666666666665
+    },
+    {
+     "video_id": "v825L6yIf8U",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 20.616666666666667
+    },
+    {
+     "video_id": "QGkPKQ5TYYc",
+     "channel": "Iran International",
+     "bloc": "persian",
+     "orientation": "معارض للنظام",
+     "minutes": 7.988888888888888
+    },
+    {
+     "video_id": "8hi333yU0wA",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 26.808333333333334
+    },
+    {
+     "video_id": "7NeteUdT_TU",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 10.491666666666667
+    },
+    {
+     "video_id": "_oMDVOhfHvk",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 23.033333333333335
+    },
+    {
+     "video_id": "yosdKYpepoA",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 15.433333333333334
+    },
+    {
+     "video_id": "b7WXxZxZGMw",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 32.0
+    }
+   ]
+  },
+  {
+   "id": "ac499437f361",
+   "title": "استهداف قاعدة أمريكية في البحرين بطائرات مسيّرة إيرانية",
+   "blocs": [
+    "arabic",
+    "israeli",
+    "turkish"
+   ],
+   "orientations": 4,
+   "minutes": 121,
+   "channels": [
+    "CNN Türk",
+    "ILTV",
+    "الجزيرة",
+    "العربية"
+   ],
+   "videos": [
+    {
+     "video_id": "FyMPPWK8BkM",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 49.63333333333333
+    },
+    {
+     "video_id": "BjsZEamigKA",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 11.45
+    },
+    {
+     "video_id": "HL_9MdVbgA0",
+     "channel": "ILTV",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 7.416666666666667
+    },
+    {
+     "video_id": "SlRBViuvet4",
+     "channel": "ILTV",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 12.5
+    },
+    {
+     "video_id": "_dFqjm1CE7g",
+     "channel": "ILTV",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 10.766666666666667
+    },
+    {
+     "video_id": "SDHqQqIEnhg",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 19.994444444444444
+    },
+    {
+     "video_id": "f8fxJ4ZwOUE",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 9.1
+    }
+   ]
+  }
+ ],
+ "selection_issue": 1897
+}
