@@ -3447,3 +3447,14 @@ track` والفيديو وثانيته، وسطر «🔁 ختام الريل…�
 - **الذكر:** `review.with_notify(body, cfg)` يُلحق `notifications.line` («🔔 @gilandeya») بجسم القضية **عند الإنشاء وحده** (الذكر يضمن البريد
   ولو بلا مراقبة للمستودع): قضية الموضوع، قضية السيناريو (`meta_script.finalize`، و`youtube_publish.open_review` لمجموعة كلها ريل)، وقضية
   مراجعة الريل (`reel_review.open_or_update`). `mention` فارغ ← لا سطر؛ `tests.helpers.load_config` يفرغه.
+
+## أسئلة الموضوع: نموذج احتياطي، وإبلاغ من أول فشل، وذاكرة المقاطع (قضية 1900) — `tests/test_youtube.py:test_meta_qa_plan_fallback_1900`
+
+الحادثة: استُخرجت مقاطع الموضوع بـGemini (0.50$) ثم أعاد Sonnet في `plan_questions` ردًا قصيرًا بلا سؤال له إجابات، فصار الموضوع `failed`
+بلا تعليق (الإبلاغ كان بعد `max_attempts` = 3، ولا تشغيلة تجري إلا بطلب) وبقيت القضية «⏳»، ولم يُحفظ ما يفسّر الرد.
+- **الاحتياط:** `meta_qa.plan_questions(..., info=)` يعيد النداء الفاشل (بلا سؤال صالح، مقطوع، عطل) بكل نموذج في `qa.fallback_models`
+  ([Opus]) على المقاطع نفسها. `info["attempts"]` = لكل محاولة `{model, error, stop_reason, bites, rows, raw_type, answers, bad_n}` (أرقام وحدها)
+  ويُحفظ في `qa.plan`.
+- **الإبلاغ:** تعليق الفشل (أو فتح القضية بسببه) حين `attempts ≥ qa.notify_failed_after` (1)، ونصه يطلب إعادة وسم `approved` (`requeue_qa`).
+- **ذاكرة المقاطع:** ما استخرجه Gemini يُحفظ في الملف الخاص `meta_topics/qa/<id>.bites.json` فور الاستخراج (لا عند نفاد الرصيد)، ومحاولة
+  تالية خلال `qa.bites_cache_hours` (48) تقرؤه بلا نداءات Gemini (`qa.bites_cached`)؛ يُحذف عند الجاهزية. 0 ← بلا ذاكرة.

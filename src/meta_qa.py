@@ -252,28 +252,53 @@ def _create(client, **kwargs):
     return llm.create(client, **kwargs)
 
 
-def plan_questions(topic: dict, bites: list[dict], cfg, client) -> tuple[list[str], list[dict], str]:
-    """(العناوين، الأسئلة [{text, answers:[{n, fit}]}]، الخطأ). الرد المقطوع لا يُقبل؛ رقم مقطع خارج المدى يُسقط وحده."""
+def plan_questions(topic: dict, bites: list[dict], cfg, client, info: dict | None = None) -> tuple[list[str], list[dict], str]:
+    """(العناوين، الأسئلة [{text, answers:[{n, fit}]}]، الخطأ). الرد المقطوع لا يُقبل؛ رقم مقطع خارج المدى يُسقط وحده.
+
+    نداء فشل (بلا سؤال له إجابات، مقطوع، عطل) يُعاد بالنموذج التالي من `fallback_models` على المقاطع نفسها (قضية 1900: Sonnet أعاد
+    ردًا قصيرًا بلا سؤال صالح بعد أن دُفع استخراج المقاطع، فسقط الموضوع ولم يبقَ ما يفسّره). `info["attempts"]` أرقام كل محاولة."""
+    q = _qcfg(cfg)
+    models = [q.get("model", "claude-opus-5")] + [m for m in (q.get("fallback_models") or []) if m]
+    titles, err = [], ""
+    for model in models:
+        diag: dict = {"model": model}
+        titles, questions, err = _plan_once(topic, bites, cfg, client, model, diag)
+        diag["error"] = err
+        if info is not None:
+            info.setdefault("attempts", []).append(diag)
+        if not err:
+            return titles, questions, ""
+        log.warning("أسئلة الموضوع %s بـ%s: %s %s", topic.get("id"), model, err,
+                    {k: v for k, v in diag.items() if k not in ("model", "error")})
+    return titles, [], err
+
+
+def _plan_once(topic: dict, bites: list[dict], cfg, client, model: str, diag: dict) -> tuple[list[str], list[dict], str]:
     from .meta_topics import _int, _rows, _tool_input
     q = _qcfg(cfg)
     try:
-        resp = _create(client, cfg=cfg, model=q.get("model", "claude-opus-5"), max_tokens=int(q.get("max_tokens", 6000)),
+        resp = _create(client, cfg=cfg, model=model, max_tokens=int(q.get("max_tokens", 6000)),
                        system=llm.with_notes(q.get("system", ""), cfg), tools=[PLAN_TOOL],
                        tool_choice={"type": "tool", "name": PLAN_TOOL["name"]},
                        messages=[{"role": "user", "content": plan_message(topic, bites)}])
     except Exception as exc:  # noqa: BLE001
         return [], [], f"فشل النداء: {type(exc).__name__}: {str(exc)[:150]}"
-    if str(getattr(resp, "stop_reason", "") or "") == "max_tokens":
+    diag["stop_reason"] = str(getattr(resp, "stop_reason", "") or "")
+    if diag["stop_reason"] == "max_tokens":
         return [], [], "الرد مقطوع عند max_tokens"
     data = _tool_input(resp, PLAN_TOOL["name"]) or {}
     titles = [str(t).strip() for t in (data.get("titles") if isinstance(data.get("titles"), list) else []) if str(t).strip()]
     questions = []
-    for row in _rows(data, "questions")[: int(q.get("max_questions", 5))]:
+    rows = _rows(data, "questions")
+    # أرقام الشكل وحدها (لا كلام): بها يُعرف أأعاد النموذج لا شيء أم أعاد ما لم يقبله الكود
+    diag.update(bites=len(bites), rows=len(rows), raw_type=type(data.get("questions")).__name__, answers=0, bad_n=0)
+    for row in rows[: int(q.get("max_questions", 5))]:
         text = str(row.get("text") or "").strip()
         answers, seen = [], set()
         for a in _rows(row, "answers"):
             n = _int(a.get("n"))
             if n is None or not 1 <= n <= len(bites) or n in seen:
+                diag["bad_n"] += 1
                 continue
             seen.add(n)
             ans = {"n": n, "fit": "weak" if a.get("fit") == "weak" else "direct"}
@@ -281,11 +306,46 @@ def plan_questions(topic: dict, bites: list[dict], cfg, client) -> tuple[list[st
             if view:
                 ans["view"] = view
             answers.append(ans)
+        diag["answers"] += len(answers)
         if text and answers:
             questions.append({"text": text, "answers": answers})
     if not questions:
         return titles[:3], [], "لم يقترح النموذج سؤالًا له إجابات"
     return titles[:3], questions, ""
+
+
+# ───────────── ذاكرة مقاطع الموضوع ─────────────
+
+def _bites_cache_path(tid: str) -> Path:
+    return private_path(tid).with_suffix(".bites.json")
+
+
+def load_bites_cache(topic: dict, cfg, now: datetime) -> dict | None:
+    """مقاطع استُخرجت في محاولة سابقة فشل ما بعدها (قضية 1900): استخراجها نداء Gemini مدفوع لكل فيديو (~0.5$ للموضوع)، وإعادة
+    الطلب كانت تدفعه ثانيةً لتعيد خطوة الأسئلة وحدها. تُقبل ما دامت أحدث من `bites_cache_hours`؛ 0 ← لا ذاكرة."""
+    hours = float(_qcfg(cfg).get("bites_cache_hours", 0) or 0)
+    if hours <= 0:
+        return None
+    try:
+        got = json.loads(_bites_cache_path(topic["id"]).read_text(encoding="utf-8"))
+        at = datetime.fromisoformat(got["at"])
+        if (now - at).total_seconds() > hours * 3600 or not got.get("bites"):
+            return None
+        return got
+    except (OSError, ValueError, KeyError, TypeError):
+        return None
+
+
+def save_bites_cache(topic: dict, bites: list, failures: list, cfg, now: datetime) -> None:
+    if float(_qcfg(cfg).get("bites_cache_hours", 0) or 0) <= 0 or not bites:
+        return
+    try:
+        path = _bites_cache_path(topic["id"])
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps({"at": now.isoformat(), "bites": bites, "failures": failures}, ensure_ascii=False),
+                        encoding="utf-8")
+    except (OSError, TypeError, ValueError) as exc:
+        log.warning("تعذّر حفظ مقاطع الموضوع %s: %s", topic.get("id"), exc)
 
 
 # ───────────── ترتيب الإجابات بوجهات النظر ─────────────
@@ -620,10 +680,18 @@ def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: d
             client = Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
         key = gemini_key(cfg)
         if key:
-            stats: dict = {}
-            bites, failures, exhausted = gemini_topic_bites(topic, data, cfg, key, post=gemini_post, stats=stats)
+            cached = load_bites_cache(topic, cfg, now)
+            if cached:
+                bites, failures, exhausted = cached["bites"], cached.get("failures") or [], False
+                qa["bites_cached"] = True
+            else:
+                stats: dict = {}
+                bites, failures, exhausted = gemini_topic_bites(topic, data, cfg, key, post=gemini_post, stats=stats)
+                qa.update(stats)
+                qa.pop("bites_cached", None)
+                if not exhausted:
+                    save_bites_cache(topic, bites, failures, cfg, now)
             qa["source"] = "gemini"
-            qa.update(stats)
         else:
             fetch = fetch or _real_fetch(cfg)
             bites, failures, exhausted = topic_bites(topic, data, cfg, client, fetch, now)
@@ -648,7 +716,9 @@ def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: d
             actors = []
         if len(bites) < int(q.get("min_bites", 4)):
             raise RuntimeError(t.get("few_bites", "مقاطع قليلة عن الموضوع: {n}").format(n=len(bites)))
-        titles, questions, err = plan_questions(topic, bites, cfg, client)
+        plan_info: dict = {}
+        titles, questions, err = plan_questions(topic, bites, cfg, client, plan_info)
+        qa["plan"] = plan_info
         if err:
             raise RuntimeError(err)
         # الخطوة «ب» (15/11): صوت المقاطع يُطابَق بكلامها قبل أن تُعرض، فما لا يُسمع كما كُتب لا يُختار ولا يُكتب له سيناريو
@@ -688,6 +758,10 @@ def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: d
                                     "titles": titles, "questions": questions, "context": context, "bites": kept},
                                    ensure_ascii=False, indent=1),
                         encoding="utf-8")
+        try:
+            _bites_cache_path(topic["id"]).unlink()
+        except OSError:
+            pass
         qa.update(status="ready", titles=titles, questions=questions, context=context, bites=[public_bite(b) for b in kept],
                   error="", extracted=len(bites))
         try:
@@ -705,7 +779,8 @@ def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: d
         qa["status"] = "failed"
         qa["error"] = f"{type(exc).__name__}: {str(exc)[:200]}"
         log.warning("أسئلة الموضوع %s: %s", topic.get("id"), qa["error"])
-        if qa["attempts"] >= int(q.get("max_attempts", 3)):
+        # التشغيلة لا تجري إلا بطلب، فانتظار المحاولة الثالثة قبل الإبلاغ يعني ألا يُبلَّغ أحد (قضية 1900: فشل صامت وقضية بقيت «⏳»)
+        if qa["attempts"] >= int(q.get("notify_failed_after", q.get("max_attempts", 3))):
             try:
                 note = t.get("failed", "").format(error=qa["error"])
                 if not meta_topics.ensure_topic_issue(topic, data, cfg, meta_topics.topic_body(topic, data, cfg, note=note)):

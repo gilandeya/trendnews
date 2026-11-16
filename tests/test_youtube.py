@@ -4972,6 +4972,92 @@ def test_meta_notify_remaining() -> None:
             os.environ[publish.RENDER_DISPATCH_ENV] = old_disp
 
 
+def test_meta_qa_plan_fallback_1900() -> None:
+    """قضية 1900: Sonnet أعاد ردًا بلا سؤال صالح بعد أن دُفع استخراج المقاطع فسقط الموضوع صامتًا. النداء يُعاد بالنموذج الاحتياطي
+    على المقاطع نفسها؛ والفشل يُبلَّغ من أول محاولة؛ والمقاطع المستخرجة تُحفظ فلا تُدفع ثانية عند إعادة الطلب."""
+    from types import SimpleNamespace as NS
+
+    from src import meta_qa, review, youtube_bites, youtube_transcripts
+    from src.config import Config, load_config as real_load
+
+    d = tempfile.mkdtemp()
+    old = os.environ.get("TRENDNEWS_YOUTUBE_BITES_DIR")
+    os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = d
+    names = ("create_issue", "comment", "update_issue_body")
+    saved = {k: getattr(review, k) for k in names}
+    saved_create, saved_key, saved_gem = meta_qa._create, meta_qa.gemini_key, meta_qa.gemini_topic_bites
+    comments, bodies, models, gem_calls = [], {}, [], []
+    try:
+        review.comment = lambda n, text: comments.append((n, text))
+        review.update_issue_body = lambda n, body: bodies.__setitem__(n, body)
+        review.create_issue = lambda title, body, labels=None: {"number": 990}
+        base = real_load()
+        q = base.path("youtube.meta_topics.qa")
+        check("الإعداد: نموذج احتياطي وإبلاغ من أول فشل وذاكرة مقاطع",
+              q.get("fallback_models") == ["claude-opus-5"] and q.get("notify_failed_after") == 1 and q.get("bites_cache_hours") > 0)
+        cfg = Config(dict(base))
+        good = {"titles": ["عنوان 1؟", "عنوان 2", "عنوان 3"],
+                "questions": [{"text": "ما المتوقع؟", "answers": [{"n": 1, "fit": "direct"}, {"n": 3, "fit": "direct"}]}]}
+        replies = {}
+
+        def create(client, **kw):
+            models.append(kw["model"])
+            return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="plan_questions", input=replies.get(kw["model"], {}))])
+        meta_qa._create = create
+        bites = [{"bite_id": f"v{k}:g{k}", "video_id": f"v{k}", "start": 10.0, "end": 30.0, "speaker": f"محلل{k}", "type": "opinion",
+                  "summary_ar": f"رأي {k}", "text_ar": f"ترجمة {k}", "text_original": f"words {k}", "channel": f"ch{k}",
+                  "bloc": "arabic", "orientation": f"o{k}"} for k in range(1, 6)]
+        topic = {"id": "t1900", "title": "موضوع", "blocs": ["arabic"], "orientations": 1, "minutes": 30, "videos": [],
+                 "topic_issue": 990}
+        data = {"date": "2026-11-16", "topics": [topic]}
+        # النموذج الأول بلا سؤال صالح (أرقام خارج المدى) والاحتياطي يصيب
+        replies.update({q["model"]: {"titles": [], "questions": [{"text": "س؟", "answers": [{"n": 99}]}]}, "claude-opus-5": good})
+        info: dict = {}
+        titles, questions, err = meta_qa.plan_questions(topic, bites, cfg, object(), info)
+        check("1900: الاحتياطي يُستدعى بعد فشل الأول وينجح", not err and len(questions) == 1 and models == [q["model"], "claude-opus-5"], (err, models))
+        a0 = info["attempts"][0]
+        check("1900: تشخيص المحاولة الفاشلة بالأرقام", a0["model"] == q["model"] and a0["rows"] == 1 and a0["bad_n"] == 1
+              and a0["answers"] == 0 and a0["error"] and info["attempts"][1]["error"] == "", info)
+        models.clear()
+        replies[q["model"]] = good
+        meta_qa.plan_questions(topic, bites, cfg, object())
+        check("1900: النموذج الأول يكفي حين يصيب", models == [q["model"]], models)
+
+        # الأنبوب: فشل النموذجين ← تعليق من أول محاولة، والمقاطع محفوظة؛ إعادة الطلب لا تستخرج ثانية
+        meta_qa.gemini_key = lambda cfg_: "k"
+
+        def fake_gem(topic_, data_, cfg_, key, post=None, stats=None):
+            gem_calls.append(1)
+            if stats is not None:
+                stats["gemini_cost"] = 0.5
+            return [dict(b) for b in bites], [], False
+        meta_qa.gemini_topic_bites = fake_gem
+        replies.clear()
+        now = datetime.now(timezone.utc)
+        st = meta_qa.process_topic(topic, data, cfg, client=object(), now=now)
+        check("1900: الفشل يُبلَّغ من أول محاولة بطريق إعادة الطلب", st == "failed" and topic["qa"]["attempts"] == 1
+              and any(n == 990 and "تعذّر استخراج الأسئلة" in txt and "approved" in txt for n, txt in comments), comments)
+        check("1900: محاولتا النموذجين في qa.plan بلا كلام", len(topic["qa"]["plan"]["attempts"]) == 2
+              and "ترجمة" not in json.dumps(topic["qa"]["plan"], ensure_ascii=False), topic["qa"].get("plan"))
+        check("1900: المقاطع المستخرجة محفوظة في الملف الخاص", meta_qa._bites_cache_path("t1900").exists())
+        replies["claude-opus-5"] = good
+        st = meta_qa.process_topic(topic, data, cfg, client=object(), now=now)
+        check("1900: إعادة الطلب تنجح بلا استخراج ثانٍ", st == "ready" and len(gem_calls) == 1 and topic["qa"].get("bites_cached")
+              and topic["qa"].get("gemini_cost") == 0.5 and 990 in bodies, (st, gem_calls, topic["qa"].get("error")))
+        check("1900: الذاكرة تُحذف بعد الجاهزية", not meta_qa._bites_cache_path("t1900").exists())
+        # ذاكرة قديمة لا تُستعمل
+        meta_qa.save_bites_cache(topic, bites, [], cfg, now - timedelta(hours=q["bites_cache_hours"] + 1))
+        check("1900: ذاكرة أقدم من المدة تُهمل", meta_qa.load_bites_cache(topic, cfg, now) is None)
+    finally:
+        for k, v in saved.items():
+            setattr(review, k, v)
+        meta_qa._create, meta_qa.gemini_key, meta_qa.gemini_topic_bites = saved_create, saved_key, saved_gem
+        if old is None:
+            os.environ.pop("TRENDNEWS_YOUTUBE_BITES_DIR", None)
+        else:
+            os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = old
+
+
 def test_meta_qa() -> None:
     """الخطوة 4 (meta_qa): نصوص فيديوهات الموضوع وحده ← مقاطع عن الحدث ← أسئلة Opus ← اختيار الكود ضمن 120 ث ← قضية الموضوع
     بمربعات بلا كلام القنوات؛ البروكسي المنتهي ينتظر؛ الرد المقطوع يفشل؛ الاعتماد يطلب الإطلاق بعد الإيداع."""
