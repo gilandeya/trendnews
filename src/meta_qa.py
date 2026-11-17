@@ -70,14 +70,31 @@ def private_path(tid: str) -> Path:
 
 # ───────────── اختيار الفيديوهات ونصوصها ─────────────
 
-def topic_videos(topic: dict, cfg) -> list[dict]:
-    """حتى `max_videos` فيديو بالتناوب على التوجّهات (الأطول دقائق أولًا في كل توجّه): الريل منظورات مختلفة، فعشرة فيديوهات
-    من توجّه واحد تصرف النداءات على صوت واحد."""
+def topic_videos(topic: dict, cfg, cap: int | None = None, skip=(), last_blocs=()) -> list[dict]:
+    """حتى `max_videos` فيديو: **كتلة بعد كتلة** ثم توجّه، والأطول دقائق أولًا في كل توجّه. الريل منظورات مختلفة، فعشرة
+    فيديوهات من توجّه واحد تصرف النداءات على صوت واحد.
+
+    قضية 1916: الترتيب كان بأطول فيديو في كل توجّه، فأخذ موضوعٌ فيه ست كتل أربعةَ فيديوهات عربية وواحدًا تركيًا واثنين
+    فارسيين، ولم تصل الإسرائيلية ولا الصينية ولا الروسية إلى السبعة. الدورة الأولى الآن فيديو واحد من كل كتلة.
+
+    skip: فيديوهات جُرّبت (الجولة التكميلية). last_blocs: كتل أعطت مقاطع فتأتي بعد غيرها في تلك الجولة."""
     by: dict[tuple, list[dict]] = {}
     for v in sorted(topic.get("videos") or [], key=lambda v: -(v.get("minutes") or 0)):
+        if v.get("video_id") in set(skip):
+            continue
         by.setdefault((v.get("bloc"), v.get("orientation") or v.get("channel")), []).append(v)
-    groups = sorted(by.values(), key=lambda g: -(g[0].get("minutes") or 0))
-    cap = int(_qcfg(cfg).get("max_videos", 10))
+    blocs: dict = {}
+    for (bloc, _orient), g in by.items():
+        blocs.setdefault(bloc, []).append(g)
+    def _top(g):     # أطول فيديو في المجموعة (المجموعات مرتّبة أصلًا)
+        return -(g[0].get("minutes") or 0)
+    for gs in blocs.values():
+        gs.sort(key=_top)
+    order = sorted(blocs.items(), key=lambda kv: (kv[0] in set(last_blocs), _top(kv[1][0])))
+    groups: list[list[dict]] = []
+    for i in range(max((len(gs) for _b, gs in order), default=0)):
+        groups += [gs[i] for _b, gs in order if len(gs) > i]
+    cap = int(_qcfg(cfg).get("max_videos", 10)) if cap is None else int(cap)
     out: list[dict] = []
     while groups and len(out) < cap:
         for g in groups:
@@ -149,25 +166,58 @@ def gemini_key(cfg) -> str:
 def gemini_topic_bites(topic: dict, data: dict, cfg, key: str, post=None,
                        stats: dict | None = None, search=None, details=None) -> tuple[list[dict], list[dict], bool]:
     """مقاطع الموضوع من Gemini على رابط كل فيديو (لا بروكسي). الشكل نفسه الذي يعيده topic_bites، فلا انتظار بروكسي أبدًا."""
-    from . import gemini_bites
     bites, failures = [], []
     stats = stats if stats is not None else {}
+    rows: list[dict] = stats.setdefault("videos", [])
+    q = _qcfg(cfg)
     for v in topic_videos(topic, cfg):
-        meta = video_meta(v["video_id"], data["date"])
-        res = gemini_bites.extract(v["video_id"], topic["title"], meta, cfg, key, post=post)
-        stats["gemini_cost"] = round(stats.get("gemini_cost", 0.0) + res.get("cost", 0.0), 4)
-        stats["gemini_rejected"] = stats.get("gemini_rejected", 0) + len(res.get("rejected") or [])
-        if res.get("error") and not res.get("bites"):
-            failures.append({"video_id": v["video_id"], "channel": v.get("channel"), "reason": res["error"][:120]})
-        for b in res.get("bites") or []:
-            bites.append({"video_id": v["video_id"], "channel": v.get("channel", ""), "bloc": v.get("bloc"),
-                          "orientation": v.get("orientation"), "language": meta.get("language", ""), **b})
+        bites += _extract_video(v, topic, data, cfg, key, post, stats, failures, rows)
+    # جولة تكميلية (قضية 1916): فيديو يعود بلا مقاطع لا أثر له، فخرجت قضية بكل إجاباتها من قناتين. حين تقلّ القنوات التي
+    # أعطت مقاطع عن min_channels تُجرَّب فيديوهات أخرى من كتل لم تعطِ شيئًا، واحدًا واحدًا حتى يُبلغ العدد أو ينفد السقف
+    extra = int(q.get("max_extra_videos", 0))
+    floor = int(q.get("min_channels", 0))
+    if extra > 0 and floor > 0:
+        done = {r["video_id"] for r in rows}
+        for v in topic_videos(topic, cfg, cap=extra, skip=done, last_blocs=_covered(bites, "bloc")):
+            if len(_covered(bites, "channel")) >= floor:
+                break
+            bites += _extract_video(v, topic, data, cfg, key, post, stats, failures, rows, extra=True)
+    stats["channels"] = len(_covered(bites, "channel"))
     mark_actors(bites, cfg)
     # مقطع منقول عن برنامج قناة أخرى، أو كلام طرف في الحدث، يُستبدل بأصله إن وُجد (بعد قضيتي 1856 و1868)؛ لا يرفع
     from . import meta_original
     bites = meta_original.find_originals(bites, data["date"], cfg, key, post=post, search=search, details=details, stats=stats)
     bites = drop_read(bites, cfg, stats)
     return bites, failures, False
+
+
+def _covered(bites: list[dict], field: str) -> set:
+    """قيم الحقل في الفيديوهات التي أعطت مقاطع فعلًا (القنوات أو الكتل)."""
+    return {b.get(field) for b in bites if b.get(field)}
+
+
+def _extract_video(v: dict, topic: dict, data: dict, cfg, key: str, post, stats: dict,
+                   failures: list, rows: list, extra: bool = False) -> list[dict]:
+    """مقاطع فيديو واحد، ويُسجَّل في rows أثره (قناته وعدد مقاطعه وما رُفض وعطله) — فيديو بلا مقاطع كان بلا أثر إطلاقًا."""
+    from . import gemini_bites
+    meta = video_meta(v["video_id"], data["date"])
+    res = gemini_bites.extract(v["video_id"], topic["title"], meta, cfg, key, post=post)
+    stats["gemini_cost"] = round(stats.get("gemini_cost", 0.0) + res.get("cost", 0.0), 4)
+    stats["gemini_rejected"] = stats.get("gemini_rejected", 0) + len(res.get("rejected") or [])
+    out = [{"video_id": v["video_id"], "channel": v.get("channel", ""), "bloc": v.get("bloc"),
+            "orientation": v.get("orientation"), "language": meta.get("language", ""), **b}
+           for b in res.get("bites") or []]
+    row = {"video_id": v["video_id"], "channel": v.get("channel", ""), "bloc": v.get("bloc"),
+           "minutes": round(float(v.get("minutes") or 0), 1), "bites": len(out),
+           "rejected": len(res.get("rejected") or [])}
+    if res.get("error"):
+        row["error"] = res["error"][:120]
+    if extra:
+        row["extra"] = True
+    rows.append(row)
+    if res.get("error") and not out:
+        failures.append({"video_id": v["video_id"], "channel": v.get("channel"), "reason": res["error"][:120]})
+    return out
 
 
 def drop_read(bites: list[dict], cfg, stats: dict) -> list[dict]:
@@ -336,13 +386,16 @@ def load_bites_cache(topic: dict, cfg, now: datetime) -> dict | None:
         return None
 
 
-def save_bites_cache(topic: dict, bites: list, failures: list, cfg, now: datetime) -> None:
+def save_bites_cache(topic: dict, bites: list, failures: list, cfg, now: datetime, stats: dict | None = None) -> None:
     if float(_qcfg(cfg).get("bites_cache_hours", 0) or 0) <= 0 or not bites:
         return
     try:
         path = _bites_cache_path(topic["id"])
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps({"at": now.isoformat(), "bites": bites, "failures": failures}, ensure_ascii=False),
+        # أثر الفيديوهات (قضية 1916) يُحفظ مع المقاطع، فلا تفقده محاولة تقرأ الذاكرة بلا نداء
+        path.write_text(json.dumps({"at": now.isoformat(), "bites": bites, "failures": failures,
+                                    "stats": {k: v for k, v in (stats or {}).items() if k in ("videos", "channels")}},
+                                   ensure_ascii=False),
                         encoding="utf-8")
     except (OSError, TypeError, ValueError) as exc:
         log.warning("تعذّر حفظ مقاطع الموضوع %s: %s", topic.get("id"), exc)
@@ -691,6 +744,18 @@ def issue_body(topic: dict, data: dict, qa: dict, cfg, full_bites: list | None =
         if qa.get("capped"):
             parts.append(t.get("filter_capped", "فوق إجابتين من القناة للسؤال {n}").format(n=qa["capped"]))
         lines += ["", t.get("filter_line", "🎙️ الإجابات لمحللين وضيوف مسمّين وحدهم؛ لم يُعرض: {parts}").format(parts=" · ".join(parts))]
+    rows = qa.get("videos") or []
+    if rows:
+        ok = sorted({r["channel"] for r in rows if r.get("bites")})
+        empty = sorted({r["channel"] for r in rows if not r.get("bites")})
+        line = t.get("videos_line", "🎥 فُحص {n} من {total} فيديو؛ المقاطع من {ok}: {channels}").format(
+            n=len(rows), total=len(topic.get("videos") or []) or len(rows), ok=len(ok), channels="، ".join(ok) or "—")
+        if empty:
+            line += t.get("videos_empty", " · بلا مقاطع: {channels}").format(channels="، ".join(empty))
+        if any(r.get("extra") for r in rows):
+            line += t.get("videos_extra", " · جُرّبت {n} إضافية لقلة القنوات").format(
+                n=sum(1 for r in rows if r.get("extra")))
+        lines += ["", line]
     if qa.get("failures"):
         lines += ["", t.get("failures_header", "⚠️ فيديوهات لم تدخل:")]
         for f in qa["failures"]:
@@ -789,6 +854,7 @@ def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: d
             cached = load_bites_cache(topic, cfg, now)
             if cached:
                 bites, failures, exhausted = cached["bites"], cached.get("failures") or [], False
+                qa.update(cached.get("stats") or {})
                 qa["bites_cached"] = True
             else:
                 stats: dict = {}
@@ -796,7 +862,7 @@ def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: d
                 qa.update(stats)
                 qa.pop("bites_cached", None)
                 if not exhausted:
-                    save_bites_cache(topic, bites, failures, cfg, now)
+                    save_bites_cache(topic, bites, failures, cfg, now, stats)
             qa["source"] = "gemini"
         else:
             fetch = fetch or _real_fetch(cfg)

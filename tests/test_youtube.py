@@ -5009,6 +5009,120 @@ def test_meta_notify_remaining() -> None:
             os.environ[publish.RENDER_DISPATCH_ENV] = old_disp
 
 
+def test_meta_video_coverage_1916() -> None:
+    """قضية 1916: قضية اختيار الأسئلة خرجت بكل إجاباتها من قناتين وأكثرها من واحدة، والموضوع 83 فيديو من ست كتل. ثلاثة
+    أسباب: ترتيب الاختيار بأطول فيديو لكل توجّه (فغطّى ثلاث كتل من ست)، وخمسة من السبعة عادت بلا مقطع ولا أثر لذلك،
+    ولا جولة تكمّل النقص. وفحص الصوت قُتل عند 150 ث لفيديوين فيهما كل المقاطع ونصف المهلة لم يُستعمل."""
+    from types import SimpleNamespace as NS
+
+    from src import meta_qa, meta_verify, review, youtube_transcripts
+    from src.config import Config, load_config as real_load
+
+    base = real_load()
+    cfg = Config(dict(base))
+    cfg["youtube"] = {**base["youtube"], "meta_topics": {**base["youtube"]["meta_topics"], "enabled": True}}
+    q = cfg.path("youtube.meta_topics.qa")
+    check("1916: الإعداد فيه حد أدنى للقنوات وسقف للجولة التكميلية",
+          int(q.get("min_channels") or 0) >= 2 and int(q.get("max_extra_videos") or 0) >= 1, (q.get("min_channels"), q.get("max_extra_videos")))
+    check("1916: برومبت Gemini يمنع القائمة الفارغة لأن أكثر الكلام للمقدّم",
+          "لا تُفرغ الحلقة" in (cfg.path("youtube.meta_topics.qa.gemini.system") or ""))
+
+    def vid(name, bloc, orient, minutes):
+        return {"video_id": name, "channel": f"قناة {name}", "bloc": bloc, "orientation": orient, "minutes": minutes}
+    vids = [vid("a1", "arabic", "قطري", 60), vid("a2", "arabic", "سعودي", 50), vid("t1", "turkish", "معارض", 55),
+            vid("t2", "turkish", "قريب من الحكومة", 35), vid("t3", "turkish", "معارض2", 15),
+            vid("p1", "persian", "معارض للنظام", 45), vid("p2", "persian", "مؤيد للنظام", 25),
+            vid("i1", "israeli", "يمين", 20), vid("i2", "israeli", "يسار", 12),
+            vid("c1", "chinese", "صيني حكومي", 10), vid("r1", "russian", "قريب من السلطة", 5)]
+    topic = {"id": "cov1", "title": "حشد الحاملات", "blocs": ["arabic"], "orientations": 11, "minutes": 1520,
+             "channels": [], "videos": vids, "topic_issue": 1916}
+
+    first = meta_qa.topic_videos(topic, cfg)
+    blocs = [v["bloc"] for v in first]
+    check("1916: الدورة الأولى فيديو من كل كتلة قبل أن تأخذ كتلة فيديوين",
+          len(first) == 7 and len(set(blocs[:6])) == 6 and blocs[6] == "arabic", blocs)
+    extras = meta_qa.topic_videos(topic, cfg, cap=4, skip={v["video_id"] for v in first}, last_blocs={"arabic"})
+    check("1916: التكميلية تتجاوز المجرَّب وتؤخّر الكتل التي أعطت مقاطع",
+          [v["video_id"] for v in extras] == ["t2", "p2", "i2", "t3"], [v["video_id"] for v in extras])
+
+    _AR_NAME = {"a1": "ألف", "a2": "باء", "t1": "تاء", "t2": "ثاء", "t3": "جيم", "p1": "حاء", "p2": "خاء",
+                "i1": "دال", "i2": "ذال", "c1": "راء", "r1": "زاي"}
+
+    class R:
+        def __init__(self, payload):
+            self._p, self.status_code, self.text = payload, 200, "{}"
+
+        def json(self):
+            return self._p
+
+    def gemini_post_for(giving):
+        posted = []
+
+        def post(url, json=None, timeout=None, headers=None):
+            v = json["contents"][0]["parts"][0]["file_data"]["file_uri"].split("v=")[1]
+            posted.append(v)
+            who = "ضيف " + _AR_NAME[v]      # النص المعروض عربي خالص: الحرف اللاتيني يرفضه حارس الشاشة
+            bites = [] if v not in giving else [
+                {"start": f"0{n}:00", "end": f"0{n}:25", "speaker": who, "type": "opinion",
+                 "summary_ar": f"رأي {_AR_NAME[v]}", "text_original": f"orig {v}{n}", "text_ar": f"كلام {_AR_NAME[v]} رقم {n}",
+                 "speaker_kind": "guest", "setting": "studio", "delivery": "own"} for n in (1, 2)]
+            out = {"speakers": [{"name_ar": who, "is_host": False, "name_source": "chyron"}], "bites": bites}
+            return R({"candidates": [{"finishReason": "STOP", "content": {"parts": [{"text": __import__("json").dumps(out)}]}}],
+                      "usageMetadata": {"promptTokenCount": 1000, "candidatesTokenCount": 100}})
+        return posted, post
+
+    def plan(client, **kw):
+        return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="plan_questions", input={
+            "titles": ["ع1", "ع2", "ع3"],
+            "questions": [{"text": "لماذا الحشد؟", "answers": [{"n": 1, "fit": "direct"}, {"n": 3, "fit": "direct"}]},
+                          {"text": "هل تقع الضربة؟", "answers": [{"n": 2, "fit": "direct"}, {"n": 4, "fit": "direct"}]}]})])
+
+    saved = {k: getattr(review, k) for k in ("comment", "update_issue_body")}
+    saved_create, saved_load = meta_qa._create, youtube_transcripts.load
+    old_key, old_dir = os.environ.get("GEMINI_API_KEY"), os.environ.get("TRENDNEWS_YOUTUBE_BITES_DIR")
+    tmp = tempfile.mkdtemp()
+    try:
+        review.comment = lambda n, text: None
+        review.update_issue_body = lambda n, b: None
+        youtube_transcripts.load = lambda v: None
+        meta_qa._create = plan
+        os.environ["GEMINI_API_KEY"] = "KEY"
+        os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = tmp
+        data = {"date": "2026-11-17", "topics": [topic]}
+
+        posted, post = gemini_post_for({"a1", "t2", "p2", "i2"})
+        status = meta_qa.process_topic(topic, data, cfg, client=object(), fetch=None, gemini_post=post)
+        qa = topic["qa"]
+        rows = qa.get("videos") or []
+        check("1916: لكل فيديو أثر فيه قناته وعدد مقاطعه، والفارغ منها ظاهر",
+              status == "ready" and len(rows) == 10 and sum(1 for r in rows if not r["bites"]) == 6
+              and {r["video_id"] for r in rows if r["bites"]} == {"a1", "t2", "p2", "i2"}, (status, rows))
+        check("1916: الجولة التكميلية جُرّبت حين قلّت القنوات ووقفت عند بلوغ العدد",
+              posted[:7] == [v["video_id"] for v in first] and posted[7:] == ["t2", "p2", "i2"]
+              and qa.get("channels") == 4, (posted, qa.get("channels")))
+        body = meta_qa.issue_body(topic, data, qa, cfg)
+        check("1916: سطر 🎥 في القضية يقول كم فيديو فُحص ومن أي القنوات جاءت المقاطع وأيها عاد فارغًا",
+              "🎥" in body and "قناة a1" in body and "بلا مقاطع" in body and "قناة t1" in body.split("🎥")[1], body.split("🎥")[-1][:200])
+
+        t2 = {**topic, "id": "cov2", "qa": None, "topic_issue": 1917}
+        posted2, post2 = gemini_post_for({v["video_id"] for v in vids})
+        meta_qa.process_topic(t2, {**data, "topics": [t2]}, cfg, client=object(), fetch=None, gemini_post=post2)
+        check("1916: القنوات كافية في الدورة الأولى ← لا نداء إضافي (الكلفة)",
+              len(posted2) == 7 and not any(r.get("extra") for r in t2["qa"]["videos"]), posted2)
+    finally:
+        for k, v in saved.items():
+            setattr(review, k, v)
+        meta_qa._create, youtube_transcripts.load = saved_create, saved_load
+        for name, val in (("GEMINI_API_KEY", old_key), ("TRENDNEWS_YOUTUBE_BITES_DIR", old_dir)):
+            os.environ.pop(name, None) if val is None else os.environ.update({name: val})
+
+    vcfg = cfg.path("youtube.meta_topics.qa.verify")
+    check("1916: فيديوان لا ينتظر بعدهما أحد ← المهلة كلها لهما، وسبعة تبقى 150 ث",
+          meta_verify.video_limit(2, cfg) == float(vcfg["budget_seconds"])
+          and meta_verify.video_limit(7, cfg) == float(vcfg["video_seconds"]),
+          (meta_verify.video_limit(2, cfg), meta_verify.video_limit(7, cfg)))
+
+
 def test_meta_qa_plan_fallback_1900() -> None:
     """قضية 1900: Sonnet أعاد ردًا بلا سؤال صالح بعد أن دُفع استخراج المقاطع فسقط الموضوع صامتًا. النداء يُعاد بالنموذج الاحتياطي
     على المقاطع نفسها؛ والفشل يُبلَّغ من أول محاولة؛ والمقاطع المستخرجة تُحفظ فلا تُدفع ثانية عند إعادة الطلب."""

@@ -263,7 +263,7 @@ from tests.test_youtube import (
     test_meta_topics_chapters,
     test_meta_topics_selection,
     test_meta_notify_remaining,
-    test_meta_qa_plan_fallback_1900,
+    test_meta_qa_plan_fallback_1900, test_meta_video_coverage_1916,
     test_meta_qa,
     test_meta_qa_gemini,
     test_meta_qa_table,
@@ -727,6 +727,7 @@ def main() -> int:
     test_meta_topics_selection()
     test_meta_notify_remaining()
     test_meta_qa_plan_fallback_1900()
+    test_meta_video_coverage_1916()
     test_meta_qa()
     test_meta_qa_gemini()
     test_meta_qa_table()
