@@ -8298,3 +8298,129 @@ def test_meta_verify_deadline_1904() -> None:
                   [(a, b) for a, b, _ in h.sections()] == [(10, 40), (200, 230)] and h.bytes() == 1400 and h.done())
     finally:
         reel_clips.download_clip, speaker_map.proxy_url, bite_audio._real_download = saved
+
+
+def test_reel_render_budget_1922() -> None:
+    """القضية #1922: وظيفة التركيب قُتلت بمهلتها (60 دقيقة) فضاع الريل كله — تنزيل معلّق بلا مهلة ابتلع 20 دقيقة، ولا ميزانية
+    وقت تتخطّى المراحل الاختيارية حين يضيق الوقت."""
+    import copy
+    import tempfile
+    import time
+    from pathlib import Path
+
+    from src import reel_clips, reel_hook_search, reel_render
+    from src.config import load_config as real_load
+
+    cfg = real_load()
+
+    # (1) حارس التنزيل: المقياس البايتات لا الزمن — البطيء الذي يتقدّم لا يُقطع
+    now = {"t": 0.0}
+    clock = lambda: now["t"]  # noqa: E731
+    guard = reel_clips.progress_guard(10, 60, clock)
+    moved = True
+    try:
+        for step in range(5):
+            now["t"] += 9
+            guard(1000 * (step + 1))
+    except reel_clips.ClipDownloadTimeout:
+        moved = False
+    check("1922: تنزيل بطيء يتقدّم ببايتات جديدة لا يُقطع", moved)
+    now["t"] += 11
+    stalled = ""
+    try:
+        guard(5000)
+    except reel_clips.ClipDownloadTimeout as exc:
+        stalled = str(exc)
+    check("1922: تنزيل بلا بايت جديد يُقطع بعد stall_seconds", "توقّف" in stalled, stalled)
+    now["t"] = 0.0
+    cap = reel_clips.progress_guard(0, 30, clock)
+    capped = ""
+    try:
+        for step in range(5):
+            now["t"] += 10
+            cap(1000 * (step + 1))
+    except reel_clips.ClipDownloadTimeout as exc:
+        capped = str(exc)
+    check("1922: سقف الدرجة الواحدة يقطع ولو تقدّم التنزيل", "تجاوز" in capped, capped)
+
+    # (2) مهل yt-dlp تصل من config: القراءة الميتة لا تبقى معلّقة بلا نهاية
+    opts = reel_clips._ydl_opts(Path("/tmp/x.mp4"), 720, None, True, None, reel_clips.TailCapture(), lambda d: None)
+    check("1922: socket_timeout ومحاولات محدودة في خيارات yt-dlp",
+          opts.get("socket_timeout") == 60 and opts.get("retries") == 2 and opts.get("fragment_retries") == 2, opts)
+
+    # (3) درجة تالية لا تبدأ بعد نفاد سقف المقطع كله
+    now["t"] = 0.0
+    tiers: list = []
+
+    def slow(tier, *a, **k):
+        tiers.append(tier)
+        now["t"] += 600
+        raise RuntimeError("فشل")
+
+    with tempfile.TemporaryDirectory() as td:
+        failures: list = []
+        try:
+            reel_clips.download_clip("v", 0, 10, 720, Path(td) / "c.mp4", None, runner=slow, clock=clock)
+        except reel_clips.ClipDownloadError as exc:
+            failures = exc.failures
+    check("1922: بعد total_seconds لا تُجرَّب درجة ثالثة ويُسجَّل سببها",
+          tiers == ["a", "b"] and failures[-1].get("skipped") == "budget", (tiers, failures[-1:]))
+
+    # (4) ساعة الميزانية: تحت الحد لا شيء، وفوقه سطر واحد لكل مرحلة
+    reel_render.budget_start(cfg)
+    notes: list = []
+    check("1922: تركيب بدأ للتو لا يتخطّى شيئًا", reel_render.budget_over(cfg, "broll", notes) is False and not notes
+          and reel_render.budget_report() == {})
+    reel_render._BUDGET["start"] = time.monotonic() - 40 * 60
+    check("1922: مرحلة تجاوزت دقيقتها تُتخطّى بسطر واحد",
+          reel_render.budget_over(cfg, "broll", notes) is True and reel_render.budget_over(cfg, "broll", notes) is True
+          and len(notes) == 1 and "مسح لقطات الحدث" in notes[0], notes)
+    check("1922: مرحلة لم تتجاوز دقيقتها تعمل (الخرائط عند 42)", reel_render.budget_over(cfg, "maps", notes) is False)
+    check("1922: المتخطّى ودقائقه يُحفظان (render_budget)",
+          reel_render.budget_report().get("skipped") == ["broll"] and reel_render.budget_report()["minutes"] >= 39
+          and "render_budget" in reel_render.RENDER_KEYS, reel_render.budget_report())
+    off = copy.deepcopy(cfg)
+    off["reel"]["render"]["budget"]["enabled"] = False
+    reel_render.budget_start(off)
+    check("1922: enabled=false ← بلا ميزانية (السلوك القديم)",
+          reel_render.budget_over(off, "broll", None) is False and reel_render.budget_report() == {})
+
+    # (5) المراحل الاختيارية لا تبدأ بعد حدّها: لا تنزيل ولا نداء
+    def boom(*a, **k):
+        raise AssertionError("مرحلة اختيارية عملت بعد نفاد ميزانيتها")
+
+    reel_render.budget_start(cfg)
+    reel_render._BUDGET["start"] = time.monotonic() - 45 * 60
+    deps = reel_render.Deps(scan_download=boom, classify_sheet=boom, scan_frames=boom, assign_broll=boom,
+                            read_roster=boom, attribute_clips=boom, build_speaker_map=boom, assign_speaker=boom)
+    with tempfile.TemporaryDirectory() as td:
+        tmp, notes = Path(td), []
+        script = {"scenes": [{"kind": "clip", "q": 0, "channel_display": "قناة", "point_id": "p",
+                              "speaker_text": "س", "quote_arabic": "ن"},
+                             {"kind": "title_card", "text": "عنوان"}]}
+        res = reel_render._scan_broll({"hook_candidates": [{"video_id": "v"}]}, script, cfg, deps, tmp,
+                                      reel_hook_search.ScanState(), notes)
+        check("1922: مسح لقطات الحدث يُتخطّى بسببه بدل أن يبتلع المهلة",
+              res["chains"] == [] and res["scan"].get("skipped") == "budget" and any("مسح لقطات" in n for n in notes), res)
+
+        saved_scan = reel_hook_search.scan_candidates
+        reel_hook_search.scan_candidates = boom
+        try:
+            draft = {"hook_candidates": [{"video_id": "v"}], "hook_search": {"attempts": []}}
+            reel_render._auto_hook(tmp / "d.json", draft, script, cfg, deps, tmp, notes)
+        finally:
+            reel_hook_search.scan_candidates = saved_scan
+        check("1922: فحص مرشّحي الهوك يُتخطّى والهوك يبقى بصورة الخبر",
+              "hook_video" not in draft and any("لقطة الهوك" in n for n in notes), notes)
+
+        clips = {0: {"video_id": "v", "dstart": 0.0, "quote_start": 1.0, "quote_end": 3.0, "file": str(tmp / "c.mp4"),
+                     "transcript": [{"start": 0.0, "duration": 2.0, "text": "كلام"}]}}
+        meta: dict = {"work": str(tmp)}
+        check("1922: خريطة المتكلمين لا تُبنى (تنزيل أقسام الحلقة) ويُحفظ سببها",
+              reel_render._map_check(script, clips, cfg, deps, notes, meta) == {}
+              and meta.get("map_errors", {}).get("v") == "budget", meta)
+        meta2: dict = {}
+        rosters, verdicts = reel_render._speaker_check(script, [(0, script["scenes"][0])], clips, cfg, deps, notes, meta2)
+        check("1922: قائمة الضيوف لا تُبنى ويُحفظ سببها",
+              rosters == {} and verdicts == {} and meta2.get("roster_errors", {}).get("v") == "budget", meta2)
+    reel_render.budget_start(off)   # لا تترك ساعة منقضية لاختبار بعده
