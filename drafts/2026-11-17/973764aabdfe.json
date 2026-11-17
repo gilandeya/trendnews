@@ -1,0 +1,622 @@
+{
+  "id": "973764aabdfe",
+  "created_at": "2026-11-17T16:38:59.892746+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "تقدم الحوثيين وانسحاب القوات الجنوبية من باب المندب",
+  "event": "تقدم الحوثيين وانسحاب القوات الجنوبية من باب المندب",
+  "tier": 3,
+  "blocs": [
+    "arabic",
+    "israeli",
+    "turkish"
+  ],
+  "channels": [
+    "CNN Türk",
+    "Habertürk",
+    "ILTV",
+    "الجزيرة",
+    "العربية",
+    "الميادين",
+    "فرانس 24 عربي"
+  ],
+  "agreement": "",
+  "score": 0,
+  "warnings": [
+    "اسم لم يُحسم: محمد شيمشك (Mehmet Şimşek) — الرسم الحالي موثَّق في نطاقات عربية بالقدر نفسه",
+    "اسم لم يُحسم: غفار يقينجا (Gaffar Yenice) — لا رسم مرشّح ظهر في 2 نطاقات عربية مستقلة (أقصى ما وُجد: 0)",
+    "✏️ صيغ السؤال 1 ليتصل بالسياق: كان «لماذا انسحبت القوات الحكومية من باب المندب؟» صار «لماذا انسحبت القوات الحكومية اليمنية من باب المندب؟»",
+    "✏️ صيغ السؤال 2 ليتصل بالسياق: كان «هل ستسقط عدن بيد الحوثيين قريبًا؟» صار «هل ستسقط عدن بيد الحوثيين قريبا؟»"
+  ],
+  "run_date": "2026-11-17",
+  "topic_date": "2026-11-17",
+  "arabic": {
+    "post_title": "لماذا انسحبت القوات الجنوبية من باب المندب فجأة؟",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "CNN Türk",
+      "Habertürk",
+      "ILTV",
+      "الجزيرة",
+      "العربية",
+      "الميادين",
+      "فرانس 24 عربي"
+    ]
+  },
+  "source_videos": [],
+  "meta_topic_id": "827a27a6c0bd",
+  "meta_issue": 1921,
+  "hook_pick": 3,
+  "cost_qa": {
+    "claude": {
+      "claude-sonnet-5": 0.04559
+    },
+    "gemini": 1.0992,
+    "proxy_bytes": 9841318
+  },
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "d1e20cfbc7c7",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "فرانس 24 عربي"
+      },
+      {
+        "point_id": "cc876edc7397",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الميادين"
+      },
+      {
+        "point_id": "5443ecdb3b5a",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن ترك"
+      },
+      {
+        "point_id": "7771901a6fb8",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن ترك"
+      },
+      {
+        "point_id": "166f01fb7041",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "فرانس 24 عربي"
+      },
+      {
+        "point_id": "94c2a5b97b36",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "العربية"
+      }
+    ]
+  },
+  "name_unresolved": [
+    {
+      "arabic": "محمد شيمشك",
+      "latin": "Mehmet Şimşek",
+      "reason": "الرسم الحالي موثَّق في نطاقات عربية بالقدر نفسه"
+    },
+    {
+      "arabic": "غفار يقينجا",
+      "latin": "Gaffar Yenice",
+      "reason": "لا رسم مرشّح ظهر في 2 نطاقات عربية مستقلة (أقصى ما وُجد: 0)"
+    }
+  ],
+  "names_audit": [
+    {
+      "arabic": "محمد الصلاحي",
+      "latin": ""
+    },
+    {
+      "arabic": "علي أبي رعد",
+      "latin": ""
+    },
+    {
+      "arabic": "محمد شيمشك",
+      "latin": "Mehmet Şimşek"
+    },
+    {
+      "arabic": "غفار يقينجا",
+      "latin": "Gaffar Yenice"
+    },
+    {
+      "arabic": "منى صفوان",
+      "latin": ""
+    },
+    {
+      "arabic": "عبد الرحمن أنيس",
+      "latin": ""
+    }
+  ],
+  "headlines": [
+    "لماذا انسحبت القوات الحكومية اليمنية من باب المندب؟",
+    "هل عدن مقبلة على السقوط بيد الحوثيين؟",
+    "من المستفيد الحقيقي من سيطرة الحوثيين على باب المندب؟"
+  ],
+  "headline_selected": 0,
+  "script": {
+    "version": 2,
+    "narrator": "female",
+    "title": "لماذا انسحبت القوات الحكومية اليمنية من باب المندب؟",
+    "question": "هل يتحرك المجتمع الدولي إذا أغلق الحوثيون باب المندب؟",
+    "event": "",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "لماذا انسحبت القوات الحكومية اليمنية من باب المندب؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "انسحبت القوات الحكومية اليمنية من مديرية ذباب ومضيق باب المندب، ووصفت انسحابها بإعادة تموضع، فيما تقدم الحوثيون نحو لحج وعدن."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 0,
+        "text": "لماذا انسحبت القوات الحكومية اليمنية من باب المندب؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "d1e20cfbc7c7",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=wB7TRlUQm5s",
+        "start": 1343.0,
+        "end": 1365.0,
+        "speaker_name": "محمد الصلاحي",
+        "speaker_role": "باحث وأستاذ في المعهد الوطني للغات والحضارات الشرقية",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "محمد الصلاحي",
+        "channel_display": "فرانس 24 عربي",
+        "channel_original": "فرانس 24 عربي",
+        "quote_arabic": "أرى أن هذا الانسحاب من ذباب وباب المندب تكتيكي بالفعل؛ لأن الحرب في هذه المنطقة تخص العالم بأسره، والعالم ترك الشرعية وترك اليمن، والمنطقة تهم العالم كله.",
+        "quote_original": "هذا الانسحاب أنا أعتقد أو أنا دائما لا أؤمن بالتكتكة ولكن هذا الانسحاب فعلا تكتيكي هذا تكتيك فعلا أنا الآن لماذا لأنه الحرب في هذه في هذه المنطقة أصبح ليس يعني المنطقة تهم العالم كله والعالم ترك ترك الشرعية وترك اليمن",
+        "language": "ar",
+        "video_published": "2026-11-16T19:17:28Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "cc876edc7397",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=Yw_ziBmGnl8",
+        "start": 859.0,
+        "end": 885.0,
+        "speaker_name": "علي أبي رعد",
+        "speaker_role": "عميد متقاعد وخبير عسكري استراتيجي",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "علي أبي رعد",
+        "channel_display": "الميادين",
+        "channel_original": "الميادين",
+        "quote_arabic": "ما حصل والبيان الذي صدر بوصفه إعادة انتشار أو تموضع لتعزيز القوة القتالية الميدانية بحسب مقتضيات المرحلة من قبل القوات المتعاملة مع السعودية هو تعبير سياسي وعسكري لتجنب كلمة الهزيمة أو الانكسار.",
+        "quote_original": "ما حصل والبيان الذي صدر بأنه إعادة انتشار أو تموضع لتعزيز القوة القتالية الميدانية حسب مقتضيات المرحلة بحسب البيان من قبل يعني القوات المتعاملة مع السعودية هو تعبير سياسي وعسكري بكل معنى الكلمة لتجنب كلمة الهزيمة أو الانكسار.",
+        "language": "ar",
+        "video_published": "2026-11-15T16:27:56Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 1,
+        "text": "هل ستسقط عدن بيد الحوثيين قريبا؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "5443ecdb3b5a",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=Gft0NiWg-qM",
+        "start": 3213.0,
+        "end": 3230.0,
+        "speaker_name": "محمد شيمشك",
+        "speaker_role": "محرر الشؤون الخارجية في قناة سي إن إن تورك",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Mehmet Şimşek",
+        "channel_display": "سي إن إن ترك",
+        "channel_original": "CNN Türk",
+        "quote_arabic": "إذا استمر الوضع على هذا النحو فمن المحتم أن تسقط عدن، ولن تصمد المدينة أمام هذه الضغوط، وعلى الأرجح قد نشهد سقوطها خلال هذا الأسبوع.",
+        "quote_original": "Eğer bu şekilde devam ederse Aden'in düşmemesi mümkün değil. Aden burada tutunamaz, muhtemelen bu hafta içerisinde, pazartesiden itibaren cumaya kadar yine Akıl Çemberi'nin günü Aden düşebilir diyebiliriz.",
+        "language": "tr",
+        "video_published": "2026-11-15T20:54:49Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "7771901a6fb8",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=Gft0NiWg-qM",
+        "start": 3890.0,
+        "end": 3919.0,
+        "speaker_name": "غفار يقينجا",
+        "speaker_role": "صحفي تركي",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Gaffar Yakınca",
+        "channel_display": "سي إن إن ترك",
+        "channel_original": "CNN Türk",
+        "quote_arabic": "يسعى الحوثيون عند الجلوس إلى طاولة المفاوضات لفرض أمر واقع بأن تعز وربما عدن تحت سيطرتهم، وهذا هو المغزى من تحركاتهم في هرمز وباب المندب، فالسيطرة على باب المندب والضغط على عدن يمثلان أوراق تفاوض، وأتوقع تصاعد وتيرة العمليات خلال الأسبوع القادم.",
+        "quote_original": "Bu masa kurulurken de Husiler masaya oturduklarında şöyle oturmak istiyorlar: Taiz de bende, belki Aden de bende diyecekler. Hürmüz'ün, Babülmendep'in anlamı da budur. Bu Babülmendep işi de masa hazırlığıdır, Aden işi de masa hazırlığıdır. Ben bu işin şiddetlenerek önümüzdeki bir hafta boyunca devam edeceğini düşünüyorum.",
+        "language": "tr",
+        "video_published": "2026-11-15T20:54:49Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "166f01fb7041",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=wB7TRlUQm5s",
+        "start": 636.0,
+        "end": 649.0,
+        "speaker_name": "منى صفوان",
+        "speaker_role": "صحفية",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "منى صفوان",
+        "channel_display": "فرانس 24 عربي",
+        "channel_original": "فرانس 24 عربي",
+        "quote_arabic": "بحسب ما يقوله الحوثيون، إذا استمر هذا التهديد يمكن أن تسقط لحج كاملة ومعسكر العند ويكونوا على مشارف عدن، وممكن بسهولة أيضا أن تسقط عدن؛ فمن يسقط معسكر العند يسقط عدن.",
+        "quote_original": "أنا أقول الآن بحسب ما يقول الحوثيين إذا استمرت هذا التهديد يمكن أن تسقط لحج كاملة معسكر العند ويكونوا على مشارف عدن وممكن بسهولة أيضا تسقط عدن يعني من يسقط معسكر العند يسقط",
+        "language": "ar",
+        "video_published": "2026-11-16T19:17:28Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "94c2a5b97b36",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=8hi333yU0wA",
+        "start": 2429.0,
+        "end": 2449.0,
+        "speaker_name": "عبد الرحمن أنيس",
+        "speaker_role": "كاتب صحفي يمني",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "عبد الرحمن أنيس",
+        "channel_display": "العربية",
+        "channel_original": "العربية",
+        "quote_arabic": "القوة التي كانت موجودة في باب المندب وفي ذباب ضخمة للغاية، وإعادة تموضعها الآن تجعل عدن في أمان إلى حد كبير، ومن المستحيل أن يتمكن الحوثي من التقدم باتجاه عدن أو لحج.",
+        "quote_original": "أساسا القوة حتى التي كانت موجودة في باب المندب وفي ذباب قوة كبيرة جدا وضخمة، وإعادة تموضعها الآن يجعل عدن في أمان يعني إلى حد كبير، ومن المستحيل أن يتمكن الحوثي من التقدم إلى اتجاه عدن أو لحج أو استمرار توجهه في هذا الإطار.",
+        "language": "ar",
+        "video_published": "2026-11-15T20:12:14Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "question",
+        "text": "هل يتحرك المجتمع الدولي إذا أغلق الحوثيون باب المندب؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": []
+  },
+  "editor_revision": {
+    "at": "2026-11-17T16:39:15.962781+00:00",
+    "applied": true,
+    "error": null,
+    "before": [
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "محمد شيمشك · محرر الشؤون الخارجية في قناة سي إن إن تورك · سي إن إن ترك",
+        "fix": "",
+        "note": "الاسم «محمد شيمشك» هو الرسم العربي الشائع لاسم Mehmet Şimşek، وهو اسم مرتبط بشكل راسخ بوزير المالية التركي الحالي، لا بمحرر شؤون خارجية في سي إن إن تورك؛ احتمال الخلط بين الاسمين قائم ويستدعي التحقق قبل النشر.",
+        "sources": [],
+        "video": ""
+      },
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "غفار يقينجا · صحفي تركي · سي إن إن ترك",
+        "fix": "",
+        "note": "لم يُعثر على رسم عربي مطابق لهذا الاسم في أي نطاق عربي مستقل، ما يثير شكًا حول صحة رسم الاسم (ربما يقابل Gaffar Yenice بالتركية) قبل اعتماده في الشريط.",
+        "sources": [],
+        "video": ""
+      }
+    ],
+    "unresolved": [
+      {
+        "n": 1,
+        "reason": "الشك في اسم «محمد شيمشك» يتعلق بشريط مقطع للقراءة فقط (سطر [7])، وهو موثَّق من شريط القناة سي إن إن ترك نفسها ولا يمكن تغييره أو حذفه من المصادر المرفقة دون مصدر بديل يؤكد الاسم الصحيح؛ لا تحوي المصادر رسمًا عربيًا بديلًا موثقًا لهذا المتحدث."
+      },
+      {
+        "n": 2,
+        "reason": "الشك في اسم «غفار يقينجا» يتعلق بشريط مقطع للقراءة فقط (سطر [8])، وهو موثَّق من شريط القناة سي إن إن ترك نفسها؛ لا تتوفر في المصادر المرفقة أي وثيقة عربية مستقلة تؤكد رسمًا بديلًا للاسم، وسطور المقاطع (🎥) للقراءة فقط ولا يجوز تعديلها."
+      }
+    ]
+  },
+  "editor_review": {
+    "at": "2026-11-17T16:39:15.962781+00:00",
+    "applied": [
+      {
+        "category": "headline_contradicts",
+        "severity": "high",
+        "location": "h1",
+        "original": "لماذا انسحبت القوات الجنوبية من باب المندب فجأة؟",
+        "fix": "لماذا انسحبت القوات الحكومية اليمنية من باب المندب؟",
+        "note": "العنوان يتحدث عن «القوات الجنوبية» بينما يذكر سياق الحدث ([2]) وجميع المقاطع أن المنسحب هو «القوات الحكومية اليمنية»؛ وهما جهتان مختلفتان في المشهد اليمني، فالعنوان يناقض المتن. كما أن وصف الانسحاب بـ«فجأة» غير مسنود بأي مصدر.",
+        "sources": []
+      },
+      {
+        "category": "headline_contradicts",
+        "severity": "high",
+        "location": "headline_1",
+        "original": "لماذا انسحبت القوات الجنوبية من باب المندب فجأة؟",
+        "fix": "لماذا انسحبت القوات الحكومية اليمنية من باب المندب؟",
+        "note": "نفس تناقض h1: العنوان ينسب الانسحاب إلى «القوات الجنوبية» بينما المتن والمقاطع كلها تتحدث عن «القوات الحكومية اليمنية»، وهما مسمّيان لقوتين مختلفتين في السياق اليمني.",
+        "sources": []
+      }
+    ],
+    "notes": [
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "محمد شيمشك · محرر الشؤون الخارجية في قناة سي إن إن تورك · سي إن إن ترك",
+        "fix": "",
+        "note": "الاسم «محمد شيمشك» هو الرسم العربي الشائع لاسم Mehmet Şimşek، وهو اسم مرتبط بشكل راسخ بوزير المالية التركي الحالي، لا بمحرر شؤون خارجية في سي إن إن تورك؛ احتمال الخلط بين الاسمين قائم ويستدعي التحقق قبل النشر.",
+        "sources": [],
+        "video": ""
+      },
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "غفار يقينجا · صحفي تركي · سي إن إن ترك",
+        "fix": "",
+        "note": "لم يُعثر على رسم عربي مطابق لهذا الاسم في أي نطاق عربي مستقل، ما يثير شكًا حول صحة رسم الاسم (ربما يقابل Gaffar Yenice بالتركية) قبل اعتماده في الشريط.",
+        "sources": [],
+        "video": ""
+      }
+    ],
+    "error": null,
+    "searches": 0,
+    "search_skipped": null,
+    "speaker_unresolved": [
+      "محمد الصلاحي",
+      "محمد شيمشك",
+      "غفار يقينجا"
+    ]
+  },
+  "hook_clash": {
+    "mode": "single",
+    "relation": "single",
+    "a": {
+      "point_id": "94c2a5b97b36",
+      "first_words": "وإعادة تموضعها الآن يجعل",
+      "last_words": "عدن في أمان",
+      "text_ar": "وإعادة تموضعها الآن يجعل عدن في أمان",
+      "sub_original": "وإعادة تموضعها الآن يجعل عدن في أمان",
+      "arabic": true,
+      "word_from": 15,
+      "word_to": 21,
+      "words_total": 44,
+      "est_seconds": 2.69,
+      "original_words": 7,
+      "channel": "العربية",
+      "bloc": "arabic",
+      "speaker": "عبد الرحمن أنيس"
+    },
+    "hook_text": "انسحاب باب المندب: تكتيك أم هزيمة؟",
+    "rejected": [
+      "مدة الجملة 14.6 ث خارج [1.5، 6]",
+      "الجملتان من كتلة واحدة",
+      "الجملة ليست حرفيًا في كلام المقطع",
+      "مدة الجملة 9.2 ث خارج [1.5، 6]"
+    ]
+  },
+  "reel_bg": {
+    "url": "https://www.aljazeera.net/wp-content/uploads/2026/10/doc-d3ym7cw-1793032699.jpg?resize=1920%2C1440",
+    "kind": "news_photo",
+    "publisher": "الجزيرة نت",
+    "shows": "جندي بزي عسكري مموّه يستخدم منظارًا يراقب منطقة مبانٍ غير مكتملة وأشجار وأنابيب معدنية",
+    "text_checked": true,
+    "judged": true,
+    "rejected": [
+      {
+        "url": "https://houseofsaud.com/wp-content/uploads/2026/11/bab-al-mandab-strait-satellite-1024x574.jpg",
+        "shows": "صورة جوية/فضائية لمضيق بين سواحل صحراوية وجزيرة صغيرة في مياه زرقاء",
+        "reason": "الصورة تُظهر مضيقاً ساحلياً صحراوياً من الجو، وهو مكان قريب من باب المندب لكنها لا تُظهر القوات أو الانسحاب أو أي طرف من أطراف الخبر، فلا تُعد تمثيلاً مباشراً لموضوع السؤال؛ ولا يوجد نص مركّب فوقها."
+      },
+      {
+        "url": "https://s.raseef22.net/storage/attachments/1103/941539.jpg/r/1000/941539.jpg",
+        "shows": "مقاتلون على شاحنة تويوتا يحملون علم السعودية وعلم جنوب اليمن (الانتقالي)، وسفينة شحن في مضيق باب المندب وجزر صخرية، مع ش",
+        "reason": "عليها نص مركَّب والجزء الخالي منه صغير (1000×480 بكسل)"
+      }
+    ]
+  },
+  "hook_candidates": [
+    {
+      "video_id": "BNeju9F1n-A",
+      "title": "Yemen’s Houthis push closer to Aden as government forces reposition",
+      "channel": "Al Jazeera English",
+      "views": 84430,
+      "duration": 111,
+      "published": "2026-11-16T04:20:25Z",
+      "views_per_hour": 2323.3
+    },
+    {
+      "video_id": "4T1Y5R-0rk0",
+      "title": "الحوثيون يعلنون السيطرة الكاملة على باب المندب وكهبوب والتوغل نحو لحج",
+      "channel": "AlJazeera Arabic  قناة الجزيرة",
+      "views": 90337,
+      "duration": 180,
+      "published": "2026-11-15T22:22:44Z",
+      "views_per_hour": 2135.5
+    },
+    {
+      "video_id": "q4mWUt1bE3Q",
+      "title": "عبر الخريطة التفاعلية.. معركة باب المندب وجبال كهبوب ترسم خريطة الصراع جنوب اليمن",
+      "channel": "AlJazeera Arabic  قناة الجزيرة",
+      "views": 59178,
+      "duration": 323,
+      "published": "2026-11-15T17:30:02Z",
+      "views_per_hour": 1254.3
+    },
+    {
+      "video_id": "h00uiPdGnwI",
+      "title": "القوات الجنوبية تعيد تموضعها لحماية عدن ومحيطها.. قراءة عسكرية للتطورات في اليمن | #غرفة_الأخبار",
+      "channel": "سكاي نيوز عربية",
+      "views": 40094,
+      "duration": 578,
+      "published": "2026-11-15T22:00:29Z",
+      "views_per_hour": 939.6
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-11-15T00:00:00Z",
+          "2026-11-19T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "انسحاب القوات الجنوبية من ذباب",
+            "raw": 18,
+            "channel_ok": 2
+          },
+          {
+            "query": "Yemen Bab al-Mandab troops withdrawal Houthi advance",
+            "raw": 30,
+            "channel_ok": 2
+          },
+          {
+            "query": "عناصر القوات الجنوبية في لحج عدن الحوثي",
+            "raw": 0,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 4,
+        "judged_ok": 4,
+        "rejected_channels": [
+          "قناة بلقيس الفضائية Belqees TV",
+          "نصار رزيق",
+          "منصه اليمن الإخباريه",
+          "«أثر»",
+          "The Daily Guardian",
+          "نبض اليمن 🇾🇪",
+          "MILITARY TUBE TODAY",
+          "‏ماذا لو ؟ مع عبدو"
+        ]
+      }
+    ],
+    "picked": [
+      "BNeju9F1n-A",
+      "4T1Y5R-0rk0",
+      "q4mWUt1bE3Q",
+      "h00uiPdGnwI"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "انسحبت القوات الحكومية اليمنية من مديرية ذباب ومضيق باب المندب، ووصفت انسحابها بإعادة تموضع، فيما تقدم الحوثيون نحو لحج وعدن.",
+      "visual": "دبابات وآليات عسكرية تتحرك على طريق صحراوي",
+      "map": {
+        "places": [
+          "ذباب",
+          "باب المندب"
+        ],
+        "countries": [
+          "اليمن"
+        ],
+        "arrows": []
+      }
+    },
+    {
+      "scene": 2,
+      "sentence": 0,
+      "text": "لماذا انسحبت القوات الحكومية اليمنية من باب المندب؟",
+      "visual": ""
+    },
+    {
+      "scene": 5,
+      "sentence": 0,
+      "text": "هل ستسقط عدن بيد الحوثيين قريبا؟",
+      "visual": ""
+    }
+  ],
+  "cost_script": {
+    "claude": {
+      "claude-haiku-5-5": 0.00334,
+      "claude-sonnet-5": 0.12726,
+      "claude-opus-5": 0.08262
+    }
+  },
+  "review_issue": 1922,
+  "stage2_issue": 1922
+}
