@@ -1770,8 +1770,8 @@
    "selected_from": 1915,
    "topic_issue": 1919,
    "qa": {
-    "attempts": 1,
-    "at": "2026-11-17T15:46:18.596044+00:00",
+    "attempts": 2,
+    "at": "2026-11-17T16:07:54.766348+00:00",
     "videos": [
      {
       "video_id": "qL6wu7glj4k",
@@ -1857,7 +1857,8 @@
     "error": "RuntimeError: مقاطع قليلة عن الموضوع: 3",
     "cost": {
      "gemini": 0.5375
-    }
+    },
+    "bites_cached": true
    }
   },
   {
@@ -2431,7 +2432,822 @@
     }
    ],
    "qa_requested_at": "2026-11-17T16:06:03.329417+00:00",
-   "selected_from": 1918
+   "selected_from": 1918,
+   "topic_issue": 1921,
+   "qa": {
+    "attempts": 1,
+    "at": "2026-11-17T16:07:54.766348+00:00",
+    "videos": [
+     {
+      "video_id": "Gft0NiWg-qM",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "minutes": 106.4,
+      "bites": 7,
+      "rejected": 0
+     },
+     {
+      "video_id": "Yw_ziBmGnl8",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "minutes": 61.1,
+      "bites": 8,
+      "rejected": 0
+     },
+     {
+      "video_id": "lecCyl06Ork",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "minutes": 7.4,
+      "bites": 4,
+      "rejected": 0
+     },
+     {
+      "video_id": "wB7TRlUQm5s",
+      "channel": "فرانس 24 عربي",
+      "bloc": "arabic",
+      "minutes": 43.7,
+      "bites": 5,
+      "rejected": 0
+     },
+     {
+      "video_id": "8hi333yU0wA",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "minutes": 26.8,
+      "bites": 6,
+      "rejected": 0
+     },
+     {
+      "video_id": "JUeqSD7naKk",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "minutes": 12.1,
+      "bites": 6,
+      "rejected": 0
+     },
+     {
+      "video_id": "cop2nCbEIUw",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "minutes": 106.3,
+      "bites": 5,
+      "rejected": 0
+     }
+    ],
+    "gemini_cost": 1.0992,
+    "gemini_rejected": 0,
+    "channels": 6,
+    "originals": [
+     {
+      "bite_id": "Gft0NiWg-qM:g118",
+      "source_channel": "",
+      "found": false,
+      "candidate": "wgy-jpQ1o6Y",
+      "candidates": [
+       "aONZa61SDPM",
+       "wgy-jpQ1o6Y"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "Yw_ziBmGnl8:g1733",
+      "source_channel": "",
+      "found": false,
+      "candidate": "mUJePQQUr58",
+      "candidates": [
+       "dTZO3DI1X3o",
+       "mUJePQQUr58"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     }
+    ],
+    "originals_found": 0,
+    "read_dropped": 2,
+    "read_dropped_speakers": [
+     "الحكومة اليمنية المعترف بها دولياً",
+     "القوات المسلحة الجنوبية"
+    ],
+    "source": "gemini",
+    "failures": [],
+    "plan": {
+     "attempts": [
+      {
+       "model": "claude-sonnet-5",
+       "stop_reason": "tool_use",
+       "bites": 39,
+       "rows": 5,
+       "raw_type": "list",
+       "answers": 37,
+       "bad_n": 0,
+       "error": ""
+      }
+     ]
+    },
+    "verify": {
+     "checked": 17,
+     "ok": 6,
+     "no_match": 0,
+     "failed": 11,
+     "no_text": 0,
+     "left": 18,
+     "audio_seconds": 406,
+     "skipped": "",
+     "cut_off": 5,
+     "seconds": 301
+    },
+    "capped": 14,
+    "selected_seconds": 102.0,
+    "status": "ready",
+    "titles": [
+     "لماذا انسحبت القوات الجنوبية من باب المندب فجأة؟",
+     "هل عدن مقبلة على السقوط بيد الحوثيين؟",
+     "من المستفيد الحقيقي من سيطرة الحوثيين على باب المندب؟"
+    ],
+    "questions": [
+     {
+      "text": "لماذا انسحبت القوات الحكومية من باب المندب؟",
+      "answers": [
+       {
+        "n": 22,
+        "fit": "direct",
+        "view": "حماية عدن من تكرار حصار تعز",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "cop2nCbEIUw:g3018"
+       },
+       {
+        "n": 12,
+        "fit": "direct",
+        "view": "خطوة تكتيكية لإلزام المجتمع الدولي بالتدخل",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "wB7TRlUQm5s:g1344"
+       },
+       {
+        "n": 13,
+        "fit": "direct",
+        "view": "تركيز الأولويات على عدن ولحج وتعز",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "8hi333yU0wA:g2319"
+       },
+       {
+        "n": 4,
+        "fit": "direct",
+        "view": "هروب من الاعتراف بهزيمة عسكرية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "Yw_ziBmGnl8:g860"
+       },
+       {
+        "n": 20,
+        "fit": "direct",
+        "view": "خطر إحاطة القوات وتخاذل الشركاء",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "JUeqSD7naKk:g489"
+       },
+       {
+        "n": 17,
+        "fit": "weak",
+        "view": "تكتيك يخدم هدف إسقاط الحوثيين",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "JUeqSD7naKk:g240"
+       }
+      ]
+     },
+     {
+      "text": "هل ستسقط عدن بيد الحوثيين قريبًا؟",
+      "answers": [
+       {
+        "n": 1,
+        "fit": "direct",
+        "view": "سقوط عدن خلال أيام محتم",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "Gft0NiWg-qM:g3214"
+       },
+       {
+        "n": 2,
+        "fit": "weak",
+        "view": "عدن ورقة ضغط تفاوضية للحوثيين",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "Gft0NiWg-qM:g3891"
+       },
+       {
+        "n": 10,
+        "fit": "direct",
+        "view": "سقوط لحج والعند يسبق سقوط عدن",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "wB7TRlUQm5s:g637"
+       },
+       {
+        "n": 15,
+        "fit": "direct",
+        "view": "إعادة التموضع تمنع تقدم الحوثي نحو عدن",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "8hi333yU0wA:g2430"
+       },
+       {
+        "n": 9,
+        "fit": "direct",
+        "view": "الحوثيون لن يستطيعوا التقدم بسبب التفوق الجوي",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "wB7TRlUQm5s:g469"
+       }
+      ]
+     },
+     {
+      "text": "هل سيطرة الحوثيين على باب المندب تهدد الملاحة الدولية والسعودية؟",
+      "answers": [
+       {
+        "n": 7,
+        "fit": "direct",
+        "view": "تهديد مباشر لاستقرار السعودية وصادراتها النفطية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "lecCyl06Ork:g1251"
+       },
+       {
+        "n": 23,
+        "fit": "weak",
+        "view": "السيطرة مدفوعة بأجندة سياسية لا تجارية فقط",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "cop2nCbEIUw:g3421"
+       },
+       {
+        "n": 6,
+        "fit": "direct",
+        "view": "الملاحة في باب المندب تحت سيطرتهم بالكامل",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "Yw_ziBmGnl8:g2257"
+       },
+       {
+        "n": 11,
+        "fit": "direct",
+        "view": "سيطرة على ممر ملاحي عالمي مهم",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "wB7TRlUQm5s:g1269"
+       },
+       {
+        "n": 14,
+        "fit": "direct",
+        "view": "المجتمع الدولي يتحمل مسؤولية أمن الممر",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "8hi333yU0wA:g2341"
+       }
+      ]
+     },
+     {
+      "text": "ما الذي يفسر هذا التقدم السريع للحوثيين ميدانيًا؟",
+      "answers": [
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "تعاون مع إيران مع مصالح ذاتية بالتوسع",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "lecCyl06Ork:g1449"
+       },
+       {
+        "n": 3,
+        "fit": "direct",
+        "view": "أكبر تطويق عسكري منذ الحرب العالمية الثانية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "Yw_ziBmGnl8:g798"
+       },
+       {
+        "n": 5,
+        "fit": "direct",
+        "view": "نصر استراتيجي يجهض المشروع السعودي",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "Yw_ziBmGnl8:g1166"
+       },
+       {
+        "n": 19,
+        "fit": "weak",
+        "view": "جمود جبهات القوى الشمالية فاجأ الجنوبيين",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "JUeqSD7naKk:g432"
+       }
+      ]
+     },
+     {
+      "text": "هل انسحاب القوات الجنوبية يعكس انقسامًا بين الشمال والجنوب؟",
+      "answers": [
+       {
+        "n": 18,
+        "fit": "direct",
+        "view": "باب المندب أرض جنوبية لا يصح تركها",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "JUeqSD7naKk:g358"
+       },
+       {
+        "n": 21,
+        "fit": "direct",
+        "view": "انضمام قوات موالية للشرعية للحوثيين رسالة خذلان",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "JUeqSD7naKk:g563"
+       },
+       {
+        "n": 16,
+        "fit": "weak",
+        "view": "تشتت الخصوم يستغله الحوثيون",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "8hi333yU0wA:g2498"
+       }
+      ]
+     }
+    ],
+    "context": [],
+    "bites": [
+     {
+      "bite_id": "Gft0NiWg-qM:g3214",
+      "video_id": "Gft0NiWg-qM",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "محمد شيمشك",
+      "speaker_original": "Mehmet Şimşek",
+      "speaker_role": "محرر الشؤون الخارجية في قناة سي إن إن تورك",
+      "is_host": false,
+      "type": "forecast",
+      "start": 3214.0,
+      "end": 3230.0,
+      "summary_ar": "محمد شيمشك يتوقع سقوط عدن بيد الحوثيين خلال أيام إذا تواصلت وتيرة المعارك الحالية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "Gft0NiWg-qM:g3891",
+      "video_id": "Gft0NiWg-qM",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "غفار يقينجا",
+      "speaker_original": "Gaffar Yakınca",
+      "speaker_role": "صحفي تركي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 3891.0,
+      "end": 3919.0,
+      "summary_ar": "غفار يقينجا يعتبر سيطرة الحوثيين على باب المندب واندفاعهم نحو عدن ورقة ضغط تمهيدية للتفاوض.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "Yw_ziBmGnl8:g798",
+      "video_id": "Yw_ziBmGnl8",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "محور المقاومة",
+      "speaker": "علي أبي رعد",
+      "speaker_original": "علي أبي رعد",
+      "speaker_role": "عميد متقاعد وخبير عسكري واستراتيجي لبناني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 798.0,
+      "end": 832.0,
+      "summary_ar": "يرى الخبير العسكري اللبناني علي أبي رعد أن ما حدث يمثل أكبر تطويق عسكري لقوة تتجاوز خمسين ألف مقاتل منذ الحرب العالمية الثانية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "Yw_ziBmGnl8:g860",
+      "video_id": "Yw_ziBmGnl8",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "محور المقاومة",
+      "speaker": "علي أبي رعد",
+      "speaker_original": "علي أبي رعد",
+      "speaker_role": "عميد متقاعد وخبير عسكري واستراتيجي لبناني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 860.0,
+      "end": 885.0,
+      "summary_ar": "يصف الخبير العسكري اللبناني علي أبي رعد وصف القوات الموالية للسعودية لانسحابها بإعادة التموضع بأنه محاولة للهروب من الاعتراف بالهزيمة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "Yw_ziBmGnl8:g1166",
+      "video_id": "Yw_ziBmGnl8",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "محور المقاومة",
+      "speaker": "سند الصيادي",
+      "speaker_original": "سند الصيادي",
+      "speaker_role": "محلل سياسي يمني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1166.0,
+      "end": 1199.0,
+      "summary_ar": "يعتبر المحلل السياسي اليمني سند الصيادي سيطرة قوات حكومة صنعاء على الساحل الغربي نصرًا استراتيجيًا يجهض المشروع السعودي في اليمن.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "Yw_ziBmGnl8:g2257",
+      "video_id": "Yw_ziBmGnl8",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "محور المقاومة",
+      "speaker": "علي أبي رعد",
+      "speaker_original": "علي أبي رعد",
+      "speaker_role": "عميد متقاعد وخبير عسكري واستراتيجي لبناني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2257.0,
+      "end": 2283.0,
+      "summary_ar": "يؤكد الخبير العسكري اللبناني علي أبي رعد أن سيطرة قوات حكومة صنعاء على الساحل تجعل الملاحة عبر باب المندب تحت تحكمها المباشر.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "lecCyl06Ork:g1251",
+      "video_id": "lecCyl06Ork",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "جيرالد شتاينبرغ",
+      "speaker_original": "Gerald Steinberg",
+      "speaker_role": "رئيس منظمة مراقبة المنظمات غير الحكومية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1250.76,
+      "end": 1274.84,
+      "summary_ar": "جيرالد شتاينبرغ يتساءل عن الموقف السعودي معتبرًا أن سيطرة الحوثيين قرب باب المندب تهدد استقرار السعودية وقدرتها على تصدير النفط.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "lecCyl06Ork:g1449",
+      "video_id": "lecCyl06Ork",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "جيرالد شتاينبرغ",
+      "speaker_original": "Gerald Steinberg",
+      "speaker_role": "رئيس منظمة مراقبة المنظمات غير الحكومية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1450.38,
+      "end": 1471.3,
+      "summary_ar": "جيرالد شتاينبرغ يرى أن هجوم الحوثيين وتوسعهم الميداني ينطلقان من تعاون مع إيران ورغبة ذاتية في حكم اليمن بأكمله.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "wB7TRlUQm5s:g469",
+      "video_id": "wB7TRlUQm5s",
+      "channel": "فرانس 24 عربي",
+      "bloc": "arabic",
+      "orientation": "فرنسي حكومي",
+      "speaker": "سعد بن عمر",
+      "speaker_original": "سعد بن عمر",
+      "speaker_role": "رئيس مركز القرن العربي للدراسات",
+      "is_host": false,
+      "type": "forecast",
+      "start": 469.0,
+      "end": 488.0,
+      "summary_ar": "سعد بن عمر يستبعد عودة الحوثيين إلى باب المندب بعد انسحاب القوات الحكومية بسبب التفوق الجوي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "wB7TRlUQm5s:g637",
+      "video_id": "wB7TRlUQm5s",
+      "channel": "فرانس 24 عربي",
+      "bloc": "arabic",
+      "orientation": "فرنسي حكومي",
+      "speaker": "منى صفوان",
+      "speaker_original": "منى صفوان",
+      "speaker_role": "صحفية يمنية",
+      "is_host": false,
+      "type": "forecast",
+      "start": 637.0,
+      "end": 649.0,
+      "summary_ar": "منى صفوان ترى أن استمرار التهديد العسكري قد يؤدي لسقوط لحج ومعسكر العند ثم عدن بيد الحوثيين.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "wB7TRlUQm5s:g1269",
+      "video_id": "wB7TRlUQm5s",
+      "channel": "فرانس 24 عربي",
+      "bloc": "arabic",
+      "orientation": "فرنسي حكومي",
+      "speaker": "منى صفوان",
+      "speaker_original": "منى صفوان",
+      "speaker_role": "صحفية يمنية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1269.0,
+      "end": 1288.0,
+      "summary_ar": "منى صفوان تعتبر سيطرة الحوثيين على باب المندب تحكما في أحد أهم ممرات الملاحة العالمية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "wB7TRlUQm5s:g1344",
+      "video_id": "wB7TRlUQm5s",
+      "channel": "فرانس 24 عربي",
+      "bloc": "arabic",
+      "orientation": "فرنسي حكومي",
+      "speaker": "محمد الصلاحي",
+      "speaker_original": "محمد الصلاحي",
+      "speaker_role": "باحث وأستاذ في المعهد الوطني للغات والحضارات الشرقية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1344.0,
+      "end": 1365.0,
+      "summary_ar": "محمد الصلاحي يرى أن الانسحاب من ذباب وباب المندب تكتيكي لإلزام المجتمع الدولي بالتدخل.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "8hi333yU0wA:g2319",
+      "video_id": "8hi333yU0wA",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "عبد الرحمن أنيس",
+      "speaker_original": "عبد الرحمن أنيس",
+      "speaker_role": "كاتب صحفي يمني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2319.0,
+      "end": 2341.0,
+      "summary_ar": "الكاتب الصحفي اليمني عبد الرحمن أنيس يؤكد أن إعادة تموضع القوات جاءت لتركيز الأولويات على عدن ولحج وفك حصار تعز.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "8hi333yU0wA:g2341",
+      "video_id": "8hi333yU0wA",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "عبد الرحمن أنيس",
+      "speaker_original": "عبد الرحمن أنيس",
+      "speaker_role": "كاتب صحفي يمني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2341.0,
+      "end": 2361.0,
+      "summary_ar": "الكاتب الصحفي اليمني عبد الرحمن أنيس يحمل المجتمع الدولي مسؤولية أمن باب المندب بعد تماهيه السابق مع ميليشيا الحوثي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "8hi333yU0wA:g2430",
+      "video_id": "8hi333yU0wA",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "عبد الرحمن أنيس",
+      "speaker_original": "عبد الرحمن أنيس",
+      "speaker_role": "كاتب صحفي يمني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2430.0,
+      "end": 2449.0,
+      "summary_ar": "الكاتب الصحفي اليمني عبد الرحمن أنيس يرى أن القوات المنسحبة من باب المندب وذباب ستمنع أي تقدم حوثي نحو عدن ولحج.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "8hi333yU0wA:g2498",
+      "video_id": "8hi333yU0wA",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "عبد الرحمن أنيس",
+      "speaker_original": "عبد الرحمن أنيس",
+      "speaker_role": "كاتب صحفي يمني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2498.0,
+      "end": 2516.0,
+      "summary_ar": "الكاتب الصحفي اليمني عبد الرحمن أنيس يدعو إلى إنشاء غرفة عمليات مشتركة لإنهاء تشتت خصوم الحوثيين.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "JUeqSD7naKk:g240",
+      "video_id": "JUeqSD7naKk",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "علي الأحمدي",
+      "speaker_original": "علي الأحمدي",
+      "speaker_role": "كاتب ومحلل سياسي يمني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 240.0,
+      "end": 267.0,
+      "summary_ar": "إعادة تموضع القوات في الساحل الغربي تكتيك عسكري يخدم هدف المعركة الأساسي المتمثل في إسقاط الانقلاب الحوثي في صنعاء وصعدة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "JUeqSD7naKk:g358",
+      "video_id": "JUeqSD7naKk",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "علي الأحمدي",
+      "speaker_original": "علي الأحمدي",
+      "speaker_role": "كاتب ومحلل سياسي يمني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 359.58,
+      "end": 385.1,
+      "summary_ar": "باب المندب منطقة جنوبية، وإعادة التموضع فيها ضرورة لتأمين القوات في مواجهة تقدم الحوثيين.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "JUeqSD7naKk:g432",
+      "video_id": "JUeqSD7naKk",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "صالح النود",
+      "speaker_original": "صالح النود",
+      "speaker_role": "كاتب ومحلل سياسي يمني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 432.2,
+      "end": 461.1,
+      "summary_ar": "القوات الجنوبية لم تكن ترغب بدخول المعركة لكونها شأناً يخص القوى الشمالية، وفوجئت بجمود جبهات تلك القوى.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "JUeqSD7naKk:g489",
+      "video_id": "JUeqSD7naKk",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "صالح النود",
+      "speaker_original": "صالح النود",
+      "speaker_role": "كاتب ومحلل سياسي يمني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 489.0,
+      "end": 514.0,
+      "summary_ar": "إعادة تموضع القوات الجنوبية جاءت بعد استشعار الخطر الناتج عن تخاذل الشركاء وسرعة تقهقر قوات طارق صالح.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "JUeqSD7naKk:g563",
+      "video_id": "JUeqSD7naKk",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "صالح النود",
+      "speaker_original": "صالح النود",
+      "speaker_role": "كاتب ومحلل سياسي يمني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 563.5,
+      "end": 591.6,
+      "summary_ar": "انسحاب القوات الجنوبية يمثل رسالة سياسية تدعو لمعالجات حقيقية بعد مواجهة خذلان وانضمام أطراف موالية للشرعية إلى الحوثيين.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "cop2nCbEIUw:g3018",
+      "video_id": "cop2nCbEIUw",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "محمد شيمشك",
+      "speaker_original": "Mehmet Şimşek",
+      "speaker_role": "محرر الشؤون الخارجية في قناة سي إن إن تورك",
+      "is_host": false,
+      "type": "opinion",
+      "start": 3018.0,
+      "end": 3037.0,
+      "summary_ar": "محمد شيمشك يبين أن القوات الحكومية أخلت باب المندب لتفادي حصار عدن والتركيز على حمايتها.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "cop2nCbEIUw:g3421",
+      "video_id": "cop2nCbEIUw",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "غفار يقينجا",
+      "speaker_original": "Gaffar Yakınca",
+      "speaker_role": "صحفي تركي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 3421.0,
+      "end": 3442.0,
+      "summary_ar": "غفار يقينجا يرى أن معركة الحوثيين للسيطرة على باب المندب مدفوعة بأجندة ومكاسب سياسية تتجاوز التجارة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     }
+    ],
+    "error": "",
+    "extracted": 39,
+    "cost": {
+     "claude": {
+      "claude-sonnet-5": 0.04559
+     },
+     "gemini": 1.0992,
+     "proxy_bytes": 9841318
+    }
+   }
   },
   {
    "id": "e76c71a7d52f",
