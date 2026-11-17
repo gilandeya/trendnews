@@ -1767,7 +1767,98 @@
     }
    ],
    "qa_requested_at": "2026-11-17T15:44:38.288185+00:00",
-   "selected_from": 1915
+   "selected_from": 1915,
+   "topic_issue": 1919,
+   "qa": {
+    "attempts": 1,
+    "at": "2026-11-17T15:46:18.596044+00:00",
+    "videos": [
+     {
+      "video_id": "qL6wu7glj4k",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "minutes": 24.0,
+      "bites": 1,
+      "rejected": 0
+     },
+     {
+      "video_id": "0v16DUVFyvM",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "minutes": 21.8,
+      "bites": 3,
+      "rejected": 0
+     },
+     {
+      "video_id": "szIrOgNtgMI",
+      "channel": "CCTV中文",
+      "bloc": "chinese",
+      "minutes": 8.1,
+      "bites": 2,
+      "rejected": 0
+     },
+     {
+      "video_id": "vEZVMK1tGdI",
+      "channel": "Дождь",
+      "bloc": "russian",
+      "minutes": 6.2,
+      "bites": 1,
+      "rejected": 0
+     },
+     {
+      "video_id": "6Pi5NcvZLwE",
+      "channel": "SÖZCÜ",
+      "bloc": "turkish",
+      "minutes": 4.7,
+      "bites": 0,
+      "rejected": 0
+     },
+     {
+      "video_id": "FX1_ytUFTCs",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "minutes": 17.0,
+      "bites": 0,
+      "rejected": 0
+     },
+     {
+      "video_id": "a8TAKnz8U2U",
+      "channel": "凤凰卫视",
+      "bloc": "chinese",
+      "minutes": 5.1,
+      "bites": 1,
+      "rejected": 0
+     }
+    ],
+    "gemini_cost": 0.5375,
+    "gemini_rejected": 0,
+    "channels": 5,
+    "originals": [
+     {
+      "bite_id": "qL6wu7glj4k:g1921",
+      "source_channel": "",
+      "found": false,
+      "candidate": "Fo409llpAU0",
+      "candidates": [
+       "NPNPtF5JZiM",
+       "Fo409llpAU0"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     }
+    ],
+    "originals_found": 0,
+    "read_dropped": 4,
+    "read_dropped_speakers": [
+     "فولوديمير زيلينسكي"
+    ],
+    "source": "gemini",
+    "failures": [],
+    "status": "failed",
+    "error": "RuntimeError: مقاطع قليلة عن الموضوع: 3",
+    "cost": {
+     "gemini": 0.5375
+    }
+   }
   },
   {
    "id": "d9d3ec3b739c",
