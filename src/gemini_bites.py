@@ -16,6 +16,9 @@ from . import gemini, llm
 
 log = logging.getLogger(__name__)
 
+# guest ضيف من خارج القناة · channel_analyst محلل القناة نفسها · presenter مقدّم/مذيع/محاور · correspondent مراسل القناة · narrator صوت تعليق
+SPEAKER_KINDS = ("guest", "channel_analyst", "presenter", "correspondent", "narrator")
+
 SCHEMA = {
     "type": "OBJECT",
     "properties": {
@@ -37,8 +40,12 @@ SCHEMA = {
             "setting": {"type": "STRING", "enum": ["studio", "external", "other_channel"]},
             "source_channel": {"type": "STRING"},
             # own = صاحب الكلام يُرى ويُسمع بصوته؛ read = يقرؤه غيره أو يرويه (مقدّم يقرأ تصريحًا، صوت راوٍ فوق صورته)
-            "delivery": {"type": "STRING", "enum": ["own", "read"]}},
-            "required": ["start", "end", "speaker", "type", "summary_ar", "text_original", "text_ar", "setting", "delivery"]}},
+            "delivery": {"type": "STRING", "enum": ["own", "read"]},
+            # قضية 1904: إجابات الأسئلة للضيوف والمحللين وحدهم. من يدير الحوار أو يقرأ الخبر أو ينقله موظفًا في القناة ليس محللًا،
+            # والحكم لمن يرى الحلقة (النموذج) لا لكلمات الصفة: «مراسل صحيفة كذا» ضيفٌ في برنامج قناة أخرى
+            "speaker_kind": {"type": "STRING", "enum": list(SPEAKER_KINDS)}},
+            "required": ["start", "end", "speaker", "type", "summary_ar", "text_original", "text_ar", "setting", "delivery",
+                         "speaker_kind"]}},
     },
     "required": ["speakers", "bites"],
 }
@@ -132,11 +139,15 @@ def to_bites(data: dict, video_id: str, topic: str, cfg, duration: float | None 
         known = rec.get("name_source") in ("chyron", "introduced", "addressed")
         speaker, speaker_orig = youtube_bites._arabic_speaker(
             {"speaker": name if known else "", "speaker_original": rec.get("name_original", "")}, cfg)
+        # المقدّم مقدّمٌ في كل مقاطعه (حكم قائمة المتحدثين يغلب حكم المقطع)؛ قيمة خارج القائمة أو غائبة ← فارغ (لا حكم)
+        who_kind = str(b.get("speaker_kind") or "")
+        who_kind = "presenter" if rec.get("is_host") else (who_kind if who_kind in SPEAKER_KINDS else "")
         last_end = t1
         ok.append({"bite_id": f"{video_id}:g{int(t0)}", "start": round(t0, 1), "end": round(t1, 1),
                    "seconds": round(dur, 1), "first_words": str(b.get("first_words") or ""),
                    "last_words": str(b.get("last_words") or ""), "speaker": speaker, "speaker_original": speaker_orig,
                    "speaker_role": " ".join(str(rec.get("role") or "").split()), "is_host": bool(rec.get("is_host")),
+                   "speaker_kind": who_kind,
                    "name_source": rec.get("name_source") or "unknown", "type": kind, "event_hint": topic,
                    "summary_ar": " ".join(str(b.get("summary_ar") or "").split()), "text_ar": text_ar,
                    "answers": " ".join(str(b.get("answers") or "").split()), "text_original": original,

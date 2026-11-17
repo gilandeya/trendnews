@@ -7,11 +7,21 @@
 
 لا يرفع أبدًا: عطل التحقق يترك المقاطع كما هي ويبقى حارس التركيب (حذف المقطع وإعادة الاختيار) شبكة أمان.
 الكلمات كلام قناة: تُحفظ على المقطع في الملف الخاص وحده.
+
+المهلة لا تُتجاوز (قضية 1904): تنزيل صوت فيديو واحد أخذ 27 دقيقة ونصفًا (المهلة ثمانٍ) فتأخرت قضية الأسئلة 38 دقيقة ولم يُفحص
+مقطع واحد، والموضوع التالي قُطع عند مهلة التشغيلة. كانت المهلة تُفحص بين الفيديوهات فقط، وتنزيل yt-dlp داخل العملية لا يُقطع. الآن
+تنزيل كل فيديو في عملية فرعية (`--fetch`) تُقتل هي وffmpeg عند المهلة، وعدة فيديوهات معًا، والتفريغ يجري أثناء التنزيل بترتيب
+الأولوية؛ والطريق الأول طريق التركيب المجرَّب (`download: clip`) لأن الصوت وحده فشل أو تأخر في كل تشغيل حقيقي.
 """
 from __future__ import annotations
 
+import json
 import logging
+import os
 import re
+import signal
+import subprocess
+import sys
 import tempfile
 import time
 from pathlib import Path
@@ -126,15 +136,104 @@ def apply(b: dict, rec: dict, cfg: Any) -> None:
         b["start"], b["end"] = round(float(rec["t0"]), 2), round(float(rec["t1"]), 2)
 
 
-def verify(targets: list[dict], cfg: Any, deps: bite_audio.Deps | None = None) -> dict:
+class _Local:
+    """تنزيل محقون (الاختبار) يجري في العملية نفسها فورًا، بواجهة العملية الفرعية نفسها."""
+
+    def __init__(self, fn, vid: str, ranges: list, out: Path):
+        self._sections: list = []
+        self._error = ""
+        try:
+            self._sections = list(fn(vid, out, ranges))
+        except Exception as exc:  # noqa: BLE001 -- عطل تنزيل فيديو: مقاطعه بلا حكم
+            self._error = _safe(exc)
+
+    @classmethod
+    def failed(cls, exc: Exception) -> "_Local":
+        """تنزيل لم يبدأ أصلًا (تعذّر تشغيل عمليته): فيديوه وحده بلا حكم."""
+        self = cls(lambda *a: [], "", [], Path("."))
+        self._error = _safe(exc)
+        return self
+
+    def done(self) -> bool:
+        return True
+
+    def sections(self) -> list:
+        return self._sections
+
+    def error(self) -> str:
+        return self._error
+
+    def bytes(self) -> int:
+        return sum(Path(f).stat().st_size for _, _, f in self._sections if Path(f).exists())
+
+    def kill(self) -> None:
+        return None
+
+
+class _Child:
+    """تنزيل أقسام فيديو واحد في عملية فرعية لها مجموعة عملياتها: تُقتل هي وffmpeg الذي يشغّله yt-dlp معًا عند المهلة (قتل العملية
+    وحدها يترك ffmpeg ينزّل عبر البروكسي حتى آخر التشغيلة). تكتب نتيجتها بعد كل قسم، فالقتل يُبقي ما اكتمل."""
+
+    def __init__(self, vid: str, ranges: list, out: Path, argv: list | None = None):
+        self.result = Path(out) / f"fetch_{vid}.json"
+        # «=» لأن معرّف يوتيوب قد يبدأ بشرطة فيقرؤه argparse خيارًا
+        argv = argv or [sys.executable, "-m", "src.meta_verify", f"--fetch={vid}", f"--out={out}",
+                        f"--ranges={json.dumps([list(r) for r in ranges])}", f"--result={self.result}"]
+        self.proc = subprocess.Popen(argv, cwd=str(Path(__file__).resolve().parent.parent), start_new_session=True)
+        self.killed = False
+
+    def done(self) -> bool:
+        return self.proc.poll() is not None
+
+    def _read(self) -> dict:
+        try:
+            got = json.loads(self.result.read_text(encoding="utf-8"))
+            return got if isinstance(got, dict) else {}
+        except (OSError, ValueError):
+            return {}
+
+    def sections(self) -> list:
+        return [(a, b, Path(f)) for a, b, f in self._read().get("sections") or []]
+
+    def error(self) -> str:
+        err = str(self._read().get("error") or "")
+        if not err and not self.killed and self.done() and self.proc.returncode:
+            err = f"انتهى التنزيل برمز {self.proc.returncode}"
+        return err
+
+    def bytes(self) -> int:
+        return int(self._read().get("bytes") or 0)
+
+    def kill(self) -> None:
+        if self.done():
+            return
+        self.killed = True
+        try:
+            os.killpg(self.proc.pid, signal.SIGKILL)
+        except OSError:
+            self.proc.kill()
+        try:
+            self.proc.wait(timeout=10)
+        except Exception:  # noqa: BLE001
+            pass
+
+
+def verify(targets: list[dict], cfg: Any, deps: bite_audio.Deps | None = None, launch=None,
+           clock=time.monotonic, sleep=time.sleep) -> dict:
     """يتحقق من المقاطع بترتيبها حتى max_bites أو budget_seconds ويكتب على كل مقطع فُحص سجله. يعيد أرقامًا وحدها
-    (تُحفظ في ملف الحالة العام): {checked, ok, no_match, failed, no_text, left, audio_seconds, skipped}. لا يرفع."""
+    (تُحفظ في ملف الحالة العام): {checked, ok, no_match, failed, no_text, left, audio_seconds, skipped, seconds, cut_off}. لا يرفع.
+
+    المهلة حدّ فعلي: حتى `parallel` تنزيلًا معًا (launch(vid, ranges, out) ← كائن له done/sections/error/bytes/kill)، وكل مقطع
+    يُفرَّغ حين ينزل قسمه دون انتظار بقية الفيديوهات، وعند المهلة يُقتل ما لم ينتهِ ويبقى ما لم يُفحص معروضًا بلا 🎧."""
     from . import costs
     stats: dict = {"checked": 0, "ok": 0, "no_match": 0, "failed": 0, "no_text": 0, "left": 0, "audio_seconds": 0, "skipped": ""}
+    began = clock()
     try:
         v = _vcfg(cfg)
         deps = deps or default_deps()
-        section_dl = deps.download_sections or (lambda vid, out, ranges: download_sections(vid, out, ranges, cfg, stats))
+        if launch is None:
+            injected = deps.download_sections
+            launch = (lambda vid, ranges, out: _Local(injected, vid, ranges, out)) if injected else _Child
         deps = bite_audio.Deps(cut=deps.cut or bite_audio._real_cut, transcribe=deps.transcribe or bite_audio._real_transcribe,
                                selfcheck=deps.selfcheck or bite_audio._real_selfcheck)
         ok, why = deps.selfcheck(cfg)
@@ -145,73 +244,178 @@ def verify(targets: list[dict], cfg: Any, deps: bite_audio.Deps | None = None) -
         todo = [b for b in targets if (b.get("audio") or {}).get("status") not in ("ok", "open", "no_match")]
         todo = todo[:int(v.get("max_bites", 30))]
         stats["left"] = len(targets) - len(todo)
-        budget = float(v.get("budget_seconds", 480))
-        began = time.monotonic()
+        began = clock()        # المهلة لما بعد الفحص الذاتي (تحميل نموذج التفريغ أول مرة ليس من وقت الموضوع)
+        deadline = began + float(v.get("budget_seconds", 300))
         wide = max(float(v.get("margin", 8)), float(v.get("wide_margin", 20)))
         by_video: dict[str, list[dict]] = {}
         for b in todo:
             by_video.setdefault(str(b.get("video_id")), []).append(b)
+        ranges = {vid: bite_audio.merge_windows([window(b, wide) for b in group], float(v.get("section_merge_gap", 20)))
+                  for vid, group in by_video.items()}
+        queue = list(by_video)             # الفيديوهات بترتيب أول مقطع لها في الأولوية
+        parallel = max(1, int(v.get("parallel", 3)))
+        poll = float(v.get("poll_seconds", 1))
+        # فيديو واحد لا يحجز خانته أكثر من هذا: ثلاثة تنزيلات عالقة كانت ستأكل المهلة كلها وتمنع بقية الفيديوهات
+        per_video = float(v.get("video_seconds", 150))
+        running: dict[str, Any] = {}
+        finished: dict[str, Any] = {}
+        started: dict[str, float] = {}
+        cut: set[str] = set()
+        pending = list(todo)
         with tempfile.TemporaryDirectory() as td:
             tmp = Path(td)
-            for vid, group in by_video.items():
-                if time.monotonic() - began > budget:
-                    stats["left"] += len(group)
-                    continue
-                ranges = bite_audio.merge_windows([window(b, wide) for b in group], float(v.get("section_merge_gap", 20)))
-                try:
-                    source = section_dl(vid, tmp, ranges)
-                    stats["audio_seconds"] += sum(b1 - a1 for a1, b1 in ranges)
-                    costs.add("proxy_bytes", sum(Path(f).stat().st_size for _, _, f in source if Path(f).exists()))
-                except Exception as exc:  # noqa: BLE001 -- عطل تنزيل فيديو: مقاطعه بلا حكم
-                    err = _safe(exc)
-                    for b in group:
-                        apply(b, {"source": "meta_verify", "status": "failed", "error": err}, cfg)
+            try:
+                while pending and clock() <= deadline:
+                    while queue and len(running) < parallel:
+                        vid = queue.pop(0)
+                        started[vid] = clock()
+                        try:
+                            running[vid] = launch(vid, ranges[vid], tmp)
+                        except Exception as exc:  # noqa: BLE001 -- تعذّر تشغيل تنزيل فيديو لا يوقف فحص غيره
+                            finished[vid] = _Local.failed(exc)
+                    for vid in list(running):
+                        h = running[vid]
+                        if not h.done():
+                            if clock() - started[vid] <= per_video:
+                                continue
+                            h.kill()
+                            cut.add(vid)
+                        finished[vid] = running.pop(vid)
+                    acted = False
+                    for b in pending:
+                        vid = str(b.get("video_id"))
+                        h = running.get(vid) or finished.get(vid)
+                        if h is None:
+                            continue           # لم يبدأ تنزيل فيديوه بعد
+                        source = h.sections()
+                        if bite_audio._section_for(source, *window(b, wide)) is not None:
+                            rec = check_bite(b, source, deps, cfg, tmp)
+                        elif vid in finished:
+                            rec = {"source": "meta_verify", "status": "failed",
+                                   "error": ("تجاوز تنزيل قسمه مهلته" if vid in cut else h.error())
+                                   or "لا قسم منزَّل يغطي نافذة المقطع"}
+                        else:
+                            continue           # قسمه ما زال ينزل
+                        apply(b, rec, cfg)
                         stats["checked"] += 1
-                        stats["failed"] += 1
-                    continue
-                for b in group:
-                    if time.monotonic() - began > budget:
-                        stats["left"] += 1
-                        continue
-                    rec = check_bite(b, source, deps, cfg, tmp)
-                    apply(b, rec, cfg)
-                    stats["checked"] += 1
-                    stats[rec["status"]] = stats.get(rec["status"], 0) + 1
-                for _, _, f in source:
-                    Path(f).unlink(missing_ok=True)
+                        stats[rec["status"]] = stats.get(rec["status"], 0) + 1
+                        pending.remove(b)
+                        acted = True
+                        break                  # مقطع واحد ثم تُراجَع التنزيلات: التفريغ ثوانٍ وقد انتهى غيره
+                    if not acted:
+                        sleep(poll)
+            finally:
+                # ما لم ينتهِ عند المهلة يُقتل (ومعه ffmpeg): لا تنزيل يبقى خلف الخطوة يستهلك البروكسي
+                for h in running.values():
+                    h.kill()
+                handles = list(running.values()) + list(finished.values())
+                stats["cut_off"] = len(running) + len(cut)
+                stats["audio_seconds"] = int(sum(b1 - a1 for h in handles for a1, b1, _ in h.sections()))
+                costs.add("proxy_bytes", sum(h.bytes() for h in handles))
+                err = next((h.error() for h in handles if h.error()), "")
+                if err:
+                    stats["download_error"] = err[:160]
+            stats["left"] += len(pending)
+            if pending and not stats["checked"]:
+                # لا مقطع فُحص: يُقال في القضية بدل الصمت (قضية 1904 عُرضت بلا 🎧 وبلا سطر يفسّره)
+                stats["skipped"] = str(cfg.path("youtube.meta_topics.qa.texts.verify_timeout", "") or "انتهت مهلة الفحص قبل أي مقطع")
     except Exception as exc:  # noqa: BLE001 -- التحقق تحسين لا شرط: عطله لا يُسقط أسئلة الموضوع
         log.warning("التحقق من مقاطع الموضوع: %s", exc)
         stats["skipped"] = f"{type(exc).__name__}: {str(exc)[:100]}"
+    stats["seconds"] = int(round(clock() - began))
+    log.info("فحص صوت المقاطع: %s", {k: val for k, val in stats.items() if val})
     return stats
 
 
-def download_sections(vid: str, out: Path, ranges: list, cfg: Any, stats: dict | None = None) -> list:
-    """أقسام الصوت بالطريق الرخيص (صوت وحده)، وإن تعطّل فبطريق التركيب المجرَّب (reel_clips.download_clip: صورة بأدنى دقة وصوت،
-    بدرجاته الثلاث) لكل قسم. السبب (ريل 1890): أول تشغيل حقيقي فشل تنزيل الصوت وحده لكل الفيديوهات («ffmpeg exited with code 251»)
-    فلم يُفحص مقطع، وسقط في التركيب ما كان الفحص سيُسقطه قبل اختيارك. يُحفظ أول سبب وعدد ما نزل بالاحتياط (أرقام وحدها)."""
+def download_sections(vid: str, out: Path, ranges: list, cfg: Any, stats: dict | None = None, progress=None) -> list:
+    """أقسام نوافذ فيديو واحد [(بداية، نهاية، ملف)]. `download: clip` (الافتراضي) طريق التركيب المجرَّب لكل قسم
+    (reel_clips.download_clip: صورة بأدنى دقة وصوت، بدرجاته الثلاث)؛ `audio` الصوت وحده أولًا ثم ذاك احتياطًا (`fallback_video`).
+
+    لماذا لم يعد الصوت وحده الطريق الأول: ريل 1890 فشل تنزيله لكل الفيديوهات («ffmpeg exited with code 251») بعد ثماني دقائق،
+    وقضية 1904 نجح لفيديو واحد بعد 27 دقيقة ونصف؛ والطريق نفسه ينزّل مقطع التركيب في نحو دقيقة. قسم تعطّل لا يُسقط بقية أقسام
+    الفيديو، ولا يرفع إلا إن لم ينزل قسم. progress(a, b, file) بعد كل قسم؛ stats: download_error (أول سبب بلا أسرار) وbytes وfallback."""
     from . import reel_clips, speaker_map
+    v = _vcfg(cfg)
+    stats = stats if stats is not None else {}
+    fallback = False
+    if str(v.get("download", "clip")) == "audio":
+        try:
+            got = bite_audio._real_download(vid, out, cfg, ranges)
+            for a, b, f in got:
+                stats["bytes"] = stats.get("bytes", 0) + (Path(f).stat().st_size if Path(f).exists() else 0)
+                if progress:
+                    progress(a, b, f)
+            return got
+        except Exception as exc:  # noqa: BLE001 -- الاحتياط أدناه؛ ما لم ينجح يرفع
+            if not stats.get("download_error"):
+                stats["download_error"] = _safe(exc)
+            if not v.get("fallback_video", True):
+                raise
+            fallback = True
+    got, first = [], None
+    for a, b in ranges:
+        path = out / f"vsec_{vid}_{int(a)}.mp4"
+        try:
+            res = reel_clips.download_clip(vid, int(a), int(b), int(v.get("clip_height", 144)), path, speaker_map.proxy_url()) or {}
+        except Exception as exc:  # noqa: BLE001 -- قسم واحد: مقاطعه بلا حكم والبقية تمضي
+            first = first or exc
+            if not stats.get("download_error"):
+                stats["download_error"] = _safe(exc)
+            continue
+        hit = path if path.exists() else next(iter(sorted(out.glob(path.stem + ".*"))), None)
+        if hit is None:
+            continue
+        got.append((a, b, hit))
+        stats["bytes"] = stats.get("bytes", 0) + int(res.get("bytes") or 0)
+        if progress:
+            progress(a, b, hit)
+    if not got:
+        raise first or RuntimeError("لم يُنتج التنزيل ملفًا")
+    if fallback:
+        stats["fallback"] = stats.get("fallback", 0) + len(got)
+    return got
+
+
+def _fetch_main(args) -> int:
+    """العملية الفرعية: تنزّل أقسام فيديو واحد وتكتب {sections, bytes, error} بعد كل قسم (كتابة ذرّية: الأب يقرأ أثناء التنزيل)."""
+    from .config import load_config
+    cfg = load_config()
+    result = Path(args.result)
+    state: dict = {"sections": [], "bytes": 0, "error": ""}
+    stats: dict = {}
+
+    def flush() -> None:
+        state["bytes"], state["error"] = int(stats.get("bytes", 0)), str(stats.get("download_error", ""))
+        part = result.with_suffix(".part")
+        part.write_text(json.dumps(state, ensure_ascii=False), encoding="utf-8")
+        os.replace(part, result)
+
+    def progress(a, b, path) -> None:
+        state["sections"].append([a, b, str(path)])
+        flush()
     try:
-        return bite_audio._real_download(vid, out, cfg, ranges)
-    except Exception as exc:  # noqa: BLE001 -- الاحتياط أدناه؛ ما لم ينجح يرفع
-        v = _vcfg(cfg)
-        if stats is not None and not stats.get("download_error"):
-            stats["download_error"] = _safe(exc)
-        if not v.get("fallback_video", True):
-            raise
-        got = []
-        for a, b in ranges:
-            path = out / f"vsec_{vid}_{int(a)}.mp4"
-            reel_clips.download_clip(vid, int(a), int(b), int(v.get("fallback_height", 144)), path, speaker_map.proxy_url())
-            hit = path if path.exists() else next(iter(sorted(out.glob(path.stem + ".*"))), None)
-            if hit is not None:
-                got.append((a, b, hit))
-        if not got:
-            raise
-        if stats is not None:
-            stats["fallback"] = stats.get("fallback", 0) + len(got)
-        return got
+        download_sections(args.fetch, Path(args.out), [tuple(r) for r in json.loads(args.ranges)], cfg, stats, progress)
+    except Exception as exc:  # noqa: BLE001 -- السبب في ملف النتيجة؛ رمز الخروج لا يحمل معنى
+        stats.setdefault("download_error", _safe(exc))
+    flush()
+    return 0
 
 
 def unheard(b: dict) -> bool:
     """مقطع فُحص صوته فلم يطابق كلامه المحفوظ."""
     return (b.get("audio") or {}).get("status") == "no_match"
+
+
+def main(argv: list[str] | None = None) -> int:
+    import argparse
+    ap = argparse.ArgumentParser(description="تنزيل أقسام فيديو واحد لفحص صوت المقاطع (عملية فرعية لـverify)")
+    ap.add_argument("--fetch", required=True, help="معرّف الفيديو")
+    ap.add_argument("--out", required=True)
+    ap.add_argument("--ranges", required=True, help="JSON: [[بداية، نهاية]، …]")
+    ap.add_argument("--result", required=True)
+    logging.basicConfig(level=logging.WARNING, format="%(levelname)s %(message)s")
+    return _fetch_main(ap.parse_args(argv))
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -440,6 +440,104 @@ def _speaker_key(b: dict) -> str:
     return (b.get("speaker") or b.get("speaker_original") or "").strip() or b["bite_id"]
 
 
+# ───────────── الإجابات للمحللين والضيوف وحدهم ─────────────
+
+def _acfg(cfg) -> dict:
+    return _qcfg(cfg).get("answers") or {}
+
+
+def not_analyst(b: dict, cfg) -> str:
+    """سبب أن المقطع لا يصلح إجابةً عن سؤال، أو "" (قرار صاحب المشروع 16/11، قضية 1904: الإجابات لمحللين سياسيين وضيوف حصرًا،
+    لا لمقدّم برنامج ولا مذيع ولا مراسل ولا قارئ نشرة). الأسباب: host (المقدّم) · kind (حكم Gemini في speaker_kind أنه من
+    exclude_kinds) · report (نوع الكلام خبر يُقرأ أو يُنقل) · unnamed (لا اسم له: لا يُعرَّف المشاهد بمن يحلّل). دالة خالصة.
+    مقطع أقدم بلا speaker_kind يُحكم عليه بما بقي (المقدّم والنوع والاسم)."""
+    a = _acfg(cfg)
+    if b.get("is_host"):
+        return "host"
+    if (b.get("speaker_kind") or "") in set(a.get("exclude_kinds") or []):
+        return "kind"
+    if (b.get("type") or "") in set(a.get("exclude_types") or []):
+        return "report"
+    if a.get("require_named") and not (b.get("speaker") or b.get("speaker_original") or "").strip():
+        return "unnamed"
+    return ""
+
+
+def mark_staff(bites: list[dict], cfg) -> int:
+    """مذيع أو مراسل في مقطع واحد هو كذلك في كل مقاطعه على القناة نفسها: كل فيديو نداء Gemini مستقل، وحكمان مختلفان على الشخص
+    نفسه يُدخلان نصف كلامه بين الإجابات (الدرس نفسه في أطراف الحدث، قضية 1868). بالاسم بعد التطبيع وبالقناة: مراسل قناةٍ قد يكون
+    ضيفًا في أخرى. يعيد عدد ما تغيّر حكمه. `answers.by_speaker: false` ← لا شيء."""
+    a = _acfg(cfg)
+    kinds = set(a.get("exclude_kinds") or [])
+    if not a.get("by_speaker", True) or not kinds:
+        return 0
+    from .meta_original import _fold
+
+    def keys(b: dict) -> set:
+        return {(b.get("channel") or "", _fold(b.get(k) or "")) for k in ("speaker", "speaker_original")} - {(b.get("channel") or "", "")}
+    staff: dict[tuple, str] = {}
+    for b in bites:
+        kind = "presenter" if b.get("is_host") else (b.get("speaker_kind") or "")
+        if kind in kinds:
+            for k in keys(b):
+                staff.setdefault(k, kind)
+    changed = 0
+    for b in bites:
+        if b.get("is_host") or (b.get("speaker_kind") or "") in kinds:
+            continue
+        hit = next((staff[k] for k in keys(b) if k in staff), "")
+        if hit:
+            b["speaker_kind"], b["speaker_kind_from"] = hit, "speaker"
+            changed += 1
+    return changed
+
+
+def analysts_only(bites: list[dict], cfg, stats: dict | None = None) -> list[dict]:
+    """مقاطع المحللين والضيوف المسمّين وحدها، قبل اقتراح الأسئلة (فلا يُبنى سؤال على قراءة خبر). عدد ما استُبعد بسببه في
+    stats["not_analysts"] (أرقام وحدها، تُعرض في قضية الموضوع)."""
+    keep, gone = [], {}
+    for b in bites:
+        why = not_analyst(b, cfg)
+        if why:
+            gone[why] = gone.get(why, 0) + 1
+        else:
+            keep.append(b)
+    if stats is not None:
+        if gone:
+            stats["not_analysts"] = gone
+        else:
+            stats.pop("not_analysts", None)
+    return keep
+
+
+def cap_per_channel(questions: list[dict], bites: list[dict], cfg) -> int:
+    """في السؤال الواحد حتى `answers.per_channel_max` إجابة من كل قناة ولأشخاص مختلفين (قرار صاحب المشروع 16/11، قضية 1904:
+    سؤال عُرضت له ست إجابات من قناة واحدة لثلاثة أشخاص). يبقى لكل شخص أقوى إجاباته (ما طابق صوته، ثم المباشر، ثم الرأي، ثم ترتيب
+    النموذج) ومن القناة أقوى شخصين، وترتيب ما بقي كما كان. يعيد عدد ما حُذف؛ 0 في الإعداد ← بلا سقف."""
+    cap = int(_acfg(cfg).get("per_channel_max", 0) or 0)
+    if cap <= 0:
+        return 0
+    removed = 0
+    for qu in questions:
+        ans = qu["answers"]
+        order = sorted(range(len(ans)), key=lambda i: (*_rank(bites[ans[i]["n"] - 1], ans[i]["fit"]), i))
+        per: dict[str, int] = {}
+        seen: set[tuple] = set()
+        keep: set[int] = set()
+        for i in order:
+            b = bites[ans[i]["n"] - 1]
+            ch = str(b.get("channel") or b.get("video_id") or "")
+            who = (ch, _speaker_key(b))
+            if per.get(ch, 0) >= cap or who in seen:
+                continue
+            per[ch] = per.get(ch, 0) + 1
+            seen.add(who)
+            keep.add(i)
+        removed += len(ans) - len(keep)
+        qu["answers"] = [a for i, a in enumerate(ans) if i in keep]
+    return removed
+
+
 def _rank(b: dict, fit: str) -> tuple:
     # المباشر قبل الضعيف، والرأي والتوقع قبل الواقعة والخبر (الريل منظورات لا نشرة)، والمقدّم آخرًا
     # ما طابق صوتُه كلامَه (meta_verify) قبل ما لم يُفحص: غير المفحوص قد يسقط في التركيب. بلا تحقق الكل سواء فلا يتغير شيء
@@ -586,6 +684,13 @@ def issue_body(topic: dict, data: dict, qa: dict, cfg, full_bites: list | None =
         lines += ["", t.get("verify_line", "🎧 فُحص صوت {checked} مقطعًا: {ok} طابق، {no_match} لم يطابق فلم يُعرض، {rest} بلا حكم").format(
             checked=vs["checked"], ok=vs.get("ok", 0), no_match=vs.get("no_match", 0),
             rest=int(vs.get("failed", 0)) + int(vs.get("left", 0)) + int(vs.get("no_text", 0)))]
+    gone_staff = qa.get("not_analysts") or {}
+    if gone_staff or qa.get("capped"):
+        reasons = t.get("filter_reasons") or {}
+        parts = [f"{reasons.get(k, k)} {n}" for k, n in gone_staff.items()]
+        if qa.get("capped"):
+            parts.append(t.get("filter_capped", "فوق إجابتين من القناة للسؤال {n}").format(n=qa["capped"]))
+        lines += ["", t.get("filter_line", "🎙️ الإجابات لمحللين وضيوف مسمّين وحدهم؛ لم يُعرض: {parts}").format(parts=" · ".join(parts))]
     if qa.get("failures"):
         lines += ["", t.get("failures_header", "⚠️ فيديوهات لم تدخل:")]
         for f in qa["failures"]:
@@ -716,6 +821,10 @@ def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: d
             bites = [b for b in bites if not is_actor(b)]
         else:
             actors = []
+        # الإجابات للمحللين والضيوف وحدهم (16/11، قضية 1904): المقدّم والمذيع والمراسل وقراءة الخبر وغير المسمّى لا يدخلون
+        # اقتراح الأسئلة أصلًا؛ مقاطع السياق (actors) لا يمسّها هذا
+        mark_staff(bites, cfg)
+        bites = analysts_only(bites, cfg, qa)
         if len(bites) < int(q.get("min_bites", 4)):
             raise RuntimeError(t.get("few_bites", "مقاطع قليلة عن الموضوع: {n}").format(n=len(bites)))
         plan_info: dict = {}
@@ -736,6 +845,12 @@ def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: d
                 # لا إعادة: المحاولة التالية تعيد نداءات Gemini كلها (نحو 0.8$) على الفيديوهات نفسها
                 qa["attempts"] = max(qa["attempts"], int(q.get("max_attempts", 3)))
                 raise RuntimeError(t.get("no_heard", "لم يطابق صوت أي مقطع كلامه المكتوب"))
+        # بعد فحص الصوت: ما طابق صوته يتقدّم حين يُختار من القناة شخصان
+        capped = cap_per_channel(questions, bites, cfg)
+        if capped:
+            qa["capped"] = capped
+        else:
+            qa.pop("capped", None)
         # المقاطع التي لم تدخل سؤالًا لا تُحفظ في العام: لا تُعرض ولا تلزم الخطوة التالية
         keep = sorted({a["n"] for qu in questions for a in qu["answers"]})
         remap = {n: i for i, n in enumerate(keep, 1)}

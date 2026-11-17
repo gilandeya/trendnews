@@ -7212,12 +7212,15 @@ def test_reel_hollow_1890() -> None:
     try:
         with tempfile.TemporaryDirectory() as td:
             stats: dict = {}
-            got = meta_verify.download_sections("vid", Path(td), [(10, 40), (100, 130)], cfg, stats)
+            # الصوت وحده لم يعد الطريق الأول (قضية 1904): الاحتياط يُختبر بـdownload: audio
+            audio_cfg = copy.deepcopy(cfg)
+            audio_cfg["youtube"]["meta_topics"]["qa"]["verify"]["download"] = "audio"
+            got = meta_verify.download_sections("vid", Path(td), [(10, 40), (100, 130)], audio_cfg, stats)
             check("1890: الاحتياط ينزّل كل قسم بطريق التركيب", [(a, b) for a, b, _ in got] == [(10, 40), (100, 130)]
                   and calls == [("vid", 10, 40, 144), ("vid", 100, 130, 144)] and stats.get("fallback") == 2, (got, calls, stats))
             check("1890: السبب محفوظ بلا سرّ البروكسي", "251" in stats.get("download_error", "")
                   and "secret" not in stats.get("download_error", ""), stats)
-            no = copy.deepcopy(cfg)
+            no = copy.deepcopy(audio_cfg)
             no["youtube"]["meta_topics"]["qa"]["verify"]["fallback_video"] = False
             try:
                 meta_verify.download_sections("vid", Path(td), [(10, 40)], no, {})
@@ -7477,3 +7480,363 @@ def test_reel_fail_reselect_1881() -> None:
             os.environ.pop("TRENDNEWS_YOUTUBE_BITES_DIR", None)
         else:
             os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = old
+
+
+def test_meta_answers_analysts_1904() -> None:
+    """قضية 1904: تسعة مقاطع «متحدث غير مسمّى» بين الإجابات كانت قراءة نشرتَي أخبار، ومعها مقدّم؛ وسؤال عُرضت له ست إجابات من
+    قناة واحدة. الإجابات لمحللين وضيوف مسمّين وحدهم، وحتى إجابتين من كل قناة لكل سؤال لشخصين مختلفين. مقاطع السياق لا تُمسّ.
+    البيانات مصنوعة بشكل الحادثة (لا كلام قناة في المستودع العام)."""
+    import copy
+    from types import SimpleNamespace as NS
+
+    from src import gemini_bites, meta_qa, reel_render, review, youtube_transcripts
+    from src.config import Config, load_config as real_load
+
+    base = real_load()
+    cfg = Config(dict(base))
+    cfg["youtube"] = {**base["youtube"], "meta_topics": {**base["youtube"]["meta_topics"], "enabled": True}}
+
+    # توجّه الميادين (طلب صاحب المشروع): الوصف الدقيق لا تسمية المحور لنفسه
+    may = next(c for c in base["channels"] if c.get("name") == "الميادين")
+    labels = base.path("reel.render.band.orientation_labels")
+    check("1904: توجّه الميادين «مقربة من النظام الإيراني» وله صيغة في الشريط",
+          may["orientation"] == "مقربة من النظام الإيراني" and labels.get(may["orientation"]) == "مقربة من النظام الإيراني"
+          and "محور المقاومة" not in labels, may["orientation"])
+    check("1904: شريط المتحدث يكتب بلد القناة ثم توجّهها الجديد",
+          reel_render.band_orientation({"channel_display": "الميادين"}, base) == "لبنانية مقربة من النظام الإيراني",
+          reel_render.band_orientation({"channel_display": "الميادين"}, base))
+
+    # حكم نوع المتكلم من Gemini في المخطط (المخرج المقيَّد لا يعيد حقلًا خارجه) وفي التعليمات، ويصل المقطع
+    props = gemini_bites.SCHEMA["properties"]["bites"]["items"]
+    system = base.path("youtube.meta_topics.qa.gemini.system")
+    check("1904: speaker_kind في مخطط Gemini مطلوبًا وبقيمه الخمس، وفي التعليمات",
+          props["properties"]["speaker_kind"]["enum"] == ["guest", "channel_analyst", "presenter", "correspondent", "narrator"]
+          and "speaker_kind" in props["required"] and all(k in system for k in gemini_bites.SPEAKER_KINDS))
+
+    def gbite(start, speaker, kind, typ="opinion", **extra):
+        return {"start": start, "end": start[:3] + "25", "speaker": speaker, "type": typ, "summary_ar": "يرى أمرًا",
+                "text_original": f"كلام {speaker or 'راوٍ'} {start}", "text_ar": f"ترجمة {speaker or 'راوٍ'} {start.replace(':', ' ')}",
+                "setting": "studio", "delivery": "own", "speaker_kind": kind, **extra}
+    got, bad = gemini_bites.to_bites({
+        "speakers": [{"name_ar": "مذيع", "is_host": True, "name_source": "chyron"},
+                     {"name_ar": "ضيف", "is_host": False, "name_source": "chyron"}],
+        "bites": [gbite("01:00", "مذيع", "guest"), gbite("02:00", "ضيف", "guest"), gbite("03:00", "ضيف", "شيء آخر"),
+                  gbite("04:00", "", "narrator", "report")]}, "vid", "حدث", base, 600)
+    check("1904: نوع المتكلم على المقطع؛ المقدّم مقدّمٌ ولو قال المقطع غيره، وقيمة مجهولة بلا حكم",
+          [b["speaker_kind"] for b in got] == ["presenter", "guest", "", "narrator"] and not bad, ([b["speaker_kind"] for b in got], bad))
+
+    # أسباب الاستبعاد (دالة خالصة)
+    na = lambda **b: meta_qa.not_analyst({"speaker": "فلان", "type": "opinion", **b}, cfg)  # noqa: E731
+    check("1904: المقدّم والمذيع والمراسل وصوت التعليق وقراءة الخبر وغير المسمّى ليسوا إجابات",
+          (na(is_host=True), na(speaker_kind="presenter"), na(speaker_kind="correspondent"), na(speaker_kind="narrator"),
+           na(type="report"), na(speaker="", speaker_original=""))
+          == ("host", "kind", "kind", "kind", "report", "unnamed"))
+    check("1904: الضيف ومحلل القناة نفسها إجابات، والاسم بحروفه الأصلية اسم، ومقطع أقدم بلا الحكم يُحكم عليه بالباقي",
+          (na(speaker_kind="guest"), na(speaker_kind="channel_analyst"), na(speaker="", speaker_original="John Doe"), na())
+          == ("", "", "", ""))
+    off = copy.deepcopy(cfg)
+    off["youtube"]["meta_topics"]["qa"]["answers"] = {}
+    check("1904: بلا قواعد في الإعداد لا يُستبعد إلا المقدّم",
+          meta_qa.not_analyst({"speaker": "", "type": "report", "speaker_kind": "narrator"}, off) == ""
+          and meta_qa.not_analyst({"is_host": True}, off) == "host")
+
+    # مراسل في مقطع مراسلٌ في كل مقاطعه على القناة نفسها، لا في قناة أخرى
+    ms = [{"channel": "أ", "speaker": "سامي", "speaker_kind": "correspondent"}, {"channel": "أ", "speaker": "سامي", "speaker_kind": "guest"},
+          {"channel": "ب", "speaker": "سامي", "speaker_kind": "guest"}, {"channel": "أ", "speaker": "هدى", "speaker_kind": "guest"}]
+    changed = meta_qa.mark_staff(ms, cfg)
+    check("1904: حكم المراسل يُعمَّم على الشخص في قناته وحدها",
+          changed == 1 and [b["speaker_kind"] for b in ms] == ["correspondent", "correspondent", "guest", "guest"]
+          and ms[1].get("speaker_kind_from") == "speaker", ms)
+
+    # السقف: شكل السؤال الأول في القضية (قناة واحدة بثلاثة أشخاص وست إجابات، وأخرى بشخص واحد وإجابتين)
+    cb = ([{"bite_id": f"m{i}", "channel": "الميادين", "speaker": s, "type": "opinion"}
+           for i, s in enumerate(["قاسم", "قاسم", "قاسم", "موسى", "موسى", "شادي"])]
+          + [{"bite_id": "r0", "channel": "RTVI", "speaker": "بافيل", "type": "opinion"},
+             {"bite_id": "r1", "channel": "RTVI", "speaker": "بافيل", "type": "opinion"}])
+    qs = [{"text": "س؟", "answers": [{"n": 1, "fit": "weak"}, {"n": 7, "fit": "direct"}, {"n": 2, "fit": "direct"}, {"n": 3, "fit": "direct"},
+                                     {"n": 4, "fit": "direct"}, {"n": 5, "fit": "direct"}, {"n": 6, "fit": "direct"}, {"n": 8, "fit": "direct"}]}]
+    removed = meta_qa.cap_per_channel(qs, cb, cfg)
+    check("1904: إجابتان من القناة لشخصين مختلفين، أقوى ما لكل منهما، وترتيب ما بقي كما كان",
+          [a["n"] for a in qs[0]["answers"]] == [7, 2, 4] and removed == 5, ([a["n"] for a in qs[0]["answers"]], removed))
+    cb[2]["heard"] = True
+    qs2 = [{"text": "س؟", "answers": [{"n": n, "fit": "direct"} for n in (2, 3, 4)]}]
+    meta_qa.cap_per_channel(qs2, cb, cfg)
+    check("1904: ما طابق صوته يتقدّم حين يُختار للشخص إجابة واحدة", [a["n"] for a in qs2[0]["answers"]] == [3, 4],
+          [a["n"] for a in qs2[0]["answers"]])
+    qs3 = [{"text": "س؟", "answers": [{"n": n, "fit": "direct"} for n in range(1, 9)]}]
+    check("1904: per_channel_max 0 ← بلا سقف", meta_qa.cap_per_channel(qs3, cb, off) == 0 and len(qs3[0]["answers"]) == 8)
+
+    # الأنبوب كاملًا: نشرة بصوت تعليق، ومقدّم، ومراسل، وطرف في الحدث، وضيوف
+    shows = {
+        "v0": ("الميادين", "arabic", [("مذيع الحلقة", True, "chyron"), ("قاسم", False, "chyron"), ("موسى", False, "chyron"),
+                                       ("شادي", False, "chyron")],
+               [("01:00", "مذيع الحلقة", "presenter", "report"), ("02:00", "قاسم", "channel_analyst", "opinion"),
+                ("03:00", "قاسم", "channel_analyst", "opinion"), ("04:00", "موسى", "channel_analyst", "opinion"),
+                ("05:00", "موسى", "channel_analyst", "forecast"), ("06:00", "شادي", "guest", "opinion")]),
+        "v1": ("العربية", "arabic", [], [("01:00", "", "narrator", "report"), ("02:00", "", "narrator", "report")]),
+        "v2": ("RTVI", "russian", [("بافيل", False, "chyron")],
+               [("01:00", "بافيل", "guest", "opinion"), ("02:00", "بافيل", "guest", "opinion")]),
+        "v3": ("BFMTV", "french", [("سامي", False, "chyron"), ("دني", False, "chyron"), ("الوزير", False, "chyron")],
+               [("01:00", "سامي", "correspondent", "opinion"), ("02:00", "سامي", "guest", "opinion"),
+                ("03:00", "دني", "guest", "opinion"), ("04:00", "الوزير", "guest", "fact")]),
+    }
+
+    class R:
+        def __init__(self, payload):
+            self.status_code, self._p = 200, payload
+            self.text = json.dumps(payload, ensure_ascii=False)
+
+        def json(self):
+            return self._p
+
+    def post(url, json=None, timeout=None, headers=None):
+        vid = json["contents"][0]["parts"][0]["file_data"]["file_uri"].split("v=")[1]
+        _ch, _bloc, people, rows = shows[vid]
+        out = {"speakers": [{"name_ar": n, "is_host": h, "name_source": src, "role": "صفة"} for n, h, src in people],
+               "bites": [gbite(st, sp, kind, typ, voice="actor" if sp == "الوزير" else "analyst") for st, sp, kind, typ in rows]}
+        return R({"candidates": [{"finishReason": "STOP", "content": {"parts": [{"text": __import__("json").dumps(out)}]}}],
+                  "usageMetadata": {"promptTokenCount": 1000, "candidatesTokenCount": 200}})
+
+    seen_msgs: list = []
+
+    def plan(client, **kw):
+        msg = kw["messages"][0]["content"]
+        seen_msgs.append(msg)
+        nums = [int(m) for m in re.findall(r"^\[(\d+)\]", msg, re.MULTILINE)]
+        return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="plan_questions", input={
+            "titles": ["ع1؟", "ع2؟", "ع3؟"],
+            "questions": [{"text": "السؤال الأول؟", "answers": [{"n": n, "fit": "direct"} for n in nums]},
+                          {"text": "السؤال الثاني؟", "answers": [{"n": n, "fit": "direct"} for n in nums[:3]]}]})])
+
+    saved = {k: getattr(review, k) for k in ("comment", "update_issue_body")}
+    saved_create, saved_load = meta_qa._create, youtube_transcripts.load
+    old_key = os.environ.get("GEMINI_API_KEY")
+    d = tempfile.mkdtemp()
+    old_dir = os.environ.get("TRENDNEWS_YOUTUBE_BITES_DIR")
+    os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = d
+    bodies: list = []
+    try:
+        review.comment = lambda n, text: None
+        review.update_issue_body = lambda n, b: bodies.append(b)
+        youtube_transcripts.load = lambda vid: None
+        meta_qa._create = plan
+        vids = [{"video_id": vid, "channel": ch, "bloc": bloc, "orientation": f"توجّه {vid}", "minutes": 30}
+                for vid, (ch, bloc, _p, _r) in shows.items()]
+        topic = {"id": "an1", "title": "حدث", "blocs": ["arabic", "french", "russian"], "orientations": 4, "minutes": 120,
+                 "channels": [], "videos": vids, "topic_issue": 1904}
+        data = {"date": "2026-11-16", "topics": [topic]}
+        os.environ["GEMINI_API_KEY"] = "KEY"
+        status = meta_qa.process_topic(topic, data, cfg, client=object(), gemini_post=post)
+        qa = topic["qa"]
+        msg = seen_msgs[-1] if seen_msgs else ""
+        check("1904: الأسئلة تُقترح من كلام المحللين والضيوف وحدهم",
+              status == "ready" and "متحدث غير مسمّى" not in msg and "مذيع الحلقة" not in msg and "سامي" not in msg
+              and "الوزير" not in msg and len(re.findall(r"^\[\d+\]", msg, re.MULTILINE)) == 8, (status, qa.get("error"), msg[:600]))
+        check("1904: ما استُبعد بسببه بالأرقام: المقدّم، وصوتا التعليق والمراسل في مقطعيه",
+              qa.get("not_analysts") == {"host": 1, "kind": 4}, qa.get("not_analysts"))
+        q1 = qa["questions"][0]["answers"]
+        by_channel: dict = {}
+        for a in q1:
+            b = next(x for x in qa["bites"] if x["bite_id"] == a["bite_id"])
+            by_channel.setdefault(b["channel"], []).append(b["speaker"])
+        check("1904: في السؤال الواحد حتى إجابتين من القناة لشخصين مختلفين",
+              by_channel == {"الميادين": ["قاسم", "موسى"], "RTVI": ["بافيل"], "BFMTV": ["دني"]} and qa.get("capped") == 5,
+              (by_channel, qa.get("capped")))
+        body = bodies[-1] if bodies else ""
+        check("1904: القضية بلا متحدث غير مسمّى ولا مقدّم، وفيها سطر ما لم يُعرض بأسبابه",
+              "متحدث غير مسمّى" not in body and "مذيع الحلقة" not in body and "🎙️ الإجابات لمحللين وضيوف مسمّين وحدهم" in body
+              and "مقدّم 1" in body and "مذيع أو مراسل أو صوت تعليق 4" in body and "زائد عن إجابتي القناة 5" in body, body[-700:])
+        check("1904: مقاطع السياق (أطراف الحدث) لا يمسّها شيء من هذا",
+              "### 🎬 مقاطع السياق" in body and "الوزير" in body and len(qa.get("context") or []) == 1, qa.get("context"))
+        check("1904: الحالة العامة أرقام وحدها", "ترجمة" not in json.dumps({k: v for k, v in qa.items()}, ensure_ascii=False))
+
+        # الباقي دون الحد بعد الاستبعاد ← فشل بسببه لا أسئلة من قراءة أخبار
+        t2 = {**topic, "id": "an2", "qa": None, "videos": [v for v in vids if v["video_id"] in ("v1", "v2")]}
+        status2 = meta_qa.process_topic(t2, data, cfg, client=object(), gemini_post=post)
+        check("1904: موضوع لم يبقَ له إلا مقطعا ضيف واحد يفشل بقلة المقاطع",
+              status2 == "failed" and "مقاطع قليلة" in t2["qa"]["error"] and t2["qa"].get("not_analysts") == {"kind": 2},
+              (status2, t2["qa"].get("error"), t2["qa"].get("not_analysts")))
+    finally:
+        for k, v in saved.items():
+            setattr(review, k, v)
+        meta_qa._create, youtube_transcripts.load = saved_create, saved_load
+        if old_key is None:
+            os.environ.pop("GEMINI_API_KEY", None)
+        else:
+            os.environ["GEMINI_API_KEY"] = old_key
+        if old_dir is None:
+            os.environ.pop("TRENDNEWS_YOUTUBE_BITES_DIR", None)
+        else:
+            os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = old_dir
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def test_meta_verify_deadline_1904() -> None:
+    """قضية 1904: تنزيل صوت فيديو واحد أخذ 27 دقيقة ونصفًا والمهلة ثمانٍ، فتأخرت قضية الأسئلة 38 دقيقة ولم يُفحص مقطع، وقُطع
+    الموضوع التالي عند مهلة التشغيلة. المهلة حدّ فعلي: تنزيلات في عمليات فرعية تُقتل عندها، وعدة فيديوهات معًا، وفيديو واحد لا يحجز
+    خانته، والتفريغ أثناء التنزيل؛ والطريق الأول طريق التركيب المجرَّب."""
+    import copy
+    import sys
+    import time as _time
+
+    from src import bite_audio, meta_verify, reel_clips, speaker_map
+    from src.config import load_config as real_load
+
+    base = real_load()
+    v = base.path("youtube.meta_topics.qa.verify")
+    check("1904: الإعداد — مهلة خمس دقائق، وطريق التركيب أولًا، وثلاثة تنزيلات معًا",
+          (v.get("budget_seconds"), v.get("download"), v.get("parallel"), v.get("video_seconds"), v.get("clip_height"))
+          == (300, "clip", 3, 150, 144), v)
+
+    cfg = copy.deepcopy(base)
+    cfg["youtube"]["meta_topics"]["qa"]["verify"].update(budget_seconds=70, video_seconds=40, parallel=2, poll_seconds=1)
+    now = [0.0]
+    clock = lambda: now[0]  # noqa: E731
+
+    def sleep(sec):
+        now[0] += sec
+    events: list = []
+    kills: list = []
+
+    class H:
+        def __init__(self, vid, ranges, out, delay):
+            self.vid, self.ranges, self.ready_at, self.dead = vid, list(ranges), now[0] + delay, False
+            events.append(("launch", vid, now[0]))
+
+        def done(self):
+            return now[0] >= self.ready_at
+
+        def sections(self):
+            return [(a, b, Path(f"/tmp/sec_{self.vid}_{a}.mp4")) for a, b in self.ranges] if self.done() and not self.dead else []
+
+        def error(self):
+            return ""
+
+        def bytes(self):
+            return 1000 if self.done() and not self.dead else 0
+
+        def kill(self):
+            if not self.done():
+                self.dead = True
+                kills.append((self.vid, now[0]))
+
+    def bite(vid, k):
+        return {"video_id": vid, "bite_id": f"{vid}:g{k * 60}", "start": k * 60.0, "end": k * 60.0 + 10, "language": "en",
+                "text_original": "alpha beta gamma delta epsilon"}
+
+    def deps(tr_seconds=5.0):
+        def cut(src, start, end, tmp):
+            return Path(f"{src}#{start}")
+
+        def transcribe(path, lang, c):
+            vid = str(path).split("sec_")[1].split("_")[0]
+            events.append(("tr", vid, now[0]))
+            now[0] += tr_seconds
+            # الكلام يبدأ بعد أول النافذة الضيقة (8 ث) بثانيتين
+            return [(10 + j, 10 + j + 0.4, w) for j, w in enumerate("alpha beta gamma delta epsilon".split())]
+        return bite_audio.Deps(cut=cut, transcribe=transcribe, selfcheck=lambda c: (True, ""))
+
+    # أ ينزل في 10 ث، ب عالق، ج في 20 ث، د وهـ عالقان
+    delays = {"a": 10, "b": 10 ** 6, "c": 20, "d": 10 ** 6, "e": 10 ** 6}
+    targets = [bite(vid, k) for vid in "abcde" for k in (1, 2)]
+    from src import costs
+    before = costs.snapshot()
+    stats = meta_verify.verify(targets, cfg, deps(), launch=lambda vid, r, out: H(vid, r, out, delays[vid]), clock=clock, sleep=sleep)
+    # ب يتجاوز مهلة الفيديو (40 ث، وقد يتأخر قتله بطول تفريغ جارٍ) فتُفتح خانته لـهـ؛ د وهـ يُقتلان عند مهلة الفحص (70 ث)
+    check("1904: فيديو عالق يُقتل عند مهلته فتُفتح خانته لغيره، والباقي عند مهلة الفحص",
+          [k for k, _ in kills] == ["b", "d", "e"] and 40 < kills[0][1] <= 50 and all(70 < t <= 76 for _, t in kills[1:])
+          and stats.get("cut_off") == 3 and ("launch", "e") in [(k, vid) for k, vid, _ in events], (kills, stats))
+    check("1904: المهلة حدّ فعلي — الفحص كله لا يتجاوزها إلا بخطوة", now[0] <= 70 + 6 and stats.get("seconds", 999) <= 76, (now[0], stats))
+    check("1904: ما نزل قسمه فُحص، وما تجاوز مهلة الفيديو بلا حكم بسببه، وما قُطع عند مهلة الفحص متروك كما هو",
+          (stats["checked"], stats["ok"], stats["failed"], stats["left"]) == (6, 4, 2, 4)
+          and all(b.get("heard") for b in targets if b["video_id"] in "ac")
+          and all((b.get("audio") or {}).get("error") == "تجاوز تنزيل قسمه مهلته" for b in targets if b["video_id"] == "b")
+          and all("audio" not in b for b in targets if b["video_id"] in "de"), stats)
+    first_tr = next(t for kind, vid, t in events if kind == "tr" and vid == "a")
+    check("1904: التفريغ يجري أثناء تنزيل غيره (لا ينتظر بقية الفيديوهات)", first_tr < 40 and first_tr >= 10, first_tr)
+    check("1904: ثوانٍ ما نزل فعلًا وبايتاته في دفتر الكلفة",
+          stats["audio_seconds"] > 0 and costs.delta(before).get("proxy_bytes") == 2000, (stats["audio_seconds"], costs.delta(before)))
+
+    # لا شيء نزل قبل المهلة: القضية تقول ذلك بدل الصمت، ولا مقطع يُحذف
+    now[0] = 0.0
+    kills.clear()
+    one = copy.deepcopy(cfg)
+    one["youtube"]["meta_topics"]["qa"]["verify"].update(budget_seconds=30, video_seconds=500)
+    t2 = [bite("x", 1), bite("x", 5)]
+    s2 = meta_verify.verify(t2, one, deps(), launch=lambda vid, r, out: H(vid, r, out, 10 ** 6), clock=clock, sleep=sleep)
+    check("1904: لم ينزل شيء قبل المهلة ← سبب في القضية، وكل المقاطع متروكة بلا حكم، والتنزيل مقتول",
+          s2["checked"] == 0 and s2["left"] == 2 and "انتهت مهلة الفحص" in s2["skipped"] and [k for k, _ in kills] == ["x"]
+          and now[0] <= 32 and all("audio" not in b for b in t2), (s2, now[0]))
+
+    # تعذّر تشغيل تنزيل فيديو لا يوقف فحص غيره
+    now[0] = 0.0
+
+    def flaky(vid, r, out):
+        if vid == "a":
+            raise OSError("لا يمكن تشغيل العملية http://user:secret@proxy")
+        return H(vid, r, out, 5)
+    t3 = [bite("a", 1), bite("c", 1)]
+    s3 = meta_verify.verify(t3, cfg, deps(), launch=flaky, clock=clock, sleep=sleep)
+    check("1904: عطل تشغيل تنزيل واحد: مقاطعه بلا حكم وغيره يُفحص، والسبب بلا سرّ البروكسي",
+          (s3["checked"], s3["ok"], s3["failed"]) == (2, 1, 1) and "secret" not in json.dumps(s3, ensure_ascii=False)
+          and "secret" not in (t3[0]["audio"].get("error") or ""), s3)
+
+    # القتل الفعلي: العملية الفرعية وما تشغّله (ffmpeg في الحقيقة) يموتان معًا
+    with tempfile.TemporaryDirectory() as td:
+        pid_file = Path(td) / "grandchild.pid"
+        code = ("import subprocess,sys,time;"
+                "p=subprocess.Popen([sys.executable,'-c','import time;time.sleep(120)']);"
+                f"open({str(pid_file)!r},'w').write(str(p.pid));time.sleep(120)")
+        child = meta_verify._Child("vid", [], Path(td), argv=[sys.executable, "-c", code])
+        for _ in range(100):
+            if pid_file.exists() and pid_file.read_text().strip():
+                break
+            _time.sleep(0.1)
+        gpid = int(pid_file.read_text().strip() or 0) if pid_file.exists() else 0
+        t0 = _time.monotonic()
+        child.kill()
+
+        def alive(pid):
+            try:
+                return Path(f"/proc/{pid}/stat").read_text().rsplit(")", 1)[1].split()[0] != "Z"
+            except (OSError, IndexError):
+                return False
+        for _ in range(50):
+            if not alive(gpid):
+                break
+            _time.sleep(0.1)
+        check("1904: القتل عند المهلة يقتل العملية الفرعية وما شغّلته معًا، فورًا",
+              gpid > 0 and child.done() and not alive(gpid) and _time.monotonic() - t0 < 12 and child.error() == "",
+              (gpid, child.done(), alive(gpid)))
+
+    # العملية الفرعية نفسها: طريق التركيب لكل قسم، ونتيجتها تُكتب بعد كل قسم، وقسم تعطّل لا يُسقط البقية
+    saved = (reel_clips.download_clip, speaker_map.proxy_url, bite_audio._real_download)
+    calls: list = []
+
+    def fake_clip(vid, a, b, height, out_path, proxy, **k):
+        calls.append((vid, a, b, height))
+        if a == 100:
+            raise RuntimeError("ERROR: ffmpeg exited with code 251 http://user:secret@proxy.example:80")
+        Path(out_path).write_bytes(b"x" * 10)
+        return {"bytes": 700}
+
+    def no_audio(*a, **k):
+        raise AssertionError("الصوت وحده ليس الطريق الأول")
+    reel_clips.download_clip, speaker_map.proxy_url, bite_audio._real_download = fake_clip, (lambda: None), no_audio
+    try:
+        with tempfile.TemporaryDirectory() as td:
+            result = Path(td) / "r.json"
+            # معرّف يوتيوب قد يبدأ بشرطة
+            rc = meta_verify.main(["--fetch=-ab_c", f"--out={td}", "--ranges=[[10, 40], [100, 130], [200, 230]]", f"--result={result}"])
+            got = json.loads(result.read_text(encoding="utf-8"))
+            check("1904: العملية الفرعية تنزّل كل قسم بطريق التركيب وتكتب ما اكتمل وبايتاته، وقسم تعطّل لا يُسقط البقية",
+                  rc == 0 and [(a, b) for a, b, _ in got["sections"]] == [(10, 40), (200, 230)] and got["bytes"] == 1400
+                  and calls == [("-ab_c", 10, 40, 144), ("-ab_c", 100, 130, 144), ("-ab_c", 200, 230, 144)]
+                  and "251" in got["error"] and "secret" not in got["error"], (rc, got, calls))
+            h = meta_verify._Child("-ab_c", [], Path(td), argv=[sys.executable, "-c", "pass"])
+            h.result = result
+            h.proc.wait(timeout=20)
+            check("1904: الأب يقرأ أقسام العملية الفرعية وبايتاتها من ملف نتيجتها",
+                  [(a, b) for a, b, _ in h.sections()] == [(10, 40), (200, 230)] and h.bytes() == 1400 and h.done())
+    finally:
+        reel_clips.download_clip, speaker_map.proxy_url, bite_audio._real_download = saved
