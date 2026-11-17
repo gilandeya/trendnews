@@ -8,6 +8,7 @@ import logging
 import os
 import re
 import subprocess
+import time
 from collections import deque
 from pathlib import Path
 
@@ -441,6 +442,39 @@ class ClipDownloadError(RuntimeError):
         self.failures = failures
 
 
+class ClipDownloadTimeout(RuntimeError):
+    """تنزيل تجاوز مهلته؛ يلتقطه download_clip كأي فشل درجة فينتقل إلى التي بعدها."""
+
+
+def download_limits() -> dict:
+    """مهل التنزيل من config وقت الاستدعاء لا عند الاستيراد (لتتبع الإعداد في الاختبار والتشغيل)."""
+    from .config import load_config
+    try:
+        return dict(load_config().path("reel.render.download") or {})
+    except Exception as exc:  # noqa: BLE001 -- إعداد مفقود لا يمنع تنزيلًا: تبقى مهل yt-dlp الافتراضية
+        log.warning("تعذّرت قراءة مهل التنزيل: %s", str(exc)[:120])
+        return {}
+
+
+def progress_guard(stall_seconds: float, max_seconds: float, clock=time.monotonic):
+    """حارس التنزيل المعلّق (القضية #1922): دالة تُنادى عند كل تقرير تقدّم ببايتات ما نزل، وترفع ClipDownloadTimeout حين
+    يمضي stall_seconds بلا بايت جديد أو max_seconds على الدرجة كلها. المقياس البايتات لا الزمن وحده، فالتنزيل البطيء
+    الذي يتقدّم فعلًا لا يُقطع؛ وحارس القراءة الميتة (لا تقرير تقدّم أصلًا) هو socket_timeout في _ydl_opts."""
+    stall, cap = float(stall_seconds or 0), float(max_seconds or 0)
+    state = {"start": clock(), "seen": clock(), "bytes": -1}
+
+    def tick(got: int | None = None) -> None:
+        now = clock()
+        if isinstance(got, int) and got > state["bytes"]:
+            state["bytes"], state["seen"] = got, now
+        if cap and now - state["start"] > cap:
+            raise ClipDownloadTimeout(f"تجاوز التنزيل {int(cap)} ثانية")
+        if stall and now - state["seen"] > stall:
+            raise ClipDownloadTimeout(f"توقّف التنزيل {int(stall)} ثانية بلا بايت جديد")
+
+    return tick
+
+
 def _ydl_opts(out_path: Path, height: int, ranges, force_keyframes: bool, proxy, capture, hook) -> dict:
     opts = {
         "format": f"bv*[height<={height}]+ba/b[height<={height}]",
@@ -454,6 +488,14 @@ def _ydl_opts(out_path: Path, height: int, ranges, force_keyframes: bool, proxy,
         "noprogress": True,
         "overwrites": True,
     }
+    # #1922: بلا socket_timeout تبقى قراءة ميتة من البروكسي معلّقة بلا نهاية (20 دقيقة صمت قتلت تشغيلة التركيب)،
+    # والمحاولات محدودة كي لا يضرب التراجع المهلة في عددها
+    lim = download_limits()
+    if float(lim.get("socket_timeout") or 0) > 0:
+        opts["socket_timeout"] = float(lim["socket_timeout"])
+    for key in ("retries", "fragment_retries", "extractor_retries"):
+        if lim.get(key) is not None:
+            opts[key] = int(lim[key])
     if force_keyframes:
         opts["force_keyframes_at_cuts"] = True
     if proxy:
@@ -467,6 +509,8 @@ def _run_tier(tier, video_id, start, end, height, out_path, proxy, capture) -> d
     from yt_dlp.utils import download_range_func
 
     seen: dict[str, int] = {}
+    lim = download_limits()
+    guard = progress_guard(lim.get("stall_seconds"), lim.get("tier_seconds"))
 
     def hook(d: dict) -> None:
         name = d.get("filename") or d.get("tmpfilename") or "?"
@@ -474,6 +518,7 @@ def _run_tier(tier, video_id, start, end, height, out_path, proxy, capture) -> d
         if isinstance(got, int):
             seen[name] = max(seen.get(name, 0), got)
         capture.note_format(d.get("info_dict"))
+        guard(sum(seen.values()) if seen else None)   # يرفع فيُلغى التنزيل المعلّق بدل أن يبتلع مهلة الوظيفة
 
     url = f"https://www.youtube.com/watch?v={video_id}"
     if tier in ("a", "b"):
@@ -503,11 +548,18 @@ def _run_tier(tier, video_id, start, end, height, out_path, proxy, capture) -> d
 
 
 def download_clip(video_id: str, start: int, end: int, height: int, out_path: Path,
-                  proxy: str | None, *, runner=_run_tier) -> dict:
+                  proxy: str | None, *, runner=_run_tier, clock=time.monotonic) -> dict:
     """يجرّب الدرجات a ثم b ثم c حتى تنجح واحدة ويسجّل رقمها في `tier`. عند فشل كل الدرجات
     يرفع ClipDownloadError بـ`failures` (لكل درجة: error_tail وformat_id وprotocol)."""
     failures: list[dict] = []
+    began = clock()
+    # #1922: سقف درجات المقطع الواحد كلها؛ درجة تالية لا تبدأ بعد نفاده (ثلاث درجات معلّقة كانت تضاعف الضياع)
+    total = float(download_limits().get("total_seconds") or 0)
     for tier in ("a", "b", "c"):
+        if total and tier != "a" and clock() - began > total:
+            failures.append({"tier": tier, "error_tail": [f"تُخطّيت الدرجة: تجاوز تنزيل المقطع {int(total)} ثانية"],
+                             "format_id": "", "protocol": "", "skipped": "budget"})
+            break
         capture = TailCapture()
         try:
             res = runner(tier, video_id, start, end, height, out_path, proxy, capture) or {}

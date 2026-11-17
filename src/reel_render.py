@@ -35,6 +35,42 @@ log = logging.getLogger("trendnews.reel_render")
 CAIRO = "assets/fonts/Cairo.ttf"
 SAMPLE_DATE = "2099/01/01"
 
+# ميزانية وقت التركيب (القضية #1922): مهلة وظيفة التركيب 60 دقيقة، وتشغيلتان (16/11 و17/11) قُتلتا بها فضاع الريل كله بلا ملف
+# بعد نصف ساعة من العمل الناجح. المراحل الاختيارية تُتخطّى حين تتجاوز دقائق التركيب حدّها، فيخرج الريل ناقص لقطات لا مقتولًا.
+# الساعة حالة عامة لا معامل: المراحل تمتد من _render إلى _assemble فما تحته، وتمريرها في كل توقيع كان سيغيّر عشرات النداءات
+# والمزيَّفات بلا فائدة (نهج rank.PRESS_GROUPS)؛ وتركيب واحد يجري في العملية الواحدة فلا تزاحم عليها.
+_BUDGET: dict = {"start": None, "skipped": []}
+
+
+def budget_start(cfg) -> None:
+    """تبدأ ساعة التركيب (أو تُبطل الميزانية حين budget.enabled=false)؛ يُستدعى مرة أول كل تركيب."""
+    _BUDGET["start"] = time.monotonic() if (cfg.path("reel.render.budget.enabled", False)) else None
+    _BUDGET["skipped"] = []
+
+
+def budget_over(cfg, stage: str, notes: list | None = None) -> bool:
+    """هل تجاوز التركيب حدّ هذه المرحلة الاختيارية؟ المرحلة المتخطّاة تُسجَّل مرة واحدة ويُكتب سطرها في التعليق، فلا صمت."""
+    if _BUDGET.get("start") is None:
+        return False
+    bcfg = cfg.path("reel.render.budget") or {}
+    limit = float((bcfg.get("stages") or {}).get(stage, bcfg.get("total_minutes", 0)) or 0)
+    minutes = (time.monotonic() - float(_BUDGET["start"])) / 60.0
+    if limit <= 0 or minutes <= limit:
+        return False
+    if stage not in _BUDGET["skipped"]:
+        _BUDGET["skipped"].append(stage)
+        if notes is not None:
+            notes.append(cfg.path("reel.render.texts.comment_budget_skip").format(
+                stage=(bcfg.get("labels") or {}).get(stage, stage), minutes=round(minutes)))
+    return True
+
+
+def budget_report() -> dict:
+    """ما يُحفظ على المسودة عن الميزانية (render_budget): لا شيء إن لم تُتخطَّ مرحلة."""
+    if _BUDGET.get("start") is None or not _BUDGET["skipped"]:
+        return {}
+    return {"minutes": round((time.monotonic() - float(_BUDGET["start"])) / 60.0, 1), "skipped": list(_BUDGET["skipped"])}
+
 
 # ───────────────────────────── الاعتماديات القابلة للحقن ─────────────────────────────
 
@@ -5293,6 +5329,9 @@ def _speaker_check(script: dict, order: list, clips: dict, cfg, deps: Deps, note
             saved = None if rebuild else prior.get(vid)
             if saved:
                 roster, source = saved, "saved"      # من الحلقة ومقدّمها لا يتغيّر بين تشغيلتين: لا تنزيل ولا نداء
+            elif budget_over(cfg, "speakers", notes):
+                _roster_failed(meta, notes, t, vid, "budget", channel, cfg)   # #1922: البناء ينزّل مطلع الحلقة؛ المحفوظ أعلاه يبقى
+                continue
             else:
                 try:
                     roster, source = _build_roster(vid, segs, cfg, deps), "built"
@@ -5538,6 +5577,9 @@ def _map_check(script: dict, clips: dict, cfg, deps: Deps, notes: list, meta: di
         saved = prior.get(vid)
         if saved and saved.get("centroids"):
             source = "saved"     # الحلقة ووجوهها لا تتغيّر بين تشغيلتين: لا تنزيل ولا نداء
+        elif budget_over(cfg, "speakers", notes):
+            meta.setdefault("map_errors", {})[vid] = "budget"   # #1922: بناء الخريطة ينزّل أقسام الحلقة؛ تبقى حرّاس Q10–Q16
+            continue
         else:
             try:
                 # لحظات الاقتباس بثواني الحلقة: حولها تُنزَّل الأقسام (لا الحلقة كاملة)
@@ -5849,6 +5891,8 @@ def _prepare_maps(script: dict, nar_idx: list[int], speech_cache: dict, plan: li
     يعيد {فهرس المشهد: [{a, b, clip, cexpr, over_shade}]} ويملأ results (render_maps) بجملة لكل خريطة رُسمت أو رُفضت."""
     if not cfg.path("reel.maps.enabled", False) or not plan:
         return {}
+    if budget_over(cfg, "maps", notes):
+        return {}   # #1922: رسم الخرائط وترميزها يطول؛ الجمل تبقى بخلفيتها
     t = cfg.path("reel.render.texts")
     rcfg = cfg.path("reel.render")
     by_scene: dict[int, dict[int, dict]] = {}
@@ -6581,6 +6625,8 @@ def _auto_hook(path: Path, draft: dict, script: dict, cfg, deps: Deps, tmp: Path
         if not (draft.get("hook_search") or {}).get("skipped"):
             notes.append(t["comment_hook_none"])
         return
+    if budget_over(cfg, "hook_scan", notes):
+        return   # #1922: الفحص البصري ينزّل من كل مرشّح نافذة ويصنّفها؛ الهوك يبقى بصورة الخبر والريل يُركَّب
     try:
         res = reel_hook_search.scan_candidates(draft, script, cands, cfg, deps, tmp, state=state, want_broll=want_broll)
     except Exception as exc:  # noqa: BLE001 -- لقطة الهوك تحسين: الهوك يبقى بصورة الخبر
@@ -6606,10 +6652,14 @@ def _broll_wanted(draft: dict, cfg, deps: Deps, bg: dict | None) -> bool:
                 and deps.scan_frames is not None and deps.assign_broll is not None)
 
 
-def _scan_broll(draft: dict, script: dict, cfg, deps: Deps, tmp: Path, state: "reel_hook_search.ScanState") -> dict:
+def _scan_broll(draft: dict, script: dict, cfg, deps: Deps, tmp: Path, state: "reel_hook_search.ScanState",
+                notes: list | None = None) -> dict:
     """مسح اللقطات بعد اختيار الهوك (يستبعد نافذته). يعيد دائمًا {chains, hook, scan}: العطل أو انعدام السلاسل لا يفشل التركيب
     بل تبقى الجمل بالصورة ويُكتب سببها وتقرير الفحص (Issue #1460: الصمت كان يخفي سبب الصفر)."""
     hook = draft.get("hook_video") if isinstance(draft.get("hook_video"), dict) else None
+    if budget_over(cfg, "broll", notes):
+        # #1922: أغلى مرحلة (نوافذ 600 ث من كل مرشّح)، وفيها وقع التنزيل المعلّق؛ الجمل تبقى بالصورة المتحركة
+        return {"chains": [], "hook": hook, "scan": {"videos": {}, "sheets_used": state.sheets_used, "skipped": "budget"}}
     try:
         res = reel_hook_search.scan_broll(draft, script, draft.get("hook_candidates") or [], cfg, deps, tmp, state, hook=hook)
     except Exception as exc:  # noqa: BLE001 -- لقطات الحدث تحسين لا شرط
@@ -6663,7 +6713,7 @@ RENDER_META_KEYS = (("render_roster", "roster"), ("render_roster_source", "roste
                     ("render_map_errors", "map_errors"), ("render_maps", "maps"),
                     ("render_gemini_speakers", "gemini_speakers"), ("render_gemini_errors", "gemini_errors"),
                     ("render_gemini_cost", "gemini_cost"), ("render_bg_track", "bg_track"))
-RENDER_KEYS = tuple(k for k, _ in RENDER_META_KEYS) + ("render_exact_selfcheck",)
+RENDER_KEYS = tuple(k for k, _ in RENDER_META_KEYS) + ("render_exact_selfcheck", "render_budget")
 
 
 def _saved_render_fields(draft: dict, speaker_meta: dict) -> dict:
@@ -6687,6 +6737,7 @@ def _place_file(src: Path, dest: Path) -> None:
 def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path, dropped: list,
             approx: list, notes: list | None = None) -> dict:
     rcfg, scfg = cfg.path("reel.render"), cfg.path("reel.script")
+    budget_start(cfg)   # ساعة الميزانية تبدأ مع التركيب نفسه (#1922)
     prior_roster, rebuild_roster = _roster_prior(draft)   # قبل المسح: القائمة المحفوظة تُعاد (Q16)
     # S4: الخريطة المحفوظة تُعاد كالقائمة (بلا تنزيل الحلقة)؛ render_roster_rebuild يعيد بناءهما معًا
     prior_map = {} if rebuild_roster else {k: v for k, v in (draft.get("render_speaker_map") or {}).items() if isinstance(v, dict)}
@@ -6714,7 +6765,7 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     scan_state = reel_hook_search.ScanState()
     _drop_stale_auto_hook(path, draft)
     _auto_hook(path, draft, script, cfg, deps, tmp, notes, state=scan_state, want_broll=want_broll)
-    broll = _scan_broll(draft, script, cfg, deps, tmp, scan_state) if want_broll else None
+    broll = _scan_broll(draft, script, cfg, deps, tmp, scan_state, notes) if want_broll else None
     if broll is not None:
         _topic_hook(path, draft, script, broll, cfg, notes, deps)
     pre_entries = _pre_hook_entries(draft, scan_state)
@@ -6726,6 +6777,8 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
                                          outro_credit(cfg, bg["used"]) if bg else "", speakers, notes, draft, hook_crops,
                                          broll=broll, sources_out=sources_out, dropped=dropped, pre_entries=pre_entries,
                                          meta=speaker_meta)
+    if budget_report():
+        draft["render_budget"] = budget_report()   # #1922: ما تُخطّي من المراحل ودقائقه يُحفظ فيُعرف سبب نقص اللقطات
     join_info: dict = {}
     joined = _join(scene_files, kinds, durs, cfg, deps, tmp, join_info)
 
