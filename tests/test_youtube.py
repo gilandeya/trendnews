@@ -7576,6 +7576,207 @@ def test_reel_1913_fixes() -> None:
           and orient["الميادين"] == "لبنانية مقربة من النظام الإيراني", orient)
 
 
+def test_reel_1913b_fixes() -> None:
+    """ملاحظتا صاحب المشروع على ريل 1913 بعد مشاهدته (المسودة bd7484cc84b6):
+    1) مقطع ترامب ظهر بلا بطاقة تعريف: كل توثيق للاسم يسأل «من يقول الشريط إنه المتكلم؟» وفي مؤتمر صحفي لا شريط ولا مقدّم،
+       ومقطع السياق لا تُذكر قناة ناقله، فلم يبقَ شيء يُرسم. الحل: كلام قيل في ظهور صاحبه نفسه اسمه موثَّق بظهوره.
+    2) مقطع بهنام طالب لو ظهر نصفه الأول بلا وجهه (القناة نقلته من وسط شاشتها إلى يمينها): نافذة الكلام تتبع المتحدث."""
+    import copy
+    import tempfile
+    from pathlib import Path
+
+    import numpy as np
+
+    from src import reel_render, reel_script, youtube_bites
+    from src.config import load_config as real_load
+
+    cfg = real_load()
+
+    # ───────────────── 1) الاسم في بطاقة التعريف ─────────────────
+    trump = {"video_id": "v1", "channel": "Sky News Arabia", "video_url": "https://y/v1", "statement": "s",
+             "quote_original": "نعم سينضم إلينا كيم جونغ أون", "quote_arabic": "نعم سينضم إلينا كيم جونغ أون",
+             "speaker": "دونالد ترامب", "speaker_original": "Donald Trump", "speaker_role": "الرئيس الأمريكي",
+             "timestamp": 555, "start": 555.0, "end": 564.0, "setting": "external", "voice": "actor",
+             "name_source": "unknown", "type": "forecast"}
+    bite = {"bite_id": "v1:g556", "video_id": "v1", "channel": "Sky News Arabia", "speaker": "دونالد ترامب",
+            "speaker_original": "Donald Trump", "speaker_role": "الرئيس الأمريكي", "start": 556.0, "end": 564.0,
+            "text_original": "x", "text_ar": "ترجمة", "summary_ar": "ملخص", "setting": "external", "voice": "actor"}
+    check("1913b: المقطع المحفوظ ينقل voice إلى النقطة",
+          youtube_bites.bites_as_points([bite], load_transcript=lambda v: None)[0]["voice"] == "actor")
+
+    def one(**over):
+        p = {**trump, **over}
+        return reel_script.valid_clips([p], [], cfg)[0]
+
+    c = one()
+    check("1913b: المقطع يحمل relay وvoice للتوثيق", c["relay"] == "external" and c["voice"] == "actor", c["relay"])
+    got = reel_script._accept_actor_name(dict(c), cfg)
+    check("1913b: ظهور خارجي لطرف في الحدث ← اسمه وصفته ورسمه موثَّقة بظهوره",
+          got["speaker_verified"] and got["speaker_verified_from"] == "actor" and got["speaker_name"] == "دونالد ترامب"
+          and got["speaker_role"] == "الرئيس الأمريكي" and got["speaker_name_latin"] == "Donald Trump", got)
+    check("1913b: شريطه «الاسم · الصفة» بلا قناة (مقطع السياق لا تُذكر قناته)، وشارته ظهوره نفسه",
+          reel_script.speaker_band({**got, "channel_display": ""}, cfg) == "دونالد ترامب · الرئيس الأمريكي"
+          and reel_script.speaker_badge(got, cfg) == cfg.path("reel.texts.verified_actor"),
+          reel_script.speaker_band({**got, "channel_display": ""}, cfg))
+    kept = {"مقدّم": one(is_host=True), "محلل": one(voice="analyst"), "في الأستوديو": one(setting="studio"),
+            "اسم لاتيني": one(speaker="Donald Trump")}
+    check("1913b: المقدّم والمحلل وكلام الأستوديو والاسم غير العربي لا يُوثَّق أحدها بالظهور",
+          not any(reel_script._accept_actor_name(dict(v), cfg)["speaker_verified"] for v in kept.values()),
+          {k: reel_script._accept_actor_name(dict(v), cfg)["speaker_verified"] for k, v in kept.items()})
+    check("1913b: مقطع قديم بلا حقل voice ← الظهور الخارجي وحده يكفي",
+          reel_script._accept_actor_name(dict(one(voice="")), cfg)["speaker_verified_from"] == "actor")
+    off = copy.deepcopy(cfg)
+    off["reel"]["identity"]["accept_external_actor"] = False
+    check("1913b: accept_external_actor=false ← ضيف غير مسمّى كما كان",
+          not reel_script._accept_actor_name(dict(c), cfg=off)["speaker_verified"])
+
+    class Boom:
+        class messages:
+            @staticmethod
+            def create(**kw):
+                raise RuntimeError("لا شبكة")
+
+    ident = reel_script.identify_speakers([dict(c)], [trump], cfg, client=Boom())
+    check("1913b: فشل نداء الهوية لا يمنع التوثيق بالظهور",
+          ident[0]["speaker_verified_from"] == "actor" and ident[0]["speaker_name"] == "دونالد ترامب", ident[0])
+
+    # الشبكة: مقطع سيُعرض بلا اسم ولا قناة يُنبَّه عليه
+    def notes_for(scene):
+        out: list = []
+        reel_render._band_notes({"scenes": [scene]}, {0: {"file": "c.mp4"}}, cfg, out)
+        return out
+    bare = {"kind": "clip", "role": "context", "channel_display": "سكاي نيوز عربية", "hide_channel": True,
+            "relay": "external", "speaker_verified": False, "speaker_name": ""}
+    check("1913b: سطر ⚠️ لمقطع بلا اسم ولا قناة", notes_for(bare) == [cfg.path("reel.render.texts.comment_no_band")
+                                                                      .format(channel="سكاي نيوز عربية")], notes_for(bare))
+    check("1913b: لا تنبيه لمقطع موثَّق ولا لمقطع تُذكر قناته",
+          not notes_for({**bare, "speaker_verified": True, "speaker_name": "دونالد ترامب"})
+          and not notes_for({**bare, "hide_channel": False, "relay": ""}))
+    # الشريط المرسوم: الاسم حبر في منطقة الشريط، وغير الموثَّق بلا قناة لا شيء فيه
+    def band_ink(scene):
+        # حبر الكتابة البيضاء في منطقة الشريط: خلفية الشريط معتمة كلها فالشفافية لا تميّز، والشريط الذهبي ليس أبيض
+        img = reel_render.frame_clip_layers(cfg, scene, quote=False)[1]
+        top = reel_render.band_top(cfg)
+        a = np.asarray(img.convert("RGB"))[top:top + int(cfg.path("reel.render.band.height"))]
+        return int((a.min(axis=2) > 190).sum())
+    named = {**bare, "speaker_verified": True, "speaker_verified_from": "actor", "speaker_name": "دونالد ترامب",
+             "speaker_role": "الرئيس الأمريكي", "speaker_name_latin": "Donald Trump"}
+    check("1913b: شريط المقطع الموثَّق فيه حبر الاسم، وغير الموثَّق بلا قناة شبه فارغ",
+          band_ink(named) > 5 * band_ink(bare), (band_ink(named), band_ink(bare)))
+
+    # ───────────────── 2) نافذة الكلام تتبع المتحدث ─────────────────
+    content, w = (0, 0, 1280, 720), 619
+    def samples(centers, step=0.2):
+        return [(round(k * step, 2), c) for k, c in enumerate(centers)]
+    moved = samples([640] * 20 + [980] * 30)       # الوسط 4 ث ثم يمين الشاشة
+    keys = reel_render.camera_keys(moved, content, w, cfg)
+    check("1913b: انتقال المتحدث ← مفتاحان: سكون حتى لحظته ثم حركة واحدة",
+          reel_render.camera_moves(keys) == 1 and keys[0] == (0.0, 330) and keys[1][0] == 4.0 and keys[2][1] == 660, keys)
+    check("1913b: الكاميرا ساكنة قبل الحركة وتصل بعدها وتبقى",
+          reel_render.camera_x(0, keys) == 330 and reel_render.camera_x(3.9, keys) == 330
+          and abs(reel_render.camera_x(4.4, keys) - 495) < 1 and reel_render.camera_x(9, keys) == 660,
+          [reel_render.camera_x(t, keys) for t in (0, 3.9, 4.4, 9)])
+    check("1913b: وجه ثابت أو لفتة لحظية (0.4 ث) لا تحرّك شيئًا ← القصّ الثابت كما كان",
+          reel_render.camera_keys(samples([640] * 50), content, w, cfg) == []
+          and reel_render.camera_keys(samples([640] * 20 + [980, 980] + [640] * 28), content, w, cfg) == [])
+    check("1913b: حركة داخل المنطقة الميتة لا تُلاحق",
+          reel_render.camera_keys(samples([640] * 20 + [640 + int(0.1 * w)] * 30), content, w, cfg) == [])
+    check("1913b: مواضع أقل من min_samples ← []", reel_render.camera_keys(samples([640, 980, 980]), content, w, cfg) == [])
+    # الحادثة نفسها: نقل المتحدث يقطع مساره مسارين، فمسار المختار يغطي نصف المقطع وحده
+    half = [(k, 950.0) for k in range(22, 45)]
+    boxes1 = [[(600, 100, 80, 80)] for _ in range(22)] + [[(910, 100, 80, 80)] for _ in range(23)]
+    merged = reel_render.camera_samples(half, boxes1)
+    check("1913b: اللقطة بوجه واحد تكمل ما انقطع من المسار",
+          len(merged) == 45 and merged[0] == (0, 640.0) and merged[-1] == (44, 950.0), merged[:2])
+    moved2 = reel_render.camera_keys(reel_render._follow_samples({"file_seconds": 9.0}, merged, cfg), content, w, cfg)
+    check("1913b: فالكاميرا تبدأ من وسط الشاشة وتنتقل معه (وبلا الإكمال كانت تبقى يمينًا)",
+          moved2[0][1] == 330 and moved2[-1][1] > 600 and reel_render.camera_moves(moved2) == 1, moved2)
+    boxes2 = [[(600, 100, 80, 80), (300, 100, 80, 80)] for _ in range(22)] + [[(910, 100, 80, 80)] for _ in range(23)]
+    check("1913b: لقطة بوجهين تُهمل فلا تنتقل الكاميرا تخمينًا، والمزيَّف بلا صناديق يبقى على المسار",
+          len(reel_render.camera_samples(half, boxes2)) == 23 and reel_render.camera_samples(half, []) == half)
+    many = samples([640] * 10 + [980] * 10 + [300] * 10 + [900] * 10 + [400] * 10 + [800] * 10)
+    cap = copy.deepcopy(cfg)
+    cap["reel"]["render"]["crop"]["follow"]["max_moves"] = 2
+    check("1913b: max_moves سقف للحركات", reel_render.camera_moves(reel_render.camera_keys(many, content, w, cap)) == 2,
+          reel_render.camera_keys(many, content, w, cap))
+    no = copy.deepcopy(cfg)
+    no["reel"]["render"]["crop"]["follow"]["enabled"] = False
+    check("1913b: follow.enabled=false ← []", reel_render.camera_keys(moved, content, w, no) == [])
+
+    # التعبير توأم الدالة، وبلا if/lt، وفي crop بلا eval (ffmpeg 6.1 يرفض eval لـcrop فيفشل التركيب كله)
+    expr = reel_render.camera_x_expr(keys)
+    def ev(e, t):
+        return eval(e.replace("min(", "_min(").replace("max(", "_max("), {"_min": min, "_max": max, "t": t})
+    times = [0.0, 1.0, 3.9, 4.0, 4.2, 4.4, 4.6, 4.8, 6.0, 9.0]
+    check("1913b: تعبير ffmpeg يطابق الدالة عند عشرة أزمنة",
+          all(abs(ev(expr, t) - reel_render.camera_x(t, keys)) < 1e-6 for t in times),
+          [(t, ev(expr, t), reel_render.camera_x(t, keys)) for t in times])
+    cexpr = reel_render.follow_crop_expr({"w": w, "h": 720, "x": 330, "y": 0}, keys)
+    check("1913b: تعبير القصّ بلا eval وبلا if/lt وفيه x متحرك",
+          "eval" not in cexpr and "if(" not in cexpr and "lt(" not in cexpr and cexpr.startswith(f"crop=w={w}:h=720:x='")
+          and cexpr.endswith(":y=0"), cexpr)
+
+    # فهرس لقطة الكشف ← ثانية المشهد: الملف كامل، ثم مقتطع، ثم مجمَّد الطرفين
+    rate = reel_render.face_sample_rate(20.0, cfg)
+    check("1913b: معدل اللقطات speaker.fps ويُخفَّض للمقطع الطويل",
+          rate == 3.0 and reel_render.face_sample_rate(5.0, cfg) == 5.0 and reel_render.face_sample_rate(0, cfg) == 0.0, rate)
+    path = [(0, 600), (3, 620), (30, 900), (57, 910)]
+    full = reel_render._follow_samples({"file_seconds": 20.0}, path, cfg)
+    cut = reel_render._follow_samples({"file_seconds": 20.0, "trim": (2.0, 12.0)}, path, cfg)
+    frozen = reel_render._follow_samples({"file_seconds": 20.0, "trim": (2.0, 12.0),
+                                          "freeze": {"src0": 3.0, "src1": 11.0, "pre": 1.0, "post": 1.0}}, path, cfg)
+    check("1913b: الفهرس ÷ المعدل = ثانية الملف", full == [(0.0, 600.0), (1.0, 620.0), (10.0, 900.0), (19.0, 910.0)], full)
+    check("1913b: المقتطع يُزيح الزمن ويُهمل ما خارج المعروض", cut == [(8.0, 900.0)], cut)
+    check("1913b: المجمَّد يُزيح بمقدار الحشو", frozen == [(8.0, 900.0)], frozen)
+
+    # الأنبوب: _panel_crops يعيد تعبيرًا متحركًا ويحفظ الحركة ويبدأ من موضعه أول المقطع
+    def panel(crop):
+        clip = {"file": "c.mp4", "seconds": 9.0, "file_seconds": 9.0, "crop": {}}
+        deps = reel_render.Deps(faces=lambda f, fr: (1280, 720, [640]),
+                                frames=lambda p, fr: [np.full((720, 1280), 120, np.uint8)] * len(fr)).resolved(cfg)
+        lay = reel_render.panel_layout(1, cfg)
+        notes: list = []
+        _tile, frame_expr = reel_render._panel_crops(clip, crop, {"channel_display": "قناة"}, "0", None, lay["frame"],
+                                                     cfg, deps, notes)
+        return frame_expr, clip["crop"], notes
+    walk = [(k, 640 if k < 20 else 980) for k in range(45)]   # 5 لقطات/ث على ملف 9 ث
+    dyn, rec, notes = panel({"x": 330, "w": 619, "path": walk})
+    check("1913b: الإطار البارز بتعبير متحرك وحركته محفوظة للمراجعة",
+          dyn.startswith("crop=w=") and "x='" in dyn and rec["follow"]["moves"] == 1 and rec["follow"]["keys"][0][0] == 0.0,
+          (dyn, rec.get("follow")))
+    check("1913b: النافذة تبدأ من موضعه أول المقطع لا وسيط المقطع",
+          rec["frame_crop"]["x"] == rec["follow"]["keys"][0][1] == 330, rec["frame_crop"])
+    check("1913b: سطر 🎥 يقول إن النافذة تتبع المتحدث",
+          any(n.startswith("🎥") and "قناة" in n for n in notes), notes)
+    still, rec2, notes2 = panel({"x": 330, "w": 619, "path": [(k, 640) for k in range(45)]})
+    check("1913b: وجه ثابت ← تعبير القصّ الثابت كما كان بلا سجل حركة",
+          still == f"crop={rec2['frame_crop']['w']}:{rec2['frame_crop']['h']}:{rec2['frame_crop']['x']}:0"
+          and "follow" not in rec2 and not any(n.startswith("🎥") for n in notes2), (still, notes2))
+    none_expr, rec3, _ = panel({"x": 330, "w": 619})
+    check("1913b: بلا مسار وجه (مزيَّف قديم) ← كما كان", none_expr == still.replace(str(rec2["frame_crop"]["x"]),
+                                                                                   str(rec3["frame_crop"]["x"])))
+
+    # ffmpeg الحقيقي: النافذة تتحرك فعلًا (crop يُقيّم x لكل إطار بلا eval)
+    import shutil
+    import subprocess
+    if shutil.which("ffmpeg"):
+        with tempfile.TemporaryDirectory() as td:
+            out = Path(td) / "f.mp4"
+            k2 = [(0.0, 0), (1.0, 0), (1.8, 660)]
+            subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
+                            "testsrc2=size=1280x720:rate=10:duration=4", "-vf",
+                            reel_render.follow_crop_expr({"w": 620, "h": 720, "x": 0, "y": 0}, k2),
+                            "-frames:v", "40", str(out)], check=True, capture_output=True, timeout=120)
+            means = []
+            for t in (0.3, 3.5):
+                png = Path(td) / f"s{t}.png"
+                subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", str(t), "-i", str(out), "-frames:v", "1", str(png)],
+                               check=True, capture_output=True, timeout=120)
+                from PIL import Image
+                means.append(round(float(np.asarray(Image.open(png).convert("L"), float).mean()), 2))
+            check("1913b: ffmpeg حقيقي: النافذة تتحرك فعلًا (المحتوى يتغيّر)", abs(means[0] - means[1]) > 2, means)
+
+
 def test_reel_question_wording_1313d() -> None:
     """ملاحظة صاحب المشروع 13/11: السؤال «ما خطورة علاقة رئيس إنفيديا بجاسوسة صينية مزعومة؟» جاء نكرةً بعد سياق قدّمها؛ الأسئلة
     كُتبت قبل السياق، فكاتب السياق يعيد صياغتها لتتصل به، والكود يقبل الصياغة سؤالًا سؤالًا بشروطه ويعرضها للمراجع."""

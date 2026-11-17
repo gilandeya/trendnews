@@ -230,6 +230,22 @@ def content_box(frames, cfg) -> tuple[int, int, int, int]:
             return (0, 0, 0, 0)
 
 
+def _place_even(lo: int, hi_end: int, size: int, center: float) -> int:
+    """موضع زوجي لنافذة طولها size تتوسّط center داخل [lo، hi_end] (كانت داخل fit_crop؛ استُخرجت ليشترك فيها القصّ المتحرك
+    فتبقى حدود النافذة واحدة في الثابت والمتحرك)."""
+    pos = _even(center - size / 2)
+    first = lo + lo % 2
+    last = hi_end - size
+    last -= last % 2
+    return min(max(pos, first), max(last, first))
+
+
+def crop_x_for_center(content: tuple, w: int, center: float) -> int:
+    """x نافذة بعرض w تتوسّط center داخل content بالمعادلة التي تضعها fit_crop نفسها (دالة خالصة)."""
+    cx, _cy, cw, _ch = (int(v) for v in content)
+    return _place_even(cx, cx + cw, int(w), float(center))
+
+
 def fit_crop(src_w: int, src_h: int, content: tuple, box_w: int, box_h: int, center_x: float | None, cfg) -> dict:
     """نافذة قصّ بنسبة الصندوق box_w:box_h داخل content (x، y، w، h) (P2c-1). الأصل الارتفاع الكامل: h = ارتفاع الصورة وw = h×نسبة
     الصندوق متمركزة على center_x (المتكلم ثم أكبر وجه، وبلاه منتصف الصورة) ومحصورة داخلها، mode=full_height. مصدر أضيق من الصندوق
@@ -238,21 +254,108 @@ def fit_crop(src_w: int, src_h: int, content: tuple, box_w: int, box_h: int, cen
     ومطابقة نداءات القصّ الأخرى؛ الحدود من content."""
     cx, cy, cw, ch = (int(v) for v in content)
     anchor = float(cfg.path("reel.render.panel.vertical_anchor", 0.4))
-
-    def place(lo: int, hi_end: int, size: int, center: float) -> int:
-        pos = _even(center - size / 2)
-        first = lo + lo % 2
-        last = hi_end - size
-        last -= last % 2
-        return min(max(pos, first), max(last, first))
     if cw * box_h >= ch * box_w:
         h = _even(ch, ch)
         w = _even(h * box_w / box_h, cw)
         mid = cx + cw / 2 if center_x is None else float(center_x)
-        return {"x": place(cx, cx + cw, w, mid), "y": cy + cy % 2, "w": w, "h": h, "mode": "full_height"}
+        return {"x": _place_even(cx, cx + cw, w, mid), "y": cy + cy % 2, "w": w, "h": h, "mode": "full_height"}
     w = _even(cw, cw)
     h = _even(w * box_h / box_w, ch)
-    return {"x": cx + cx % 2, "y": place(cy, cy + ch, h, cy + ch * anchor), "w": w, "h": h, "mode": "fill_width"}
+    return {"x": cx + cx % 2, "y": _place_even(cy, cy + ch, h, cy + ch * anchor), "w": w, "h": h, "mode": "fill_width"}
+
+
+# ───────────── نافذة الكلام تتبع المتحدث (ريل 1913، قرار صاحب المشروع) ─────────────
+#
+# الحادثة: مقطع بهنام طالب لو ظهر نصفه الأول بلا وجهه لأن القناة عرضته في وسط شاشتها ثم نقلته إلى يمينها، والقصّ يُحسب مرة
+# واحدة لكل مقطع بوسيط موضع وجهه (الحماية 3 في fit_crop). القرار: تتحرك النافذة معه — لا بملاحقة الوجه إطارًا بإطار (ترتجف
+# الصورة وتكشف ارتجاف الكاشف نفسه)، بل كما يحرّك مصوّر كاميرته: يسكن ما دام في الكادر، فإذا خرج عن منطقة ميتة وثبت خارجها
+# ثانيةً أو جزءها انتقل إليه بحركة ناعمة واحدة ثم سكن.
+
+
+def camera_samples(path: list, boxes_per_frame: list) -> list[tuple[int, float]]:
+    """مواضع المتكلم لكل لقطة [(فهرس اللقطة، مركزه الأفقي)] (دالة خالصة): موضع مساره إن كان فيه، وإلا — إن لم يكن في اللقطة
+    إلا وجه واحد — ذلك الوجه. السبب من الحادثة نفسها: نقل القناة المتحدث من وسط شاشتها إلى يمينها يقطع مساره مسارين (البعد
+    أكبر من speaker.link)، فمسار المختار وحده يغطي نصف المقطع ولا يقول شيئًا عن نصفه الآخر. وجهان في اللقطة ← تُهمل، فلا
+    تنتقل الكاميرا تخمينًا إلى وجه ليس وجهه."""
+    have = {int(k): float(c) for k, c in path or []}
+    out: list[tuple[int, float]] = []
+    for k, boxes in enumerate(boxes_per_frame or []):
+        if k in have:
+            out.append((k, have[k]))
+        elif len(boxes or []) == 1:
+            box = boxes[0]
+            out.append((k, float(box[0]) + float(box[2]) / 2))
+    # مسار بلا لقطات (مزيَّف لا يمرّر الصناديق) يبقى كما هو
+    return out or sorted(have.items())
+
+
+def camera_keys(samples: list, content: tuple, w: int, cfg) -> list[tuple[float, int]]:
+    """مفاتيح حركة نافذة الكلام [(ثانية المشهد، x)] من مواضع وجه المتكلم [(ثانية المشهد، مركزه الأفقي)] (دالة خالصة).
+    الأول عند 0 = موضعه أول المقطع (لا وسيط المقطع كله). الحركة تلزمها ثلاثة شروط: خروج المركز عن deadzone × عرض النافذة من
+    موضع الكاميرا، وبقاؤه خارجها confirm_seconds (لفتة رأس أو خطأ كشف في لقطة لا تحرّك شيئًا)، ومرور hold_seconds على آخر
+    حركة؛ وبسقف max_moves. لا حركة أو مواضع أقل من min_samples ← [] فيبقى القصّ الثابت كما كان."""
+    fc = cfg.path("reel.render.crop.follow") or {}
+    rows = sorted((float(t), float(c)) for t, c in samples or [])
+    if not fc.get("enabled") or len(rows) < int(fc.get("min_samples", 6)):
+        return []
+    # وسيط ثلاثة متتالية: الكاشف يزيح مركز الوجه بضع بكسلات بين لقطة ولقطة، والوسيط يحذف اللقطة الشاذة بلا تمويه الانتقال
+    smooth = []
+    for j, (t_j, _c) in enumerate(rows):
+        near = sorted(c for _t, c in rows[max(j - 1, 0):j + 2])
+        smooth.append((t_j, near[len(near) // 2]))
+    xs = [(t_j, crop_x_for_center(content, w, c)) for t_j, c in smooth]
+    dead = float(fc.get("deadzone", 0.15)) * float(w)
+    confirm = float(fc.get("confirm_seconds", 0.6))
+    move = float(fc.get("move_seconds", 0.8))
+    hold = float(fc.get("hold_seconds", 1.2))
+    cur = xs[0][1]
+    keys: list[tuple[float, int]] = [(0.0, cur)]
+    allowed, moves = 0.0, 0
+    for j, (t_j, x_j) in enumerate(xs):
+        if t_j < allowed or abs(x_j - cur) <= dead or moves >= int(fc.get("max_moves", 4)):
+            continue
+        win = [x for t_k, x in xs[j:] if t_k <= t_j + confirm]
+        span = max((t_k for t_k, _x in xs[j:] if t_k <= t_j + confirm), default=t_j) - t_j
+        if len(win) < 2 or span < confirm / 2 or any(abs(x - cur) <= dead for x in win):
+            continue
+        new = sorted(win)[len(win) // 2]
+        keys.append((round(t_j, 3), cur))        # سكون حتى هذه اللحظة ثم حركة: المفتاحان يجعلان القطعة السابقة ثابتة
+        keys.append((round(t_j + move, 3), new))
+        cur, allowed, moves = new, t_j + move + hold, moves + 1
+    return keys if moves else []
+
+
+def camera_x(t: float, keys: list) -> float:
+    """موضع نافذة الكلام عند الزمن t من مفاتيحها (دالة خالصة): انتقال ناعم (smoothstep) بين كل مفتاحين، وثابت قبل الأول
+    وبعد الأخير. مطابقة حرفًا بحرف لتعبير camera_x_expr."""
+    x = float(keys[0][1])
+    for (ta, xa), (tb, xb) in zip(keys, keys[1:]):
+        if tb <= ta:
+            continue
+        p = min(max((t - ta) / (tb - ta), 0.0), 1.0)
+        x += (float(xb) - float(xa)) * (p * p * (3 - 2 * p))
+    return x
+
+
+def camera_x_expr(keys: list) -> str:
+    """تعبير ffmpeg لدالة camera_x نفسها بالمعادلة حرفًا بحرف، بلا if/lt (القصّ بـmin/max) فيُقيَّم بالمتغير t."""
+    out = _fmt(float(keys[0][1]))
+    for (ta, xa), (tb, xb) in zip(keys, keys[1:]):
+        if tb <= ta or xb == xa:
+            continue
+        p = f"min(max((t-{_fmt(ta)})/{_fmt(tb - ta)},0),1)"
+        out += f"+({_fmt(float(xb) - float(xa))})*({p}*{p}*(3-2*{p}))"
+    return out
+
+
+def follow_crop_expr(c: dict, keys: list) -> str:
+    """تعبير قصّ أفقيّه متحرك. crop يُقيّم x وy لكل إطار أصلًا (العلامة T في خياراته) فلا يحتاج eval، وليس له خيار eval
+    من أصله: تمريره يرفضه ffmpeg («Option not found») فيفشل التركيب كله — جُرّب على ffmpeg 6.1."""
+    return f"crop=w={int(c['w'])}:h={int(c['h'])}:x='{camera_x_expr(keys)}':y={int(c['y'])}"
+
+
+def camera_moves(keys: list) -> int:
+    return sum(1 for (_ta, xa), (_tb, xb) in zip(keys, keys[1:]) if xa != xb)
 
 
 def panel_layout(n: int, cfg) -> dict:
@@ -349,6 +452,15 @@ def frame_tile_labels(cfg, tiles: list, scenes: list) -> Image.Image:
     return pen.img
 
 
+def face_sample_rate(dur: float, cfg) -> float:
+    """معدل لقطات كشف الوجوه: speaker.fps ويُخفَّض لمقطع طويل كي تغطي max_frames لقطةً المقطع كله لا أوله. دالة خالصة يشترك
+    فيها الكشف وتحويل فهرس اللقطة إلى ثانية في القصّ المتحرك (فلا يتباعد الحسابان)."""
+    sc = cfg.path("reel.render.speaker") or {}
+    if not dur:
+        return 0.0
+    return min(float(sc.get("fps", 5)), int(sc.get("max_frames", 60)) / float(dur))
+
+
 def _detect_face_tracks(clip, cfg) -> tuple[int, int, list, list]:
     """لقطات من المقطع المنزَّل بمعدل speaker.fps على مدته كلها (سقفها speaker.max_frames) ← (عرض، ارتفاع، إطارات رمادية،
     صناديق كل وجه في كل لقطة). يرفع إن تعذّر قراءة المقطع؛ والمستدعي يعود إلى السلوك القديم."""
@@ -360,7 +472,7 @@ def _detect_face_tracks(clip, cfg) -> tuple[int, int, list, list]:
     if not dur:
         raise RuntimeError("مدة المقطع مجهولة")
     # المعدل يُخفَّض لمقطع طويل كي تغطي لقطات السقف المقطع كله لا أوله
-    rate = min(float(sc.get("fps", 5)), int(sc.get("max_frames", 60)) / dur)
+    rate = face_sample_rate(dur, cfg)
     raw = subprocess.run(["ffmpeg", "-v", "error", "-i", str(clip), "-vf", f"fps={rate:.4f}",
                           "-frames:v", str(int(sc.get("max_frames", 60))), "-f", "image2pipe", "-vcodec", "png", "-"],
                          capture_output=True, timeout=300).stdout
@@ -481,16 +593,21 @@ def speaker_track(frames, boxes_per_frame, cfg) -> dict:
                 vals.append(d)
         return statistics.median(vals) if vals else 0.0
 
+    def path_of(t) -> list:
+        # مواضع المسار لقطةً لقطة (فهرس اللقطة، مركزه الأفقي): منها يبني القصّ المتحرك مفاتيح الكاميرا (ريل 1913)
+        return sorted((k, c) for k, (_b, c) in t["obs"].items())
+
     track_list = sorted(({"center": median([c for _, c in t["obs"].values()]),
                           "box": tuple(median([b[i] for b, _ in t["obs"].values()]) for i in range(4)), "score": s,
-                          "gesture": gesture(t)} for s, t in ranked), key=lambda x: -x["center"])
+                          "gesture": gesture(t), "path": path_of(t)} for s, t in ranked), key=lambda x: -x["center"])
     for tr in track_list:
         tr["centrality"] = 1 - abs(tr["center"] - half) / half
     # عاد شرط التفوق (Issue #1431): حركة الفم وحدها خدعتها لقطات أرشيفية لشخص يتكلم، فلا يكفي أن يكون الأعلى أعلى بهامش
     # ضئيل؛ يلزم ≥ talk_min و≥ margin × الثاني، وإلا يبقى أكبر وجه. مسار واحد لا ثاني له فيُحسم مباشرة
     if second is None or (top >= float(sc.get("talk_min", 0.3)) and top >= float(sc.get("margin", 1.25)) * second):
         mid = median([c for _, c in ranked[0][1]["obs"].values()])
-        return {"source": "speaker", "center": mid, "speaker_score": top, "tracks": len(valid), "track_list": track_list}
+        return {"source": "speaker", "center": mid, "speaker_score": top, "tracks": len(valid), "track_list": track_list,
+                "path": path_of(ranked[0][1])}
     return {**undecided, "tracks": len(valid), "track_list": track_list}
 
 
@@ -2808,7 +2925,9 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
             continue
         out = got
         secs = deps.probe(out) or float(dend - dstart)
-        clips[i] = {"file": out, "seconds": float(secs), "video_id": vid, "dstart": float(dstart)}   # dstart: ثانية الفيديو لأول الملف (S4)
+        # dstart: ثانية الفيديو لأول الملف (S4). file_seconds: مدة الملف المنزَّل كلها (seconds تصير مدة المشهد بعد الاقتطاع)،
+        # وبها يُحوَّل فهرس لقطة كشف الوجوه إلى ثانية في القصّ المتحرك (ريل 1913)
+        clips[i] = {"file": out, "seconds": float(secs), "file_seconds": float(secs), "video_id": vid, "dstart": float(dstart)}
         is_approx_win = bool(approx and approx[-1]["point_id"] == scene.get("point_id", "") and approx[-1]["start"] == wstart)
         aligned, why = None, ""
         if scene_exact and ex_margin is not None:
@@ -3140,7 +3259,8 @@ def combined_pick(tracks: list, cfg) -> int:
 
 def _speaker_crop(clip: dict, cfg, deps: Deps, scene: dict | None = None) -> tuple[dict | None, dict]:
     """(نافذة تتوسّط الوجه المتكلم أو None، بيانات للشفافية). الترتيب: الرؤية حين يوجد مساران صالحان فأكثر، ثم حركة الفم بشرط
-    التفوق، وإلا None فيبقى أكبر وجه (لا حقن، لا مسارات، غير محسوم، أو عطل). البيانات {tracks, vision?} حين تعدّد الوجوه."""
+    التفوق، وإلا None فيبقى أكبر وجه (لا حقن، لا مسارات، غير محسوم، أو عطل). البيانات {tracks, vision?} حين تعدّد الوجوه.
+    النافذة تحمل path (مواضع المتكلم لقطةً لقطة، camera_samples) لتبني منها camera_keys حركةَ القصّ (ريل 1913)."""
     meta: dict = {}
     if getattr(deps, "face_tracks", None) is None:
         return None, meta
@@ -3170,7 +3290,8 @@ def _speaker_crop(clip: dict, cfg, deps: Deps, scene: dict | None = None) -> tup
                         chosen = tracks[(over or vis["pick"]) - 1]
                         win = crop_window(int(sw), int(sh), [chosen["center"]], "face")
                         return {**win, "source": "speaker_motion_override" if over else "speaker_vision",
-                                "speaker_score": round(float(chosen["score"]), 2), "tracks": res["tracks"]}, meta
+                                "speaker_score": round(float(chosen["score"]), 2), "tracks": res["tracks"],
+                                "path": camera_samples(chosen.get("path"), boxes)}, meta
             except Exception as exc:  # noqa: BLE001 -- الرؤية تحسين: العطل ← الفم واليدان والموقع
                 log.warning("تعذّر تحديد المتكلم بالرؤية فالدرجة المركّبة: %s", str(exc)[:100])
         if attempted:
@@ -3181,11 +3302,12 @@ def _speaker_crop(clip: dict, cfg, deps: Deps, scene: dict | None = None) -> tup
             chosen = tracks[pick - 1]
             win = crop_window(int(sw), int(sh), [chosen["center"]], "face")
             return {**win, "source": "speaker_combined", "speaker_score": round(float(chosen["score"]), 2),
-                    "tracks": res["tracks"]}, meta
+                    "tracks": res["tracks"], "path": camera_samples(chosen.get("path"), boxes)}, meta
         if res["source"] != "speaker":
             return None, meta
         win = crop_window(int(sw), int(sh), [res["center"]], "face")
-        return {**win, "source": "speaker", "speaker_score": round(float(res["speaker_score"]), 2), "tracks": res["tracks"]}, meta
+        return {**win, "source": "speaker", "speaker_score": round(float(res["speaker_score"]), 2), "tracks": res["tracks"],
+                "path": camera_samples(res.get("path"), boxes)}, meta
     except Exception as exc:  # noqa: BLE001 -- اختيار المتكلم تحسين: العطل ← السلوك الحالي
         log.warning("تعذّر اختيار الوجه المتكلم فأكبر وجه: %s", str(exc)[:100])
         return None, meta
@@ -4504,6 +4626,33 @@ def _clip_layers(i: int, scene: dict, clip: dict, cfg, deps: Deps, tmp: Path, sp
     return (_save(static, tmp / f"overlay_{i}_static.png"), _save(band, tmp / f"overlay_{i}_band.png")), qframes
 
 
+def _follow_samples(clip: dict, path: list, cfg) -> list[tuple[float, float]]:
+    """[(ثانية المشهد، مركز الوجه الأفقي)] من مسار الوجه المتكلم (فهارس لقطات الكشف): الفهرس ÷ معدل اللقطات = ثانية الملف،
+    ثم ثانية المشهد بحسب الاقتطاع (trim) أو التجميد (freeze، فما قبل الكلام وما بعده إطار مجمَّد لا يتحرك فيه الوجه).
+    ما يقع خارج المعروض يُهمل، فلا تتحرك الكاميرا إلى موضع لا يُرى."""
+    dur = float(clip.get("file_seconds") or clip.get("seconds") or 0)
+    rate = face_sample_rate(dur, cfg)
+    if not rate:
+        return []
+    tr, fz = clip.get("trim"), clip.get("freeze")
+    frozen = bool(fz) and float(fz["src1"]) - float(fz["src0"]) > 0.1
+    out: list[tuple[float, float]] = []
+    for k, center in path or []:
+        tau = float(k) / rate
+        if frozen:
+            if not float(fz["src0"]) <= tau <= float(fz["src1"]):
+                continue
+            t_scene = float(fz["pre"]) + tau - float(fz["src0"])
+        elif tr:
+            if not float(tr[0]) <= tau <= float(tr[1]):
+                continue
+            t_scene = tau - float(tr[0])
+        else:
+            t_scene = tau
+        out.append((round(t_scene, 3), float(center)))
+    return out
+
+
 def _panel_crops(clip: dict, crop: dict, scene: dict, q, tile: tuple | None, frame: tuple, cfg, deps: Deps, notes: list) -> tuple:
     """قصّ المقطع لبلاطته وإطاره البارز (P2c-1): يكشف الأشرطة السوداء (content_box على لقطات deps.frames) وشريط الأخبار الأصلي
     (has_bottom_graphics على اللقطات مقصوصةً إلى المحتوى، فيُقصّ ارتفاع الصورة إلى panel.ticker_crop من أعلاها) ثم fit_crop لكل مقاس بمركز نافذة المتكلم
@@ -4546,6 +4695,17 @@ def _panel_crops(clip: dict, crop: dict, scene: dict, q, tile: tuple | None, fra
         cx = crop["x"] + crop["w"] / 2 if crop.get("x") is not None and crop.get("w") else None
         tile_crop = fit_crop(sw, sh, content, tile[2], tile[3], cx, cfg) if tile else None
         frame_crop = fit_crop(sw, sh, content, frame[2], frame[3], cx, cfg)
+        keys: list = []
+        if frame_crop["mode"] == "full_height" and crop.get("path"):
+            # القصّ يتبع المتحدث حين ينتقل على شاشة القناة (ريل 1913). full_height وحده: المصدر الأضيق من الإطار يملأ عرضه
+            # فلا حرية أفقية فيه أصلًا
+            keys = camera_keys(_follow_samples(clip, crop["path"], cfg), content, frame_crop["w"], cfg)
+        if keys:
+            # النافذتان تبدآن من موضعه أول المقطع لا من وسيط المقطع كله، فيبقى أول إطار من الانبثاق (pop_start_rect) مطابقًا
+            # لما في بلاطته بكسلًا ببكسل كما كان
+            frame_crop = {**frame_crop, "x": int(keys[0][1])}
+            if tile_crop:
+                tile_crop = {**tile_crop, "x": crop_x_for_center(content, tile_crop["w"], keys[0][1] + frame_crop["w"] / 2)}
     except Exception as exc:  # noqa: BLE001 -- القصّ المحسوب تحسين لا شرط
         log.warning("تعذّر حساب قصّ اللوحة فالارتفاع الكامل المتمركز: %s", str(exc)[:100])
         clip["crop"].update(panel_q=q, tile_crop=None, frame_crop=None, bars=[0, 0, 0, 0], ticker=False)
@@ -4560,6 +4720,10 @@ def _panel_crops(clip: dict, crop: dict, scene: dict, q, tile: tuple | None, fra
 
     def expr(c):
         return f"crop={c['w']}:{c['h']}:{c['x']}:{c['y']}"
+    if keys:
+        clip["crop"]["follow"] = {"keys": [[ta, int(xa)] for ta, xa in keys], "moves": camera_moves(keys)}
+        notes.append(t["comment_follow"].format(channel=channel, n=camera_moves(keys)))
+        return (expr(tile_crop) if tile_crop else None), follow_crop_expr(frame_crop, keys)
     return (expr(tile_crop) if tile_crop else None), expr(frame_crop)
 
 
@@ -6042,6 +6206,23 @@ def _prepare_broll(script: dict, nar_idx: list[int], speech_cache: dict, plan: l
     return out
 
 
+def _band_notes(script: dict, clips: dict, cfg, notes: list) -> None:
+    """سطر تنبيه لكل مقطع سيُعرض بلا بطاقة تعريف إطلاقًا: غير موثَّق (فلا اسم ولا صفة) وقناته لا تُذكر (مقطع سياق ليس حصريًا أو
+    ظهور خارجي)، فيرى المشاهد وجهًا بلا شيء. ريل 1913: لم يُعرف ذلك إلا بعد النشر، فالصمت هنا أسوأ من التنبيه. لا يمنع
+    التركيب: الحل في الاسم (_accept_actor_name) وهذا شبكة لما لم يُسمَّ لسبب آخر."""
+    t = cfg.path("reel.render.texts")
+    for i, scene in enumerate(script["scenes"]):
+        if i not in clips or scene.get("kind") not in reel_script.CLIP_KINDS:
+            continue
+        if scene.get("speaker_verified") and scene.get("speaker_name"):
+            continue
+        if (relay_view(scene).get("channel_display") or "").strip():
+            continue
+        line = t["comment_no_band"].format(channel=scene.get("channel_display", ""))
+        if line not in notes:
+            notes.append(line)
+
+
 def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str, bg: dict | None = None,
               credit: str = "", speakers: dict | None = None, notes: list | None = None, draft: dict | None = None,
               crops: dict | None = None, broll: dict | None = None,
@@ -6051,6 +6232,7 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
     lead = transition_seconds(cfg)
     clips, dead_scenes = _prune_mismatched(script, clips, cfg, deps, speakers if speakers is not None else {},
                                            notes if notes is not None else [], dropped if dropped is not None else [], meta)
+    _band_notes(script, clips, cfg, notes if notes is not None else [])
     names = list(dict.fromkeys(s.get("channel_display", "") for i, s in enumerate(script["scenes"])
                                if i in clips and s.get("channel_display")))
     # قناة لقطة الهوك تُنسب في الختام إن لم تكن فيه (Issue #1440)
