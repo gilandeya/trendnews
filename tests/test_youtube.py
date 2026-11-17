@@ -6327,14 +6327,15 @@ def test_reel_country_terms() -> None:
     labels = cfg.path("reel.render.band.orientation_labels")
     chans = {c["name"]: c for c in cfg["channels"]}
     lab = lambda n: reel_render.with_country(labels.get(chans[n]["orientation"], ""), chans[n])  # noqa: E731
-    check("RTVI: البلد قبل التوجّه", lab("RTVI") == "روسية قريبة من السلطة", lab("RTVI"))
+    # ريل 1913: توجّه يسمّي جهةً يسمّي بلدها داخل العبارة («مقربة من السلطة الروسية») بدل «روسية قريبة من السلطة»
+    check("RTVI: السلطة ببلدها", lab("RTVI") == "مقربة من السلطة الروسية", lab("RTVI"))
     check("القناة 14: إسرائيلية يمينية", lab("ערוץ 14") == "إسرائيلية يمينية", lab("ערוץ 14"))
     check("إيران إنترناشيونال: اسمها يحمل البلد فلا يُكرَّر", lab("Iran International") == "معارضة للنظام")
     check("فوكس نيوز: التوجّه يذكر البلد فلا يُكرَّر", lab("Fox News") == "أمريكية محافظة")
     missing = [c["name"] for c in cfg["channels"] if c.get("active") and not c.get("country")]
     check("لكل قناة نشطة بلدها (country)", not missing, missing)
     scene = {"channel_display": "آر تي في آي", "channel_original": "RTVI"}
-    check("الشريط يقرأ البلد", reel_render.band_orientation(scene, cfg) == "روسية قريبة من السلطة",
+    check("الشريط يقرأ البلد", reel_render.band_orientation(scene, cfg) == "مقربة من السلطة الروسية",
           reel_render.band_orientation(scene, cfg))
 
     notes = str(cfg.get("editorial_notes") or "")
@@ -7319,6 +7320,148 @@ def test_reel_like_bar_1313c() -> None:
     except Exception:
         pass
     check("أول مستطيل هو الشريط الذهبي عند حافة الدائرة", bool(calls) and calls[0][0] == left, str(calls[:1]))
+
+
+def test_reel_1913_fixes() -> None:
+    """ملاحظات صاحب المشروع على ريل القضية 1913 (المسودة bd7484cc84b6):
+    1) كلام ترامب قُطع عند «والأمر»: موضع الاقتباس لم يُحسم إلا بأوائل كلماته (نص الدبلجة يخالف تفريغ Gemini) فصارت نهايته
+       تقديرًا بالمعدل أقصر من المقطع، ثم أغلقت البوابة عند وقفة داخل الجملة.
+    2) السؤال يُعاد صوغه على الإجابات الباقية (اختُبر في test_reel_question_wording_1313d).
+    3) الأسماء الأجنبية تُنطق برسمها الأصلي.
+    4) التوجّه يذكر بلده ما لم يحمله اسم القناة."""
+    import copy
+    import tempfile
+    from pathlib import Path
+
+    from src import reel_clips, reel_render, reel_script, tts
+    from src.config import load_config as real_load
+
+    cfg = real_load()
+
+    # ── 1) النافذة لا تقصر عن مدة المقطع المعروفة ───────────────────────────────────────────
+    segs = [(100.0, "نعم قد ينضم إلينا كيم جونغ"), (104.0, "أون ربما يحدث ذلك"), (106.5, "والأمر كله يعود"),
+            (108.0, "إلى الرئيس الصيني"), (110.5, "سؤال آخر من الصحفي")]
+    quote = "نعم قد ينضم إلينا كيم جونغ أون ربما سيحدث هذا والأمر يعود إلى الرئيس الصيني"
+    short = reel_clips.locate_quote(quote, segs, near=100.0, cfg=cfg)
+    full = reel_clips.locate_quote(quote, segs, near=100.0, cfg=cfg, duration=9.0)
+    check("1913: درجة ناقصة بلا مدة ← نهاية مقدَّرة تقطع آخر الجملة",
+          short["level"] == "8" and short["end"] == 106.5 and short["extended"] is False, short)
+    check("1913: المدة المعروفة تمدّ النهاية إلى آخر الكلام وتُعلَّم extended",
+          full["end"] == 109.0 and full["extended"] is True, full)
+    # الدرجة full لها حدّ حقيقي (بداية السطر التالي) فلا تُمدّ
+    exact_q = "والأمر كله يعود إلى الرئيس الصيني"
+    check("1913: الدرجة full لا تتأثر بالمدة",
+          reel_clips.locate_quote(exact_q, segs, near=106.0, cfg=cfg)["end"]
+          == reel_clips.locate_quote(exact_q, segs, near=106.0, cfg=cfg, duration=30.0)["end"])
+    check("1913: مدة المقطع من المشهد ثم النقطة، وبلا حدّين None",
+          reel_render._known_seconds({"start": 1, "end": 4}, {"start": 555, "end": 564}) == 9.0
+          and reel_render._known_seconds({"start": 1, "end": 4}, {}) == 3.0
+          and reel_render._known_seconds({"timestamp": 5}, {}) is None)
+
+    # ── البوابة: وقفة داخل الجملة ليست نهاية الكلام ────────────────────────────────────────
+    gw = reel_render.gate_window
+    check("1913: وقفة ينتهي صمتها قبل التقدير لا تُغلق البوابة", gw(1.0, 8.0, [(0.0, 1.45), (7.1, 7.4)], cfg)["end"] == 8.0)
+    check("1913: صمت يشمل التقدير يضبط الطرفين كما كان",
+          gw(1.0, 8.0, [(0.0, 1.45), (7.6, 9.0)], cfg) == {"start": 1.45, "end": 7.6, "source": "silence"})
+    check("1913: صمت يبدأ بعد تقدير البداية لا يبتر أول الكلام", gw(1.0, 8.0, [(1.2, 1.45)], cfg)["start"] == 1.0)
+
+    # ── الأنبوب: المقطع يُنزَّل كاملًا ويُنبَّه المراجع ───────────────────────────────────────
+    def run_fetch(scene_end=564.0, lines=None, c=None, sil=None):
+        c = c or cfg
+        lines = lines or segs
+        point = {"video_id": "v1", "statement": "s", "quote_original": quote, "quote_arabic": "ترجمة",
+                 "speaker": "دونالد ترامب", "channel": "Sky News Arabia", "timestamp": 555.0,
+                 "start": 555.0, "end": scene_end, "video_url": "https://youtube.com/watch?v=v1"}
+        scene = {"kind": "clip", "point_id": reel_script.point_key_id(point), "start": 555.0, "end": scene_end,
+                 "channel_display": "سكاي نيوز عربية", "language": "ar", "quote_arabic": "ترجمة"}
+        downloads, notes = [], []
+
+        def download(video_id, start, end, height, out_path):
+            downloads.append((video_id, start, end))
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+        text = "\n".join(f"[{int(s) // 60:02d}:{int(s) % 60:02d}] {t}" for s, t in lines)
+        deps = reel_render.Deps(fetch_transcript=lambda vid: text, download_clip=download, load_points=lambda d: [point],
+                                probe=lambda p: 30.0, streams=lambda p: {"video", "audio"}, sleep=lambda s: None,
+                                detect_silence=sil or (lambda clip, c2: [])).resolved(c)
+        tmp = Path(tempfile.mkdtemp(prefix="r1913_"))
+        clips, dropped, approx = reel_render._fetch_clips({"scenes": [scene]}, {"topic_date": "2099-12-20"}, c, deps, tmp, notes)
+        return clips, dropped, downloads, notes
+
+    # النص المصنوع يبدأ عند 100 ث (أسطر الفيديو) والمقطع يقول 555–564: المدة وحدها هي المستعملة (9 ث)
+    clips, dropped, downloads, notes = run_fetch(sil=lambda clip, c: [(6.1, 6.4)])
+    win = downloads[0] if downloads else (None, 0, 0)
+    gate = next(iter(clips.values()), {}).get("gate") or {}
+    check("1913: النافذة المنزَّلة تغطي آخر الجملة لا نهاية التقدير", not dropped and win[2] - win[1] >= 10, (win, dropped))
+    check("1913: البوابة لا تُغلق عند الوقفة داخل الجملة", gate.get("end", 0) > 6.4, gate)
+    check("1913: سطر ⏱️ يقول إن موضع الاقتباس تقديري", any(n.startswith("⏱️") and "سكاي نيوز" in n for n in notes), notes)
+    # مقطع أطول من clip_max_seconds (15) لا يُقصّ عنده ما دام مصدره حدّده
+    _, _, long_dl, _ = run_fetch(scene_end=580.0)
+    check("1913: مقطع 25 ث لا يُقصّ عند 15", long_dl and long_dl[0][2] - long_dl[0][1] >= 25, long_dl)
+
+    # ── 3) الأسماء الأجنبية برسمها الأصلي في النطق وحده ────────────────────────────────────
+    nouns = [{"text": "دونالد ترامب", "foreign": True, "latin": "Donald Trump"},
+             {"text": "شنتشن", "foreign": True, "latin": "Shenzhen"},
+             {"text": "مطار الملك خالد", "foreign": False, "latin": ""}]
+    spoken, used = tts.latin_names("الرئيس دُونَالْد تْرَامْب في شِنْتْشِن ومطار الملك خالد.", nouns, cfg)
+    check("1913: العلم الأجنبي بالرسم اللاتيني والعربي كما هو",
+          spoken == "الرئيس Donald Trump في Shenzhen ومطار الملك خالد." and len(used) == 2, (spoken, used))
+    check("1913: بلا رسم لاتيني أو برسم عربي أو لعلم عربي ← بلا استبدال",
+          tts.latin_names("دونالد ترامب هنا", [{"text": "دونالد ترامب", "foreign": True, "latin": "ترامب"}], cfg)[1] == []
+          and tts.latin_names("دونالد ترامب هنا", [{"text": "دونالد ترامب", "foreign": False, "latin": "Trump"}], cfg)[1] == []
+          and tts.latin_names("دونالد ترامب هنا", [], cfg) == ("دونالد ترامب هنا", []))
+    check("1913: نداء التشكيل يطلب الرسم اللاتيني",
+          "latin" in tts.DIACRITIZE_TOOL["input_schema"]["properties"]["proper_nouns"]["items"]["properties"]
+          and "latin" in str(cfg.path("reel.tts.diacritize.system")))
+
+    class Sess:
+        def __init__(self, provider):
+            self.provider = provider
+
+        def multilingual(self):
+            return self.provider in (cfg.path("reel.tts.latin_names.providers") or [])
+
+    def speech(session, c=None):
+        said: list = []
+        deps = reel_render.Deps(
+            diacritize=lambda text: (text, None, nouns), synthesize=lambda text, voice: (said.append(text), {"ok": True, "audio": b"x"})[1],
+            run=lambda cmd: None, probe=lambda p: 2.0, voice_session=session)
+        with tempfile.TemporaryDirectory() as td:
+            reel_render._speech("قال دونالد ترامب كلامًا.", "v", c or cfg, deps, Path(td), "t")
+        return said, deps.spoken_names
+
+    said, names = speech(Sess("elevenlabs"))
+    check("1913: مزوّد متعدد اللغات ← النطق بالرسم الأصلي ويُسجَّل للتعليق",
+          said and "Donald Trump" in said[0] and names == [("دونالد ترامب", "Donald Trump")], (said, names))
+    said, names = speech(Sess("google"))
+    check("1913: صوت Google ← الاسم بالعربية كما كان", said and "Donald Trump" not in said[0] and names == [], (said, names))
+    said, _ = speech(None)
+    check("1913: بلا جلسة صوت (المزيَّفات القديمة) ← كما كان", said and "Donald Trump" not in said[0], said)
+    off = copy.deepcopy(cfg)
+    off["reel"]["tts"]["latin_names"] = {"enabled": False, "providers": ["elevenlabs"]}
+    said, _ = speech(Sess("elevenlabs"), off)
+    check("1913: latin_names.enabled=false ← كما كان", said and "Donald Trump" not in said[0], said)
+
+    # ── 4) التوجّه يذكر بلده ما لم يحمله اسم القناة ────────────────────────────────────────
+    import re as _re
+    missing = []
+    for ch in cfg.get("channels") or []:
+        if not isinstance(ch, dict) or ch.get("active") is False or not ch.get("country"):
+            continue
+        label = reel_render.band_orientation(
+            {"channel_display": ch.get("name_ar") or ch.get("name"), "channel_original": ch.get("name")}, cfg)
+        stem = _re.sub("ية$", "", str(ch["country"]))
+        if stem not in label and stem not in f"{ch.get('name', '')} {ch.get('name_ar', '')}":
+            missing.append((ch.get("name"), label))
+    check("1913: كل قناة نشطة يذكر توجّهها بلدها أو يحمله اسمها", not missing, missing)
+    orient = {n: reel_render.band_orientation({"channel_display": n, "channel_original": n}, cfg)
+              for n in ("CNN Türk", "Iran International", "RTVI", "رصدکده", "الميادين")}
+    check("1913: الجهة ببلدها، واسم القناة يغني عن تكراره",
+          orient["CNN Türk"] == "مقربة من الحكومة التركية" and orient["Iran International"] == "معارضة للنظام"
+          and orient["RTVI"] == "مقربة من السلطة الروسية" and orient["رصدکده"] == "مؤيدة للنظام الإيراني"
+          and orient["الميادين"] == "لبنانية مقربة من النظام الإيراني", orient)
+
+
 def test_reel_question_wording_1313d() -> None:
     """ملاحظة صاحب المشروع 13/11: السؤال «ما خطورة علاقة رئيس إنفيديا بجاسوسة صينية مزعومة؟» جاء نكرةً بعد سياق قدّمها؛ الأسئلة
     كُتبت قبل السياق، فكاتب السياق يعيد صياغتها لتتصل به، والكود يقبل الصياغة سؤالًا سؤالًا بشروطه ويعرضها للمراجع."""
@@ -7350,11 +7493,11 @@ def test_reel_question_wording_1313d() -> None:
     check("reword_questions: false ← نص المحرر",
           meta_script.reword_questions({"questions": ["أ؟", "ب؟"]}, orig, off) == (orig, []))
 
-    # في الباني: السؤال الثاني يسقط (لا إجابة صالحة) فتُطابَق الصياغة بفهرس السؤال لا بموضعه في الباقي
+    # في الباني: السؤال الأول يسقط (لا إجابة صالحة) فلا يُعرض على الكاتب أصلًا (ريل 1913)، والصياغة تُطابق الباقي واحدًا بواحد
     def frame(client, **kw):
         return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="write_reel_frame", id="t", input={
             "context": ["قدّم السياق امرأة يُشتبه في أنها جاسوسة صينية."], "closing_question": "ماذا بعد؟",
-            "questions": ["سؤال لن يبقى؟", "ما خطورة علاقة رئيس إنفيديا بهذه المرأة؟"]})])
+            "questions": ["ما خطورة علاقة رئيس إنفيديا بهذه المرأة؟"]})])
     qs = [{"text": "سؤال يسقط؟", "bite_ids": ["x"]}, {"text": orig[0], "bite_ids": ["a1", "a2"]}]
     valid = [{"point_id": p, "speaker_name": n, "speaker_verified": True, "quote_original": "x", "quote_arabic": "ق",
               "channel_display": "قناة", "start": 0, "end": 10} for p, n in (("p1", "أ"), ("p2", "ب"))]
@@ -7370,7 +7513,7 @@ def test_reel_question_wording_1313d() -> None:
     cards = [s["text"] for s in (script or {}).get("scenes", []) if s.get("role") == "question"]
     check("بطاقة السؤال الباقي بصياغته المتصلة بالسياق وسطرها في التنبيهات",
           cards == ["ما خطورة علاقة رئيس إنفيديا بهذه المرأة؟"]
-          and any(w.startswith("✏️ صيغ السؤال 2") for w in info.get("warnings", [])), (cards, reason, info.get("warnings")))
+          and any(w.startswith("✏️ صيغ السؤال 1") for w in info.get("warnings", [])), (cards, reason, info.get("warnings")))
 
 
 def test_reel_timeline_clash_1881() -> None:

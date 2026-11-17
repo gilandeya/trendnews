@@ -336,13 +336,15 @@ def make_builder(title: str, titles: list[str], topic: dict, questions: list[dic
     def build(valid: list[dict], narrator: str, info: dict) -> tuple[dict | None, str]:
         valid_ids = {c["point_id"] for c in valid}
         info.setdefault("warnings", []).extend(n for n in notes or [] if n not in info["warnings"])
-        qs, kept = [], []
-        for qi, q in enumerate(questions):
-            ans = [{"point_id": pid_of[bid], "stance": "", "angle": ""} for bid in q["bite_ids"]
-                   if pid_of.get(bid) in valid_ids]
+        qs, live = [], []
+        for q in questions:
+            bids = [bid for bid in q["bite_ids"] if pid_of.get(bid) in valid_ids]
+            ans = [{"point_id": pid_of[bid], "stance": "", "angle": ""} for bid in bids]
             if ans:
                 qs.append({"role": "", "text": q["text"], "answers": ans})
-                kept.append(qi)
+                # ريل 1913: الكاتب لا يرى إلا ما سيُعرض فعلًا — سؤالًا بقيت له إجابة وإجاباته الباقية بعد فحص القائلين —
+                # فيكتب السياق ويعيد صياغة السؤال على ما سيسمعه المشاهد لا على إجابات سقطت
+                live.append({"text": q["text"], "bite_ids": bids})
             else:
                 info.setdefault("warnings", []).append(
                     _texts(cfg).get("question_dropped", "🔧 تُرك سؤال لم تبق له إجابة بعد فحص المقاطع: {q}").format(q=q["text"]))
@@ -354,13 +356,13 @@ def make_builder(title: str, titles: list[str], topic: dict, questions: list[dic
                 info.setdefault("warnings", []).append(_texts(cfg).get(
                     "context_dropped", "🔧 تُرك مقطع سياق بعد فحص قائلي المقاطع: {who}").format(
                     who=(by_bite.get(bid) or {}).get("speaker") or bid))
-        data, reason = write_frame(title, topic, questions, by_bite, facts, cfg, client, info, context_ids=ctx_ids)
+        data, reason = write_frame(title, topic, live, by_bite, facts, cfg, client, info, context_ids=ctx_ids)
         if data is None:
             return None, reason
-        # الكاتب يرى كل الأسئلة المختارة (questions بفهارسها)، فتُطابَق صياغته بها قبل إسقاط ما لم تبق له إجابة
-        texts, reworded = reword_questions(data, [q["text"] for q in questions], cfg)
-        for q, qi in zip(qs, kept):
-            q["text"] = texts[qi]
+        # الكاتب يرى الأسئلة الباقية وحدها بترتيبها، فصياغته تُطابقها واحدًا بواحد
+        texts, reworded = reword_questions(data, [q["text"] for q in live], cfg)
+        for q, text in zip(qs, texts):
+            q["text"] = text
         info.setdefault("warnings", []).extend(reworded)
         # التوزيع بأرقام المقاطع كما عُرضت على الكاتب (ctx_ids بترتيبها) ← معرّفات النقاط
         beats = []

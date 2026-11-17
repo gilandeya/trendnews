@@ -19,7 +19,7 @@ import subprocess
 import tempfile
 import time
 from collections import Counter
-from dataclasses import dataclass, replace
+from dataclasses import dataclass, field, replace
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Callable
@@ -518,6 +518,8 @@ class Deps:
     comment: Callable[[int, str], None] | None = None
     # مزوّد صوت التركيب (tts.VoiceSession) حين لا يُحقن synthesize؛ منه سطر «🎙️ الصوت» في التعليق
     voice_session: Any = None
+    # (العربي، اللاتيني) لكل اسم أجنبي نُطق برسمه الأصلي في هذا التركيب (ريل 1913)؛ منه سطر 🔤 في التعليق
+    spoken_names: list = field(default_factory=list)
     # (ملف المقطع، نِسب العيّنات) ← (عرض المصدر، ارتفاعه، مراكز أكبر وجه أفقيًا لكل لقطة فيها وجه)
     faces: Callable[[Any, list], tuple[int, int, list[float]]] | None = None
     # (ملف المقطع، cfg) ← (عرض المصدر، ارتفاعه، إطارات رمادية، صناديق كل وجه في كل إطار) لاختيار الوجه المتكلم (Issue #1427)؛
@@ -1674,7 +1676,8 @@ def with_country(label: str, ch: dict) -> str:
     if not label or not country or country in label:
         return label
     stem = re.sub(r"ية$", "", country)
-    if any(stem and stem in str(ch.get(k) or "") for k in ("name", "name_ar")):
+    # الجذر يكفي: توجّه يسمّي الجهة ببلدها («مؤيدة للنظام الإيراني») لا يُسبق باسم البلد ثانيةً (ريل 1913)
+    if stem and (stem in label or any(stem in str(ch.get(k) or "") for k in ("name", "name_ar"))):
         return label
     return f"{country} {label}"
 
@@ -2292,6 +2295,21 @@ def _drop(dropped: list, scene: dict, reason: str, exact: dict | None = None) ->
     dropped.append(entry)
 
 
+def _known_seconds(point: dict, scene: dict) -> float | None:
+    """مدة المقطع كما حدّدها مصدره (حدّا المقطع V3: أسطر النص ثم فحص الصوت)، أو None لنقطة بطابع وحده. دالة خالصة."""
+    for src in (scene, point):
+        a, b = src.get("start"), src.get("end")
+        if a is None or b is None:
+            continue
+        try:
+            secs = float(b) - float(a)
+        except (TypeError, ValueError):
+            continue
+        if secs > 0:
+            return secs
+    return None
+
+
 def _approx_window(point: dict, scene: dict) -> tuple[int, int] | None:
     """نافذة احتياطية من المشهد المحفوظ عند تعذّر نص الفيديو: تتطلب timestamp في النقطة (حُسم من النص عند الاستخراج)
     وstart/end في المشهد؛ غير ذلك None فيُسقط المقطع كما كان."""
@@ -2363,8 +2381,10 @@ def gate_window(g0: float, g1: float, silences: list, cfg, snap: float | None = 
     """نافذة الصوت المسموع داخل المقطع (Issue #1660، Q6): g0 بداية الكلام وg1 نهايته من النص، يُنقل g0 إلى نهاية آخر صمت حقيقي يقع
     في [g0 − snap، g0 + snap] وg1 إلى بداية أول صمت في [g1 − snap، g1 + snap]؛ بلا صمت في المدى يبقى التقدير. دالة خالصة."""
     snap = float(cfg.path("reel.render.gate.snap", 0.6)) if snap is None else float(snap)   # Q13: exact.snap أصغر فلا يقفز إلى كلمة مجاورة
-    c0 = [e for _, e in silences or [] if g0 - snap <= e <= g0 + snap]
-    c1 = [b for b, _ in silences or [] if g1 - snap <= b <= g1 + snap]
+    # ريل 1913: لا يُقبل إلا صمت يشمل التقدير نفسه (b ≤ g ≤ e). وقفة داخل الجملة ينتهي صمتها قبل g1 كانت تُقرأ «هنا انتهى
+    # الكلام» فيُكتم ما بعدها من الجملة نفسها («والأمر…» ثم صمت ثم «يعود إلى الرئيس الصيني» مكتومة)
+    c0 = [e for b, e in silences or [] if g0 - snap <= e <= g0 + snap and b <= g0]
+    c1 = [b for b, e in silences or [] if g1 - snap <= b <= g1 + snap and e >= g1]
     start, end = (max(c0) if c0 else g0), (min(c1) if c1 else g1)
     if end - start < 0.5:       # صمت يلتهم الكلام كله: التقدير أوثق
         start, end, c0, c1 = g0, g1, [], []
@@ -2715,7 +2735,9 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
                            "channel": scene.get("channel_display", "")})
         else:
             near = point.get("timestamp", scene.get("start"))
-            loc = reel_clips.locate_quote(point.get("quote_original", ""), transcripts[vid], near=near, cfg=cfg)
+            known = _known_seconds(point, scene)
+            loc = reel_clips.locate_quote(point.get("quote_original", ""), transcripts[vid], near=near, cfg=cfg,
+                                          duration=known)
             if loc["status"] != "found":
                 # نص مجلوب لا يحوي الاقتباس (غالبًا مسار ترجمة بغير اللغة الأصلية) أو يكرره: طابع النقطة أُخذ من النص
                 # الأصلي عند الاستخراج فهو أوثق، فيعامَل كفشل الجلب ولا يُحذف المقطع إلا بلا نافذة (Issue #1438)
@@ -2733,9 +2755,15 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
                                                   else "reel.render.texts.approx_not_found"),
                                "channel": scene.get("channel_display", "")})
             else:
-                wstart = int(max(0, loc["start"] - float(scfg.get("lead_seconds", 1))))
+                lead_s = float(scfg.get("lead_seconds", 1))
+                wstart = int(max(0, loc["start"] - lead_s))
                 wend = int(math.ceil(loc["end"]))
-                wend = min(wend, wstart + int(scfg.get("clip_max_seconds", 15)))
+                # السقف للنافذة المقدَّرة من عدد الكلمات؛ مقطع مصدره أطول (V3: حدّاه من أسطر النص وفحص الصوت) لا يُقصّ عنده
+                cap = max(int(scfg.get("clip_max_seconds", 15)), int(math.ceil(lead_s + (known or 0))))
+                wend = min(wend, wstart + cap)
+                if loc.get("extended") and notes is not None:
+                    notes.append(cfg.path("reel.render.texts.comment_window_known").format(
+                        channel=scene.get("channel_display", ""), n=round(known or 0)))
                 if wend <= wstart:     # نافذة معدومة (اقتباس في آخر سطر) تُمدّ إلى الحد الأدنى لا تُسقط المقطع
                     wend = wstart + int(scfg.get("clip_min_seconds", 6))
                 span_res = None
@@ -2838,9 +2866,19 @@ def _speech(text: str, voice: str, cfg, deps: Deps, tmp: Path, tag: str) -> tupl
     sentences = tts.split_sentences(shown)
     if not sentences:
         raise RuntimeError(f"مشهد {tag} بلا جمل")
+    # مزيَّفات قديمة بلا voice_session (ولا spoken_names) ← الأسماء بالعربية كما كانت
+    session = getattr(deps, "voice_session", None)
+    latin_on = bool(cfg.path("reel.tts.latin_names.enabled")) and session is not None and session.multilingual()
     wavs, parts = [], []
     for k, sentence in enumerate(sentences):
-        res = deps.synthesize(tts.apply_waqf(sentence), voice)
+        spoken = tts.apply_waqf(sentence)
+        if latin_on:
+            # ريل 1913: الأسماء الأجنبية تُنطق برسمها الأصلي؛ المعروض (parts أدناه) عربي كما هو
+            spoken, used = tts.latin_names(spoken, nouns, cfg)
+            seen = getattr(deps, "spoken_names", None)
+            if seen is not None:
+                seen.extend(p for p in used if p not in seen)
+        res = deps.synthesize(spoken, voice)
         if not res.get("ok"):
             raise RuntimeError("تعذّر توليد الصوت: " + str(res.get("error") or res.get("skipped") or "?")[:120])
         mp3 = tmp / f"{tag}_{k}.mp3"
@@ -6777,6 +6815,9 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
         shutil.rmtree(tmp, ignore_errors=True)
     if deps.voice_session is not None and (vline := deps.voice_session.note()):
         notes.append(vline)
+    if getattr(deps, "spoken_names", None):
+        notes.append(cfg.path("reel.render.texts.comment_latin_names").format(
+            names="، ".join(f"{ar} ← {lat}" for ar, lat in deps.spoken_names[:6])))
     # القناة حقل عرض للتعليق وحده؛ المحفوظ على المسودة {point_id, kind, start, end, reason}
     approx_saved = [{k: v for k, v in a.items() if k != "channel"} for a in approx]
     changes = {**result, "render_dropped": dropped, "render_approx": approx_saved,
