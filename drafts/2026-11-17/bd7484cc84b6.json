@@ -1,0 +1,619 @@
+{
+  "id": "bd7484cc84b6",
+  "created_at": "2026-11-17T07:53:28.943508+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "قمة ترامب وبوتين وشي جين بينغ في شنتشن",
+  "event": "قمة ترامب وبوتين وشي جين بينغ في شنتشن",
+  "tier": 6,
+  "blocs": [
+    "arabic",
+    "chinese",
+    "english",
+    "persian",
+    "russian",
+    "turkish"
+  ],
+  "channels": [
+    "CCTV中文",
+    "CNN",
+    "CNN Türk",
+    "Habertürk",
+    "Iran International",
+    "SÖZCÜ",
+    "TVBS新聞",
+    "Дождь",
+    "Настоящее Время",
+    "الجزيرة",
+    "العربية",
+    "سكاي نيوز عربية",
+    "凤凰卫视"
+  ],
+  "agreement": "",
+  "score": 0,
+  "warnings": [
+    "🔧 بهنام طالب لو أجاب سؤالًا سابقًا فتُركت إجابته عن: ما مصير إيران في مباحثات القمة الثلاثية؟",
+    "⏱️ السياق 52 كلمة (الحد 37) فقُبل كما هو لأن المادة من اختيارك — راجعه",
+    "✏️ صيغ السؤال 1 ليتصل بالسياق: كان «هل ستشهد القمة الثلاثية مقايضات كبرى بين القوى الكبرى؟» صار «هل تشهد هذه القمة مقايضات كبرى بين القوى الثلاث؟»",
+    "✏️ صيغ السؤال 2 ليتصل بالسياق: كان «هل تتوصل القمة الثلاثية إلى نتائج فعلية أم مجرد مشهد رمزي؟» صار «هل تتوصل القمة إلى نتائج فعلية أم مجرد مشهد رمزي؟»"
+  ],
+  "run_date": "2026-11-17",
+  "topic_date": "2026-11-17",
+  "arabic": {
+    "post_title": "هل تنتهي القمة الثلاثية بمقايضة كبرى على حساب أوكرانيا؟",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "CCTV中文",
+      "CNN",
+      "CNN Türk",
+      "Habertürk",
+      "Iran International",
+      "SÖZCÜ",
+      "TVBS新聞",
+      "Дождь",
+      "Настоящее Время",
+      "الجزيرة",
+      "العربية",
+      "سكاي نيوز عربية",
+      "凤凰卫视"
+    ]
+  },
+  "source_videos": [],
+  "meta_topic_id": "f6e192c8c4bf",
+  "meta_issue": 1910,
+  "hook_pick": 3,
+  "cost_qa": {
+    "claude": {
+      "claude-sonnet-5": 0.02477
+    },
+    "gemini": 0.6716,
+    "proxy_bytes": 14170853
+  },
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "ad03cba6fb01",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "أنا أعتقد أن هذا الاجتماع مهم ومهم جدًا، لو لم يكن مهمًا لما ذهبت إليه هذه الأطراف. هذا رقم واحد. ثاني شيء أنا أحيي الدكتور طارق على فكرة أن التاريخ أثبت أن هناك تقاسمًا للمصالح سبق في التاريخ، وكثيرون يتخوفون منه لعل أبرزهم اليوم هو الجانب الأوكراني الذي يخشى لضياع أرضًا أوكرانية.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "648c0c4ef57a",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "مطلوب من الصين أن تدفع باتجاه اتفاق لأنه الاتفاق سيحقق للصين ثلاث مطالب تتفق عليها هذه الدول، وهي إنهاء الحرب، وهرمز ممر دولي، والمسألة الثالثة بقاء النظام الإيراني، وهذا فيه مصلحة للجميع، والرابعة أيضًا أن إيران تلتزم نوويًا، وهذا مطلب للثلاثي، وبناءً على هذه الأرضية المقايضة ممكنة، لذلك المقايضة لا تخشى منها إيران، تخشى منها أوكرانيا.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "2e56d13e85fb",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن ترك"
+      },
+      {
+        "point_id": "c939bd0eead3",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "a275bd94ed3d",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سكاي نيوز عربية"
+      }
+    ]
+  },
+  "quote_retranslated": [
+    "ad03cba6fb01",
+    "648c0c4ef57a"
+  ],
+  "names_audit": [
+    {
+      "arabic": "سالم اليامي",
+      "latin": ""
+    },
+    {
+      "arabic": "طارق حمود",
+      "latin": ""
+    },
+    {
+      "arabic": "هاكان بيراكجي",
+      "latin": "Hakan Bıraçgi"
+    },
+    {
+      "arabic": "بهنام طالب لو",
+      "latin": "Behnam Talebloo"
+    },
+    {
+      "arabic": "دونالد ترامب",
+      "latin": "Donald Trump"
+    },
+    {
+      "arabic": "فلاديمير بوتين",
+      "latin": "Vladimir Putin"
+    },
+    {
+      "arabic": "شي جين بينغ",
+      "latin": "Xi Jinping"
+    }
+  ],
+  "script_attempts": [
+    {
+      "attempt": 1,
+      "reasons": [
+        "السياق أطول من 37 كلمة (52)"
+      ]
+    }
+  ],
+  "headlines": [
+    "هل تنتهي القمة الثلاثية بمقايضة كبرى على حساب أوكرانيا؟",
+    "لماذا رفضت الصين الحديث عن خفض السلاح النووي؟"
+  ],
+  "headline_selected": 0,
+  "script": {
+    "version": 2,
+    "narrator": "male",
+    "title": "هل تنتهي القمة الثلاثية بمقايضة كبرى على حساب أوكرانيا؟",
+    "question": "هل تملك أوكرانيا ما يحميها إن عُقدت الصفقة في شنتشن؟",
+    "event": "",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "هل تنتهي القمة الثلاثية بمقايضة كبرى على حساب أوكرانيا؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "الرئيس الأمريكي دونالد ترامب أعلن عزمه عقد قمة ثلاثية تجمعه بالرئيس الروسي فلاديمير بوتين والرئيس الصيني شي جين بينغ في مدينة شنتشن الصينية. وفي تصريح لاحق فتح الباب أمام ضيف إضافي."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "a275bd94ed3d",
+        "q": "c0",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=6u6pV1iNxrk",
+        "start": 555.0,
+        "end": 564.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "سكاي نيوز عربية",
+        "channel_original": "سكاي نيوز عربية",
+        "quote_arabic": "نعم، قد ينضم إلينا كيم جونغ أون، ربما سيحدث هذا، والأمر يعود إلى الرئيس الصيني.",
+        "quote_original": "نعم سينضم إلينا كيم جونغ أون ربما هذا سيحدث الأمر يعود إلى الرئيس الصيني.",
+        "language": "ar",
+        "video_published": "2026-11-16T14:57:18Z",
+        "relay": "external",
+        "relay_source": "",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "أعلن ترامب عقد القمة الثلاثية في شنتشن لبحث ملفات الحرب في أوكرانيا والملف الإيراني وتايوان والحرب التجارية."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 0,
+        "text": "هل تشهد هذه القمة مقايضات كبرى بين القوى الثلاث؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "ad03cba6fb01",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=SDHqQqIEnhg",
+        "start": 2367.0,
+        "end": 2389.0,
+        "speaker_name": "سالم اليامي",
+        "speaker_role": "مستشار سابق في وزارة الخارجية السعودية",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "سالم اليامي",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "أنا أعتقد أن هذا الاجتماع مهم ومهم جدًا، لو لم يكن مهمًا لما ذهبت إليه هذه الأطراف. هذا رقم واحد. ثاني شيء أنا أحيي الدكتور طارق على فكرة أن التاريخ أثبت أن هناك تقاسمًا للمصالح سبق في التاريخ، وكثيرون يتخوفون منه لعل أبرزهم اليوم هو الجانب الأوكراني الذي يخشى لضياع أرضًا أوكرانية.",
+        "quote_original": "أنا أعتقد أن هذا الاجتماع مهم ومهم جدًا، لو لم يكن مهمًا لما ذهبت إليه هذه الأطراف، هذا رقم واحد. ثاني شيء أنا أحيي الدكتور طارق على فكرة أن التاريخ أثبت أن هناك تقاسمًا للمصالح سبق في التاريخ، وكثيرون يتخوفون منه لعل أبرزهم اليوم هو الجانب الأوكراني الذي يخشى لضياع أرضًا أوكرانية.",
+        "language": "ar",
+        "video_published": "2026-11-15T21:22:59Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "648c0c4ef57a",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=SDHqQqIEnhg",
+        "start": 3197.0,
+        "end": 3228.0,
+        "speaker_name": "طارق حمود",
+        "speaker_role": "باحث في المركز العربي للأبحاث ودراسة السياسات",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "طارق حمود",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "مطلوب من الصين أن تدفع باتجاه اتفاق لأنه الاتفاق سيحقق للصين ثلاث مطالب تتفق عليها هذه الدول، وهي إنهاء الحرب، وهرمز ممر دولي، والمسألة الثالثة بقاء النظام الإيراني، وهذا فيه مصلحة للجميع، والرابعة أيضًا أن إيران تلتزم نوويًا، وهذا مطلب للثلاثي، وبناءً على هذه الأرضية المقايضة ممكنة، لذلك المقايضة لا تخشى منها إيران، تخشى منها أوكرانيا.",
+        "quote_original": "مطلوب من الصين أن تدفع باتجاه اتفاق لأنه الاتفاق سيحقق للصين ثلاث مطالب تتفق عليها هذه الدول، اللي هو إنهاء الحرب وهرمز ممر دولي والمسألة الثالثة بقاء النظام الإيراني، هذا فيه مصلحة للجميع، والرابعة أيضًا إنه إيران تلتزم نوويًا، هذا مطلب للثلاثي، وبالتالي بناء على هذه الأرضية المقايضة ممكنة، لذلك المقايضة لا تخشى منها إيران تخشى منها أوكرانيا.",
+        "language": "ar",
+        "video_published": "2026-11-15T21:22:59Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 1,
+        "text": "هل تتوصل القمة إلى نتائج فعلية أم مجرد مشهد رمزي؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "2e56d13e85fb",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=4X7evx3Sk8g",
+        "start": 306.5,
+        "end": 334.5,
+        "speaker_name": "هاكان بيراكجي",
+        "speaker_role": "باحث في استطلاعات الرأي ورئيس شركة سونار",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Hakan Bayrakçı",
+        "channel_display": "سي إن إن ترك",
+        "channel_original": "CNN Türk",
+        "quote_arabic": "ليس لدى الصين ملف بأهمية ملفي الطرفين الآخرين على الطاولة، لكن لديها قضايا معلقة مثل تايوان والحروب التجارية والاقتصادية التي تملك فيها ما يمكن أن تقدمه وترضى به، وأعتقد أن كل ذلك سيُطرح على الطاولة إلى حد كبير، بل وأتوقع التوصل إلى بعض التفاهمات.",
+        "quote_original": "Çin'in bu ikisi kadar masada önemli bir konusu yok ama onun da beklemede olan işte Tayvan gibi ya da başka birkaç konu gibi özellikle ekonomik konuların da dahil ticaret savaşları gibi konularda onun da verebileceği, vermek isteyeceği ama razı olacağı şeyler vardır. Bence bunların hepsi büyük ölçüde o masaya yatar hatta bazı mutabakatların da çıkacağını tahmin ediyorum.",
+        "language": "tr",
+        "video_published": "2026-11-16T21:11:05Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "c939bd0eead3",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=hwrrKmNTj-I",
+        "start": 706.5,
+        "end": 726.0,
+        "speaker_name": "بهنام طالب لو",
+        "speaker_role": "مدير أول لبرنامج إيران في مؤسسة الدفاع عن الديمقراطيات",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Behnam Ben Taleblu",
+        "channel_display": "إيران إنترناشيونال",
+        "channel_original": "Iran International",
+        "quote_arabic": "هذا اللقاء في رأيي سيكون محددًا للنظام العالمي الجديد أكثر من كونه حلًا للمشكلات التي أثبتت الولايات المتحدة قدرتها على انتزاعها من بين مخالب روسيا والصين عبر ممارسة الضغوط المناسبة والدبلوماسية الملائمة وسياسة المواربة.",
+        "quote_original": "این ملاقات به نظر من بیشتر مثلا تعیین‌کننده نظم نوین جهانی خواهد بود تا حل و فصل مشکلاتی که آمریکا نشون داده با فشار مناسب، با دیپلماسی مناسب، با کج‌دار و مریزی می‌تونه از زیر چنگ روسیه و چین دربیاره.",
+        "language": "fa",
+        "video_published": "2026-11-16T19:35:15Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "question",
+        "text": "هل تملك أوكرانيا ما يحميها إن عُقدت الصفقة في شنتشن؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": []
+  },
+  "editor_revision": {
+    "at": "2026-11-17T07:53:46.703172+00:00",
+    "applied": true,
+    "error": null,
+    "before": [
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "وتتصدر جدول القمة ملفات الحرب في أوكرانيا والملف الإيراني وتايوان والحرب التجارية، فيما تخشى كييف أن تُحسم أراضيها على طاولة الكبار.",
+        "fix": "",
+        "note": "مشهد السياق [4] يصف جدول الأعمال والمخاوف بدل سرد وقعة محددة (من فعل ماذا ومتى)، وهذا مخالف لقاعدة أن يصف السياق الحدث نفسه لا النقاش حوله.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "فيما تخشى كييف أن تُحسم أراضيها على طاولة الكبار",
+        "fix": "",
+        "note": "هذه الصياغة رأي/تخوف منسوب ضمنيًا لأوكرانيا دون مصدر محدد داخل المتن (رغم أنها تستند لكلام أحد الضيوف)، يفضَّل نسبها صراحة.",
+        "sources": []
+      }
+    ],
+    "unresolved": [
+      {
+        "n": 2,
+        "reason": "الملاحظة الثانية (low) تقترح نسب تخوف كييف صراحة لمصدر، لكن السطر [4] أُعيد صياغته بالكامل وفق الملاحظة الأولى ليصف وقعة الإعلان فقط دون ذكر مخاوف أوكرانيا، فانتفى محل الملاحظة الثانية؛ لا يمكن تطبيق نسبة صريحة لعبارة لم تعد موجودة ضمن حدود 25 كلمة/3 جمل."
+      }
+    ]
+  },
+  "editor_review": {
+    "at": "2026-11-17T07:53:46.703172+00:00",
+    "applied": [
+      {
+        "category": "headline_judgmental",
+        "severity": "low",
+        "location": "headline_3",
+        "original": "هل تكرر قمة شنتشن سيناريو يالطا من جديد؟",
+        "fix": "",
+        "note": "عنوان يفترض تشبيهًا تاريخيًا كبيرًا (يالطا) لم يرد في المتن ولا في أقوال المتحدثين، وهو حكم غير مسنود بالمصادر المرفقة.",
+        "sources": []
+      }
+    ],
+    "notes": [
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "فيما تخشى كييف أن تُحسم أراضيها على طاولة الكبار",
+        "fix": "",
+        "note": "هذه الصياغة رأي/تخوف منسوب ضمنيًا لأوكرانيا دون مصدر محدد داخل المتن (رغم أنها تستند لكلام أحد الضيوف)، يفضَّل نسبها صراحة.",
+        "sources": []
+      }
+    ],
+    "error": null,
+    "searches": 0,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "hook_clash": {
+    "error": "لا زوج ولا جملة صالحة",
+    "rejected": [],
+    "shape": {
+      "pairs": 0,
+      "relations": [],
+      "single": false,
+      "pairs_type": "str"
+    }
+  },
+  "reel_bg": {
+    "url": "https://assets-news.asharq.com/images/articles/1200x630/social-image/3EaLdphvlt_1794859987.jpg",
+    "kind": "news_photo",
+    "publisher": "الشرق للأخبار",
+    "shows": "ثلاث لوحات كبيرة بأسلوب رسم لثلاثة قادة جالسين على كراسي: ترامب وبوتين وشي جين بينغ، وإلى اليسار امرأة تقف بجانب اللوحات",
+    "text_checked": true,
+    "judged": true,
+    "rejected": [
+      {
+        "url": "https://www.skynewsarabia.com/images/v1/2026/11/17/1905259/1200/630/1-1905259.jpeg?videoOverlay=true",
+        "shows": "مدينة شنتشن الصينية من الجو، فيها ناطحات سحاب ومساحات خضراء وملعب غولف وبحيرة وجبال، مع شعار \"SKY NEWS SCREEN GRAB\" وأيق",
+        "reason": "الصورة تُظهر موقع القمة (شنتشن)، وهذا يتطابق مع مكان الحدث، لكنها لا تُظهر أيًّا من الأطراف الثلاثة (ترامب أو بوتين أو شي)، وعليها شعار قناة وأيقونة تشغيل، أي أنها لقطة شاشة لقناة."
+      }
+    ]
+  },
+  "hook_candidates": [
+    {
+      "video_id": "Td9aDbOD5IU",
+      "title": "Xi, Trump and Putin Talks Raise Hopes for Global Stability Among Shenzhen Residents | APT",
+      "channel": "APT",
+      "views": 1118,
+      "duration": 346,
+      "published": "2026-11-17T04:43:59Z",
+      "views_per_hour": 350.1
+    },
+    {
+      "video_id": "5PwZ4O4tJSE",
+      "title": "Trump-Xi-Putin Meet: China Prepares For APEC With Security Tight Around Key Venue | APT",
+      "channel": "APT",
+      "views": 7061,
+      "duration": 269,
+      "published": "2026-11-15T05:57:47Z",
+      "views_per_hour": 141.3
+    },
+    {
+      "video_id": "GL4OPesr-gY",
+      "title": "Trump travels to China for high-stakes meeting with Putin, Xi",
+      "channel": "ABC News",
+      "views": 54811,
+      "duration": 117,
+      "published": "2026-11-17T01:36:25Z",
+      "views_per_hour": 8673.2
+    },
+    {
+      "video_id": "ZqgpbjPKbIA",
+      "title": "What do Trump, Xi and Putin want from their China meeting?",
+      "channel": "Al Jazeera English",
+      "views": 70048,
+      "duration": 409,
+      "published": "2026-11-16T21:32:32Z",
+      "views_per_hour": 6745.5
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-11-15T00:00:00Z",
+          "2026-11-19T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "ترامب بوتين شي يصلون شنتشن",
+            "raw": 1,
+            "channel_ok": 0
+          },
+          {
+            "query": "Trump Putin Xi summit Shenzhen arrival",
+            "raw": 30,
+            "channel_ok": 1
+          },
+          {
+            "query": "Ukrainians protest outside summit Kyiv streets",
+            "raw": 7,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 1,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "Mythrabrief",
+          "Times Now World",
+          "Tribunnews",
+          "NDTV World",
+          "India Global Review",
+          "Codednewsroom",
+          "Newsmax",
+          "OceanNewsUK"
+        ]
+      },
+      {
+        "broad": true,
+        "window": [
+          "2026-11-13T00:00:00Z",
+          "2026-11-20T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "قمة ترامب بوتين شي",
+            "raw": 30,
+            "channel_ok": 7
+          },
+          {
+            "query": "Trump Putin Xi summit",
+            "raw": 30,
+            "channel_ok": 12
+          },
+          {
+            "query": "Trump Putin Xi Shenzhen summit",
+            "raw": 30,
+            "channel_ok": 5
+          }
+        ],
+        "duration_ok": 20,
+        "judged_ok": 20,
+        "rejected_channels": [
+          "almohallelai",
+          "أساس بريس | Asas Press",
+          "Express 24-7",
+          "New York Post",
+          "The Hindu",
+          "المصدر بلس",
+          "GNS ملخص الأخبار العالمية",
+          "EverydaySpy"
+        ]
+      }
+    ],
+    "picked": [
+      "Td9aDbOD5IU",
+      "5PwZ4O4tJSE",
+      "GL4OPesr-gY",
+      "ZqgpbjPKbIA"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "الرئيس الأمريكي دونالد ترامب أعلن عزمه عقد قمة ثلاثية تجمعه بالرئيس الروسي فلاديمير بوتين والرئيس الصيني شي جين بينغ في مدينة شنتشن الصينية.",
+      "visual": "قادة يلتقون في قاعة فخمة بالصين",
+      "map": {
+        "places": [
+          "شنتشن"
+        ],
+        "countries": [
+          "الصين",
+          "الولايات المتحدة",
+          "روسيا"
+        ]
+      }
+    },
+    {
+      "scene": 1,
+      "sentence": 1,
+      "text": "وفي تصريح لاحق فتح الباب أمام ضيف إضافي.",
+      "visual": ""
+    },
+    {
+      "scene": 3,
+      "sentence": 0,
+      "text": "أعلن ترامب عقد القمة الثلاثية في شنتشن لبحث ملفات الحرب في أوكرانيا والملف الإيراني وتايوان والحرب التجارية.",
+      "visual": "مدينة شنتشن الصينية وحراسة أمنية مشددة",
+      "map": {
+        "places": [
+          "شنتشن"
+        ],
+        "countries": [
+          "الصين",
+          "أوكرانيا",
+          "إيران",
+          "تايوان"
+        ]
+      }
+    },
+    {
+      "scene": 4,
+      "sentence": 0,
+      "text": "هل تشهد هذه القمة مقايضات كبرى بين القوى الثلاث؟",
+      "visual": ""
+    },
+    {
+      "scene": 7,
+      "sentence": 0,
+      "text": "هل تتوصل القمة إلى نتائج فعلية أم مجرد مشهد رمزي؟",
+      "visual": ""
+    }
+  ],
+  "cost_script": {
+    "claude": {
+      "claude-haiku-5-5": 0.00372,
+      "claude-sonnet-5": 0.15495,
+      "claude-opus-5": 0.11066
+    }
+  },
+  "review_issue": 1912,
+  "stage2_issue": 1912
+}
