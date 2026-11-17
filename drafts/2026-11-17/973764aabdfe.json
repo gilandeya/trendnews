@@ -575,10 +575,14 @@
       }
     ],
     "picked": [
-      "BNeju9F1n-A",
-      "4T1Y5R-0rk0",
-      "q4mWUt1bE3Q",
-      "h00uiPdGnwI"
+      "BNeju9F1n-A"
+    ],
+    "compared": [
+      {
+        "video_id": "BNeju9F1n-A",
+        "impact": 5,
+        "footage_ratio": 0.099
+      }
     ]
   },
   "broll_plan": [
@@ -632,5 +636,19 @@
       "اسم متحدث لم يُحسم: غفار يقينجا"
     ]
   },
-  "hook_picked": 0
+  "hook_picked": 0,
+  "hook_video": {
+    "video_id": "BNeju9F1n-A",
+    "start": 17,
+    "end": 25,
+    "channel": "Al Jazeera English",
+    "title": "Yemen’s Houthis push closer to Aden as government forces reposition",
+    "source": "auto",
+    "views": 84430,
+    "impact": 5,
+    "pre_ok": true,
+    "strong_start": 17,
+    "reason": "أقوى 3 ث (قوة 5)",
+    "render_version": 78
+  }
 }
