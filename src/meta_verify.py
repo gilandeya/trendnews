@@ -218,6 +218,15 @@ class _Child:
             pass
 
 
+def video_limit(videos: int, cfg: Any) -> float:
+    """مهلة الفيديو الواحد. الحدّ موجود ليُفرغ خانةً لفيديو ينتظر، فحين لا ينتظر أحد (الفيديوهات ≤ الخانات) المهلة كلها له.
+    قضية 1916: كل مقاطع الموضوع في فيديوين، فقُتل كلاهما عند 150 ث ولم يُفحص صوت مقطع واحد ونصف المهلة لم يُستعمل. دالة خالصة."""
+    v = _vcfg(cfg)
+    parallel = max(1, int(v.get("parallel", 3)))
+    waves = max(1, -(-max(1, videos) // parallel))
+    return max(float(v.get("video_seconds", 150)), float(v.get("budget_seconds", 300)) / waves)
+
+
 def verify(targets: list[dict], cfg: Any, deps: bite_audio.Deps | None = None, launch=None,
            clock=time.monotonic, sleep=time.sleep) -> dict:
     """يتحقق من المقاطع بترتيبها حتى max_bites أو budget_seconds ويكتب على كل مقطع فُحص سجله. يعيد أرقامًا وحدها
@@ -256,7 +265,7 @@ def verify(targets: list[dict], cfg: Any, deps: bite_audio.Deps | None = None, l
         parallel = max(1, int(v.get("parallel", 3)))
         poll = float(v.get("poll_seconds", 1))
         # فيديو واحد لا يحجز خانته أكثر من هذا: ثلاثة تنزيلات عالقة كانت ستأكل المهلة كلها وتمنع بقية الفيديوهات
-        per_video = float(v.get("video_seconds", 150))
+        per_video = video_limit(len(by_video), cfg)
         running: dict[str, Any] = {}
         finished: dict[str, Any] = {}
         started: dict[str, float] = {}
