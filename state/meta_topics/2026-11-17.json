@@ -285,7 +285,424 @@
     }
    ],
    "qa_requested_at": "2026-11-17T07:27:25.607499+00:00",
-   "selected_from": 1907
+   "selected_from": 1907,
+   "topic_issue": 1910,
+   "qa": {
+    "attempts": 1,
+    "at": "2026-11-17T07:29:19.774982+00:00",
+    "gemini_cost": 0.6716,
+    "gemini_rejected": 0,
+    "originals": [
+     {
+      "bite_id": "4X7evx3Sk8g:g125",
+      "source_channel": "",
+      "found": false,
+      "candidate": "snc9Nptep-g",
+      "candidates": [
+       "jEt3-C-IMu0",
+       "snc9Nptep-g"
+      ],
+      "reason": "زمن غير صالح"
+     }
+    ],
+    "originals_found": 0,
+    "read_dropped": 2,
+    "read_dropped_speakers": [
+     "دونالد ترامب"
+    ],
+    "source": "gemini",
+    "failures": [],
+    "not_analysts": {
+     "kind": 8
+    },
+    "plan": {
+     "attempts": [
+      {
+       "model": "claude-sonnet-5",
+       "stop_reason": "tool_use",
+       "bites": 15,
+       "rows": 5,
+       "raw_type": "list",
+       "answers": 18,
+       "bad_n": 0,
+       "error": ""
+      }
+     ]
+    },
+    "verify": {
+     "checked": 17,
+     "ok": 7,
+     "no_match": 1,
+     "failed": 9,
+     "no_text": 0,
+     "left": 0,
+     "audio_seconds": 451,
+     "skipped": "",
+     "cut_off": 3,
+     "seconds": 297
+    },
+    "capped": 6,
+    "selected_seconds": 116.9,
+    "status": "ready",
+    "titles": [
+     "هل تنتهي القمة الثلاثية بمقايضة كبرى على حساب أوكرانيا؟",
+     "لماذا رفضت الصين الحديث عن خفض السلاح النووي؟",
+     "هل تكرر قمة شنتشن سيناريو يالطا من جديد؟"
+    ],
+    "questions": [
+     {
+      "text": "هل ستشهد القمة الثلاثية مقايضات كبرى بين القوى الكبرى؟",
+      "answers": [
+       {
+        "n": 5,
+        "fit": "direct",
+        "view": "تاريخ المصالح يتكرر وأوكرانيا قلقة",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "SDHqQqIEnhg:g2368"
+       },
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "مقايضة ممكنة عبر مطالب مشتركة",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "SDHqQqIEnhg:g3198"
+       }
+      ]
+     },
+     {
+      "text": "هل تتوصل القمة الثلاثية إلى نتائج فعلية أم مجرد مشهد رمزي؟",
+      "answers": [
+       {
+        "n": 1,
+        "fit": "weak",
+        "view": "محادثات تسفر عن بعض التفاهمات",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "4X7evx3Sk8g:g307"
+       },
+       {
+        "n": 10,
+        "fit": "weak",
+        "view": "القمة تحدد ملامح النظام العالمي",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "hwrrKmNTj-I:g707"
+       },
+       {
+        "n": 4,
+        "fit": "direct",
+        "view": "لن تسفر عن نتائج كبرى سوى المشهد",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "SDHqQqIEnhg:g2125"
+       },
+       {
+        "n": 6,
+        "fit": "direct",
+        "view": "يجب خفض سقف توقعات القمة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "SDHqQqIEnhg:g2841"
+       }
+      ]
+     },
+     {
+      "text": "ما مصير إيران في مباحثات القمة الثلاثية؟",
+      "answers": [
+       {
+        "n": 9,
+        "fit": "weak",
+        "view": "دور إيران في القمة غير بارز",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "hwrrKmNTj-I:g684"
+       },
+       {
+        "n": 7,
+        "fit": "direct",
+        "view": "سقف نووي لإيران مع بقاء نظامها",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "SDHqQqIEnhg:g3125"
+       },
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "بقاء النظام الإيراني مقابل التزام نووي",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "SDHqQqIEnhg:g3198"
+       }
+      ]
+     },
+     {
+      "text": "من يقف وراء فكرة عقد هذه القمة الثلاثية؟",
+      "answers": [
+       {
+        "n": 2,
+        "fit": "direct",
+        "view": "الرئيس الروسي مستلهم مؤتمر يالطا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "4X7evx3Sk8g:g2509"
+       }
+      ]
+     },
+     {
+      "text": "لماذا رفضت الصين بحث خفض السلاح النووي في القمة؟",
+      "answers": [
+       {
+        "n": 3,
+        "fit": "direct",
+        "view": "ترسانتها أصغر فترفض الخفض الآن",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "4X7evx3Sk8g:g2912"
+       }
+      ]
+     }
+    ],
+    "context": [
+     {
+      "n": 11,
+      "selected": true,
+      "bite_id": "6u6pV1iNxrk:g556"
+     }
+    ],
+    "bites": [
+     {
+      "bite_id": "4X7evx3Sk8g:g307",
+      "video_id": "4X7evx3Sk8g",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "هاكان بيراكجي",
+      "speaker_original": "Hakan Bayrakçı",
+      "speaker_role": "باحث في استطلاعات الرأي ورئيس شركة سونار",
+      "is_host": false,
+      "type": "forecast",
+      "start": 307.5,
+      "end": 334.5,
+      "summary_ar": "يتوقع الباحث التركي هاكان بيراكجي أن تطرح بكين قضايا تايوان والتجارة في القمة وأن تسفر المباحثات عن بعض التفاهمات.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "4X7evx3Sk8g:g2509",
+      "video_id": "4X7evx3Sk8g",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "جوشكون باشبوغ",
+      "speaker_original": "Coşkun Başbuğ",
+      "speaker_role": "خبير أمني وكاتب في صحيفة ستار التركية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2509.0,
+      "end": 2532.0,
+      "summary_ar": "يرى الخبير الأمني التركي جوشكون باشبوغ أن فكرة القمة الثلاثية نابعة من الرئيس الروسي فلاديمير بوتين استلهامًا من مؤتمر يالطا.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "4X7evx3Sk8g:g2912",
+      "video_id": "4X7evx3Sk8g",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "جوشكون باشبوغ",
+      "speaker_original": "Coşkun Başbuğ",
+      "speaker_role": "خبير أمني وكاتب في صحيفة ستار التركية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2912.0,
+      "end": 2934.0,
+      "summary_ar": "يرى الخبير الأمني التركي جوشكون باشبوغ أن رفض بكين بحث نزع السلاح النووي في القمة نابع من الفارق الكبير في الترسانات مقارنة بواشنطن وموسكو.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "SDHqQqIEnhg:g2125",
+      "video_id": "SDHqQqIEnhg",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "محجوب الزويري",
+      "speaker_original": "محجوب الزويري",
+      "speaker_role": "أكاديمي وخبير بسياسات الشرق الأوسط",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2125.54,
+      "end": 2145.8,
+      "summary_ar": "يرى محجوب الزويري أن القمة الثلاثية المرتقبة قد لا تسفر عن نتائج كبرى باستثناء مشهد اللقاء، نظرًا لوجود توافق مسبق بين قادتها على قضايا كأمن الملاحة ومنع تسلح إيران.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "SDHqQqIEnhg:g2368",
+      "video_id": "SDHqQqIEnhg",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "سالم اليامي",
+      "speaker_original": "سالم اليامي",
+      "speaker_role": "مستشار سابق في وزارة الخارجية السعودية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2368.0,
+      "end": 2389.0,
+      "summary_ar": "يؤكد سالم اليامي أهمية القمة الثلاثية المرتقبة، مشيرًا إلى المخاوف التاريخية من تقاسم المصالح بين الدول الكبرى على غرار قلق أوكرانيا الحالي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "SDHqQqIEnhg:g2841",
+      "video_id": "SDHqQqIEnhg",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "إبراهيم فريحات",
+      "speaker_original": "إبراهيم فريحات",
+      "speaker_role": "أستاذ الصراعات الدولية بمعهد الدوحة للدراسات العليا",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2841.0,
+      "end": 2866.0,
+      "summary_ar": "يشدد إبراهيم فريحات على ضرورة خفض سقف التوقعات من القمة الثلاثية، مؤكدًا استحالة الاتفاق بسبب التناقض الجوهري حول شكل النظام الدولي والتعددية القطبية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "SDHqQqIEnhg:g3125",
+      "video_id": "SDHqQqIEnhg",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "لقاء مكي",
+      "speaker_original": "لقاء مكي",
+      "speaker_role": "باحث أول في مركز الجزيرة للدراسات",
+      "is_host": false,
+      "type": "forecast",
+      "start": 3125.0,
+      "end": 3155.0,
+      "summary_ar": "يتوقع لقاء مكي أن تحدد القمة الثلاثية سقفًا لإيران كدولة غير نووية مع بقاء نظامها وفتح مضيق هرمز برضا روسيا والصين، وهو ما لا يناسب طهران.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "SDHqQqIEnhg:g3198",
+      "video_id": "SDHqQqIEnhg",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "طارق حمود",
+      "speaker_original": "طارق حمود",
+      "speaker_role": "باحث في المركز العربي للأبحاث ودراسة السياسات",
+      "is_host": false,
+      "type": "opinion",
+      "start": 3198.0,
+      "end": 3228.0,
+      "summary_ar": "يرى طارق حمود أن المقايضة ممكنة في القمة الثلاثية لوجود مطالب مشتركة تشمل إنهاء الحرب وفتح مضيق هرمز وبقاء النظام الإيراني والتزامه نوويًا.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "hwrrKmNTj-I:g684",
+      "video_id": "hwrrKmNTj-I",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "بهنام طالب لو",
+      "speaker_original": "Behnam Ben Taleblu",
+      "speaker_role": "مدير أول لبرنامج إيران في مؤسسة الدفاع عن الديمقراطيات",
+      "is_host": false,
+      "type": "opinion",
+      "start": 684.36,
+      "end": 707.3,
+      "summary_ar": "بهنام طالب‌لو يرى أن دور إيران في القمة الثلاثية بين واشنطن وموسكو وبكين قد لا يكون بارزًا على غرار مؤتمر طهران إبان الحرب العالمية الثانية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "hwrrKmNTj-I:g707",
+      "video_id": "hwrrKmNTj-I",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "بهنام طالب لو",
+      "speaker_original": "Behnam Ben Taleblu",
+      "speaker_role": "مدير أول لبرنامج إيران في مؤسسة الدفاع عن الديمقراطيات",
+      "is_host": false,
+      "type": "opinion",
+      "start": 707.48,
+      "end": 726.04,
+      "summary_ar": "بهنام طالب‌لو يرى أن القمة الثلاثية ستركز على صياغة النظام العالمي الجديد أكثر من تركيزها على تسوية الملفات العالقة بين واشنطن وموسكو وبكين.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "6u6pV1iNxrk:g556",
+      "video_id": "6u6pV1iNxrk",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "دونالد ترامب",
+      "speaker_original": "Donald Trump",
+      "speaker_role": "الرئيس الأمريكي",
+      "is_host": false,
+      "type": "forecast",
+      "start": 556.0,
+      "end": 564.0,
+      "summary_ar": "ترامب يرجح حضور الزعيم الكوري الشمالي كيم جونغ أون إلى القمة في الصين معتبرًا أن الأمر بيد بكين.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     }
+    ],
+    "error": "",
+    "extracted": 15,
+    "cost": {
+     "claude": {
+      "claude-sonnet-5": 0.02477
+     },
+     "gemini": 0.6716,
+     "proxy_bytes": 14170853
+    }
+   }
   },
   {
    "id": "efd0375eed97",

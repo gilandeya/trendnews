@@ -1320,22 +1320,396 @@
    "topic_issue": 1900,
    "qa_requested_at": "2026-11-16T09:41:04.038552+00:00",
    "qa": {
-    "attempts": 1,
-    "at": "2026-11-16T09:42:30.699967+00:00",
+    "attempts": 2,
+    "at": "2026-11-17T07:29:19.774982+00:00",
     "source": "gemini",
     "gemini_cost": 0.501,
     "gemini_rejected": 0,
     "originals": [],
     "originals_found": 0,
     "failures": [],
-    "status": "failed",
-    "error": "RuntimeError: لم يقترح النموذج سؤالًا له إجابات",
+    "status": "ready",
+    "error": "",
     "cost": {
      "claude": {
-      "claude-sonnet-5": 0.03243
+      "claude-sonnet-5": 0.05586
      },
-     "gemini": 0.501
-    }
+     "gemini": 0.501,
+     "proxy_bytes": 12882929
+    },
+    "bites_cached": true,
+    "not_analysts": {
+     "host": 7,
+     "report": 1
+    },
+    "plan": {
+     "attempts": [
+      {
+       "model": "claude-sonnet-5",
+       "stop_reason": "tool_use",
+       "bites": 12,
+       "rows": 5,
+       "raw_type": "list",
+       "answers": 20,
+       "bad_n": 0,
+       "error": ""
+      }
+     ]
+    },
+    "verify": {
+     "checked": 12,
+     "ok": 6,
+     "no_match": 0,
+     "failed": 6,
+     "no_text": 0,
+     "left": 0,
+     "audio_seconds": 305,
+     "skipped": "",
+     "cut_off": 2,
+     "seconds": 221
+    },
+    "capped": 7,
+    "selected_seconds": 109.7,
+    "titles": [
+     "من يقف وراء تهديد ترامب بمسيّرة إيرانية؟",
+     "هل مخطط اغتيال ترامب حقيقي أم ملفّق؟",
+     "لماذا تُروَّج قصة الاغتيال الآن؟"
+    ],
+    "questions": [
+     {
+      "text": "هل مخطط اغتيال ترامب تهديد إيراني حقيقي أم حيلة إسرائيلية؟",
+      "answers": [
+       {
+        "n": 7,
+        "fit": "direct",
+        "view": "إسرائيل تختلق الخبر لاستفزاز ترامب",
+        "view_count": 2,
+        "selected": true,
+        "bite_id": "M8scky4BXYs:g104"
+       },
+       {
+        "n": 9,
+        "fit": "direct",
+        "view": "إسرائيل تختلق الخبر لاستفزاز ترامب",
+        "view_count": 2,
+        "selected": false,
+        "bite_id": "dV12oTITBi8:g333"
+       },
+       {
+        "n": 1,
+        "fit": "direct",
+        "view": "تهديدات النظام الإيراني جادة وحقيقية",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "nZsJ_NK-gos:g177"
+       },
+       {
+        "n": 5,
+        "fit": "direct",
+        "view": "معلومات الموساد الإسرائيلي غير دقيقة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "wGpZmssj6F4:g225"
+       }
+      ]
+     },
+     {
+      "text": "لماذا تُروَّج مزاعم استهداف ترامب الآن؟",
+      "answers": [
+       {
+        "n": 7,
+        "fit": "direct",
+        "view": "إسرائيل تخشى اتفاق ترامب وإيران",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "M8scky4BXYs:g104"
+       },
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "استفزاز ترامب رغم معارضة الشارع الأمريكي",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "M8scky4BXYs:g375"
+       },
+       {
+        "n": 4,
+        "fit": "weak",
+        "view": "ترامب يريد إسقاط النظام الإيراني",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "nZsJ_NK-gos:g365"
+       },
+       {
+        "n": 6,
+        "fit": "direct",
+        "view": "نتنياهو يحتاج الحرب لزخم سياسي",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "wGpZmssj6F4:g252"
+       }
+      ]
+     },
+     {
+      "text": "هل تنجح إيران فعليًا في تنفيذ اغتيالات داخل أمريكا؟",
+      "answers": [
+       {
+        "n": 2,
+        "fit": "direct",
+        "view": "إيران تفشل داخليًا وتنجح خارجيًا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "nZsJ_NK-gos:g232"
+       }
+      ]
+     },
+     {
+      "text": "كيف سيرد ترامب على مزاعم التهديد الإيراني؟",
+      "answers": [
+       {
+        "n": 3,
+        "fit": "direct",
+        "view": "يزيد عزم ترامب على مواجهة النظام",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "nZsJ_NK-gos:g310"
+       },
+       {
+        "n": 6,
+        "fit": "weak",
+        "view": "واشنطن توفر حماية دائمة لترامب",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "wGpZmssj6F4:g252"
+       }
+      ]
+     },
+     {
+      "text": "هل هذه المزاعم تهديد حقيقي لترامب أم رسالة إسرائيلية مبطنة؟",
+      "answers": [
+       {
+        "n": 10,
+        "fit": "direct",
+        "view": "إسرائيل تهدد ترامب تحت ستار إيران",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "dV12oTITBi8:g361"
+       },
+       {
+        "n": 1,
+        "fit": "weak",
+        "view": "تهديدات النظام الإيراني جادة وحقيقية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "nZsJ_NK-gos:g177"
+       }
+      ]
+     }
+    ],
+    "context": [],
+    "bites": [
+     {
+      "bite_id": "nZsJ_NK-gos:g177",
+      "video_id": "nZsJ_NK-gos",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "ميعاد ملكي",
+      "speaker_original": "میعاد ملکی",
+      "speaker_role": "الرئيس السابق لمكتب استهداف العقوبات بوزارة الخزانة الأمريكية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 177.0,
+      "end": 205.0,
+      "summary_ar": "ملكي يرى أن تهديدات النظام الإيراني لاستهداف مسؤولي واشنطن جادة وتهدف لزيادة الضغط ورفع تكلفة الحرب على إدارة ترامب.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "nZsJ_NK-gos:g232",
+      "video_id": "nZsJ_NK-gos",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "ميعاد ملكي",
+      "speaker_original": "میعاد ملکی",
+      "speaker_role": "الرئيس السابق لمكتب استهداف العقوبات بوزارة الخزانة الأمريكية",
+      "is_host": false,
+      "type": "fact",
+      "start": 232.0,
+      "end": 260.0,
+      "summary_ar": "ملكي يوضح أن إيران فشلت تاريخيًا في تنفيذ اغتيالات داخل الأراضي الأمريكية ونجحت خارجها وفي التجسس والقرصنة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "nZsJ_NK-gos:g310",
+      "video_id": "nZsJ_NK-gos",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "ميعاد ملكي",
+      "speaker_original": "میعاد ملکی",
+      "speaker_role": "الرئيس السابق لمكتب استهداف العقوبات بوزارة الخزانة الأمريكية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 310.0,
+      "end": 335.0,
+      "summary_ar": "ملكي يؤكد أن المخططات الإيرانية ستزيد من إصرار واشنطن وترامب على مواجهة النظام الإيراني نفسه لا سلوكه فقط.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "nZsJ_NK-gos:g365",
+      "video_id": "nZsJ_NK-gos",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "ميعاد ملكي",
+      "speaker_original": "میعاد ملکی",
+      "speaker_role": "الرئيس السابق لمكتب استهداف العقوبات بوزارة الخزانة الأمريكية",
+      "is_host": false,
+      "type": "forecast",
+      "start": 365.0,
+      "end": 383.0,
+      "summary_ar": "ملكي يتوقع أن تدفع التهديدات ترامب إلى تشديد الضغط لإنهاء النظام الإيراني خلال العامين المتبقيين من ولايته.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "wGpZmssj6F4:g225",
+      "video_id": "wGpZmssj6F4",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "أحمد رحال",
+      "speaker_original": "أحمد رحال",
+      "speaker_role": "خبير عسكري واستراتيجي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 224.96,
+      "end": 249.66,
+      "summary_ar": "يعتبر أن معلومات الموساد الإسرائيلي تفتقر إلى الدقة وتهدف أساسا إلى جر الولايات المتحدة إلى خوض حرب ضد إيران.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "wGpZmssj6F4:g252",
+      "video_id": "wGpZmssj6F4",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "أحمد رحال",
+      "speaker_original": "أحمد رحال",
+      "speaker_role": "خبير عسكري واستراتيجي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 251.72,
+      "end": 277.22,
+      "summary_ar": "يؤكد أن واشنطن تؤمّن حماية دائمة لترامب ومسؤوليها ولا تنتظر معلومات الموساد، رابطا المزاعم بحاجة نتنياهو السياسية للحرب.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "M8scky4BXYs:g104",
+      "video_id": "M8scky4BXYs",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "محمد شيمشك",
+      "speaker_original": "Mehmet Şimşek",
+      "speaker_role": "مدير الأخبار الخارجية في CNN TÜRK",
+      "is_host": false,
+      "type": "opinion",
+      "start": 104.32,
+      "end": 130.52,
+      "summary_ar": "إسرائيل تسرب أنباء هجوم إيراني محتمل لإجبار ترامب على توجيه ضربة لإيران خوفًا من التوصل لاتفاق بينهما.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "M8scky4BXYs:g375",
+      "video_id": "M8scky4BXYs",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "غفار ياكينجا",
+      "speaker_original": "Gaffar Yakınca",
+      "speaker_role": "صحفي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 375.0,
+      "end": 405.0,
+      "summary_ar": "إسرائيل تستغل مزاعم التهديد الإيراني لتحريض ترامب على شن حرب رغم معارضة جزء كبير من الشارع الأمريكي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "dV12oTITBi8:g333",
+      "video_id": "dV12oTITBi8",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "غوربوز إفرين",
+      "speaker_original": "Gürbüz Evren",
+      "speaker_role": "صحفي وكاتب تركي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 332.68,
+      "end": 348.72,
+      "summary_ar": "غوربوز إفرين يرى أن مزاعم التخطيط الإيراني لاغتيال ترامب حيلة إسرائيلية صبيانية لجر أمريكا للحرب.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "dV12oTITBi8:g361",
+      "video_id": "dV12oTITBi8",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "أيهان ساري",
+      "speaker_original": "Ayhan Sarı",
+      "speaker_role": "أكاديمي تركي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 361.44,
+      "end": 387.48,
+      "summary_ar": "أيهان ساري يرجح أن إسرائيل تهدد ترامب بالاغتيال مبطنًا تحت ستار تحذيره من مخطط إيراني.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     }
+    ],
+    "extracted": 12
    }
   },
   {
