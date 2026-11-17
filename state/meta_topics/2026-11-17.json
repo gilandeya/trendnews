@@ -1316,7 +1316,338 @@
     }
    ],
    "qa_requested_at": "2026-11-17T14:00:15.825785+00:00",
-   "selected_from": 1909
+   "selected_from": 1909,
+   "topic_issue": 1916,
+   "qa": {
+    "attempts": 1,
+    "at": "2026-11-17T14:02:05.571321+00:00",
+    "gemini_cost": 0.7776,
+    "gemini_rejected": 0,
+    "originals": [],
+    "originals_found": 0,
+    "source": "gemini",
+    "failures": [],
+    "plan": {
+     "attempts": [
+      {
+       "model": "claude-sonnet-5",
+       "stop_reason": "tool_use",
+       "bites": 8,
+       "rows": 5,
+       "raw_type": "list",
+       "answers": 13,
+       "bad_n": 0,
+       "error": ""
+      }
+     ]
+    },
+    "verify": {
+     "checked": 8,
+     "ok": 0,
+     "no_match": 0,
+     "failed": 8,
+     "no_text": 0,
+     "left": 0,
+     "audio_seconds": 0,
+     "skipped": "",
+     "cut_off": 2,
+     "seconds": 150
+    },
+    "capped": 2,
+    "selected_seconds": 81.0,
+    "status": "ready",
+    "titles": [
+     "لماذا حشدت أمريكا حاملات طائراتها قرب إيران؟",
+     "هل تتجه واشنطن وطهران إلى ضربة عسكرية؟",
+     "هل ستتراجع إيران أمام الحشد الأمريكي؟"
+    ],
+    "questions": [
+     {
+      "text": "لماذا حشدت الولايات المتحدة حاملات طائراتها في المنطقة؟",
+      "answers": [
+       {
+        "n": 1,
+        "fit": "direct",
+        "view": "إجبار إيران على خفض مطالبها",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "-w3I3PGwmUc:g3679"
+       },
+       {
+        "n": 3,
+        "fit": "direct",
+        "view": "تنفيذ خطط عملياتية محددة ضد إيران",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "-w3I3PGwmUc:g3925"
+       },
+       {
+        "n": 7,
+        "fit": "weak",
+        "view": "فرض الوصاية الأمريكية على المنطقة",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "8hi333yU0wA:g694"
+       }
+      ]
+     },
+     {
+      "text": "هل تتجه أمريكا لتوجيه ضربة عسكرية لإيران؟",
+      "answers": [
+       {
+        "n": 2,
+        "fit": "direct",
+        "view": "ضربة قاسية إن لم تتراجع إيران",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "-w3I3PGwmUc:g3764"
+       },
+       {
+        "n": 4,
+        "fit": "direct",
+        "view": "ضربة استعراضية ثم حصار اقتصادي",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "-w3I3PGwmUc:g4020"
+       }
+      ]
+     },
+     {
+      "text": "هل ستستسلم إيران لشروط واشنطن أم تواجهها؟",
+      "answers": [
+       {
+        "n": 6,
+        "fit": "direct",
+        "view": "إيران سترضخ حفظاً لماء الوجه",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "-w3I3PGwmUc:g4555"
+       },
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "إيران لن تترك المنطقة مكشوفة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "8hi333yU0wA:g1318"
+       }
+      ]
+     },
+     {
+      "text": "ما حجم الكلفة والاستعداد العسكري لهذا الحشد الأمريكي؟",
+      "answers": [
+       {
+        "n": 3,
+        "fit": "direct",
+        "view": "كلفة يومية ضخمة وخطط عملياتية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "-w3I3PGwmUc:g3925"
+       },
+       {
+        "n": 5,
+        "fit": "weak",
+        "view": "بقاء القوات حتى تحقيق الأهداف",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "-w3I3PGwmUc:g4270"
+       }
+      ]
+     },
+     {
+      "text": "هل ترامب عازم على حسم المواجهة مهما كلف الأمر؟",
+      "answers": [
+       {
+        "n": 5,
+        "fit": "direct",
+        "view": "ترامب لن ينسحب قبل تحقيق أهدافه",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "-w3I3PGwmUc:g4270"
+       },
+       {
+        "n": 2,
+        "fit": "weak",
+        "view": "ضربة قاسية إن لم تتراجع إيران",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "-w3I3PGwmUc:g3764"
+       }
+      ]
+     }
+    ],
+    "context": [],
+    "bites": [
+     {
+      "bite_id": "-w3I3PGwmUc:g3679",
+      "video_id": "-w3I3PGwmUc",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "عايد المناع",
+      "speaker_original": "عايد المناع",
+      "speaker_role": "أكاديمي وباحث سياسي كويتي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 3679.0,
+      "end": 3708.0,
+      "summary_ar": "عايد المناع يرى أن الحشود العسكرية الأمريكية تهدف لإجبار إيران على خفض سقف مطالبها والقبول بالشروط الأمريكية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "-w3I3PGwmUc:g3764",
+      "video_id": "-w3I3PGwmUc",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "عايد المناع",
+      "speaker_original": "عايد المناع",
+      "speaker_role": "أكاديمي وباحث سياسي كويتي",
+      "is_host": false,
+      "type": "forecast",
+      "start": 3764.0,
+      "end": 3795.0,
+      "summary_ar": "عايد المناع يرجح توجيه واشنطن ضربات قاسية لإيران إن لم تتراجع عن طموحاتها غير الواقعية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "-w3I3PGwmUc:g3925",
+      "video_id": "-w3I3PGwmUc",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "عماد آبشناس",
+      "speaker_original": "عماد آبشناس",
+      "speaker_role": "رئيس نقابة مدراء مراكز الأبحاث والدراسات الإيرانية",
+      "is_host": false,
+      "type": "fact",
+      "start": 3925.0,
+      "end": 3954.0,
+      "summary_ar": "عماد آبشناس يوضح كلفة نشر حاملات الطائرات الأمريكية بالمنطقة ومؤشراتها العملياتية ضد إيران.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "-w3I3PGwmUc:g4020",
+      "video_id": "-w3I3PGwmUc",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "عماد آبشناس",
+      "speaker_original": "عماد آبشناس",
+      "speaker_role": "رئيس نقابة مدراء مراكز الأبحاث والدراسات الإيرانية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 4020.0,
+      "end": 4050.0,
+      "summary_ar": "عماد آبشناس يرجح نية واشنطن تنفيذ ضربة استعراضية يعقبها حصار اقتصادي وبحري لإسقاط النظام الإيراني.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "-w3I3PGwmUc:g4270",
+      "video_id": "-w3I3PGwmUc",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "نيقولا شحود",
+      "speaker_original": "نيقولا شحود",
+      "speaker_role": "عضو الحزب الجمهوري الأمريكي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 4270.0,
+      "end": 4297.0,
+      "summary_ar": "نيقولا شحود يؤكد أن ترامب لن يسحب قواته قبل تحقيق كامل الأهداف الأمريكية ضد طهران.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "-w3I3PGwmUc:g4555",
+      "video_id": "-w3I3PGwmUc",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "عايد المناع",
+      "speaker_original": "عايد المناع",
+      "speaker_role": "أكاديمي وباحث سياسي كويتي",
+      "is_host": false,
+      "type": "forecast",
+      "start": 4555.0,
+      "end": 4585.0,
+      "summary_ar": "عايد المناع يتوقع استسلام طهران وقبولها بالشروط لحفظ ماء الوجه قبل انعقاد الكونغرس الجديد.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "8hi333yU0wA:g694",
+      "video_id": "8hi333yU0wA",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "مصدق بور",
+      "speaker_original": "مصدق پور",
+      "speaker_role": "محلل سياسي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 694.0,
+      "end": 717.0,
+      "summary_ar": "مصدق بور يرى أن الولايات المتحدة تفرض وصايتها على المنطقة وتتدخل فيها بأساطيلها وقواعدها العسكرية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "8hi333yU0wA:g1318",
+      "video_id": "8hi333yU0wA",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "مصدق بور",
+      "speaker_original": "مصدق پور",
+      "speaker_role": "محلل سياسي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1318.0,
+      "end": 1350.0,
+      "summary_ar": "مصدق بور يؤكد أن إيران تحاكي السياسات العسكرية الأمريكية ولن تترك المنطقة مكشوفة لواشنطن وتل أبيب.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     }
+    ],
+    "error": "",
+    "extracted": 8,
+    "cost": {
+     "claude": {
+      "claude-sonnet-5": 0.01704
+     },
+     "gemini": 0.7776
+    }
+   }
   },
   {
    "id": "6f01bab0b9b1",
