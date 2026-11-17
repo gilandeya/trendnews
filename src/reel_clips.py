@@ -38,13 +38,16 @@ def _speech_rate(cfg) -> float:
     return float(rate) if rate else 2.3
 
 
-def locate_quote(quote, segments, near, cfg=None) -> dict:
+def locate_quote(quote, segments, near, cfg=None, duration: float | None = None) -> dict:
     """{start, end, matches, status, level}: found | ambiguous | missing.
 
     أسطر يوتيوب قصيرة (2–4 ثوانٍ) والاقتباس يمتد عدّة أسطر، فيُبنى نص واحد موصول من كل الأسطر
     المطبَّعة بـ`_normalize_for_anchor` نفسها مع خريطة موضع ← سطر، ويُبحث بالتدرّج: الاقتباس كاملًا
     ثم أول 8 كلمات (كل المواضع، الأقرب إلى near) ثم 5 ثم 3 (موضع واحد فقط وإلا ambiguous)،
-    لأن الكلمات القليلة تتكرر فتُنسب إلى لحظة خاطئة بلا إنذار."""
+    لأن الكلمات القليلة تتكرر فتُنسب إلى لحظة خاطئة بلا إنذار.
+
+    duration (ريل 1913): مدة المقطع كما حدّدها مصدره. في الدرجات الناقصة (8/5/3) لا تُعرف نهاية الكلام فتُقدَّر من
+    عدد الكلمات ÷ معدل ثابت، والتقدير يقصر على المتحدث البطيء فيُقطع كلامه؛ فلا تقلّ النهاية عن مدته المعروفة."""
     from src import youtube_extract
     norm = youtube_extract._normalize_for_anchor
     empty = {"start": None, "end": None, "matches": 0, "status": "missing", "level": None}
@@ -77,10 +80,14 @@ def locate_quote(quote, segments, near, cfg=None) -> dict:
             tail = float(cfg.path("reel.script.clip_tail_seconds", 1.0)) if cfg is not None else 1.0
             est = segments[last][0] + len(lines[last].split()) / rate + tail
             end = round(min(float(segments[last + 1][0]), est) if last + 1 < len(segments) else est, 1)
-        else:
-            end = round(segments[first][0] + len(words) / rate, 1)
+        extended = False
+        if level != "full":
+            est = segments[first][0] + len(words) / rate
+            # مدة المصدر لا تُقصّ بتقدير المعدل، لكنها لا تمدّ نافذة وُجد لها حدّ حقيقي (الدرجة full)
+            end = round(max(est, segments[first][0] + float(duration)) if duration else est, 1)
+            extended = bool(duration) and end > round(est, 1)
         return {"start": segments[first][0], "end": end, "matches": len(hits),
-                "status": status, "level": level, "first": first,
+                "status": status, "level": level, "first": first, "extended": extended,
                 "last": line_of(hits[0] + len(target) - 1) if level == "full" else first}
 
     hits = positions(words)

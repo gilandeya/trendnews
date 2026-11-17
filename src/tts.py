@@ -135,6 +135,13 @@ class VoiceSession:
         gender = next((g for g, v in narr.items() if v == voice), "female")
         return str((_el_cfg(self.cfg).get("voices") or {}).get(gender) or "")
 
+    def multilingual(self) -> bool:
+        """هل يقرأ مزوّد هذا الريل الحروف اللاتينية بنطقها؟ (ريل 1913) يُحسم المزوّد هنا إن لم يُحسم بعد، كما يُحسم عند أول
+        جملة. أصوات Google العربية تتعثر في النص اللاتيني فتبقى الأسماء عندها بالعربية."""
+        if self.provider is None:
+            self._decide()
+        return self.provider in (self.cfg.path("reel.tts.latin_names.providers") or [])
+
     def synthesize(self, text: str, voice: str) -> dict:
         if self.provider is None:
             self._decide()
@@ -186,9 +193,13 @@ DIACRITIZE_TOOL = {
     "input_schema": {"type": "object", "properties": {
         "text": {"type": "string"},
         "proper_nouns": {"type": "array", "items": {"type": "object", "properties": {
-            "text": {"type": "string"}, "foreign": {"type": "boolean"}}, "required": ["text", "foreign"]}}},
+            "text": {"type": "string"}, "foreign": {"type": "boolean"}, "latin": {"type": "string"}},
+            "required": ["text", "foreign"]}}},
         "required": ["text"]},
 }
+
+_LATIN_RE = re.compile("[A-Za-z]")
+_ARABIC_RE = re.compile("[ء-ي]")
 
 
 def strip_tashkeel(text: str) -> str:
@@ -317,6 +328,48 @@ def apply_proper_nouns(text: str, nouns: list) -> str:
             pos = en
     out.append(text[pos:])
     return "".join(out)
+
+
+def latin_names(text: str, nouns: list, cfg=None) -> tuple[str, list]:
+    """نص النطق وحده: كل عَلَم أجنبي يُكتب برسمه اللاتيني الأصلي («دونالد ترامب» ← «Donald Trump») فيقرأه الصوت متعدد اللغات
+    بنطقه الأصلي لا بأسلوب عربي (ملاحظة صاحب المشروع، ريل 1913). يعيد (النص، [(العربي، اللاتيني)]).
+
+    المعروض على الشاشة لا يتغير أبدًا: هذا النص يذهب إلى المزوّد وحده. لا يُستبدل إلا علم وسمه النموذج أجنبيًا ومعه رسم
+    لاتيني خالص وردت كلماته كلها في النص؛ والأطول كلماتٍ أولًا فلا يُبتر علم داخل علم. دالة خالصة."""
+    valid = []
+    for n in nouns or []:
+        if not isinstance(n, dict) or not n.get("foreign"):
+            continue
+        latin = " ".join(str(n.get("latin") or "").split())
+        toks = strip_tashkeel(str(n.get("text") or "")).split()
+        # رسم فيه حرف عربي ليس الرسم الأصلي، وبلا حرف لاتيني لا يُنطق بغير العربية
+        if toks and latin and _LATIN_RE.search(latin) and not _ARABIC_RE.search(latin):
+            valid.append((toks, latin))
+    if not valid:
+        return text, []
+    words = [(m.start(), m.end(), strip_tashkeel(m.group())) for m in _WORD_RE.finditer(text or "")]
+    spans: dict[int, tuple[int, str]] = {}
+    taken: set[int] = set()
+    for toks, latin in sorted(valid, key=lambda v: -len(v[0])):
+        for i in range(len(words) - len(toks) + 1):
+            if [w[2] for w in words[i:i + len(toks)]] != toks or any(k in taken for k in range(i, i + len(toks))):
+                continue
+            spans[i] = (len(toks), latin)
+            taken.update(range(i, i + len(toks)))
+    if not spans:
+        return text, []
+    out, pos, used = [], 0, []
+    for i, (start, _, _) in enumerate(words):
+        if i not in spans:
+            continue
+        count, latin = spans[i]
+        end = words[i + count - 1][1]
+        out.append(text[pos:start])
+        out.append(latin)
+        used.append((" ".join(w[2] for w in words[i:i + count]), latin))
+        pos = end
+    out.append(text[pos:])
+    return "".join(out), used
 
 
 def split_sentences(text: str) -> list[str]:
