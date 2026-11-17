@@ -191,6 +191,8 @@ def valid_clips(member_points: list[dict], unresolved: list, cfg: Any) -> list[d
                     # قضية 1856: external (مؤتمر صحفي وما شابه) لا تُذكر قناته، وother_channel يُذكر مصدره الأصلي إن عُرف
                     "relay": p.get("setting") if p.get("setting") in ("external", "other_channel") else "",
                     "relay_source": p.get("source_channel", "") or "",
+                    # طرف في الحدث أم محلل (ريل 1913): كلام قيل في ظهور صاحبه نفسه يوثّقه ظهوره لا شريط قناة
+                    "voice": p.get("voice", "") or "",
                     # حصري للقناة (13/11): الكلام قيل في برنامجها هي بحكم Gemini؛ مؤتمر أو خطاب أو ظهور أصلي من قناة أخرى ليس حصريًا
                     "exclusive": p.get("setting") == "studio" and p.get("setting_source") == "model",
                     "type": p.get("type", "") or "",       # نوع النقطة: الإجابة رأي لا واقعة (Issue #1621، R6)
@@ -218,7 +220,8 @@ def speaker_band(clip: dict, cfg: Any) -> str:
 def speaker_badge(clip: dict, cfg: Any) -> str:
     texts = cfg.path("reel.texts", {}) or {}
     if clip.get("speaker_verified") and clip.get("speaker_name"):
-        key = {"title": "verified_title", "gemini": "verified_gemini"}.get(clip.get("speaker_verified_from"), "verified_description")
+        key = {"title": "verified_title", "gemini": "verified_gemini",
+               "actor": "verified_actor"}.get(clip.get("speaker_verified_from"), "verified_description")
         return texts.get(key, "")
     return texts.get("guest_badge", "")
 
@@ -288,7 +291,7 @@ def identify_speakers(valid: list[dict], member_points: list[dict], cfg: Any, cl
         rows = {r.get("point_id"): r for r in (data or {}).get("speakers") or [] if isinstance(r, dict)}
     except Exception as exc:  # noqa: BLE001 — فشل التعرّف لا يُسقط الريل: الكل ضيوف غير مسمّين
         log.warning("فشل تحديد هوية متحدثي الريل -- كلهم غير موثَّقين: %s: %s", type(exc).__name__, exc)
-        return [_accept_source_name(c, cfg) for c in out]
+        return [_accept_fallback_name(c, cfg) for c in out]
     from . import names
     for c in out:
         r = rows.get(c["point_id"]) or {}
@@ -304,7 +307,7 @@ def identify_speakers(valid: list[dict], member_points: list[dict], cfg: Any, cl
             # ما سمّاه التعرّف (قد يكون فارغًا) هو «الاسم» الذي يحرسه الحارس؛ حقل speaker المستخرج وصف أحيانًا
             # فكلماته العامة («الطاقة»، «السعودية») ليست اسمًا. للحارس وحده: لا يُنسخ إلى مشاهد السيناريو.
             c["speaker_name_guess"] = arabic
-            _accept_source_name(c, cfg)
+            _accept_fallback_name(c, cfg)
     return out
 
 
@@ -324,6 +327,32 @@ def _accept_source_name(c: dict, cfg: Any) -> dict:
              speaker_name_latin=" ".join((c.get("speaker_original") or "").split()))
     c.pop("speaker_name_guess", None)
     return c
+
+
+def _accept_actor_name(c: dict, cfg: Any) -> dict:
+    """كلام قيل في ظهور صاحبه نفسه (مؤتمر صحفي، خطاب، تصريح للصحفيين: relay == "external") لطرف في الحدث لا محلل: اسمه موثَّق
+    بظهوره. ريل 1913: تصريح ترامب أعادت بثه سكاي نيوز عربية خرج بلا اسم ولا قناة (مقطع السياق لا تُذكر قناة ناقله) فظهر وجهه
+    بلا بطاقة تعريف، لأن التوثيق كله يسأل «من يقول الشريط إنه المتكلم؟» وفي مؤتمر صحفي لا شريط ولا مقدّم يعرّف به.
+    الهوية هنا هي الخبر نفسه: لو كان الاسم خطأً لكان الاقتباس كله منسوبًا إلى غير صاحبه فيُحذف لا يُعرض بلا اسم. وحرّاس
+    التركيب (الشريط والخريطة وGemini والوجه) تبقى كما هي فتُصحّح أو تحذف إن خالفها شيء. المقدّم لا يُسمّى.
+    مقطع قديم بلا حقل voice: relay == "external" وحده يكفي (قاعدة meta_qa.is_actor نفسها)."""
+    from . import names, youtube_bites
+    name = " ".join((c.get("speaker_text") or "").split())
+    if (c.get("speaker_verified") or c.get("is_host") or not cfg.path("reel.identity.accept_external_actor", True)
+            or c.get("relay") != "external" or (c.get("voice") or "actor") != "actor" or not name
+            or not youtube_bites.is_arabic_text(name, cfg)):
+        return c
+    c.update(speaker_verified=True, speaker_verified_from="actor", speaker_name=names.normalize_names(name, cfg),
+             speaker_role=" ".join((c.get("speaker_role_hint") or "").split()),
+             speaker_name_latin=" ".join((c.get("speaker_original") or "").split()))
+    c.pop("speaker_name_guess", None)
+    return c
+
+
+def _accept_fallback_name(c: dict, cfg: Any) -> dict:
+    """التوثيق البديل حين لا يرد الاسم اللاتيني في عنوان الفيديو ولا وصفه: شريط القناة أو تعريف المقدّم (Gemini) ثم ظهور صاحب
+    الكلام نفسه (ريل 1913). بترتيبه: الأول أقوى لأنه اسم قُرئ من الشاشة."""
+    return _accept_actor_name(_accept_source_name(c, cfg), cfg)
 
 
 # ───────────────────────────── التحقق والتقدير ─────────────────────────────
