@@ -1459,7 +1459,459 @@
     }
    ],
    "qa_requested_at": "2026-11-18T09:59:57.778563+00:00",
-   "selected_from": 1926
+   "selected_from": 1926,
+   "topic_issue": 1932,
+   "qa": {
+    "attempts": 1,
+    "at": "2026-11-18T10:02:11.065411+00:00",
+    "videos": [
+     {
+      "video_id": "9v8GC76s0U8",
+      "channel": "BBC Persian",
+      "bloc": "persian",
+      "minutes": 30.2,
+      "bites": 0,
+      "rejected": 0
+     },
+     {
+      "video_id": "60OzpYE9kUQ",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "minutes": 24.9,
+      "bites": 2,
+      "rejected": 0
+     },
+     {
+      "video_id": "iLCMmuWlIiM",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "minutes": 24.1,
+      "bites": 5,
+      "rejected": 0
+     },
+     {
+      "video_id": "3cIdOxkVYCA",
+      "channel": "SÖZCÜ",
+      "bloc": "turkish",
+      "minutes": 15.3,
+      "bites": 2,
+      "rejected": 0
+     },
+     {
+      "video_id": "v5kDoLteFjI",
+      "channel": "TVBS新聞",
+      "bloc": "chinese",
+      "minutes": 10.1,
+      "bites": 0,
+      "rejected": 0
+     },
+     {
+      "video_id": "fzqkuRUO0QQ",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "minutes": 22.0,
+      "bites": 3,
+      "rejected": 1
+     },
+     {
+      "video_id": "-Ig1W7-NWMQ",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "minutes": 17.1,
+      "bites": 3,
+      "rejected": 0
+     }
+    ],
+    "gemini_cost": 0.4817,
+    "gemini_rejected": 1,
+    "channels": 5,
+    "originals": [
+     {
+      "bite_id": "fzqkuRUO0QQ:g352",
+      "source_channel": "",
+      "found": false,
+      "candidate": "g-T46Ums84E",
+      "candidates": [
+       "tcEIb2fYehA",
+       "g-T46Ums84E"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     }
+    ],
+    "originals_found": 0,
+    "read_dropped": 3,
+    "read_dropped_speakers": [
+     "?",
+     "عباس عراقجي"
+    ],
+    "source": "gemini",
+    "failures": [],
+    "plan": {
+     "attempts": [
+      {
+       "model": "claude-sonnet-5",
+       "stop_reason": "tool_use",
+       "bites": 12,
+       "rows": 5,
+       "raw_type": "list",
+       "answers": 18,
+       "bad_n": 0,
+       "error": ""
+      }
+     ]
+    },
+    "verify": {
+     "checked": 12,
+     "ok": 3,
+     "no_match": 0,
+     "failed": 9,
+     "no_text": 0,
+     "left": 0,
+     "audio_seconds": 159,
+     "skipped": "",
+     "cut_off": 3,
+     "seconds": 242
+    },
+    "capped": 4,
+    "selected_seconds": 118.9,
+    "status": "ready",
+    "titles": [
+     "هل تخطط إيران فعلاً لاستهداف ترامب بقنبلة قذرة؟",
+     "هل التقرير الاستخباراتي عن القنبلة القذرة حقيقي أم دعاية؟",
+     "كيف يمكن تنفيذ هجوم بقنبلة قذرة دون إلقائها ككتلة واحدة؟"
+    ],
+    "questions": [
+     {
+      "text": "هل تخطط إيران فعلاً لاستهداف ترامب أو فريقه بقنبلة قذرة؟",
+      "answers": [
+       {
+        "n": 1,
+        "fit": "direct",
+        "view": "إيران تستهدف ترامب لإيقاف الحرب",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "60OzpYE9kUQ:g365"
+       },
+       {
+        "n": 6,
+        "fit": "direct",
+        "view": "احتمال استخدام أوروبا مختبراً للعمليات",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "fzqkuRUO0QQ:g1018"
+       },
+       {
+        "n": 5,
+        "fit": "weak",
+        "view": "التقرير موثوق لأن مسؤولين رهنوا سمعتهم",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "fzqkuRUO0QQ:g712"
+       },
+       {
+        "n": 7,
+        "fit": "direct",
+        "view": "المزاعم تكرار ذرائع سابقة لترهيب الأمريكيين",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "-Ig1W7-NWMQ:g556"
+       }
+      ]
+     },
+     {
+      "text": "هل التقرير الاستخباراتي عن القنبلة القذرة مصداقيته موثوقة أم دعاية مضللة؟",
+      "answers": [
+       {
+        "n": 5,
+        "fit": "direct",
+        "view": "التقرير موثوق لأن مسؤولين رهنوا سمعتهم",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "fzqkuRUO0QQ:g712"
+       },
+       {
+        "n": 7,
+        "fit": "direct",
+        "view": "الادعاءات دعاية لنشر الرعب بين الأمريكيين",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "-Ig1W7-NWMQ:g556"
+       },
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "كاتبة التقرير لها ارتباط بشركة تجسس إسرائيلية",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "-Ig1W7-NWMQ:g898"
+       },
+       {
+        "n": 4,
+        "fit": "weak",
+        "view": "الأجهزة الأمريكية تتعامل بجدية مع أي تهديد",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "iLCMmuWlIiM:g466"
+       }
+      ]
+     },
+     {
+      "text": "كيف يمكن تنفيذ هجوم بقنبلة قذرة دون إلقائها ككتلة واحدة؟",
+      "answers": [
+       {
+        "n": 3,
+        "fit": "direct",
+        "view": "تنفيذ مجزأ عبر خلايا وتلويث متفرق",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "iLCMmuWlIiM:g373"
+       }
+      ]
+     },
+     {
+      "text": "كيف سترد واشنطن وتل أبيب إن ثبت التخطيط الإيراني؟",
+      "answers": [
+       {
+        "n": 2,
+        "fit": "direct",
+        "view": "رد عسكري يسقط النظام الإيراني",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "60OzpYE9kUQ:g394"
+       },
+       {
+        "n": 4,
+        "fit": "direct",
+        "view": "تعامل أمني صارم دون تغيير جذري بالحسابات",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "iLCMmuWlIiM:g466"
+       }
+      ]
+     },
+     {
+      "text": "من يقف وراء ترويج قصة القنبلة القذرة الإيرانية؟",
+      "answers": [
+       {
+        "n": 5,
+        "fit": "weak",
+        "view": "مسؤولون استخباراتيون موثوقون نقلوا التقرير",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "fzqkuRUO0QQ:g712"
+       },
+       {
+        "n": 9,
+        "fit": "direct",
+        "view": "سي إن إن ومالكها الداعم لإسرائيل",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "-Ig1W7-NWMQ:g1367"
+       },
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "كاتبة مرتبطة بشركة تجسس إسرائيلية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "-Ig1W7-NWMQ:g898"
+       }
+      ]
+     }
+    ],
+    "context": [],
+    "bites": [
+     {
+      "bite_id": "60OzpYE9kUQ:g365",
+      "video_id": "60OzpYE9kUQ",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "أمير أفيفي",
+      "speaker_original": "Amir Avivi",
+      "speaker_role": "مؤسس منتدى الدفاع والأمن الإسرائيلي وعميد احتياط",
+      "is_host": false,
+      "type": "opinion",
+      "start": 364.92,
+      "end": 392.8,
+      "summary_ar": "أمير أفيفي يرى أن إيران تخطط لاستهداف دونالد ترامب ومسؤوليه لوقف الحرب وإجبار واشنطن على الانسحاب.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "60OzpYE9kUQ:g394",
+      "video_id": "60OzpYE9kUQ",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "أمير أفيفي",
+      "speaker_original": "Amir Avivi",
+      "speaker_role": "مؤسس منتدى الدفاع والأمن الإسرائيلي وعميد احتياط",
+      "is_host": false,
+      "type": "opinion",
+      "start": 393.7,
+      "end": 414.98,
+      "summary_ar": "أمير أفيفي يدعو لرد عسكري يسقط النظام الإيراني بعد تكرار محاولاته لاغتيال دونالد ترامب وبنيامين نتنياهو.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "iLCMmuWlIiM:g373",
+      "video_id": "iLCMmuWlIiM",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "مهند العزاوي",
+      "speaker_original": "Mohanad Al-Azzawi",
+      "speaker_role": "محلل الشؤون السياسية والعسكرية في سكاي نيوز عربية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 373.0,
+      "end": 397.0,
+      "summary_ar": "يرى مهند العزاوي أن القنبلة القذرة قد لا تُلقى ككتلة واحدة بل تنفذ عبر أساليب مجزأة كتنظيمات وخلايا منفردة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "iLCMmuWlIiM:g466",
+      "video_id": "iLCMmuWlIiM",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "فادي حيلاني",
+      "speaker_original": "Fadi Hailani",
+      "speaker_role": "مدير برنامج الشرق الأوسط في المجلس الوطني للعلاقات العربية الأمريكية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 466.0,
+      "end": 487.0,
+      "summary_ar": "يؤكد فادي حيلاني أن الأجهزة الأمريكية تتعامل مع التقارير الأمنية بجدية قصوى وتعتبرها تهديدًا عالي المستوى منذ أحداث سبتمبر.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "fzqkuRUO0QQ:g712",
+      "video_id": "fzqkuRUO0QQ",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "عرفان قانعي فرد",
+      "speaker_original": "عرفان قانعی‌فرد",
+      "speaker_role": "محلل شؤون الشرق الأوسط",
+      "is_host": false,
+      "type": "opinion",
+      "start": 712.0,
+      "end": 742.0,
+      "summary_ar": "أكد المحلل عرفان قانعي فرد مصداقية تقرير القنبلة القذرة لأن سبعة مسؤولين أمنيين أمريكيين رهنوا سمعتهم بنقله.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "fzqkuRUO0QQ:g1018",
+      "video_id": "fzqkuRUO0QQ",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "إبراهيم روشندل",
+      "speaker_original": "ابراهیم روشندل",
+      "speaker_role": "دبلوماسي سابق وعضو لجنة مكافحة الإرهاب بوزارة الأمن الداخلي الأمريكي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1018.0,
+      "end": 1054.0,
+      "summary_ar": "أشار الدبلوماسي السابق إبراهيم روشندل إلى احتمال استخدام النظام الإيراني لأوروبا كمختبر لترتيب عمليات داخل الأراضي الأمريكية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "-Ig1W7-NWMQ:g556",
+      "video_id": "-Ig1W7-NWMQ",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "محمد مرندي",
+      "speaker_original": "Mohammad Marandi",
+      "speaker_role": "خبير في الشؤون الاستراتيجية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 556.26,
+      "end": 584.58,
+      "summary_ar": "يرى مرندي أن مزاعم وجود قنبلة قذرة إيرانية في واشنطن تكرار لذرائع سابقة استُخدمت ضد العراق والقاعدة بهدف إرهاب الأمريكيين.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "-Ig1W7-NWMQ:g898",
+      "video_id": "-Ig1W7-NWMQ",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "كولين راولي",
+      "speaker_original": "Coleen Rowley",
+      "speaker_role": "عميلة خاصة سابقة في مكتب التحقيقات الفيدرالي الأمريكي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 898.0,
+      "end": 923.0,
+      "summary_ar": "تشكك راولي في تقرير سي إن إن بشأن القنبلة القذرة الإيرانية لعمل كاتبته سابقًا لدى شركة تجسس إسرائيلية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "-Ig1W7-NWMQ:g1367",
+      "video_id": "-Ig1W7-NWMQ",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "محمد مرندي",
+      "speaker_original": "Mohammad Marandi",
+      "speaker_role": "خبير في الشؤون الاستراتيجية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1367.0,
+      "end": 1393.0,
+      "summary_ar": "يؤكد مرندي أن الدعاية حول القنبلة القذرة انطلقت من سي إن إن المملوكة لديفيد إليسون الداعم المتطرف لإسرائيل.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     }
+    ],
+    "error": "",
+    "extracted": 12,
+    "cost": {
+     "claude": {
+      "claude-sonnet-5": 0.02454
+     },
+     "gemini": 0.4817,
+     "proxy_bytes": 3155862
+    }
+   }
   },
   {
    "id": "74a33f8afeba",
