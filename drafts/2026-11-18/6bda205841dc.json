@@ -1,7 +1,7 @@
 {
   "id": "6bda205841dc",
   "created_at": "2026-11-18T06:44:42.359484+00:00",
-  "status": "approved_script",
+  "status": "published",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -1193,5 +1193,12 @@
     "- 🔤 نُطقت أسماء أجنبية برسمها الأصلي: شنتشن ← Shenzhen، دونالد ترامب ← Donald Trump، فلاديمير بوتين ← Vladimir Putin، شي جين بينغ ← Xi Jinping، يالطا ← Yalta",
     "- 💵 كلفة الريل: 1.50$ — المقاطع والأسئلة 1.08$ · السيناريو 0.22$ · التركيب 0.20$ (Sonnet 0.21$ · Opus 0.09$ · Haiku 0.02$ · Gemini 1.18$ · بروكسي 63 MB) · البروكسي خارج المجموع"
   ],
-  "reel_review_issue": 1929
+  "reel_review_issue": 1929,
+  "published_at": "2026-11-18T07:57:56.392430+00:00",
+  "facebook": {
+    "post_id": "2415322175966757",
+    "kind": "reel",
+    "url": "https://www.facebook.com/reel/2415322175966757"
+  },
+  "reel_seconds": 183
 }
