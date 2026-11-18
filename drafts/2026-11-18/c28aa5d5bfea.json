@@ -1,0 +1,461 @@
+{
+  "id": "c28aa5d5bfea",
+  "created_at": "2026-11-18T10:23:06.565888+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "تقرير استخباراتي عن مخطط إيراني لقنبلة قذرة تستهدف واشنطن أو فريق ترامب",
+  "event": "تقرير استخباراتي عن مخطط إيراني لقنبلة قذرة تستهدف واشنطن أو فريق ترامب",
+  "tier": 5,
+  "blocs": [
+    "arabic",
+    "chinese",
+    "israeli",
+    "persian",
+    "turkish"
+  ],
+  "channels": [
+    "BBC Persian",
+    "CNN Türk",
+    "ILTV",
+    "Iran International",
+    "SÖZCÜ",
+    "TVBS新聞",
+    "العربية",
+    "الميادين",
+    "سكاي نيوز عربية"
+  ],
+  "agreement": "",
+  "score": 0,
+  "warnings": [
+    "✏️ صيغ السؤال 2 ليتصل بالسياق: كان «هل التقرير الاستخباراتي عن القنبلة القذرة مصداقيته موثوقة أم دعاية مضللة؟» صار «هل هذا التقرير الاستخباراتي موثوق أم دعاية مضللة؟»"
+  ],
+  "run_date": "2026-11-18",
+  "topic_date": "2026-11-18",
+  "arabic": {
+    "post_title": "هل تخطط إيران فعلاً لاستهداف ترامب بقنبلة قذرة؟",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "BBC Persian",
+      "CNN Türk",
+      "ILTV",
+      "Iran International",
+      "SÖZCÜ",
+      "TVBS新聞",
+      "العربية",
+      "الميادين",
+      "سكاي نيوز عربية"
+    ]
+  },
+  "source_videos": [],
+  "meta_topic_id": "36583318d6cb",
+  "meta_issue": 1932,
+  "hook_pick": 3,
+  "cost_qa": {
+    "claude": {
+      "claude-sonnet-5": 0.02454
+    },
+    "gemini": 0.4817,
+    "proxy_bytes": 3155862
+  },
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "915d075d1340",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "ويشعرون أنهم إذا نجحوا في استهداف الرئيس ترامب على وجه الخصوص، وكذلك أعضاء حكومته المقربين، فقد يتمكنون من تغيير كل شيء وإيقاف الحرب وجعل الولايات المتحدة تنسحب من المنطقة. بالنسبة للإيرانيين، بالنسبة للنظام الإيراني، هذه قضية وجودية، وهم مستعدون لفعل أي شيء يستطيعونه لتغيير الواقع القاسي الذي يعيشونه.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "ILTV"
+      },
+      {
+        "point_id": "b096ebdecec9",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "بل إن هنا نقطتين بالغتي الأهمية، وقد طرحتُ في تقريري الأخير تقريباً قبل أربعة أشهر في هذه اللجنة المعنية بمكافحة العمليات الإرهابية بوصفها تهديداً من الجمهورية الإسلامية، وهما: هل تريد الجمهورية الإسلامية أن تستخدم أوروبا مختبراً أو مكاناً مؤقتاً لتنفيذ عمليات لاحقة منظّمة داخل الأراضي الأمريكية، بناءً على ما يطرحه بعض المسؤولين في وسائل الإعلام، أم أن الأمر مجرد مناورة؟",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "23106364a423",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الميادين"
+      },
+      {
+        "point_id": "5b00452ef17e",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "الحقيقة أنها لن تغيّر الحسابات بشكل جذري، لو كان هناك تعامل على مستوى أمني عالٍ. والحقيقة أن الأجهزة الأمنية الأمريكية تعلّمت الدرس منذ الحادي عشر من سبتمبر، وهو أن تتعامل مع أي تقرير أمني أو تهديد محتمل على أنه تهديد عالي المستوى.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سكاي نيوز عربية"
+      }
+    ]
+  },
+  "quote_retranslated": [
+    "915d075d1340",
+    "b096ebdecec9",
+    "5b00452ef17e"
+  ],
+  "names_audit": [
+    {
+      "arabic": "أمير أفيفي",
+      "latin": "Amir Avivi"
+    },
+    {
+      "arabic": "إبراهيم روشندل",
+      "latin": ""
+    },
+    {
+      "arabic": "محمد مرندي",
+      "latin": ""
+    },
+    {
+      "arabic": "فادي حيلاني",
+      "latin": ""
+    },
+    {
+      "arabic": "ترامب",
+      "latin": "Trump"
+    }
+  ],
+  "headlines": [
+    "هل تخطط إيران فعلاً لاستهداف ترامب بقنبلة قذرة؟",
+    "هل التقرير الاستخباراتي عن القنبلة القذرة حقيقي أم دعاية؟"
+  ],
+  "headline_selected": 0,
+  "script": {
+    "version": 2,
+    "narrator": "female",
+    "title": "هل تخطط إيران فعلاً لاستهداف ترامب بقنبلة قذرة؟",
+    "question": "ماذا سيفعل ترامب إن ثبتت صحة هذا التقرير؟",
+    "event": "",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "هل تخطط إيران فعلاً لاستهداف ترامب بقنبلة قذرة؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "كشف تقرير استخباراتي عن مخطط إيراني مزعوم لتفجير قنبلة قذرة في واشنطن أو استهداف الرئيس الأمريكي دونالد ترامب وأعضاء حكومته. طهران تنفي المزاعم."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 0,
+        "text": "هل تخطط إيران فعلاً لاستهداف ترامب أو فريقه بقنبلة قذرة؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "915d075d1340",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=60OzpYE9kUQ",
+        "start": 363.9,
+        "end": 392.8,
+        "speaker_name": "أمير أفيفي",
+        "speaker_role": "مؤسس منتدى الدفاع والأمن الإسرائيلي وعميد احتياط",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Amir Avivi",
+        "channel_display": "ILTV",
+        "channel_original": "ILTV",
+        "quote_arabic": "ويشعرون أنهم إذا نجحوا في استهداف الرئيس ترامب على وجه الخصوص، وكذلك أعضاء حكومته المقربين، فقد يتمكنون من تغيير كل شيء وإيقاف الحرب وجعل الولايات المتحدة تنسحب من المنطقة. بالنسبة للإيرانيين، بالنسبة للنظام الإيراني، هذه قضية وجودية، وهم مستعدون لفعل أي شيء يستطيعونه لتغيير الواقع القاسي الذي يعيشونه.",
+        "quote_original": "and they feel that if they manage to target especially President Trump, but also his close cabinet members, they might manage to shift everything around and stop the war and have the US retreat from the region. For the Iranians, for the Iranian regime, this is an existential issue and they are willing to do anything they can to really change the harsh reality they are experiencing.",
+        "language": "en",
+        "video_published": "2026-11-17T18:00:13Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "b096ebdecec9",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=fzqkuRUO0QQ",
+        "start": 1017.0,
+        "end": 1054.0,
+        "speaker_name": "إبراهيم روشندل",
+        "speaker_role": "دبلوماسي سابق وعضو لجنة مكافحة الإرهاب بوزارة الأمن الداخلي الأمريكي",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "ابراهیم روشندل",
+        "channel_display": "إيران إنترناشيونال",
+        "channel_original": "Iran International",
+        "quote_arabic": "بل إن هنا نقطتين بالغتي الأهمية، وقد طرحتُ في تقريري الأخير تقريباً قبل أربعة أشهر في هذه اللجنة المعنية بمكافحة العمليات الإرهابية بوصفها تهديداً من الجمهورية الإسلامية، وهما: هل تريد الجمهورية الإسلامية أن تستخدم أوروبا مختبراً أو مكاناً مؤقتاً لتنفيذ عمليات لاحقة منظّمة داخل الأراضي الأمريكية، بناءً على ما يطرحه بعض المسؤولين في وسائل الإعلام، أم أن الأمر مجرد مناورة؟",
+        "quote_original": "بله در اینجا دو تا نکته بسیار مهم وجود داره که من در گزارش اخیرم هم تقریباً چهار ماه پیش در همین کمیته مبارزه با عملیات‌های تروریستی به عنوان تهدیدآفرینی جمهوری اسلامی مطرح کردم اینه که آیا جمهوری اسلامی از اروپا به عنوان لابراتوار یا آزمایشگاه موقت می‌خواد استفاده کنه که عملیات‌های بعدی رو در درون خاک ایالات متحده به گونه‌ای سازمان‌دهی‌شده انجام بده بر اساس اون چیزی که برخی مسئولین در رسانه‌های جمعی مطرح می‌کنند یا این یک بلوف هست",
+        "language": "fa",
+        "video_published": "2026-11-17T19:28:55Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 1,
+        "text": "هل هذا التقرير الاستخباراتي موثوق أم دعاية مضللة؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "23106364a423",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=-Ig1W7-NWMQ",
+        "start": 555.3,
+        "end": 584.6,
+        "speaker_name": "محمد مرندي",
+        "speaker_role": "خبير في الشؤون الاستراتيجية",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Mohammad Marandi",
+        "channel_display": "الميادين",
+        "channel_original": "الميادين",
+        "quote_arabic": "القنبلة القذرة في واشنطن وافتراض وجودها استُخدما أيضًا قبل مهاجمة صدام حسين في العراق، وكانا نفس التهمة والمزاعم التي استُخدمت ضد أسامة بن لادن بعد الحادي عشر من سبتمبر 2001، فهذا تكرار لذات الأسلوب، والهدف من كل هذه المزاعم الفجائية ضد إيران هو نشر الرعب بين الأمريكيين فقط.",
+        "quote_original": "القنبلة القذرة في واشنطن، هذه القنبلة القذرة وافتراض القنبلة القذرة تم استخدامه أيضا قبل مهاجمة صدام حسين في العراق، وكان نفس الافتراض أو نفس التهمة أو المزاعم التي استخدمت ضد أسامة بن لادن بعد الحادي عشر من أيلول 2001. إذا هذا هو التكرار نفسه، ولذلك كل هذه المزاعم المختلفة التي أتت بشكل فجائي ضد إيران هدفها فقط نشر الرعب بين الأمريكيين.",
+        "language": "ar",
+        "video_published": "2026-11-17T22:02:03Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "5b00452ef17e",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=iLCMmuWlIiM",
+        "start": 465.0,
+        "end": 487.0,
+        "speaker_name": "فادي حيلاني",
+        "speaker_role": "مدير برنامج الشرق الأوسط في المجلس الوطني للعلاقات العربية الأمريكية",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Fadi Hailani",
+        "channel_display": "سكاي نيوز عربية",
+        "channel_original": "سكاي نيوز عربية",
+        "quote_arabic": "الحقيقة أنها لن تغيّر الحسابات بشكل جذري، لو كان هناك تعامل على مستوى أمني عالٍ. والحقيقة أن الأجهزة الأمنية الأمريكية تعلّمت الدرس منذ الحادي عشر من سبتمبر، وهو أن تتعامل مع أي تقرير أمني أو تهديد محتمل على أنه تهديد عالي المستوى.",
+        "quote_original": "الحقيقة يعني لن تغير هذه من الحسابات بشكل جذري، لو أن هناك تعاط على مستوى أمني عالي. وحقيقة يعني الأجهزة الأمنية الأمريكية تعلمت الدرس منذ الحادي عشر من سبتمبر بأن تتعاطى مع أي تقرير أمني أو تهديد محتمل على أنه يعني تهديد عالي المستوى.",
+        "language": "ar",
+        "video_published": "2026-11-17T13:00:38Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "question",
+        "text": "ماذا سيفعل ترامب إن ثبتت صحة هذا التقرير؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": []
+  },
+  "editor_review": {
+    "at": "2026-11-18T10:23:20.992093+00:00",
+    "applied": [
+      {
+        "category": "headline_contradicts",
+        "severity": "high",
+        "location": "headline_3",
+        "original": "كيف يمكن تنفيذ هجوم بقنبلة قذرة دون إلقائها ككتلة واحدة؟",
+        "fix": "",
+        "note": "هذا العنوان يطرح سؤالاً تقنياً عن آلية تنفيذ هجوم بقنبلة قذرة، وهو موضوع لا تتطرق إليه أي من المقاطع أو السياق المرفق؛ إذ تدور كل المقاطع حول مصداقية التقرير الاستخباراتي ودوافع إيران المزعومة، لا حول الجوانب التقنية لتنفيذ الهجوم. هذا يجعل العنوان مضللاً وغير متصل بمضمون المادة.",
+        "sources": []
+      }
+    ],
+    "notes": [],
+    "error": null,
+    "searches": 0,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "hook_clash": {
+    "error": "لا زوج ولا جملة صالحة",
+    "rejected": [
+      "مدة الجملة 9.6 ث خارج [1.5، 6]",
+      "مدة الجملة 23.5 ث خارج [1.5، 6]",
+      "مدة الجملة 9.6 ث خارج [1.5، 6]",
+      "مدة الجملة 17.3 ث خارج [1.5، 6]",
+      "مدة الجملة 8.5 ث خارج [1.5، 6]",
+      "مدة الجملة 9.6 ث خارج [1.5، 6]"
+    ],
+    "shape": {
+      "pairs": 3,
+      "relations": [
+        "opposite",
+        "partial_opposite"
+      ],
+      "single": true,
+      "pairs_type": "list"
+    }
+  },
+  "reel_bg": {
+    "url": "https://images.a5r5br.net/tmp/i0.wp.com%2Falhurra.com%2Fwp-content%2Fuploads%2F2026%2F11%2F2026-11-15T172830Z_829640780_RC2EOOAJEQPS_RTRMADP_3_USA-TRUMP.jpg%3Ffit%3D1200%252C800%26ssl%3D1",
+    "kind": "news_photo",
+    "publisher": "آخر خبر",
+    "shows": "البيت الأبيض في واشنطن مع علم أمريكي وحديقة خضراء وأشجار وسيارات متوقفة",
+    "text_checked": true,
+    "judged": true
+  },
+  "hook_candidates": [
+    {
+      "video_id": "unLQ4scxcFw",
+      "title": "Trump responds to alleged Iran dirty bomb plot in DC",
+      "channel": "CNN",
+      "views": 574389,
+      "duration": 636,
+      "published": "2026-11-17T15:31:02Z",
+      "views_per_hour": 30393.9
+    },
+    {
+      "video_id": "FKuCw2dt0l0",
+      "title": "US intel concerned Iran is plotting to use a dirty bomb in DC: Sources",
+      "channel": "CNN",
+      "views": 684746,
+      "duration": 526,
+      "published": "2026-11-16T23:52:31Z",
+      "views_per_hour": 19824.7
+    },
+    {
+      "video_id": "A-ULP15hayU",
+      "title": "Dirty bomb on DC: US intel details possible Iran plot targeting Trump officials, report alleges",
+      "channel": "LiveNOW from FOX",
+      "views": 276547,
+      "duration": 719,
+      "published": "2026-11-17T15:34:09Z",
+      "views_per_hour": 14673.9
+    },
+    {
+      "video_id": "NaJRhfPKb64",
+      "title": "New US intelligence indicates that Iran is developing plans",
+      "channel": "CNN",
+      "views": 168386,
+      "duration": 61,
+      "published": "2026-11-17T03:15:18Z",
+      "views_per_hour": 5403.9
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-11-16T00:00:00Z",
+          "2026-11-20T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "مبنى استخبارات أمريكي يقرأ تقرير",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "Washington security checkpoint police near White House",
+            "raw": 17,
+            "channel_ok": 0
+          },
+          {
+            "query": "Iranian embassy statement denial Tehran press conference",
+            "raw": 3,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 0,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "FOX 11 Los Angeles",
+          "ET Now",
+          "Unsolved Mystery Files",
+          "FOX 5 Washington DC",
+          "World, Unpacked",
+          "Background Process",
+          "Clerk Files",
+          "Factron Process"
+        ]
+      },
+      {
+        "broad": true,
+        "window": [
+          "2026-11-14T00:00:00Z",
+          "2026-11-21T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "إيران ترامب قنبلة قذرة",
+            "raw": 30,
+            "channel_ok": 5
+          },
+          {
+            "query": "Iran Trump dirty bomb plot",
+            "raw": 30,
+            "channel_ok": 10
+          },
+          {
+            "query": "İran Trump kirli bomba plan",
+            "raw": 1,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 11,
+        "judged_ok": 11,
+        "rejected_channels": [
+          "WUSA9",
+          "New York Post",
+          "WHAS11",
+          "WJACTV",
+          "The Hill",
+          "ABC 7 News - WJLA",
+          "GNS ملخص الأخبار العالمية",
+          "Boston 25 News"
+        ]
+      }
+    ],
+    "picked": [
+      "unLQ4scxcFw",
+      "FKuCw2dt0l0",
+      "A-ULP15hayU",
+      "NaJRhfPKb64"
+    ]
+  },
+  "broll_plan": [],
+  "broll_plan_error": "لا خطة لقطات في الرد",
+  "cost_script": {
+    "claude": {
+      "claude-haiku-5-5": 0.00304,
+      "claude-sonnet-5": 0.13029,
+      "claude-opus-5": 0.08331
+    }
+  },
+  "review_issue": 1933,
+  "stage2_issue": 1933
+}
