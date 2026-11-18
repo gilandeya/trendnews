@@ -1,7 +1,7 @@
 {
   "id": "c28aa5d5bfea",
   "created_at": "2026-11-18T10:23:06.565888+00:00",
-  "status": "pending",
+  "status": "approved_script",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -329,6 +329,16 @@
   },
   "hook_candidates": [
     {
+      "video_id": "A-ULP15hayU",
+      "title": "Dirty bomb on DC: US intel details possible Iran plot targeting Trump officials, report alleges",
+      "channel": "LiveNOW from FOX",
+      "views": 276547,
+      "duration": 719,
+      "published": "2026-11-17T15:34:09Z",
+      "views_per_hour": 14673.9,
+      "picked": true
+    },
+    {
       "video_id": "unLQ4scxcFw",
       "title": "Trump responds to alleged Iran dirty bomb plot in DC",
       "channel": "CNN",
@@ -345,15 +355,6 @@
       "duration": 526,
       "published": "2026-11-16T23:52:31Z",
       "views_per_hour": 19824.7
-    },
-    {
-      "video_id": "A-ULP15hayU",
-      "title": "Dirty bomb on DC: US intel details possible Iran plot targeting Trump officials, report alleges",
-      "channel": "LiveNOW from FOX",
-      "views": 276547,
-      "duration": 719,
-      "published": "2026-11-17T15:34:09Z",
-      "views_per_hour": 14673.9
     },
     {
       "video_id": "NaJRhfPKb64",
@@ -457,5 +458,8 @@
     }
   },
   "review_issue": 1933,
-  "stage2_issue": 1933
+  "stage2_issue": 1933,
+  "render_status": "queued",
+  "approved_script_at": "2026-11-18T10:39:27.788557+00:00",
+  "hook_picked": 2
 }
