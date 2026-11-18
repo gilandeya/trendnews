@@ -99,7 +99,10 @@ def candidates(script: dict, cfg) -> list[dict]:
 
 def _norm(text: str) -> list[str]:
     from . import youtube_extract
-    return youtube_extract._normalize_for_anchor(re.sub(r"[^\w\s]", " ", str(text or ""))).split()
+    # نصف الفاصلة الفارسية (ZWNJ) تُحذف لا تصير مسافة: «می‌کنم» و«میکنم» كلمة واحدة، وكان الأول يُقسم كلمتين فلا يطابق من نسخها بلا
+    # الفاصلة (ريل 1929: سقطت ورقة الهوك الثانية بحدود «ليست حرفيًا»)
+    text = str(text or "").replace("‌", "")
+    return youtube_extract._normalize_for_anchor(re.sub(r"[^\w\s]", " ", text)).split()
 
 
 def _token_map(text: str) -> tuple[list[str], list[str], list[int]]:
@@ -114,20 +117,31 @@ def _token_map(text: str) -> tuple[list[str], list[str], list[int]]:
     return raw, norm, owner
 
 
-def locate(text: str, first: str, last: str) -> tuple[int, int, int] | None:
-    """(أول كلمة، آخر كلمة، عدد الكلمات) بأرقام الكلمات المكتوبة في text لقطعة تبدأ بكلمات first وتنتهي بكلمات last بعد التطبيع؛
-    أول ظهور لـfirst ثم أول ظهور لـlast يبدأ عنده أو بعده. غياب أيهما ← None (لا تخمين: الجملة يجب أن تكون حرفيًا في الكلام)."""
+def _seq_at(toks: list[str], k: int, seq: list[str], eq) -> bool:
+    return k + len(seq) <= len(toks) and all(eq(a, b) for a, b in zip(seq, toks[k:k + len(seq)]))
+
+
+def locate(text: str, first: str, last: str, cfg=None) -> tuple[int, int, int] | None:
+    """(أول كلمة، آخر كلمة، عدد الكلمات) بأرقام الكلمات المكتوبة في text لقطعة تبدأ بكلمات first وتنتهي بكلمات last بعد التطبيع.
+    حرفيًا أولًا؛ وإلا بتسامح الكلمة (reel_clips.word_close: رسم آخر أو حرف خاطئ في كلمة طويلة، بحدّ clash.anchor_similarity) — ريل 1929:
+    خمس جمل من أربعة مقاطع سقطت «ليست حرفيًا» فخرج الهوك بورقة واحدة. التسامح في إيجاد الموضع وحده: ما يُعرض ويُسمع هو كلمات
+    الكلام الأصلي نفسها بين الموضعين. كل ظهور لـfirst يُجرَّب (كان أول ظهور وحده). غياب أيهما ← None (لا تخمين)."""
+    from . import reel_clips
     raw, toks, owner = _token_map(text)
     f, la = _norm(first), _norm(last)
     if not toks or not f or not la:
         return None
-    for i in range(len(toks) - len(f) + 1):
-        if toks[i:i + len(f)] != f:
-            continue
-        for j in range(i, len(toks) - len(la) + 1):
-            if toks[j:j + len(la)] == la:
-                return owner[i], owner[j + len(la) - 1], len(raw)
-        return None
+    c = ccfg(cfg) if cfg is not None else {}
+    sim, min_len = float(c.get("anchor_similarity", 0.8)), int(c.get("anchor_min_len", 4))
+    exact = lambda a, b: a == b  # noqa: E731
+    close = lambda a, b: reel_clips.word_close(a, b, sim, min_len)  # noqa: E731
+    for eq in ((exact,) if sim >= 1 else (exact, close)):
+        for i in range(len(toks) - len(f) + 1):
+            if not _seq_at(toks, i, f, eq):
+                continue
+            for j in range(i, len(toks) - len(la) + 1):
+                if _seq_at(toks, j, la, eq):
+                    return owner[i], owner[j + len(la) - 1], len(raw)
     return None
 
 
@@ -157,9 +171,16 @@ def check_line(line: dict, cands: dict, cfg) -> tuple[dict | None, str]:
     cand = cands.get(str((line or {}).get("point_id") or ""))
     if cand is None:
         return None, "مقطع ليس في السيناريو"
-    loc = locate(cand["quote_original"], line.get("first_words", ""), line.get("last_words", ""))
+    loc = locate(cand["quote_original"], line.get("first_words", ""), line.get("last_words", ""), cfg)
     if loc is None:
-        return None, "الجملة ليست حرفيًا في كلام المقطع"
+        # السبب يسمّي المقطع والكلمات التي لم تُوجد: «ليست حرفيًا» وحدها لم تقل للإعادة أي جملة ولا لماذا (ريل 1929). حدود من الترجمة
+        # لمتكلم بغير العربية خطأ شائع له نصّه
+        t = c.get("texts") or {}
+        first, last = str(line.get("first_words") or "")[:60], str(line.get("last_words") or "")[:60]
+        from_ar = not is_arabic_speech(cand, cfg) and locate(cand.get("quote_arabic", ""), first, last, cfg) is not None
+        tpl = t.get("from_translation" if from_ar else "not_verbatim",
+                    "جملة {channel}: «{first} … {last}» ليست حرفيًا في كلامه الأصلي")
+        return None, tpl.format(channel=cand.get("channel", ""), first=first, last=last)
     i, j, total = loc
     raw = cand["quote_original"].split()
     sub = " ".join(raw[i:j + 1])
@@ -301,7 +322,11 @@ def plan(draft: dict, cfg, client=None) -> None:
         hc = decide(raw, cands, cfg)
         # ريلا 13/11: جمل أطول من الحد أو حدود ليست حرفيًا في الكلام فسقط الهوك؛ إعادة واحدة في المحادثة نفسها بالأسباب (نمط Q8)
         # لا نداء جديد يكتب من الصفر. تبقى نتيجة الأولى إن لم تصلح الثانية
-        if hc.get("error") and hc.get("rejected") and int(c.get("retries", 1)) > 0 and getattr(block, "id", None):
+        # ريل 1929: اقترح النموذج أزواجًا سقطت كلها فخرج الهوك بورقة واحدة ولم يُعَد لأن single نجح؛ الهوك المقصود ورقتان، فتُعاد
+        # الأزواج المرفوضة مرة أيضًا (retry_for_pair)، ولا يُقبل من الإعادة إلا زوج، وإلا تبقى الورقة الواحدة
+        want_pair = (hc.get("mode") == "single" and hc.get("rejected") and bool(c.get("retry_for_pair", True))
+                     and len(cands) > 1 and len({x["bloc"] for x in cands}) > 1)
+        if (hc.get("error") or want_pair) and hc.get("rejected") and int(c.get("retries", 1)) > 0 and getattr(block, "id", None):
             msgs = [{"role": "user", "content": user_message(script, cands, cfg)},
                     {"role": "assistant", "content": [{"type": "tool_use", "id": block.id, "name": TOOL["name"], "input": raw}]},
                     {"role": "user", "content": [{"type": "tool_result", "tool_use_id": block.id, "is_error": True,
@@ -314,11 +339,11 @@ def plan(draft: dict, cfg, client=None) -> None:
                 if resp2 is not None and getattr(resp2, "stop_reason", "") != "max_tokens" else None
             if isinstance(raw2, dict):
                 hc2 = decide(raw2, cands, cfg)
-                if not hc2.get("error"):
+                if not hc2.get("error") and (not want_pair or hc2.get("mode") == "pair"):
                     hc2["retried"] = hc["rejected"]
                     hc = hc2
                 else:
-                    hc["retry_rejected"] = hc2.get("rejected", [])
+                    hc["retry_rejected"] = hc2.get("rejected", []) or [hc2.get("error") or "single"]
         draft["hook_clash"] = hc
     except Exception as exc:  # noqa: BLE001 -- الهوك تحسين: يعود الهوك القديم
         log.warning("تعذّر اختيار هوك المواجهة: %s", str(exc)[:150])
@@ -506,6 +531,38 @@ def draw_parts(d, right: float, y: float, parts: list, line_h: int, left: float,
     return lines
 
 
+def fit_row(d, items: list[dict], max_w: float, gap: int, step: int = 2, drop: tuple = ("orient", "latin")) -> list:
+    """أجزاء سطر واحد [(النص، الخط، اللون)] تسع max_w (ريل 1929، ملاحظة صاحب المشروع: «قناة إيران إنترناشيونال Iran International
+    (معارضة للنظام)» نزل توجّهها إلى سطر ثانٍ في الورقة). تُصغَّر الأجزاء معًا بخطوة step حتى أدنى حجم كلٍّ منها، فإن لم يسع السطر
+    يُحذف الجزء الأول من drop (التوجّه ثم الرسم الأجنبي، كما في شريط المتحدث) ويُعاد التصغير؛ العربي الأول لا يُحذف. items: {text، key،
+    make(size) ← خط أو None، size، min، color}. لا يسع حتى وحده ← الأول وحده بأدنى حجمه (draw_parts تحميه)."""
+    items = [it for it in items if it.get("text")]
+    for k in [None, *drop]:
+        if k is not None:
+            if not any(it.get("key") == k for it in items):
+                continue
+            items = [it for it in items if it.get("key") != k]
+        shrink = 0
+        while True:
+            parts, width, floor = [], 0.0, True
+            for it in items:
+                size = max(int(it["min"]), int(it["size"]) - shrink)
+                floor = floor and size == int(it["min"])
+                f = it["make"](size)
+                if f is None:
+                    break
+                parts.append((it["text"], f, it["color"]))
+                width += _part_w(d, it["text"], f)
+            if len(parts) == len(items) and width + gap * (len(parts) - 1) <= max_w:
+                return parts
+            if floor:
+                break
+            shrink += step
+    it = items[0] if items else None
+    f = it["make"](int(it["min"])) if it else None
+    return [(it["text"], f, it["color"])] if f is not None else []
+
+
 def info_rows(scene: dict, cfg, d) -> list[tuple[list, int]]:
     """أسطر معلومات المحلل [(الأجزاء، ارتفاع السطر)] كما في شريط المتحدث: الاسم (أسود) ورسمه الأجنبي (كحلي)، الصفة (رمادي)،
     «قناة X» (أسود) ورسمها الأجنبي (كحلي) والتوجّه بين قوسين (رمادي). متحدث غير موثَّق ← سطر القناة وحده بحجم أكبر."""
@@ -530,6 +587,23 @@ def info_rows(scene: dict, cfg, d) -> list[tuple[list, int]]:
     def lat_font(text, size):
         return reel_render.pick_font(text, latin_path, size, None) if text else None
 
+    min_size, gap = int(info.get("min_size", 24)), 14
+    min_latin = int(info.get("min_latin_size", min_size))
+
+    def ar_item(text, size, kind, color, key):
+        path, weight = reel_render.face(cfg, text, kind)
+        if kind == "display":
+            weight = info.get("bold_weight", weight)
+        return {"text": text, "key": key, "size": size, "min": min_size, "color": color,
+                "make": lambda s, p=path, wt=weight: _font(p, s, wt)}
+
+    def lat_item(text, size, color, key):
+        return {"text": text, "key": key, "size": size, "min": min(size, min_latin), "color": color,
+                "make": lambda s, t=text: lat_font(t, s)}
+
+    def row(items):
+        return fit_row(d, items, w, gap, int(info.get("fit_step", 2)), tuple(info.get("fit_drop") or ("orient", "latin")))
+
     ch_ar, ch_lat = reel_render.band_channel_parts(scene, cfg)
     if _has_ar(ch_ar) and re.search(r"[A-Za-z]", ch_ar) and not ch_lat:
         # قناة بلا اسم عربي («قناة All Israel News»): الكلمة العربية بالأسود والاسم الأجنبي بالكحلي كرسم أجنبي
@@ -538,11 +612,12 @@ def info_rows(scene: dict, cfg, d) -> list[tuple[list, int]]:
         ch_ar, ch_lat = " ".join(toks[:k_ar]), " ".join(toks[k_ar:])
     orient = reel_render.band_orientation(scene, cfg)
     if name:
-        latin = (scene.get("speaker_name_latin") or "").strip()
-        f = ar_font(name, int(info.get("name_size", 46)), "display", int(info.get("min_size", 24)))
-        if f is not None:
-            lf = lat_font(latin, int(info.get("name_latin_size", 34)))
-            rows.append(([(name, f, black), (latin if lf else "", lf, navy)], int(info.get("name_h", 66))))
+        # الرسم الأجنبي بقاعدة شريط المتحدث نفسها: اسم فارسي بالحروف العربية («مهدی مهدوی‌آزاد») تكرار للاسم لا رسم أجنبي (ريل 1929)
+        latin = reel_render.foreign_name(scene)
+        parts = row([ar_item(name, int(info.get("name_size", 46)), "display", black, "name"),
+                     lat_item(latin, int(info.get("name_latin_size", 34)), navy, "latin")])
+        if parts:
+            rows.append((parts, int(info.get("name_h", 66))))
         role = reel_render.band_role(scene.get("speaker_role", ""))
         if role:
             rf = ar_font(role, int(info.get("role_size", 30)), "body", int(info.get("min_size", 24)))
@@ -553,19 +628,12 @@ def info_rows(scene: dict, cfg, d) -> list[tuple[list, int]]:
         size, height = int(info.get("solo_size", 36)), int(info.get("solo_h", 56))
     first = ch_ar or ch_lat
     if first:
-        if _has_ar(first):
-            cf = ar_font(first, size, "display", int(info.get("min_size", 24)))
-        else:
-            cf = lat_font(first, size)
-        parts = [(first, cf, black if _has_ar(first) else navy)] if cf is not None else []
+        items = [ar_item(first, size, "display", black, "channel") if _has_ar(first) else lat_item(first, size, navy, "channel")]
         if ch_ar and ch_lat:
-            lf = lat_font(ch_lat, int(info.get("channel_latin_size", 30)))
-            if lf is not None:
-                parts.append((ch_lat, lf, navy))
+            items.append(lat_item(ch_lat, int(info.get("channel_latin_size", 30)), navy, "latin"))
         if orient:
-            of = ar_font(f"({orient})", int(info.get("orient_size", 30)), "body", int(info.get("min_size", 24)))
-            if of is not None:
-                parts.append((f"({orient})", of, grey))
+            items.append(ar_item(f"({orient})", int(info.get("orient_size", 30)), "body", grey, "orient"))
+        parts = row(items)
         if parts:
             rows.append((parts, height))
     return rows

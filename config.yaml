@@ -2518,7 +2518,7 @@ reel:
     # فلا يتحرك. قيمة ≥ min(lead_seconds, clip_tail_seconds) تُخفَّض إلى ذلك الحد − 0.1 كي لا يقع كلام المقطع في التلاشي
     transition: {type: slideleft, outro_type: fade, seconds: 0.35}
     # نسخة التركيب: رفعها تعيد --pending تركيب كل ريل معتمد مُركَّب بنسخة أقدم (المنشور والمرفوض لا يُمسّان)
-    version: 79
+    version: 80
     # أسطر بالجمل (قرار صاحب المشروع 7/11): في كل نص على الشاشة (الراوي والترجمة وكلام المتكلم والعنوان والسؤال) تبدأ كل جملة سطرًا
     # جديدًا، وما لا يسعه سطر يُكمل تحته قبل أن تبدأ التالية. marks: العلامات التي تنهي الجملة إن تلتها مسافة. false ← التقسيم بالعرض وحده
     clause_lines: {enabled: true, marks: "،,؛;.!?؟"}
@@ -2649,6 +2649,15 @@ reel:
       salvage_single: true
       retries: 1
       retry_result: "رُفض اقتراحك لهذه الأسباب: {reasons}. أعد الاقتراح كاملًا: كل جملة قطعة متصلة حرفيًا من الكلام الأصلي المعطى بطولها المطلوب (اختر عبارة تامة أقصر من داخل الكلام إن طالت)، وأعطِ single دائمًا."
+      # ريل 1929: اقترح النموذج أزواجًا سقطت كلها («ليست حرفيًا») فخرج الهوك بورقة واحدة بلا إعادة لأن single نجح. retry_for_pair ←
+      # تُعاد الأزواج المرفوضة مرة ولا يُقبل من الإعادة إلا زوج (وإلا تبقى الورقة الواحدة). anchor_similarity ← حدود الجملة تُوجد في الكلام
+      # بتسامح الكلمة (رسم آخر أو حرف خاطئ في كلمة من anchor_min_len أحرف فأكثر)، وما يُعرض ويُسمع كلمات الكلام نفسها؛ 1 ← حرفيًا وحده
+      retry_for_pair: true
+      anchor_similarity: 0.8
+      anchor_min_len: 4
+      texts:
+        not_verbatim: "جملة {channel}: «{first} … {last}» ليست في كلامه الأصلي — انسخ first_words وlast_words من «الكلام الأصلي» بلغته حرفًا بحرف"
+        from_translation: "جملة {channel}: «{first} … {last}» من الترجمة لا من الكلام الأصلي — first_words وlast_words بلغة المتكلم كما في «الكلام الأصلي»، والترجمة في text_ar وحده"
       # الصوت من أول كلمة إلى آخرها بهامش صغير لا يدخل كلمة مجاورة (يقف قبلها بـneighbor_gap): لا تُسمع كلمة لا تُكتب
       pad: [0.08, 0.12]
       neighbor_gap: 0.02
@@ -2667,8 +2676,11 @@ reel:
       # والفيديو بحواف مدوّرة بلا إطار. grey لون الصفة والتوجّه كما في الشريط
       card: {width: 680, margin: 20, video_height: 614, info_height: 232, radius: 38, video_radius: 22, color: "", dim: 0.5,
              grey: [214, 222, 238]}
+      # سطر الورقة لا يُكسر (ريل 1929: نزل توجّه القناة إلى سطر ثانٍ): يُصغَّر السطر كله معًا حتى min_size/min_latin_size، ثم يُحذف
+      # ما في fit_drop بترتيبه (التوجّه ثم الرسم الأجنبي، كشريط المتحدث) ويُعاد التصغير
       info: {edge: 30, black: [0, 0, 0], bold_weight: ExtraBold, name_size: 46, name_latin_size: 34, name_h: 66, role_size: 30,
-             row_h: 50, channel_size: 32, channel_latin_size: 30, orient_size: 30, solo_size: 36, solo_h: 56, min_size: 24, nudge: -4}
+             row_h: 50, channel_size: 32, channel_latin_size: 30, orient_size: 30, solo_size: 36, solo_h: 56, min_size: 24, nudge: -4,
+             min_latin_size: 22, fit_step: 2, fit_drop: [orient, latin]}
       caption: {size: 36, min_size: 28, side: 30, pad_x: 22, box_h: 66, bottom: 18, box: [18, 24, 38], alpha: 215}
       # [x المركز، y المركز، الزاوية] للورقة الأمامية والخلفية وموضع الخروج في منتصف التبديل
       fan: {front: [600, 940, -5], back: [455, 900, 12], out: [930, 880, -17]}
