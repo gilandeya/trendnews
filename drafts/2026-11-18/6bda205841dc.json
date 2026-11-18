@@ -1,0 +1,537 @@
+{
+  "id": "6bda205841dc",
+  "created_at": "2026-11-18T06:44:42.359484+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "قمة ترامب وبوتين وشي جين بينغ الثلاثية في شنتشن",
+  "event": "قمة ترامب وبوتين وشي جين بينغ الثلاثية في شنتشن",
+  "tier": 6,
+  "blocs": [
+    "arabic",
+    "chinese",
+    "english",
+    "persian",
+    "russian",
+    "turkish"
+  ],
+  "channels": [
+    "BBC News",
+    "CCTV中文",
+    "CGTN",
+    "CNN Türk",
+    "DW News",
+    "Fox News",
+    "Habertürk",
+    "Iran International",
+    "SÖZCÜ",
+    "TVBS新聞",
+    "Дождь",
+    "Настоящее Время",
+    "العربية",
+    "الميادين",
+    "سكاي نيوز عربية",
+    "凤凰卫视"
+  ],
+  "agreement": "",
+  "score": 0,
+  "warnings": [
+    "اسم لم يُحسم: هاكان بيراكجي (Hakan Bıraksı) — لا رسم مرشّح ظهر في 2 نطاقات عربية مستقلة (أقصى ما وُجد: 0)",
+    "✏️ صيغ السؤال 2 ليتصل بالسياق: كان «ما الذي يسعى كل طرف لتحقيقه في القمة الثلاثية؟» صار «ما الذي يسعى كل زعيم لتحقيقه في قمة شنتشن؟»"
+  ],
+  "run_date": "2026-11-18",
+  "topic_date": "2026-11-18",
+  "arabic": {
+    "post_title": "هل تتقاسم القمم الثلاث العالم كاتفاق يالطا الجديد؟",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "BBC News",
+      "CCTV中文",
+      "CGTN",
+      "CNN Türk",
+      "DW News",
+      "Fox News",
+      "Habertürk",
+      "Iran International",
+      "SÖZCÜ",
+      "TVBS新聞",
+      "Дождь",
+      "Настоящее Время",
+      "العربية",
+      "الميادين",
+      "سكاي نيوز عربية",
+      "凤凰卫视"
+    ]
+  },
+  "source_videos": [],
+  "meta_topic_id": "d53142a83494",
+  "meta_issue": 1927,
+  "hook_pick": 3,
+  "cost_qa": {
+    "claude": {
+      "claude-sonnet-5": 0.05076
+    },
+    "gemini": 1.0298,
+    "proxy_bytes": 5246325
+  },
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "cdc9f5e9f7be",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "أرفض تشبيه هذه القمة بمؤتمر يالطا لسببين؛ الأول أنه خلال مؤتمر يالطا كان هناك تحالف يضم بريطانيا والاتحاد السوفيتي والولايات المتحدة الأمريكية بوصفهم منتصرين في الحرب وتعاونوا معًا، بينما لا يوجد حاليًا أي تحالف حقيقي بين الولايات المتحدة الأمريكية والصين وروسيا، فرغم وجود تعاون في بعض المجالات فإن نقاط الخلاف كثيرة جدًا.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "d14529f60ff4",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سكاي نيوز عربية"
+      },
+      {
+        "point_id": "80dcbc5c774b",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سكاي نيوز عربية"
+      },
+      {
+        "point_id": "902a0cb7bcb5",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "إذا بدأت ضربة أمريكية قوية بعد ستة أو سبعة أيام من هذه الاجتماعات، أو بعد أسبوع إلى عشرة أيام، فهذا يعني أن الموافقة قد صدرت من هناك. ثانيًا: قد يُوافَق ضمن هذه التنازلات على ما تطلبه روسيا بشأن أوكرانيا. أما الصين فمطالبها ومكاسبها اقتصادية بنسبة سبعين بالمئة. لا أعلم ما القرار الذي سيتخذونه بشأن تايوان، لكنني أتوقع خروج بعض النتائج.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن ترك"
+      },
+      {
+        "point_id": "f426f8fef49d",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "أعتقد أن الرئيس الصيني شي جين بينغ سيحمل أجندته الخاصة المرتبطة برؤيته للنظام العالمي ومختلف مبادراته الصينية. وعن ماذا سيتحدث فلاديمير بوتين؟ بطبيعة الحال سيتحدث عن أن الدول الغربية، باستثناء دونالد ترامب والولايات المتحدة، ماكرة وتخرق القواعد ويجب التفاوض معها، وسيُشيد بهذا الإطار المنتج الذي أصبحتُ جزءًا منه.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "تلفزيون دوشد"
+      }
+    ]
+  },
+  "quote_retranslated": [
+    "cdc9f5e9f7be",
+    "902a0cb7bcb5",
+    "f426f8fef49d"
+  ],
+  "name_unresolved": [
+    {
+      "arabic": "هاكان بيراكجي",
+      "latin": "Hakan Bıraksı",
+      "reason": "لا رسم مرشّح ظهر في 2 نطاقات عربية مستقلة (أقصى ما وُجد: 0)"
+    }
+  ],
+  "names_audit": [
+    {
+      "arabic": "يفغيني سيدروف",
+      "latin": "Evgeny Sidorov"
+    },
+    {
+      "arabic": "تشو شيوان",
+      "latin": ""
+    },
+    {
+      "arabic": "هاكان بيراكجي",
+      "latin": "Hakan Bıraksı"
+    },
+    {
+      "arabic": "ألكسندر غابويف",
+      "latin": "Alexander Gabuev"
+    },
+    {
+      "arabic": "دونالد ترامب",
+      "latin": "Donald Trump"
+    },
+    {
+      "arabic": "فلاديمير بوتين",
+      "latin": "Vladimir Putin"
+    },
+    {
+      "arabic": "شي جين بينغ",
+      "latin": "Xi Jinping"
+    }
+  ],
+  "headlines": [
+    "هل تتقاسم القمم الثلاث العالم كاتفاق يالطا الجديد؟",
+    "ماذا تريد كل قوة من قمة شنتشن الثلاثية؟",
+    "هل تخرج قمة ترامب وبوتين وشي بقرارات حاسمة؟"
+  ],
+  "headline_selected": 0,
+  "script": {
+    "version": 2,
+    "narrator": "male",
+    "title": "هل تتقاسم القمم الثلاث العالم كاتفاق يالطا الجديد؟",
+    "question": "هل تخرج قمة شنتشن بتفاهمات تصمد أم بصور بلا نتائج؟",
+    "event": "",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "هل تتقاسم القمم الثلاث العالم كاتفاق يالطا الجديد؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "تجمع مدينة شنتشن الصينية الرئيس الأمريكي دونالد ترامب والروسي فلاديمير بوتين والصيني شي جين بينغ في قمة ثلاثية، تتصدر جدولها ملفات إيران وأوكرانيا والاقتصاد."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 0,
+        "text": "هل تشبه قمة شنتشن مؤتمر يالطا التاريخي لتقاسم العالم؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "cdc9f5e9f7be",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=geL9qGMWfdw",
+        "start": 556.0,
+        "end": 588.0,
+        "speaker_name": "مهدي مهدوي‌آزاد",
+        "speaker_role": "محلل",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "مهدی مهدوی‌آزاد",
+        "channel_display": "إيران إنترناشيونال",
+        "channel_original": "Iran International",
+        "quote_arabic": "أرفض تشبيه هذه القمة بمؤتمر يالطا لسببين؛ الأول أنه خلال مؤتمر يالطا كان هناك تحالف يضم بريطانيا والاتحاد السوفيتي والولايات المتحدة الأمريكية بوصفهم منتصرين في الحرب وتعاونوا معًا، بينما لا يوجد حاليًا أي تحالف حقيقي بين الولايات المتحدة الأمريكية والصين وروسيا، فرغم وجود تعاون في بعض المجالات فإن نقاط الخلاف كثيرة جدًا.",
+        "quote_original": "اینکه آیا این نشست مثل یالتاست، من این رو به دو دلیل رد می‌کنم. یکی اینکه در زمان کنفرانس یالتا یک ائتلافی داشتیم از بریتانیا، شوروی و آمریکا که به نوعی پیروز جنگ بودند و این‌ها با همدیگه همکاری کردند. الان ائتلاف جدی بین آمریکا، چین و روسیه وجود نداره. همکاری‌هایی در یک حوزه‌هایی وجود داره، اما مناطق تعارض هم بسیار زیاده.",
+        "language": "fa",
+        "video_published": "2026-11-17T19:24:10Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "d14529f60ff4",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=4i4GhKLowvo",
+        "start": 821.0,
+        "end": 847.0,
+        "speaker_name": "يفغيني سيدروف",
+        "speaker_role": "كاتب وباحث سياسي",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "يفجيني سيدروف",
+        "channel_display": "سكاي نيوز عربية",
+        "channel_original": "سكاي نيوز عربية",
+        "quote_arabic": "تباين الأجندات هو الأساس هنا، ومن يتحدث عن يالطا ثانية يخطئ كليا، إذ لا تجوز المقارنة مع يالطا التي جمعت المنتصرين في الحرب العالمية الثانية؛ فلا منتصر اليوم بين الولايات المتحدة والصين وروسيا، والجميع يبحث فقط عن مصالحه.",
+        "quote_original": "اختلاف الأجندات أهم شيء هنا. من يتحدث عن يالطا ثانية يخطئ تماماً، كيف يمكن أن نقارن بين يالطا وبين ما يجري اليوم؟ يالطا قمة المنتصرين في الحرب العالمية الثانية، أين منتصر هنا؟ هل هو الولايات المتحدة؟ الصين؟ روسيا؟ لا، كلهم يبحثون عن طرق لتلبية مصالحهم.",
+        "language": "ar",
+        "video_published": "2026-11-17T09:00:16Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "80dcbc5c774b",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=4i4GhKLowvo",
+        "start": 492.0,
+        "end": 512.0,
+        "speaker_name": "تشو شيوان",
+        "speaker_role": "صحفي متخصص في الشؤون الصينية والدولية",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "تشوشوان",
+        "channel_display": "سكاي نيوز عربية",
+        "channel_original": "سكاي نيوز عربية",
+        "quote_arabic": "أعتقد أن هذه القمة ذات أهمية بالغة خصوصا في هذا التوقيت، لكن من المهم عدم النظر إليها بوصفها محاولة لإعادة تقسيم العالم بين القوى العظمى أو نسخة جديدة من اتفاقية يالطا.",
+        "quote_original": "أعتقد أن هذه القمة تحمل أهمية بالغة وخاصة في هذا الوقت، ولكن من المهم أن لا ننظر إليها باعتبارها محاولة لإعادة تقسيم العالم بين القوى الكبرى، أو باعتبارها نسخة جديدة من اتفاقية يالطا.",
+        "language": "ar",
+        "video_published": "2026-11-17T09:00:16Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 1,
+        "text": "ما الذي يسعى كل زعيم لتحقيقه في قمة شنتشن؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "902a0cb7bcb5",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=4X7evx3Sk8g",
+        "start": 3094.0,
+        "end": 3130.0,
+        "speaker_name": "هاكان بيراكجي",
+        "speaker_role": "رئيس مركز سونار للبحوث",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Hakan Bayrakçı",
+        "channel_display": "سي إن إن ترك",
+        "channel_original": "CNN Türk",
+        "quote_arabic": "إذا بدأت ضربة أمريكية قوية بعد ستة أو سبعة أيام من هذه الاجتماعات، أو بعد أسبوع إلى عشرة أيام، فهذا يعني أن الموافقة قد صدرت من هناك. ثانيًا: قد يُوافَق ضمن هذه التنازلات على ما تطلبه روسيا بشأن أوكرانيا. أما الصين فمطالبها ومكاسبها اقتصادية بنسبة سبعين بالمئة. لا أعلم ما القرار الذي سيتخذونه بشأن تايوان، لكنني أتوقع خروج بعض النتائج.",
+        "quote_original": "Şimdi bir: Trump'ın İran'la ilgili vuruşundan önce, yani bu toplantılardan altı yedi gün sonra ya da bir hafta on gün sonra sert Amerikan vuruşu başlarsa o oradan o onay çıkmış demektir, bir. İki: Bu tavizler içerisinde Ukrayna'yla ilgili Rusya'nın istediklerine okey denebilir. Çin'in de alacakları, yani istedikleri yüzde yetmişi ekonomik konulardır. Tayvan konusunda ne karara varırlar bilmiyorum ama bazı sonuçların çıkacağını tahmin ediyorum.",
+        "language": "tr",
+        "video_published": "2026-11-16T21:11:05Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "f426f8fef49d",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=qmgg2-bK3us",
+        "start": 176.0,
+        "end": 203.0,
+        "speaker_name": "ألكسندر غابويف",
+        "speaker_role": "خبير في الشؤون الصينية",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "Александр Габуев",
+        "channel_display": "تلفزيون دوشد",
+        "channel_original": "Дождь",
+        "quote_arabic": "أعتقد أن الرئيس الصيني شي جين بينغ سيحمل أجندته الخاصة المرتبطة برؤيته للنظام العالمي ومختلف مبادراته الصينية. وعن ماذا سيتحدث فلاديمير بوتين؟ بطبيعة الحال سيتحدث عن أن الدول الغربية، باستثناء دونالد ترامب والولايات المتحدة، ماكرة وتخرق القواعد ويجب التفاوض معها، وسيُشيد بهذا الإطار المنتج الذي أصبحتُ جزءًا منه.",
+        "quote_original": "Я думаю, что у Си Цзиньпина будет своя повестка, связанная с его видением миропорядка, с разными его китайскими инициативами. О чем будет говорить Владимир Путин? Ну, конечно же, о том, что западные страны, за исключением Дональда Трампа и США, коварные, рушат правила, и надо договариваться, и вот посмотрите, какой прекрасный продуктивный формат, частью которого я теперь являюсь.",
+        "language": "ru",
+        "video_published": "2026-11-17T16:50:50Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "question",
+        "text": "هل تخرج قمة شنتشن بتفاهمات تصمد أم بصور بلا نتائج؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": []
+  },
+  "editor_revision": {
+    "at": "2026-11-18T06:44:59.836690+00:00",
+    "applied": true,
+    "error": null,
+    "before": [
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "هاكان بيراكجي · رئيس مركز سونار للبحوث · سي إن إن ترك",
+        "fix": "",
+        "note": "رسم اسم المتحدث (Hakan Bıraksı) بالعربية غير محسوم؛ لم يظهر أي رسم مرشّح موثّق في نطاقين عربيين مستقلين على الأقل، وهو متحدث موثَّق من شريط القناة، فأي شك في اسمه يُرجع الريل إلى المرحلة 2 بحسب القاعدة.",
+        "sources": [
+          "https://www.youtube.com/watch?v=4X7evx3Sk8g"
+        ],
+        "video": ""
+      }
+    ],
+    "unresolved": [
+      {
+        "n": 1,
+        "reason": "لا تملك المصادر المرفقة رسمًا عربيًا موثّقًا بديلاً لاسم المتحدث Hakan Bıraksı؛ تصحيح الاسم أو حذف المقطع (سطر مقاطع للقراءة فقط) خارج نطاق الحقول القابلة للتصحيح (title/body/headlines)، والمطلوب وفق الملاحظة إرجاع الريل إلى المرحلة 2 لإعادة توثيق الاسم من مصادر إضافية."
+      }
+    ]
+  },
+  "editor_review": {
+    "at": "2026-11-18T06:44:59.836690+00:00",
+    "applied": [],
+    "notes": [
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "هاكان بيراكجي · رئيس مركز سونار للبحوث · سي إن إن ترك",
+        "fix": "",
+        "note": "رسم اسم المتحدث (Hakan Bıraksı) بالعربية غير محسوم؛ لم يظهر أي رسم مرشّح موثّق في نطاقين عربيين مستقلين على الأقل، وهو متحدث موثَّق من شريط القناة، فأي شك في اسمه يُرجع الريل إلى المرحلة 2 بحسب القاعدة.",
+        "sources": [
+          "https://www.youtube.com/watch?v=4X7evx3Sk8g"
+        ],
+        "video": ""
+      }
+    ],
+    "error": null,
+    "searches": 0,
+    "search_skipped": null,
+    "speaker_unresolved": [
+      "هاكان بيراكجي"
+    ]
+  },
+  "hook_clash": {
+    "mode": "single",
+    "relation": "single",
+    "a": {
+      "point_id": "cdc9f5e9f7be",
+      "first_words": "اینکه آیا این نشست",
+      "last_words": "دو دلیل رد می‌کنم",
+      "text_ar": "أرفض تشبيه هذه القمة بمؤتمر يالطا لسببين",
+      "sub_original": "اینکه آیا این نشست مثل یالتاست، من این رو به دو دلیل رد می‌کنم.",
+      "arabic": false,
+      "word_from": 0,
+      "word_to": 13,
+      "words_total": 62,
+      "est_seconds": 5.38,
+      "original_words": 14,
+      "channel": "إيران إنترناشيونال",
+      "bloc": "persian",
+      "speaker": "مهدي مهدوي‌آزاد"
+    },
+    "hook_text": "قادة ثلاثة.. وهل تتكرر يالطا؟",
+    "rejected": [
+      "الجملة ليست حرفيًا في كلام المقطع",
+      "الجملة ليست حرفيًا في كلام المقطع",
+      "الجملة ليست حرفيًا في كلام المقطع",
+      "الجملة ليست حرفيًا في كلام المقطع",
+      "الجملة ليست حرفيًا في كلام المقطع",
+      "مدة الجملة 8.5 ث خارج [1.5، 6]"
+    ]
+  },
+  "reel_bg": {
+    "url": "https://www.aljazeera.net/wp-content/uploads/2026/11/yalta574-1794846191.jpg?resize=1920%2C1440",
+    "kind": "news_photo",
+    "publisher": "الجزيرة نت",
+    "shows": "تماثيل برونزية لتشرشل وروزفلت وستالين جالسين معاً (قمة يالطا)، مع ثلاث لوحات لشخصيات تشبه بوتين وترامب وشي جين بينغ، وشخ",
+    "text_checked": true,
+    "judged": true
+  },
+  "hook_candidates": [
+    {
+      "video_id": "buEdn3otIdM",
+      "title": "LIVE: Putin Arrives in Shenzhen for APEC 2026 Ahead of Historic Trump-Xi-Putin Meeting | APT",
+      "channel": "APT",
+      "views": 386575,
+      "duration": 1175,
+      "published": "2026-11-17T19:08:52Z",
+      "views_per_hour": 33246.6
+    },
+    {
+      "video_id": "X_xNv9Q8hKY",
+      "title": "Putin arrives in China for a historic meeting with Trump and Xi",
+      "channel": "Associated Press",
+      "views": 50753,
+      "duration": 68,
+      "published": "2026-11-17T19:47:06Z",
+      "views_per_hour": 4618.0
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-11-16T00:00:00Z",
+          "2026-11-20T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "قادة يصلون قمة شنتشن الثلاثية",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "Trump Putin Xi summit Shenzhen arrival",
+            "raw": 30,
+            "channel_ok": 3
+          },
+          {
+            "query": "Shenzhen summit leaders handshake cameras crowds",
+            "raw": 0,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 2,
+        "judged_ok": 2,
+        "rejected_channels": [
+          "NDTV Profit",
+          "The Straits Times",
+          "TeleSUR English",
+          "CNBC Television",
+          "👑• ʀᴀꜱᴘᴜᴛɪɴʟɪꜰᴇ  • ᴇᴅɪᴛɪɴɢ ᴠɪᴅᴇᴏ👑 • ᶠᵃⁿ ᴹᵃᵈᵉ",
+          "Hook NewsFeed",
+          "USA Breaking Live",
+          "CNA"
+        ]
+      }
+    ],
+    "picked": [
+      "buEdn3otIdM",
+      "X_xNv9Q8hKY"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "تجمع مدينة شنتشن الصينية الرئيس الأمريكي دونالد ترامب والروسي فلاديمير بوتين والصيني شي جين بينغ في قمة ثلاثية، تتصدر جدولها ملفات إيران وأوكرانيا والاقتصاد.",
+      "visual": "وصول بوتين إلى مطار شنتشن",
+      "map": {
+        "places": [
+          "شنتشن"
+        ],
+        "countries": [
+          "الصين"
+        ]
+      }
+    },
+    {
+      "scene": 2,
+      "sentence": 0,
+      "text": "هل تشبه قمة شنتشن مؤتمر يالطا التاريخي لتقاسم العالم؟",
+      "visual": ""
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "text": "ما الذي يسعى كل زعيم لتحقيقه في قمة شنتشن؟",
+      "visual": ""
+    }
+  ],
+  "cost_script": {
+    "claude": {
+      "claude-haiku-5-5": 0.00307,
+      "claude-sonnet-5": 0.12599,
+      "claude-opus-5": 0.0901
+    }
+  },
+  "review_issue": 1928,
+  "stage2_issue": 1928
+}
