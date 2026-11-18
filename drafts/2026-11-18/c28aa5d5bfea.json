@@ -1,7 +1,7 @@
 {
   "id": "c28aa5d5bfea",
   "created_at": "2026-11-18T10:23:06.565888+00:00",
-  "status": "approved_script",
+  "status": "published",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -862,5 +862,12 @@
     "- 🔤 نُطقت أسماء أجنبية برسمها الأصلي: واشنطن ← Washington، دونالد ترامب ← Donald Trump، طهران ← Tehran، إيران ← Iran، ترامب ← Trump",
     "- 💵 كلفة الريل: 0.84$ — المقاطع والأسئلة 0.51$ · السيناريو 0.22$ · التركيب 0.12$ (Sonnet 0.18$ · Opus 0.08$ · Haiku 0.02$ · Gemini 0.56$ · بروكسي 37 MB) · البروكسي خارج المجموع"
   ],
-  "reel_review_issue": 1934
+  "reel_review_issue": 1934,
+  "published_at": "2026-11-18T11:56:53.076744+00:00",
+  "facebook": {
+    "post_id": "4348002255344842",
+    "kind": "reel",
+    "url": "https://www.facebook.com/reel/4348002255344842"
+  },
+  "reel_seconds": 159
 }
