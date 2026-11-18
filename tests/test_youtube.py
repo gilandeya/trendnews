@@ -7777,6 +7777,142 @@ def test_reel_1913b_fixes() -> None:
             check("1913b: ffmpeg حقيقي: النافذة تتحرك فعلًا (المحتوى يتغيّر)", abs(means[0] - means[1]) > 2, means)
 
 
+def test_reel_follow_identity_c28() -> None:
+    """ريل c28aa5d5bfea (18/11): إبراهيم روشندل خرج من نافذة الكلام حين قطعت إيران إنترناشيونال من شاشة مقسومة إلى شاشته كاملة،
+    ولم تتحرك النافذة رغم إصلاح 1913. ثلاثة أسباب وأربعة إصلاحات:
+    1) مقطع 38 ث يُلقط بـ1.6 لقطة/ث فلا تقع لقطتان في confirm_seconds (0.6) فلم تتحرك النافذة أبدًا ← confirm_samples.
+    2) الربط بالموضع يقطع المسار عند القطع، والاحتياط بالوجه الوحيد يُهمل لقطة فيها وجه آخر ← التتبع بالهوية (بصمة SFace).
+    3) الانزلاق بعد القطع يُظهر الفراغ ← قفزة في لحظة القطع.
+    4) لا شيء كان يقول إن الوجه خرج ← فحص الوجوه في الملف الناتج وسطر تحذير، ومواضع الوجوه تُحفظ في render_crops."""
+    import copy
+
+    import numpy as np
+    import yaml
+
+    from src import reel_render
+
+    cfg = load_config()
+    on = copy.deepcopy(cfg)
+    on["reel"]["render"]["crop"]["identity"]["enabled"] = True
+    content, w = (0, 0, 1280, 720), 526
+
+    # ───── 1) التأكيد في مقطع طويل قليل اللقطات (1.58 لقطة/ث كما في الحادثة) ─────
+    step = round(1 / reel_render.face_sample_rate(38.0, cfg), 3)
+    check("c28: مقطع 38 ث يُلقط بأقل من لقطتين في 0.6 ث (هذا ما منع الحركة)", step > 0.6, step)
+
+    def samples(centers):
+        return [(round(k * step, 3), c) for k, c in enumerate(centers)]
+    sparse = samples([305] * 12 + [640] * 40)
+    keys = reel_render.camera_keys(sparse, content, w, cfg)
+    check("c28: انتقال المتحدث في مقطع طويل يحرّك النافذة الآن", reel_render.camera_moves(keys) == 1 and keys[-1][1] > keys[0][1],
+          keys)
+    check("c28: لقطة شاذة واحدة في مقطع قليل اللقطات لا تحرّك شيئًا",
+          reel_render.camera_keys(samples([305] * 12 + [640] + [305] * 40), content, w, cfg) == [])
+
+    # ───── 3) القطع ← قفزة في لحظته ─────
+    t_cut = round(11 * step + step * 0.6, 3)       # بين اللقطة 11 (آخر شاشة مقسومة) و12
+    jump = reel_render.camera_keys(sparse, content, w, cfg, cuts=[t_cut])
+    check("c28: قطع في المصدر ← قفزة عند لحظته: قبلها الموضع القديم وبعدها الجديد مباشرة",
+          reel_render.camera_moves(jump) == 1 and reel_render.camera_x(t_cut - 0.02, jump) == jump[0][1]
+          and reel_render.camera_x(t_cut + 0.0001, jump) == jump[-1][1], (t_cut, jump))
+    slide = reel_render.camera_keys(sparse, content, w, cfg)
+    check("c28: بلا قطع يبقى الانزلاق الناعم بعد لقطة الخروج",
+          reel_render.camera_x(12 * step + 0.3, slide) not in (slide[0][1], slide[-1][1]), slide)
+    check("c28: قطع لا تليه حركة (المتحدث في مكانه) لا يضيف مفاتيح",
+          reel_render.camera_keys(samples([305] * 52), content, w, cfg, cuts=[t_cut]) == [])
+    expr = reel_render.camera_x_expr(jump)
+
+    def ev(e, t):
+        return eval(e.replace("min(", "_min(").replace("max(", "_max("), {"_min": min, "_max": max, "t": t})
+    check("c28: تعبير ffmpeg يطابق القفزة", all(abs(ev(expr, t) - reel_render.camera_x(t, jump)) < 1e-6
+                                                for t in (0, t_cut - 0.01, t_cut, t_cut + 0.01, 30)))
+    check("c28: لحظات القطع من showinfo تُقرأ وتُدمج المتقاربة",
+          reel_render.parse_scene_cuts("[Parsed_showinfo_1] n:0 pts:1 pts_time:7.4 x\n... pts_time:7.6 y\npts_time:20.05 z", 0.5)
+          == [7.4, 20.05])
+    check("c28: القطع بثواني المشهد بحسب الاقتطاع",
+          reel_render._follow_cuts({"trim": (2.0, 30.0)}, [1.0, 9.4, 31.0]) == [7.4])
+
+    # ───── 2) الهوية لا الموضع ─────
+    A, B, C = [1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]
+    near_a = [0.9, 0.1, 0.1]
+    split = [[(260, 200, 90, 110), (940, 200, 80, 100)] for _ in range(12)]     # هو يسارًا والمقدّم يمينًا
+    full = [[(560, 150, 160, 200), (1150, 40, 60, 70)] for _ in range(40)]      # شاشته كاملة ونافذة صغيرة لوجه آخر
+    boxes = split + full
+    embs = [[A, B] for _ in range(12)] + [[near_a, C] for _ in range(40)]
+    path = [(k, 305.0) for k in range(12)]                                     # مسار المختار بالموضع: الشاشة المقسومة وحدها
+    by_pos = reel_render.camera_samples(path, boxes)
+    check("c28: بالموضع وحده لا موضع له بعد القطع (كل لقطة فيها وجهان)", len(by_pos) == 12, len(by_pos))
+    by_id, stats = reel_render.identity_samples(path, boxes, embs, on)
+    check("c28: بالهوية يُعرف في كل لقطة ويُترك الوجه الآخر",
+          len(by_id) == 52 and by_id[11] == (11, 305.0) and by_id[12] == (12, 640.0) and stats["ref"] == 12
+          and stats["matched"] == 52, (len(by_id), by_id[10:14], stats))
+    secs = reel_render._follow_samples({"file_seconds": 38.0}, by_id, on)
+    moved = reel_render.camera_keys(secs, content, w, on)
+    check("c28: فالنافذة تنتقل إلى وسط الشاشة حيث صار", reel_render.camera_moves(moved) == 1
+          and abs(moved[-1][1] - reel_render.crop_x_for_center(content, w, 640)) <= 2, moved)
+    check("c28: identity.enabled=false ← التتبع بالموضع كما كان",
+          reel_render.identity_samples(path, boxes, embs, cfg) == (by_pos, {}))
+    check("c28: بلا بصمات (عطل المحرّك) ← بالموضع",
+          reel_render.identity_samples(path, boxes, None, on)[0] == by_pos)
+    few = [[None, None] for _ in range(52)]
+    few[0] = [A, B]
+    check("c28: بصمة واحدة من مساره لا تكفي مرجعًا ← بالموضع",
+          reel_render.identity_samples(path, boxes, few, on) == (by_pos, {"ref": 1}))
+    other_only = embs[:12] + [[C] for _ in range(40)]
+    check("c28: لقطات بصماتها كلها لغيره لا موضع له فيها (لا تخمين)",
+          len(reel_render.identity_samples(path, split + [[(1150, 40, 60, 70)] for _ in range(40)], other_only, on)[0]) == 12)
+    check("c28: كل صندوق يأخذ بصمة وجه المحرّك القريب منه وإلا None",
+          reel_render.match_embeddings([(100, 100, 80, 80), (600, 100, 80, 80)],
+                                       [{"box": (604, 102, 78, 80), "embedding": B}]) == [None, B])
+
+    # الأنبوب: _speaker_crop يقرأ البصمات والقطع من face_tracks (خمسة عناصر) ويحفظ إحصاءهما
+    real_track = reel_render.speaker_track
+    try:
+        reel_render.speaker_track = lambda fr, bx, c: {"source": "speaker", "center": 305.0, "speaker_score": 1.0,
+                                                       "tracks": 1, "track_list": [], "path": path}
+        deps = reel_render.Deps(face_tracks=lambda f, c: (1280, 720, [None] * 52, boxes, {"embeddings": embs, "cuts": [7.4]}))
+        win, meta = reel_render._speaker_crop({"file": "x.mp4"}, on, deps)
+        old_style = reel_render.Deps(face_tracks=lambda f, c: (1280, 720, [None] * 52, boxes))
+        win2, meta2 = reel_render._speaker_crop({"file": "x.mp4"}, on, old_style)
+    finally:
+        reel_render.speaker_track = real_track
+    check("c28: _speaker_crop يتتبع بالهوية ويحمل القطع وإحصاء الهوية",
+          len(win["path"]) == 52 and meta["cuts"] == [7.4] and meta["identity"]["matched"] == 52, (len(win["path"]), meta))
+    check("c28: face_tracks القديم (أربعة عناصر) يعمل كما كان", len(win2["path"]) == 12 and meta2["cuts"] == [])
+
+    # ───── 4) فحص ما بعد التركيب ─────
+    fw, fh = 860, 1000
+    face = (300, 200, 260, 320)
+    edge_face = (700, 200, 260, 320)            # يخرج عن حافة النافذة اليمنى
+    times = [k * 0.5 for k in range(20)]
+    seq = [[face]] * 6 + [[edge_face]] * 5 + [[]] + [[face]] * 3 + [[]] + [[face]] * 4
+    lost = reel_render.lost_spans(times, seq, fw, fh, on)
+    check("c28: وجه مقصوص على الحافة ثانيتين ← فترة، ولقطة غائبة واحدة لا", lost == [[3.0, 5.5]], lost)
+    check("c28: وجه صغير جدًا لا يُعدّ وجهًا كاملًا",
+          reel_render.lost_spans(times[:4], [[(300, 200, 40, 50)]] * 4, fw, fh, on) == [[0.0, 1.5]])
+    notes: list = []
+    clips = {3: {"seconds": 10.0, "crop": {}}}
+    deps = reel_render.Deps(frame_faces=lambda p, r, fps: seq)
+    fc_on = copy.deepcopy(on)
+    fc_on["reel"]["render"]["crop"]["frame_check"]["enabled"] = True
+    reel_render._check_frame_faces("o.mp4", [(3, 0.0, 10.0)], (110, 250, fw, fh), [(3, {"channel_display": "إيران إنترناشيونال"})],
+                                   clips, fc_on, deps, notes)
+    check("c28: الفحص يكتب سطر تحذير بالقناة والثواني ويحفظ النتيجة",
+          clips[3]["crop"]["frame_check"] == {"samples": 20, "lost": [[3.0, 5.5]]}
+          and any(n.startswith("⚠️") and "إيران إنترناشيونال" in n and "3–6" in n for n in notes), (clips, notes))
+    quiet: list = []
+    reel_render._check_frame_faces("o.mp4", [(3, 0.0, 10.0)], (110, 250, fw, fh), [(3, {})], {3: {"seconds": 10.0, "crop": {}}},
+                                   on, reel_render.Deps(), quiet)
+    check("c28: بلا frame_faces (المزيَّفات) أو مطفأً لا فحص ولا سطر", quiet == [])
+
+    # الإنتاج عليها
+    real = yaml.safe_load(open("config.yaml", encoding="utf-8"))
+    rc = real["reel"]["render"]
+    check("c28: config.yaml يفعّل الهوية وكشف القطع والفحص ويرفع نسخة التركيب",
+          rc["crop"]["identity"]["enabled"] and rc["crop"]["frame_check"]["enabled"]
+          and rc["crop"]["follow"]["cut_threshold"] > 0 and rc["crop"]["follow"]["confirm_samples"] >= 2 and rc["version"] >= 81)
+
+
 def test_reel_question_wording_1313d() -> None:
     """ملاحظة صاحب المشروع 13/11: السؤال «ما خطورة علاقة رئيس إنفيديا بجاسوسة صينية مزعومة؟» جاء نكرةً بعد سياق قدّمها؛ الأسئلة
     كُتبت قبل السياق، فكاتب السياق يعيد صياغتها لتتصل به، والكود يقبل الصياغة سؤالًا سؤالًا بشروطه ويعرضها للمراجع."""

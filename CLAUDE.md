@@ -3620,3 +3620,24 @@ arabic ×4 وturkish وpersian ×2 ولم تصل الإسرائيلية ولا �
   فيه حرف لاتيني وليس الاسم العربي نفسه. كان الشريط يطبّقها والورقة ترسم `speaker_name_latin` كما هو، وفيه الفارسي من `speaker_original`.
 - **سطر القناة:** `reel_clash.fit_row` لكل سطر في الورقة (الاسم ورسمه، والقناة ورسمها وتوجّهها): تُصغَّر الأجزاء معًا بخطوة `info.fit_step`
   حتى `min_size`/`min_latin_size`، ثم يُحذف ما في `info.fit_drop` (التوجّه ثم الرسم الأجنبي، كشريط المتحدث) ويُعاد التصغير؛ فلا يُكسر السطر.
+
+## نافذة الكلام تتبع المتحدث بهويته، والقطع يُقطع معه، وفحص ما بعد التركيب (ريل c28aa5d5bfea، 18/11) — `src/reel_render.py`
+
+الحادثة: خرج إبراهيم روشندل من نافذة الكلام حين قطعت إيران إنترناشيونال من شاشة مقسومة إلى شاشته كاملة (وجهه من ~305 إلى ~640)، ولم
+تتحرك النافذة رغم إصلاح 1913b (`render_crops[4].follow: None`). `render_version` = 81 (للقادم فقط، S11). الاختبار
+`tests/test_youtube.py:test_reel_follow_identity_c28`.
+
+- **التأكيد في المقطع الطويل:** معدل لقطات الكشف `max_frames ÷ المدة` (1.58/ث لمقطع 38 ث) فلم تقع لقطتان في `confirm_seconds` (0.6)
+  فرفض `camera_keys` كل حركة. نافذة التأكيد تشمل الآن أول `crop.follow.confirm_samples` (2) لقطات بعد الخروج أيًّا كان زمنها.
+- **الهوية لا الموضع:** `_detect_face_tracks` تعيد عنصرًا خامسًا `{embeddings, cuts}`: بصمة SFace لكل صندوق (`_face_embeddings` بمحرّك
+  `speaker_map.FaceEngine` نفسه، `match_embeddings` يربط صناديق الكاشف بوجوه المحرّك). `identity_samples` (خالصة) تبني مرجعًا من بصمات
+  مسار المتكلم المختار، وفي كل لقطة تأخذ الوجه الأقرب بجيب التمام ≥ `crop.identity.threshold` أينما كان ومهما كان معه؛ لقطة بصماتها
+  كلها لغيره لا موضع له فيها؛ بلا مرجع كافٍ (`min_ref`) أو بلا بصمات ← `camera_samples` كما كان. `_speaker_crop` يقبل أربعة عناصر (المزيَّفات).
+- **القطع:** `_scene_cuts` (كاشف المشاهد في ffmpeg، `follow.cut_threshold`، `parse_scene_cuts`) ← `_follow_cuts` بثواني المشهد ←
+  `camera_keys(cuts=)`: حركة لقطتها الأولى بعد قطع تصير قفزة عند لحظة القطع (`cut_ramp`) بلا انتظار `hold_seconds`؛ بلا قطع الانزلاق كما كان.
+- **فحص ما بعد التركيب:** `_check_frame_faces` بعد كل لوحة (`deps.frame_faces` = `_real_frame_faces`: ffmpeg على ملف المشهد مقصوصًا إلى
+  نافذة الكلام بمعدل `crop.frame_check.fps`، ووجوه `imaging.face_boxes`)؛ `lost_spans` (خالصة) فترات بلا وجه كامل (ارتفاعه ≥ `min_face`
+  وحافتاه داخل النافذة بهامش `edge`) طولها ≥ `lost_seconds` ← سطر `comment_face_lost` وحفظ `render_crops[i].frame_check`. تنبيه لا حجب.
+- **الحفظ:** `render_crops[i].faces` = `{samples: [[ثانية المشهد، مركز]], cuts, identity: {ref, matched, path, single}}` (أرقام وحدها).
+- `tests.helpers.load_config` يطفئ الهوية والفحص وكشف القطع (OpenCV وffmpeg ونموذجا opencv_zoo خارج deps). **لم يُجرَّب SFace هنا**
+  (تنزيل النموذج محجوب من بيئة التطوير)؛ كاشف القطع جُرّب على فيديو مصنوع.
