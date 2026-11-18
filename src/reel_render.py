@@ -325,11 +325,86 @@ def camera_samples(path: list, boxes_per_frame: list) -> list[tuple[int, float]]
     return out or sorted(have.items())
 
 
-def camera_keys(samples: list, content: tuple, w: int, cfg) -> list[tuple[float, int]]:
+def _unit(vec):
+    import numpy as np
+    arr = np.asarray(vec, dtype=np.float64).ravel()
+    norm = float(np.linalg.norm(arr))
+    return arr / norm if norm else arr
+
+
+def identity_samples(path: list, boxes_per_frame: list, embeddings: list | None, cfg) -> tuple[list, dict]:
+    """مواضع المتكلم لكل لقطة بهويته لا بموضعه (ريل c28aa5d5bfea): بصمة وجهه (SFace) من لقطات مساره المختار، ثم في كل لقطة
+    الوجه الأقرب إليها بجيب التمام ≥ crop.identity.threshold أينما كان في الشاشة ومهما كان معه من وجوه (دالة خالصة).
+    السبب: الربط بالموضع (speaker.link) يقطع مسار المتحدث عند كل قطع في تخطيط القناة (شاشة مقسومة ← شاشته كاملة)، والاحتياط
+    بالوجه الوحيد (camera_samples) يُهمل كل لقطة معه فيها وجه آخر — فبقيت النافذة على موضعه القديم ووجهه خارجها.
+    embeddings قائمة لكل لقطة موازية لصناديقها (بصمة أو None). بلا بصمات كافية للمرجع ← camera_samples كما كان.
+    يعيد (المواضع [(فهرس، مركز)]، إحصاء {ref, matched, path, single})."""
+    import numpy as np
+    ic = cfg.path("reel.render.crop.identity") or {}
+    fallback = camera_samples(path, boxes_per_frame)
+    if not ic.get("enabled") or not embeddings:
+        return fallback, {}
+    have = {int(k): float(c) for k, c in path or []}
+
+    def emb_at(k, center):
+        # بصمة الصندوق الذي مركزه مركز المسار في تلك اللقطة
+        for box, emb in zip(boxes_per_frame[k] or [], embeddings[k] or []):
+            if emb is not None and abs(float(box[0]) + float(box[2]) / 2 - center) < 1.0:
+                return emb
+        return None
+    refs = [e for k, c in have.items() if k < len(embeddings) and (e := emb_at(k, c)) is not None]
+    if len(refs) < int(ic.get("min_ref", 2)):
+        return fallback, {"ref": len(refs)}
+    ref = _unit(np.mean([_unit(e) for e in refs], axis=0))
+    thr = float(ic.get("threshold", 0.363))
+    out: list[tuple[int, float]] = []
+    stats = {"ref": len(refs), "matched": 0, "path": 0, "single": 0}
+    for k, boxes in enumerate(boxes_per_frame or []):
+        embs = list(embeddings[k] or []) if k < len(embeddings) else []
+        best = None
+        for box, emb in zip(boxes or [], embs):
+            if emb is None:
+                continue
+            sim = float(np.dot(ref, _unit(emb)))
+            if sim >= thr and (best is None or sim > best[0]):
+                best = (sim, float(box[0]) + float(box[2]) / 2)
+        if best is not None:
+            out.append((k, best[1]))
+            stats["matched"] += 1
+        elif any(e is not None for e in embs):
+            # وجوه بصماتها لغيره: المتحدث ليس في اللقطة فلا موضع (ولا تخمين بالمسار ولا بالوجه الوحيد)
+            continue
+        elif k in have:
+            # الكاشف رأى الوجه ومحرّك البصمة لم يره (أصغر من min_face): موضع المسار كما كان
+            out.append((k, have[k]))
+            stats["path"] += 1
+        elif len(boxes or []) == 1:
+            box = boxes[0]
+            out.append((k, float(box[0]) + float(box[2]) / 2))
+            stats["single"] += 1
+    return (out or fallback), stats
+
+
+def parse_scene_cuts(stderr: str, min_gap: float = 0.5) -> list[float]:
+    """لحظات القطع (ثواني الملف) من مخرج ffmpeg «select=gt(scene,..),showinfo» (دالة خالصة): pts_time لكل إطار اجتاز العتبة،
+    مرتبة، وما يقع بعد قطع بأقل من min_gap يُدمج فيه (وميض انتقال القناة يعطي إطارين متتاليين)."""
+    out: list[float] = []
+    for m in re.finditer(r"pts_time:\s*([0-9.]+)", stderr or ""):
+        t = float(m.group(1))
+        if not out or t - out[-1] >= min_gap:
+            out.append(round(t, 3))
+    return out
+
+
+def camera_keys(samples: list, content: tuple, w: int, cfg, cuts: list | tuple = ()) -> list[tuple[float, int]]:
     """مفاتيح حركة نافذة الكلام [(ثانية المشهد، x)] من مواضع وجه المتكلم [(ثانية المشهد، مركزه الأفقي)] (دالة خالصة).
     الأول عند 0 = موضعه أول المقطع (لا وسيط المقطع كله). الحركة تلزمها ثلاثة شروط: خروج المركز عن deadzone × عرض النافذة من
     موضع الكاميرا، وبقاؤه خارجها confirm_seconds (لفتة رأس أو خطأ كشف في لقطة لا تحرّك شيئًا)، ومرور hold_seconds على آخر
-    حركة؛ وبسقف max_moves. لا حركة أو مواضع أقل من min_samples ← [] فيبقى القصّ الثابت كما كان."""
+    حركة؛ وبسقف max_moves. لا حركة أو مواضع أقل من min_samples ← [] فيبقى القصّ الثابت كما كان.
+    التأكيد بالزمن وحده كان يمنع كل حركة في مقطع طويل (ريل c28aa5d5bfea): المعدل ينخفض إلى max_frames ÷ المدة (1.6 لقطة/ث لمقطع
+    38 ث) فلا تقع لقطتان في confirm_seconds (0.6) أبدًا؛ فالنافذة تشمل أيضًا أول confirm_samples لقطات بعد الخروج أيًّا كان زمنها.
+    cuts (ثواني المشهد): قطع في المصدر يقع بين اللقطة السابقة ولقطة الخروج ← قفزة في لحظة القطع نفسها لا انزلاق بعدها (القناة
+    قطعت فنقطع معها، والانزلاق يُظهر الفراغ ثانية ونصفًا)، ولا ينتظر hold_seconds."""
     fc = cfg.path("reel.render.crop.follow") or {}
     rows = sorted((float(t), float(c)) for t, c in samples or [])
     if not fc.get("enabled") or len(rows) < int(fc.get("min_samples", 6)):
@@ -344,17 +419,33 @@ def camera_keys(samples: list, content: tuple, w: int, cfg) -> list[tuple[float,
     confirm = float(fc.get("confirm_seconds", 0.6))
     move = float(fc.get("move_seconds", 0.8))
     hold = float(fc.get("hold_seconds", 1.2))
+    need = max(int(fc.get("confirm_samples", 2)), 2)
+    ramp = float(fc.get("cut_ramp", 0.001))
+    cut_list = sorted(float(c) for c in cuts or [])
     cur = xs[0][1]
     keys: list[tuple[float, int]] = [(0.0, cur)]
     allowed, moves = 0.0, 0
     for j, (t_j, x_j) in enumerate(xs):
-        if t_j < allowed or abs(x_j - cur) <= dead or moves >= int(fc.get("max_moves", 4)):
+        if abs(x_j - cur) <= dead or moves >= int(fc.get("max_moves", 4)):
             continue
-        win = [x for t_k, x in xs[j:] if t_k <= t_j + confirm]
-        span = max((t_k for t_k, _x in xs[j:] if t_k <= t_j + confirm), default=t_j) - t_j
-        if len(win) < 2 or span < confirm / 2 or any(abs(x - cur) <= dead for x in win):
+        t_prev = xs[j - 1][0] if j else -1.0
+        cut = next((c for c in cut_list if t_prev < c <= t_j and c > keys[-1][0]), None)
+        if t_j < allowed and cut is None:
+            continue
+        tail = xs[j:]
+        win_rows = [r for r in tail if r[0] <= t_j + confirm] or tail[:1]
+        if len(win_rows) < need:
+            win_rows = tail[:need]
+        win = [x for _t, x in win_rows]
+        span = win_rows[-1][0] - t_j
+        if len(win) < need or span < confirm / 2 or any(abs(x - cur) <= dead for x in win):
             continue
         new = sorted(win)[len(win) // 2]
+        if cut is not None:
+            keys.append((round(max(cut - ramp, keys[-1][0]), 3), cur))
+            keys.append((round(max(cut, keys[-1][0] + ramp), 3), new))
+            cur, allowed, moves = new, cut + hold, moves + 1
+            continue
         keys.append((round(t_j, 3), cur))        # سكون حتى هذه اللحظة ثم حركة: المفتاحان يجعلان القطعة السابقة ثابتة
         keys.append((round(t_j + move, 3), new))
         cur, allowed, moves = new, t_j + move + hold, moves + 1
@@ -516,13 +607,61 @@ def _detect_face_tracks(clip, cfg) -> tuple[int, int, list, list]:
     pngs = [sig + part for part in raw.split(sig) if part]
     if not pngs:
         raise RuntimeError("تعذّر استخراج لقطات")
-    frames, boxes, size = [], [], None
+    frames, boxes, size, images = [], [], None, []
     for blob in pngs:
         img = Image.open(io.BytesIO(blob)).convert("RGB")
         size = img.size
         frames.append(np.asarray(img.convert("L")))
         boxes.append(list(imaging.face_boxes(img)))
-    return size[0], size[1], frames, boxes
+        images.append(img)
+    extra = {"embeddings": _face_embeddings(images, boxes, cfg, Path(clip).parent), "cuts": _scene_cuts(clip, cfg)}
+    return size[0], size[1], frames, boxes, extra
+
+
+def match_embeddings(boxes: list, found: list[dict]) -> list:
+    """بصمة لكل صندوق من الكاشف بترتيبه (دالة خالصة): وجه محرّك البصمة الذي يقع مركزه داخل نصف عرض الصندوق من مركزه، وإلا None.
+    الكاشفان واحد (YuNet) لكن محرّك البصمة يُسقط الوجوه الأصغر من min_face ويعمل بمقاس آخر، فلا يُفترض تطابق الترتيب."""
+    out = []
+    for box in boxes or []:
+        cx, cy = float(box[0]) + float(box[2]) / 2, float(box[1]) + float(box[3]) / 2
+        best = None
+        for f in found or []:
+            fx, fy, fw, fh = f["box"]
+            d = abs(fx + fw / 2 - cx) + abs(fy + fh / 2 - cy)
+            if d <= float(box[2]) / 2 and (best is None or d < best[0]):
+                best = (d, f.get("embedding"))
+        out.append(best[1] if best else None)
+    return out
+
+
+def _face_embeddings(images: list, boxes: list, cfg, work: Path) -> list | None:
+    """بصمات SFace لكل صندوق في كل لقطة (crop.identity). العطل (نموذج لا يُنزَّل، OpenCV) ← None فيبقى التتبع بالموضع كما كان."""
+    if not (cfg.path("reel.render.crop.identity") or {}).get("enabled"):
+        return None
+    try:
+        import numpy as np
+        engine = _face_engine(cfg, work)
+        return [match_embeddings(bx, engine.faces(np.asarray(img)[:, :, ::-1].copy()) if bx else [])
+                for img, bx in zip(images, boxes)]
+    except Exception as exc:  # noqa: BLE001 -- الهوية تحسين: العطل ← الموضع
+        log.warning("تعذّر حساب بصمات الوجوه فالتتبع بالموضع: %s", str(exc)[:120])
+        return None
+
+
+def _scene_cuts(clip, cfg) -> list[float]:
+    """لحظات القطع في المقطع المنزَّل (ثواني الملف) بكاشف المشاهد في ffmpeg (crop.follow.cut_threshold). العطل ← [] فلا قفزات."""
+    fc = cfg.path("reel.render.crop.follow") or {}
+    thr = float(fc.get("cut_threshold", 0) or 0)
+    if thr <= 0:
+        return []
+    try:
+        proc = subprocess.run(["ffmpeg", "-hide_banner", "-i", str(clip), "-an", "-vf",
+                               f"scale=320:-2,select='gt(scene,{thr})',showinfo", "-f", "null", "-"],
+                              capture_output=True, text=True, timeout=300)
+        return parse_scene_cuts(proc.stderr, float(fc.get("cut_min_gap", 0.5)))
+    except Exception as exc:  # noqa: BLE001
+        log.warning("تعذّر كشف القطع في المقطع: %s", str(exc)[:120])
+        return []
 
 
 def _region_diff(fa, box_a, fb, box_b, top: float, bottom: float, width: float, search: float) -> float | None:
@@ -683,6 +822,9 @@ class Deps:
     # (ملف المقطع، المسارات، المشهد، cfg) ← قائمة نتائج اللقطات الثلاث {speaker, archive, reason} (أو None)؛ يرفع عند العطل
     # والمستدعي يعود إلى حركة الفم (Issue #1431)
     pick_speaker: Callable[[Any, list, dict, Any], list | None] | None = None
+    # (ملف المشهد، مستطيل نافذة الكلام، المعدل) ← صناديق الوجوه داخلها لكل لقطة: فحص ما بعد التركيب (ريل c28aa5d5bfea)؛
+    # None للمزيَّفات القديمة فيُتخطى الفحص
+    frame_faces: Callable[[Any, tuple, float], list] | None = None
     # انتظار بين إعادات التنزيل؛ حقن الاختبار يمنع الانتظار الحقيقي
     sleep: Callable[[float], None] | None = None
     # أنواع مسارات الملف؛ مقطع بلا صورة أو بلا صوت لا يُقبل (Issue #1406)
@@ -816,6 +958,7 @@ class Deps:
             transcriber_selfcheck=self.transcriber_selfcheck or (
                 (lambda c: reel_clips.transcriber_selfcheck(c)) if real and self.transcribe_words is None else None),
             pick_speaker=self.pick_speaker or (_real_pick_speaker if self.download_clip is None else (lambda *a: None)),
+            frame_faces=self.frame_faces or (_real_frame_faces if self.download_clip is None and self.faces is None else None),
             sleep=self.sleep or time.sleep,
             streams=self.streams or probe_streams,
             stream_durations=self.stream_durations or (
@@ -3312,7 +3455,15 @@ def _speaker_crop(clip: dict, cfg, deps: Deps, scene: dict | None = None) -> tup
         got = deps.face_tracks(clip["file"], cfg)
         if not got:
             return None, meta
-        sw, sh, frames, boxes = got
+        sw, sh, frames, boxes = got[:4]
+        extra = got[4] if len(got) > 4 and isinstance(got[4], dict) else {}
+        embs, cuts = extra.get("embeddings"), list(extra.get("cuts") or [])
+
+        def follow_path(path):
+            # الهوية قبل الموضع (ريل c28aa5d5bfea)؛ إحصاؤها ولحظات القطع تُحفظ للمراجعة
+            got_path, stats = identity_samples(path, boxes, embs, cfg)
+            meta["identity"], meta["cuts"] = stats, cuts
+            return got_path
         res = speaker_track(frames, boxes, cfg)
         tracks = res.get("track_list") or []
         if res["tracks"] >= 2:
@@ -3335,7 +3486,7 @@ def _speaker_crop(clip: dict, cfg, deps: Deps, scene: dict | None = None) -> tup
                         win = crop_window(int(sw), int(sh), [chosen["center"]], "face")
                         return {**win, "source": "speaker_motion_override" if over else "speaker_vision",
                                 "speaker_score": round(float(chosen["score"]), 2), "tracks": res["tracks"],
-                                "path": camera_samples(chosen.get("path"), boxes)}, meta
+                                "path": follow_path(chosen.get("path"))}, meta
             except Exception as exc:  # noqa: BLE001 -- الرؤية تحسين: العطل ← الفم واليدان والموقع
                 log.warning("تعذّر تحديد المتكلم بالرؤية فالدرجة المركّبة: %s", str(exc)[:100])
         if attempted:
@@ -3346,12 +3497,12 @@ def _speaker_crop(clip: dict, cfg, deps: Deps, scene: dict | None = None) -> tup
             chosen = tracks[pick - 1]
             win = crop_window(int(sw), int(sh), [chosen["center"]], "face")
             return {**win, "source": "speaker_combined", "speaker_score": round(float(chosen["score"]), 2),
-                    "tracks": res["tracks"], "path": camera_samples(chosen.get("path"), boxes)}, meta
+                    "tracks": res["tracks"], "path": follow_path(chosen.get("path"))}, meta
         if res["source"] != "speaker":
             return None, meta
         win = crop_window(int(sw), int(sh), [res["center"]], "face")
         return {**win, "source": "speaker", "speaker_score": round(float(res["speaker_score"]), 2), "tracks": res["tracks"],
-                "path": camera_samples(res.get("path"), boxes)}, meta
+                "path": follow_path(res.get("path"))}, meta
     except Exception as exc:  # noqa: BLE001 -- اختيار المتكلم تحسين: العطل ← السلوك الحالي
         log.warning("تعذّر اختيار الوجه المتكلم فأكبر وجه: %s", str(exc)[:100])
         return None, meta
@@ -4678,22 +4829,35 @@ def _follow_samples(clip: dict, path: list, cfg) -> list[tuple[float, float]]:
     rate = face_sample_rate(dur, cfg)
     if not rate:
         return []
-    tr, fz = clip.get("trim"), clip.get("freeze")
-    frozen = bool(fz) and float(fz["src1"]) - float(fz["src0"]) > 0.1
     out: list[tuple[float, float]] = []
     for k, center in path or []:
-        tau = float(k) / rate
-        if frozen:
-            if not float(fz["src0"]) <= tau <= float(fz["src1"]):
-                continue
-            t_scene = float(fz["pre"]) + tau - float(fz["src0"])
-        elif tr:
-            if not float(tr[0]) <= tau <= float(tr[1]):
-                continue
-            t_scene = tau - float(tr[0])
-        else:
-            t_scene = tau
-        out.append((round(t_scene, 3), float(center)))
+        t_scene = _scene_time(clip, float(k) / rate)
+        if t_scene is not None:
+            out.append((round(t_scene, 3), float(center)))
+    return out
+
+
+def _scene_time(clip: dict, tau: float) -> float | None:
+    """ثانية الملف ← ثانية المشهد بحسب الاقتطاع (trim) أو التجميد (freeze)؛ None لما يقع خارج المعروض."""
+    tr, fz = clip.get("trim"), clip.get("freeze")
+    if bool(fz) and float(fz["src1"]) - float(fz["src0"]) > 0.1:
+        if not float(fz["src0"]) <= tau <= float(fz["src1"]):
+            return None
+        return float(fz["pre"]) + tau - float(fz["src0"])
+    if tr:
+        if not float(tr[0]) <= tau <= float(tr[1]):
+            return None
+        return tau - float(tr[0])
+    return tau
+
+
+def _follow_cuts(clip: dict, cuts: list) -> list[float]:
+    """لحظات القطع بثواني المشهد (ما خارج المعروض يُهمل)."""
+    out = []
+    for c in cuts or []:
+        t = _scene_time(clip, float(c))
+        if t is not None:
+            out.append(round(t, 3))
     return out
 
 
@@ -4743,7 +4907,12 @@ def _panel_crops(clip: dict, crop: dict, scene: dict, q, tile: tuple | None, fra
         if frame_crop["mode"] == "full_height" and crop.get("path"):
             # القصّ يتبع المتحدث حين ينتقل على شاشة القناة (ريل 1913). full_height وحده: المصدر الأضيق من الإطار يملأ عرضه
             # فلا حرية أفقية فيه أصلًا
-            keys = camera_keys(_follow_samples(clip, crop["path"], cfg), content, frame_crop["w"], cfg)
+            samples_f = _follow_samples(clip, crop["path"], cfg)
+            cuts_f = _follow_cuts(clip, crop.get("cuts") or [])
+            keys = camera_keys(samples_f, content, frame_crop["w"], cfg, cuts=cuts_f)
+            # ما رآه التتبع يُحفظ للمراجعة (أرقام وحدها): حين يخطئ يُعرف سببه من المسودة لا بالتخمين
+            clip["crop"]["faces"] = {"samples": [[t_, int(c_)] for t_, c_ in samples_f], "cuts": cuts_f,
+                                     **({"identity": crop["identity"]} if crop.get("identity") else {})}
         if keys:
             # النافذتان تبدآن من موضعه أول المقطع لا من وسيط المقطع كله، فيبقى أول إطار من الانبثاق (pop_start_rect) مطابقًا
             # لما في بلاطته بكسلًا ببكسل كما كان
@@ -5011,7 +5180,66 @@ def _panel_scene(members: list[tuple[int, dict]], clips: dict, out: Path, cfg, d
     ag.append(("[am_s]" if pop else "") + "".join(f"[am{k}]" for k in range(n)) + f"concat=n={n + (1 if pop else 0)}:v=0:a=1,{_loudnorm(cfg)}[a]")
     deps.run(_base(*inputs, "-filter_complex", ";".join(vg + ag), "-map", "[v]", "-map", "[a]", "-t", _fmt(total),
                    *_enc(rcfg), str(out)))
+    spans = [(i, starts[k] + grow, starts[k] + float(clips[i]["seconds"]) - shrink) for k, (i, _) in enumerate(members)]
+    _check_frame_faces(out, spans, lay["frame"], members, clips, cfg, deps, notes)
     return total
+
+
+def lost_spans(times: list, boxes_list: list, fw: int, fh: int, cfg) -> list[list[float]]:
+    """فترات غاب فيها وجه كامل عن نافذة الكلام في الملف الناتج (دالة خالصة). «كامل» = صندوق ارتفاعه ≥ min_face × ارتفاع النافذة
+    وحافتاه الأفقيتان داخلها بهامش edge × عرضها (وجه مقصوص على الحافة غائب). فترة تُحسب إن امتدت lost_seconds فأكثر بين أول لقطة
+    غائبة وآخرها؛ اللقطة الواحدة لا تكفي (التفاتة أو ومضة انتقال)."""
+    fc = cfg.path("reel.render.crop.frame_check") or {}
+    min_h, edge = float(fc.get("min_face", 0.12)) * fh, float(fc.get("edge", 0.02)) * fw
+    need = float(fc.get("lost_seconds", 1.0))
+    out: list[list[float]] = []
+    run: list[float] = []
+    for t, boxes in list(zip(times, boxes_list)) + [(None, None)]:
+        ok = t is not None and any(float(b[3]) >= min_h and float(b[0]) >= edge and float(b[0]) + float(b[2]) <= fw - edge
+                                   for b in boxes or [])
+        if t is not None and not ok:
+            run.append(float(t))
+            continue
+        if run and run[-1] - run[0] >= need:
+            out.append([round(run[0], 2), round(run[-1], 2)])
+        run = []
+    return out
+
+
+def _check_frame_faces(out: Path, spans: list, frame: tuple, members: list, clips: dict, cfg, deps: Deps, notes: list) -> None:
+    """فحص بعد التركيب (ريل c28aa5d5bfea): وجوه نافذة الكلام في ملف المشهد الناتج نفسه، مستقلًا عن منطق التتبع. غياب وجه كامل
+    lost_seconds فأكثر ← سطر تحذير بالقناة والثواني في تعليق التركيب وقضية المراجعة، ويُحفظ في render_crops. تنبيه لا حجب:
+    التفاتة المتحدث أو لقطة تعرضها القناة داخل كلامه تبدو غيابًا أيضًا، ومنع ريل سليم أسوأ من تنبيه زائد. العطل ← لا شيء."""
+    fc = cfg.path("reel.render.crop.frame_check") or {}
+    if not fc.get("enabled") or getattr(deps, "frame_faces", None) is None:
+        return
+    try:
+        fps = float(fc.get("fps", 2))
+        boxes_list = deps.frame_faces(out, frame, fps)
+    except Exception as exc:  # noqa: BLE001 -- الفحص تحسين
+        log.warning("تعذّر فحص وجوه نافذة الكلام: %s", str(exc)[:120])
+        return
+    times = [k / fps for k in range(len(boxes_list or []))]
+    t = cfg.path("reel.render.texts")
+    for i, a, b in spans:
+        idx = [k for k, tk in enumerate(times) if a <= tk <= b]
+        lost = lost_spans([times[k] - a for k in idx], [boxes_list[k] for k in idx], int(frame[2]), int(frame[3]), cfg)
+        if isinstance(clips[i].get("crop"), dict):
+            clips[i]["crop"]["frame_check"] = {"samples": len(idx), "lost": lost}
+        if lost:
+            scene = dict(members)[i]
+            spans_txt = "، ".join(f"{x:.0f}–{y:.0f}" for x, y in lost)
+            notes.append(t["comment_face_lost"].format(channel=scene.get("channel_display", ""), spans=spans_txt))
+
+
+def _real_frame_faces(path: Path, frame: tuple, fps: float) -> list:
+    """صناديق الوجوه في نافذة الكلام لكل لقطة من ملف المشهد بمعدل fps (إحداثيات داخل النافذة)."""
+    import io
+    fx, fy, fw, fh = (int(v) for v in frame)
+    raw = subprocess.run(["ffmpeg", "-v", "error", "-i", str(path), "-vf", f"fps={fps},crop={fw}:{fh}:{fx}:{fy}",
+                          "-f", "image2pipe", "-vcodec", "png", "-"], capture_output=True, timeout=300).stdout
+    sig = b"\x89PNG\r\n\x1a\n"
+    return [list(imaging.face_boxes(Image.open(io.BytesIO(sig + part)).convert("RGB"))) for part in raw.split(sig) if part]
 
 
 def _panel_groups(order: list, script: dict, clips: dict) -> dict[int, list[int]]:

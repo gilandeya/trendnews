@@ -88,6 +88,16 @@ def load_config(path=None):
         # الخلفية الكحلية المحضَّرة (قضية 1856) تغيّر أوامر الريل بلا صورة التي تثبّتها المراجع القديمة؛ test_reel_1856_fixes يطلبها
         if isinstance(rcfg.get("background"), dict):
             rcfg["background"]["navy_canvas"] = False
+        # التتبع بالهوية وكشف القطع وفحص ما بعد التركيب (ريل c28aa5d5bfea) ينادون OpenCV وffmpeg ونموذجي opencv_zoo من الشبكة
+        # خارج deps فيبطئون كل اختبار بلا حقن ولا يثبتون فيه شيئًا؛ test_reel_follow_identity_c28 يطلبها ويثبّت أن config.yaml عليها
+        crop_c = rcfg.get("crop")
+        if isinstance(crop_c, dict):
+            if isinstance(crop_c.get("identity"), dict):
+                crop_c["identity"]["enabled"] = False
+            if isinstance(crop_c.get("frame_check"), dict):
+                crop_c["frame_check"]["enabled"] = False
+            if isinstance(crop_c.get("follow"), dict):
+                crop_c["follow"]["cut_threshold"] = 0
         # إعداد محرر الريل الخاص (15/11: Sonnet بلا بحث ولا مراجعة ثانية) يغيّر ما تثبّته اختبارات المحرر وجولة التصحيح
         # القديمة؛ test_reel_cost_cut يطلبه من config الحقيقي
         if isinstance(cfg.get("editor"), dict):
