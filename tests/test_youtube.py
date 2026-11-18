@@ -8424,3 +8424,116 @@ def test_reel_render_budget_1922() -> None:
         check("1922: قائمة الضيوف لا تُبنى ويُحفظ سببها",
               rosters == {} and verdicts == {} and meta2.get("roster_errors", {}).get("v") == "budget", meta2)
     reel_render.budget_start(off)   # لا تترك ساعة منقضية لاختبار بعده
+
+
+def test_reel_clash_1929() -> None:
+    """ريل 1929: سقطت ورقة الهوك الثانية (خمس جمل «ليست حرفيًا» ولم يُعَد الطلب لأن الورقة الواحدة نجحت)، وكُتب اسم المتحدث الفارسي مرتين
+    بالحروف نفسها، ونزل توجّه القناة إلى سطر ثانٍ في الورقة."""
+    from types import SimpleNamespace as NS
+
+    from PIL import Image, ImageDraw
+
+    from src import reel_clash, reel_render
+    from src.config import load_config as real_load
+
+    cfg = real_load()
+    # (1) حدود الجملة: نصف الفاصلة الفارسية لا تقسم الكلمة، والرسم الآخر لكلمة طويلة يُقبل، وما يُعرض كلمات الكلام نفسها
+    fa = "اینکه آیا این نشست مثل یالتاست، من این رو به دو دلیل رد می‌کنم. یکی اینکه در زمان کنفرانس"
+    loc = reel_clash.locate(fa, "اینکه آیا این نشست", "دو دلیل رد میکنم", cfg)
+    check("1929: «میکنم» بلا نصف الفاصلة يطابق «می‌کنم»", loc is not None and fa.split()[loc[1]].startswith("می"), loc)
+    ar = "من يتحدث عن يالطا ثانية يخطئ تماماً، كيف يمكن أن نقارن بين يالطا وبين ما يجري اليوم"
+    loc2 = reel_clash.locate(ar, "يتحدث عن يالطا", "يخطئ تمامنا", cfg)
+    check("1929: حرف خاطئ في كلمة طويلة يُقبل، والقطعة من الكلام الأصلي",
+          loc2 is not None and " ".join(ar.split()[loc2[0]:loc2[1] + 1]) == "يتحدث عن يالطا ثانية يخطئ تماماً،", loc2)
+    check("1929: anchor_similarity 1 ← حرفيًا وحده",
+          reel_clash.locate(ar, "يتحدث عن يالطا", "يخطئ تمامنا", _cfg_with(cfg, "reel.render.clash.anchor_similarity", 1)) is None)
+    check("1929: كلمة قصيرة لا تُطابَق بالتسامح", reel_clash.locate(ar, "من يتحدث عن", "وبين ما يجرى اليومم", cfg) is not None
+          and reel_clash.locate(ar, "مع يتحدث عن", "اليوم", cfg) is None)
+
+    # (2) السبب يسمّي المقطع، ويعرف الحدود المأخوذة من الترجمة
+    ru = {"point_id": "r", "speaker": "غ", "channel": "دوشد", "bloc": "russian", "language": "ru", "verified": True,
+          "quote_original": "Я думаю, что у Си Цзиньпина будет своя повестка, связанная с его видением миропорядка",
+          "quote_arabic": "أعتقد أن شي جين بينغ سيكون له جدول أعماله الخاص المرتبط برؤيته للنظام العالمي"}
+    _, why = reel_clash.check_line({"point_id": "r", "first_words": "أعتقد أن شي", "last_words": "أعماله الخاص",
+                                    "text_ar": "أعتقد أن شي جين بينغ"}, {"r": ru}, cfg)
+    check("1929: حدود من الترجمة لمتكلم بالروسية ← سببها باسم القناة", "من الترجمة" in why and "دوشد" in why, why)
+    _, why2 = reel_clash.check_line({"point_id": "r", "first_words": "Ты не", "last_words": "мир", "text_ar": "x"}, {"r": ru}, cfg)
+    check("1929: حدود غائبة ← السبب يسمّي المقطع والكلمات", "دوشد" in why2 and "Ты не" in why2, why2)
+
+    # (3) ورقة واحدة لأن الأزواج سقطت ← إعادة مرة، ولا يُقبل منها إلا زوج
+    toks = [chr(0x0628 + k // 6) + chr(0x0628 + k % 6) + "ة" for k in range(40)]
+    words = " ".join(toks)
+    good_a = {"point_id": "a", "first_words": toks[0], "last_words": toks[7], "text_ar": ""}
+    good_b = {"point_id": "b", "first_words": toks[2], "last_words": toks[9], "text_ar": ""}
+    bad_b = {"point_id": "b", "first_words": "لا وجود", "last_words": "لها هنا", "text_ar": ""}
+    script = {"title": "س؟", "scenes": [
+        {"kind": "clip", "q": 0, "point_id": "a", "speaker_name": "س", "speaker_verified": True, "channel_display": "ق1",
+         "quote_original": words, "quote_arabic": "أ ب", "language": "ar"},
+        {"kind": "clip", "q": 0, "point_id": "b", "speaker_name": "ص", "speaker_verified": True, "channel_display": "ق2",
+         "quote_original": words, "quote_arabic": "أ ب", "language": "ar"}]}
+
+    def run(second):
+        calls = []
+
+        def fake(client, **kw):
+            calls.append(kw["messages"])
+            if len(calls) == 1:
+                return NS(stop_reason="tool_use", content=[NS(type="tool_use", id="t1", input={
+                    "pairs": [{"a": good_a, "b": bad_b, "relation": "opposite"}], "single": good_a})])
+            return NS(stop_reason="tool_use", content=[NS(type="tool_use", id="t2", input=second)])
+        saved = reel_clash._create, reel_clash.channel_bloc
+        try:
+            reel_clash._create = fake
+            reel_clash.channel_bloc = lambda s, c: "x" if s.get("channel_display") == "ق1" else "y"
+            d = {"script": script}
+            reel_clash.plan(d, cfg, client=object())
+        finally:
+            reel_clash._create, reel_clash.channel_bloc = saved
+        return calls, d.get("hook_clash") or {}
+
+    calls, hc = run({"pairs": [{"a": good_a, "b": good_b, "relation": "opposite"}], "single": good_a})
+    tr = calls[1][-1]["content"][0] if len(calls) > 1 else {}
+    check("1929: الأزواج سقطت والورقة الواحدة نجحت ← إعادة بالأسباب، والزوج يُعتمد",
+          len(calls) == 2 and tr.get("tool_use_id") == "t1" and "ق2" in tr.get("content", "")
+          and hc.get("mode") == "pair" and hc.get("retried"), (len(calls), hc))
+    calls, hc = run({"pairs": [], "single": good_b})
+    check("1929: إعادة بلا زوج ← تبقى الورقة الأولى ويُحفظ السبب",
+          len(calls) == 2 and hc.get("mode") == "single" and hc["a"]["point_id"] == "a" and hc.get("retry_rejected"), hc)
+    off = _cfg_with(cfg, "reel.render.clash.retry_for_pair", False)
+    saved = reel_clash._create, reel_clash.channel_bloc
+    n = []
+    try:
+        reel_clash._create = lambda client, **kw: (n.append(1), NS(stop_reason="tool_use", content=[NS(
+            type="tool_use", id="t1", input={"pairs": [{"a": good_a, "b": bad_b, "relation": "opposite"}], "single": good_a})]))[1]
+        reel_clash.channel_bloc = lambda s, c: "x" if s.get("channel_display") == "ق1" else "y"
+        d = {"script": script}
+        reel_clash.plan(d, off, client=object())
+    finally:
+        reel_clash._create, reel_clash.channel_bloc = saved
+    check("1929: retry_for_pair: false ← نداء واحد كما كان", len(n) == 1 and d["hook_clash"].get("mode") == "single", n)
+
+    # (4) الرسم الأجنبي: فارسي بالحروف العربية لا يُكتب، واللاتيني يُكتب
+    check("1929: اسم فارسي بالحروف العربية ليس رسمًا أجنبيًا",
+          reel_render.foreign_name({"speaker_name": "مهدي مهدوي‌آزاد", "speaker_name_latin": "مهدی مهدوی‌آزاد"}) == ""
+          and reel_render.foreign_name({"speaker_name": "مراد يتكين", "speaker_name_latin": "Murat Yetkin"}) == "Murat Yetkin")
+
+    # (5) سطر القناة في الورقة سطر واحد، والاسم الفارسي لا يتكرر
+    scene = {"kind": "clip", "speaker_name": "مهدي مهدوي‌آزاد", "speaker_name_latin": "مهدی مهدوی‌آزاد",
+             "speaker_verified": True, "speaker_role": "محلل", "channel_display": "إيران إنترناشيونال",
+             "channel_original": "Iran International"}
+    dr = ImageDraw.Draw(Image.new("RGB", (10, 10)))
+    rows = reel_clash.info_rows(scene, cfg, dr)
+    w = int(reel_clash.ccfg(cfg)["card"]["width"]) - 2 * int(reel_clash.ccfg(cfg)["info"]["edge"])
+    edge = int(reel_clash.ccfg(cfg)["info"]["edge"])
+    texts = [[t for t, _f, _c in parts] for parts, _h in rows]
+    check("1929: الاسم وحده بلا تكراره بالفارسية", texts and texts[0] == ["مهدي مهدوي‌آزاد"], texts)
+    ch = next((r for r in rows if r[0][0][0].startswith("قناة")), None)
+    check("1929: سطر القناة ورسمها وتوجّهها في سطر واحد",
+          ch is not None and len(ch[0]) == 3 and reel_clash.draw_parts(dr, w + edge, 0, ch[0], ch[1], edge, draw=False) == 0,
+          [(t, f.size) for t, f, _c in (ch[0] if ch else [])])
+    tiny = _cfg_with(cfg, "reel.render.clash.card.width", 330)
+    ch2 = [r for r in reel_clash.info_rows(scene, tiny, dr) if r[0][0][0].startswith("قناة")]
+    check("1929: لا يسع حتى بأدنى حجم ← يُحذف التوجّه أولًا ولا يُكسر السطر",
+          ch2 and all(t != "(معارضة للنظام)" for t, _f, _c in ch2[0][0])
+          and reel_clash.draw_parts(dr, 330 - edge, 0, ch2[0][0], ch2[0][1], edge, draw=False) == 0,
+          [(t, f.size) for t, f, _c in (ch2[0][0] if ch2 else [])])

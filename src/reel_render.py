@@ -1931,6 +1931,17 @@ def _band_pair(p, ar: str, lat: str, kind: str, sizes: tuple[int, int], mins: tu
     return None
 
 
+def foreign_name(scene: dict) -> str:
+    """الرسم الأجنبي لاسم المتحدث الذي يُكتب بجانب اسمه العربي، أو "" — القاعدة الوحيدة لكل من يرسمه (الشريط بشكليه وورقة هوك المواجهة).
+    يُكتب فقط إن كان فيه حرف لاتيني وليس الاسم العربي نفسه: اسم فارسي أو أوردي بالحروف العربية («مهدی مهدوی‌آزاد») يعيد الاسم بالحروف
+    نفسها فلا يضيف شيئًا (ريل 1929؛ الورقة كانت ترسم الحقل كما هو والشريط يحذفه)."""
+    latin = " ".join(str(scene.get("speaker_name_latin") or "").split())
+    name = " ".join(str(scene.get("speaker_name") or "").split())
+    if not re.search(r"[A-Za-z]", latin) or latin.casefold() == name.casefold():
+        return ""
+    return latin
+
+
 def _draw_band_inline(p, cfg, scene: dict, top: int, height: int, verified: bool) -> None:
     """شريط المتحدث بثلاثة أسطر (قرار صاحب المشروع 7/11): الاسم وبجانبه رسمه الأجنبي بين قوسين · الصفة بالعربية وحدها · «قناة …»
     وبجانبها رسمها الأجنبي؛ متمركزة رأسيًا، تنتهي يمينًا عند band_text_right، وقبلها الشريط الذهبي. غير الموثَّق: سطر القناة وحده."""
@@ -1952,10 +1963,7 @@ def _draw_band_inline(p, cfg, scene: dict, top: int, height: int, verified: bool
     rows = []
     if verified:
         name = scene["speaker_name"].strip()
-        latin = (scene.get("speaker_name_latin") or "").strip()
-        # الأجنبي للاسم اللاتيني وحده: حين يكون الحقل الاسم العربي نفسه يتكرر الاسم
-        if not re.search(r"[A-Za-z]", latin) or latin.casefold() == name.casefold():
-            latin = ""
+        latin = foreign_name(scene)   # الأجنبي للاسم اللاتيني وحده: حين يكون الحقل الاسم العربي نفسه يتكرر الاسم
         rows.append((name, latin, "display", (56, 34), (int(mins.get("name", 40)), int(mins.get("latin", 26))),
                      (p.white, p.gold, p.gold), "", old_parens))
         role = band_role(scene.get("speaker_role") or "")
@@ -2074,9 +2082,9 @@ def frame_clip_layers(cfg, scene: dict, boxes=None, cover: bool | None = None,
         bottom = p.ink_line(scene["speaker_name"], *p.face(scene["speaker_name"], "display"), 56, p.white, prev_bottom=None, gap=gap, limit=limit,
                             min_size=int(mins.get("name", 40)), y_top=y)
         bottom = y if bottom is None else bottom
-        latin = (scene.get("speaker_name_latin") or "").strip()
         # السطر الذهبي للاسم اللاتيني فقط: حين وضع السيناريو الاسم العربي نفسه هنا تكرّر الاسم في سطرين
-        has_latin = bool(re.search(r"[A-Za-z]", latin)) and latin.casefold() != scene["speaker_name"].strip().casefold()
+        latin = foreign_name(scene)
+        has_latin = bool(latin)
         if has_latin:
             # Kalam-Bold للاتيني الخالص (يغطي ş ğ İ)
             nb = p.ink_line(latin, *p.face(latin, "body"), 34, p.gold, prev_bottom=bottom, gap=gap,
