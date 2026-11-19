@@ -637,10 +637,14 @@
       }
     ],
     "picked": [
-      "buEdn3otIdM",
-      "jn0rxoHXxbo",
-      "FfWB2kHIrAI",
-      "gJTzVO0rU8w"
+      "buEdn3otIdM"
+    ],
+    "compared": [
+      {
+        "video_id": "buEdn3otIdM",
+        "impact": 6,
+        "footage_ratio": 0.979
+      }
     ]
   },
   "broll_plan": [
@@ -704,5 +708,19 @@
       "اسم متحدث لم يُحسم: أوليس غوسيه"
     ]
   },
-  "hook_picked": 0
+  "hook_picked": 0,
+  "hook_video": {
+    "video_id": "buEdn3otIdM",
+    "start": 68,
+    "end": 72,
+    "channel": "APT",
+    "title": "LIVE: Putin Arrives in Shenzhen for APEC 2026 Ahead of Historic Trump-Xi-Putin Meeting | APT",
+    "source": "auto",
+    "views": 1300288,
+    "impact": 6,
+    "pre_ok": true,
+    "strong_start": 68,
+    "reason": "أقوى 3 ث (قوة 6)",
+    "render_version": 81
+  }
 }
