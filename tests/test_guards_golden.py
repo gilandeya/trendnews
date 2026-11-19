@@ -25348,8 +25348,12 @@ def test_reel_clash_hook_guards() -> None:
     from PIL import Image
     from src import reel_clash, reel_render, reel_script, youtube_publish
     from tests.helpers import _real_load_config
+    import copy as _copy
 
     cfg = load_config()
+    # الهوك أُوقف في config.yaml (19/11) والاختبار لآلته وهي باقية خلف المفتاح
+    cfg = _copy.deepcopy(cfg)
+    cfg["reel"]["render"]["clash"]["enabled"] = True
 
     def guarded(name, fn):
         try:
