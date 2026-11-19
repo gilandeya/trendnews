@@ -96,6 +96,10 @@ def load_config(path=None):
             rcfg["deadline"]["enabled"] = False
         if isinstance(rcfg.get("clip_cache"), dict):
             rcfg["clip_cache"]["enabled"] = False
+        # ترك المقطع المعيب وتأخير المؤجَّل (19/11) يغيّران ما تثبّته اختبارات #1404 (الريل كله يؤجَّل) وترتيب #1423؛
+        # test_reel_skip_bad_clip_1919 يطلبهما ويثبّت أن config.yaml عليهما
+        rcfg["drop_failed_clips"] = False
+        rcfg["retried_last"] = False
         crop_c = rcfg.get("crop")
         if isinstance(crop_c, dict):
             if isinstance(crop_c.get("identity"), dict):
