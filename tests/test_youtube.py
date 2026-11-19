@@ -8436,6 +8436,185 @@ def test_meta_verify_deadline_1904() -> None:
         reel_clips.download_clip, speaker_map.proxy_url, bite_audio._real_download = saved
 
 
+def test_reel_deadline_cache_1919() -> None:
+    """تشغيلتا «تركيب الريل» في 19/11 قُتلتا بمهلة الوظيفة (60 دقيقة) كما قُتل 973764aabdfe أربع مرات منذ 17/11: ميزانية #1922
+    تحسب من بداية التركيب وخطوة الأسئلة قبله أكلت 17 دقيقة، ومسح اللقطات بدأ «في وقته» ثم صمت 25 دقيقة، والقتل لا يُسجّل
+    محاولة فيعود الريل queued ويُقتل في الموضع نفسه، ويعيد تنزيل مقاطعه (21–32 دقيقة) من الصفر كل مرة."""
+    import copy
+    import io
+    import json
+    import os
+    import tempfile
+    import time
+    from contextlib import redirect_stdout
+    from pathlib import Path
+
+    from src import reel_clips, reel_render, speaker_map, store
+
+    cfg = load_config()
+    on = copy.deepcopy(cfg)
+    on["reel"]["render"]["deadline"]["enabled"] = True
+    on["reel"]["render"]["clip_cache"]["enabled"] = True
+
+    # (1) الموعد من عمر الآلة، ولا موعد خارج Actions
+    check("1919: الموعد = بداية الوظيفة + (المهلة − الاحتياط)",
+          reel_render.deadline_from(1200, 10000, 60, 4) == 10000 - 1200 + 56 * 60)
+    env_was = os.environ.pop("GITHUB_ACTIONS", None)
+    try:
+        check("1919: خارج Actions لا موعد (آلة التطوير عمرها أيام)", reel_render.job_deadline(on) is None)
+    finally:
+        if env_was is not None:
+            os.environ["GITHUB_ACTIONS"] = env_was
+
+    # (2) المرحلة الاختيارية تُقاس بما بقي حتى الموعد لا بدقائق التركيب
+    reel_render.budget_start(on, deadline=time.time() + 20 * 60)
+    notes: list = []
+    check("1919: بقيت 20 دقيقة ← لا مسح لقطات (يحتاج 22) ولا فحص هوك (26)، والخرائط (16) تعمل",
+          reel_render.budget_over(on, "broll", notes) and reel_render.budget_over(on, "hook_scan", notes)
+          and not reel_render.budget_over(on, "maps", notes) and len(notes) == 2, notes)
+    left = reel_clips.deadline_left()
+    check("1919: التنزيل يقف قبل الموعد بوقت التجميع", left is not None and abs(left - 6 * 60) < 5, left)
+
+    # (3) بعد موعد نهاية التنزيل: الحارس يقطع، ولا درجة تُجرَّب، ولا إعادة تنتظر
+    reel_clips.set_deadline(time.time() - 1)
+    cut = ""
+    try:
+        reel_clips.progress_guard(0, 0)(1000)
+    except reel_clips.ClipDownloadTimeout as exc:
+        cut = str(exc)
+    check("1919: حارس التنزيل يقطع عند موعد نهاية التنزيل", "نفد وقت" in cut, cut)
+    tried: list = []
+    fails: list = []
+    with tempfile.TemporaryDirectory() as td:
+        try:
+            reel_clips.download_clip("v", 0, 10, 720, Path(td) / "c.mp4", None,
+                                     runner=lambda tier, *a, **k: tried.append(tier))
+        except reel_clips.ClipDownloadError as exc:
+            fails = exc.failures
+        slept: list = []
+        deps = reel_render.Deps(download_clip=lambda *a: (_ for _ in ()).throw(RuntimeError("x")),
+                                sleep=lambda s: slept.append(s))
+        raised = False
+        try:
+            reel_render._download_with_retries(deps, cfg.path("reel.render"), "v", 0, 10, Path(td) / "d.mp4")
+        except RuntimeError:
+            raised = True
+        try:
+            speaker_map.download_episode("v", 240, Path(td), None, retries=2, wait=0)
+            ep = ""
+        except RuntimeError as exc:
+            ep = str(exc)
+    check("1919: لا درجة تنزيل تبدأ بعد الموعد وسببها محفوظ", tried == [] and fails[0].get("skipped") == "deadline", fails)
+    check("1919: لا إعادة تنزيل بعد الموعد (لا انتظار retry_wait_seconds)", raised and slept == [], slept)
+    check("1919: تنزيل حلقة الخريطة لا يبدأ بعد الموعد", "نفد وقت" in ep, ep)
+    reel_clips.set_deadline(None)
+
+    # (4) المنبّه يوقف التركيب أينما كان بـBaseException (لا تبتلعه except Exception في المراحل)
+    reel_render.budget_start(on, deadline=None)
+    reel_render._BUDGET["start"] = time.monotonic()
+    reel_render.stage_mark("broll")
+    disarm = reel_render._arm_watchdog(time.time() + 1)
+    stage = ""
+    try:
+        try:
+            time.sleep(4)
+        except Exception:  # noqa: BLE001 -- كما تفعل المراحل الاختيارية
+            stage = "swallowed"
+    except reel_render.RenderTimeout as exc:
+        stage = exc.stage
+    finally:
+        disarm()
+    check("1919: المنبّه يرفع RenderTimeout بمرحلته ولا تبتلعه except Exception", stage == "broll", stage)
+    check("1919: المراحل تُسجَّل للمراجعة (render_timing)",
+          reel_render.timing_report().get("stages", [[None]])[-1][0] == "broll" and "render_timing" in reel_render.RENDER_KEYS)
+
+    # (5) التوقف يُسجَّل محاولةً ويُعلَّق، والحد يجعله failed
+    with tempfile.TemporaryDirectory() as td:
+        day = store.DRAFTS_DIR / "2026-11-19"
+        day.mkdir(parents=True, exist_ok=True)
+        path = day / "dl1919.json"
+        draft = {"id": "dl1919", "format": "reel", "status": "approved_script", "render_status": "queued",
+                 "review_issue": 77, "script": {"scenes": [{"kind": "clip"}]}}
+        path.write_text(json.dumps(draft, ensure_ascii=False), encoding="utf-8")
+        said: list = []
+        deps = reel_render.Deps(comment=lambda n, t: said.append((n, t)))
+        real_render = reel_render._render
+
+        def stuck(*a, **k):
+            reel_render.stage_mark("broll")
+            raise reel_render.RenderTimeout("broll")
+        reel_render._render = stuck
+        try:
+            res = reel_render.render_draft(path, draft, on, deps, reels_dir=Path(td))
+            saved = json.loads(path.read_text(encoding="utf-8"))
+            res2 = reel_render.render_draft(path, {**saved}, on, deps, reels_dir=Path(td))
+            saved2 = json.loads(path.read_text(encoding="utf-8"))
+            res3 = reel_render.render_draft(path, {**saved2}, on, deps, reels_dir=Path(td))
+        finally:
+            reel_render._render = real_render
+            path.unlink(missing_ok=True)
+    check("1919: التوقف يُحسب محاولة ويبقى queued بسببه",
+          res["render_status"] == "queued" and saved["render_attempts"] == 1 and "مسح لقطات الحدث" in saved["render_error"], saved)
+    check("1919: والمحاولة الثالثة (max_attempts) failed", res3["render_status"] == "failed" and res2["render_attempts"] == 2, res3)
+    check("1919: تعليق يذكر المرحلة والمحاولة على قضية الريل",
+          said and said[0][0] == 77 and "مسح لقطات الحدث" in said[0][1] and "1 من 3" in said[0][1], said[:1])
+
+    # (6) المخبأ: مقطع نزل في تشغيلة قُتلت تجده التالية بلا تنزيل، ونجاح التركيب يحذفه، والقديم يُحذف
+    with tempfile.TemporaryDirectory() as td:
+        reels = Path(td)
+        calls: list = []
+
+        def dl(vid, ws, we, h, out):
+            calls.append(vid)
+            out.with_suffix(".mp4").write_bytes(b"clip")
+        deps = reel_render.Deps(download_clip=dl, streams=lambda f: ["video", "audio"])
+        rc = on.path("reel.render")
+        reel_render._cache_open(on, reels)
+        (reels / "w1").mkdir()
+        first = reel_render._download_with_retries(deps, rc, "vid1", 5, 20, reels / "w1" / "clip_0.mp4")
+        cached = list((reels / "_cache").glob("*"))
+        reel_render._cache_open(on, reels)       # تشغيلة جديدة
+        (reels / "w2").mkdir()
+        second = reel_render._download_with_retries(deps, rc, "vid1", 5, 20, reels / "w2" / "clip_0.mp4")
+        hits = reel_render._CLIP_CACHE["hits"]
+        reel_render._cache_clear_used()
+        after = list((reels / "_cache").glob("*"))
+        old = reels / "_cache" / "old_0_1_720.mp4"
+        old.write_bytes(b"x")
+        os.utime(old, (time.time() - 5 * 86400, time.time() - 5 * 86400))
+        reel_render._cache_open(on, reels)
+        pruned = not old.exists()
+        reel_render._cache_open(cfg, reels)      # مطفأ في الإعداد ← لا مخبأ
+        off_dir = reel_render._CLIP_CACHE["dir"]
+    check("1919: المقطع المنزَّل يُحفظ في المخبأ", first is not None and len(cached) == 1 and cached[0].name == "vid1_5_20_720.mp4",
+          cached)
+    check("1919: التشغيلة التالية تأخذه من المخبأ بلا تنزيل", second is not None and calls == ["vid1"] and hits == 1,
+          (calls, hits))
+    check("1919: نجاح التركيب يحذف ما استعمل من المخبأ", after == [], after)
+    check("1919: ما جاوز keep_days يُحذف، والمخبأ مطفأ بلا مجلد", pruned and off_dir is None)
+
+    # (7) ريل لا يبدأ بلا وقت كافٍ
+    real_dl, real_batch, real_rd = reel_render.job_deadline, reel_render.pending_batch, reel_render.render_draft
+    started: list = []
+    reel_render.job_deadline = lambda c: time.time() + 5 * 60
+    reel_render.pending_batch = lambda c: [(Path("x/abc.json"), {})]
+    reel_render.render_draft = lambda *a, **k: started.append(1) or {"render_status": "rendered"}
+    buf = io.StringIO()
+    try:
+        with redirect_stdout(buf):
+            reel_render.main(["--pending", "--skip-qa"])
+    finally:
+        reel_render.job_deadline, reel_render.pending_batch, reel_render.render_draft = real_dl, real_batch, real_rd
+    check("1919: لا يبدأ ريل وقد بقيت 5 دقائق (min_start_minutes 20)", started == [] and "لم يبدأ" in buf.getvalue(),
+          buf.getvalue())
+
+    import yaml
+    real = yaml.safe_load(open("config.yaml", encoding="utf-8"))["reel"]["render"]
+    check("1919: config.yaml يفعّل الموعد والمخبأ وحدود البقاء",
+          real["deadline"]["enabled"] and real["clip_cache"]["enabled"] and real["budget"]["leave_minutes"]["broll"] > 0
+          and real["deadline"]["job_minutes"] == 60)
+
+
 def test_reel_render_budget_1922() -> None:
     """القضية #1922: وظيفة التركيب قُتلت بمهلتها (60 دقيقة) فضاع الريل كله — تنزيل معلّق بلا مهلة ابتلع 20 دقيقة، ولا ميزانية
     وقت تتخطّى المراحل الاختيارية حين يضيق الوقت."""

@@ -250,12 +250,19 @@ def download_episode(video_id: str, height: int, out_dir: Path, proxy: str | Non
     last: Exception | None = None
     for attempt in range(retries + 1):
         capture, seen = reel_clips.TailCapture(), {}
+        left = reel_clips.deadline_left()
+        if left is not None and left <= 0:
+            raise RuntimeError("نفد وقت التشغيلة")
+        # حارس تنزيل المقاطع نفسه (#1922 و19/11): بلا بايت جديد stall_seconds أو بلوغ موعد نهاية التنزيل ← يُلغى التنزيل
+        lim = reel_clips.download_limits()
+        guard = reel_clips.progress_guard(lim.get("stall_seconds"), lim.get("tier_seconds"))
 
-        def hook(d, seen=seen, capture=capture):
+        def hook(d, seen=seen, capture=capture, guard=guard):
             got = d.get("downloaded_bytes")
             if isinstance(got, int):
                 seen[d.get("filename") or "?"] = max(seen.get(d.get("filename") or "?", 0), got)
             capture.note_format(d.get("info_dict"))
+            guard(sum(seen.values()) if seen else None)
 
         out = out_dir / f"{video_id}.mp4"
         opts = episode_opts(out, height, proxy, capture, hook)
@@ -295,6 +302,9 @@ def download_episode(video_id: str, height: int, out_dir: Path, proxy: str | Non
                     "format_id": capture.format_id}
         except Exception as exc:  # noqa: BLE001 -- يُعاد ثم يرفع آخر سبب
             last = exc
+            left = reel_clips.deadline_left()
+            if left is not None and left <= 0:
+                break
             time.sleep(wait)
     raise RuntimeError(reel_clips.scrub_text(str(last))[:200])
 

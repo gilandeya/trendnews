@@ -446,6 +446,20 @@ class ClipDownloadTimeout(RuntimeError):
     """تنزيل تجاوز مهلته؛ يلتقطه download_clip كأي فشل درجة فينتقل إلى التي بعدها."""
 
 
+# موعد نهاية التنزيل في التشغيلة كلها (وقت الحائط time.time()، أو None): يضعه reel_render من عمر وظيفة Actions ناقص وقت التجميع
+# (deadline). حارس الدرجة وحده يحدّ التنزيل الواحد، وثلاثة مقاطع بطيئة متتالية كانت تأكل التشغيلة كلها فتُقتل بلا أثر (19/11)
+DEADLINE: dict = {"at": None}
+
+
+def set_deadline(at: float | None) -> None:
+    DEADLINE["at"] = None if at is None else float(at)
+
+
+def deadline_left() -> float | None:
+    """الثواني الباقية قبل موعد نهاية التنزيل، أو None بلا موعد (التشغيل المحلي والاختبارات)."""
+    return None if DEADLINE["at"] is None else DEADLINE["at"] - time.time()
+
+
 def download_limits() -> dict:
     """مهل التنزيل من config وقت الاستدعاء لا عند الاستيراد (لتتبع الإعداد في الاختبار والتشغيل)."""
     from .config import load_config
@@ -467,6 +481,9 @@ def progress_guard(stall_seconds: float, max_seconds: float, clock=time.monotoni
         now = clock()
         if isinstance(got, int) and got > state["bytes"]:
             state["bytes"], state["seen"] = got, now
+        left = deadline_left()
+        if left is not None and left <= 0:
+            raise ClipDownloadTimeout("نفد وقت التشغيلة")
         if cap and now - state["start"] > cap:
             raise ClipDownloadTimeout(f"تجاوز التنزيل {int(cap)} ثانية")
         if stall and now - state["seen"] > stall:
@@ -556,6 +573,11 @@ def download_clip(video_id: str, start: int, end: int, height: int, out_path: Pa
     # #1922: سقف درجات المقطع الواحد كلها؛ درجة تالية لا تبدأ بعد نفاده (ثلاث درجات معلّقة كانت تضاعف الضياع)
     total = float(download_limits().get("total_seconds") or 0)
     for tier in ("a", "b", "c"):
+        left = deadline_left()
+        if left is not None and left <= 0:
+            failures.append({"tier": tier, "error_tail": ["تُخطّيت الدرجة: نفد وقت التشغيلة"],
+                             "format_id": "", "protocol": "", "skipped": "deadline"})
+            break
         if total and tier != "a" and clock() - began > total:
             failures.append({"tier": tier, "error_tail": [f"تُخطّيت الدرجة: تجاوز تنزيل المقطع {int(total)} ثانية"],
                              "format_id": "", "protocol": "", "skipped": "budget"})

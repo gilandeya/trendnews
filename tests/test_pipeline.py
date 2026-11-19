@@ -281,7 +281,7 @@ from tests.test_youtube import (
     test_meta_actor_originals_1868,
     test_reel_scenario_fallbacks_1313,
     test_reel_context_beats_1313b,
-    test_reel_like_bar_1313c, test_reel_1913_fixes, test_reel_1913b_fixes, test_reel_follow_identity_c28, test_reel_render_budget_1922, test_reel_clash_1929,
+    test_reel_like_bar_1313c, test_reel_1913_fixes, test_reel_1913b_fixes, test_reel_follow_identity_c28, test_reel_render_budget_1922, test_reel_deadline_cache_1919, test_reel_clash_1929,
     test_reel_question_wording_1313d,
     test_reel_timeline_clash_1881,
     test_reel_fail_reselect_1881,
@@ -756,6 +756,7 @@ def main() -> int:
     test_reel_1913b_fixes()
     test_reel_follow_identity_c28()
     test_reel_render_budget_1922()
+    test_reel_deadline_cache_1919()
     test_reel_clash_1929()
     test_reel_question_wording_1313d()
     test_reel_timeline_clash_1881()
