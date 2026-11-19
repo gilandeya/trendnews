@@ -3159,6 +3159,7 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
     exact_off = ""       # سبب تعطيل الضبط للتركيب كله بعد فشل الفحص الذاتي (Q13b)
     exact_fails: list = []
     exact_tried = False
+    download_failed: list = []      # مقاطع تُركت لعطل تنزيلها (drop_failed_clips)
     if exact_on and deps.transcriber_selfcheck is not None:
         ok, why_sc = deps.transcriber_selfcheck(cfg)
         draft["render_exact_selfcheck"] = {"ok": bool(ok), "reason": why_sc}
@@ -3266,10 +3267,19 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
         stage_mark("clip", f"{i} {scene.get('channel_display', '')}")
         try:
             got = _download_with_retries(deps, rcfg, vid, dstart, dend, out)
-        except Exception as exc:  # noqa: BLE001 -- عطل تنزيل لا إسقاط تحريري: الريل كله يؤجَّل
-            raise ClipDownloadFailed(scene.get("channel_display", ""),
-                                     "فشل تنزيل المقطع: " + reel_clips.scrub_text(str(exc))[:120],
-                                     proxy=proxy_exhausted(str(exc), cfg)) from exc
+        except Exception as exc:  # noqa: BLE001 -- عطل تنزيل لا إسقاط تحريري
+            failure = ClipDownloadFailed(scene.get("channel_display", ""),
+                                         "فشل تنزيل المقطع: " + reel_clips.scrub_text(str(exc))[:120],
+                                         proxy=proxy_exhausted(str(exc), cfg))
+            # نفاد الرصيد يُسقط كل مقطع بعده فالريل كله ينتظر؛ غيره عطل لهذا المقطع وحده فيُترك والريل يمضي (19/11)
+            if failure.proxy or not cfg.path("reel.render.drop_failed_clips", False):
+                raise failure from exc
+            download_failed.append(failure)
+            _drop(dropped, scene, cfg.path("reel.render.texts.drop_download_failed").format(
+                reason=failure.reason.replace("فشل تنزيل المقطع: ", "", 1)))
+            if approx and approx[-1]["point_id"] == scene.get("point_id", ""):
+                approx.pop()
+            continue
         if got is None:
             _drop(dropped, scene, "لم يُنتج التنزيل ملفًا")
             if approx and approx[-1]["point_id"] == scene.get("point_id", ""):
@@ -3321,6 +3331,9 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
             else:
                 names = "، ".join(dict.fromkeys(c for c in chans if c))
                 notes.append(t["comment_exact_failed_many"].format(n=len(chans), channels=names, reason=why))
+    if download_failed and not clips:
+        # لم يُنزَّل شيء: عطل عام (شبكة، حجب) لا مقطع معيب، فالريل يؤجَّل كاملًا كما قبل drop_failed_clips
+        raise download_failed[0]
     return clips, dropped, approx
 
 
@@ -7650,8 +7663,11 @@ def queued_reels(cfg=None) -> list[tuple[Path, dict]]:
         if d.get("render_status") == "queued" or stale or revive:
             out.append((p, d))
     # مجموعتان (Issue #1423): المنتظر أولًا ثم المعاد تركيبه (stale وrevive)، وداخل كل مجموعة الأحدث اعتمادًا أولًا
-    out.sort(key=lambda pd: (pd[1].get("render_status") != "queued", _newest_first(pd[1].get("approved_script_at")),
-                             pd[0].name))
+    # retried_last (19/11): المؤجَّل لعطل تنزيل بعد ما لم يُجرَّب، كي لا يحجب تكرارُ عطله الريلات خلفه
+    late = bool(cfg.path("reel.render.retried_last", False)) if cfg is not None else False
+    out.sort(key=lambda pd: (pd[1].get("render_status") != "queued",
+                             late and int(pd[1].get("render_attempts") or 0) > 0,
+                             _newest_first(pd[1].get("approved_script_at")), pd[0].name))
     return out
 
 

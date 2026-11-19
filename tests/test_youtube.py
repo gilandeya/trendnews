@@ -8441,6 +8441,107 @@ def test_meta_verify_deadline_1904() -> None:
         reel_clips.download_clip, speaker_map.proxy_url, bite_audio._real_download = saved
 
 
+def test_reel_skip_bad_clip_1919() -> None:
+    """19/11: تشغيلة يدوية التقطت ريل 68c94cc15e39 (الأحدث اعتمادًا) وأعادت تنزيل مقطع هابر ترك ثلاث مرات (12 دقيقة) فعاد
+    بلا صورة أو بلا صوت، فأُجّل الريل كله، وفي التشغيلة التالية يُلتقط هو نفسه أولًا والأقدم 973764aabdfe لا يصله الدور."""
+    import copy
+    import json
+    import tempfile
+    from pathlib import Path
+
+    from src import reel_render, reel_script, store
+    from src.config import load_config as real_load
+
+    base = load_config()
+    real = real_load()
+    cfg = copy.deepcopy(base)
+    cfg["reel"]["render"]["drop_failed_clips"] = True
+    cfg["reel"]["render"]["retried_last"] = True
+    check("1919b: config.yaml يترك المقطع المعيب ويؤخّر المؤجَّل",
+          real.path("reel.render.drop_failed_clips") is True and real.path("reel.render.retried_last") is True)
+
+    D = "2099-12-06"
+    q1, q2 = "alpha beta gamma delta epsilon zeta", "one two three four five six"
+    points = [{"video_id": "v1", "statement": "s", "quote_original": q1, "quote_arabic": "ترجمة",
+               "speaker": "متحدث", "channel": "قناة", "video_url": "https://youtube.com/watch?v=v1", "timestamp": 10},
+              {"video_id": "v2", "statement": "s2", "quote_original": q2, "quote_arabic": "ترجمة٢",
+               "speaker": "متحدث٢", "channel": "هابر ترك", "video_url": "https://youtube.com/watch?v=v2", "timestamp": 10}]
+    pid1, pid2 = reel_script.point_key_id(points[0]), reel_script.point_key_id(points[1])
+
+    def clip(pid, url, ch, kind="clip"):
+        return {"kind": kind, "point_id": pid, "video_url": url, "start": 9, "end": 20, "speaker_name": "",
+                "speaker_role": "", "speaker_verified": False, "speaker_name_latin": "", "channel_display": ch,
+                "quote_arabic": "ترجمة", "language": "en"}
+
+    scenes = [clip(pid1, "https://youtube.com/watch?v=v1", "قناة", "cold_open_clip"),
+              {"kind": "narration", "text": "جملة أولى قصيرة."},
+              clip(pid2, "https://youtube.com/watch?v=v2", "هابر ترك"),
+              {"kind": "narration", "text": "جملة ثانية."},
+              clip(pid1, "https://youtube.com/watch?v=v1", "قناة"),
+              {"kind": "question", "text": "هل؟"}, {"kind": "outro"}]
+    transcripts = {"v1": "[00:10] alpha beta gamma delta\n[00:14] epsilon zeta eta theta\n[00:18] tail line",
+                   "v2": "[00:10] one two three four\n[00:14] five six seven eight\n[00:18] tail line"}
+
+    def run_one(did, failing, err="فشلت كل الدرجات: المقطع بلا صورة أو بلا صوت", conf=cfg):
+        log = {"comments": []}
+
+        def run(cmd):
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def download(video_id, start, end, height, out_path):
+            if video_id in failing:
+                raise RuntimeError(err)
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        deps = reel_render.Deps(
+            fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
+            synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
+            diacritize=lambda t: (t, None), run=run,
+            probe=lambda p: 41.0 if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0,
+            load_points=lambda date: points, comment=lambda i, t: log["comments"].append(t),
+            faces=lambda f, fr: (1280, 720, []), sleep=lambda s: None)
+        d = {"id": did, "origin": "analysis", "format": "reel", "status": "approved_script",
+             "render_status": "queued", "topic_id": "t1", "topic_date": D, "title": "ريل", "script_status": "ready",
+             "review_issue": 77, "script": {"narrator": "female", "title": "عنوان", "question": "هل؟", "scenes": scenes}}
+        path = store.save_draft(d)
+        reel_render.render_draft(path, d, conf, deps, reels_dir=tmp / "reels", workdir=tmp / "work")
+        return log, json.loads(path.read_text(encoding="utf-8"))
+
+    tmp = Path(tempfile.mkdtemp())
+    # (1) مقطع واحد معيب ← يُترك ويُركَّب الريل بما بقي، بلا محاولة محسوبة
+    log, s = run_one("skipbad00a01", {"v2"})
+    dropped = s.get("render_dropped") or []
+    check("1919b: المقطع المعيب يُترك والريل يُركَّب",
+          s.get("render_status") == "rendered" and not s.get("render_attempts")
+          and any(x["point_id"] == pid2 and "تعذّر تنزيله" in x["reason"] and "بلا صورة" in x["reason"] for x in dropped), s)
+    check("1919b: لا تعليق تأجيل", not any("سيُعاد التركيب" in c for c in log["comments"]), log["comments"])
+    # (2) بالإعداد القديم ← الريل كله يؤجَّل كما كان
+    log, s = run_one("skipbad00b01", {"v2"}, conf=base)
+    check("1919b: drop_failed_clips مطفأ ← الريل كله يؤجَّل",
+          s.get("render_status") == "queued" and s.get("render_attempts") == 1, s)
+    # (3) لم يُنزَّل شيء ← عطل عام فالتأجيل القديم
+    log, s = run_one("skipbad00c01", {"v1", "v2"})
+    check("1919b: كل المقاطع فشلت ← تأجيل لا ريل فارغ",
+          s.get("render_status") == "queued" and s.get("render_attempts") == 1, s)
+    # (4) نفاد رصيد البروكسي ← الانتظار كما كان ولو فشل مقطع واحد
+    log, s = run_one("skipbad00d01", {"v2"}, err="Tunnel connection failed: 402 Payment Required")
+    check("1919b: نفاد الرصيد ينتظر ولا يُترك المقطع", s.get("render_status") == "waiting_proxy", s)
+
+    # (5) الترتيب: المؤجَّل بعد ما لم يُجرَّب ولو كان أحدث اعتمادًا
+    old_p = store.save_draft({"id": "order00old01", "format": "reel", "status": "approved_script", "render_status": "queued",
+                              "approved_script_at": "2099-12-01T10:00:00+00:00", "script": {}})
+    new_p = store.save_draft({"id": "order00new01", "format": "reel", "status": "approved_script", "render_status": "queued",
+                              "approved_script_at": "2099-12-02T10:00:00+00:00", "render_attempts": 1, "script": {}})
+    names = [p.stem for p, _ in reel_render.queued_reels(cfg) if p.stem.startswith("order00")]
+    check("1919b: المؤجَّل لعطل تنزيل بعد ما لم يُجرَّب", names == ["order00old01", "order00new01"], names)
+    names = [p.stem for p, _ in reel_render.queued_reels(base) if p.stem.startswith("order00")]
+    check("1919b: retried_last مطفأ ← الأحدث اعتمادًا أولًا كما كان", names == ["order00new01", "order00old01"], names)
+    for p in (old_p, new_p):
+        store.update_draft(p, render_status="rendered")
+
+
 def test_reel_deadline_cache_1919() -> None:
     """تشغيلتا «تركيب الريل» في 19/11 قُتلتا بمهلة الوظيفة (60 دقيقة) كما قُتل 973764aabdfe أربع مرات منذ 17/11: ميزانية #1922
     تحسب من بداية التركيب وخطوة الأسئلة قبله أكلت 17 دقيقة، ومسح اللقطات بدأ «في وقته» ثم صمت 25 دقيقة، والقتل لا يُسجّل
