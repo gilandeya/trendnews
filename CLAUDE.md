@@ -2745,6 +2745,8 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 ← الجنس ← `elevenlabs.voices`. سطر «🎙️ الصوت» في تعليق التركيب (`VoiceSession.note`). الكلفة `usd_per_1000_chars` (0 في المجانية). **الخطة المجانية بلا
 رخصة تجارية:** قرار النشر ومسؤوليته على صاحب المشروع. **تشغيليًا:** `reel-render.yml` يحتاج `ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}`
 في env خطوة التركيب. `tests.helpers.load_config` يطفئه؛ الاختبار `tests/test_youtube.py:test_tts_elevenlabs`.
+**اشتراك Creator السنوي (19/11):** `output_format: mp3_44100_192` و`usd_per_1000_chars: 0.07` (99$ للسنة الأولى ÷ 121 ألف حرف شهريًا؛
+بعدها نحو 0.15). الخطة المجانية وStarter لا تقبلان 192 فيرجع الريل إلى Google بسطر السبب.
 
 ## أسطر بالجمل في نصوص الريل (قرار صاحب المشروع 7/11) — `reel_render.clause_wrap`
 
