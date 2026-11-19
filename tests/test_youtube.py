@@ -6386,6 +6386,11 @@ def test_tts_elevenlabs() -> None:
               and cfg.path("reel.tts.elevenlabs.voices.male") in el_calls[1][0], el_calls)
         check("الطلب بالنموذج وبلا temperature", el_calls[0][2]["model_id"] == cfg.path("reel.tts.elevenlabs.model")
               and "temperature" not in str(el_calls[0][2]))
+        # اشتراك Creator (19/11): جودة 192 kbps وسعر الحرف في سطر الكلفة من config.yaml نفسه
+        check("ElevenLabs: الطلب بصيغة الإعداد (Creator: 192 kbps) والسعر غير صفر",
+              f"output_format={cfg.path('reel.tts.elevenlabs.output_format')}" in el_calls[0][0]
+              and cfg.path("reel.tts.elevenlabs.output_format") == "mp3_44100_192"
+              and float(cfg.path("reel.tts.elevenlabs.usd_per_1000_chars")) > 0, el_calls[0][0])
         check("سطر التعليق يذكر ElevenLabs والباقي", "ElevenLabs" in s.note() and "8981" in s.note(), s.note())
 
         el_calls.clear()
