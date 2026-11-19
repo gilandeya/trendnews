@@ -39,30 +39,187 @@ SAMPLE_DATE = "2099/01/01"
 # بعد نصف ساعة من العمل الناجح. المراحل الاختيارية تُتخطّى حين تتجاوز دقائق التركيب حدّها، فيخرج الريل ناقص لقطات لا مقتولًا.
 # الساعة حالة عامة لا معامل: المراحل تمتد من _render إلى _assemble فما تحته، وتمريرها في كل توقيع كان سيغيّر عشرات النداءات
 # والمزيَّفات بلا فائدة (نهج rank.PRESS_GROUPS)؛ وتركيب واحد يجري في العملية الواحدة فلا تزاحم عليها.
-_BUDGET: dict = {"start": None, "skipped": []}
+_BUDGET: dict = {"start": None, "skipped": [], "deadline": None, "timing": [], "stage": ""}
 
 
-def budget_start(cfg) -> None:
-    """تبدأ ساعة التركيب (أو تُبطل الميزانية حين budget.enabled=false)؛ يُستدعى مرة أول كل تركيب."""
-    _BUDGET["start"] = time.monotonic() if (cfg.path("reel.render.budget.enabled", False)) else None
-    _BUDGET["skipped"] = []
+class RenderTimeout(BaseException):
+    """بلغ التركيب موعد نهاية وظيفة Actions (19/11). من BaseException عمدًا: مراحل كثيرة تلتقط Exception وتمضي، ولو التقطته
+    لمضى التركيب حتى تقتله المهلة بلا أثر. render_draft وحده يلتقطه فيسجّل المحاولة ويعلّق."""
+
+    def __init__(self, stage: str):
+        super().__init__(stage)
+        self.stage = stage
+
+
+def deadline_from(uptime: float, now: float, job_minutes: float, reserve_minutes: float) -> float:
+    """موعد التوقف (وقت الحائط) من عمر الآلة (دالة خالصة): آلة Actions المستضافة جديدة لكل وظيفة، فعمرها عمر الوظيفة."""
+    return now - float(uptime) + (float(job_minutes) - float(reserve_minutes)) * 60.0
+
+
+def job_deadline(cfg) -> float | None:
+    """موعد توقف التركيب قبل أن تقتل Actions الوظيفة (reel.render.deadline). السبب (19/11): خطوة الأسئلة قبل التركيب أكلت 17
+    دقيقة من الستين فقُتل التركيب وميزانيته (#1922) تحسب من بدايته هو. لا موعد خارج Actions (آلة التطوير عمرها أيام)."""
+    dc = cfg.path("reel.render.deadline") or {}
+    if not dc.get("enabled") or os.environ.get("GITHUB_ACTIONS") != "true":
+        return None
+    try:
+        with open("/proc/uptime", encoding="ascii") as fh:
+            uptime = float(fh.read().split()[0])
+    except Exception:  # noqa: BLE001 -- بلا عمر الآلة لا موعد: السلوك القديم
+        return None
+    if uptime > float(dc.get("job_minutes", 60)) * 60:
+        return None      # عمر أطول من الوظيفة: ليست آلة مستضافة جديدة فالحساب كاذب
+    return deadline_from(uptime, time.time(), float(dc.get("job_minutes", 60)), float(dc.get("reserve_minutes", 4)))
+
+
+def time_left() -> float | None:
+    """الثواني الباقية قبل موعد التوقف، أو None بلا موعد."""
+    return None if _BUDGET.get("deadline") is None else float(_BUDGET["deadline"]) - time.time()
+
+
+def budget_start(cfg, deadline: float | None = None) -> None:
+    """تبدأ ساعة التركيب (أو تُبطل الميزانية حين budget.enabled=false)؛ يُستدعى مرة أول كل تركيب. مع موعد التوقف يُوضع موعد
+    نهاية التنزيل (reel_clips.DEADLINE) قبله بـassembly_minutes: ما بعد التنزيل (التجميع والتمريرة الأخيرة) لا يُستغنى عنه."""
+    on = bool(cfg.path("reel.render.budget.enabled", False))
+    _BUDGET["start"] = time.monotonic() if on else None
+    _BUDGET["skipped"], _BUDGET["timing"], _BUDGET["stage"] = [], [], ""
+    _BUDGET["deadline"] = (deadline if deadline is not None else job_deadline(cfg)) if on else None
+    floor = None
+    if _BUDGET["deadline"] is not None:
+        floor = float(_BUDGET["deadline"]) - float(cfg.path("reel.render.deadline.assembly_minutes", 10)) * 60.0
+    reel_clips.set_deadline(floor)
+
+
+def stage_mark(stage: str, detail: str = "") -> None:
+    """سطر في سجل Actions عند بدء كل مرحلة (دقائق التركيب والباقي حتى موعد التوقف) ويُحفظ في render_timing. السبب: تشغيلتا
+    19/11 صمتتا 25 دقيقة قبل أن تُقتلا فلم يُعرف أين ضاع الوقت."""
+    _BUDGET["stage"] = stage
+    if _BUDGET.get("start") is None:
+        return
+    minutes = round((time.monotonic() - float(_BUDGET["start"])) / 60.0, 1)
+    left = time_left()
+    _BUDGET["timing"].append([stage + (f" {detail}" if detail else ""), minutes])
+    log.info("⏱️ %.1f د من التركيب%s · %s %s", minutes,
+             f" · يبقى {left / 60:.0f} د" if left is not None else "", stage, detail)
+
+
+def timing_report() -> dict:
+    """ما يُحفظ على المسودة عن توقيت المراحل (render_timing)."""
+    if _BUDGET.get("start") is None or not _BUDGET["timing"]:
+        return {}
+    left = time_left()
+    return {"minutes": round((time.monotonic() - float(_BUDGET["start"])) / 60.0, 1), "stages": list(_BUDGET["timing"]),
+            **({"left_minutes": round(left / 60.0, 1)} if left is not None else {})}
 
 
 def budget_over(cfg, stage: str, notes: list | None = None) -> bool:
-    """هل تجاوز التركيب حدّ هذه المرحلة الاختيارية؟ المرحلة المتخطّاة تُسجَّل مرة واحدة ويُكتب سطرها في التعليق، فلا صمت."""
+    """هل تجاوز التركيب حدّ هذه المرحلة الاختيارية؟ المرحلة المتخطّاة تُسجَّل مرة واحدة ويُكتب سطرها في التعليق، فلا صمت.
+    مع موعد التوقف: المرحلة لا تبدأ إن بقي أقل من leave_minutes لها (ما يحتاجه ما بعدها)، لأن دقائق التركيب وحدها لا تعرف كم
+    أكلت الخطوات قبله؛ وبلا موعد: حدّ stages من بداية التركيب كما كان (#1922)."""
     if _BUDGET.get("start") is None:
         return False
     bcfg = cfg.path("reel.render.budget") or {}
-    limit = float((bcfg.get("stages") or {}).get(stage, bcfg.get("total_minutes", 0)) or 0)
     minutes = (time.monotonic() - float(_BUDGET["start"])) / 60.0
-    if limit <= 0 or minutes <= limit:
-        return False
+    left = time_left()
+    if left is not None:
+        need = float((bcfg.get("leave_minutes") or {}).get(stage, cfg.path("reel.render.deadline.assembly_minutes", 10)) or 0)
+        if left >= need * 60.0:
+            return False
+    else:
+        limit = float((bcfg.get("stages") or {}).get(stage, bcfg.get("total_minutes", 0)) or 0)
+        if limit <= 0 or minutes <= limit:
+            return False
     if stage not in _BUDGET["skipped"]:
         _BUDGET["skipped"].append(stage)
         if notes is not None:
             notes.append(cfg.path("reel.render.texts.comment_budget_skip").format(
                 stage=(bcfg.get("labels") or {}).get(stage, stage), minutes=round(minutes)))
     return True
+
+
+def _arm_watchdog(deadline: float | None):
+    """منبّه عند موعد التوقف يرفع RenderTimeout في الخيط الرئيس أينما كان التركيب (تنزيل، ffmpeg، نداء نموذج). يعيد دالة
+    إبطاله. بلا موعد أو خارج الخيط الرئيس أو بلا SIGALRM ← لا منبّه."""
+    import signal
+    import threading
+    if deadline is None or not hasattr(signal, "setitimer") or threading.current_thread() is not threading.main_thread():
+        return lambda: None
+
+    def _ring(signum, frame):  # noqa: ARG001
+        raise RenderTimeout(_BUDGET.get("stage") or "")
+    prev = signal.signal(signal.SIGALRM, _ring)
+    signal.setitimer(signal.ITIMER_REAL, max(float(deadline) - time.time(), 1.0))
+
+    def _disarm():
+        signal.setitimer(signal.ITIMER_REAL, 0)
+        signal.signal(signal.SIGALRM, prev)
+    return _disarm
+
+
+# مخبأ المقاطع المنزَّلة بين التشغيلات (19/11): تنزيل المقاطع أكل 21–32 دقيقة من كل تشغيلة قُتلت، فأعادته التشغيلة التالية من
+# الصفر وقُتلت في الموضع نفسه. المخبأ في مجلد الريلز بالمستودع الخاص (تودِعه خطوة «رفع الريلز» بلا تعديل workflow): تشغيلة
+# انقطعت تترك مقاطعها فتجدها التالية، وتركيب ناجح يحذف ما استعمل
+_CLIP_CACHE: dict = {"dir": None, "used": [], "hits": 0}
+
+
+def _cache_key(vid: str, wstart: int, wend: int, height: int) -> str:
+    return f"{vid}_{int(wstart)}_{int(wend)}_{int(height)}"
+
+
+def _cache_get(deps: Deps, key: str, out: Path) -> Path | None:
+    d = _CLIP_CACHE.get("dir")
+    if d is None:
+        return None
+    for src in sorted(Path(d).glob(key + ".*")):
+        dst = out.with_suffix(src.suffix)
+        try:
+            shutil.copyfile(src, dst)
+            if {"video", "audio"} <= set(deps.streams(dst)):
+                _CLIP_CACHE["used"].append(src)
+                _CLIP_CACHE["hits"] += 1
+                return dst
+        except Exception:  # noqa: BLE001 -- ملف مخبأ تالف يُحذف ويُنزَّل من جديد
+            pass
+        src.unlink(missing_ok=True)
+    return None
+
+
+def _cache_put(key: str, f: Path, cfg_max_mb: float) -> None:
+    d = _CLIP_CACHE.get("dir")
+    if d is None:
+        return
+    try:
+        if cfg_max_mb and f.stat().st_size > cfg_max_mb * 1024 * 1024:
+            return
+        Path(d).mkdir(parents=True, exist_ok=True)
+        dst = Path(d) / (key + f.suffix)
+        shutil.copyfile(f, dst)
+        _CLIP_CACHE["used"].append(dst)
+    except Exception as exc:  # noqa: BLE001 -- المخبأ تحسين: عطله لا يُفشل التركيب
+        log.warning("تعذّر حفظ المقطع في المخبأ: %s", str(exc)[:120])
+
+
+def _cache_open(cfg, reels_dir: Path) -> None:
+    """يفتح المخبأ لتركيب واحد ويحذف منه ما جاوز keep_days (مسودة لم تُعَد قط لا تترك ملفاتها إلى الأبد)."""
+    cc = cfg.path("reel.render.clip_cache") or {}
+    _CLIP_CACHE["used"], _CLIP_CACHE["hits"] = [], 0
+    _CLIP_CACHE["dir"] = (Path(reels_dir) / str(cc.get("dir", "_cache"))) if cc.get("enabled") else None
+    d = _CLIP_CACHE["dir"]
+    if d is None or not d.exists():
+        return
+    cutoff = time.time() - float(cc.get("keep_days", 3)) * 86400
+    for f in d.glob("*"):
+        try:
+            if f.is_file() and f.stat().st_mtime < cutoff:
+                f.unlink()
+        except OSError:
+            pass
+
+
+def _cache_clear_used() -> None:
+    for f in set(_CLIP_CACHE.get("used") or []):
+        Path(f).unlink(missing_ok=True)
+    _CLIP_CACHE["used"] = []
 
 
 def budget_report() -> dict:
@@ -2654,6 +2811,10 @@ def _download_with_retries(deps: Deps, rcfg, vid: str, wstart: int, wend: int, o
     فشل جزء الصورة يترك جزء الصوت وحده وكان يُحسب نجاحًا (Issue #1406)، فيُعدّ الآن فشل محاولة. لا ملف إطلاقًا ← None
     (إسقاط كما كان)."""
     retries = int(rcfg.get("download_retries", 2))
+    key = _cache_key(vid, wstart, wend, int(rcfg["clip_height"]))
+    cached = _cache_get(deps, key, out)
+    if cached is not None:
+        return cached
     for attempt in range(retries + 1):
         for p in _clip_files(out):      # بقايا محاولة سابقة تُحذف كي لا يلتقطها الاحتياط
             p.unlink(missing_ok=True)
@@ -2665,12 +2826,15 @@ def _download_with_retries(deps: Deps, rcfg, vid: str, wstart: int, wend: int, o
             for f in files:
                 try:
                     if {"video", "audio"} <= set(deps.streams(f)):
+                        _cache_put(key, f, float((rcfg.get("clip_cache") or {}).get("max_mb", 0) or 0))
                         return f
                 except Exception:  # noqa: BLE001 -- ملف لا يُقرأ ليس مقبولًا
                     continue
             raise RuntimeError(NO_STREAMS_REASON)
         except Exception:  # noqa: BLE001
-            if attempt >= retries:
+            left = reel_clips.deadline_left()
+            # لا إعادة بعد موعد نهاية التنزيل: الإعادة تنتظر retry_wait_seconds ثم تفشل فورًا وتأكل وقت التجميع
+            if attempt >= retries or (left is not None and left <= 0):
                 raise
             deps.sleep(float(rcfg.get("retry_wait_seconds", 20)))
     return None
@@ -3099,6 +3263,7 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
             dstart = int(min(max(0, math.floor(base0 - ex_margin)), wstart))
             dend = int(max(math.ceil(base1 + ex_margin), wend))
         out = tmp / f"clip_{i}.mp4"
+        stage_mark("clip", f"{i} {scene.get('channel_display', '')}")
         try:
             got = _download_with_retries(deps, rcfg, vid, dstart, dend, out)
         except Exception as exc:  # noqa: BLE001 -- عطل تنزيل لا إسقاط تحريري: الريل كله يؤجَّل
@@ -6510,6 +6675,7 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
               pre_entries: list | None = None, meta: dict | None = None) -> tuple[list[Path], list[str], list[float]]:
     rcfg = cfg.path("reel.render")
     lead = transition_seconds(cfg)
+    stage_mark("speakers")
     clips, dead_scenes = _prune_mismatched(script, clips, cfg, deps, speakers if speakers is not None else {},
                                            notes if notes is not None else [], dropped if dropped is not None else [], meta)
     _band_notes(script, clips, cfg, notes if notes is not None else [])
@@ -6557,6 +6723,7 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
     scene_maps: dict[int, list[dict]] = {}
     map_results: list = []
     if plan and nar_bg is not None:
+        stage_mark("maps")
         scene_maps = _prepare_maps(script, nar_idx, speech_cache, plan, cfg, deps, tmp, lead,
                                    notes if notes is not None else [], map_results)
         if meta is not None and map_results:
@@ -6592,6 +6759,7 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
         kind, out = scene.get("kind"), tmp / f"scene_{i:02d}.mp4"
         if i in absorbed:
             continue
+        stage_mark("scene", f"{i} {kind}")
         if i == hook_idx:
             kind, dur = "hook", None
             # هوك المواجهة بورق الكوتشينة (8/11) يغلب الهوك القديم متى صلح؛ None أو عطل ← الهوك القديم كما كان
@@ -6949,7 +7117,7 @@ RENDER_META_KEYS = (("render_roster", "roster"), ("render_roster_source", "roste
                     ("render_map_errors", "map_errors"), ("render_maps", "maps"),
                     ("render_gemini_speakers", "gemini_speakers"), ("render_gemini_errors", "gemini_errors"),
                     ("render_gemini_cost", "gemini_cost"), ("render_bg_track", "bg_track"))
-RENDER_KEYS = tuple(k for k, _ in RENDER_META_KEYS) + ("render_exact_selfcheck", "render_budget")
+RENDER_KEYS = tuple(k for k, _ in RENDER_META_KEYS) + ("render_exact_selfcheck", "render_budget", "render_timing")
 
 
 def _saved_render_fields(draft: dict, speaker_meta: dict) -> dict:
@@ -6983,6 +7151,7 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     if not script.get("scenes"):
         raise RuntimeError("لا سيناريو معتمد")
     notes = notes if notes is not None else []
+    stage_mark("clips")
     clips, drops, approx_found = _fetch_clips(script, draft, cfg, deps, tmp, notes)
     dropped.extend(drops)
     approx.extend(approx_found)
@@ -6991,6 +7160,7 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     if len(clips) < need:
         raise RuntimeError(f"بقي {len(clips)} مقطعًا من {wanted} بعد الحذف والأدنى المطلوب {need}")
     voice = cfg.path(f"reel.tts.narrator_voices.{script.get('narrator', 'female')}")
+    stage_mark("background")
     bg, bg_saved = _resolve_background(path, draft, cfg, deps, notes)
     if bg is None and cfg.path("reel.render.background.navy_canvas", False):
         bg = navy_canvas(cfg)
@@ -7000,7 +7170,9 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     want_broll = _broll_wanted(draft, cfg, deps, bg)
     scan_state = reel_hook_search.ScanState()
     _drop_stale_auto_hook(path, draft)
+    stage_mark("hook_scan")
     _auto_hook(path, draft, script, cfg, deps, tmp, notes, state=scan_state, want_broll=want_broll)
+    stage_mark("broll")
     broll = _scan_broll(draft, script, cfg, deps, tmp, scan_state, notes) if want_broll else None
     if broll is not None:
         _topic_hook(path, draft, script, broll, cfg, notes, deps)
@@ -7009,6 +7181,7 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     speaker_meta: dict = {"prior_roster": prior_roster, "rebuild": rebuild_roster, "prior_map": prior_map, "work": str(tmp)}   # Q12/Q16: render_roster وrender_attribution وrender_relabel
     hook_crops: dict = {}
     sources_out: list = []
+    stage_mark("assemble")
     scene_files, kinds, durs = _assemble(script, clips, cfg, deps, tmp, voice, bg,
                                          outro_credit(cfg, bg["used"]) if bg else "", speakers, notes, draft, hook_crops,
                                          broll=broll, sources_out=sources_out, dropped=dropped, pre_entries=pre_entries,
@@ -7016,6 +7189,7 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     if budget_report():
         draft["render_budget"] = budget_report()   # #1922: ما تُخطّي من المراحل ودقائقه يُحفظ فيُعرف سبب نقص اللقطات
     join_info: dict = {}
+    stage_mark("join")
     joined = _join(scene_files, kinds, durs, cfg, deps, tmp, join_info)
 
     rel_dir = f"{path.parent.name}"
@@ -7023,6 +7197,7 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     gif = reels_dir / rel_dir / f"{path.stem}.gif"
     # التمريرة الأخيرة تكتب إلى ملف مؤقت لا إلى dest: dest هو ملف الريل السابق نفسه، وفشل حارس المدة يجب ألا يُتلفه
     final = tmp / "final.mp4"
+    stage_mark("final")
     music = _final_pass(joined, final, kinds, durs, cfg, deps, tmp, draft)
     # مدة الملف النهائي المقيسة لا مجموع المدد: الانتقالات تقصّر الطول الكلي
     measured = deps.probe(final)
@@ -7220,6 +7395,46 @@ def _comment_text(cfg, draft: dict, result: dict, dropped: list, approx: list | 
     return text
 
 
+def _on_timeout(path: Path, draft: dict, cfg, deps: Deps, stage: str, renders: list) -> dict:
+    """بلغ التركيب موعد التوقف (19/11): يُسجَّل كمحاولة فاشلة بمرحلته ودقائقه ويُعلَّق، ويُعاد في التشغيلة التالية حتى
+    max_attempts. قبله كانت Actions تقتل الوظيفة فلا يُكتب شيء، ويعود الريل queued بلا محاولة محسوبة فيُقتل كل مرة بلا نهاية.
+    مقاطعه المنزَّلة باقية في المخبأ فتبدأ التشغيلة التالية من بعدها."""
+    t = cfg.path("reel.render.texts")
+    label = (cfg.path("reel.render.budget.labels") or {}).get(stage.split(" ")[0], stage) or "?"
+    timing = timing_report()
+    minutes = round(float(timing.get("minutes", 0) or 0))
+    reason = t["render_timeout"].format(stage=label, minutes=minutes)
+    limit = int(cfg.path("reel.render.max_attempts", 3))
+    attempts = int(draft.get("render_attempts") or 0) + 1
+    status = "queued" if attempts < limit else "failed"
+    changes = {"render_status": status, "render_attempts": attempts, "render_error": reason,
+               **({"render_timing": timing} if timing else {}), **({"cost_renders": renders} if renders else {})}
+    log.warning("تجاوز تركيب الريل %s موعد التوقف في مرحلة %s", path.stem, label)
+    try:
+        store.update_draft(path, **changes)
+    except Exception as exc:  # noqa: BLE001
+        log.warning("تعذّر حفظ مسودة الريل بعد التوقف: %s", str(exc)[:150])
+    text = t["comment_render_timeout"].format(stage=label, minutes=minutes, n=attempts, max=limit,
+                                              cached=len(set(_CLIP_CACHE.get("used") or [])))
+    if status == "failed":
+        text += "\n" + t["comment_render_timeout_final"]
+    if timing.get("stages"):
+        labels = cfg.path("reel.render.budget.labels") or {}
+
+        def _named(name: str) -> str:
+            head, _, rest = name.partition(" ")
+            return " ".join(x for x in (labels.get(head, head), rest) if x)
+        text += "\n" + t["comment_render_timing"].format(
+            stages=" · ".join(f"{_named(name)} {m}" for name, m in timing["stages"][-12:]))
+    issue = _render_comment_issue(draft)
+    if issue:
+        try:
+            deps.comment(int(issue), text)
+        except Exception as cexc:  # noqa: BLE001
+            log.warning("تعذّر التعليق على القضية %s: %s", issue, str(cexc)[:150])
+    return changes
+
+
 def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reels_dir: Path | None = None,
                  workdir: Path | None = None) -> dict:
     """يركّب مسودة ريل واحدة ويحدّث حقولها. لا يرفع أبدًا: أي عطل ← render_status="failed" وrender_error بسببه.
@@ -7241,8 +7456,17 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
         prior = [r for r in draft.get("cost_renders") or [] if isinstance(r, dict)]
         return prior + ([dict(d, at=datetime.now(timezone.utc).isoformat())] if d else [])
 
+    deadline = job_deadline(cfg) if cfg.path("reel.render.budget.enabled", False) else None
+    _cache_open(cfg, reels_dir)
+    disarm = _arm_watchdog(deadline)
     try:
         result = {"render_status": "rendered", **_render(path, draft, cfg, deps, reels_dir, tmp, dropped, approx, notes)}
+        if timing := timing_report():
+            result["render_timing"] = timing
+        _cache_clear_used()     # نجح التركيب: مقاطعه في المخبأ لم تعد لازمة فلا تُرفع إلى المستودع الخاص
+    except RenderTimeout as exc:
+        disarm()
+        return _on_timeout(path, draft, cfg, deps, exc.stage, _cost_renders())
     except ClipDownloadFailed as exc:
         # لا ريل ناقص: لا ملف جديد ولا مساس بـreel_file السابق؛ يُعاد في التشغيلة التالية حتى max_attempts
         shutil.rmtree(tmp, ignore_errors=True)
@@ -7282,7 +7506,10 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
         log.error("فشل تركيب الريل %s: %s", path.stem, reason)
         keep_files = isinstance(exc, ShortRender)
         result = {"render_status": "failed", "render_error": reason}
+        if timing := timing_report():
+            result["render_timing"] = timing
     finally:
+        disarm()
         shutil.rmtree(tmp, ignore_errors=True)
     if deps.voice_session is not None and (vline := deps.voice_session.note()):
         notes.append(vline)
@@ -7495,6 +7722,12 @@ def main(argv: list[str] | None = None) -> int:
             print(f"فُتحت {opened} قضية مراجعة لريلات مركَّبة سابقًا")
         batch = pending_batch(cfg)
         for path, draft in batch:
+            # ريل لا يبدأ بلا وقت كافٍ لإتمامه (19/11): البدء ثم القتل يضيّع المحاولة والدقائق معًا
+            deadline = job_deadline(cfg)
+            need = float(cfg.path("reel.render.deadline.min_start_minutes", 0) or 0) * 60.0
+            if deadline is not None and deadline - time.time() < need:
+                print(f"{path.stem}: لم يبدأ التركيب — بقي {max(deadline - time.time(), 0) / 60:.0f} دقيقة فقط من التشغيلة")
+                break
             res = render_draft(path, draft, cfg)
             print(f"{path.stem}: {res['render_status']} {res.get('render_error', '')}")
         if not batch:

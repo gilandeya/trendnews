@@ -3641,3 +3641,22 @@ arabic ×4 وturkish وpersian ×2 ولم تصل الإسرائيلية ولا �
 - **الحفظ:** `render_crops[i].faces` = `{samples: [[ثانية المشهد، مركز]], cuts, identity: {ref, matched, path, single}}` (أرقام وحدها).
 - `tests.helpers.load_config` يطفئ الهوية والفحص وكشف القطع (OpenCV وffmpeg ونموذجا opencv_zoo خارج deps). **لم يُجرَّب SFace هنا**
   (تنزيل النموذج محجوب من بيئة التطوير)؛ كاشف القطع جُرّب على فيديو مصنوع.
+
+## موعد التوقف قبل مهلة الوظيفة، ومخبأ المقاطع بين التشغيلات (19/11) — `src/reel_render.py`، `src/reel_clips.py`
+
+الحادثة: تشغيلتا «تركيب الريل» في 19/11 قُتلتا بمهلة الوظيفة (60 دقيقة)، وقبلهما 973764aabdfe أربع مرات منذ 17/11. السبب: ميزانية #1922
+تحسب من بداية التركيب وخطوة الأسئلة قبله أكلت 17 دقيقة؛ ومسح اللقطات بدأ «في وقته» عند دقيقة التركيب 33 ثم صمت 25 دقيقة؛ والقتل لا
+يكتب شيئًا فيعود الريل queued بلا محاولة محسوبة، ويعيد تنزيل مقاطعه (21–32 دقيقة) من الصفر فيُقتل في الموضع نفسه. الاختبار
+`tests/test_youtube.py:test_reel_deadline_cache_1919`. `render_version` بلا تغيير.
+
+- **الموعد (`reel.render.deadline`):** `job_deadline` = بداية الوظيفة (عمر آلة Actions من `/proc/uptime`، جديدة لكل وظيفة) + `job_minutes` −
+  `reserve_minutes`؛ لا موعد خارج Actions (`GITHUB_ACTIONS`) أو بعمر أطول من الوظيفة. `budget_over` مع موعد: المرحلة الاختيارية لا تبدأ إن بقي أقل من
+  `budget.leave_minutes[stage]`؛ بلا موعد حدود `stages` القديمة. `reel_clips.DEADLINE` = الموعد − `assembly_minutes`: `progress_guard` يقطع عنده، و
+  `download_clip` لا يبدأ درجة، و`_download_with_retries` لا يعيد، و`speaker_map.download_episode` لا يبدأ (وصار له حارس التقدّم نفسه).
+- **المنبّه (`_arm_watchdog`):** SIGALRM عند الموعد يرفع `RenderTimeout` (من BaseException فلا تبتلعه `except Exception` في المراحل)؛ `render_draft` يلتقطه
+  في `_on_timeout`: محاولة محسوبة (`queued` حتى `max_attempts` ثم `failed`) بـ`render_error` ومرحلته، وتعليق `comment_render_timeout` بالمراحل ودقائقها.
+  `main` لا يبدأ ريلًا بقي له أقل من `min_start_minutes`.
+- **مخبأ المقاطع (`reel.render.clip_cache`):** كل مقطع نزل بـ`_download_with_retries` يُنسخ إلى `reels/_cache/<video>_<start>_<end>_<height>.<ext>` (المستودع
+  الخاص؛ تودِعه خطوة «رفع الريلز» بلا تعديل workflow)، ويُؤخذ منه قبل التنزيل؛ التركيب الناجح يحذف ما استعمل (`_cache_clear_used`)، وما جاوز `keep_days` يُحذف.
+- **التوقيت:** `stage_mark` سطر «⏱️ … د من التركيب · يبقى … د · المرحلة» في سجل Actions عند كل مرحلة ومقطع ومشهد، ويُحفظ `render_timing` (ضمن `RENDER_KEYS`).
+- `tests.helpers.load_config` يطفئ الموعد والمخبأ. **لم يُجرَّب على Actions:** أول تشغيلة بعد الدمج تُظهر السطور ⏱️ وأين يذهب الوقت فعلًا.

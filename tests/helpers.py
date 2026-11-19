@@ -90,6 +90,12 @@ def load_config(path=None):
             rcfg["background"]["navy_canvas"] = False
         # التتبع بالهوية وكشف القطع وفحص ما بعد التركيب (ريل c28aa5d5bfea) ينادون OpenCV وffmpeg ونموذجي opencv_zoo من الشبكة
         # خارج deps فيبطئون كل اختبار بلا حقن ولا يثبتون فيه شيئًا؛ test_reel_follow_identity_c28 يطلبها ويثبّت أن config.yaml عليها
+        # موعد التوقف ومخبأ المقاطع (19/11): الأول يعمل في Actions وحدها (حيث قد تجري الحزمة) والثاني يكتب في مجلد الريلز؛
+        # test_reel_deadline_cache_1919 يطلبهما ويثبّت أن config.yaml عليهما
+        if isinstance(rcfg.get("deadline"), dict):
+            rcfg["deadline"]["enabled"] = False
+        if isinstance(rcfg.get("clip_cache"), dict):
+            rcfg["clip_cache"]["enabled"] = False
         crop_c = rcfg.get("crop")
         if isinstance(crop_c, dict):
             if isinstance(crop_c.get("identity"), dict):
