@@ -722,5 +722,12 @@
     "strong_start": 68,
     "reason": "أقوى 3 ث (قوة 6)",
     "render_version": 81
-  }
+  },
+  "render_attempts": 1,
+  "cost_renders": [
+    {
+      "proxy_bytes": 6494444,
+      "at": "2026-11-19T09:42:17.332366+00:00"
+    }
+  ]
 }
