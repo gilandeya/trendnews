@@ -1995,7 +1995,784 @@
     }
    ],
    "qa_requested_at": "2026-11-19T13:08:48.450197+00:00",
-   "selected_from": 1937
+   "selected_from": 1937,
+   "topic_issue": 1945,
+   "qa": {
+    "attempts": 1,
+    "at": "2026-11-19T13:21:35.571607+00:00",
+    "videos": [
+     {
+      "video_id": "d64OUtTLA5k",
+      "channel": "Fox News",
+      "bloc": "english",
+      "minutes": 177.2,
+      "bites": 6,
+      "rejected": 0
+     },
+     {
+      "video_id": "NepRHS61eGg",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "minutes": 47.1,
+      "bites": 5,
+      "rejected": 0
+     },
+     {
+      "video_id": "jri045cif_Q",
+      "channel": "TVBS新聞",
+      "bloc": "chinese",
+      "minutes": 15.3,
+      "bites": 4,
+      "rejected": 0
+     },
+     {
+      "video_id": "iweaiYQlII8",
+      "channel": "Дождь",
+      "bloc": "russian",
+      "minutes": 7.2,
+      "bites": 5,
+      "rejected": 0
+     },
+     {
+      "video_id": "uNWfAxIVSgk",
+      "channel": "CNN",
+      "bloc": "english",
+      "minutes": 59.2,
+      "bites": 6,
+      "rejected": 0
+     },
+     {
+      "video_id": "0a8HTIJrho0",
+      "channel": "Fox News",
+      "bloc": "english",
+      "minutes": 42.0,
+      "bites": 20,
+      "rejected": 0
+     },
+     {
+      "video_id": "5coX4oxkcFI",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "minutes": 21.6,
+      "bites": 1,
+      "rejected": 0
+     }
+    ],
+    "gemini_cost": 1.2069,
+    "gemini_rejected": 0,
+    "channels": 5,
+    "originals": [
+     {
+      "bite_id": "NepRHS61eGg:g387",
+      "source_channel": "",
+      "found": false,
+      "candidate": "d2yMj1zOKGU",
+      "candidates": [
+       "9HMSYId3wLs",
+       "d2yMj1zOKGU"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "d64OUtTLA5k:g1324",
+      "source_channel": "",
+      "found": false,
+      "candidate": "UeuAwviZNLE",
+      "candidates": [
+       "THn13N0IjO8",
+       "UeuAwviZNLE"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "d64OUtTLA5k:g1712",
+      "source_channel": "",
+      "found": false,
+      "candidate": "fUCjhdbmsDQ",
+      "candidates": [
+       "kTVQBT94tXM",
+       "fUCjhdbmsDQ"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "d64OUtTLA5k:g3574",
+      "source_channel": "",
+      "found": false,
+      "candidate": "SFWtXAMxv-8",
+      "candidates": [
+       "emGg8cjjTtg",
+       "SFWtXAMxv-8"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     }
+    ],
+    "originals_found": 0,
+    "read_dropped": 1,
+    "read_dropped_speakers": [
+     "جوش هاولي"
+    ],
+    "source": "gemini",
+    "failures": [],
+    "plan": {
+     "attempts": [
+      {
+       "model": "claude-sonnet-5",
+       "stop_reason": "tool_use",
+       "bites": 25,
+       "rows": 5,
+       "raw_type": "list",
+       "answers": 28,
+       "bad_n": 0,
+       "error": ""
+      }
+     ]
+    },
+    "verify": {
+     "checked": 15,
+     "ok": 1,
+     "no_match": 0,
+     "failed": 14,
+     "no_text": 0,
+     "left": 30,
+     "audio_seconds": 65,
+     "skipped": "",
+     "cut_off": 6,
+     "seconds": 300
+    },
+    "capped": 10,
+    "selected_seconds": 117.4,
+    "status": "ready",
+    "titles": [
+     "هل تعطل وكالة الأمن القومي الأمريكية هجوم قرصنة أم خلل تقني؟",
+     "من يقف وراء سلسلة الانقطاعات التقنية الأمريكية؟",
+     "لماذا تتكرر الأعطال في البنية التحتية الرقمية الأمريكية؟"
+    ],
+    "questions": [
+     {
+      "text": "هل ما حدث هجوم قرصنة متعمد أم مجرد عطل تقني؟",
+      "answers": [
+       {
+        "n": 1,
+        "fit": "direct",
+        "view": "هجوم قرصنة مكتمل الأركان",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "NepRHS61eGg:g792"
+       },
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "مبكر استبعاد فرضية الاختراق",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "0a8HTIJrho0:g614"
+       },
+       {
+        "n": 10,
+        "fit": "direct",
+        "view": "يبدو هجوما لكن غامض الطبيعة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "0a8HTIJrho0:g928"
+       },
+       {
+        "n": 5,
+        "fit": "direct",
+        "view": "خلل تقني لا مؤامرة",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "iweaiYQlII8:g1985"
+       }
+      ]
+     },
+     {
+      "text": "من المسؤول المحتمل عن هذه الانقطاعات؟",
+      "answers": [
+       {
+        "n": 2,
+        "fit": "direct",
+        "view": "إيران بدعم روسي أو صيني",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "NepRHS61eGg:g947"
+       },
+       {
+        "n": 4,
+        "fit": "weak",
+        "view": "استنفار لمواجهة تهديد إيراني",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "jri045cif_Q:g1855"
+       },
+       {
+        "n": 15,
+        "fit": "direct",
+        "view": "فرد أو عصابة إجرامية صغيرة",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "0a8HTIJrho0:g2143"
+       },
+       {
+        "n": 13,
+        "fit": "direct",
+        "view": "هجمات مستمرة منذ عقود",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "0a8HTIJrho0:g1716"
+       }
+      ]
+     },
+     {
+      "text": "لماذا تتكرر الأعطال التقنية الكبرى هذه الأيام؟",
+      "answers": [
+       {
+        "n": 5,
+        "fit": "direct",
+        "view": "ضحية لعولمة البنية التحتية الرقمية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "iweaiYQlII8:g1985"
+       },
+       {
+        "n": 9,
+        "fit": "direct",
+        "view": "تسرع في بناء أنظمة هشة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "0a8HTIJrho0:g674"
+       },
+       {
+        "n": 16,
+        "fit": "direct",
+        "view": "ذكاء اصطناعي يكتشف ثغرات فجأة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "0a8HTIJrho0:g2196"
+       }
+      ]
+     },
+     {
+      "text": "هل تخفي الحكومة الأمريكية الحقيقة عما جرى؟",
+      "answers": [
+       {
+        "n": 3,
+        "fit": "direct",
+        "view": "أمريكا ستخفي الهجوم عن شعبها",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "NepRHS61eGg:g1100"
+       },
+       {
+        "n": 12,
+        "fit": "direct",
+        "view": "الحكومة صامتة ويجب الشفافية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "0a8HTIJrho0:g1633"
+       },
+       {
+        "n": 11,
+        "fit": "direct",
+        "view": "تعامل حكومي فاشل يستدعي وضوحا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "0a8HTIJrho0:g1604"
+       },
+       {
+        "n": 17,
+        "fit": "direct",
+        "view": "وقائع مفتعلة للتغطية على الانتخابات",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "5coX4oxkcFI:g560"
+       }
+      ]
+     },
+     {
+      "text": "كيف يجب التعامل مع هذه الثغرات مستقبلا؟",
+      "answers": [
+       {
+        "n": 7,
+        "fit": "direct",
+        "view": "تبسيط التحديثات لتحقيق أمان حقيقي",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "0a8HTIJrho0:g64"
+       },
+       {
+        "n": 6,
+        "fit": "direct",
+        "view": "إعادة الخبراء البشريين لحل الأعطال",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "iweaiYQlII8:g2203"
+       },
+       {
+        "n": 14,
+        "fit": "direct",
+        "view": "خطر كسر الذكاء الاصطناعي للتشفير مستقبلا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "0a8HTIJrho0:g2068"
+       }
+      ]
+     }
+    ],
+    "context": [
+     {
+      "n": 18,
+      "selected": true,
+      "bite_id": "jri045cif_Q:g1876"
+     },
+     {
+      "n": 19,
+      "selected": true,
+      "bite_id": "0a8HTIJrho0:g1356"
+     },
+     {
+      "n": 20,
+      "selected": false,
+      "bite_id": "0a8HTIJrho0:g1450"
+     },
+     {
+      "n": 21,
+      "selected": false,
+      "bite_id": "0a8HTIJrho0:g1424"
+     }
+    ],
+    "bites": [
+     {
+      "bite_id": "NepRHS61eGg:g792",
+      "video_id": "NepRHS61eGg",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "ميليك يغيتل",
+      "speaker_original": "Melik Yiğitel",
+      "speaker_role": "صحفي تركي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 792.0,
+      "end": 813.0,
+      "summary_ar": "رأى الصحفي التركي ميليك يغيتل أن ما حدث هو هجوم قرصنة وعمل تخريبي متكامل استهدف نظام الطيران الأمريكي لساعات.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "NepRHS61eGg:g947",
+      "video_id": "NepRHS61eGg",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "ميليك يغيتل",
+      "speaker_original": "Melik Yiğitel",
+      "speaker_role": "صحفي تركي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 947.0,
+      "end": 975.0,
+      "summary_ar": "استبعد الصحفي التركي ميليك يغيتل قدرة إيران وحدها على تنفيذ الهجوم السيبراني على شبكات النقل الأمريكية مؤكدًا تلقيها دعمًا روسيًا أو صينيًا.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "NepRHS61eGg:g1100",
+      "video_id": "NepRHS61eGg",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "ميليك يغيتل",
+      "speaker_original": "Melik Yiğitel",
+      "speaker_role": "صحفي تركي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1100.0,
+      "end": 1124.0,
+      "summary_ar": "رأى الصحفي التركي ميليك يغيتل أن واشنطن ستخفي حقيقة الهجوم السيبراني لأنه يظهر عجزها ويثير الذعر لدى الشعب الأمريكي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "jri045cif_Q:g1855",
+      "video_id": "jri045cif_Q",
+      "channel": "TVBS新聞",
+      "bloc": "chinese",
+      "orientation": "تايواني",
+      "speaker": "أندرو ماكابي",
+      "speaker_original": "Andrew McCabe",
+      "speaker_role": "نائب مدير مكتب التحقيقات الفيدرالي الأمريكي السابق",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1855.0,
+      "end": 1867.0,
+      "summary_ar": "يشير نائب مدير مكتب التحقيقات الفيدرالي الأمريكي السابق أندرو ماكابي إلى أن توقيت تعطل وكالة الأمن القومي تزامن مع استنفار أمني لمواجهة تهديد إيراني محتمل.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "iweaiYQlII8:g1985",
+      "video_id": "iweaiYQlII8",
+      "channel": "Дождь",
+      "bloc": "russian",
+      "orientation": "معارض في المنفى",
+      "speaker": "أليكسي شكيتين",
+      "speaker_original": "Алексей Шкиттин",
+      "speaker_role": "رائد أعمال في مجال تكنولوجيا المعلومات ومؤسس IEDN.net",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1984.84,
+      "end": 2010.28,
+      "summary_ar": "أليكسي شكيتين يرى أن الأنظمة والشبكات الرقمية العالمية باتت ضحية لضخامتها واندماج بنيتها التحتية تحت مظلة شركات كبرى.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "iweaiYQlII8:g2203",
+      "video_id": "iweaiYQlII8",
+      "channel": "Дождь",
+      "bloc": "russian",
+      "orientation": "معارض في المنفى",
+      "speaker": "أليكسي شكيتين",
+      "speaker_original": "Алексей Шкиттин",
+      "speaker_role": "رائد أعمال في مجال تكنولوجيا المعلومات ومؤسس IEDN.net",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2203.0,
+      "end": 2218.0,
+      "summary_ar": "أليكسي شكيتين يشير إلى دخول الشركات التقنية في حلقة مفرغة بتكليف الذكاء الاصطناعي بحل مشكلاته، ما يفرض استعادة الخبراء البشريين.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "0a8HTIJrho0:g64",
+      "video_id": "0a8HTIJrho0",
+      "channel": "Fox News",
+      "bloc": "english",
+      "orientation": "أمريكي محافظ",
+      "speaker": "مورغان رايت",
+      "speaker_original": "Morgan Wright",
+      "speaker_role": "خبير أمن سيبراني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 64.0,
+      "end": 81.0,
+      "summary_ar": "مورغان رايت يرى ضرورة تبسيط التحديث التكنولوجي لتحقيق أمان حقيقي في الطيران والبنوك.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "0a8HTIJrho0:g614",
+      "video_id": "0a8HTIJrho0",
+      "channel": "Fox News",
+      "bloc": "english",
+      "orientation": "أمريكي محافظ",
+      "speaker": "تشيس كانينغهام",
+      "speaker_original": "Dr. Chase Cunningham",
+      "speaker_role": "خبير أمن سيبراني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 614.0,
+      "end": 641.0,
+      "summary_ar": "تشيس كانينغهام يرى أن التسرع بنفي القرصنة غير صائب، مبديا قلقه من البنية التحتية المدنية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "0a8HTIJrho0:g674",
+      "video_id": "0a8HTIJrho0",
+      "channel": "Fox News",
+      "bloc": "english",
+      "orientation": "أمريكي محافظ",
+      "speaker": "تشيس كانينغهام",
+      "speaker_original": "Dr. Chase Cunningham",
+      "speaker_role": "خبير أمن سيبراني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 674.0,
+      "end": 703.0,
+      "summary_ar": "تشيس كانينغهام يشبه البنية التحتية الرقمية ببيت من الرمال يتعرض للانهيار بسبب سرعة التحديث.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "0a8HTIJrho0:g928",
+      "video_id": "0a8HTIJrho0",
+      "channel": "Fox News",
+      "bloc": "english",
+      "orientation": "أمريكي محافظ",
+      "speaker": "بول مورو",
+      "speaker_original": "Paul Mauro",
+      "speaker_role": "محام ومفتش شرطة نيويورك متقاعد",
+      "is_host": false,
+      "type": "opinion",
+      "start": 928.0,
+      "end": 948.0,
+      "summary_ar": "بول مورو يرى أن الأعطال المتلاحقة تجاوزت الصدفة لكن السلطات عاجزة عن تحديد طبيعتها بدقة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "0a8HTIJrho0:g1604",
+      "video_id": "0a8HTIJrho0",
+      "channel": "Fox News",
+      "bloc": "english",
+      "orientation": "أمريكي محافظ",
+      "speaker": "مارك هالبيرين",
+      "speaker_original": "Mark Halperin",
+      "speaker_role": "رئيس تحرير تو واي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1604.0,
+      "end": 1618.0,
+      "summary_ar": "مارك هالبيرين يصف التعامل الحكومي بالفاشل ويطالب بمزيد من الشفافية حول أمن المرافق الحيوية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "0a8HTIJrho0:g1633",
+      "video_id": "0a8HTIJrho0",
+      "channel": "Fox News",
+      "bloc": "english",
+      "orientation": "أمريكي محافظ",
+      "speaker": "ميليسا دي روزا",
+      "speaker_original": "Melissa DeRosa",
+      "speaker_role": "مساهمة في فوكس نيوز",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1633.0,
+      "end": 1656.0,
+      "summary_ar": "ميليسا دي روزا تنتقد صمت الإدارة وتطالبها بطمأنة الشارع الأمريكي بالحقائق بدلا من التوقعات.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "0a8HTIJrho0:g1716",
+      "video_id": "0a8HTIJrho0",
+      "channel": "Fox News",
+      "bloc": "english",
+      "orientation": "أمريكي محافظ",
+      "speaker": "تري غاودي",
+      "speaker_original": "Trey Gowdy",
+      "speaker_role": "عضو سابق في مجلس النواب الأمريكي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1716.0,
+      "end": 1737.0,
+      "summary_ar": "تري غاودي يؤكد تعرض أمريكا لهجمات منذ عقود ويشير إلى حيرة المواطنين بشأن أمان معاملاتهم.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "0a8HTIJrho0:g2068",
+      "video_id": "0a8HTIJrho0",
+      "channel": "Fox News",
+      "bloc": "english",
+      "orientation": "أمريكي محافظ",
+      "speaker": "براد كارسون",
+      "speaker_original": "Brad Carson",
+      "speaker_role": "رئيس منظمة أمريكيون من أجل الابتكار المسؤول",
+      "is_host": false,
+      "type": "forecast",
+      "start": 2068.0,
+      "end": 2101.0,
+      "summary_ar": "براد كارسون يحذر من كسر الذكاء الاصطناعي للتشفير العام مستقبلا وانهيار معاملات الإنترنت.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "0a8HTIJrho0:g2143",
+      "video_id": "0a8HTIJrho0",
+      "channel": "Fox News",
+      "bloc": "english",
+      "orientation": "أمريكي محافظ",
+      "speaker": "براد كارسون",
+      "speaker_original": "Brad Carson",
+      "speaker_role": "رئيس منظمة أمريكيون من أجل الابتكار المسؤول",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2143.0,
+      "end": 2168.0,
+      "summary_ar": "براد كارسون يرجح مسؤولية أفراد أو عصابات إجرامية عن الأعطال مؤكدا هشاشة الأنظمة الحالية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "0a8HTIJrho0:g2196",
+      "video_id": "0a8HTIJrho0",
+      "channel": "Fox News",
+      "bloc": "english",
+      "orientation": "أمريكي محافظ",
+      "speaker": "آن نيوبرغر",
+      "speaker_original": "Anne Neuberger",
+      "speaker_role": "نائبة سابقة لمستشار الأمن القومي الأمريكي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2196.0,
+      "end": 2212.0,
+      "summary_ar": "آن نيوبرغر ترجح تسبب جهود الدفاع الاستباقي بالذكاء الاصطناعي في ارتباك الأنظمة واضطرابها.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "5coX4oxkcFI:g560",
+      "video_id": "5coX4oxkcFI",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "معصوم توركر",
+      "speaker_original": "Masum Türker",
+      "speaker_role": "وزير دولة تركي سابق",
+      "is_host": false,
+      "type": "opinion",
+      "start": 560.0,
+      "end": 586.0,
+      "summary_ar": "يرى وزير الدولة التركي السابق معصوم توركر أن الانقطاعات المتتالية في البنوك والطيران ومايكروسوفت وقائع مفتعلة للتغطية على تداعيات الانتخابات الأمريكية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "jri045cif_Q:g1876",
+      "video_id": "jri045cif_Q",
+      "channel": "TVBS新聞",
+      "bloc": "chinese",
+      "orientation": "تايواني",
+      "speaker": "ماركو روبيو",
+      "speaker_original": "Marco Rubio",
+      "speaker_role": "وزير الخارجية الأمريكي",
+      "is_host": false,
+      "type": "fact",
+      "start": 1876.0,
+      "end": 1887.0,
+      "summary_ar": "يؤكد وزير الخارجية الأمريكي ماركو روبيو عدم وجود أدلة على صلة الانقطاعات التقنية بأي هجمات إلكترونية أو أطراف خبيثة.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "0a8HTIJrho0:g1356",
+      "video_id": "0a8HTIJrho0",
+      "channel": "Fox News",
+      "bloc": "english",
+      "orientation": "أمريكي محافظ",
+      "speaker": "جاي كلايتون",
+      "speaker_original": "Jay Clayton",
+      "speaker_role": "مدير الاستخبارات الوطنية الأمريكية",
+      "is_host": false,
+      "type": "fact",
+      "start": 1356.0,
+      "end": 1367.0,
+      "summary_ar": "جاي كلايتون يؤكد عدم رصد أدلة على هجوم سيبراني منسق أو مدعوم من دول أجنبية.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "0a8HTIJrho0:g1450",
+      "video_id": "0a8HTIJrho0",
+      "channel": "Fox News",
+      "bloc": "english",
+      "orientation": "أمريكي محافظ",
+      "speaker": "سينثيا لوميس",
+      "speaker_original": "Cynthia Lummis",
+      "speaker_role": "عضو مجلس الشيوخ الأمريكي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1450.0,
+      "end": 1463.0,
+      "summary_ar": "سينثيا لوميس تنقل تساؤلات المواطنين حول ارتباط الأعطال ومحاولات أطراف معادية تعطيل أمريكا.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "0a8HTIJrho0:g1424",
+      "video_id": "0a8HTIJrho0",
+      "channel": "Fox News",
+      "bloc": "english",
+      "orientation": "أمريكي محافظ",
+      "speaker": "شون دافي",
+      "speaker_original": "Sean Duffy",
+      "speaker_role": "وزير النقل الأمريكي",
+      "is_host": false,
+      "type": "fact",
+      "start": 1424.0,
+      "end": 1438.0,
+      "summary_ar": "شون دافي يعلن الاستعانة بفريق من مكتب التحقيقات الفيدرالي الأمريكي لفحص أسباب عطل الموجه.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     }
+    ],
+    "error": "",
+    "extracted": 25,
+    "cost": {
+     "claude": {
+      "claude-sonnet-5": 0.03417
+     },
+     "gemini": 1.2069,
+     "proxy_bytes": 1721909
+    }
+   }
   },
   {
    "id": "e0b3cae4e0f9",
