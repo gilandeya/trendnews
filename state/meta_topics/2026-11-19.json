@@ -585,7 +585,504 @@
     }
    ],
    "qa_requested_at": "2026-11-19T04:04:56.173558+00:00",
-   "selected_from": 1936
+   "selected_from": 1936,
+   "topic_issue": 1938,
+   "qa": {
+    "attempts": 1,
+    "at": "2026-11-19T04:06:35.801303+00:00",
+    "videos": [
+     {
+      "video_id": "lijnYFMGmq4",
+      "channel": "Habertürk",
+      "bloc": "turkish",
+      "minutes": 125.2,
+      "bites": 1,
+      "rejected": 0
+     },
+     {
+      "video_id": "WnMFjbcg3vQ",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "minutes": 88.0,
+      "bites": 7,
+      "rejected": 0
+     },
+     {
+      "video_id": "lWkzmBn6sNQ",
+      "channel": "BFMTV",
+      "bloc": "french",
+      "minutes": 58.9,
+      "bites": 9,
+      "rejected": 0
+     },
+     {
+      "video_id": "ael49ze3Mxs",
+      "channel": "BBC Persian",
+      "bloc": "persian",
+      "minutes": 58.4,
+      "bites": 0,
+      "rejected": 12
+     },
+     {
+      "video_id": "ZRFF9WpdY_8",
+      "channel": "CCTV中文",
+      "bloc": "chinese",
+      "minutes": 47.0,
+      "bites": 0,
+      "rejected": 0
+     },
+     {
+      "video_id": "a9L6kvtRHxA",
+      "channel": "Fox News",
+      "bloc": "english",
+      "minutes": 35.2,
+      "bites": 0,
+      "rejected": 0
+     },
+     {
+      "video_id": "ZaBzNhnKabY",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "minutes": 13.2,
+      "bites": 5,
+      "rejected": 1
+     }
+    ],
+    "gemini_cost": 0.9712,
+    "gemini_rejected": 13,
+    "channels": 4,
+    "originals": [
+     {
+      "bite_id": "lijnYFMGmq4:g1146",
+      "source_channel": "",
+      "found": false,
+      "candidate": "PevXsEuHdz8",
+      "candidates": [
+       "gJTzVO0rU8w",
+       "PevXsEuHdz8"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     }
+    ],
+    "originals_found": 0,
+    "source": "gemini",
+    "failures": [],
+    "plan": {
+     "attempts": [
+      {
+       "model": "claude-sonnet-5",
+       "stop_reason": "tool_use",
+       "bites": 19,
+       "rows": 5,
+       "raw_type": "list",
+       "answers": 23,
+       "bad_n": 0,
+       "error": ""
+      }
+     ]
+    },
+    "verify": {
+     "checked": 21,
+     "ok": 6,
+     "no_match": 0,
+     "failed": 15,
+     "no_text": 0,
+     "left": 1,
+     "audio_seconds": 255,
+     "skipped": "",
+     "cut_off": 4,
+     "seconds": 301
+    },
+    "capped": 11,
+    "selected_seconds": 83.5,
+    "status": "ready",
+    "titles": [
+     "هل تنتهي قمة شنتشن باتفاق نووي بين الصين وأمريكا وروسيا؟",
+     "من الفائز الحقيقي من لقاء ترامب وشي وبوتين؟",
+     "لماذا تجمع القوى الكبرى في الصين الآن بالذات؟"
+    ],
+    "questions": [
+     {
+      "text": "هل يُتوقع اتفاق نووي حقيقي في قمة شنتشن؟",
+      "answers": [
+       {
+        "n": 9,
+        "fit": "direct",
+        "view": "لا تفاهم شامل بل أساس لمفاوضات تقنية",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "ZaBzNhnKabY:g555"
+       },
+       {
+        "n": 3,
+        "fit": "weak",
+        "view": "الذكاء الاصطناعي أهم من نزع السلاح",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "lWkzmBn6sNQ:g174"
+       },
+       {
+        "n": 1,
+        "fit": "direct",
+        "view": "لا تفاؤل بتوصل لاتفاق نووي",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "WnMFjbcg3vQ:g5063"
+       }
+      ]
+     },
+     {
+      "text": "من المستفيد الأكبر من قمة شنتشن؟",
+      "answers": [
+       {
+        "n": 10,
+        "fit": "direct",
+        "view": "الرئيس الصيني هو المستفيد الأكبر",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "ZaBzNhnKabY:g666"
+       },
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "الصين وروسيا تنتزعان مكاسب قبل تقلص صلاحيات ترامب",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "lWkzmBn6sNQ:g512"
+       },
+       {
+        "n": 7,
+        "fit": "weak",
+        "view": "ترامب يسعى لإثبات قوته بعد هزيمته",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "lWkzmBn6sNQ:g319"
+       }
+      ]
+     },
+     {
+      "text": "ما الذي يشغل بال كل من القادة الثلاثة في هذه القمة؟",
+      "answers": [
+       {
+        "n": 7,
+        "fit": "direct",
+        "view": "الرئيس الأمريكي يثبت أنه لا يزال الأقوى",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "lWkzmBn6sNQ:g319"
+       },
+       {
+        "n": 11,
+        "fit": "direct",
+        "view": "الرئيس الروسي يريد استثمار ولاية ترامب لحل أوكرانيا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "ZaBzNhnKabY:g888"
+       },
+       {
+        "n": 5,
+        "fit": "direct",
+        "view": "كل قائد يعاني نقطة ضعف داخلية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "lWkzmBn6sNQ:g232"
+       }
+      ]
+     },
+     {
+      "text": "ما أبرز مخاوف أمريكا من التسلح النووي الصيني؟",
+      "answers": [
+       {
+        "n": 2,
+        "fit": "direct",
+        "view": "القلق يشمل وسائل الإطلاق لا الرؤوس فقط",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "WnMFjbcg3vQ:g5284"
+       }
+      ]
+     },
+     {
+      "text": "هل تمثل هذه القمة نهاية النظام العالمي القديم؟",
+      "answers": [
+       {
+        "n": 6,
+        "fit": "direct",
+        "view": "النظام متعدد الأطراف ولى فعلاً",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "lWkzmBn6sNQ:g260"
+       },
+       {
+        "n": 4,
+        "fit": "direct",
+        "view": "الصورة تثبت أن القرار هنا رغم الخلافات",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "lWkzmBn6sNQ:g186"
+       }
+      ]
+     }
+    ],
+    "context": [
+     {
+      "n": 12,
+      "selected": true,
+      "bite_id": "lijnYFMGmq4:g1146"
+     }
+    ],
+    "bites": [
+     {
+      "bite_id": "WnMFjbcg3vQ:g5063",
+      "video_id": "WnMFjbcg3vQ",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "يسري أبو شادي",
+      "speaker_original": "يسري أبو شادي",
+      "speaker_role": "كبير مفتشي الوكالة الدولية للطاقة الذرية سابقا",
+      "is_host": false,
+      "type": "opinion",
+      "start": 5063.0,
+      "end": 5085.0,
+      "summary_ar": "استبعد أبو شادي التوصل إلى اتفاق نووي خلال القمة الثلاثية، معتبراً أن تسارع وتيرة التسلح الصيني بات مبعث القلق الأساسي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "WnMFjbcg3vQ:g5284",
+      "video_id": "WnMFjbcg3vQ",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "يسري أبو شادي",
+      "speaker_original": "يسري أبو شادي",
+      "speaker_role": "كبير مفتشي الوكالة الدولية للطاقة الذرية سابقا",
+      "is_host": false,
+      "type": "opinion",
+      "start": 5284.0,
+      "end": 5312.0,
+      "summary_ar": "أوضح أبو شادي أن المخاوف الأمريكية تتجاوز عدد الرؤوس النووية الصينية لتشمل وسائل الإطلاق والغواصات والصواريخ الجوالة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "lWkzmBn6sNQ:g174",
+      "video_id": "lWkzmBn6sNQ",
+      "channel": "BFMTV",
+      "bloc": "french",
+      "orientation": "خاص (وسط)",
+      "speaker": "سامانثا دي بينديرن",
+      "speaker_original": "Samantha de Bendern",
+      "speaker_role": "باحثة وضابطة سياسية سابقة في حلف شمال الأطلسي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 174.06,
+      "end": 183.82,
+      "summary_ar": "ترى أن القمة تعكس تشكّل عالم جديد لن يحدده بالضرورة نزع السلاح النووي بل ملف الذكاء الاصطناعي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "lWkzmBn6sNQ:g186",
+      "video_id": "lWkzmBn6sNQ",
+      "channel": "BFMTV",
+      "bloc": "french",
+      "orientation": "خاص (وسط)",
+      "speaker": "تييري أرنو",
+      "speaker_original": "Thierry Arnaud",
+      "speaker_role": "كاتب افتتاحيات في BFMTV",
+      "is_host": false,
+      "type": "opinion",
+      "start": 186.46,
+      "end": 200.06,
+      "summary_ar": "يعتبر أن قمة شنتشن تهدف بالأساس إلى إظهار أن مصير العالم يتقرر حول هذه الطاولة رغم عمق الخلافات.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "lWkzmBn6sNQ:g232",
+      "video_id": "lWkzmBn6sNQ",
+      "channel": "BFMTV",
+      "bloc": "french",
+      "orientation": "خاص (وسط)",
+      "speaker": "أوليس غوسيه",
+      "speaker_original": "Ulysse Gosset",
+      "speaker_role": "كاتب افتتاحيات في السياسة الدولية في BFMTV",
+      "is_host": false,
+      "type": "opinion",
+      "start": 230.54,
+      "end": 246.98,
+      "summary_ar": "يصف القمة بأنها تجمع قادة أقوياء يعانون في الوقت نفسه من نقاط ضعف داخلية وخارجية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "lWkzmBn6sNQ:g260",
+      "video_id": "lWkzmBn6sNQ",
+      "channel": "BFMTV",
+      "bloc": "french",
+      "orientation": "خاص (وسط)",
+      "speaker": "برتران فيلمير",
+      "speaker_original": "Bertrand Vilmer",
+      "speaker_role": "جنرال ورئيس سابق للأركان المشتركة الفرنسية وطيار حربي سابق",
+      "is_host": false,
+      "type": "opinion",
+      "start": 260.4,
+      "end": 280.34,
+      "summary_ar": "يؤكد أن النظام متعدد الأطراف قد ولى مع اجتماع قادة أقوياء ذوي أطماع إقليمية وضعف داخلي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "lWkzmBn6sNQ:g319",
+      "video_id": "lWkzmBn6sNQ",
+      "channel": "BFMTV",
+      "bloc": "french",
+      "orientation": "خاص (وسط)",
+      "speaker": "تييري أرنو",
+      "speaker_original": "Thierry Arnaud",
+      "speaker_role": "كاتب افتتاحيات في BFMTV",
+      "is_host": false,
+      "type": "opinion",
+      "start": 318.8,
+      "end": 336.52,
+      "summary_ar": "يوضح أن هاجس الرئيس الأمريكي دونالد ترامب هو إظهار أنه لا يزال يقود أقوى دولة واقتصاد بعد انتكاسته الانتخابية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "lWkzmBn6sNQ:g512",
+      "video_id": "lWkzmBn6sNQ",
+      "channel": "BFMTV",
+      "bloc": "french",
+      "orientation": "خاص (وسط)",
+      "speaker": "أوليس غوسيه",
+      "speaker_original": "Ulysse Gosset",
+      "speaker_role": "كاتب افتتاحيات في السياسة الدولية في BFMTV",
+      "is_host": false,
+      "type": "opinion",
+      "start": 512.0,
+      "end": 527.0,
+      "summary_ar": "يرى أن الرئيسين الصيني شي جين بينغ والروسي فلاديمير بوتين يسعيان لانتزاع أكبر مكاسب ممكنة من الرئيس الأمريكي دونالد ترامب قبل أن تتقلص صلاحياته.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "ZaBzNhnKabY:g555",
+      "video_id": "ZaBzNhnKabY",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "orientation": "قريب من السلطة",
+      "speaker": "نيكولاي توبورنين",
+      "speaker_original": "Николай Топорнин",
+      "speaker_role": "خبير قانون دولي ومدير مركز المعلومات الأوروبية",
+      "is_host": false,
+      "type": "forecast",
+      "start": 555.0,
+      "end": 574.0,
+      "summary_ar": "يتوقع الخبير الروسي نيكولاي توبورنين ألا يتوصل القادة إلى تفاهمات شاملة، مرجحًا أن يقتصر إنجاز القمة على إرساء أساس لمفاوضات تقنية مقبلة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "ZaBzNhnKabY:g666",
+      "video_id": "ZaBzNhnKabY",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "orientation": "قريب من السلطة",
+      "speaker": "نيكولاي توبورنين",
+      "speaker_original": "Николай Топорнин",
+      "speaker_role": "خبير قانون دولي ومدير مركز المعلومات الأوروبية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 666.0,
+      "end": 687.0,
+      "summary_ar": "يرى الخبير الروسي نيكولاي توبورنين أن الرئيس الصيني شي جين بينغ هو المستفيد الأكبر لنجاحه في جمع قادة الدول الكبرى في الصين.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "ZaBzNhnKabY:g888",
+      "video_id": "ZaBzNhnKabY",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "orientation": "قريب من السلطة",
+      "speaker": "نيكولاي توبورنين",
+      "speaker_original": "Николай Топорнин",
+      "speaker_role": "خبير قانون دولي ومدير مركز المعلومات الأوروبية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 888.0,
+      "end": 910.0,
+      "summary_ar": "يرى الخبير الروسي نيكولاي توبورنين أن الرئيس الروسي فلاديمير بوتين يرغب في استثمار فترة حكم الرئيس الأمريكي دونالد ترامب لحل النزاعات كأزمة أوكرانيا.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "lijnYFMGmq4:g1146",
+      "video_id": "lijnYFMGmq4",
+      "channel": "Habertürk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "فلاديمير بوتين",
+      "speaker_original": "Vladimir Putin",
+      "speaker_role": "الرئيس الروسي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1146.0,
+      "end": 1162.0,
+      "summary_ar": "أكد الرئيس الروسي فلاديمير بوتين تطلعه إلى القمة الثلاثية مع قادة الصين والولايات المتحدة وتوقعه تحقيق فوائد مهمة منها.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     }
+    ],
+    "error": "",
+    "extracted": 19,
+    "cost": {
+     "claude": {
+      "claude-sonnet-5": 0.03105
+     },
+     "gemini": 0.9712,
+     "proxy_bytes": 6566980
+    }
+   }
   },
   {
    "id": "9f4486105aa0",
