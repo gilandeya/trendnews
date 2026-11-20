@@ -1,7 +1,7 @@
 {
   "id": "e6b4364a25f6",
   "created_at": "2026-11-20T15:48:23.403488+00:00",
-  "status": "pending",
+  "status": "approved_script",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -344,6 +344,16 @@
   },
   "hook_candidates": [
     {
+      "video_id": "BB0xFP4_nEs",
+      "title": "Iran says US has attacked Qeshm Island | BBC News",
+      "channel": "BBC News",
+      "views": 839588,
+      "duration": 728,
+      "published": "2026-11-17T23:30:29Z",
+      "views_per_hour": 13052.2,
+      "picked": true
+    },
+    {
       "video_id": "Wai6gyDCRZM",
       "title": "Iran launches NEW STRIKES on Gulf states #shorts #us #news #foxnews #iran",
       "channel": "Fox News",
@@ -360,15 +370,6 @@
       "duration": 24,
       "published": "2026-11-18T08:02:59Z",
       "views_per_hour": 258.3
-    },
-    {
-      "video_id": "BB0xFP4_nEs",
-      "title": "Iran says US has attacked Qeshm Island | BBC News",
-      "channel": "BBC News",
-      "views": 839588,
-      "duration": 728,
-      "published": "2026-11-17T23:30:29Z",
-      "views_per_hour": 13052.2
     },
     {
       "video_id": "A0XkGECwOJI",
@@ -500,5 +501,8 @@
     }
   },
   "review_issue": 1961,
-  "stage2_issue": 1961
+  "stage2_issue": 1961,
+  "render_status": "queued",
+  "approved_script_at": "2026-11-20T16:02:03.942315+00:00",
+  "hook_picked": 2
 }
