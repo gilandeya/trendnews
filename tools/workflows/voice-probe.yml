@@ -1,0 +1,58 @@
+# قالب workflow لقياس صوت الراوي (tools/voice_probe.py). لا يعمل من هنا: ينسخه صاحب المشروع بيده إلى
+# .github/workflows/voice-probe.yml (البوت لا يملك صلاحية تعديل ذلك المجلد).
+# الملفات الصوتية تُرفع Artifact يُنزَّل من صفحة التشغيلة، ولا يُودَع شيء في أي مستودع.
+name: 🎙️ قياس صوت الراوي
+
+on:
+  workflow_dispatch:
+    inputs:
+      voices:
+        description: "معرّفات أصوات ElevenLabs للتجربة (مفصولة بفواصل، اختياري)"
+        required: false
+        default: ""
+      models:
+        description: "نماذج أخرى للتجربة (مثل eleven_v3، اختياري)"
+        required: false
+        default: ""
+      gender:
+        description: "جنس الصوت الحالي الذي تُجرَّب عليه الصيغ (female أو male)"
+        required: false
+        default: "female"
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: سحب المستودع
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: تثبيت المكتبات
+        run: pip install -r requirements.txt
+
+      - name: القياس
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: >-
+          python tools/voice_probe.py
+          --voices "${{ inputs.voices }}"
+          --models "${{ inputs.models }}"
+          --gender "${{ inputs.gender }}"
+          --out voice_probe_out
+
+      - name: رفع الملفات الصوتية
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: voice-probe
+          path: voice_probe_out
+          retention-days: 14

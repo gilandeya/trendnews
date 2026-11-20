@@ -9446,3 +9446,93 @@ def test_reel_offscreen_mapverify_2011() -> None:
         check("judge_places يقرأ الأداة", reel_map._judge_places_real(["صور"], sentence, cfg) == {"صور": False})
     finally:
         reel_map._verify_create = saved_c
+
+
+def test_voice_probe_2011() -> None:
+    """أداة قياس صوت الراوي (tools/voice_probe.py، طلب صاحب المشروع 20/11): كل صيغة تطلب ما تقوله فعلًا — السياق، والسرعة
+    داخل ElevenLabs بلا atempo، والنص بلا تشكيل، والفقرة في طلب واحد، والأصوات والنماذج الإضافية — بنداء مزيَّف بلا شبكة ولا ffmpeg."""
+    import copy
+    import tempfile
+    from pathlib import Path
+
+    from src import tts
+    from tools import voice_probe as vp
+    cfg = copy.deepcopy(load_config())
+    cfg["reel"]["tts"]["elevenlabs"]["voices"] = {"female": "CUR_F", "male": "CUR_M"}
+    cfg["reel"]["tts"]["sample_lines"] = ["قال دونالد ترامب إن الوقت حان.", "فهل تتجه المنطقة إلى تسوية؟"]
+    cfg["reel"]["tts"].setdefault("latin_names", {})["enabled"] = True
+    cfg["reel"]["tts"]["speed"] = 1.2
+
+    # el_synthesize: extra يُدمج، وvoice_settings فوق إعداد الإنتاج
+    seen = []
+    tts.el_synthesize("نص", "V", cfg, "k", post=lambda u, h, b, t: seen.append(b) or b"mp3",
+                      extra={"model_id": "m2", "previous_text": "قبل", "next_text": "", "voice_settings": {"speed": 1.1}})
+    check("voice: extra يُدمج في جسم الطلب، والفارغ لا يُرسل",
+          seen[0]["model_id"] == "m2" and seen[0]["previous_text"] == "قبل" and "next_text" not in seen[0]
+          and seen[0]["voice_settings"]["speed"] == 1.1, seen)
+    seen.clear()
+    tts.el_synthesize("نص", "V", cfg, "k", post=lambda u, h, b, t: seen.append(b) or b"mp3")
+    check("voice: بلا extra كما كان", set(seen[0]) == {"text", "model_id"}, seen)
+
+    bodies, calls = [], []
+
+    def post(url, headers, body, timeout):
+        bodies.append((url, body))
+        return b"ID3fake"
+
+    def get(url, headers, timeout):
+        vid = url.rsplit("/", 1)[-1]
+        return {"name": {"CUR_F": "Sarah", "CUR_M": "George", "AR1": "Haytham"}.get(vid, vid),
+                "labels": {"accent": "american" if vid.startswith("CUR") else "arabic"}}
+
+    def run(args):
+        calls.append(args)
+        Path(args[-1]).write_bytes(b"x")
+
+    diac = lambda t: (t.replace("قال", "قَالَ"), None, [{"text": "دونالد ترامب", "foreign": True, "latin": "Donald Trump"}])
+    with tempfile.TemporaryDirectory() as td:
+        out = Path(td) / "o"
+        rep = vp.run_probe(cfg, "k", ["AR1"], ["eleven_v3"], "female", out, post=post, get=get, run=run, diacritize=diac)
+        names = [r["name"] for r in rep["variants"]]
+        check("voice: الصيغ كلها بالترتيب",
+              names == ["01_current", "02_context", "03_native_speed", "04_no_tashkeel", "05_whole",
+                        "voice_Haytham_tashkeel", "voice_Haytham_plain", "model_eleven_v3"], names)
+        check("voice: كل صيغة صنعت ملفًا وتقريرًا", all(r.get("file") for r in rep["variants"])
+              and (out / "report.json").exists() and (out / "text.txt").exists())
+        check("voice: اسم الصوت ولهجته من ElevenLabs (يُعرف ما في الإعداد)",
+              rep["voices"][0]["name"] == "Sarah" and rep["voices"][0]["labels"]["accent"] == "american"
+              and any(v["name"] == "Haytham" for v in rep["voices"]), rep["voices"])
+
+        def pairs(name):
+            i = names.index(name)
+            before = sum(rep["variants"][j]["requests"] for j in range(i))
+            return bodies[before:before + rep["variants"][i]["requests"]]
+
+        def of(name):
+            return [b for _, b in pairs(name)]
+        cur = of("01_current")
+        check("voice: الحالي بلا سياق ولا voice_settings، والتسريع بـatempo كما في الإنتاج",
+              len(cur) == 2 and not any("previous_text" in b or "voice_settings" in b for b in cur)
+              and any("atempo=1.2" in " ".join(c) for c in calls), cur)
+        check("voice: الاسم الأجنبي ينطق برسمه (كالتركيب)", "Donald Trump" in cur[0]["text"], cur[0]["text"])
+        ctx = of("02_context")
+        check("voice: السياق — الجملة الأولى ترى التالية والثانية ترى السابقة",
+              ctx[0].get("next_text", "").startswith("فهل") and "previous_text" not in ctx[0]
+              and "قَالَ" in ctx[1]["previous_text"], ctx)
+        nat = of("03_native_speed")
+        check("voice: السرعة داخل ElevenLabs", nat[0]["voice_settings"]["speed"] == 1.2)
+        check("voice: بلا تشكيل", "قَالَ" not in of("04_no_tashkeel")[0]["text"] and "قال" in of("04_no_tashkeel")[0]["text"])
+        check("voice: الفقرة في طلب واحد", len(of("05_whole")) == 1 and "فهل" in of("05_whole")[0]["text"])
+        check("voice: الصوت الإضافي في الرابط", all("/AR1?" in u for u, _ in pairs("voice_Haytham_plain")) and all("/CUR_F?" in u for u, _ in pairs("04_no_tashkeel")))
+        check("voice: النموذج الإضافي", of("model_eleven_v3")[0]["model_id"] == "eleven_v3")
+        check("voice: مجموع الحروف", rep["chars"] == sum(len(b["text"]) for _, b in bodies))
+        check("voice: الملخص يذكر اسم الصوت والملفات", "Sarah" in "\n".join(vp.summary_lines(rep))
+              and "01_current.mp3" in "\n".join(vp.summary_lines(rep)))
+
+        # رفض ElevenLabs صيغة لا يوقف الباقي
+        bodies.clear()
+        bad = lambda u, h, b, t: (_ for _ in ()).throw(RuntimeError("HTTP 400 k")) if b.get("model_id") == "bad" else b"x"
+        rep2 = vp.run_probe(cfg, "k", [], ["bad"], "female", Path(td) / "o2", post=bad, get=get, run=run, diacritize=diac)
+        badrow = [r for r in rep2["variants"] if r["name"] == "model_bad"][0]
+        check("voice: نموذج مرفوض سطر خطأ والمفتاح لا يظهر", "error" in badrow and "k" not in badrow["error"].replace("HTTP 400 ", "")
+              and all(r.get("file") for r in rep2["variants"] if r["name"] != "model_bad"), badrow)

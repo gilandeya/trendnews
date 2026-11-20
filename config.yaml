@@ -2411,6 +2411,15 @@ reel:
     # الأسماء الأجنبية تُنطق برسمها الأصلي (ملاحظة صاحب المشروع، ريل 1913: «دونالد ترامب» كان يُقرأ بأسلوب عربي). الاستبدال في
     # نص النطق وحده — المكتوب على الشاشة عربي كما هو — ولمزوّد يقرأ اللاتينية بنطقها: أصوات Google العربية تتعثر فيها.
     # الرسم اللاتيني من نداء التشكيل نفسه (proper_nouns[].latin) فلا نداء جديد؛ enabled: false ← الأسماء بالعربية كما كانت
+    # أداة قياس الصوت (tools/voice_probe.py، طلب صاحب المشروع 20/11): إعدادات تُجرَّب داخل ElevenLabs بدل التسريع بعد
+    # التوليد. speed حدّه الأعلى في ElevenLabs 1.2؛ stability أقل ← تعبير أكثر وثبات أقل. لا يقرؤها الإنتاج.
+    voice_probe:
+      settings:
+        stability: 0.5
+        similarity_boost: 0.75
+        style: 0.0
+        use_speaker_boost: true
+        speed: 1.2
     latin_names:
       enabled: true
       providers: ["elevenlabs"]
