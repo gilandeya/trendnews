@@ -8530,6 +8530,17 @@ def test_reel_skip_bad_clip_1919() -> None:
     # (4) نفاد رصيد البروكسي ← الانتظار كما كان ولو فشل مقطع واحد
     log, s = run_one("skipbad00d01", {"v2"}, err="Tunnel connection failed: 402 Payment Required")
     check("1919b: نفاد الرصيد ينتظر ولا يُترك المقطع", s.get("render_status") == "waiting_proxy", s)
+    # (4ب) ريل 68c94cc15e39 (20/11): فشل التنزيل لأن وقت التشغيلة نفد ← توقف محسوب لا ترك المقطع
+    saved_dl = reel_render._deadline_reached
+    reel_render._deadline_reached = lambda: True
+    try:
+        log, s = run_one("skipbad00e01", {"v2"}, err="فشلت كل الدرجات: تُخطّيت الدرجة: نفد وقت التشغيلة")
+    finally:
+        reel_render._deadline_reached = saved_dl
+    check("2011o: نفاد وقت التشغيلة يؤجّل الريل محاولةً محسوبة ولا يُترك المقطع",
+          s.get("render_status") == "queued" and s.get("render_attempts") == 1
+          and not any(x.get("point_id") == pid2 for x in (s.get("render_dropped") or [])), s)
+    check("2011o: config.yaml يؤجّل عند نفاد الوقت", real.path("reel.render.deadline.defer_on_clip") is True)
 
     # (5) الترتيب: المؤجَّل بعد ما لم يُجرَّب ولو كان أحدث اعتمادًا
     old_p = store.save_draft({"id": "order00old01", "format": "reel", "status": "approved_script", "render_status": "queued",
@@ -9160,3 +9171,42 @@ def test_reel_dubbed_actor_2011() -> None:
     none, why2 = meta_original.decide({**data, "text_ar": "الطقس جميل اليوم في موسكو"}, bite,
                                       {"video_id": "R1", "channel": "Kremlin", "duration": 600}, cfg)
     check("ترجمة لا تشبه المنقول ← لا يُقبل", none is None, why2)
+
+
+def test_reel_orphan_question_2011() -> None:
+    """ريل 68c94cc15e39 (20/11): بقيت بطاقة «من المستفيد الأكبر من قمة شنتشن؟» وسقطت إجابتاها لتعذّر تنزيلهما، لأن حذف البطاقة كان
+    يُحسب لما أسقطه حارس القائل وحده. سؤال بلا إجابة باقية تسقط بطاقته أيًّا كان السبب."""
+    import copy
+
+    from src import reel_render
+    from src.config import load_config as real_load
+
+    cfg = load_config()
+    check("2011o: config.yaml يسقط السؤال اليتيم", real_load().path("reel.render.drop_orphan_questions") is True)
+    clip = lambda q, pid: {"kind": "clip", "q": q, "point_id": pid, "channel_display": "ق", "speaker_name": "",
+                           "quote_arabic": "ترجمة", "language": "ar"}
+    script = {"version": 2, "title": "س؟", "question": "خ؟", "scenes": [
+        {"kind": "title_card", "text": "س؟"}, {"kind": "narration", "role": "context", "text": "سياق."},
+        {"kind": "narration", "role": "question", "q": 0, "text": "الأول؟"}, clip(0, "a"), clip(0, "b"),
+        {"kind": "narration", "role": "question", "q": 1, "text": "من المستفيد؟"}, clip(1, "c"), clip(1, "d"),
+        {"kind": "question", "text": "خ؟"}, {"kind": "outro"}]}
+    # إجابتا السؤال الثاني (6 و7) سقطتا قبل الحارس: لم تُنزَّلا فليستا في clips
+    clips = {3: {"seconds": 6.0}, 4: {"seconds": 6.0}}
+    saved = reel_render._apply_chyron
+    reel_render._apply_chyron = lambda *a, **k: None
+    try:
+        notes, dropped = [], []
+        kept, dead = reel_render._prune_mismatched(script, dict(clips), cfg, None, {}, notes, dropped)
+        check("2011o: بطاقة السؤال الذي سقطت إجاباته تسقط، والأول باقٍ", dead == {5} and set(kept) == {3, 4}, (dead, list(kept)))
+        check("2011o: سطر حذف السؤال في التعليق", any("من المستفيد؟" in n for n in notes), notes)
+        off = copy.deepcopy(cfg)
+        off["reel"]["render"]["drop_orphan_questions"] = False
+        _, dead_off = reel_render._prune_mismatched(script, dict(clips), off, None, {}, [], [])
+        check("2011o: drop_orphan_questions مطفأ ← كما كان", dead_off == set(), dead_off)
+        try:
+            reel_render._prune_mismatched(script, {}, cfg, None, {}, [], [])
+            check("2011o: لا إجابة باقية لأي سؤال ← فشل", False, "لم يرفع")
+        except RuntimeError:
+            check("2011o: لا إجابة باقية لأي سؤال ← فشل", True)
+    finally:
+        reel_render._apply_chyron = saved
