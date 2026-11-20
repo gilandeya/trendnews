@@ -3693,3 +3693,18 @@ arabic ×4 وturkish وpersian ×2 ولم تصل الإسرائيلية ولا �
   والخرائط باقية). يُحفظ `render_bg_track.continuous` وسطرا `comment_bg_continuous_video/image`.
 - **عطل قديم أُصلح معه:** `settb=AVTB` قبل `xfade` يُسقط معدّل الإطارات فيرفضه ffmpeg («constant frame rate … 1/0»)؛ هذا عطل «libx264 -22 Invalid
   argument» في شريط الخلفية (خ1) وختام `track` منذ ريل 1890 كلما كان فيه مصدران. صار `settb=AVTB,fps=…` (جُرّب على ffmpeg 7.0.2).
+
+## تصريح مدبلج لطرف في الحدث، ورسم لاتيني لغير صاحبه (ريل 68c94cc15e39، 20/11) — `meta_original.dubbed`، `reel_script.latin_consistent`
+
+الحادثة: مقطع سياق لبوتين من هابر ترك بدبلجة تركية عُرض كما هو، وتحته «فلاديمير بوتين Trump». البحث عن الأصل جرى (مرشّحان) لكنه
+طلب من Gemini نصّ الدبلجة التركية حرفيًا في فيديو روسي فلا يجده أبدًا، وGemini وسم الصوت `original`. الاختبار
+`tests/test_youtube.py:test_reel_dubbed_actor_2011`. `render_version` بلا تغيير.
+
+- **المدبلج:** برومبت `qa.gemini.system`: شخص معروف يُسمع بغير لغته `dubbed_other`. `gemini_bites.to_bites` يُبقي `dubbed_other` لطرف في
+  الحدث (`voice: actor`، `qa.gemini.keep_dubbed_actors`) ويرفضه لغيره كما كان. `meta_original.dubbed(b)` (audio_track مدبلج) هدف بحث
+  بأولوية المقروء؛ الطلب يُلحق `original.dubbed_note`، ومخطط الرد فيه `text_ar` و`language`، و`decide` يقارن ترجمتي الكلامين العربيتين
+  بحدّ `min_translated_ratio` (0.35) بدل النص الأصلي، والمقبول يأخذ ترجمة الأصل ولغته و`audio_track: original` و`dubbed_from`. لم يوجد ←
+  يُعرض المدبلج (قرار صاحب المشروع).
+- **الرسم اللاتيني:** `latin_consistent(latin, arabic, cfg)` (خالصة): يُقبل إن بدأت كلمة لاتينية (بلا al/el/ul) بصوت من أوائل كلمة
+  عربية (بلا «ال») في `reel.identity.latin_initials`؛ None بلا حكم (كيريلي، لا عربي، جدول فارغ). `identify_speakers` لا يوثّق من العنوان
+  رسمًا يخالفه، و`reel_render.foreign_name(scene, cfg)` لا يرسمه (يصلح المسودات المحفوظة عند إعادة التركيب).

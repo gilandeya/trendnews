@@ -120,7 +120,10 @@ def to_bites(data: dict, video_id: str, topic: str, cfg, duration: float | None 
         # الحقل audio_track لا audio: audio سجل تفريغ الصوت (bite_audio) على المقطع نفسه
         # قضية 1856: صوت مدبلج بلغة غير العربية لا يُعرض (المشاهد يسمع المترجم لا المتحدث، والترجمة المكتوبة لا تطابق ما يُسمع)
         audio = str(b.get("audio") or "original")
-        if audio in (g.get("reject_audio") or []):
+        # ريل 68c94cc15e39: تصريح طرف في الحدث بدبلجة تركية (بوتين في هابر ترك) مادة سياق: يُبقى ليُبحث عن أصله بصوته
+        # (meta_original)، وإن لم يوجد يُعرض المدبلج (قرار صاحب المشروع). إجابات المحللين المدبلجة تُرفض كما كانت
+        keep_dub = audio == "dubbed_other" and g.get("keep_dubbed_actors", True) and str(b.get("voice") or "") == "actor"
+        if audio in (g.get("reject_audio") or []) and not keep_dub:
             bad.append({"index": i, "reason": "ترجمة صوتية بلغة غير العربية فوق المتحدث"})
             continue
         # ريل 1890: مقطع مدبلج بالعربية كُتب كلامه بالإنجليزية (ما تحت الدبلجة) فلم يطابق المسموعَ شيء (0.0) وحُذف في التركيب وسقط

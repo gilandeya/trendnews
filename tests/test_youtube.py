@@ -9109,3 +9109,54 @@ def test_reel_clash_1929() -> None:
           ch2 and all(t != "(معارضة للنظام)" for t, _f, _c in ch2[0][0])
           and reel_clash.draw_parts(dr, 330 - edge, 0, ch2[0][0], ch2[0][1], edge, draw=False) == 0,
           [(t, f.size) for t, f, _c in (ch2[0][0] if ch2 else [])])
+
+
+def test_reel_dubbed_actor_2011() -> None:
+    """ريل 68c94cc15e39 (20/11): تصريح بوتين في هابر ترك بدبلجة تركية عُرض كما هو، والبحث عن أصله طلب من Gemini نصّ الدبلجة
+    التركية حرفيًا في فيديو روسي فلم يجده؛ وكُتب تحته «فلاديمير بوتين Trump» لأن «Trump» ورد في عنوان الفيديو. المدبلج لطرف في
+    الحدث يُبقى ويُبحث له أولًا، والأصل يُقارن بترجمتي الكلامين؛ والرسم اللاتيني الذي لا يبدأ بصوت من الاسم العربي لا يُكتب."""
+    import json
+    from src import gemini_bites, meta_original, reel_render, reel_script
+    from src.config import load_config as real_load
+
+    cfg = real_load()
+    # (1) الرسم اللاتيني
+    check("Trump ليس رسمًا لفلاديمير بوتين", reel_script.latin_consistent("Trump", "فلاديمير بوتين", cfg) is False)
+    check("أسماء حقيقية تُقبل برسومها",
+          all(reel_script.latin_consistent(l, a, cfg) for l, a in [
+              ("Vladimir Putin", "فلاديمير بوتين"), ("Xi Jinping", "شي جين بينغ"), ("Ali Al-Bukhaiti", "علي البخيتي"),
+              ("Recep Tayyip Erdoğan", "رجب طيب أردوغان"), ("Ulysse Gosset", "أوليس غوسيه"),
+              ("Mohammad Bagher Ghalibaf", "محمد باقر قاليباف"), ("Samantha de Bendern", "سامانثا دي بينديرن")]))
+    check("رسم كيريلي أو اسم بلا عربي ← لا حكم", reel_script.latin_consistent("Николай", "نيكولاي", cfg) is None)
+    scene = {"speaker_name": "فلاديمير بوتين", "speaker_name_latin": "Trump"}
+    check("الشريط لا يرسم «Trump» تحت بوتين (مسودة محفوظة)", reel_render.foreign_name(scene, cfg) == ""
+          and reel_render.foreign_name({**scene, "speaker_name_latin": "Vladimir Putin"}, cfg) == "Vladimir Putin")
+    check("بلا cfg كما كان", reel_render.foreign_name(scene) == "Trump")
+
+    # (2) المدبلج لطرف في الحدث يُبقى، ولمحلل يُرفض
+    raw = {"speakers": [{"name_ar": "فلاديمير بوتين", "name_original": "Vladimir Putin", "role": "رئيس روسيا",
+                         "is_host": False, "name_source": "chyron"}],
+           "bites": [{"start": "19:06", "end": "19:22", "speaker": "فلاديمير بوتين", "type": "opinion", "summary_ar": "ص",
+                      "answers": "س", "text_original": "bir iki üç dört beş", "text_ar": "سنرد على أي هجوم بحزم",
+                      "first_words": "bir", "last_words": "beş", "audio": "dubbed_other", "voice": v, "setting": "external",
+                      "delivery": "own", "speaker_kind": "guest"} for v in ("actor",)]}
+    ok, bad = gemini_bites.to_bites(raw, "lijnYFMGmq4", "حدث", cfg, 3600)
+    check("مدبلج لطرف في الحدث يُبقى", len(ok) == 1 and ok[0]["audio_track"] == "dubbed_other", (ok, bad))
+    raw["bites"][0]["voice"] = "analyst"
+    ok2, _bad2 = gemini_bites.to_bites(raw, "lijnYFMGmq4", "حدث", cfg, 3600)
+    check("مدبلج لمحلل يُرفض كما كان", ok2 == [], ok2)
+
+    # (3) البحث عن الأصل للمدبلج: الطلب يقول إنه مدبلج، والقبول بترجمتي الكلامين
+    bite = {**ok[0], "channel": "هابر ترك", "language": "tr", "speaker_original": "Vladimir Putin"}
+    check("المدبلج هدف للبحث", meta_original.is_target(bite, cfg))
+    req = json.dumps(meta_original.build_request({"video_id": "R1", "duration": 600}, bite, cfg), ensure_ascii=False)
+    check("الطلب يذكر أن المنقول مدبلج", "مدبلج" in req)
+    data = {"found": True, "start": "01:00", "end": "01:15", "text_original": "раз два три", "text_ar": "سنرد على أي هجوم",
+            "language": "ru", "speaker_on_screen": True, "is_relay": False}
+    new, why = meta_original.decide(data, bite, {"video_id": "R1", "channel": "Kremlin", "duration": 600}, cfg)
+    check("الأصل بالروسية يُقبل بترجمته ويصير صوته الأصلي",
+          new is not None and new["language"] == "ru" and new["audio_track"] == "original" and new["text_ar"] == "سنرد على أي هجوم"
+          and new["dubbed_from"] == "tr", why)
+    none, why2 = meta_original.decide({**data, "text_ar": "الطقس جميل اليوم في موسكو"}, bite,
+                                      {"video_id": "R1", "channel": "Kremlin", "duration": 600}, cfg)
+    check("ترجمة لا تشبه المنقول ← لا يُقبل", none is None, why2)

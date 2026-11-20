@@ -2231,13 +2231,16 @@ def _band_pair(p, ar: str, lat: str, kind: str, sizes: tuple[int, int], mins: tu
     return None
 
 
-def foreign_name(scene: dict) -> str:
+def foreign_name(scene: dict, cfg: Any = None) -> str:
     """الرسم الأجنبي لاسم المتحدث الذي يُكتب بجانب اسمه العربي، أو "" — القاعدة الوحيدة لكل من يرسمه (الشريط بشكليه وورقة هوك المواجهة).
     يُكتب فقط إن كان فيه حرف لاتيني وليس الاسم العربي نفسه: اسم فارسي أو أوردي بالحروف العربية («مهدی مهدوی‌آزاد») يعيد الاسم بالحروف
     نفسها فلا يضيف شيئًا (ريل 1929؛ الورقة كانت ترسم الحقل كما هو والشريط يحذفه)."""
     latin = " ".join(str(scene.get("speaker_name_latin") or "").split())
     name = " ".join(str(scene.get("speaker_name") or "").split())
     if not re.search(r"[A-Za-z]", latin) or latin.casefold() == name.casefold():
+        return ""
+    # ريل 68c94cc15e39: «فلاديمير بوتين Trump» — رسم لاسم آخر محفوظ في مسودة سابقة لا يُرسم (الحارس نفسه في التعرّف)
+    if cfg is not None and reel_script.latin_consistent(latin, name, cfg) is False:
         return ""
     return latin
 
@@ -2263,7 +2266,7 @@ def _draw_band_inline(p, cfg, scene: dict, top: int, height: int, verified: bool
     rows = []
     if verified:
         name = scene["speaker_name"].strip()
-        latin = foreign_name(scene)   # الأجنبي للاسم اللاتيني وحده: حين يكون الحقل الاسم العربي نفسه يتكرر الاسم
+        latin = foreign_name(scene, cfg)   # الأجنبي للاسم اللاتيني وحده: حين يكون الحقل الاسم العربي نفسه يتكرر الاسم
         rows.append((name, latin, "display", (56, 34), (int(mins.get("name", 40)), int(mins.get("latin", 26))),
                      (p.white, p.gold, p.gold), "", old_parens))
         role = band_role(scene.get("speaker_role") or "")
@@ -2383,7 +2386,7 @@ def frame_clip_layers(cfg, scene: dict, boxes=None, cover: bool | None = None,
                             min_size=int(mins.get("name", 40)), y_top=y)
         bottom = y if bottom is None else bottom
         # السطر الذهبي للاسم اللاتيني فقط: حين وضع السيناريو الاسم العربي نفسه هنا تكرّر الاسم في سطرين
-        latin = foreign_name(scene)
+        latin = foreign_name(scene, cfg)
         has_latin = bool(latin)
         if has_latin:
             # Kalam-Bold للاتيني الخالص (يغطي ş ğ İ)
