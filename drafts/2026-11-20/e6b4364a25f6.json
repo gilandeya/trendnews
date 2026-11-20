@@ -1,7 +1,7 @@
 {
   "id": "e6b4364a25f6",
   "created_at": "2026-11-20T15:48:23.403488+00:00",
-  "status": "approved_script",
+  "status": "published",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -2005,5 +2005,12 @@
     "- 🔤 نُطقت أسماء أجنبية برسمها الأصلي: أمريكا ← America",
     "- 💵 كلفة الريل: 0.69$ — المقاطع والأسئلة 0.33$ · السيناريو 0.18$ · التركيب 0.18$ (Sonnet 0.13$ · Opus 0.09$ · Haiku 0.03$ · Gemini 0.40$ · صوت 0.04$ · بروكسي 82 MB) · البروكسي خارج المجموع"
   ],
-  "reel_review_issue": 1962
+  "reel_review_issue": 1962,
+  "published_at": "2026-11-20T17:25:30.883674+00:00",
+  "facebook": {
+    "post_id": "1824475719686521",
+    "kind": "reel",
+    "url": "https://www.facebook.com/reel/1824475719686521"
+  },
+  "reel_seconds": 166
 }
