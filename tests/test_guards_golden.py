@@ -8657,8 +8657,8 @@ def test_reel_text_r5a_guards() -> None:
     check("g272: السطر الثالث بالصفة والقناة اللاتينية ثم العربية (أو القناة وحدها إن لم تسع الصفة)",
           any(t in ("باحثة في مركز صنعاء للدراسات الاستراتيجية · FRANCE 24 Arabic فرانس 24 عربي",
                     "FRANCE 24 Arabic فرانس 24 عربي") for t, _ in d1), d1)
-    d2 = drawn({**base, "speaker_name_latin": "Ahmet Kayapaşa"})
-    check("g272: السطر الذهبي يظهر للاسم اللاتيني", ("Ahmet Kayapaşa", gold) in d2, d2)
+    d2 = drawn({**base, "speaker_name_latin": "Maysaa Shuja Al-Din"})
+    check("g272: السطر الذهبي يظهر للاسم اللاتيني", ("Maysaa Shuja Al-Din", gold) in d2, d2)
     guest = {"speaker_verified": False, "speaker_name": "", "channel_original": "CNN TÜRK", "channel_display": "سي إن إن ترك"}
     d3 = drawn(guest)
     check("g273: CNN TÜRK سي إن إن ترك وحدها بلا «ضيف على» (#1450)", any(t == "CNN TÜRK سي إن إن ترك" for t, _ in d3), d3)
