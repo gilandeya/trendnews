@@ -911,7 +911,887 @@
     }
    ],
    "qa_requested_at": "2026-11-20T08:43:19.680609+00:00",
-   "selected_from": 1948
+   "selected_from": 1948,
+   "topic_issue": 1953,
+   "qa": {
+    "attempts": 1,
+    "at": "2026-11-20T08:44:56.750115+00:00",
+    "videos": [
+     {
+      "video_id": "lijnYFMGmq4",
+      "channel": "Habertürk",
+      "bloc": "turkish",
+      "minutes": 250.3,
+      "bites": 1,
+      "rejected": 0
+     },
+     {
+      "video_id": "74s64dyd5bk",
+      "channel": "BBC News 中文",
+      "bloc": "chinese",
+      "minutes": 112.8,
+      "bites": 11,
+      "rejected": 0
+     },
+     {
+      "video_id": "WnMFjbcg3vQ",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "minutes": 88.5,
+      "bites": 10,
+      "rejected": 0
+     },
+     {
+      "video_id": "lWkzmBn6sNQ",
+      "channel": "BFMTV",
+      "bloc": "french",
+      "minutes": 58.9,
+      "bites": 18,
+      "rejected": 0
+     },
+     {
+      "video_id": "OQzjHa2Wx5w",
+      "channel": "BBC Persian",
+      "bloc": "persian",
+      "minutes": 30.2,
+      "bites": 10,
+      "rejected": 0
+     },
+     {
+      "video_id": "J6QwNrmaRjc",
+      "channel": "DW News",
+      "bloc": "english",
+      "minutes": 22.1,
+      "bites": 7,
+      "rejected": 0
+     },
+     {
+      "video_id": "4YzSxOWXyNc",
+      "channel": "Дождь",
+      "bloc": "russian",
+      "minutes": 18.0,
+      "bites": 8,
+      "rejected": 0
+     }
+    ],
+    "gemini_cost": 1.2517,
+    "gemini_rejected": 0,
+    "channels": 7,
+    "originals": [
+     {
+      "bite_id": "lijnYFMGmq4:g1146",
+      "source_channel": "",
+      "found": false,
+      "candidate": "Ek57Kle0E2Y",
+      "candidates": [
+       "cketdZ4q1SY",
+       "Ek57Kle0E2Y"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "J6QwNrmaRjc:g70",
+      "source_channel": "",
+      "found": false,
+      "candidate": "VACc9UCZ0K4",
+      "candidates": [
+       "Yyq8fER2IzA",
+       "VACc9UCZ0K4"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "74s64dyd5bk:g5374",
+      "source_channel": "",
+      "found": false,
+      "candidate": "l0mCZNceHaQ",
+      "candidates": [
+       "mw38ZfJYEAM",
+       "l0mCZNceHaQ"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     }
+    ],
+    "originals_found": 0,
+    "source": "gemini",
+    "failures": [],
+    "plan": {
+     "attempts": [
+      {
+       "model": "claude-sonnet-5",
+       "stop_reason": "tool_use",
+       "bites": 47,
+       "rows": 0,
+       "raw_type": "str",
+       "answers": 0,
+       "bad_n": 0,
+       "error": "لم يقترح النموذج سؤالًا له إجابات"
+      },
+      {
+       "model": "claude-opus-5",
+       "stop_reason": "tool_use",
+       "bites": 47,
+       "rows": 5,
+       "raw_type": "list",
+       "answers": 46,
+       "bad_n": 0,
+       "error": ""
+      }
+     ]
+    },
+    "verify": {
+     "checked": 14,
+     "ok": 1,
+     "no_match": 0,
+     "failed": 13,
+     "no_text": 0,
+     "left": 44,
+     "audio_seconds": 68,
+     "skipped": "",
+     "cut_off": 6,
+     "seconds": 300
+    },
+    "capped": 24,
+    "selected_seconds": 119.0,
+    "status": "ready",
+    "titles": [
+     "من الرابح الحقيقي من قمة شنتشن الثلاثية؟",
+     "هل انتهى زمن الهيمنة الأمريكية على العالم؟",
+     "صورة تاريخية أم اتفاق نووي حقيقي؟"
+    ],
+    "questions": [
+     {
+      "text": "من خرج رابحًا من قمة شنتشن الثلاثية؟",
+      "answers": [
+       {
+        "n": 20,
+        "fit": "direct",
+        "view": "بوتين الفائز الأكبر بلا منازع",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "4YzSxOWXyNc:g952"
+       },
+       {
+        "n": 9,
+        "fit": "direct",
+        "view": "بوتين كسب الصورة وكسر العزلة",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "lWkzmBn6sNQ:g1155"
+       },
+       {
+        "n": 10,
+        "fit": "direct",
+        "view": "بوتين خرج مهانًا من القمة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "lWkzmBn6sNQ:g1600"
+       },
+       {
+        "n": 15,
+        "fit": "weak",
+        "view": "بوتين كان الأكثر حاجة للقمة",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "OQzjHa2Wx5w:g1449"
+       }
+      ]
+     },
+     {
+      "text": "هل تنتج القمة اتفاقًا نوويًا فعليًا أم مجرد صورة؟",
+      "answers": [
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "الصين ترفض تمامًا الانضمام للمحادثات",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "lWkzmBn6sNQ:g680"
+       },
+       {
+        "n": 4,
+        "fit": "direct",
+        "view": "الصورة أهم من أي نتيجة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "lWkzmBn6sNQ:g186"
+       },
+       {
+        "n": 18,
+        "fit": "direct",
+        "view": "بيان ختامي بلا مضمون عملي",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "J6QwNrmaRjc:g193"
+       },
+       {
+        "n": 14,
+        "fit": "direct",
+        "view": "قمة رمزية بلا قرارات ملموسة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "OQzjHa2Wx5w:g1137"
+       },
+       {
+        "n": 13,
+        "fit": "direct",
+        "view": "القمم لا تصنع القرارات الكبرى",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "OQzjHa2Wx5w:g1042"
+       },
+       {
+        "n": 1,
+        "fit": "direct",
+        "view": "لا تفاؤل باتفاق نووي قريب",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "WnMFjbcg3vQ:g5062"
+       }
+      ]
+     },
+     {
+      "text": "لماذا تتصدر الصين النووية قلق واشنطن؟",
+      "answers": [
+       {
+        "n": 19,
+        "fit": "direct",
+        "view": "أمريكا تخشى تفوق الصواريخ الصينية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "J6QwNrmaRjc:g866"
+       },
+       {
+        "n": 2,
+        "fit": "direct",
+        "view": "بكين تطور الغواصات ووسائل التوصيل",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "WnMFjbcg3vQ:g5284"
+       }
+      ]
+     },
+     {
+      "text": "ماذا يريد كل زعيم من الطاولة؟",
+      "answers": [
+       {
+        "n": 11,
+        "fit": "direct",
+        "view": "شي يريد تجميد سلاح تايوان",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "lWkzmBn6sNQ:g2904"
+       },
+       {
+        "n": 7,
+        "fit": "direct",
+        "view": "ترامب يريد إثبات أنه مسيطر",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "lWkzmBn6sNQ:g319"
+       },
+       {
+        "n": 22,
+        "fit": "direct",
+        "view": "بوتين يريد بحث أمن أوروبا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "4YzSxOWXyNc:g1298"
+       },
+       {
+        "n": 3,
+        "fit": "direct",
+        "view": "الصين تتفاوض على ملف تايوان",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "WnMFjbcg3vQ:g5313"
+       }
+      ]
+     },
+     {
+      "text": "هل تعلن هذه القمة نهاية الهيمنة الأمريكية؟",
+      "answers": [
+       {
+        "n": 16,
+        "fit": "direct",
+        "view": "العالم انتقل إلى تعددية قطبية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "OQzjHa2Wx5w:g1540"
+       },
+       {
+        "n": 5,
+        "fit": "direct",
+        "view": "نهاية الثنائية وبداية لعبة ثلاثية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "lWkzmBn6sNQ:g205"
+       },
+       {
+        "n": 12,
+        "fit": "direct",
+        "view": "أمريكا بلا تفوق استراتيجي اليوم",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "OQzjHa2Wx5w:g1008"
+       },
+       {
+        "n": 21,
+        "fit": "direct",
+        "view": "ترامب يفرّط بنفوذ أمريكا العالمي",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "4YzSxOWXyNc:g1124"
+       },
+       {
+        "n": 6,
+        "fit": "direct",
+        "view": "انتهت التعددية لصالح رجال أقوياء",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "lWkzmBn6sNQ:g260"
+       },
+       {
+        "n": 17,
+        "fit": "weak",
+        "view": "يالطا جديدة تقتسم مناطق النفوذ",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "J6QwNrmaRjc:g147"
+       }
+      ]
+     }
+    ],
+    "context": [
+     {
+      "n": 23,
+      "selected": true,
+      "bite_id": "74s64dyd5bk:g5515"
+     },
+     {
+      "n": 24,
+      "selected": true,
+      "bite_id": "74s64dyd5bk:g5045"
+     },
+     {
+      "n": 25,
+      "selected": false,
+      "bite_id": "4YzSxOWXyNc:g907"
+     }
+    ],
+    "bites": [
+     {
+      "bite_id": "WnMFjbcg3vQ:g5062",
+      "video_id": "WnMFjbcg3vQ",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "يسري أبو شادي",
+      "speaker_original": "Yousry Abushady",
+      "speaker_role": "كبير مفتشي الوكالة الدولية للطاقة الذرية سابقًا",
+      "is_host": false,
+      "type": "opinion",
+      "start": 5062.0,
+      "end": 5085.0,
+      "summary_ar": "يسري أبو شادي يستبعد توصل قمة ترامب وبوتين وشي إلى اتفاق نووي مشيرًا إلى أن القلق بدأ مع تسارع التسلح الصيني.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "WnMFjbcg3vQ:g5284",
+      "video_id": "WnMFjbcg3vQ",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "يسري أبو شادي",
+      "speaker_original": "Yousry Abushady",
+      "speaker_role": "كبير مفتشي الوكالة الدولية للطاقة الذرية سابقًا",
+      "is_host": false,
+      "type": "opinion",
+      "start": 5284.0,
+      "end": 5312.0,
+      "summary_ar": "يسري أبو شادي يؤكد أن القلق الأمريكي لا يقتصر على الرؤوس النووية بل يشمل تطوير بكين لوسائل النقل والغواصات والصواريخ الجوالة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "WnMFjbcg3vQ:g5313",
+      "video_id": "WnMFjbcg3vQ",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "يسري أبو شادي",
+      "speaker_original": "Yousry Abushady",
+      "speaker_role": "كبير مفتشي الوكالة الدولية للطاقة الذرية سابقًا",
+      "is_host": false,
+      "type": "opinion",
+      "start": 5313.0,
+      "end": 5346.0,
+      "summary_ar": "يسري أبو شادي يوضح أن قضية تايوان والدعم العسكري الأمريكي لها يمثلان أبرز شواغل بكين في أي مفاوضات مع واشنطن.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "lWkzmBn6sNQ:g186",
+      "video_id": "lWkzmBn6sNQ",
+      "channel": "BFMTV",
+      "bloc": "french",
+      "orientation": "خاص (وسط)",
+      "speaker": "تييري أرنو",
+      "speaker_original": "Thierry Arnaud",
+      "speaker_role": "محلل سياسي في قناة بي إف إم",
+      "is_host": false,
+      "type": "opinion",
+      "start": 186.0,
+      "end": 200.0,
+      "summary_ar": "يوضح أن قمة شنتشن ستركز على الصورة الرمزية لإظهار أن مصير العالم يتقرر عبر هؤلاء القادة الثلاثة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "lWkzmBn6sNQ:g205",
+      "video_id": "lWkzmBn6sNQ",
+      "channel": "BFMTV",
+      "bloc": "french",
+      "orientation": "خاص (وسط)",
+      "speaker": "سيرج شولي",
+      "speaker_original": "Serge Cholley",
+      "speaker_role": "ملحق دفاعي فرنسي سابق في الصين",
+      "is_host": false,
+      "type": "opinion",
+      "start": 205.0,
+      "end": 228.0,
+      "summary_ar": "يعتبر القمة إيذانًا بنهاية الثنائية القطبية القديمة بين واشنطن وموسكو وبدء ثنائية قطبية جديدة مع بكين ولعبة ثلاثية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "lWkzmBn6sNQ:g260",
+      "video_id": "lWkzmBn6sNQ",
+      "channel": "BFMTV",
+      "bloc": "french",
+      "orientation": "خاص (وسط)",
+      "speaker": "برتران فيلمير",
+      "speaker_original": "Bertrand Vilmer",
+      "speaker_role": "رئيس أركان حرب فرنسي سابق وطيار مقاتل",
+      "is_host": false,
+      "type": "opinion",
+      "start": 260.0,
+      "end": 280.0,
+      "summary_ar": "يرى أن النظام المتعدد الأطراف قد انتهى لمصلحة زعماء أقوياء خارجياً لكنهم يعانون داخلياً وتتضارب أطماعهم.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "lWkzmBn6sNQ:g319",
+      "video_id": "lWkzmBn6sNQ",
+      "channel": "BFMTV",
+      "bloc": "french",
+      "orientation": "خاص (وسط)",
+      "speaker": "تييري أرنو",
+      "speaker_original": "Thierry Arnaud",
+      "speaker_role": "محلل سياسي في قناة بي إف إم",
+      "is_host": false,
+      "type": "opinion",
+      "start": 319.0,
+      "end": 340.0,
+      "summary_ar": "يوضح أن هاجس ترامب الأساسي في قمة شنتشن هو إثبات أنه لا يزال الزعيم المسيطر عالميًا رغم نكسته الانتخابية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "lWkzmBn6sNQ:g680",
+      "video_id": "lWkzmBn6sNQ",
+      "channel": "BFMTV",
+      "bloc": "french",
+      "orientation": "خاص (وسط)",
+      "speaker": "سامانثا دي بينديرن",
+      "speaker_original": "Samantha de Bendern",
+      "speaker_role": "باحثة ومسؤولة سياسية سابقة في الناتو",
+      "is_host": false,
+      "type": "opinion",
+      "start": 680.0,
+      "end": 704.0,
+      "summary_ar": "توضح رغبة ترامب في إدخال الصين في اتفاقيات الحد من الأسلحة النووية وسط رفض بكين مناقشة هذا الملف.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "lWkzmBn6sNQ:g1155",
+      "video_id": "lWkzmBn6sNQ",
+      "channel": "BFMTV",
+      "bloc": "french",
+      "orientation": "خاص (وسط)",
+      "speaker": "ديدييه فرانسوا",
+      "speaker_original": "Didier François",
+      "speaker_role": "محلل الشؤون الدفاعية في قناة بي إف إم",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1155.0,
+      "end": 1179.0,
+      "summary_ar": "يوضح أن بوتين حقق انتصارًا دعائيًا بكسر العزلة والظهور كشريك للرئيسين الأمريكي والصيني.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "lWkzmBn6sNQ:g1600",
+      "video_id": "lWkzmBn6sNQ",
+      "channel": "BFMTV",
+      "bloc": "french",
+      "orientation": "خاص (وسط)",
+      "speaker": "سامانثا دي بينديرن",
+      "speaker_original": "Samantha de Bendern",
+      "speaker_role": "باحثة ومسؤولة سياسية سابقة في الناتو",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1600.0,
+      "end": 1624.0,
+      "summary_ar": "ترى أن بوتين ظهر مهانًا في القمة ببحثه عن يالطا جديدة بينما فشل عسكريًا ولا يملك مقومات المنافسة التكنولوجية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "lWkzmBn6sNQ:g2904",
+      "video_id": "lWkzmBn6sNQ",
+      "channel": "BFMTV",
+      "bloc": "french",
+      "orientation": "خاص (وسط)",
+      "speaker": "أوليس غوسيه",
+      "speaker_original": "Ulysse Gosset",
+      "speaker_role": "محلل السياسة الدولية في قناة بي إف إم",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2904.0,
+      "end": 2934.0,
+      "summary_ar": "يشير إلى أن الهدف الأول للرئيس الصيني في القمة هو استمالة ترامب لمنع حرب تجارية وتعطيل مبيعات أسلحة لتايوان.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "OQzjHa2Wx5w:g1008",
+      "video_id": "OQzjHa2Wx5w",
+      "channel": "BBC Persian",
+      "bloc": "persian",
+      "orientation": "بريطاني عام",
+      "speaker": "سارا كرمانيان",
+      "speaker_original": "سارا کرمانیان",
+      "speaker_role": "باحثة في العلاقات الدولية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1008.0,
+      "end": 1035.0,
+      "summary_ar": "سارا كرمانيان ترى أن قمة شنتشن مهمة لكون الولايات المتحدة لا تتمتع فيها بتفوق استراتيجي على روسيا والصين.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "OQzjHa2Wx5w:g1042",
+      "video_id": "OQzjHa2Wx5w",
+      "channel": "BBC Persian",
+      "bloc": "persian",
+      "orientation": "بريطاني عام",
+      "speaker": "سارا كرمانيان",
+      "speaker_original": "سارا کرمانیان",
+      "speaker_role": "باحثة في العلاقات الدولية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1042.0,
+      "end": 1063.0,
+      "summary_ar": "سارا كرمانيان تعتبر أن القرارات والتحولات السياسية الحقيقية لا تُحسم عادة في مثل هذه القمم.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "OQzjHa2Wx5w:g1137",
+      "video_id": "OQzjHa2Wx5w",
+      "channel": "BBC Persian",
+      "bloc": "persian",
+      "orientation": "بريطاني عام",
+      "speaker": "مهرزاد بروجردي",
+      "speaker_original": "مهرزاد بروجردی",
+      "speaker_role": "أستاذ العلوم السياسية بجامعة ميزوري للعلوم والتكنولوجيا",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1137.0,
+      "end": 1166.0,
+      "summary_ar": "مهرزاد بروجردي يرى أن قمة شنتشن كانت ذات طابع رمزي ولم تتمخض عن قرارات عملية حاسمة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "OQzjHa2Wx5w:g1449",
+      "video_id": "OQzjHa2Wx5w",
+      "channel": "BBC Persian",
+      "bloc": "persian",
+      "orientation": "بريطاني عام",
+      "speaker": "عمر صمد",
+      "speaker_original": "عمر صمد",
+      "speaker_role": "خبير في الشؤون الدولية ودبلوماسي أفغاني سابق",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1449.0,
+      "end": 1471.0,
+      "summary_ar": "عمر صمد يرى أن الرئيس الروسي فلاديمير بوتين كان الأكثر حاجة لقمة شنتشن بسبب الضغوط الدولية عليه.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "OQzjHa2Wx5w:g1540",
+      "video_id": "OQzjHa2Wx5w",
+      "channel": "BBC Persian",
+      "bloc": "persian",
+      "orientation": "بريطاني عام",
+      "speaker": "عمر صمد",
+      "speaker_original": "عمر صمد",
+      "speaker_role": "خبير في الشؤون الدولية ودبلوماسي أفغاني سابق",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1540.0,
+      "end": 1565.98,
+      "summary_ar": "عمر صمد يرى أن قمة شنتشن أكدت تحول العالم إلى نظام متعدد الأقطاب ولم تعد أمريكا القطب الأوحد فيه.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "J6QwNrmaRjc:g147",
+      "video_id": "J6QwNrmaRjc",
+      "channel": "DW News",
+      "bloc": "english",
+      "orientation": "ألماني حكومي",
+      "speaker": "ريتشارد ووكر",
+      "speaker_original": "Richard Walker",
+      "speaker_role": "رئيس تحرير الشؤون الدولية في دويتشه فيله",
+      "is_host": false,
+      "type": "opinion",
+      "start": 147.0,
+      "end": 171.0,
+      "summary_ar": "يشبه القمة الثلاثية بمؤتمر يالطا جديد يعيد تقسيم العالم إلى مناطق نفوذ بين القوى الكبرى.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "J6QwNrmaRjc:g193",
+      "video_id": "J6QwNrmaRjc",
+      "channel": "DW News",
+      "bloc": "english",
+      "orientation": "ألماني حكومي",
+      "speaker": "ريتشارد ووكر",
+      "speaker_original": "Richard Walker",
+      "speaker_role": "رئيس تحرير الشؤون الدولية في دويتشه فيله",
+      "is_host": false,
+      "type": "opinion",
+      "start": 193.0,
+      "end": 219.0,
+      "summary_ar": "يرى أن الإعلان الختامي للقمة افتقر إلى المضمون الفعلي رغم الطابع التاريخي لاجتماع القادة الثلاثة لأول مرة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "J6QwNrmaRjc:g866",
+      "video_id": "J6QwNrmaRjc",
+      "channel": "DW News",
+      "bloc": "english",
+      "orientation": "ألماني حكومي",
+      "speaker": "ريتشارد ووكر",
+      "speaker_original": "Richard Walker",
+      "speaker_role": "رئيس تحرير الشؤون الدولية في دويتشه فيله",
+      "is_host": false,
+      "type": "opinion",
+      "start": 866.0,
+      "end": 888.0,
+      "summary_ar": "يرى أن دعوة ترامب لنزع السلاح تنبع من إدراكه تفوق الصواريخ التكتيكية الصينية وتخلف بلاده عنها.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "4YzSxOWXyNc:g952",
+      "video_id": "4YzSxOWXyNc",
+      "channel": "Дождь",
+      "bloc": "russian",
+      "orientation": "معارض في المنفى",
+      "speaker": "ميخائيل فيشمان",
+      "speaker_original": "Михаил Фишман",
+      "speaker_role": "صحفي ومحلل سياسي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 952.0,
+      "end": 975.0,
+      "summary_ar": "يعتبر الصحفي والمحلل السياسي ميخائيل فيشمان أن الرئيس الروسي فلاديمير بوتين هو الفائز الأكبر في القمة الثلاثية بعد أن انتزع منها كل ما أمكنه.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "4YzSxOWXyNc:g1124",
+      "video_id": "4YzSxOWXyNc",
+      "channel": "Дождь",
+      "bloc": "russian",
+      "orientation": "معارض في المنفى",
+      "speaker": "ميخائيل فيشمان",
+      "speaker_original": "Михаил Фишман",
+      "speaker_role": "صحفي ومحلل سياسي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1124.0,
+      "end": 1145.0,
+      "summary_ar": "يصف المحلل السياسي ميخائيل فيشمان الرئيس الأمريكي دونالد ترامب بالخاسر الأكبر في القمة لتفريطه في مكانة بلاده العالمية لصالح الصين وروسيا.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "4YzSxOWXyNc:g1298",
+      "video_id": "4YzSxOWXyNc",
+      "channel": "Дождь",
+      "bloc": "russian",
+      "orientation": "معارض في المنفى",
+      "speaker": "ميخائيل فيشمان",
+      "speaker_original": "Михаил Фишман",
+      "speaker_role": "صحفي ومحلل سياسي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1298.0,
+      "end": 1321.0,
+      "summary_ar": "يرى المحلل السياسي ميخائيل فيشمان أن الرئيس الروسي فلاديمير بوتين نال مكاسب كبرى بتحويل أجندة المفاوضات من وقف إطلاق النار إلى مناقشة الأمن الأوروبي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "74s64dyd5bk:g5515",
+      "video_id": "74s64dyd5bk",
+      "channel": "BBC News 中文",
+      "bloc": "chinese",
+      "orientation": "بريطاني عام",
+      "speaker": "دونالد ترامب",
+      "speaker_original": "Donald Trump",
+      "speaker_role": "الرئيس الأمريكي",
+      "is_host": false,
+      "type": "fact",
+      "start": 5515.0,
+      "end": 5527.0,
+      "summary_ar": "الرئيس الأمريكي دونالد ترامب يؤكد ضرورة التعاون لمنع انتشار السلاح النووي مشددًا على منع إيران من امتلاكه.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "74s64dyd5bk:g5045",
+      "video_id": "74s64dyd5bk",
+      "channel": "BBC News 中文",
+      "bloc": "chinese",
+      "orientation": "بريطاني عام",
+      "speaker": "شي جين بينغ",
+      "speaker_original": "习近平",
+      "speaker_role": "الرئيس الصيني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 5045.0,
+      "end": 5062.0,
+      "summary_ar": "الرئيس الصيني شي جين بينغ يرى أن وفاق الدول الكبرى يحقق الأمان للعالم بينما صراعها يورث الفوضى.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "4YzSxOWXyNc:g907",
+      "video_id": "4YzSxOWXyNc",
+      "channel": "Дождь",
+      "bloc": "russian",
+      "orientation": "معارض في المنفى",
+      "speaker": "فلاديمير بوتين",
+      "speaker_original": "Владимир Путин",
+      "speaker_role": "الرئيس الروسي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 907.0,
+      "end": 929.0,
+      "summary_ar": "يؤكد الرئيس الروسي فلاديمير بوتين أن روسيا لم تفسد علاقاتها مع أوروبا، واصفًا الحديث الغربي عن هجوم روسي محتمل على الدول الأوروبية بالسخف.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     }
+    ],
+    "error": "",
+    "extracted": 47,
+    "cost": {
+     "claude": {
+      "claude-sonnet-5": 0.05151,
+      "claude-opus-5": 0.41181
+     },
+     "gemini": 1.2517,
+     "proxy_bytes": 1568953
+    }
+   }
   },
   {
    "id": "19dc10f66db0",
