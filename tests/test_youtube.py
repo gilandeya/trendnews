@@ -8096,6 +8096,9 @@ def test_meta_answers_analysts_1904() -> None:
     base = real_load()
     cfg = Config(dict(base))
     cfg["youtube"] = {**base["youtube"], "meta_topics": {**base["youtube"]["meta_topics"], "enabled": True}}
+    # قضية 1938 قبلت المراسل المسمّى حين يحلّل؛ هذا الاختبار يثبّت قاعدة 1904 نفسها (المراسل مستبعد كله)
+    cfg = copy.deepcopy(cfg)
+    cfg["youtube"]["meta_topics"]["qa"]["answers"]["named_kinds"] = {}
 
     # توجّه الميادين (طلب صاحب المشروع): الوصف الدقيق لا تسمية المحور لنفسه
     may = next(c for c in base["channels"] if c.get("name") == "الميادين")
