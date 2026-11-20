@@ -5177,7 +5177,7 @@ def test_meta_qa_plan_fallback_1900() -> None:
         # الأنبوب: فشل النموذجين ← تعليق من أول محاولة، والمقاطع محفوظة؛ إعادة الطلب لا تستخرج ثانية
         meta_qa.gemini_key = lambda cfg_: "k"
 
-        def fake_gem(topic_, data_, cfg_, key, post=None, stats=None):
+        def fake_gem(topic_, data_, cfg_, key, post=None, stats=None, client=None):
             gem_calls.append(1)
             if stats is not None:
                 stats["gemini_cost"] = 0.5
@@ -8129,7 +8129,7 @@ def test_meta_answers_analysts_1904() -> None:
     # أسباب الاستبعاد (دالة خالصة)
     na = lambda **b: meta_qa.not_analyst({"speaker": "فلان", "type": "opinion", **b}, cfg)  # noqa: E731
     check("1904: المقدّم والمذيع والمراسل وصوت التعليق وقراءة الخبر وغير المسمّى ليسوا إجابات",
-          (na(is_host=True), na(speaker_kind="presenter"), na(speaker_kind="correspondent"), na(speaker_kind="narrator"),
+          (na(is_host=True), na(speaker_kind="presenter"), na(speaker_kind="correspondent", type="report"), na(speaker_kind="narrator"),
            na(type="report"), na(speaker="", speaker_original=""))
           == ("host", "kind", "kind", "kind", "report", "unnamed"))
     check("1904: الضيف ومحلل القناة نفسها إجابات، والاسم بحروفه الأصلية اسم، ومقطع أقدم بلا الحكم يُحكم عليه بالباقي",
@@ -9210,3 +9210,97 @@ def test_reel_orphan_question_2011() -> None:
             check("2011o: لا إجابة باقية لأي سؤال ← فشل", True)
     finally:
         reel_render._apply_chyron = saved
+
+
+def test_meta_qa_depth_1938() -> None:
+    """قضية 1938: أسئلة القمة الثلاثية وإجاباتها ضحلة رغم شروح BBC الغنية. الأسباب: الفيديوهات تُختار بأطولها في كل توجّه
+    (فذهبت إلى بث مباشر من أربع ساعات وحفل استقبال، ولم يُرسل فيديو BBC واحد)، والمراسل المسمّى مستبعد ولو شرح، والجولة
+    التكميلية عدّت قناةً لم تعطِ إلا تصريح طرف في الحدث، والأسئلة عامة تصلح لأي قمة."""
+    from types import SimpleNamespace as NS
+
+    from src import gemini_bites, meta_qa
+    from src.config import Config, load_config as real_load
+
+    base = real_load()
+    q = base.path("youtube.meta_topics.qa")
+    check("1938: ترتيب الفيديوهات بالصلة مفعّل في الإنتاج، والمراسل المسمّى يُقبل حين يحلّل أو يشرح لا حين يقرأ",
+          (q.get("rank_videos") or {}).get("enabled") is True
+          and set((q["answers"].get("named_kinds") or {}).get("correspondent") or []) == {"opinion", "forecast", "fact"})
+    check("1938: برومبت الأسئلة يمنع السؤال العام وبرومبت Gemini يستخرج شرح المراسل المسمّى",
+          "لا سؤالًا عامًا" in q["system"] and "المراسل أو المحرر المسمّى" in q["gemini"]["system"])
+    cfg = Config(dict(base))
+
+    def vid(name, bloc, orient, minutes):
+        return {"video_id": name, "channel": f"قناة {name}", "bloc": bloc, "orientation": orient, "minutes": minutes}
+    vids = [vid("fox", "english", "محافظ", 35), vid("bbc", "english", "عام", 2), vid("bbc2", "english", "عام", 8),
+            vid("live", "turkish", "حكومي", 125), vid("sozcu", "turkish", "معارض", 13), vid("cctv", "chinese", "حكومي", 47)]
+    topic = {"id": "d1", "title": "القمة الثلاثية", "videos": vids}
+    old = [v["video_id"] for v in meta_qa.topic_videos(topic, cfg, cap=3)]
+    check("1938: بلا درجات الترتيب القديم بالطول حرفًا", old == ["live", "cctv", "fox"], old)
+    scores = {"fox": 1, "bbc": 3, "bbc2": 3, "live": 1, "sozcu": 2, "cctv": 0}
+    got = [v["video_id"] for v in meta_qa.topic_videos(topic, cfg, cap=3, scores=scores)]
+    check("1938: الأعلى درجة أولًا في كل توجّه وكتلة، وما دون الحد الأدنى بعد كل ما سواه",
+          got == ["bbc2", "sozcu", "fox"], got)
+    allv = [v["video_id"] for v in meta_qa.topic_videos(topic, cfg, cap=6, scores=scores)]
+    check("1938: الفيديو بلا صلة يُرسل أخيرًا فقط إن بقي في السقف متسع", allv[-1] == "cctv" and len(allv) == 6, allv)
+
+    # نداء الترتيب
+    saved_create, saved_meta = meta_qa._rank_create, meta_qa.video_meta
+    seen = []
+    try:
+        meta_qa.video_meta = lambda v, d: {"title": f"عنوان {v}", "duration_seconds": "600",
+                                           "chapters": "[{'start': 0, 'title': 'What is on the agenda?'}]", "description": "وصف"}
+
+        def fake(client, **kw):
+            seen.append(kw["messages"][0]["content"])
+            return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="rank_videos", input={
+                "scores": [{"n": 2, "score": 3}, {"n": 1, "score": 1}, {"n": 99, "score": 3}, {"n": 3, "score": 7}]})])
+        meta_qa._rank_create = fake
+        on = Config(dict(base))
+        stats: dict = {}
+        sc = meta_qa.rank_videos(topic, {"date": "2026-11-19"}, on, client=object(), stats=stats)
+        check("1938: الدرجات من الرد، ورقم خارج المدى أو درجة غير صالحة تُهمل",
+              sc == {"bbc": 3, "fox": 1} and stats["video_scores"] == sc, sc)
+        check("1938: النداء يرى العنوان والمدة والفهرس", "عنوان bbc" in seen[0] and "10 د" in seen[0]
+              and "What is on the agenda?" in seen[0], seen[0][:300])
+        meta_qa._rank_create = lambda client, **kw: NS(stop_reason="max_tokens", content=[])
+        st2: dict = {}
+        check("1938: الرد المقطوع لا يُقبل منه شيء", meta_qa.rank_videos(topic, {"date": "x"}, on, object(), st2) == {}
+              and st2.get("rank_error") == "مقطوع")
+
+        def boom(client, **kw):
+            raise RuntimeError("x")
+        meta_qa._rank_create = boom
+        check("1938: العطل لا يرفع ويعيد الترتيب القديم", meta_qa.rank_videos(topic, {"date": "x"}, on, object()) == {})
+        check("1938: بلا client لا نداء", meta_qa.rank_videos(topic, {"date": "x"}, on, None) == {})
+    finally:
+        meta_qa._rank_create, meta_qa.video_meta = saved_create, saved_meta
+
+    na = lambda **b: meta_qa.not_analyst({"speaker": "فرانك غاردنر", "type": "opinion", "speaker_kind": "correspondent", **b}, cfg)  # noqa: E731
+    check("1938: المراسل المسمّى يحلّل أو يتوقع أو يشرح ← إجابة، ويقرأ الخبر أو بلا اسم ← لا",
+          (na(), na(type="forecast"), na(type="fact"), na(type="report"), na(speaker="", speaker_original=""))
+          == ("", "", "", "kind", "kind"))
+
+    bites = [{"channel": "Habertürk", "voice": "actor", "speaker": "بوتين", "type": "opinion"},
+             {"channel": "BFMTV", "voice": "analyst", "speaker": "أرنو", "type": "opinion", "speaker_kind": "guest"},
+             {"channel": "BBC", "voice": "analyst", "speaker": "", "type": "opinion"}]
+    check("1938: القنوات للجولة التكميلية بما يجيب الأسئلة لا بتصريح طرف ولا بمتحدث بلا اسم",
+          meta_qa._covered(meta_qa._answering(bites, cfg), "channel") == {"BFMTV"})
+
+    # أسباب رفض Gemini بأرقام مطوية
+    saved_extract, saved_meta = gemini_bites.extract, meta_qa.video_meta
+    try:
+        meta_qa.video_meta = lambda v, d: {}
+        gemini_bites.extract = lambda *a, **k: {"bites": [], "cost": 0.1, "rejected": [
+            {"reason": "المدة 45 ث خارج [8، 40]"}, {"reason": "المدة 52 ث خارج [8، 40]"},
+            {"reason": "ترجمة صوتية بلغة غير العربية فوق المتحدث"}]}
+        rows: list = []
+        meta_qa._extract_video(vid("fa", "persian", "عام", 58), topic, {"date": "x"}, cfg, "K", None, {}, [], rows)
+        why = rows[0].get("rejected_why") or {}
+        check("1938: لكل فيديو أسباب رفض مقاطعه مجمّعة", sorted(why.values()) == [1, 2] and any("N" in k for k in why), why)
+    finally:
+        gemini_bites.extract, meta_qa.video_meta = saved_extract, saved_meta
+
+    msg = meta_qa.plan_message(topic, [{"channel": "BBC", "speaker": "غاردنر", "type": "fact", "start": 0, "end": 20,
+                                        "summary_ar": "ملخص", "text_ar": "كلام", "answers": "ما المطروح في القمة؟"}])
+    check("1938: المقطع يحمل إلى نداء الأسئلة السؤال الذي يجيبه", "يجيب عن: ما المطروح في القمة؟" in msg, msg)

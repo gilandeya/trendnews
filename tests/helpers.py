@@ -63,6 +63,10 @@ def load_config(path=None):
         cfg["notifications"]["mention"] = ""
     # حكم العناوين القديم (الصلة واللقطات معًا) في الاختبارات: g339 يثبّت فلاتره الثلاثة؛ test_reel_scenario_fallbacks_1313 يقرأ
     # config.yaml الحقيقي فيثبّت require_footage_title: false في الإنتاج
+    # ترتيب فيديوهات الموضوع بنداء Haiku (قضية 1938) نداء إضافي تعدّه اختبارات meta_qa القديمة؛ test_meta_qa_depth_1938 يطلبه
+    rv = (((cfg.get("youtube") or {}).get("meta_topics") or {}).get("qa") or {}).get("rank_videos")
+    if isinstance(rv, dict):
+        rv["enabled"] = False
     hs = cfg.get("reel", {}).get("hook_search") if isinstance(cfg.get("reel"), dict) else None
     if isinstance(hs, dict):
         hs["require_footage_title"] = True
