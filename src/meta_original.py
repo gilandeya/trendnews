@@ -25,6 +25,8 @@ SCHEMA = {
         "found": {"type": "BOOLEAN"},
         "start": {"type": "STRING"}, "end": {"type": "STRING"},
         "text_original": {"type": "STRING"},
+        "text_ar": {"type": "STRING"},
+        "language": {"type": "STRING"},
         "speaker_on_screen": {"type": "BOOLEAN"},
         "is_relay": {"type": "BOOLEAN"},
         "reason": {"type": "STRING"},
@@ -119,10 +121,15 @@ def is_target(b: dict, cfg) -> bool:
     المسؤول يُبث أولًا في إعلام بلده ثم تنقله القنوات (قضية 1868). يحتاج اسمًا يُبحث به."""
     if not (b.get("speaker") or b.get("speaker_original")):
         return False
-    if b.get("setting") == "other_channel" or b.get("delivery") == "read":
+    if b.get("setting") == "other_channel" or b.get("delivery") == "read" or dubbed(b):
         return True
     from .meta_qa import is_actor
     return bool(_ocfg(cfg).get("actors", True)) and is_actor(b)
+
+
+def dubbed(b: dict) -> bool:
+    """المقطع المنقول يُسمع بترجمة صوتية فوق صاحبه (Gemini: audio_track)؛ أصله بلغة المتحدث نفسه لا بلغة الناقل."""
+    return str(b.get("audio_track") or "original") in ("dubbed_ar", "dubbed_other")
 
 
 def build_request(cand: dict, bite: dict, cfg) -> dict:
@@ -131,6 +138,9 @@ def build_request(cand: dict, bite: dict, cfg) -> dict:
     lines = [f"المتحدث: {bite.get('speaker') or bite.get('speaker_original') or '—'}",
              f"الكلام المطلوب بلغته: {bite.get('text_original', '')}",
              f"ترجمته: {bite.get('text_ar', '')}"]
+    if dubbed(bite):
+        # ريل 68c94cc15e39: الكلام المطلوب نصّ الدبلجة التركية لا كلام بوتين الروسي، فطلبه حرفيًا لا يجده أبدًا
+        lines.append(str(o.get("dubbed_note") or ""))
     return {
         "system_instruction": {"parts": [{"text": o.get("system", "")}]},
         "contents": [{"role": "user", "parts": [gemini.video_part(cand["video_id"], o.get("max_minutes", 0), cand.get("duration")),
@@ -157,8 +167,15 @@ def decide(data: dict, bite: dict, cand: dict, cfg) -> tuple[dict | None, str]:
     if dur and t1 > float(dur) + 1:
         return None, "بعد نهاية الفيديو"
     heard = " ".join(str(data.get("text_original") or "").split())
-    ratio = text_ratio(bite.get("text_original", ""), heard)
-    if ratio < float(o.get("min_text_ratio", 0.6)):
+    heard_ar = " ".join(str(data.get("text_ar") or "").split())
+    if dubbed(bite):
+        # الأصل بلغة غير لغة الدبلجة: يُقارن المعنى بترجمتي الكلامين العربيتين، بحدّ أدنى لأن الترجمتين من نصين مختلفين
+        ratio = text_ratio(bite.get("text_ar", ""), heard_ar)
+        floor = float(o.get("min_translated_ratio", 0.35))
+    else:
+        ratio = text_ratio(bite.get("text_original", ""), heard)
+        floor = float(o.get("min_text_ratio", 0.6))
+    if ratio < floor:
         return None, f"الكلام لا يطابق المنقول ({ratio:.2f})"
     if o.get("require_speaker_on_screen", True) and data.get("speaker_on_screen") is False:
         return None, "المتحدث لا يظهر في الأصلي"
@@ -169,9 +186,18 @@ def decide(data: dict, bite: dict, cand: dict, cfg) -> tuple[dict | None, str]:
     new.update(video_id=cand["video_id"], bite_id=f"{cand['video_id']}:g{int(t0)}", start=round(t0, 1), end=round(t1, 1),
                seconds=round(t1 - t0, 1), text_original=heard, first_words="", last_words="",
                channel=ch.get("name") or cand.get("channel", ""), setting="studio", source_channel="", delivery="own",
-               setting_source="original",
+               setting_source="original", audio_track="original",
                original_of={"video_id": bite.get("video_id"), "bite_id": bite.get("bite_id"), "channel": bite.get("channel", ""),
                             "ratio": round(ratio, 2)})
+    if dubbed(bite):
+        # ما يُكتب على الشاشة ترجمةُ ما يُسمع في الأصل لا ترجمة الدبلجة؛ ترجمة لا تصلح للشاشة تُبقي ترجمة المنقول (المعنى نفسه)
+        from . import youtube_bites
+        if youtube_bites.screen_text_ok(heard_ar, cfg):
+            new["text_ar"] = heard_ar
+        lang = str(data.get("language") or "").strip().lower()[:5]
+        if lang:
+            new["language"] = lang
+        new["dubbed_from"] = bite.get("language", "")
     # كتلة القناة الأصلية وتوجّهها إن عُرفت؛ وإلا تبقى كتلة الناقلة (الريل يحتاج كتلة لكل مقطع، وهي أقرب تخمين لا أكثر)
     if ch:
         new["bloc"], new["orientation"] = ch.get("bloc", new.get("bloc")), ch.get("orientation", new.get("orientation"))
@@ -227,8 +253,9 @@ def find_originals(bites: list[dict], date: str, cfg, key: str, post=None, searc
         relays.setdefault(_who(b), {})[b.get("video_id")] = b.get("channel", "")
     asked: set[str] = set()
     # ريلا 13/11: الكلام الذي يقرؤه غير صاحبه يُترك إن لم يوجد أصله، فيُبحث له أولًا قبل أن يستنفد السقف غيرُه؛ ثم المنقول ثم الطرف
+    # والمدبلج مع المقروء أولًا: كلاهما ليس صوت صاحبه
     prio = {"read": 0, "other_channel": 1}
-    order = sorted(range(len(bites)), key=lambda k: prio.get("read" if bites[k].get("delivery") == "read"
+    order = sorted(range(len(bites)), key=lambda k: prio.get("read" if bites[k].get("delivery") == "read" or dubbed(bites[k])
                                                              else bites[k].get("setting"), 2))
     res: dict[int, dict] = {}
     for idx in order:

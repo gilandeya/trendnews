@@ -247,6 +247,31 @@ def verify_latin(name_latin: str, title: str, description: str) -> str:
     return ""
 
 
+_AR_PREFIX = ("ال",)
+_LATIN_PARTICLES = {"al", "el", "ul"}
+
+
+def latin_consistent(latin: str, arabic: str, cfg: Any) -> bool | None:
+    """هل الرسم اللاتيني رسمٌ للاسم العربي نفسه؟ None حين لا يُحكم (لا حروف لاتينية، أو لا عربي، أو القاعدة مطفأة). دالة خالصة.
+    ريل 68c94cc15e39: أعاد التعرّف لمقطع بوتين name_latin «Trump» واسمًا عربيًا «فلاديمير بوتين»، وverify_latin قبله لأن «Trump»
+    في عنوان الفيديو، فكُتب «فلاديمير بوتين Trump» تحت وجهه. الحكم بالحرف الأول لا بنقل كامل: الأسماء تُنقل بأكثر من رسم
+    (Xi Jinping / شي جين بينغ، Khamenei / خامنئي)، أما أن لا تبدأ أي كلمة عربية بصوت تبدأ به كلمة لاتينية فاسمان مختلفان."""
+    table = cfg.path("reel.identity.latin_initials") or {}
+    if not table:
+        return None
+    want = [w for w in _latin_tokens(latin) if w and "a" <= w[0] <= "z" and w not in _LATIN_PARTICLES]
+    words = []
+    for w in (arabic or "").split():
+        for p in _AR_PREFIX:
+            if w.startswith(p) and len(w) > len(p) + 1:
+                w = w[len(p):]
+        words.append(w)
+    heads = [str(table.get(w[0], "")) for w in words if w and w[0] in table]
+    if not want or not heads:
+        return None
+    return any(w[0] in h for w in want for h in heads)
+
+
 SPEAKERS_TOOL = {
     "name": "report_speakers",
     "description": "يُبلِّغ هوية متحدث كل مقطع من عنوان الفيديو ووصفه",
@@ -298,6 +323,10 @@ def identify_speakers(valid: list[dict], member_points: list[dict], cfg: Any, cl
         latin = (r.get("name_latin") or "").strip()
         arabic = " ".join((r.get("name_arabic") or "").split())
         how = verify_latin(latin, c.get("video_title", ""), c.get("video_description", "")) if arabic else ""
+        # اسم لاتيني ورد في العنوان لا يوثّق إلا إن كان رسمًا للاسم العربي نفسه (العنوان يذكر أكثر من شخص)
+        if how and latin_consistent(latin, arabic, cfg) is False:
+            log.warning("رسم لاتيني لا يطابق الاسم العربي (%s / %s) — لا توثيق من العنوان", latin, arabic)
+            how = ""
         c["speaker_identity_ran"] = True
         if how:
             c.update(speaker_verified=True, speaker_verified_from=how, speaker_name_latin=latin,

@@ -613,7 +613,7 @@ def info_rows(scene: dict, cfg, d) -> list[tuple[list, int]]:
     orient = reel_render.band_orientation(scene, cfg)
     if name:
         # الرسم الأجنبي بقاعدة شريط المتحدث نفسها: اسم فارسي بالحروف العربية («مهدی مهدوی‌آزاد») تكرار للاسم لا رسم أجنبي (ريل 1929)
-        latin = reel_render.foreign_name(scene)
+        latin = reel_render.foreign_name(scene, cfg)
         parts = row([ar_item(name, int(info.get("name_size", 46)), "display", black, "name"),
                      lat_item(latin, int(info.get("name_latin_size", 34)), navy, "latin")])
         if parts:
