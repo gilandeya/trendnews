@@ -81,13 +81,20 @@ def el_remaining(cfg, key: str, get=None) -> int | None:
         return None
 
 
-def el_synthesize(text: str, voice_id: str, cfg, key: str, post=None) -> dict:
-    """{ok, audio, chars} أو {ok: False, error}. mp3 كصوت Google فلا يتغير ما بعده في التركيب."""
+def el_synthesize(text: str, voice_id: str, cfg, key: str, post=None, extra: dict | None = None) -> dict:
+    """{ok, audio, chars} أو {ok: False, error}. mp3 كصوت Google فلا يتغير ما بعده في التركيب.
+    extra يُدمج في جسم الطلب (model_id، previous_text/next_text، voice_settings تُدمج فوق إعدادات الإعداد): أداة قياس الصوت
+    (tools/voice_probe.py) تجرّب به صيغًا قبل أن يُعتمد شيء في الإنتاج."""
     e = _el_cfg(cfg)
     post = post or _el_post
     body = {"text": text, "model_id": e.get("model", "eleven_multilingual_v2")}
     if e.get("voice_settings"):
         body["voice_settings"] = dict(e["voice_settings"])
+    for k, v in (extra or {}).items():
+        if k == "voice_settings" and isinstance(v, dict):
+            body["voice_settings"] = {**body.get("voice_settings", {}), **v}
+        elif v not in (None, ""):
+            body[k] = v
     url = f"{EL_API}/text-to-speech/{voice_id}?output_format={e.get('output_format', 'mp3_44100_128')}"
     try:
         audio = post(url, {"xi-api-key": key, "Content-Type": "application/json"}, body, TIMEOUT)
