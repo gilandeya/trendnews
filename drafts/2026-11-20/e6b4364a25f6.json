@@ -1,0 +1,504 @@
+{
+  "id": "e6b4364a25f6",
+  "created_at": "2026-11-20T15:48:23.403488+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "الضربة الأمريكية على موقع إطلاق صواريخ في جزيرة قشم الإيرانية",
+  "event": "الضربة الأمريكية على موقع إطلاق صواريخ في جزيرة قشم الإيرانية",
+  "tier": 5,
+  "blocs": [
+    "arabic",
+    "english",
+    "french",
+    "israeli",
+    "persian"
+  ],
+  "channels": [
+    "BBC News",
+    "CNN",
+    "FRANCE 24",
+    "ILTV",
+    "Iran International",
+    "الجزيرة",
+    "العربية",
+    "الميادين",
+    "سكاي نيوز عربية"
+  ],
+  "agreement": "",
+  "score": 0,
+  "warnings": [
+    "✏️ صيغ السؤال 1 ليتصل بالسياق: كان «ما طبيعة الضربة الأمريكية على منصات الإطلاق في جزيرة قشم وحدودها؟» صار «ما طبيعة هذه الضربة الأمريكية على منصات الإطلاق وحدودها؟»",
+    "✏️ صيغ السؤال 2 ليتصل بالسياق: كان «ما الهدف الحقيقي الذي تسعى إليه الضربات الأمريكية على قشم؟» صار «ما الهدف الحقيقي الذي تسعى إليه هذه الضربات؟»"
+  ],
+  "run_date": "2026-11-20",
+  "topic_date": "2026-11-20",
+  "arabic": {
+    "post_title": "ما سر استهداف أمريكا لجزيرة قشم الإيرانية بالذات؟",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "BBC News",
+      "CNN",
+      "FRANCE 24",
+      "ILTV",
+      "Iran International",
+      "الجزيرة",
+      "العربية",
+      "الميادين",
+      "سكاي نيوز عربية"
+    ]
+  },
+  "source_videos": [],
+  "meta_topic_id": "19dc10f66db0",
+  "meta_issue": 1960,
+  "hook_pick": 3,
+  "cost_qa": {
+    "claude": {
+      "claude-haiku-5-5": 0.00094,
+      "claude-sonnet-5": 0.02046
+    },
+    "gemini": 0.3067,
+    "proxy_bytes": 12823066
+  },
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "b52cd5a6b0eb",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "فرانس 24 الفرنسية"
+      },
+      {
+        "point_id": "2da64e1b07e7",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "بي بي سي نيوز"
+      },
+      {
+        "point_id": "4446c972671b",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "ILTV"
+      },
+      {
+        "point_id": "d183400ac689",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "f4edf57d1f38",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن"
+      }
+    ]
+  },
+  "names_audit": [
+    {
+      "arabic": "عادل بكوان",
+      "latin": ""
+    },
+    {
+      "arabic": "كيتي واتسون",
+      "latin": "Katty Watson"
+    },
+    {
+      "arabic": "ريتش أوتزن",
+      "latin": "Rich Oetzen"
+    },
+    {
+      "arabic": "فرزين نديمي",
+      "latin": "Farzin Nadimi"
+    },
+    {
+      "arabic": "بولا هانكوكس",
+      "latin": "Paula Hancocks"
+    }
+  ],
+  "headlines": [
+    "ما سر استهداف أمريكا لجزيرة قشم الإيرانية بالذات؟",
+    "هل تتحول ضربات قشم إلى حرب أوسع مع إيران؟",
+    "لماذا تخشى إيران على جزيرة قشم تحديدا؟"
+  ],
+  "headline_selected": 0,
+  "script": {
+    "version": 2,
+    "narrator": "male",
+    "title": "ما سر استهداف أمريكا لجزيرة قشم الإيرانية بالذات؟",
+    "question": "هل تبقى الضربات محصورة في الجزر أم تمتد إلى العمق الإيراني؟",
+    "event": "",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "ما سر استهداف أمريكا لجزيرة قشم الإيرانية بالذات؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "غارة جوية أمريكية استهدفت موقعًا لإطلاق الصواريخ في جزيرة قشم الإيرانية بمضيق هرمز، ردًا على هجمات طالت أصولًا عسكرية أمريكية، بعد تسعة أشهر من الحرب."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 0,
+        "text": "ما طبيعة هذه الضربة الأمريكية على منصات الإطلاق وحدودها؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "b52cd5a6b0eb",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=Lnuk6KdW4PE",
+        "start": 720.7,
+        "end": 737.6,
+        "speaker_name": "عادل بكوان",
+        "speaker_role": "مدير المعهد الأوروبي لدراسات الشرق الأوسط وشمال أفريقيا",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "Adel Bakawan",
+        "channel_display": "فرانس 24 الفرنسية",
+        "channel_original": "FRANCE 24",
+        "quote_arabic": "وما هو الرد الأمريكي؟ هو ضرب جزيرة قشم، واستهداف القواعد التي توجد عليها منصات إطلاق الصواريخ. لم يضربوا طهران، ولم يضربوا كرمانشاه، ولم يضربوا المدن الكبرى.",
+        "quote_original": "Et la riposte des Américains, c'est quoi ? C'est qu'on frappe l'île de Qechm, et on frappe les bases sur lesquelles les lanceurs de missiles se trouvent. On n'a pas frappé Téhéran, on n'a pas frappé Kermanchah, on n'a pas frappé les grandes villes.",
+        "language": "fr",
+        "video_published": "2026-11-18T14:25:36Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "2da64e1b07e7",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=eXOQgx7xubQ",
+        "start": 246.1,
+        "end": 274.1,
+        "speaker_name": "كيتي واتسون",
+        "speaker_role": "مراسلة بي بي سي في القدس",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Katy Watson",
+        "channel_display": "بي بي سي نيوز",
+        "channel_original": "BBC News",
+        "quote_arabic": "يأتي ذلك في أعقاب غارة جوية أمريكية استهدفت موقعًا لإطلاق الصواريخ في جزيرة قشم الواقعة في مضيق هرمز، ويبدو أنها كانت ردًا على هجمات طالت أصولًا عسكرية أمريكية. ويمكن ملاحظة هذا التصعيد المتبادل الذي يثير مخاوف من تصعيد كبير آخر في الحرب المستمرة منذ تسعة أشهر، لا سيما في ظل غياب أي تقدم نحو اتفاق سلام.",
+        "quote_original": "Now that comes off the back of a US air strike targeting a missile launch site on the island of Qeshm, which is in the Strait of Hormuz. Now, apparently, that was in retaliation for attacks on US military assets. You can see this increasing tit-for-tat that's happening that's raising concern of another major escalation in the nine-month war, especially because of a lack of progress on any peace deal.",
+        "language": "en",
+        "video_published": "2026-11-18T22:04:36Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 1,
+        "text": "ما الهدف الحقيقي الذي تسعى إليه هذه الضربات؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "4446c972671b",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=_cNMj6S2c1g",
+        "start": 404.4,
+        "end": 435.3,
+        "speaker_name": "ريتش أوتزن",
+        "speaker_role": "زميل أول في المجلس الأطلسي",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Rich Outzen",
+        "channel_display": "ILTV",
+        "channel_original": "ILTV",
+        "quote_arabic": "أعتقد أن الخط الأحمر لإدارة الرئيس الأمريكي ترامب والولايات المتحدة يبقى حرية الملاحة في مضيق هرمز والبحار المحيطة به. وأرى أن لعبة القط والفأر الجارية داخل الخليج وحوله، بما في ذلك جزيرة قشم، جزء مما نعتبره سلوك فرض قواعد. فالإيرانيون يحاولون وضع قواعد تتيح لهم اعتراض ما يريدون وإجبار حركة الملاحة والشحن على مساراتهم المفضلة، بينما تتصدى الولايات المتحدة لذلك.",
+        "quote_original": "Well, I think the red line for the Trump administration and for the US remains freedom of navigation in Strait of Hormuz and in the surrounding seas. I think the cat and mouse game going on in and around the Gulf, including Qeshm Island, is really part of what we might consider rule-setting behavior, right? So the Iranians are trying to set rules that they get to interdict what they want and they can force sort of traffic flows and shipping to go on their preferred routes, and the US is countering that.",
+        "language": "en",
+        "video_published": "2026-11-18T15:49:42Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "d183400ac689",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=le_AiOFE3v0",
+        "start": 1096.9,
+        "end": 1124.1,
+        "speaker_name": "فرزين نديمي",
+        "speaker_role": "باحث أول في الشؤون الدفاعية والأمنية بمعهد واشنطن",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Farzin Nadimi",
+        "channel_display": "إيران إنترناشيونال",
+        "channel_original": "Iran International",
+        "quote_arabic": "ومن ناحية أخرى، فإن الهجمات التي تشنها الولايات المتحدة على قواعد ومناطق في جزر مثل قشم وسيري، أرى أنها تأتي ردًا على هذه التحركات أكثر من كونها ردًا على إطلاق صواريخ الحرس الثوري الإيراني على ناقلات النفط في المنطقة، إذ يبدو لي أن الولايات المتحدة ما زالت تقرر عدم الرد المباشر عليها لأسباب غير واضحة.",
+        "quote_original": "و از طرف دیگه، حملاتی هم که از طرف آمریکا به پایگاه‌هایی و مناطقی در جزایری مثل قشم و سیری انجام می‌گیره به نظر من بیشتر در واکنش به این تحرکات هست تا اینکه در واکنش به شلیک موشک‌های سپاه به نفتکش‌های منطقه باشه که به نظر من همچنان آمریکا تصمیم گرفته که واکنش مستقیم به اونا نشون نده به دلایل نامشخصی.",
+        "language": "fa",
+        "video_published": "2026-11-18T17:37:17Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "f4edf57d1f38",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=TKVYGB-9Ux8",
+        "start": 33.6,
+        "end": 52.7,
+        "speaker_name": "بولا هانكوكس",
+        "speaker_role": "مراسلة سي إن إن",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "Paula Hancocks",
+        "channel_display": "سي إن إن",
+        "channel_original": "CNN",
+        "quote_arabic": "هذا ما كنا نشهده في الأسابيع الأخيرة؛ فهذه الضربات العسكرية الأمريكية، حين يُعترف بها علنًا، يحرص المسؤولون الأمريكيون على تأكيد أنها دفاعية ولا تشير إطلاقًا إلى تصعيد في الضربات أو تعبر عنه.",
+        "quote_original": "Well this is what we have been seeing in recent weeks, these US military strikes which when they are publicly acknowledged or admitted to, US officials have been at pains to say are defensive, they are not signifying or characterizing an escalation in strikes.",
+        "language": "en",
+        "video_published": "2026-11-18T15:07:05Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "question",
+        "text": "هل تبقى الضربات محصورة في الجزر أم تمتد إلى العمق الإيراني؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": []
+  },
+  "editor_review": {
+    "at": "2026-11-20T15:48:35.260503+00:00",
+    "applied": [],
+    "notes": [],
+    "error": null,
+    "searches": 0,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "reel_bg": {
+    "url": "https://houseofsaud.com/wp-content/uploads/2026/11/uss-higgins-persian-gulf-5th-fleet-nov18-1024x681.jpg",
+    "kind": "news_photo",
+    "publisher": "houseofsaud.com",
+    "shows": "سفينة حربية أمريكية ليلًا في البحر مع أضواء على الصاري وأضواء برتقالية بعيدة على الأفق",
+    "text_checked": true,
+    "judged": true,
+    "rejected": [
+      {
+        "url": "https://www.ghadnews.net/wp-content/uploads/2026/11/iran-gulf-attacks-kuwait-base-2026-scaled.webp",
+        "shows": "مطار ليلي فيه منظومات دفاع جوي ومقاتلات وطائرات مسيّرة، مع ناطحات سحاب في الخلفية",
+        "reason": "الصورة لا تُظهر جزيرة قشم أو موقع إطلاق صواريخ إيرانياً؛ هي مشهد عام لقاعدة عسكرية ليلية وأفق مدينة، وقد لا يُعرف موقعه، فلا تصلح لسؤال عن استهداف قشم."
+      },
+      {
+        "url": "https://www.ghadnews.net/wp-content/uploads/2026/11/iran-us-tension-kuwait-base-2026-scaled.webp",
+        "shows": "قاعدة عسكرية ليلاً فيها طائرات مقاتلة ومركبات عسكرية وأبراج مراقبة وجنود",
+        "reason": "الصورة تُظهر قاعدة عسكرية أمريكية-عامة لا تخص جزيرة قشم الإيرانية ولا غارة على موقع صواريخ، فلا تطابق موضوع السؤال."
+      }
+    ]
+  },
+  "hook_candidates": [
+    {
+      "video_id": "Wai6gyDCRZM",
+      "title": "Iran launches NEW STRIKES on Gulf states #shorts #us #news #foxnews #iran",
+      "channel": "Fox News",
+      "views": 228133,
+      "duration": 34,
+      "published": "2026-11-18T17:45:18Z",
+      "views_per_hour": 4951.0
+    },
+    {
+      "video_id": "LMgSio2JGIc",
+      "title": "Loud explosions rock Iran’s Qeshm Island as US confirms new strikes",
+      "channel": "TRT World",
+      "views": 14410,
+      "duration": 24,
+      "published": "2026-11-18T08:02:59Z",
+      "views_per_hour": 258.3
+    },
+    {
+      "video_id": "BB0xFP4_nEs",
+      "title": "Iran says US has attacked Qeshm Island | BBC News",
+      "channel": "BBC News",
+      "views": 839588,
+      "duration": 728,
+      "published": "2026-11-17T23:30:29Z",
+      "views_per_hour": 13052.2
+    },
+    {
+      "video_id": "A0XkGECwOJI",
+      "title": "Iran-US Conflict Escalates: Drone Attacks Hit Kuwait and Bahrain",
+      "channel": "Al Jazeera English",
+      "views": 369294,
+      "duration": 480,
+      "published": "2026-11-18T08:34:50Z",
+      "views_per_hour": 6683.7
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-11-18T00:00:00Z",
+          "2026-11-22T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "لقطات جزيرة قشم بعد الغارة",
+            "raw": 4,
+            "channel_ok": 0
+          },
+          {
+            "query": "Qeshm island airstrike aftermath footage",
+            "raw": 4,
+            "channel_ok": 0
+          },
+          {
+            "query": "نشرة جزيرة قشم الإيرانية ميدان",
+            "raw": 0,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 0,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "Defense Rewind",
+          "Times Of India",
+          "Yankee Explainer",
+          "Tyler TV",
+          "DC NewsPulse",
+          "نجوم مصرية",
+          "UNSEEN REVEAL",
+          "GLOBAL WAR ARCHIVES"
+        ]
+      },
+      {
+        "broad": true,
+        "window": [
+          "2026-11-16T00:00:00Z",
+          "2026-11-23T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "ضربة أمريكية جزيرة قشم",
+            "raw": 30,
+            "channel_ok": 2
+          },
+          {
+            "query": "US strike Qeshm island Iran",
+            "raw": 30,
+            "channel_ok": 9
+          },
+          {
+            "query": "Qeshm island airstrike Hormuz",
+            "raw": 30,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 11,
+        "judged_ok": 10,
+        "rejected_channels": [
+          "المصدر بلس",
+          "عاجل الآن",
+          "الجنرال-99",
+          "GNS ملخص الأخبار العالمية",
+          "Firstpost",
+          "EverydaySpy",
+          "من صلب الواقع",
+          "قراءة المشهد"
+        ]
+      }
+    ],
+    "picked": [
+      "Wai6gyDCRZM",
+      "LMgSio2JGIc",
+      "BB0xFP4_nEs",
+      "A0XkGECwOJI"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "غارة جوية أمريكية استهدفت موقعًا لإطلاق الصواريخ في جزيرة قشم الإيرانية بمضيق هرمز، ردًا على هجمات طالت أصولًا عسكرية أمريكية، بعد تسعة أشهر من الحرب.",
+      "visual": "انفجارات ودخان فوق جزيرة ساحلية ليلًا",
+      "map": {
+        "places": [
+          "قشم",
+          "مضيق هرمز"
+        ],
+        "countries": [
+          "إيران"
+        ],
+        "arrows": []
+      }
+    },
+    {
+      "scene": 2,
+      "sentence": 0,
+      "text": "ما طبيعة هذه الضربة الأمريكية على منصات الإطلاق وحدودها؟",
+      "visual": ""
+    },
+    {
+      "scene": 5,
+      "sentence": 0,
+      "text": "ما الهدف الحقيقي الذي تسعى إليه هذه الضربات؟",
+      "visual": ""
+    }
+  ],
+  "cost_script": {
+    "claude": {
+      "claude-haiku-5-5": 0.00326,
+      "claude-sonnet-5": 0.08683,
+      "claude-opus-5": 0.08946
+    }
+  },
+  "review_issue": 1961,
+  "stage2_issue": 1961
+}
