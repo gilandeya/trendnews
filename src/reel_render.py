@@ -2791,6 +2791,12 @@ class ClipDownloadFailed(RuntimeError):
         self.channel, self.reason, self.proxy = channel, reason, proxy
 
 
+def _deadline_reached() -> bool:
+    """هل بلغ تنزيل التشغيلة موعده (reel_clips.DEADLINE)؟ بلا موعد (محليًا وفي الاختبارات) ← False."""
+    left = reel_clips.deadline_left()
+    return left is not None and left <= 0
+
+
 def proxy_exhausted(text: str, cfg) -> bool:
     """هل نص العطل نفاد رصيد البروكسي؟ دالة خالصة. يُفحص النص كاملًا قبل قصّه لأن «402» يقع بعد 120 حرفًا من رسالة yt-dlp
     (حادثة #1782: سُجّل السبب مقطوعًا عند «OSError('Tunn» فلم يُعرف أنه الرصيد)."""
@@ -3277,6 +3283,10 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
             # نفاد الرصيد يُسقط كل مقطع بعده فالريل كله ينتظر؛ غيره عطل لهذا المقطع وحده فيُترك والريل يمضي (19/11)
             if failure.proxy or not cfg.path("reel.render.drop_failed_clips", False):
                 raise failure from exc
+            # ريل 68c94cc15e39 (20/11): نفد وقت التشغيلة فتُركت 4 من 6 مقاطع بحجة «مقطع معيب» وخرج ريل بسؤال بلا إجابات.
+            # بلوغ الموعد ليس عيبًا في المقطع: التركيب يتوقف كمحاولة محسوبة (_on_timeout) والمنزَّل في المخبأ فتكمل التشغيلة التالية
+            if cfg.path("reel.render.deadline.defer_on_clip", True) and _deadline_reached():
+                raise RenderTimeout(f"clip {i}") from exc
             download_failed.append(failure)
             _drop(dropped, scene, cfg.path("reel.render.texts.drop_download_failed").format(
                 reason=failure.reason.replace("فشل تنزيل المقطع: ", "", 1)))
@@ -6364,6 +6374,10 @@ def _prune_mismatched(script: dict, clips: dict, cfg, deps: Deps, speakers: dict
                 _drop(dropped, script["scenes"][i], line)
                 clips.pop(i)
                 gone.append(i)
+        # ريل 68c94cc15e39 (20/11): سؤال سقطت إجابتاه قبل هذا الحارس (تعذّر التنزيل) بقيت بطاقته بلا إجابة، لأن الحساب كان
+        # لما حذفه الحارس وحده. سبب السقوط لا يهم: سؤال بلا إجابة باقية تسقط بطاقته أيًّا كان ما أسقطها
+        if cfg.path("reel.render.drop_orphan_questions", True):
+            gone = [i for i in members if i not in clips]
         left = [i for i in members if i in clips]
         if gone and not left:
             dead_q[script["scenes"][members[0]].get("q")] = "empty"
