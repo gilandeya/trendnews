@@ -8542,6 +8542,153 @@ def test_reel_skip_bad_clip_1919() -> None:
         store.update_draft(p, render_status="rendered")
 
 
+def test_reel_continuous_bg_2011() -> None:
+    """20/11 (لقطة صاحب المشروع لريل 68c94cc15e39): الانتقال بين الهوك والسياق والتحليل يبدّل الخلفية (لكل مشهد خلفيته، والانزلاق
+    يحرّك الإطار كله). المطلوب خلفية واحدة على الريل كله بسرعة الحركة الحالية، ترتدّ يمينًا عند أقصى يسار الصورة، والفيديو يبدأ من
+    جديد بتلاشٍ بين نهايته وبدايته."""
+    import copy
+    import tempfile
+    from pathlib import Path
+
+    from PIL import Image
+
+    from src import reel_render
+    from src.config import load_config as real_load
+    from tests.helpers import continuous_bg_cfg
+
+    real = real_load()
+    cfg = continuous_bg_cfg(load_config())
+    check("2011: config.yaml يفعّل الخلفية المتصلة ونسخة التركيب 82",
+          real.path("reel.render.continuous_bg.enabled") is True and int(real.path("reel.render.version")) >= 82)
+
+    # (1) الذهاب والإياب: يبدأ عند x0 ويتحرك يسارًا، يرتدّ عند 0، يبلغ المدى ثم يعود، ولا يخرج عن الصورة أبدًا
+    x0, v, room = 300.0, 24.0, 900.0
+    xs = [reel_render.pingpong_x(k * 0.5, x0, v, room) for k in range(400)]
+    check("2011: يبدأ عند x0 ويتحرك يسارًا", abs(xs[0] - x0) < 1e-6 and xs[2] < xs[0])
+    check("2011: لا يخرج عن الصورة", all(-1e-6 <= x <= room + 1e-6 for x in xs))
+    t_left = x0 / v
+    check("2011: يرتدّ يمينًا عند أقصى اليسار", reel_render.pingpong_x(t_left, x0, v, room) < 1e-6
+          and reel_render.pingpong_x(t_left + 2, x0, v, room) > reel_render.pingpong_x(t_left + 1, x0, v, room))
+    check("2011: السرعة ثابتة في الاتجاهين",
+          all(abs(abs(xs[k + 1] - xs[k]) - v * 0.5) < 1e-6 for k in range(len(xs) - 1)
+              if not (min(xs[k], xs[k + 1]) < v * 0.5 or max(xs[k], xs[k + 1]) > room - v * 0.5)))
+    expr = reel_render._pan_x_expr(x0, v, 7.5, room)
+
+    def ev(t):
+        return eval(expr.replace("mod(", "_mod("), {"_mod": lambda a, b: a % b, "abs": abs, "t": t})
+
+    check("2011: تعبير ffmpeg توأم الدالة", all(abs(ev(t) - reel_render.pingpong_x(t + 7.5, x0, v, room)) < 0.01
+                                             for t in (0, 1.3, 20, 37.5, 61, 140)), expr)
+    check("2011: الخطة القديمة بلا مدى لا يتغير تعبيرها",
+          reel_render._pan_x_expr(500, 24, 3.0) == "max(500.000-24.000*(t+3.000),0)")
+
+    # (2) الخطة: سرعة الراوي نفسها، وتكبير صورة ضيقة حتى يتسع المدى، وx0 داخل الصورة
+    pl = reel_render.pingpong_plan(cfg, 1100, 1960, 550)
+    check("2011: الخطة بسرعة الراوي وتكبّر الصورة الضيقة",
+          pl["speed"] == float(cfg.path("reel.render.narration_bg.pan_speed")) and pl["zoom"] > 1.0 and pl["room"] > 0
+          and 0 <= pl["x0"] <= pl["room"] and pl["pingpong"], pl)
+    check("2011: crop الخلفية بالذهاب والإياب",
+          "abs(" in reel_render._bg_crop(cfg, reel_render._pan_of(pl), 4.0, None))
+
+    # (3) التكرار: كل نسخة تبدأ قبل نهاية سابقتها بالمزج، وتغطي الطول المطلوب؛ فيديو أقصر من مزجين يُلصق بلا مزج
+    offs, mix = reel_render.loop_offsets(30, 100, 1.0)
+    check("2011: نسخ الفيديو المتكرر", offs == [0.0, 29.0, 58.0, 87.0] and mix == 1.0 and offs[-1] + 30 >= 100, offs)
+    check("2011: فيديو قصير جدًا بلا مزج", reel_render.loop_offsets(1.5, 5, 1.0)[1] == 0.0)
+    cmds = []
+    tmp = Path(tempfile.mkdtemp())
+    fake = reel_render.Deps(run=lambda c: cmds.append(c))
+    out = reel_render._loop_track(tmp / "base.mp4", 30.0, 100.0, cfg, fake, tmp)
+    fc = cmds[-1][cmds[-1].index("-filter_complex") + 1]
+    check("2011: الشريط المتكرر بتلاشٍ وطول المطلوب",
+          out.name == "bg_loop.mp4" and fc.count("xfade=transition=fade") == 3 and "offset=87.000" in fc
+          and cmds[-1][cmds[-1].index("-t") + 1] == "100.000", fc)
+    import re as _re
+    src = Path(reel_render.__file__).read_text(encoding="utf-8")
+    check("2011: لا settb قبل xfade بلا fps (عطل libx264 -22 في شريط الخلفية منذ ريل 1890)",
+          not _re.search(r"settb=AVTB\[", src) and "settb=AVTB,fps=" in fc + src)
+    check("2011: فيديو يكفي الريل لا يُكرَّر", reel_render._loop_track(tmp / "b.mp4", 120.0, 100.0, cfg, fake, tmp) == tmp / "b.mp4")
+
+    # (4) الانتقال تلاشٍ مع الخلفية المتصلة، والقديم بلا تغيير
+    check("2011: الانتقال تلاشٍ", reel_render._transition_kind(cfg, "narration") == "fade"
+          and reel_render._transition_kind(load_config(), "narration") == load_config().path("reel.render.transition.type"))
+
+    # (5) فيديو الخلفية: لقطة الهوك أول قطعة؛ أقل من الحد ← صورة
+    seen = {}
+
+    def fake_build(seq, total, nar_bg, nar_plan, files, c, deps, tmp_, notes, retime=False):
+        seen["seq"], seen["retime"] = [dict(p) for p in seq], retime
+        return tmp_ / "bg_track.mp4"
+
+    orig_build, orig_loop = reel_render._build_bg_track, reel_render._loop_track
+    reel_render._build_bg_track = fake_build
+    reel_render._loop_track = lambda base, bl, need, c, d, t: (seen.__setitem__("need", need), t / "bg_loop.mp4")[1]
+    try:
+        meta, notes = {}, []
+        draft = {"hook_video": {"video_id": "hv1", "start": 40, "end": 60, "channel": "قناة الحدث"}}
+        path = reel_render._continuous_track([], {"scenes": []}, None, set(), {}, {}, {}, {}, None, tmp / "nar.png", pl,
+                                             draft, cfg, fake, tmp, 0.35, notes, meta)
+        check("2011: لقطة الهوك أول قطعة في الفيديو المتصل والتكرار حتى طول الريل",
+              path is not None and path.name == "bg_loop.mp4" and seen["seq"][0]["how"] == "hook"
+              and seen["seq"][0]["start"] == 40.0 and seen["retime"] and meta["bg_track"]["continuous"]
+              and seen["need"] >= 20 and any("خلفية واحدة متصلة" in n for n in notes), (seen, meta, notes))
+        short = {"hook_video": {"video_id": "hv1", "start": 40, "end": 48}}
+        check("2011: فيديو أقصر من الحد ← صورة",
+              reel_render._continuous_track([], {"scenes": []}, None, set(), {}, {}, {}, {}, None, tmp / "nar.png", pl,
+                                            short, cfg, fake, tmp, 0.35, [], {}) is None)
+    finally:
+        reel_render._build_bg_track, reel_render._loop_track = orig_build, orig_loop
+
+    # (6) كل مشهد يأخذ الخلفية عند بدايته في الريل المضموم (مجموع ما قبله ناقص انتقال لكل مشهد)
+    calls = []
+    saved = {k: getattr(reel_render, k) for k in ("_prune_mismatched", "_band_notes", "_speech", "_pan_background",
+                                                    "_hook_scene", "_timed_scene", "_qcard_scene", "_closing_scene",
+                                                    "_narration_frames")}
+    reel_render._prune_mismatched = lambda script, clips, *a, **k: (clips, set())
+    reel_render._band_notes = lambda *a, **k: None
+    reel_render._speech = lambda text, *a, **k: (tmp / "a.wav", [(text, 2.0)])
+    reel_render._pan_background = lambda wide, plan, t, name: t / name
+    reel_render._narration_frames = lambda *a, **k: [(tmp / "f.png", 2.0)]
+
+    def hook(*a, cont_bg=None, **k):
+        calls.append(("hook", 0.0, cont_bg is not None))
+        return 5.0
+
+    def timed(frames, audio, out, c, deps, t, tail, lead, bg_png=None, bg_start=0.0, bg_pan=(0, 0), **k):
+        calls.append(("narration", bg_start, len(bg_pan) == 3))
+        return 4.0
+
+    def qcard(i, scene, audio, parts, out, c, deps, t, lead, nar_bg, nar_plan, bg_start, broll=None):
+        calls.append(("qcard", bg_start, nar_bg is not None))
+        return 3.0
+
+    def closing(*a, cont_bg=None, bg_start=0.0, **k):
+        calls.append(("closing", bg_start, cont_bg is not None))
+        return 6.0
+
+    reel_render._hook_scene, reel_render._timed_scene = hook, timed
+    reel_render._qcard_scene, reel_render._closing_scene = qcard, closing
+    try:
+        script = {"title": "سؤال", "scenes": [{"kind": "title_card", "text": "سؤال"},
+                                              {"kind": "narration", "role": "context", "text": "سياق."},
+                                              {"kind": "narration", "role": "question", "text": "سؤال أول؟"},
+                                              {"kind": "question", "text": "ختام؟"}, {"kind": "outro"}]}
+        bg = {"wide": Image.new("RGB", (2400, 1960)), "wide_cx": 1200}
+        notes = []
+        reel_render._assemble(script, {}, cfg, fake, tmp, "female", bg=bg, notes=notes, draft={}, meta={})
+    finally:
+        for k, f in saved.items():
+            setattr(reel_render, k, f)
+    lead = reel_render.transition_seconds(cfg)
+    want = [0.0, 5 - lead, 9 - 2 * lead, 12 - 3 * lead]
+    check("2011: كل مشهد عند زمنه في الريل وبالخلفية الواحدة",
+          [c[0] for c in calls] == ["hook", "narration", "qcard", "closing"]
+          and all(abs(c[1] - w) < 1e-6 for c, w in zip(calls, want)) and all(c[2] for c in calls), calls)
+    check("2011: سطر الصورة ذهابًا وإيابًا بلا فيديو", any("ذهابًا وإيابًا" in n for n in notes), notes)
+    old_cfg = copy.deepcopy(cfg)
+    old_cfg["reel"]["render"]["continuous_bg"]["enabled"] = False
+    check("2011: false ← الخلفية القديمة", not reel_render.continuous_bg(old_cfg))
+
+
 def test_reel_deadline_cache_1919() -> None:
     """تشغيلتا «تركيب الريل» في 19/11 قُتلتا بمهلة الوظيفة (60 دقيقة) كما قُتل 973764aabdfe أربع مرات منذ 17/11: ميزانية #1922
     تحسب من بداية التركيب وخطوة الأسئلة قبله أكلت 17 دقيقة، ومسح اللقطات بدأ «في وقته» ثم صمت 25 دقيقة، والقتل لا يُسجّل

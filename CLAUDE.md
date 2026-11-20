@@ -3672,3 +3672,23 @@ arabic ×4 وturkish وpersian ×2 ولم تصل الإسرائيلية ولا �
   لم يُنزَّل أي مقطع ← التأجيل القديم (عطل عام لا مقطع معيب).
 - **`reel.render.retried_last`:** داخل مجموعة المنتظر، ما له `render_attempts > 0` بعد ما لم يُجرَّب.
 - `tests.helpers.load_config` يطفئهما (اختبارات #1404/#1423)؛ الاختبار `tests/test_youtube.py:test_reel_skip_bad_clip_1919`. `render_version` بلا تغيير.
+
+## خلفية واحدة متصلة على الريل كله (طلب صاحب المشروع 20/11) — `reel_render.pingpong_plan`، `_continuous_track`، `_loop_track`
+
+لقطة ريل 68c94cc15e39: الانتقال بين الهوك والسياق والتحليل يبدّل الخلفية، لأن لكل مشهد خلفيته (الهوك لقطته وخطة حركته، والراوي ساعة
+تتوقف في اللوحات، والختام نافذته) والانزلاق `slideleft` يحرّك الإطار كله. `reel.render.continuous_bg` (false ← كما كان). `render_version` = 82
+(للقادم فقط، S11). الاختبار `tests/test_youtube.py:test_reel_continuous_bg_2011`؛ `tests.helpers.load_config` يطفئه و`continuous_bg_cfg` يعيده.
+
+- **مصدر واحد وساعة الريل نفسها:** في `_assemble` كل مشهد يأخذ الخلفية عند بدايته في الريل المضموم `g = Σ المدد السابقة − lead × عددها` (كما يحسب
+  `_join`)، فالمشهدان المتجاوران يرسمان الإطار نفسه طوال التلاشي؛ الهوك (`_hook_scene(cont_bg=)` عند 0، بلا تنزيل `hook_video` ولا صوته)، والراوي،
+  وبطاقة السؤال، ولوحة الإجابة الواحدة، والختام (`_closing_scene(cont_bg=, bg_start=g)` يكمل ثم يمتزج في آخر `closing.join_mix` بإطار الريل الأول عند
+  0 فيتصل عند الإعادة). لوحة الإجابات المتعددة بلاطاتها تغطي الشاشة فلا خلفية فيها، والساعة تمضي معها. الانتقال كله `continuous_bg.transition` (fade).
+- **الصورة:** `pingpong_plan` بسرعة `narration_bg.pan_speed` بلا تخفيض، وتكبير حتى `max_zoom` فقط إن قصر المدى عن `min_room_seconds`؛ `pingpong_x` موجة
+  مثلثية (يسارًا حتى 0 ثم يمينًا حتى المدى…) وتوأمها `_pan_x_expr(..., room=)` (`abs(R-mod(c+v·t,2R))`)؛ `_pan_of(plan)` يمرّر المدى، والخطة القديمة بلا مدى
+  تعبيرها كما كان حرفًا.
+- **الفيديو:** `_continuous_track`: لقطة الهوك أولًا ثم قطع الحدث التي أسندها شريط الخلفية (خ1) متلاصقة بلا صورة بينها (`_build_bg_track(retime=True)`
+  تحذف القطعة الفاشلة وتلصق البقية)، إن بلغت `min_video_seconds`؛ ثم `_loop_track` يكرّرها بتلاشٍ `loop_mix` بين النهاية والبداية (`loop_offsets`) حتى
+  تقدير مدة الريل + `margin_seconds` بسقف `max_seconds`. أقل من الحد أو عطل ← الصورة ذهابًا وإيابًا. لا لقطة فوق جملة في هذا الوضع (`scene_broll = {}`،
+  والخرائط باقية). يُحفظ `render_bg_track.continuous` وسطرا `comment_bg_continuous_video/image`.
+- **عطل قديم أُصلح معه:** `settb=AVTB` قبل `xfade` يُسقط معدّل الإطارات فيرفضه ffmpeg («constant frame rate … 1/0»)؛ هذا عطل «libx264 -22 Invalid
+  argument» في شريط الخلفية (خ1) وختام `track` منذ ريل 1890 كلما كان فيه مصدران. صار `settb=AVTB,fps=…` (جُرّب على ffmpeg 7.0.2).
