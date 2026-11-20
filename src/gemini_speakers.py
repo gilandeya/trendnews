@@ -24,7 +24,9 @@ SCHEMA = {
             "required": ["name_ar", "is_host", "name_source"]}},
         "windows": {"type": "ARRAY", "items": {"type": "OBJECT", "properties": {
             "id": {"type": "STRING"}, "speaker": {"type": "STRING"}, "one_speaker": {"type": "BOOLEAN"},
-            "evidence": {"type": "STRING"}},
+            "evidence": {"type": "STRING"},
+            # ريل 8f6a0649b60c: صوت شي جين بينغ والكاميرا على بوتين. هل يُرى المتكلم نفسه وهو يتكلم؟
+            "speaker_on_screen": {"type": "STRING", "enum": ["most", "partly", "none"]}},
             "required": ["id", "speaker", "one_speaker"]}},
     },
     "required": ["speakers", "windows"],
@@ -73,7 +75,15 @@ def verdicts(data: dict, cfg) -> dict[str, dict]:
     people = {" ".join(str(s.get("name_ar") or "").split()): s for s in data.get("speakers") or [] if isinstance(s, dict)}
     out = {}
     for w in data.get("windows") or []:
-        if not isinstance(w, dict) or not w.get("one_speaker"):
+        if not isinstance(w, dict):
+            continue
+        # المتكلم لا يُرى في نافذته (الكاميرا على غيره): حكم بصري لا يحتاج اسمًا مقبولًا، فيُعاد وحده ولو لم يُعرف القائل؛
+        # الاسم تحت وجه رجل آخر نسبةُ كلام إلى غير قائله أيًّا كان القائل
+        if w.get("speaker_on_screen") == "none":
+            out[str(w.get("id"))] = {"off_screen": True, "name": " ".join(str(w.get("speaker") or "").split()),
+                                     "evidence": " ".join(str(w.get("evidence") or "").split()), "source": "", "is_host": False}
+            continue
+        if not w.get("one_speaker"):
             continue
         name = " ".join(str(w.get("speaker") or "").split())
         rec = people.get(name) or {}

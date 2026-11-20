@@ -43,7 +43,9 @@ SCHEMA = {
             "delivery": {"type": "STRING", "enum": ["own", "read"]},
             # قضية 1904: إجابات الأسئلة للضيوف والمحللين وحدهم. من يدير الحوار أو يقرأ الخبر أو ينقله موظفًا في القناة ليس محللًا،
             # والحكم لمن يرى الحلقة (النموذج) لا لكلمات الصفة: «مراسل صحيفة كذا» ضيفٌ في برنامج قناة أخرى
-            "speaker_kind": {"type": "STRING", "enum": list(SPEAKER_KINDS)}},
+            "speaker_kind": {"type": "STRING", "enum": list(SPEAKER_KINDS)},
+            # ريل 8f6a0649b60c: صوت شي جين بينغ والكاميرا على بوتين فقُصّ وجه بوتين تحت اسمه. هل يُرى صاحب الكلام وهو يتكلم؟
+            "speaker_on_screen": {"type": "STRING", "enum": ["most", "partly", "none"]}},
             "required": ["start", "end", "speaker", "type", "summary_ar", "text_original", "text_ar", "setting", "delivery",
                          "speaker_kind"]}},
     },
@@ -159,7 +161,10 @@ def to_bites(data: dict, video_id: str, topic: str, cfg, duration: float | None 
                    "source_channel": " ".join(str(b.get("source_channel") or "").split()),
                    # طرف في الحدث يتكلم عنه (مسؤول، نائب، متحدث رسمي) أم محلل يعلّق عليه: الأول مادة السياق لا إجابة سؤال (12/11)
                    "voice": "actor" if str(b.get("voice") or "") == "actor" else "analyst",
-                   "delivery": "read" if str(b.get("delivery") or "") == "read" else "own"})
+                   "delivery": "read" if str(b.get("delivery") or "") == "read" else "own",
+                   # غائب أو قيمة خارج القائمة ← فارغ (لا حكم، فلا يُعامل كأنه لا يُرى)
+                   "on_screen": str(b.get("speaker_on_screen") or "") if str(b.get("speaker_on_screen") or "")
+                   in ("most", "partly", "none") else ""})
     return ok, bad
 
 
@@ -187,3 +192,9 @@ def extract(video_id: str, topic: str, meta: dict, cfg, key: str, post=None) -> 
         out["error"] = f"Gemini {type(exc).__name__}: {str(exc)[:150]}"
         log.warning("مقاطع Gemini %s: %s", video_id, out["error"])
     return out
+
+
+def unseen(b: dict) -> bool:
+    """صاحب الكلام لا يُرى وهو يقوله: يقرؤه غيره (delivery read)، أو صوته والكاميرا على غيره (on_screen none، ريل
+    8f6a0649b60c). كلاهما يُبحث له عن ظهور صاحبه بصوته، وما لم يوجد له أصل يُترك (قصّ الوجه المتكلم يضع اسمه تحت وجه غيره)."""
+    return b.get("delivery") == "read" or b.get("on_screen") == "none"

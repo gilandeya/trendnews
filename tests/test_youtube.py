@@ -9347,3 +9347,102 @@ def test_reel_auto_continue_1954() -> None:
         check("1954: مطفأً لا إطلاق", reel_render.continue_pending(off, dispatch=lambda: calls.append(1)) == [] and not calls)
     finally:
         reel_render.queued_reels = saved
+
+
+def test_reel_offscreen_mapverify_2011() -> None:
+    """ريل 8f6a0649b60c (20/11): (1) صوت شي جين بينغ والكاميرا على بوتين فقُصّ وجه بوتين تحت اسم شي؛ (2) «خرج القادة الثلاثة بصور
+    تاريخية» رسمت خريطة مدينة صور اللبنانية."""
+    import copy
+
+    from src import gemini_bites, gemini_speakers, meta_original, meta_qa, reel_map, reel_render
+    from src.config import load_config as real_load
+
+    cfg = real_load()
+    # (1أ) التركيب: Gemini يقول إن المتكلم لا يُرى ← حذف ولو لم يُعرف اسمه بمصدر مقبول
+    data = {"speakers": [{"name_ar": "شي جين بينغ", "is_host": False, "name_source": "addressed"}],
+            "windows": [{"id": "p1", "speaker": "شي جين بينغ", "one_speaker": True, "speaker_on_screen": "none",
+                         "evidence": "الكاميرا على بوتين"},
+                        {"id": "p2", "speaker": "شي جين بينغ", "one_speaker": True, "speaker_on_screen": "most"}]}
+    got = gemini_speakers.verdicts(data, cfg)
+    check("المتكلم لا يُرى ← حكم off_screen بلا اسم مقبول، والظاهر بمصدر غير مقبول بلا حكم",
+          got.get("p1", {}).get("off_screen") is True and "p2" not in got, got)
+    check("الحقل في مخطط Gemini (المخرج المقيَّد بمخطط لا يعيد غيره)",
+          "speaker_on_screen" in gemini_speakers.SCHEMA["properties"]["windows"]["items"]["properties"]
+          and "speaker_on_screen" in gemini_bites.SCHEMA["properties"]["bites"]["items"]["properties"])
+    script = {"scenes": [{"kind": "clip", "point_id": "p1", "speaker_name": "شي جين بينغ", "speaker_verified": True,
+                          "speaker_text": "شي جين بينغ", "channel_display": "بي بي سي الصينية"}]}
+    meta = {"gemini_speakers": [{"point_id": "p1"}]}
+    decided, drop = reel_render._apply_gemini(0, script, [0], {0: {}}, {}, got["p1"], cfg, [], meta)
+    check("التركيب يحذف المقطع بسبب يقول ذلك", decided and drop and drop["reason_key"] == "drop_off_screen"
+          and "شي جين بينغ" in cfg.path("reel.render.texts")[drop["reason_key"]].format(**drop), drop)
+    off = copy.deepcopy(cfg)
+    off["reel"]["render"]["gemini_speaker"]["drop_off_screen"] = False
+    check("مطفأً لا يُحسم بهذا الحكم", reel_render._apply_gemini(0, script, [0], {0: {}}, {}, got["p1"], off, [], meta)
+          == (False, None))
+
+    # (1ب) الاستخراج: لا يُرى ← يُبحث عن ظهوره بصوته، وما لم يوجد يُترك قبل الأسئلة
+    raw = {"speakers": [{"name_ar": "شي جين بينغ", "name_original": "Xi Jinping", "role": "الرئيس الصيني", "is_host": False,
+                         "name_source": "introduced"}],
+           "bites": [{"start": "84:04", "end": "84:22", "speaker": "شي جين بينغ", "type": "opinion", "summary_ar": "ص",
+                      "answers": "س", "text_original": "世界百年变局加速演进", "text_ar": "تتسارع التغيرات العالمية الكبرى",
+                      "audio": "original", "voice": "actor", "setting": "external", "delivery": "own", "speaker_kind": "guest",
+                      "speaker_on_screen": so} for so in ("none",)]}
+    ok, bad = gemini_bites.to_bites(raw, "74s64dyd5bk", "قمة شنتشن", cfg, 9000)
+    check("الحكم يُحفظ على المقطع", len(ok) == 1 and ok[0]["on_screen"] == "none" and gemini_bites.unseen(ok[0]), (ok, bad))
+    check("هدف للبحث عن الأصل", meta_original.is_target({**ok[0], "channel": "بي بي سي الصينية"}, cfg))
+    stats: dict = {}
+    kept = meta_qa.drop_read([ok[0], {**ok[0], "original_of": {"video_id": "x"}, "on_screen": "most"},
+                              {**ok[0], "on_screen": "partly"}], cfg, stats)
+    check("بلا أصل يُترك، والأصل والظاهر بعضه يبقيان", len(kept) == 2 and stats.get("read_dropped") == 1, (kept, stats))
+    off2 = copy.deepcopy(cfg)
+    off2["youtube"]["meta_topics"]["qa"]["gemini"]["drop_off_screen"] = False
+    check("مطفأً يبقى", len(meta_qa.drop_read([ok[0]], off2, {})) == 1)
+
+    # (2) الخريطة: الحكم لنموذج يقرأ الجملة
+    sentence = "من شنتشن خرج القادة الثلاثة بصور تاريخية وبيان عام."
+    entry = {"scene": 7, "sentence": 0, "text": sentence}
+    check("المعجم وحده يجد «صور»", (reel_map.detect(sentence, cfg) or {}).get("places") == ["صور"])
+    calls = []
+
+    def fake(verdict):
+        def judge(names, sentence_, cfg_, client=None):
+            calls.append(names)
+            if verdict is None:
+                raise RuntimeError("انقطاع")
+            return {n: verdict.get(n, True) for n in names}
+        return judge
+    saved = reel_map.judge_places
+    try:
+        reel_map._VERIFY_CACHE.clear()
+        reel_map.judge_places = fake({"صور": False})
+        check("ليست مكانًا ← لا خريطة", reel_map.spec_for(entry, sentence, "context", cfg) is None)
+        check("وتُسجَّل للتعليق", reel_map.not_places(entry, sentence, "context", cfg) == ["صور"])
+        check("نداء واحد للجملة (ذاكرة)", len(calls) == 1, calls)
+        other = "قصفت إسرائيل مدينة صور في جنوب لبنان."
+        e2 = {"text": other}
+        reel_map.judge_places = fake({})
+        spec = reel_map.spec_for(e2, other, "context", cfg)
+        check("«صور» المدينة تبقى حين يحكم أنها مكان", spec and "صور" in spec["places"], spec)
+        reel_map._VERIFY_CACHE.clear()
+        reel_map.judge_places = fake(None)
+        spec = reel_map.spec_for(e2, other, "context", cfg)
+        check("عطل النداء ← تُحذف المدن وتبقى الدول", spec and spec["places"] == [] and spec["countries"], spec)
+        vo = copy.deepcopy(cfg)
+        vo["reel"]["maps"]["auto_detect"]["verify"]["enabled"] = False
+        check("مطفأً كما كان", (reel_map.spec_for(entry, sentence, "context", vo) or {}).get("places") == ["صور"])
+        reel_map._VERIFY_CACHE.clear()
+        check("اقتراح النموذج نفسه لا يُفحص (يقرأ الجملة أصلًا)",
+              reel_map.spec_for({"map": {"places": ["صور"]}}, sentence, "context", cfg) == {"places": ["صور"]})
+    finally:
+        reel_map.judge_places = saved
+        reel_map._VERIFY_CACHE.clear()
+
+    # النداء الحقيقي يقرأ رد الأداة (نصًا JSON أيضًا، درس #1741)
+    from types import SimpleNamespace
+    saved_c = reel_map._verify_create
+    try:
+        reel_map._verify_create = lambda client, **kw: SimpleNamespace(content=[SimpleNamespace(
+            type="tool_use", input={"items": '[{"name": "صور", "is_place": false}]'})])
+        check("judge_places يقرأ الأداة", reel_map._judge_places_real(["صور"], sentence, cfg) == {"صور": False})
+    finally:
+        reel_map._verify_create = saved_c

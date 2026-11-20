@@ -3744,3 +3744,17 @@ arabic ×4 وturkish وpersian ×2 ولم تصل الإسرائيلية ولا �
 (خطوة بعد الإيداع، درس W5) يطلق التركيب مرة إن بقي ريل `queued` جُرّب قبلُ (`render_attempts > 0`) ولم يبلغ `max_attempts` — السلسلة محدودة بالمحاولات،
 وما لم يُجرَّب له إطلاقه من الاعتماد. العطل تحذير لا يرفع. `reel.render.deadline.auto_continue` (false ← يدويًا). **تشغيليًا:** `reel-render.yml` يحتاج
 `permissions: actions: write` وخطوة أخيرة بعد الرفع (يضيفها صاحب المشروع بيده). الاختبار `tests/test_youtube.py:test_reel_auto_continue_1954`.
+
+## المتكلم لا يُرى، واسم مكان هو كلمة عادية (ريل 8f6a0649b60c، 20/11) — `tests/test_youtube.py:test_reel_offscreen_mapverify_2011`
+
+الحادثة: (1) مقطع شي جين بينغ من BBC الصينية: صوته والكاميرا على بوتين، فاختار قصّ الوجه المتكلم وجه بوتين الوحيد في الصورة وكُتب تحته
+«شي جين بينغ»؛ وGemini أكّد القائل بالصوت فلم يمنعه شيء. (2) «خرج القادة الثلاثة بصور تاريخية» رسمت خريطة مدينة صور اللبنانية: المعجم
+(`reel_map.detect`) يطابق الحروف ولا يعرف المعنى.
+- **المتكلم لا يُرى:** حقل `speaker_on_screen` (most · partly · none) في مخطط Gemini للاستخراج (`gemini_bites.SCHEMA` ← `on_screen` على المقطع)
+  وللتركيب (`gemini_speakers.SCHEMA`). الاستخراج: `gemini_bites.unseen` (يقرؤه غيره أو none) هدف بحث عن ظهوره بصوته (`meta_original.is_target`،
+  بأولوية المقروء)، وما لم يوجد له أصل يُترك في `meta_qa.drop_read` (`qa.gemini.drop_off_screen`). التركيب: `verdicts` تعيد `off_screen` لنافذة
+  none ولو لم يُعرف الاسم بمصدر مقبول، و`_apply_gemini` يحذف المقطع (`drop_off_screen`، `reel.render.gemini_speaker.drop_off_screen`). partly يبقى.
+- **التحقق من أماكن الخريطة:** ما يجده `detect` (جملة لم يقترح لها النموذج خريطة) يمرّ بـ`reel_map.verify_auto`: نداء Haiku لكل جملة (`judge_places`،
+  أداة `judge_places`، ذاكرة `_VERIFY_CACHE` للجملة) يحكم هل الاسم فيها مكان؛ ما ليس مكانًا يُحذف، وبلا حكم أو عطل تُحذف المدن وتبقى الدول
+  (`reel.maps.auto_detect.verify.on_error: drop_places`). `not_places` للتعليق (`comment_map_not_place`) و`render_maps[..].not_place`. اقتراح النموذج
+  في خطة اللقطات لا يُفحص (قرأ الجملة أصلًا). `tests.helpers.install_fakes` يزيّف `judge_places` بقبول الكل. `render_version` بلا تغيير.
