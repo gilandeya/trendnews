@@ -25348,8 +25348,12 @@ def test_reel_clash_hook_guards() -> None:
     from PIL import Image
     from src import reel_clash, reel_render, reel_script, youtube_publish
     from tests.helpers import _real_load_config
+    import copy as _copy
 
     cfg = load_config()
+    # الهوك أُوقف في config.yaml (19/11) والاختبار لآلته وهي باقية خلف المفتاح
+    cfg = _copy.deepcopy(cfg)
+    cfg["reel"]["render"]["clash"]["enabled"] = True
 
     def guarded(name, fn):
         try:
@@ -25466,7 +25470,8 @@ def test_reel_clash_hook_guards() -> None:
         d2 = {"script": {"scenes": [{**sa, "speaker_verified": False}]}}
         reel_clash.plan(d2, cfg, client=object())
         check("g886: لا متحدث موثَّق ← خطأ والهوك القديم", "error" in d2.get("hook_clash", {}), d2)
-        check("g886: config.yaml يفعّله ونسخة التركيب 72", _real_load_config().path("reel.render.clash.enabled") is True
+        # أُوقف بطلب صاحب المشروع 19/11: الهوك هو السؤال المباشر على خلفية الحدث، والبطاقة الذهبية خلف المفتاح
+        check("g886: config.yaml يوقفه (19/11) ونسخة التركيب 72", _real_load_config().path("reel.render.clash.enabled") is False
               and int(_real_load_config().path("reel.render.version")) >= 72)
     guarded("g886", g886)
 

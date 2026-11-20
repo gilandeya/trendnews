@@ -7055,6 +7055,8 @@ def test_reel_scenario_fallbacks_1313() -> None:
     from src.config import load_config as real_load
 
     cfg = real_load()
+    # الهوك أُوقف في config.yaml (19/11) والاختبار لآلته وهي باقية خلف المفتاح
+    cfg = _cfg_with(cfg, "reel.render.clash.enabled", True)
     # (1) هوك المواجهة: جملة صالحة من زوج سقط طرفه الآخر تصير هوكًا بورقة واحدة
     toks = [chr(0x0628 + k // 6) + chr(0x0628 + k % 6) + "ة" for k in range(40)]
     words = " ".join(toks)
@@ -8858,6 +8860,8 @@ def test_reel_clash_1929() -> None:
     from src.config import load_config as real_load
 
     cfg = real_load()
+    # الهوك أُوقف في config.yaml (19/11) والاختبار لآلته وهي باقية خلف المفتاح
+    cfg = _cfg_with(cfg, "reel.render.clash.enabled", True)
     # (1) حدود الجملة: نصف الفاصلة الفارسية لا تقسم الكلمة، والرسم الآخر لكلمة طويلة يُقبل، وما يُعرض كلمات الكلام نفسها
     fa = "اینکه آیا این نشست مثل یالتاست، من این رو به دو دلیل رد می‌کنم. یکی اینکه در زمان کنفرانس"
     loc = reel_clash.locate(fa, "اینکه آیا این نشست", "دو دلیل رد میکنم", cfg)
