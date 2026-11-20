@@ -11,13 +11,6 @@ permissions:
   issues: write
   actions: write
 
-# خطوة أخيرة بعد «رفع الريلز إلى مستودع البيانات الخاص»:
-      - name: تشغيلة تالية لما أوقفه الموعد
-        if: always()
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python -m src.reel_render --continue
-
 concurrency:
   group: trendnews-reel-render
   cancel-in-progress: false
@@ -144,3 +137,9 @@ jobs:
             sleep $((i * 7))
           done
           exit 1
+
+      - name: تشغيلة تالية لما أوقفه الموعد
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python -m src.reel_render --continue
