@@ -9307,3 +9307,43 @@ def test_meta_qa_depth_1938() -> None:
     msg = meta_qa.plan_message(topic, [{"channel": "BBC", "speaker": "غاردنر", "type": "fact", "start": 0, "end": 20,
                                         "summary_ar": "ملخص", "text_ar": "كلام", "answers": "ما المطروح في القمة؟"}])
     check("1938: المقطع يحمل إلى نداء الأسئلة السؤال الذي يجيبه", "يجيب عن: ما المطروح في القمة؟" in msg, msg)
+
+
+def test_reel_auto_continue_1954() -> None:
+    """قضية 1954: أوقف موعد التوقف تركيب الريل وقال التعليق «يُعاد في التشغيلة التالية»، ولا تشغيلة تالية لأن التركيب لا يجري
+    إلا بإطلاق؛ فبقي queued بلا أحد يركّبه. `--continue` بعد الإيداع يطلقه مرة لما جُرّب ولم يبلغ max_attempts."""
+    import copy
+    from pathlib import Path
+
+    from src import reel_render
+    from src.config import Config, load_config as real_load
+
+    base = real_load()
+    check("1954: الإطلاق التالي مفعّل في الإنتاج", base.path("reel.render.deadline.auto_continue") is True)
+    cfg = Config(dict(base))
+    limit = int(cfg.path("reel.render.max_attempts", 3))
+
+    def reel(i, **kw):
+        return (Path(f"/x/{i}.json"), {"format": "reel", "status": "approved_script", "render_status": "queued", **kw})
+    rows = [reel("timed", render_attempts=1), reel("fresh"), reel("last", render_attempts=limit),
+            reel("rendered", render_status="rendered", render_attempts=1)]
+    saved = reel_render.queued_reels
+    calls = []
+    try:
+        reel_render.queued_reels = lambda cfg_=None: rows
+        got = reel_render.continue_pending(cfg, dispatch=lambda: calls.append(1))
+        check("1954: يُطلق مرة واحدة لما أوقفه الموعد وحده، لا لما لم يُجرَّب ولا لما بلغ آخر محاولاته",
+              got == ["timed"] and calls == [1], (got, calls))
+        rows[:] = [reel("fresh")]
+        calls.clear()
+        check("1954: لا ريل جُرّب ← لا إطلاق", reel_render.continue_pending(cfg, dispatch=lambda: calls.append(1)) == [] and not calls)
+
+        def boom():
+            raise RuntimeError("403")
+        rows[:] = [reel("timed", render_attempts=1)]
+        check("1954: عطل الإطلاق لا يرفع", reel_render.continue_pending(cfg, dispatch=boom) == [])
+        off = copy.deepcopy(cfg)
+        off["reel"]["render"]["deadline"]["auto_continue"] = False
+        check("1954: مطفأً لا إطلاق", reel_render.continue_pending(off, dispatch=lambda: calls.append(1)) == [] and not calls)
+    finally:
+        reel_render.queued_reels = saved

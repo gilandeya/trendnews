@@ -7962,15 +7962,48 @@ def retry(draft_id: str, cfg) -> bool:
     return True
 
 
+def continue_pending(cfg, dispatch=None) -> list[str]:
+    """تشغيلة تالية لما أوقفه موعد التوقف (قضية 1954، 20/11): التعليق يقول «يُعاد في التشغيلة التالية» ولا تشغيلة تالية،
+    لأن «تركيب الريل» لا يجري إلا بإطلاق، فبقي الريل queued بلا أحد يركّبه. بعد الإيداع (خطوة مستقلة) يُطلق التركيب مرة إن بقي
+    ريل منتظر جُرّب قبلُ (render_attempts > 0) ولم يبلغ max_attempts؛ فالسلسلة محدودة بعدد المحاولات وريل لم يُجرَّب بعد له
+    إطلاقه من الاعتماد. يعيد معرّفات ما أُطلق له، ولا يرفع. `deadline.auto_continue: false` ← لا شيء."""
+    if not cfg.path("reel.render.deadline.auto_continue", False):
+        return []
+    limit = int(cfg.path("reel.render.max_attempts", 3))
+    ids = [p.stem for p, d in queued_reels(cfg)
+           if d.get("render_status") == "queued" and d.get("status") == "approved_script"
+           and 0 < int(d.get("render_attempts") or 0) < limit]
+    if not ids:
+        return []
+    try:
+        if dispatch is None:
+            from . import review
+            ref = os.environ.get("GITHUB_REF_NAME") or "main"
+            review.dispatch_workflow(str(cfg.path("reel.render.workflow_file", "reel-render.yml")), ref)
+        else:
+            dispatch()
+    except Exception as exc:  # noqa: BLE001 -- الإطلاق تحسين؛ الريل يبقى queued ويُشغَّل يدويًا
+        log.warning("تعذّر إطلاق تشغيلة تركيب تالية: %s", str(exc)[:150])
+        return []
+    log.info("أُطلقت تشغيلة تركيب تالية لـ: %s", ", ".join(ids))
+    return ids
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="تركيب الريل mp4 من السيناريو المعتمد (بلا نشر)")
     ap.add_argument("--pending", action="store_true", help="ركّب المنتظر (حتى reel.render.max_per_run)")
     ap.add_argument("--retry", metavar="ID", help="أعد ريلًا failed إلى queued")
     # الأسئلة في خطوة مستقلة قبل التركيب يتبعها رفعها (قضية 1847): وإلا بقيت في ذاكرة التشغيلة حتى ينتهي تركيب الريلات
     ap.add_argument("--skip-qa", action="store_true", help="لا تستخرج أسئلة المواضيع (خطوة مستقلة قبلها)")
+    # بعد إيداع المسودات (قضية 1954): الإطلاق قبل الإيداع يسحب main بلا حالة الريل (درس W5)
+    ap.add_argument("--continue", dest="cont", action="store_true", help="أطلق تشغيلة تالية لريل أوقفه موعد التوقف")
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     cfg = load_config()
+    if args.cont:
+        ids = continue_pending(cfg)
+        print(f"أُطلقت تشغيلة تالية لـ: {', '.join(ids)}" if ids else "لا ريل ينتظر تشغيلة تالية")
+        return 0
     if args.retry:
         ok = retry(args.retry, cfg)
         print(f"{'أُعيد إلى queued' if ok else 'لا ريل failed بهذا المعرّف'}: {args.retry}")
