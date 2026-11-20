@@ -2010,7 +2010,475 @@
     }
    ],
    "qa_requested_at": "2026-11-20T15:33:31.645403+00:00",
-   "selected_from": 1952
+   "selected_from": 1952,
+   "topic_issue": 1960,
+   "qa": {
+    "attempts": 1,
+    "at": "2026-11-20T15:35:47.233557+00:00",
+    "videos": [
+     {
+      "video_id": "2KRSUYSaLqA",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "minutes": 8.8,
+      "bites": 2,
+      "rejected": 0
+     },
+     {
+      "video_id": "Lnuk6KdW4PE",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "minutes": 23.9,
+      "bites": 1,
+      "rejected": 0
+     },
+     {
+      "video_id": "TKVYGB-9Ux8",
+      "channel": "CNN",
+      "bloc": "english",
+      "minutes": 3.7,
+      "bites": 2,
+      "rejected": 0
+     },
+     {
+      "video_id": "_cNMj6S2c1g",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "minutes": 16.4,
+      "bites": 2,
+      "rejected": 0
+     },
+     {
+      "video_id": "le_AiOFE3v0",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "minutes": 14.6,
+      "bites": 1,
+      "rejected": 0
+     },
+     {
+      "video_id": "jBI4_dETLTI",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "minutes": 6.0,
+      "bites": 2,
+      "rejected": 0
+     },
+     {
+      "video_id": "eXOQgx7xubQ",
+      "channel": "BBC News",
+      "bloc": "english",
+      "minutes": 3.3,
+      "bites": 1,
+      "rejected": 0
+     }
+    ],
+    "video_scores": {
+     "eXOQgx7xubQ": 2,
+     "TKVYGB-9Ux8": 2,
+     "-hwrWcUD3V0": 0,
+     "Lnuk6KdW4PE": 2,
+     "_cNMj6S2c1g": 1,
+     "hF1I_ZSG37w": 1,
+     "vwxkrAt3E8U": 1,
+     "rc4aP76rPwQ": 1,
+     "le_AiOFE3v0": 1,
+     "s3yd-a5C8CA": 1,
+     "iRmdnpbYN4Y": 0,
+     "HB3YG5y1JNg": 2,
+     "_rrmcy707oc": 1,
+     "2KRSUYSaLqA": 3,
+     "tFclyl5abHk": 2,
+     "y8qPD2Clm8Y": 2,
+     "bXxRKLo8u-w": 2,
+     "D4npiLHN-gs": 2,
+     "b5KpSrBT4vI": 1,
+     "SWCqlejp0pc": 0,
+     "LTNA4TzHFeI": 1,
+     "TZKhM5BMSro": 1,
+     "oR0rFdQ3w4A": 1,
+     "ZTl56pFq6-4": 2,
+     "hoHRUo3bJVI": 2,
+     "3-iOdYsixuc": 2,
+     "jBI4_dETLTI": 3
+    },
+    "gemini_cost": 0.3067,
+    "gemini_rejected": 0,
+    "channels": 7,
+    "answer_channels": 7,
+    "originals": [],
+    "originals_found": 0,
+    "read_dropped": 1,
+    "read_dropped_speakers": [
+     "?"
+    ],
+    "source": "gemini",
+    "failures": [],
+    "plan": {
+     "attempts": [
+      {
+       "model": "claude-sonnet-5",
+       "stop_reason": "tool_use",
+       "bites": 10,
+       "rows": 4,
+       "raw_type": "list",
+       "answers": 12,
+       "bad_n": 0,
+       "error": ""
+      }
+     ]
+    },
+    "verify": {
+     "checked": 10,
+     "ok": 10,
+     "no_match": 0,
+     "failed": 0,
+     "no_text": 0,
+     "left": 0,
+     "audio_seconds": 529,
+     "skipped": "",
+     "cut_off": 0,
+     "seconds": 204
+    },
+    "selected_seconds": 117.1,
+    "status": "ready",
+    "titles": [
+     "ما سر استهداف أمريكا لجزيرة قشم الإيرانية بالذات؟",
+     "هل تتحول ضربات قشم إلى حرب أوسع مع إيران؟",
+     "لماذا تخشى إيران على جزيرة قشم تحديدا؟"
+    ],
+    "questions": [
+     {
+      "text": "ما طبيعة الضربة الأمريكية على منصات الإطلاق في جزيرة قشم وحدودها؟",
+      "answers": [
+       {
+        "n": 3,
+        "fit": "direct",
+        "view": "استهداف محدود تجنب المدن الكبرى",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "Lnuk6KdW4PE:g721"
+       },
+       {
+        "n": 10,
+        "fit": "weak",
+        "view": "غارة ردا على استهداف أصول أمريكية",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "eXOQgx7xubQ:g247"
+       },
+       {
+        "n": 1,
+        "fit": "direct",
+        "view": "ضربة نوعية بمسيرات دقيقة رخيصة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "2KRSUYSaLqA:g76"
+       }
+      ]
+     },
+     {
+      "text": "ما الهدف الحقيقي الذي تسعى إليه الضربات الأمريكية على قشم؟",
+      "answers": [
+       {
+        "n": 6,
+        "fit": "direct",
+        "view": "ردع إيران عن فرض قواعد ملاحية",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "_cNMj6S2c1g:g405"
+       },
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "رد على مضايقات الطائرات المسيرة",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "le_AiOFE3v0:g1098"
+       },
+       {
+        "n": 4,
+        "fit": "direct",
+        "view": "تصويرها دفاعية لنفي التصعيد",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "TKVYGB-9Ux8:g34"
+       },
+       {
+        "n": 2,
+        "fit": "weak",
+        "view": "نقل الملف لوزير الخارجية الأمريكي",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "2KRSUYSaLqA:g107"
+       }
+      ]
+     },
+     {
+      "text": "لماذا تحظى جزيرة قشم بأهمية إستراتيجية تجعلها هدفا متكررا؟",
+      "answers": [
+       {
+        "n": 5,
+        "fit": "direct",
+        "view": "موقع استراتيجي لضرب السفن بهرمز",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "TKVYGB-9Ux8:g53"
+       },
+       {
+        "n": 9,
+        "fit": "direct",
+        "view": "منصة متقدمة لمناورة القوات البحرية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "jBI4_dETLTI:g299"
+       }
+      ]
+     },
+     {
+      "text": "هل تنذر هذه الضربات بتصعيد عسكري أوسع بين أمريكا وإيران؟",
+      "answers": [
+       {
+        "n": 7,
+        "fit": "direct",
+        "view": "لا تصعيد واسع بل تهدئة للدبلوماسية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "_cNMj6S2c1g:g435"
+       },
+       {
+        "n": 10,
+        "fit": "direct",
+        "view": "تصعيد متبادل يثير مخاوف الحرب",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "eXOQgx7xubQ:g247"
+       },
+       {
+        "n": 2,
+        "fit": "weak",
+        "view": "الضربة مؤشر تصعيد أمريكي ميداني",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "2KRSUYSaLqA:g107"
+       }
+      ]
+     }
+    ],
+    "context": [],
+    "bites": [
+     {
+      "bite_id": "2KRSUYSaLqA:g76",
+      "video_id": "2KRSUYSaLqA",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "صالح حميد",
+      "speaker_original": "صالح حميد",
+      "speaker_role": "مختص في الشؤون الإيرانية في شبكة العربية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 75.54,
+      "end": 96.94,
+      "summary_ar": "يرى صالح حميد أن الضربة الأمريكية على منصات إطلاق إيرانية في جزيرة قشم كانت نوعية، ورجح استخدام مسيرات دقيقة ورخيصة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "2KRSUYSaLqA:g107",
+      "video_id": "2KRSUYSaLqA",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "صالح حميد",
+      "speaker_original": "صالح حميد",
+      "speaker_role": "مختص في الشؤون الإيرانية في شبكة العربية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 106.24,
+      "end": 121.28,
+      "summary_ar": "يوضح صالح حميد أن دقة الضربة الأمريكية وحجمها في جزيرة قشم يشيران إلى تصعيد أمريكي وتغير ميداني وسياسي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "Lnuk6KdW4PE:g721",
+      "video_id": "Lnuk6KdW4PE",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "orientation": "فرنسي حكومي",
+      "speaker": "عادل بكوان",
+      "speaker_original": "Adel Bakawan",
+      "speaker_role": "مدير المعهد الأوروبي لدراسات الشرق الأوسط وشمال إفريقيا",
+      "is_host": false,
+      "type": "opinion",
+      "start": 721.72,
+      "end": 737.64,
+      "summary_ar": "يوضح أن الرد الأمريكي اقتصر على ضرب منصات إطلاق الصواريخ في جزيرة قشم وتجنب استهداف المدن الكبرى مثل طهران وكرمانشاه.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "TKVYGB-9Ux8:g34",
+      "video_id": "TKVYGB-9Ux8",
+      "channel": "CNN",
+      "bloc": "english",
+      "orientation": "أمريكي ليبرالي",
+      "speaker": "بولا هانكوكس",
+      "speaker_original": "Paula Hancocks",
+      "speaker_role": "مراسلة سي إن إن في أبوظبي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 34.62,
+      "end": 52.74,
+      "summary_ar": "ترى بولا هانكوكس أن المسؤولين الأمريكيين يحرصون على وصف ضرباتهم العسكرية بالدفاعية لنفي أي تصعيد.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "TKVYGB-9Ux8:g53",
+      "video_id": "TKVYGB-9Ux8",
+      "channel": "CNN",
+      "bloc": "english",
+      "orientation": "أمريكي ليبرالي",
+      "speaker": "بولا هانكوكس",
+      "speaker_original": "Paula Hancocks",
+      "speaker_role": "مراسلة سي إن إن في أبوظبي",
+      "is_host": false,
+      "type": "fact",
+      "start": 53.24,
+      "end": 72.42,
+      "summary_ar": "توضح بولا هانكوكس الأهمية الإستراتيجية لجزيرة قشم في مضيق هرمز لشن هجمات إيرانية ضد السفن ودول الجوار.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "_cNMj6S2c1g:g405",
+      "video_id": "_cNMj6S2c1g",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "ريتش أوتزن",
+      "speaker_original": "Rich Outzen",
+      "speaker_role": "زميل أول في المجلس الأطلسي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 405.44,
+      "end": 435.32,
+      "summary_ar": "يرى ريتش أوتزن أن الضربات الأمريكية في جزيرة قشم تأتي لردع المحاولات الإيرانية لفرض قواعد جديدة تعطل حرية الملاحة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "_cNMj6S2c1g:g435",
+      "video_id": "_cNMj6S2c1g",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "ريتش أوتزن",
+      "speaker_original": "Rich Outzen",
+      "speaker_role": "زميل أول في المجلس الأطلسي",
+      "is_host": false,
+      "type": "forecast",
+      "start": 435.52,
+      "end": 467.5,
+      "summary_ar": "يرى ريتش أوتزن أن الإدارة الأمريكية لا تخطط لتصعيد واسع بعد ضربات قشم بل تسعى لتهدئة تتيح للدبلوماسية تحقيق مكاسب سياسية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "le_AiOFE3v0:g1098",
+      "video_id": "le_AiOFE3v0",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "فرزين نديمي",
+      "speaker_original": "Farzin Nadimi",
+      "speaker_role": "باحث أول في الشؤون الدفاعية والأمنية بمعهد واشنطن",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1097.86,
+      "end": 1124.06,
+      "summary_ar": "يرى فرزين نديمي أن الضربات الأمريكية على جزيرتي قشم وسيري استهدفت الرد على مضايقات الطائرات المسيرة لا استهداف ناقلات النفط.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "jBI4_dETLTI:g299",
+      "video_id": "jBI4_dETLTI",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "مهند العزاوي",
+      "speaker_original": "مهند العزاوي",
+      "speaker_role": "محلل الشؤون السياسية والعسكرية في سكاي نيوز عربية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 298.8,
+      "end": 330.84,
+      "summary_ar": "مهند العزاوي يوضح الأهمية التكتيكية لجزيرة قشم الإيرانية كمنصة متقدمة لإطلاق الهجمات البحرية وسرعة المناورة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "eXOQgx7xubQ:g247",
+      "video_id": "eXOQgx7xubQ",
+      "channel": "BBC News",
+      "bloc": "english",
+      "orientation": "بريطاني عام",
+      "speaker": "كيتي واتسون",
+      "speaker_original": "Katy Watson",
+      "speaker_role": "مراسلة بي بي سي في القدس",
+      "is_host": false,
+      "type": "opinion",
+      "start": 247.1,
+      "end": 274.08,
+      "summary_ar": "المراسلة توضح أن الضربة الجوية الأمريكية استهدفت موقع إطلاق صواريخ في جزيرة قشم ردًا على استهداف أصول عسكرية، ما يثير مخاوف من تصعيد أوسع في ظل غياب أي أفق لاتفاق سلام.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     }
+    ],
+    "error": "",
+    "extracted": 10,
+    "cost": {
+     "claude": {
+      "claude-haiku-5-5": 0.00094,
+      "claude-sonnet-5": 0.02046
+     },
+     "gemini": 0.3067,
+     "proxy_bytes": 12823066
+    }
+   }
   },
   {
    "id": "d21f75931be9",
