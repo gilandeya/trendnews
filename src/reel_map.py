@@ -271,7 +271,95 @@ def spec_for(entry: dict, sentence: str, role: str | None, cfg) -> Any:
     acfg = cfg.path("reel.maps.auto_detect", {}) or {}
     if not acfg.get("enabled") or role not in (acfg.get("roles") or ["context"]):
         return None
-    return detect(sentence, cfg)
+    return verify_auto(detect(sentence, cfg), sentence, cfg)
+
+
+# ريل 8f6a0649b60c (20/11): «خرج القادة الثلاثة بصور تاريخية» رسمت خريطة مدينة صور اللبنانية. المعجم يطابق الحروف ولا يعرف
+# المعنى، وكثير من أسماء المدن كلمات عربية عادية (صور، العين، جدة، حماة، الرمادي)، فقائمة كلمات ممنوعة لا تنتهي ولا تصلح
+# («صور» مدينة في جملة أخرى). الحكم لنموذج يقرأ الجملة: هل الاسم هنا مكان؟ والكود يرسم ما قبله وحده
+_VERIFY_CACHE: dict[tuple, dict] = {}
+
+VERIFY_TOOL = {
+    "name": "judge_places",
+    "description": "لكل اسم: هل هو في هذه الجملة اسم مكان جغرافي.",
+    "input_schema": {"type": "object", "properties": {"items": {"type": "array", "items": {"type": "object", "properties": {
+        "name": {"type": "string"}, "is_place": {"type": "boolean"}}, "required": ["name", "is_place"]}}},
+        "required": ["items"]},
+}
+
+
+def _verify_create(client, **kwargs):
+    """نقطة نداء التحقق (يزيّفها الاختبار). llm.create يضبط معاملات Haiku ولا temperature."""
+    from . import llm
+    if client is None:
+        from anthropic import Anthropic
+        from .config import env
+        client = Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
+    return llm.create(client, **kwargs)
+
+
+def judge_places(names: list[str], sentence: str, cfg, client=None) -> dict[str, bool]:
+    """{الاسم: مكانٌ هنا؟} من نداء واحد للجملة. يرفع عند العطل أو رد بلا أداة (المستدعي يقرّر ما يفعل بلا حكم)."""
+    vcfg = cfg.path("reel.maps.auto_detect.verify", {}) or {}
+    from . import llm
+    msg = f"الجملة: {sentence}\nالأسماء: " + "، ".join(names)
+    resp = _verify_create(client, cfg=cfg, model=llm.resolve(vcfg.get("model", "haiku"), cfg),
+                          max_tokens=int(vcfg.get("max_tokens", 400)), system=vcfg.get("system", ""),
+                          tools=[VERIFY_TOOL], tool_choice={"type": "tool", "name": "judge_places"},
+                          messages=[{"role": "user", "content": msg}])
+    for block in getattr(resp, "content", None) or []:
+        if getattr(block, "type", "") == "tool_use":
+            items = llm.tool_json((block.input or {}).get("items"), list) or []
+            return {" ".join(str(it.get("name") or "").split()): bool(it.get("is_place"))
+                    for it in items if isinstance(it, dict)}
+    raise RuntimeError("رد بلا أداة")
+
+
+def verify_auto(spec: dict | None, sentence: str, cfg) -> dict | None:
+    """أماكن detect بعد حكم judge_places: ما حُكم أنه ليس مكانًا يُحذف ويُسجَّل في not_place. اسم بلا حكم أو عطل النداء ← المدن
+    تُحذف والدول تبقى (on_error: drop_places)؛ لأن أسماء الدول قلّما تكون كلمات عادية وخريطة خاطئة أسوأ من جملة بلا خريطة.
+    الحكم يُحفظ في الذاكرة للجملة نفسها (التركيب والمرحلة 2 يسألان مرتين). verify.enabled: false ← detect كما كان."""
+    vcfg = cfg.path("reel.maps.auto_detect.verify", {}) or {}
+    if not spec or not vcfg.get("enabled"):
+        return spec
+    names = list(spec.get("places") or []) + list(spec.get("countries") or [])
+    key = (sentence, tuple(names))
+    if key not in _VERIFY_CACHE:
+        try:
+            _VERIFY_CACHE[key] = judge_places(names, sentence, cfg)
+        except Exception as exc:  # noqa: BLE001 — التحقق لا يُسقط التركيب
+            log.warning("تعذّر التحقق من أماكن الجملة: %s", str(exc)[:150])
+            _VERIFY_CACHE[key] = {"__error__": True}
+    got = _VERIFY_CACHE[key]
+    keep_unknown_countries = vcfg.get("on_error", "drop_places") == "drop_places"
+
+    def ok(name: str, country: bool) -> bool:
+        v = got.get(" ".join(name.split()))
+        return v if v is not None else (country and keep_unknown_countries)
+    places = [p for p in spec.get("places") or [] if ok(p, False)]
+    countries = [c for c in spec.get("countries") or [] if ok(c, True)]
+    dropped = [n for n in names if n not in places and n not in countries]
+    if not places and not countries:
+        return None
+    out = dict(spec, places=places, countries=countries)
+    if dropped:
+        out["not_place"] = dropped
+    return out
+
+
+def not_places(entry: dict, sentence: str, role: str | None, cfg) -> list[str]:
+    """أسماء وجدها المعجم في جملة بلا خريطة من النموذج وحكم التحقق أنها ليست أماكن هنا (للتعليق وrender_maps)."""
+    if not isinstance(entry, dict) or entry.get("map"):
+        return []
+    acfg = cfg.path("reel.maps.auto_detect", {}) or {}
+    if not acfg.get("enabled") or role not in (acfg.get("roles") or ["context"]):
+        return []
+    raw = detect(sentence, cfg)
+    if not raw:
+        return []
+    kept = verify_auto(raw, sentence, cfg) or {}
+    keep = set(kept.get("places") or []) | set(kept.get("countries") or [])
+    return [n for n in list(raw.get("places") or []) + list(raw.get("countries") or []) if n not in keep]
 
 
 def reason_text(code: str, cfg) -> str:

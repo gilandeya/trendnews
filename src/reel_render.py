@@ -6262,7 +6262,8 @@ def _gemini_check(script: dict, order: list, clips: dict, cfg, deps: Deps, notes
         for w in inside:
             v = got.get(w["id"])
             rows.append({"point_id": w["id"], "video_id": vid, "start": round(w["start"], 1), "end": round(w["end"], 1),
-                         **({k: v[k] for k in ("name", "source", "is_host")} if v else {"name": ""}), "applied": False})
+                         **({k: v[k] for k in ("name", "source", "is_host")} if v else {"name": ""}), "applied": False,
+                         **({"off_screen": True} if v and v.get("off_screen") else {})})
             if v:
                 out[w["i"]] = v
     return out
@@ -6278,6 +6279,14 @@ def _apply_gemini(i: int, script: dict, run: list, live: dict, speakers: dict, v
     channel = scene.get("channel_display") or ""
     name = verdict["name"]
     row = next((r for r in reversed(meta.get("gemini_speakers") or []) if r["point_id"] == (scene.get("point_id") or str(i))), {})
+    if verdict.get("off_screen"):
+        # ريل 8f6a0649b60c: قصّ الوجه المتكلم يختار وجهًا في الصورة، والمتكلم ليس فيها، فظهر بوتين تحت اسم شي جين بينغ
+        if not (cfg.path("reel.render.gemini_speaker", {}) or {}).get("drop_off_screen", True):
+            return False, None
+        row.update(applied=True, off_screen=True)
+        speakers[str(i)] = {"accepted": False, "source": "gemini"}
+        return True, {"reason_key": "drop_off_screen", "speaker": scene.get("speaker_text") or scene.get("speaker_name") or "",
+                      "channel": channel, "new": "", "chyron": "", "name": name}
     named = bool(scene.get("speaker_verified") and scene.get("speaker_name"))
     speaker = scene.get("speaker_text") or scene.get("speaker_name") or ""
     # _apply_chyron يُستدعى ثانية في _clip_layers: لا قراءة للشريط بعد حكم Gemini (كما بعد الخريطة)
@@ -6440,7 +6449,9 @@ def _prepare_maps(script: dict, nar_idx: list[int], speech_cache: dict, plan: li
     for i in nar_idx:
         scene = script["scenes"][i]
         # جملة بلا خريطة في الخطة تُفحص أماكنها في الكود (reel_map.spec_for) في أدوار auto_detect.roles
+        # والحكم بأن الاسم ليس مكانًا (verify_auto) يُسجَّل ولو لم يبقَ في المشهد خريطة، فيُعرف لماذا غابت
         if scene.get("role") == "question" or not any(reel_map.spec_for(e, e.get("text", ""), scene.get("role"), cfg)
+                                                     or reel_map.not_places(e, e.get("text", ""), scene.get("role"), cfg)
                                                      for e in by_scene.get(i, {}).values()):
             continue
         parts = speech_cache[i][1]
@@ -6454,9 +6465,18 @@ def _prepare_maps(script: dict, nar_idx: list[int], speech_cache: dict, plan: li
             b = lead + cursor
             e = by_scene.get(i, {}).get(k)
             spec = reel_map.spec_for(e, texts[k], scene.get("role"), cfg) if e else None
-            if not spec or _plain(e.get("text")) != _plain(texts[k]):
+            nope = reel_map.not_places(e, texts[k], scene.get("role"), cfg) if e else []
+            if not e or _plain(e.get("text")) != _plain(texts[k]):
+                continue
+            if nope:
+                notes.append(t["comment_map_not_place"].format(names="، ".join(nope)))
+            if not spec:
+                if nope:
+                    results.append({"scene": i, "sentence": k, "auto": True, "not_place": nope})
                 continue
             rec: dict = {"scene": i, "sentence": k}
+            if nope:
+                rec["not_place"] = nope
             if not e.get("map"):
                 rec["auto"] = True
             resolved, why = reel_map.resolve(spec, texts[k], cfg)

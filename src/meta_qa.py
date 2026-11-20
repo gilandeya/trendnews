@@ -343,9 +343,12 @@ def drop_read(bites: list[dict], cfg, stats: dict) -> list[dict]:
     عدده وأسماؤه في stats (أرقام وأسماء لا كلام). `qa.gemini.drop_read: false` ← يبقى."""
     if not cfg.path("youtube.meta_topics.qa.gemini.drop_read", True):
         return bites
+    from .gemini_bites import unseen
+    off_screen = cfg.path("youtube.meta_topics.qa.gemini.drop_off_screen", True)
     keep, gone = [], []
     for b in bites:
-        if b.get("delivery") == "read" and not b.get("original_of"):
+        # ريل 8f6a0649b60c: صوت صاحبه والكاميرا على غيره يُعامل كالمقروء (unseen)
+        if (b.get("delivery") == "read" or (off_screen and unseen(b))) and not b.get("original_of"):
             gone.append(b.get("speaker") or b.get("speaker_original") or "?")
         else:
             keep.append(b)

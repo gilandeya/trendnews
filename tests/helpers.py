@@ -484,6 +484,12 @@ def install_fakes() -> None:
     _reel_clash._create = lambda client, **kw: None  # type: ignore
     from src import youtube_cluster as _youtube_cluster
     _youtube_cluster._coherence_create = lambda client, **kw: None  # type: ignore
+    # التحقق من أماكن الخريطة (ريل 8f6a0649b60c) بلا شبكة: كل ما يجده المعجم مكانٌ، فتبقى اختبارات الخرائط القديمة كما كانت؛
+    # الأصل محفوظ ليعيده اختباره
+    from src import reel_map as _reel_map
+    if not hasattr(_reel_map, "_judge_places_real"):
+        _reel_map._judge_places_real = _reel_map.judge_places  # type: ignore
+    _reel_map.judge_places = lambda names, sentence, cfg, client=None: {n: True for n in names}  # type: ignore
 
     # قضية مراجعة الريل (Issue #1469، R4a) تُفتح من render_draft: بلا حقن يفشل فتحها فيبقى التعليق على قضية المرحلة 2 كما
     # كان، ولا تبلغ شبكة GitHub الحقيقية ولو وُجد توكن في البيئة؛ اختبار يحتاج غيره يحقن review.create_issue بنفسه
