@@ -3365,6 +3365,8 @@ def _speech(text: str, voice: str, cfg, deps: Deps, tmp: Path, tag: str) -> tupl
         raise RuntimeError(f"مشهد {tag} بلا جمل")
     # مزيَّفات قديمة بلا voice_session (ولا spoken_names) ← الأسماء بالعربية كما كانت
     session = getattr(deps, "voice_session", None)
+    if session is not None and hasattr(session, "use_scene"):
+        session.use_scene(tag)   # صوت هذا المشهد في ريل بصوتين متناوبين
     latin_on = bool(cfg.path("reel.tts.latin_names.enabled")) and session is not None and session.multilingual()
     wavs, parts = [], []
     for k, sentence in enumerate(sentences):
@@ -7438,8 +7440,10 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     if len(clips) < need:
         raise RuntimeError(f"بقي {len(clips)} مقطعًا من {wanted} بعد الحذف والأدنى المطلوب {need}")
     voice = cfg.path(f"reel.tts.narrator_voices.{script.get('narrator', 'female')}")
-    if deps.voice_session is not None and script.get("narrator_voice"):
-        deps.voice_session.voice_id = str(script["narrator_voice"])   # صوت الراوي المختار للريل (تناوب الأصوات 21/11)
+    if deps.voice_session is not None and (ids := reel_script._script_voice_ids(script)):
+        # صوتا راوي الريل بالتناوب على مشاهده (21/11)؛ أولهما الافتراضي لما لا يحمل رقم مشهد
+        deps.voice_session.voice_id = ids[0]
+        deps.voice_session.scene_voice = {i: v["id"] for i, v in reel_script.scene_voices(script).items()}
     stage_mark("background")
     bg, bg_saved = _resolve_background(path, draft, cfg, deps, notes)
     if bg is None and cfg.path("reel.render.background.navy_canvas", False):

@@ -514,19 +514,37 @@ def next_narrator(cfg: Any, exclude_id: str = "") -> str:
     return "male" if last[1] == "female" else "female"
 
 
-def _narrators(cfg: Any) -> list[dict]:
+# المشاهد التي يقرؤها الراوي: يتناوب عليها صوتا الريل بترتيبها (الهوك ← السياق ← بطاقات الأسئلة ← الختام)
+SPOKEN_KINDS = ("title_card", "narration", "question")
+
+
+def _voice(n: Any) -> dict | None:
+    if isinstance(n, dict) and n.get("id") and n.get("gender") in ("male", "female"):
+        return {"id": str(n["id"]), "name": str(n.get("name") or n["id"]), "gender": n["gender"]}
+    return None
+
+
+def _narrator_pairs(cfg: Any) -> list[list[dict]]:
     out = []
-    for n in cfg.path("reel.tts.elevenlabs.narrators") or []:
-        if isinstance(n, dict) and n.get("id") and n.get("gender") in ("male", "female"):
-            out.append({"id": str(n["id"]), "name": str(n.get("name") or n["id"]), "gender": n["gender"]})
+    for pair in cfg.path("reel.tts.elevenlabs.narrator_pairs") or []:
+        voices = [v for v in (_voice(n) for n in (pair if isinstance(pair, list) else [pair])) if v]
+        if voices:
+            out.append(voices)
     return out
 
 
-def next_narrator_voice(cfg: Any, exclude_id: str = "") -> dict | None:
-    """صوت راوي الريل الجديد (طلب صاحب المشروع 21/11): التالي في reel.tts.elevenlabs.narrators بعد صوت آخر مسودة ريل محفوظة لها
-    صوت، فتتناوب الأصوات الأربعة ويتناوب معها الجنس. ريل أقدم بلا صوت محفوظ لا يُعدّ، وأول ريل يأخذ الأول. لا رواة ← None."""
-    voices = _narrators(cfg)
-    if not voices:
+def _script_voice_ids(script: dict) -> list[str]:
+    """أصوات ريل محفوظ: الزوج (narrator_voices) أو الصوت الواحد قبله (narrator_voice، 21/11 صباحًا)."""
+    ids = [str(v.get("id")) for v in script.get("narrator_voices") or [] if isinstance(v, dict) and v.get("id")]
+    return ids or ([str(script["narrator_voice"])] if script.get("narrator_voice") else [])
+
+
+def next_narrator_pair(cfg: Any, exclude_id: str = "") -> list[dict] | None:
+    """صوتا راوي الريل الجديد (طلب صاحب المشروع 21/11): الزوج التالي في reel.tts.elevenlabs.narrator_pairs بعد زوج آخر مسودة ريل
+    محفوظة لها صوت، فيأخذ الريل الأول Woman1/Man1 والتالي Woman2/Man2 ثم يعود. ريل أقدم بلا صوت لا يُعدّ، وأول ريل يأخذ الأول.
+    لا أزواج ← None (الجنس بالتناوب كما كان)."""
+    pairs = _narrator_pairs(cfg)
+    if not pairs:
         return None
     last = ("", "")
     for path in sorted(store.DRAFTS_DIR.glob("*/*.json")):
@@ -534,20 +552,32 @@ def next_narrator_voice(cfg: Any, exclude_id: str = "") -> dict | None:
             d = json.loads(path.read_text(encoding="utf-8"))
         except (ValueError, OSError):
             continue
-        vid = (d.get("script") or {}).get("narrator_voice")
-        if d.get("format") != "reel" or d.get("id") == exclude_id or not vid:
+        ids = _script_voice_ids(d.get("script") or {})
+        if d.get("format") != "reel" or d.get("id") == exclude_id or not ids:
             continue
-        last = max(last, (d.get("created_at", ""), str(vid)))
-    ids = [v["id"] for v in voices]
-    k = (ids.index(last[1]) + 1) % len(voices) if last[1] in ids else 0
-    return voices[k]
+        last = max(last, (d.get("created_at", ""), ids[0]))
+    k = next((i for i, pair in enumerate(pairs) if last[1] in {v["id"] for v in pair}), None)
+    return pairs[0] if k is None else pairs[(k + 1) % len(pairs)]
+
+
+def scene_voices(script: dict) -> dict[int, dict]:
+    """صوت كل مشهد يقرؤه الراوي: صوتا الريل بالتناوب على المشاهد المنطوقة بترتيبها. دالة خالصة يقرؤها التركيب والجدول معًا
+    فما يُعرض للمراجع هو ما يُنطق. سيناريو بصوت واحد أو بلا صوت ← {}."""
+    voices = [v for v in script.get("narrator_voices") or [] if isinstance(v, dict) and v.get("id")]
+    if len(voices) < 2:
+        return {}
+    spoken = [i for i, s in enumerate(script.get("scenes") or []) if s.get("kind") in SPOKEN_KINDS]
+    return {i: voices[k % len(voices)] for k, i in enumerate(spoken)}
 
 
 def narrator_label(script: dict, cfg: Any) -> str:
-    """ما يُعرض للمراجع عن الراوي: «راوية (أنثى): Woman1» إن حُفظ اسم الصوت، وإلا الجنس وحده كما كان."""
+    """ما يُعرض للمراجع عن الراوي: «Woman1 ← Man1 بالتناوب» لصوتي الريل، أو «راوية (أنثى): Woman1» لصوت واحد، وإلا الجنس."""
     texts = cfg.path("reel.texts") or {}
+    names = [str(v.get("name") or v.get("id")) for v in script.get("narrator_voices") or [] if isinstance(v, dict)]
+    if len(names) > 1:
+        return texts.get("narrator_pair", "{names} بالتناوب").format(names=" ← ".join(names))
     label = texts.get(f"narrator_{script.get('narrator')}", script.get("narrator", ""))
-    name = script.get("narrator_name")
+    name = names[0] if names else script.get("narrator_name")
     return texts.get("narrator_named", "{label}: {name}").format(label=label, name=name) if name else label
 
 
@@ -1586,7 +1616,8 @@ def timeline_lines(script: dict, cfg: Any, hook_clash: dict | None = None) -> li
     v2 = is_v2(script)
     out, now = [], 0.0
     durs = scene_durations(script, cfg)
-    for scene, dur in zip(script.get("scenes") or [], durs):
+    voices = scene_voices(script)
+    for idx, (scene, dur) in enumerate(zip(script.get("scenes") or [], durs)):
         kind = scene.get("kind")
         extra = ""
         extra_lines: list[str] = []
@@ -1618,6 +1649,8 @@ def timeline_lines(script: dict, cfg: Any, hook_clash: dict | None = None) -> li
                                          role_label=(t.get("qroles") or {}).get(scene.get("qrole"), scene.get("qrole") or ""))
             if kind == "title_card" and clash_line:
                 line = clash_line
+            if idx in voices:   # صوت الراوي على هذا المشهد، كما يُنطق في التركيب
+                line += " · " + t.get("scene_voice", "🎙️ {name}").format(name=voices[idx]["name"])
         out.append(f"  - [{_mmss(now)}–{_mmss(now + dur)}] {line}")
         out += [f"    {x}" for x in extra_lines]
         if extra:
@@ -1914,8 +1947,8 @@ def _write_for_draft(draft: dict, topic: dict, member_points: list[dict], articl
     if reason := _insufficient(valid):
         return _fail(reason)
     valid = _audit_speakers(draft, identify_speakers(valid, member_points, cfg, client), member_points, cfg)
-    voice = next_narrator_voice(cfg, draft.get("id", ""))
-    narrator = voice["gender"] if voice else next_narrator(cfg, draft.get("id", ""))
+    pair = next_narrator_pair(cfg, draft.get("id", ""))
+    narrator = pair[0]["gender"] if pair else next_narrator(cfg, draft.get("id", ""))
     info: dict = {}
     if builder is not None:
         script, reason = builder(valid, narrator, info)
@@ -1935,9 +1968,9 @@ def _write_for_draft(draft: dict, topic: dict, member_points: list[dict], articl
         draft.pop("script", None)
         draft.update(script_status="failed", script_error=reason)
         return {"status": "failed", "reason": reason}
-    if voice:
-        # الصوت يُحفظ مع السيناريو فيقرؤه التركيب (VoiceSession.voice_id) والتناوب التالي، ويُعرض اسمه للمراجع
-        script.update(narrator=voice["gender"], narrator_voice=voice["id"], narrator_name=voice["name"])
+    if pair:
+        # الصوتان يُحفظان مع السيناريو فيقرؤهما التركيب (scene_voices ← VoiceSession) والتناوب التالي، وتُعرض أسماؤهما للمراجع
+        script.update(narrator=pair[0]["gender"], narrator_voices=[dict(v) for v in pair])
 
     used_ids = {s["point_id"] for s in script["scenes"] if s.get("kind") in CLIP_KINDS}
     used = [p for p in member_points if point_key_id(p) in used_ids]

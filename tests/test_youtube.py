@@ -9550,7 +9550,7 @@ def test_narrator_voices_2111() -> None:
     from src import reel_script, store, tts
     cfg = copy.deepcopy(load_config())
     prod = yaml.safe_load((Path(__file__).resolve().parents[1] / "config.yaml").read_text(encoding="utf-8"))
-    cfg["reel"]["tts"]["elevenlabs"]["narrators"] = prod["reel"]["tts"]["elevenlabs"]["narrators"]
+    cfg["reel"]["tts"]["elevenlabs"]["narrator_pairs"] = prod["reel"]["tts"]["elevenlabs"]["narrator_pairs"]
 
     # (1) الأرقام: نطق نداء التشكيل بإعرابه أولًا، وإلا القاعدة؛ والشرطة المائلة وقفة
     nouns = [{"text": "2026", "spoken": "أَلْفَيْنِ وَسِتَّةٍ وَعِشْرِينَ", "kind": "number"}]
@@ -9585,41 +9585,67 @@ def test_narrator_voices_2111() -> None:
           "kind" in tts.DIACRITIZE_TOOL["input_schema"]["properties"]["proper_nouns"]["items"]["required"]
           and "numbers" in tts.DIACRITIZE_TOOL["input_schema"]["properties"])
 
-    # (3) التناوب على الأصوات الأربعة
-    voices = cfg.path("reel.tts.elevenlabs.narrators")
-    check("narr: أربعة أصوات بالجنسين متناوبة", [v["gender"] for v in voices] == ["female", "male", "female", "male"]
-          and {v["id"] for v in voices} == {"XdoLPWNt7ytn6BtU4FBf", "imSStoespHEDicyPMZ3i", "tavIIPLplRB883FzWU0V",
-                                             "s7VusoUfleDWGRQNqsF6"}, voices)
+    # (3) زوجا الأصوات: كل ريل صوتان متناوبان، والريل التالي الزوج التالي
+    pairs = cfg.path("reel.tts.elevenlabs.narrator_pairs")
+    names = [[v["name"] for v in p] for p in pairs]
+    check("narr: زوجان Woman1/Man1 ثم Woman2/Man2", names == [["Woman1", "Man1"], ["Woman2", "Man2"]]
+          and [[v["gender"] for v in p] for p in pairs] == [["female", "male"], ["female", "male"]]
+          and {v["id"] for p in pairs for v in p} == {"XdoLPWNt7ytn6BtU4FBf", "imSStoespHEDicyPMZ3i", "tavIIPLplRB883FzWU0V",
+                                                     "s7VusoUfleDWGRQNqsF6"}, names)
     day = store.DRAFTS_DIR / "2099-11-21"
     shutil.rmtree(day, ignore_errors=True)
     try:
         # ريلات أخرى في مجلد المسودات المشترك للاختبارات قد تحمل صوتًا؛ نبدأ من آخرها هنا بتاريخ أحدث
         got = []
-        for k in range(5):
-            v = reel_script.next_narrator_voice(cfg)
-            got.append(v["id"])
+        for k in range(4):
+            pair = reel_script.next_narrator_pair(cfg)
+            got.append([v["name"] for v in pair])
             day.mkdir(parents=True, exist_ok=True)
             (day / f"n{k}.json").write_text(json.dumps({
                 "id": f"n{k}", "format": "reel", "created_at": f"2099-11-21T00:00:0{k}",
-                "script": {"narrator": v["gender"], "narrator_voice": v["id"], "narrator_name": v["name"]}}), encoding="utf-8")
-        ids = [v["id"] for v in voices]
-        start = ids.index(got[0])
-        check("narr: كل ريل يأخذ الصوت التالي ويعود للأول", got == [ids[(start + i) % 4] for i in range(5)], got)
-        check("narr: المسودة نفسها لا تُعدّ", reel_script.next_narrator_voice(cfg, exclude_id="n4")["id"] == got[4])
+                "script": {"narrator": pair[0]["gender"], "narrator_voices": pair}}), encoding="utf-8")
+        start = names.index(got[0])
+        check("narr: كل ريل يأخذ الزوج التالي ويعود للأول", got == [names[(start + i) % 2] for i in range(4)], got)
+        check("narr: المسودة نفسها لا تُعدّ", [v["name"] for v in reel_script.next_narrator_pair(cfg, exclude_id="n3")] == got[3])
+        # ريل محفوظ صباح 21/11 بصوت واحد (narrator_voice) يُعرف زوجه فيأخذ التالي الزوج الآخر
+        (day / "n9.json").write_text(json.dumps({"id": "n9", "format": "reel", "created_at": "2099-11-21T00:00:09",
+                                                 "script": {"narrator_voice": "imSStoespHEDicyPMZ3i"}}), encoding="utf-8")
+        check("narr: صوت واحد قديم يُعرف زوجه", [v["name"] for v in reel_script.next_narrator_pair(cfg)] == ["Woman1", "Man1"])
     finally:
         shutil.rmtree(day, ignore_errors=True)
     cfg4 = copy.deepcopy(cfg)
-    cfg4["reel"]["tts"]["elevenlabs"]["narrators"] = []
-    check("narr: بلا رواة ← None والجنس كما كان", reel_script.next_narrator_voice(cfg4) is None)
+    cfg4["reel"]["tts"]["elevenlabs"]["narrator_pairs"] = []
+    check("narr: بلا أزواج ← None والجنس كما كان", reel_script.next_narrator_pair(cfg4) is None)
 
-    # (4) العرض والتركيب
-    lab = reel_script.narrator_label({"narrator": "male", "narrator_name": "Man1"}, cfg)
-    check("narr: اسم الصوت يظهر مع جنسه", "Man1" in lab and "ذكر" in lab, lab)
+    # (4) الصوتان يتناوبان على مشاهد الراوي بترتيبها، والمقاطع لا صوت للراوي فيها
+    pair = pairs[0]
+    script = {"narrator": "female", "narrator_voices": pair, "scenes": [
+        {"kind": "title_card", "text": "س"}, {"kind": "narration", "role": "context", "text": "سياق"},
+        {"kind": "clip", "point_id": "p1"}, {"kind": "narration", "role": "question", "text": "سؤال؟"},
+        {"kind": "clip", "point_id": "p2"}, {"kind": "question", "text": "ختام؟"}, {"kind": "outro"}]}
+    sv = reel_script.scene_voices(script)
+    check("narr: الهوك ← السياق ← البطاقة ← الختام بالتناوب",
+          {i: v["name"] for i, v in sv.items()} == {0: "Woman1", 1: "Man1", 3: "Woman1", 5: "Man1"}, sv)
+    check("narr: صوت واحد ← لا تناوب", reel_script.scene_voices({**script, "narrator_voices": pair[:1]}) == {})
+    lab = reel_script.narrator_label(script, cfg)
+    check("narr: اسما الصوتين في السيناريو", lab == "Woman1 ← Man1 بالتناوب", lab)
+    tl = reel_script.timeline_lines(script, cfg)
+    check("narr: الجدول يذكر صوت كل مشهد منطوق", "🎙️ Woman1" in tl[0] and "🎙️ Man1" in tl[1] and "🎙️" not in tl[2], tl[:3])
+    check("narr: سيناريو صباح 21/11 بصوت واحد ← اسمه", "Man1" in reel_script.narrator_label(
+        {"narrator": "male", "narrator_name": "Man1"}, cfg))
     check("narr: سيناريو قديم بلا اسم ← الجنس وحده", reel_script.narrator_label({"narrator": "female"}, cfg) == "راوية (أنثى)")
     s = tts.VoiceSession(cfg)
     check("narr: صوت الجنس بلا اختيار", s._el_voice(cfg.path("reel.tts.narrator_voices.male"))
           == cfg.path("reel.tts.elevenlabs.voices.male"))
-    s.voice_id = "XdoLPWNt7ytn6BtU4FBf"
-    check("narr: صوت الراوي المختار يغلب", s._el_voice("x") == "XdoLPWNt7ytn6BtU4FBf")
+    s.voice_id = pair[0]["id"]
+    s.scene_voice = {i: v["id"] for i, v in sv.items()}
+    picked = []
+    for tag in ("s00", "s01", "s03", "s05l", "s05", "s06", "x"):
+        s.use_scene(tag)
+        picked.append(s._el_voice("x"))
+    w, m = pair[0]["id"], pair[1]["id"]
+    check("narr: الجلسة تأخذ صوت كل مشهد، و«برأيك..» بصوت سؤالها", picked == [w, m, w, m, m, w, w], picked)
     src = (Path(__file__).resolve().parents[1] / "src" / "reel_render.py").read_text(encoding="utf-8")
-    check("narr: التركيب يمرّر صوت السيناريو إلى جلسة الصوت", "voice_session.voice_id = str(script[\"narrator_voice\"])" in src)
+    check("narr: التركيب يمرّر صوتي السيناريو إلى جلسة الصوت",
+          "voice_session.scene_voice = {i: v[\"id\"] for i, v in reel_script.scene_voices(script).items()}" in src
+          and "session.use_scene(tag)" in src)

@@ -122,6 +122,9 @@ class VoiceSession:
         self.mixed = False
         # صوت ElevenLabs المختار لراوي هذا الريل (script.narrator_voice، تناوب الأصوات 21/11)؛ فارغ ← صوت الجنس كما كان
         self.voice_id = ""
+        # صوت كل مشهد في ريل بصوتين متناوبين (reel_script.scene_voices، 21/11): {رقم المشهد: معرّف الصوت}
+        self.scene_voice: dict[int, str] = {}
+        self._default_voice = ""
 
     def _decide(self) -> None:
         e = _el_cfg(self.cfg)
@@ -145,6 +148,16 @@ class VoiceSession:
         narr = self.cfg.path("reel.tts.narrator_voices") or {}
         gender = next((g for g, v in narr.items() if v == voice), "female")
         return str((_el_cfg(self.cfg).get("voices") or {}).get(gender) or "")
+
+    def use_scene(self, tag: str) -> None:
+        """يختار صوت المشهد من وسمه («s03» أو «s03l» لـ«برأيك..» في الختام، فتبقى معه بصوت سؤالها). مشهد خارج الجدول ←
+        الصوت الافتراضي للريل."""
+        if not self.scene_voice:
+            return
+        if not self._default_voice:
+            self._default_voice = self.voice_id
+        m = re.match(r"s(\d+)", tag or "")
+        self.voice_id = self.scene_voice.get(int(m.group(1)), self._default_voice) if m else self._default_voice
 
     def multilingual(self) -> bool:
         """هل يقرأ مزوّد هذا الريل الحروف اللاتينية بنطقها؟ (ريل 1913) يُحسم المزوّد هنا إن لم يُحسم بعد، كما يُحسم عند أول
