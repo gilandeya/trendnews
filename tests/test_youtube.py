@@ -9536,3 +9536,86 @@ def test_voice_probe_2011() -> None:
         badrow = [r for r in rep2["variants"] if r["name"] == "model_bad"][0]
         check("voice: نموذج مرفوض سطر خطأ والمفتاح لا يظهر", "error" in badrow and "k" not in badrow["error"].replace("HTTP 400 ", "")
               and all(r.get("file") for r in rep2["variants"] if r["name"] != "model_bad"), badrow)
+
+
+def test_narrator_voices_2111() -> None:
+    """طلب صاحب المشروع 21/11 بعد سماع الأصوات: الأرقام بالكلمات في نص النطق، والمدن والجهات بالعربية وأسماء الأشخاص وحدها
+    بلفظها الأجنبي، والأصوات الأربعة بالتناوب على الريلات ويظهر اسم الصوت في السيناريو."""
+    import copy
+    import json
+    import shutil
+
+    from src import reel_script, store, tts
+    cfg = copy.deepcopy(load_config())
+
+    # (1) الأرقام: نطق نداء التشكيل بإعرابه أولًا، وإلا القاعدة؛ والشرطة المائلة وقفة
+    nouns = [{"text": "2026", "spoken": "أَلْفَيْنِ وَسِتَّةٍ وَعِشْرِينَ", "kind": "number"}]
+    out = tts.spoken_numbers("في عام 2026 بقيمة 1.4 مليار و35% و1,200 في أكتوبر/تشرين الأول", nouns)
+    check("narr: الرقم بنطق نداء التشكيل", "أَلْفَيْنِ وَسِتَّةٍ وَعِشْرِينَ" in out, out)
+    check("narr: ما لم يُعِده النداء بالقاعدة", "واحد فاصلة أربعة" in out and "خمسة وثلاثون بالمئة" in out
+          and "ألف ومئتان" in out, out)
+    check("narr: لا رقم ولا شرطة مائلة في نص النطق", not any(c.isdigit() for c in out) and "/" not in out, out)
+    check("narr: نطق فيه أرقام لا يُقبل", "ألفان" in tts.spoken_numbers("2026", [{"text": "2026", "spoken": "2026", "kind": "number"}]))
+    check("narr: number_words", [tts.number_words(n) for n in (11, 2026, 3000, 1400000)]
+          == ["أحد عشر", "ألفان وستة وعشرون", "ثلاثة آلاف", "مليون وأربعمئة ألف"])
+    check("narr: الأرقام لا تمرّ بوقف الأعلام", tts.apply_proper_nouns("عام 2026", nouns) == "عام 2026")
+
+    # (2) أسماء الأشخاص وحدها بلفظها الأجنبي
+    nouns2 = [{"text": "دونالد ترامب", "foreign": True, "latin": "Donald Trump", "kind": "person"},
+              {"text": "شنتشن", "foreign": True, "latin": "Shenzhen", "kind": "place"},
+              {"text": "سي إن إن", "foreign": True, "latin": "CNN", "kind": "channel"}]
+    spoken, used = tts.spoken_line("قال دونالد ترامب في شنتشن لقناة سي إن إن إن 2026 عام.", nouns2, cfg, latin=True)
+    check("narr: الشخص برسمه الأجنبي والمدينة والقناة بالعربية",
+          "Donald Trump" in spoken and "Shenzhen" not in spoken and "CNN" not in spoken and used == [("دونالد ترامب", "Donald Trump")],
+          (spoken, used))
+    check("narr: الرقم بالكلمات في الجملة نفسها", "ألفان وستة وعشرون" in spoken, spoken)
+    old = [{"text": "شنتشن", "foreign": True, "latin": "Shenzhen"}]
+    check("narr: علم بلا kind (قديم) كما كان", tts.latin_names("في شنتشن", old, cfg)[0] == "في Shenzhen")
+    cfg2 = copy.deepcopy(cfg)
+    cfg2["reel"]["tts"]["latin_names"]["kinds"] = []
+    check("narr: kinds فارغة ← كل الأعلام", "Shenzhen" in tts.latin_names("في شنتشن", nouns2, cfg2)[0])
+    cfg3 = copy.deepcopy(cfg)
+    cfg3["reel"]["tts"]["numbers"]["enabled"] = False
+    check("narr: numbers.enabled false ← الأرقام كما هي", "2026" in tts.spoken_line("عام 2026", [], cfg3)[0])
+    check("narr: kind مطلوب في أداة التشكيل",
+          "kind" in tts.DIACRITIZE_TOOL["input_schema"]["properties"]["proper_nouns"]["items"]["required"]
+          and "numbers" in tts.DIACRITIZE_TOOL["input_schema"]["properties"])
+
+    # (3) التناوب على الأصوات الأربعة
+    voices = cfg.path("reel.tts.elevenlabs.narrators")
+    check("narr: أربعة أصوات بالجنسين متناوبة", [v["gender"] for v in voices] == ["female", "male", "female", "male"]
+          and {v["id"] for v in voices} == {"XdoLPWNt7ytn6BtU4FBf", "imSStoespHEDicyPMZ3i", "tavIIPLplRB883FzWU0V",
+                                             "s7VusoUfleDWGRQNqsF6"}, voices)
+    day = store.DRAFTS_DIR / "2099-11-21"
+    shutil.rmtree(day, ignore_errors=True)
+    try:
+        # ريلات أخرى في مجلد المسودات المشترك للاختبارات قد تحمل صوتًا؛ نبدأ من آخرها هنا بتاريخ أحدث
+        got = []
+        for k in range(5):
+            v = reel_script.next_narrator_voice(cfg)
+            got.append(v["id"])
+            day.mkdir(parents=True, exist_ok=True)
+            (day / f"n{k}.json").write_text(json.dumps({
+                "id": f"n{k}", "format": "reel", "created_at": f"2099-11-21T00:00:0{k}",
+                "script": {"narrator": v["gender"], "narrator_voice": v["id"], "narrator_name": v["name"]}}), encoding="utf-8")
+        ids = [v["id"] for v in voices]
+        start = ids.index(got[0])
+        check("narr: كل ريل يأخذ الصوت التالي ويعود للأول", got == [ids[(start + i) % 4] for i in range(5)], got)
+        check("narr: المسودة نفسها لا تُعدّ", reel_script.next_narrator_voice(cfg, exclude_id="n4")["id"] == got[4])
+    finally:
+        shutil.rmtree(day, ignore_errors=True)
+    cfg4 = copy.deepcopy(cfg)
+    cfg4["reel"]["tts"]["elevenlabs"]["narrators"] = []
+    check("narr: بلا رواة ← None والجنس كما كان", reel_script.next_narrator_voice(cfg4) is None)
+
+    # (4) العرض والتركيب
+    lab = reel_script.narrator_label({"narrator": "male", "narrator_name": "Man1"}, cfg)
+    check("narr: اسم الصوت يظهر مع جنسه", "Man1" in lab and "ذكر" in lab, lab)
+    check("narr: سيناريو قديم بلا اسم ← الجنس وحده", reel_script.narrator_label({"narrator": "female"}, cfg) == "راوية (أنثى)")
+    s = tts.VoiceSession(cfg)
+    check("narr: صوت الجنس بلا اختيار", s._el_voice(cfg.path("reel.tts.narrator_voices.male"))
+          == cfg.path("reel.tts.elevenlabs.voices.male"))
+    s.voice_id = "XdoLPWNt7ytn6BtU4FBf"
+    check("narr: صوت الراوي المختار يغلب", s._el_voice("x") == "XdoLPWNt7ytn6BtU4FBf")
+    src = (Path(__file__).resolve().parents[1] / "src" / "reel_render.py").read_text(encoding="utf-8")
+    check("narr: التركيب يمرّر صوت السيناريو إلى جلسة الصوت", "voice_session.voice_id = str(script[\"narrator_voice\"])" in src)

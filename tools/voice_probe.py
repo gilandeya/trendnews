@@ -62,14 +62,8 @@ def prepare(cfg, diacritize=None) -> dict:
 
 
 def spoken_lines(sentences: list[str], nouns: list, cfg) -> list[str]:
-    """الوقف ثم الأسماء الأجنبية برسمها اللاتيني، كما ينطقها التركيب مع ElevenLabs (latin_names)."""
-    out = []
-    for s in sentences:
-        line = tts.apply_waqf(s)
-        if cfg.path("reel.tts.latin_names.enabled"):
-            line, _ = tts.latin_names(line, nouns, cfg)
-        out.append(line)
-    return out
+    """نص النطق كما يرسله التركيب (tts.spoken_line): الوقف ثم أسماء الأشخاص الأجنبية برسمها ثم الأرقام بالكلمات."""
+    return [tts.spoken_line(s, nouns, cfg, latin=bool(cfg.path("reel.tts.latin_names.enabled")))[0] for s in sentences]
 
 
 def variants(cfg, prep: dict, voices: list[dict], models: list[str], gender: str) -> list[dict]:

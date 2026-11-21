@@ -514,6 +514,43 @@ def next_narrator(cfg: Any, exclude_id: str = "") -> str:
     return "male" if last[1] == "female" else "female"
 
 
+def _narrators(cfg: Any) -> list[dict]:
+    out = []
+    for n in cfg.path("reel.tts.elevenlabs.narrators") or []:
+        if isinstance(n, dict) and n.get("id") and n.get("gender") in ("male", "female"):
+            out.append({"id": str(n["id"]), "name": str(n.get("name") or n["id"]), "gender": n["gender"]})
+    return out
+
+
+def next_narrator_voice(cfg: Any, exclude_id: str = "") -> dict | None:
+    """صوت راوي الريل الجديد (طلب صاحب المشروع 21/11): التالي في reel.tts.elevenlabs.narrators بعد صوت آخر مسودة ريل محفوظة لها
+    صوت، فتتناوب الأصوات الأربعة ويتناوب معها الجنس. ريل أقدم بلا صوت محفوظ لا يُعدّ، وأول ريل يأخذ الأول. لا رواة ← None."""
+    voices = _narrators(cfg)
+    if not voices:
+        return None
+    last = ("", "")
+    for path in sorted(store.DRAFTS_DIR.glob("*/*.json")):
+        try:
+            d = json.loads(path.read_text(encoding="utf-8"))
+        except (ValueError, OSError):
+            continue
+        vid = (d.get("script") or {}).get("narrator_voice")
+        if d.get("format") != "reel" or d.get("id") == exclude_id or not vid:
+            continue
+        last = max(last, (d.get("created_at", ""), str(vid)))
+    ids = [v["id"] for v in voices]
+    k = (ids.index(last[1]) + 1) % len(voices) if last[1] in ids else 0
+    return voices[k]
+
+
+def narrator_label(script: dict, cfg: Any) -> str:
+    """ما يُعرض للمراجع عن الراوي: «راوية (أنثى): Woman1» إن حُفظ اسم الصوت، وإلا الجنس وحده كما كان."""
+    texts = cfg.path("reel.texts") or {}
+    label = texts.get(f"narrator_{script.get('narrator')}", script.get("narrator", ""))
+    name = script.get("narrator_name")
+    return texts.get("narrator_named", "{label}: {name}").format(label=label, name=name) if name else label
+
+
 def _create(client, **kwargs):
     """نقطة النداء الوحيدة (يزيّفها الاختبار). لا temperature -- النماذج ترفضها بـ400."""
     if client is None:
@@ -1877,7 +1914,8 @@ def _write_for_draft(draft: dict, topic: dict, member_points: list[dict], articl
     if reason := _insufficient(valid):
         return _fail(reason)
     valid = _audit_speakers(draft, identify_speakers(valid, member_points, cfg, client), member_points, cfg)
-    narrator = next_narrator(cfg, draft.get("id", ""))
+    voice = next_narrator_voice(cfg, draft.get("id", ""))
+    narrator = voice["gender"] if voice else next_narrator(cfg, draft.get("id", ""))
     info: dict = {}
     if builder is not None:
         script, reason = builder(valid, narrator, info)
@@ -1897,6 +1935,9 @@ def _write_for_draft(draft: dict, topic: dict, member_points: list[dict], articl
         draft.pop("script", None)
         draft.update(script_status="failed", script_error=reason)
         return {"status": "failed", "reason": reason}
+    if voice:
+        # الصوت يُحفظ مع السيناريو فيقرؤه التركيب (VoiceSession.voice_id) والتناوب التالي، ويُعرض اسمه للمراجع
+        script.update(narrator=voice["gender"], narrator_voice=voice["id"], narrator_name=voice["name"])
 
     used_ids = {s["point_id"] for s in script["scenes"] if s.get("kind") in CLIP_KINDS}
     used = [p for p in member_points if point_key_id(p) in used_ids]
