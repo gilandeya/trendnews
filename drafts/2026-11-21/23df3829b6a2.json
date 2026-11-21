@@ -1,0 +1,507 @@
+{
+  "id": "23df3829b6a2",
+  "created_at": "2026-11-21T09:13:09.691676+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "تصعيد التحالف السعودي ضد الحوثيين في اليمن",
+  "event": "تصعيد التحالف السعودي ضد الحوثيين في اليمن",
+  "tier": 4,
+  "blocs": [
+    "arabic",
+    "chinese",
+    "english",
+    "turkish"
+  ],
+  "channels": [
+    "BBC News",
+    "CCTV中文",
+    "CNN Türk",
+    "الجزيرة",
+    "العربية",
+    "الميادين",
+    "سكاي نيوز عربية",
+    "فرانس 24 عربي"
+  ],
+  "agreement": "",
+  "score": 0,
+  "warnings": [
+    "✏️ صيغ السؤال 2 ليتصل بالسياق: كان «كيف يرد الحوثيون على قصف الحديدة وما حجم الخطر على السعودية؟» صار «كيف يرد الحوثيون على قصف الحديدة وما خطره على السعودية؟»"
+  ],
+  "run_date": "2026-11-21",
+  "topic_date": "2026-11-21",
+  "arabic": {
+    "post_title": "من يضرب الآخر أولاً.. الحديدة أم موانئ المملكة؟",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "BBC News",
+      "CCTV中文",
+      "CNN Türk",
+      "الجزيرة",
+      "العربية",
+      "الميادين",
+      "سكاي نيوز عربية",
+      "فرانس 24 عربي"
+    ]
+  },
+  "source_videos": [],
+  "meta_topic_id": "e11b38f10ab7",
+  "meta_issue": 1967,
+  "hook_pick": 3,
+  "cost_qa": {
+    "claude": {
+      "claude-haiku-5-5": 0.00104,
+      "claude-sonnet-5": 0.03628,
+      "claude-opus-5": 0.2901
+    },
+    "gemini": 0.5986,
+    "proxy_bytes": 13211837
+  },
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "a7b7e6359591",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "يعني هذا بأن هناك إثباتات توجد لدى التحالف بأن هذه المنشأة أصبحت جزءًا من المجهود الحربي لجماعة الحوثيين، أصبح الحوثيون يستخدمون هذا الميناء للاستخدامات العسكرية، لذلك عندما نتحدث عن الأنظمة المتحدة فإن استهداف هذه المنشأة سيكون شرعيًا.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "العربية"
+      },
+      {
+        "point_id": "dd8697f96f82",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الميادين"
+      },
+      {
+        "point_id": "8ca84ee1b7f7",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "بالنسبة للبيان هو جاء أولاً هذه أول عملية منذ اندلاع الحرب تستهدف ميناء الحديدة، منذ اندلاعها في يوليو أو سبتمبر الماضي، لم يتعرض الميناء بشكل مباشر لهجمات من التحالف العربي. عملية الإخلاء هو واضح من خلال الخريطة أنها تشمل مخازن حسب الخريطة الموجودة وبعض المنشآت التابعة لميناء الحديدة.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "c6df67894113",
+        "speaker_said_it": "no",
+        "other_name": "مقدّم البرنامج",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن ترك"
+      },
+      {
+        "point_id": "52bbce505cdf",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الميادين"
+      }
+    ]
+  },
+  "quote_retranslated": [
+    "a7b7e6359591",
+    "8ca84ee1b7f7"
+  ],
+  "clip_dropped": [
+    {
+      "point_id": "c6df67894113",
+      "channel": "سي إن إن ترك",
+      "reason": "ملخّص النقطة ينسبها إلى شخص آخر: مقدّم البرنامج"
+    }
+  ],
+  "names_audit": [
+    {
+      "arabic": "فيصل الحمد",
+      "latin": ""
+    },
+    {
+      "arabic": "مجيب شمسان",
+      "latin": ""
+    },
+    {
+      "arabic": "سعيد ثابت",
+      "latin": ""
+    },
+    {
+      "arabic": "رشاد الوتيري",
+      "latin": ""
+    }
+  ],
+  "headlines": [
+    "من يضرب الآخر أولاً.. الحديدة أم موانئ المملكة؟",
+    "هل تتحول نار اليمن إلى حرب تبتلع شبه الجزيرة؟",
+    "لماذا تدفع الرياض ثمن معركة الحديدة؟"
+  ],
+  "headline_selected": 0,
+  "script": {
+    "version": 2,
+    "narrator": "female",
+    "title": "من يضرب الآخر أولاً.. الحديدة أم موانئ المملكة؟",
+    "question": "هل يوقف تبادل ضرب الموانئ الحرب أم يوسّعها إلى حرب إقليمية؟",
+    "event": "",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "من يضرب الآخر أولاً.. الحديدة أم موانئ المملكة؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "أعلن التحالف بقيادة السعودية إخلاء مخازن ومنشآت في ميناء الحديدة اليمني تمهيدًا لاستهدافها، وهي أول عملية ضد الميناء منذ اندلاع الحرب."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 0,
+        "text": "هل استهداف ميناء الحديدة مشروع عسكرياً أم جريمة ضد المدنيين؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "a7b7e6359591",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=w6c-70itQ7w",
+        "start": 19.1,
+        "end": 39.8,
+        "speaker_name": "فيصل الحمد",
+        "speaker_role": "خبير عسكري واستراتيجي",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "فيصل الحمد",
+        "channel_display": "العربية",
+        "channel_original": "العربية",
+        "quote_arabic": "يعني هذا بأن هناك إثباتات توجد لدى التحالف بأن هذه المنشأة أصبحت جزءًا من المجهود الحربي لجماعة الحوثيين، أصبح الحوثيون يستخدمون هذا الميناء للاستخدامات العسكرية، لذلك عندما نتحدث عن الأنظمة المتحدة فإن استهداف هذه المنشأة سيكون شرعيًا.",
+        "quote_original": "يعني هذا بأن هناك إثباتات توجد لدى التحالف بأن هذه المنشأة أصبحت جزء من المجهود الحربي لمليشيا الحوثي الإرهابية، أصبح الحوثيين يستخدمون هذا الميناء للاستخدامات العسكرية، لذلك عندما نتحدث عن الأنظمة المتحدة فإن استهداف هذا هذه المنشأة سيكون شرعي.",
+        "language": "ar",
+        "video_published": "2026-11-20T13:46:33Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "dd8697f96f82",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=4WAEl0V_EJI",
+        "start": 1327.0,
+        "end": 1358.0,
+        "speaker_name": "مجيب شمسان",
+        "speaker_role": "خبير في الشؤون السياسية والعسكرية",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "مجيب شمسان",
+        "channel_display": "الميادين",
+        "channel_original": "الميادين",
+        "quote_arabic": "العدو السعودي هو من يهدد حركة العبور والتجارة العالمية بعد فشل أوراقه، متذرعاً بوجود خطر على الملاحة لاستهداف الموانئ المدنية واعتبارها أهدافاً عسكرية، وهو ما سيقابله استهداف لكافة موانئه السعودية رداً على ذلك.",
+        "quote_original": "من يشكل خطر على حركة العبور البحري وعلى حركة التجارة العالمية هو العدو السعودي بعد أن فشل في استخدام كل الأوراق، يريد أن يستخدم بأن هناك خطر على حركة الملاحة وبالتالي يستهدف الأعيان المدنية كالموانئ ويعتبرها أهدافاً عسكرية. في المقابل سيكون هناك استهداف لكل موانئه، والكل قد عرف جيداً أن شعار تهديد حركة الملاحة لم يكن قائماً.",
+        "language": "ar",
+        "video_published": "2026-11-20T20:25:34Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "8ca84ee1b7f7",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=9PsyJhKPyTU",
+        "start": 24.0,
+        "end": 55.7,
+        "speaker_name": "سعيد ثابت",
+        "speaker_role": "مدير مكتب الجزيرة في اليمن",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "سعيد ثابت",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "بالنسبة للبيان هو جاء أولاً هذه أول عملية منذ اندلاع الحرب تستهدف ميناء الحديدة، منذ اندلاعها في يوليو أو سبتمبر الماضي، لم يتعرض الميناء بشكل مباشر لهجمات من التحالف العربي. عملية الإخلاء هو واضح من خلال الخريطة أنها تشمل مخازن حسب الخريطة الموجودة وبعض المنشآت التابعة لميناء الحديدة.",
+        "quote_original": "بالنسبة للبيان هو جاء أولاً هذه أول عملية منذ اندلاع الحرب تستهدف ميناء الحديدة، منذ اندلاعها في يوليو أو سبتمبر الماضي، لم يتعرض الميناء بشكل مباشر لهجمات من التحالف. عملية الإخلاء هو واضح من خلال الخريطة أنها تشمل مخازن حسب الخريطة الموجودة وبعض المنشآت التابعة لميناء الحديدة.",
+        "language": "ar",
+        "video_published": "2026-11-20T12:30:25Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 1,
+        "text": "كيف يرد الحوثيون على قصف الحديدة وما خطره على السعودية؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "52bbce505cdf",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=4WAEl0V_EJI",
+        "start": 231.5,
+        "end": 250.0,
+        "speaker_name": "رشاد الوتيري",
+        "speaker_role": "خبير عسكري يمني",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "رشاد الوتيري",
+        "channel_display": "الميادين",
+        "channel_original": "الميادين",
+        "quote_arabic": "تقوم القوات المسلحة اليمنية بالرد وبالاستهداف الكبير والواسع وتوسع أيضاً من الخارطة العسكرية لديها بضرب عصب الاقتصاد السعودي وكل ما يخص الاستثمارات وكل ما يخص العدو السعودي، واليوم سيعاني هذا العدو وسيدفع الثمن.",
+        "quote_original": "تقوم القوات المسلحة اليمنية بالرد وبالاستهداف الكبير والواسع وتوسع أيضاً من الخارطة العسكرية لديها بضرب عصب الاقتصاد السعودي وكل ما يخص الاستثمارات وكل ما يخص العدو السعودي، واليوم سيعاني هذا العدو وسيدفع الثمن.",
+        "language": "ar",
+        "video_published": "2026-11-20T20:25:34Z",
+        "relay": "external",
+        "relay_source": "",
+        "exclusive": false
+      },
+      {
+        "kind": "question",
+        "text": "هل يوقف تبادل ضرب الموانئ الحرب أم يوسّعها إلى حرب إقليمية؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": [],
+    "narrator_voice": "tavIIPLplRB883FzWU0V",
+    "narrator_name": "Woman1"
+  },
+  "editor_revision": {
+    "at": "2026-11-21T09:13:21.061907+00:00",
+    "applied": true,
+    "error": null,
+    "before": [
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "فيصل الحمد · خبير عسكري واستراتيجي · العربية",
+        "fix": "",
+        "note": "لم يتضح توثيق الاسم؛ يجب التأكد من أن الاسم والصفة مطابقان لما ورد في وصف الفيديو الأصلي قبل النشر.",
+        "sources": [
+          "https://www.youtube.com/watch?v=w6c-70itQ7w"
+        ],
+        "video": ""
+      }
+    ],
+    "unresolved": [
+      {
+        "n": 1,
+        "reason": "الملاحظة تخص الشريط في سطر [4] (المقاطع) وهو من حقول القراءة فقط وليس من الحقول القابلة للتصحيح (title/body/headlines)؛ لا يمكن تعديل اسم أو صفة المتحدث في سطور المقاطع عبر هذا المسار. كما أن المصادر المرفقة توثّق الاسم والصفة (فيصل الحمد · خبير عسكري واستراتيجي · العربية) من وصف الفيديو، فلا يوجد سند لتغييرها."
+      }
+    ]
+  },
+  "editor_review": {
+    "at": "2026-11-21T09:13:21.061907+00:00",
+    "applied": [],
+    "notes": [
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "فيصل الحمد · خبير عسكري واستراتيجي · العربية",
+        "fix": "",
+        "note": "لم يتضح توثيق الاسم؛ يجب التأكد من أن الاسم والصفة مطابقان لما ورد في وصف الفيديو الأصلي قبل النشر.",
+        "sources": [
+          "https://www.youtube.com/watch?v=w6c-70itQ7w"
+        ],
+        "video": ""
+      }
+    ],
+    "error": null,
+    "searches": 0,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "reel_bg": {
+    "url": "https://www.aljazeera.net/wp-content/uploads/2026/10/afp_6adc8f254130-1792839461.jpg?resize=570,380&quality=80",
+    "kind": "web_search",
+    "publisher": "aljazeera.net",
+    "shows": "مسلحون وعناصر عسكريون في شاحنة بيك أب مسلحة برشاش ثقيل، في شارع بمدينة يمنية وسط مبانٍ وألواح طاقة شمسية وجبال في الخلفي",
+    "text_checked": true,
+    "judged": true,
+    "rejected": [
+      {
+        "url": "https://alsaudi.news/wp-content/uploads/2026/11/article-598818.webp",
+        "shows": "مركبة عسكرية مدرعة على أرض صحراوية مع جنود، في سياق التصعيد العسكري في الحديدة وتعز",
+        "reason": "عليها نص مركَّب والجزء الخالي منه صغير (1200×496 بكسل)"
+      }
+    ]
+  },
+  "hook_candidates": [
+    {
+      "video_id": "Vl6sFsGLN54",
+      "title": "غارات على ميناء الحديدة.. واليمن: ضباط إيرانيون هناك",
+      "channel": "AlArabiya العربية",
+      "views": 74827,
+      "duration": 711,
+      "published": "2026-11-20T21:00:10Z",
+      "views_per_hour": 6110.7
+    },
+    {
+      "video_id": "XtjTA5GGV8I",
+      "title": "التحالف يعلن بدء عملية نوعية “لتحييد مصادر تهديد المدنيين في اليمن والمملكة“",
+      "channel": "العربي - أخبار ",
+      "views": 38515,
+      "duration": 31,
+      "published": "2026-11-20T14:42:32Z",
+      "views_per_hour": 2077.5
+    },
+    {
+      "video_id": "OMx27MLySBQ",
+      "title": "قوات التحالف تقصف ميناء الحديدة وجماعة الحوثي تتوعد موانئ السعودية.. التصعيد يدخل المنعرج الأخطر",
+      "channel": "العربي - أخبار ",
+      "views": 23780,
+      "duration": 350,
+      "published": "2026-11-20T17:37:09Z",
+      "views_per_hour": 1521.6
+    },
+    {
+      "video_id": "nEyIP6quZu4",
+      "title": "التحالف يطلب من المدنيين إخلاء ميناء الحديدة",
+      "channel": "AlArabiya العربية",
+      "views": 18340,
+      "duration": 704,
+      "published": "2026-11-20T10:56:35Z",
+      "views_per_hour": 822.2
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-11-19T00:00:00Z",
+          "2026-11-23T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "ميناء الحديدة مخازن إخلاء قصف",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "Hodeidah port warehouses evacuation airstrike Yemen",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "ميناء الحديدة اليمن تحميل سفن ميناء الحديدة",
+            "raw": 0,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 0,
+        "judged_ok": 0,
+        "rejected_channels": []
+      },
+      {
+        "broad": true,
+        "window": [
+          "2026-11-17T00:00:00Z",
+          "2026-11-24T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "ميناء الحديدة اليمن",
+            "raw": 30,
+            "channel_ok": 29
+          },
+          {
+            "query": "Hodeidah port Yemen",
+            "raw": 30,
+            "channel_ok": 16
+          },
+          {
+            "query": "Hodeidah port Yemen Saudi coalition",
+            "raw": 30,
+            "channel_ok": 8
+          }
+        ],
+        "duration_ok": 41,
+        "judged_ok": 41,
+        "rejected_channels": [
+          "قناة المهرية الفضائية",
+          "CGTN America",
+          "The Green Line",
+          "VTV24",
+          "War Watch Daily",
+          "ANTV - Truyền hình Công an Nhân dân",
+          "Thương hiệu & Công luận TV",
+          "Global News 77"
+        ]
+      }
+    ],
+    "picked": [
+      "Vl6sFsGLN54",
+      "XtjTA5GGV8I",
+      "OMx27MLySBQ",
+      "nEyIP6quZu4"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "أعلن التحالف بقيادة السعودية إخلاء مخازن ومنشآت في ميناء الحديدة اليمني تمهيدًا لاستهدافها، وهي أول عملية ضد الميناء منذ اندلاع الحرب.",
+      "visual": "غارات على ميناء الحديدة",
+      "map": {
+        "places": [
+          "ميناء الحديدة"
+        ],
+        "countries": [
+          "اليمن"
+        ]
+      }
+    },
+    {
+      "scene": 2,
+      "sentence": 0,
+      "text": "هل استهداف ميناء الحديدة مشروع عسكرياً أم جريمة ضد المدنيين؟",
+      "visual": ""
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "text": "كيف يرد الحوثيون على قصف الحديدة وما خطره على السعودية؟",
+      "visual": "دخان يتصاعد فوق ميناء الحديدة"
+    }
+  ],
+  "cost_script": {
+    "claude": {
+      "claude-haiku-5-5": 0.00366,
+      "claude-sonnet-5": 0.11861,
+      "claude-opus-5": 0.08461
+    }
+  },
+  "review_issue": 1968,
+  "stage2_issue": 1968
+}
