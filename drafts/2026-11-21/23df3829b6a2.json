@@ -1,7 +1,7 @@
 {
   "id": "23df3829b6a2",
   "created_at": "2026-11-21T09:13:09.691676+00:00",
-  "status": "pending",
+  "status": "approved_script",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -364,7 +364,8 @@
       "views": 74827,
       "duration": 711,
       "published": "2026-11-20T21:00:10Z",
-      "views_per_hour": 6110.7
+      "views_per_hour": 6110.7,
+      "picked": true
     },
     {
       "video_id": "XtjTA5GGV8I",
@@ -503,5 +504,14 @@
     }
   },
   "review_issue": 1968,
-  "stage2_issue": 1968
+  "stage2_issue": 1968,
+  "render_status": "queued",
+  "approved_script_at": "2026-11-21T09:19:23.160821+00:00",
+  "editor_override": {
+    "at": "2026-11-21T09:19:23.160801+00:00",
+    "reasons": [
+      "لم يتضح توثيق الاسم؛ يجب التأكد من أن الاسم والصفة مطابقان لما ورد في وصف الفيديو الأصلي قبل النشر."
+    ]
+  },
+  "hook_picked": 0
 }
