@@ -9545,8 +9545,12 @@ def test_narrator_voices_2111() -> None:
     import json
     import shutil
 
+    import yaml
+
     from src import reel_script, store, tts
     cfg = copy.deepcopy(load_config())
+    prod = yaml.safe_load((Path(__file__).resolve().parents[1] / "config.yaml").read_text(encoding="utf-8"))
+    cfg["reel"]["tts"]["elevenlabs"]["narrators"] = prod["reel"]["tts"]["elevenlabs"]["narrators"]
 
     # (1) الأرقام: نطق نداء التشكيل بإعرابه أولًا، وإلا القاعدة؛ والشرطة المائلة وقفة
     nouns = [{"text": "2026", "spoken": "أَلْفَيْنِ وَسِتَّةٍ وَعِشْرِينَ", "kind": "number"}]
