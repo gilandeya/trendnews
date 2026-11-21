@@ -1500,7 +1500,721 @@
     }
    ],
    "qa_requested_at": "2026-11-21T08:53:21.095240+00:00",
-   "selected_from": 1964
+   "selected_from": 1964,
+   "topic_issue": 1967,
+   "qa": {
+    "attempts": 1,
+    "at": "2026-11-21T08:54:51.271040+00:00",
+    "videos": [
+     {
+      "video_id": "4WAEl0V_EJI",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "minutes": 50.5,
+      "bites": 5,
+      "rejected": 0
+     },
+     {
+      "video_id": "3xjcdyddrhc",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "minutes": 28.1,
+      "bites": 6,
+      "rejected": 0
+     },
+     {
+      "video_id": "377vjWXA5Fk",
+      "channel": "CCTV中文",
+      "bloc": "chinese",
+      "minutes": 4.1,
+      "bites": 2,
+      "rejected": 0
+     },
+     {
+      "video_id": "w6c-70itQ7w",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "minutes": 17.4,
+      "bites": 9,
+      "rejected": 0
+     },
+     {
+      "video_id": "9PsyJhKPyTU",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "minutes": 15.2,
+      "bites": 14,
+      "rejected": 0
+     },
+     {
+      "video_id": "2w-agFAWgnQ",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "minutes": 4.5,
+      "bites": 0,
+      "rejected": 0,
+      "error": "Gemini: لا ناتج مقبول (no_candidates)"
+     },
+     {
+      "video_id": "X5xp7eBoWQo",
+      "channel": "فرانس 24 عربي",
+      "bloc": "arabic",
+      "minutes": 14.4,
+      "bites": 11,
+      "rejected": 1,
+      "rejected_why": {
+       "يتداخل مع مقطع قبله": 1
+      }
+     }
+    ],
+    "video_scores": {
+     "MiyHbGSuOVU": 0,
+     "377vjWXA5Fk": 1,
+     "BHrX8T028l8": 1,
+     "R45DnJzUXr0": 1,
+     "01kEMXxsc9U": 1,
+     "3xjcdyddrhc": 1,
+     "QXG1RlHWTw0": 1,
+     "9PsyJhKPyTU": 3,
+     "3Va6KFBV4H8": 2,
+     "3q_gWKMda1o": 1,
+     "jrMm5RIz0Vk": 2,
+     "4Xfsk05-Lbk": 1,
+     "ceuHI3h0Usc": 1,
+     "H4-NnsUms-g": 1,
+     "6bRyqvsesB8": 1,
+     "nEyIP6quZu4": 1,
+     "w6c-70itQ7w": 3,
+     "1nGFg_T-5Og": 2,
+     "AyavbATlk28": 1,
+     "xO4lMBqa0iI": 2,
+     "HeQVRt38GQo": 1,
+     "Vl6sFsGLN54": 1,
+     "vYNh599O61Q": 1,
+     "gyNW37swKcc": 2,
+     "4WAEl0V_EJI": 3,
+     "4Rc6o6_q1iQ": 3,
+     "2w-agFAWgnQ": 3,
+     "X5xp7eBoWQo": 1
+    },
+    "gemini_cost": 0.5986,
+    "gemini_rejected": 1,
+    "channels": 6,
+    "answer_channels": 5,
+    "originals": [
+     {
+      "bite_id": "w6c-70itQ7w:g154",
+      "source_channel": "",
+      "found": false,
+      "candidate": "DExGQAHsg90",
+      "candidates": [
+       "e6q5iKE3z5w",
+       "DExGQAHsg90"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "w6c-70itQ7w:g452",
+      "source_channel": "",
+      "found": false,
+      "candidate": "xVtbsWT22j0",
+      "candidates": [
+       "sj7jeRFR4-0",
+       "xVtbsWT22j0"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "w6c-70itQ7w:g737",
+      "source_channel": "",
+      "found": false,
+      "candidate": "PUHk30YKl-8",
+      "candidates": [
+       "YWQfNCuA2EM",
+       "PUHk30YKl-8"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "9PsyJhKPyTU:g56",
+      "source_channel": "",
+      "found": false,
+      "candidate": "5CtNTSwVSRo",
+      "candidates": [
+       "Yq43TxWrXws",
+       "5CtNTSwVSRo"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     }
+    ],
+    "originals_found": 0,
+    "read_dropped": 20,
+    "read_dropped_speakers": [
+     "?",
+     "ردفان الدبيس",
+     "سعيد ثابت",
+     "علي الذهب",
+     "فيصل الحمد",
+     "محمد الكميم"
+    ],
+    "source": "gemini",
+    "failures": [
+     {
+      "video_id": "2w-agFAWgnQ",
+      "channel": "سكاي نيوز عربية",
+      "reason": "Gemini: لا ناتج مقبول (no_candidates)"
+     }
+    ],
+    "plan": {
+     "attempts": [
+      {
+       "model": "claude-sonnet-5",
+       "stop_reason": "tool_use",
+       "bites": 27,
+       "rows": 0,
+       "raw_type": "str",
+       "answers": 0,
+       "bad_n": 0,
+       "error": "لم يقترح النموذج سؤالًا له إجابات"
+      },
+      {
+       "model": "claude-opus-5",
+       "stop_reason": "tool_use",
+       "bites": 27,
+       "rows": 5,
+       "raw_type": "list",
+       "answers": 31,
+       "bad_n": 0,
+       "error": ""
+      }
+     ]
+    },
+    "verify": {
+     "checked": 15,
+     "ok": 7,
+     "no_match": 0,
+     "failed": 8,
+     "no_text": 0,
+     "left": 11,
+     "audio_seconds": 417,
+     "skipped": "",
+     "cut_off": 3,
+     "seconds": 301
+    },
+    "capped": 13,
+    "selected_seconds": 118.8,
+    "status": "ready",
+    "titles": [
+     "من يضرب الآخر أولاً.. الحديدة أم موانئ المملكة؟",
+     "هل تتحول نار اليمن إلى حرب تبتلع شبه الجزيرة؟",
+     "لماذا تدفع الرياض ثمن معركة الحديدة؟"
+    ],
+    "questions": [
+     {
+      "text": "هل استهداف ميناء الحديدة مشروع عسكرياً أم جريمة ضد المدنيين؟",
+      "answers": [
+       {
+        "n": 7,
+        "fit": "direct",
+        "view": "الميناء جزء من المجهود الحربي",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "w6c-70itQ7w:g20"
+       },
+       {
+        "n": 3,
+        "fit": "direct",
+        "view": "ذريعة سعودية لقصف موانئ مدنية",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "4WAEl0V_EJI:g1328"
+       },
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "الميناء منشأة عسكرية لتهريب السلاح",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "w6c-70itQ7w:g326"
+       },
+       {
+        "n": 9,
+        "fit": "weak",
+        "view": "أول استهداف للميناء منذ الحرب",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "9PsyJhKPyTU:g25"
+       }
+      ]
+     },
+     {
+      "text": "كيف يرد الحوثيون على قصف الحديدة وما حجم الخطر على السعودية؟",
+      "answers": [
+       {
+        "n": 6,
+        "fit": "direct",
+        "view": "هجمات شبه يومية على الرياض",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "3xjcdyddrhc:g943"
+       },
+       {
+        "n": 2,
+        "fit": "direct",
+        "view": "كل موانئ المملكة أهداف مشروعة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "4WAEl0V_EJI:g620"
+       },
+       {
+        "n": 1,
+        "fit": "direct",
+        "view": "ضرب عصب الاقتصاد والاستثمارات السعودية",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "4WAEl0V_EJI:g233"
+       },
+       {
+        "n": 12,
+        "fit": "direct",
+        "view": "ضغط على خطوط تصدير النفط",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "X5xp7eBoWQo:g1808"
+       },
+       {
+        "n": 14,
+        "fit": "weak",
+        "view": "تهديد وجودي لاقتصاد المملكة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "X5xp7eBoWQo:g1933"
+       }
+      ]
+     },
+     {
+      "text": "لماذا تتعرض السعودية بالذات لضربات الحوثيين؟",
+      "answers": [
+       {
+        "n": 5,
+        "fit": "direct",
+        "view": "اتفاق سري يستثني السفن الإسرائيلية والأمريكية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "3xjcdyddrhc:g856"
+       },
+       {
+        "n": 4,
+        "fit": "direct",
+        "view": "الرياض تدخلت ظناً بضعف الحوثيين",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "3xjcdyddrhc:g109"
+       },
+       {
+        "n": 2,
+        "fit": "direct",
+        "view": "رد على الغارات السعودية المستمرة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "4WAEl0V_EJI:g620"
+       },
+       {
+        "n": 13,
+        "fit": "weak",
+        "view": "تمدد النفوذ الإيراني يهدد الرياض",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "X5xp7eBoWQo:g1855"
+       }
+      ]
+     },
+     {
+      "text": "لماذا تقدّم الحوثيون ميدانياً بينما تعثرت قوات التحالف والشرعية؟",
+      "answers": [
+       {
+        "n": 4,
+        "fit": "weak",
+        "view": "الحوثيون يسيطرون على المناطق الغنية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "3xjcdyddrhc:g109"
+       },
+       {
+        "n": 10,
+        "fit": "direct",
+        "view": "الشرعية مفتتة بلا قيادة موحدة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "X5xp7eBoWQo:g1684"
+       },
+       {
+        "n": 15,
+        "fit": "weak",
+        "view": "انقسام بين الشرعية والانتقالي الجنوبي",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "X5xp7eBoWQo:g2040"
+       }
+      ]
+     },
+     {
+      "text": "هل يسقط الجنوب اليمني وعدن في قبضة الحوثيين قريباً؟",
+      "answers": [
+       {
+        "n": 11,
+        "fit": "direct",
+        "view": "عدن تحت الحصار خلال أيام",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "X5xp7eBoWQo:g1754"
+       },
+       {
+        "n": 16,
+        "fit": "direct",
+        "view": "مقاومة شعبية ورفض دولي يمنعانهم",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "X5xp7eBoWQo:g2066"
+       }
+      ]
+     }
+    ],
+    "context": [],
+    "bites": [
+     {
+      "bite_id": "4WAEl0V_EJI:g233",
+      "video_id": "4WAEl0V_EJI",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "رشاد الوتيري",
+      "speaker_original": "رشاد الوتيري",
+      "speaker_role": "خبير عسكري يمني",
+      "is_host": false,
+      "type": "forecast",
+      "start": 232.5,
+      "end": 250.02,
+      "summary_ar": "الوتيري يؤكد أن القوات المسلحة اليمنية سترد على التصعيد بضرب عصب الاقتصاد والاستثمارات في السعودية.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "4WAEl0V_EJI:g620",
+      "video_id": "4WAEl0V_EJI",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "مجيب شمسان",
+      "speaker_original": "مجيب شمسان",
+      "speaker_role": "خبير يمني في الشؤون السياسية والعسكرية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 620.0,
+      "end": 643.0,
+      "summary_ar": "شمسان يرى أن استمرار الغارات السعودية سيجعل كل منشآت وموانئ المملكة هدفاً للقوات اليمنية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "4WAEl0V_EJI:g1328",
+      "video_id": "4WAEl0V_EJI",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "مجيب شمسان",
+      "speaker_original": "مجيب شمسان",
+      "speaker_role": "خبير يمني في الشؤون السياسية والعسكرية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1328.0,
+      "end": 1358.0,
+      "summary_ar": "شمسان يعتبر أن السعودية هي من تعرّض الملاحة للخطر وتتذرع بذلك لاستهداف الموانئ اليمنية المدنية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "3xjcdyddrhc:g109",
+      "video_id": "3xjcdyddrhc",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "معصوم توركر",
+      "speaker_original": "Masum Türker",
+      "speaker_role": "وزير دولة تركي سابق",
+      "is_host": false,
+      "type": "opinion",
+      "start": 109.54,
+      "end": 122.7,
+      "summary_ar": "يرى أن الحوثيين يسيطرون على المناطق الغنية في اليمن وأن التدخل السعودي جاء بدافع استغلال ما ظنوه تراجعًا حوثيًا.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "3xjcdyddrhc:g856",
+      "video_id": "3xjcdyddrhc",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "عبد القادر سلفي",
+      "speaker_original": "Abdulkadir Selvi",
+      "speaker_role": "صحفي وكاتب سياسي تركي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 856.0,
+      "end": 878.0,
+      "summary_ar": "يرى أن الحوثيين عقدوا اتفاقًا سريًا يجنبون بموجبه الناقلات الإسرائيلية والأمريكية الاستهداف ويركزون على معاقبة السعودية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "3xjcdyddrhc:g943",
+      "video_id": "3xjcdyddrhc",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "أنس أرول",
+      "speaker_original": "Enes Arol",
+      "speaker_role": "مراسل قناة سي إن إن ترك في الرياض",
+      "is_host": false,
+      "type": "fact",
+      "start": 943.0,
+      "end": 964.0,
+      "summary_ar": "أفاد بأن العاصمة السعودية الرياض تشهد توترًا متزايدًا بسبب استهداف الحوثيين لمواقع حيوية فيها بشكل شبه يومي.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "w6c-70itQ7w:g20",
+      "video_id": "w6c-70itQ7w",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "فيصل الحمد",
+      "speaker_original": "فيصل الحمد",
+      "speaker_role": "خبير عسكري واستراتيجي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 20.08,
+      "end": 39.82,
+      "summary_ar": "يرى فيصل الحمد أن لدى التحالف إثباتات تؤكد تحول منشأة ميناء الحديدة إلى جزء من المجهود الحربي للحوثيين، مما يجعل استهدافها شرعياً.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "w6c-70itQ7w:g326",
+      "video_id": "w6c-70itQ7w",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "ردفان الدبيس",
+      "speaker_original": "ردفان الدبيس",
+      "speaker_role": "صحفي في شبكة العربية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 326.28,
+      "end": 342.2,
+      "summary_ar": "يؤكد ردفان الدبيس أن إنذار التحالف بإخلاء المنطقة جاء بدافع الحرص على المدنيين لكونها موقعاً عسكرياً، بخلاف الاستهدافات العشوائية الحوثية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "9PsyJhKPyTU:g25",
+      "video_id": "9PsyJhKPyTU",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "سعيد ثابت",
+      "speaker_original": "سعيد ثابت",
+      "speaker_role": "مدير مكتب قناة الجزيرة في اليمن",
+      "is_host": false,
+      "type": "fact",
+      "start": 25.02,
+      "end": 55.66,
+      "summary_ar": "ميناء الحديدة لم يتعرض لاستهداف مباشر من التحالف العربي منذ اندلاع الحرب، والخريطة تشمل منشآت ومخازن محددة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "X5xp7eBoWQo:g1684",
+      "video_id": "X5xp7eBoWQo",
+      "channel": "فرانس 24 عربي",
+      "bloc": "arabic",
+      "orientation": "فرنسي حكومي",
+      "speaker": "تميم هيكل",
+      "speaker_original": "تميم هيكل",
+      "speaker_role": "كاتب وصحفي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1684.0,
+      "end": 1714.0,
+      "summary_ar": "تميم هيكل يوضح أن الحوثيين استعدوا جيداً للمعارك بينما تعاني قوات الحكومة الشرعية اليمنية من التفتت والافتقار لقيادة موحدة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "X5xp7eBoWQo:g1754",
+      "video_id": "X5xp7eBoWQo",
+      "channel": "فرانس 24 عربي",
+      "bloc": "arabic",
+      "orientation": "فرنسي حكومي",
+      "speaker": "تميم هيكل",
+      "speaker_original": "تميم هيكل",
+      "speaker_role": "كاتب وصحفي",
+      "is_host": false,
+      "type": "forecast",
+      "start": 1754.0,
+      "end": 1779.0,
+      "summary_ar": "تميم هيكل يتوقع سقوط عدن تحت حصار الحوثيين في غضون أيام بسبب تشتت قيادة قوات الشرعية اليمنية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "X5xp7eBoWQo:g1808",
+      "video_id": "X5xp7eBoWQo",
+      "channel": "فرانس 24 عربي",
+      "bloc": "arabic",
+      "orientation": "فرنسي حكومي",
+      "speaker": "تميم هيكل",
+      "speaker_original": "تميم هيكل",
+      "speaker_role": "كاتب وصحفي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1808.0,
+      "end": 1841.0,
+      "summary_ar": "تميم هيكل يؤكد أن سيطرة الحوثيين على الممر الملاحي وتهديد خطوط أنابيب النفط السعودية وضعا الرياض تحت ضغط شديد.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "X5xp7eBoWQo:g1855",
+      "video_id": "X5xp7eBoWQo",
+      "channel": "فرانس 24 عربي",
+      "bloc": "arabic",
+      "orientation": "فرنسي حكومي",
+      "speaker": "مصطفى الطوسة",
+      "speaker_original": "مصطفى الطوسة",
+      "speaker_role": "نائب رئيس التحرير في إذاعة مونت كارلو الدولية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1855.0,
+      "end": 1885.0,
+      "summary_ar": "مصطفى الطوسة يعتبر أن التقدم الميداني للحوثيين يعزز النفوذ الإيراني ويشكل تهديداً كبيراً لأمن واستقرار السعودية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "X5xp7eBoWQo:g1933",
+      "video_id": "X5xp7eBoWQo",
+      "channel": "فرانس 24 عربي",
+      "bloc": "arabic",
+      "orientation": "فرنسي حكومي",
+      "speaker": "مصطفى الطوسة",
+      "speaker_original": "مصطفى الطوسة",
+      "speaker_role": "نائب رئيس التحرير في إذاعة مونت كارلو الدولية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1933.0,
+      "end": 1949.0,
+      "summary_ar": "مصطفى الطوسة يحذر من أن ترك الحوثيين دون رادع سيمثل خطراً وجودياً على اقتصاد السعودية وحلفائها.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "X5xp7eBoWQo:g2040",
+      "video_id": "X5xp7eBoWQo",
+      "channel": "فرانس 24 عربي",
+      "bloc": "arabic",
+      "orientation": "فرنسي حكومي",
+      "speaker": "حميد الكفائي",
+      "speaker_original": "حميد الكفائي",
+      "speaker_role": "صحفي وكاتب سياسي",
+      "is_host": false,
+      "type": "fact",
+      "start": 2040.0,
+      "end": 2066.0,
+      "summary_ar": "حميد الكفائي يشير إلى التناقض بين سعي الجنوبيين للانفصال ورغبة حكومة العليمي والسعودية في الحفاظ على وحدة اليمن.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "X5xp7eBoWQo:g2066",
+      "video_id": "X5xp7eBoWQo",
+      "channel": "فرانس 24 عربي",
+      "bloc": "arabic",
+      "orientation": "فرنسي حكومي",
+      "speaker": "حميد الكفائي",
+      "speaker_original": "حميد الكفائي",
+      "speaker_role": "صحفي وكاتب سياسي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2066.0,
+      "end": 2099.0,
+      "summary_ar": "حميد الكفائي يستبعد مهاجمة الحوثيين لعدن خشية المقاومة الشعبية وتفادي استفزاز القوى الدولية المستفيدة من مضيق باب المندب.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     }
+    ],
+    "error": "",
+    "extracted": 27,
+    "cost": {
+     "claude": {
+      "claude-haiku-5-5": 0.00104,
+      "claude-sonnet-5": 0.03628,
+      "claude-opus-5": 0.2901
+     },
+     "gemini": 0.5986,
+     "proxy_bytes": 13211837
+    }
+   }
   },
   {
    "id": "be2e737bd9cd",
