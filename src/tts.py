@@ -120,6 +120,8 @@ class VoiceSession:
         self.remaining: int | None = None
         self.el_chars = 0
         self.mixed = False
+        # صوت ElevenLabs المختار لراوي هذا الريل (script.narrator_voice، تناوب الأصوات 21/11)؛ فارغ ← صوت الجنس كما كان
+        self.voice_id = ""
 
     def _decide(self) -> None:
         e = _el_cfg(self.cfg)
@@ -137,7 +139,9 @@ class VoiceSession:
         self.provider = "elevenlabs"
 
     def _el_voice(self, voice: str) -> str:
-        """صوت Google للراوي ← جنسه في narrator_voices ← صوت ElevenLabs لذلك الجنس."""
+        """صوت راوي الريل المحفوظ في السيناريو، وإلا: صوت Google للراوي ← جنسه في narrator_voices ← صوت ElevenLabs لذلك الجنس."""
+        if self.voice_id:
+            return self.voice_id
         narr = self.cfg.path("reel.tts.narrator_voices") or {}
         gender = next((g for g, v in narr.items() if v == voice), "female")
         return str((_el_cfg(self.cfg).get("voices") or {}).get(gender) or "")
@@ -200,8 +204,11 @@ DIACRITIZE_TOOL = {
     "input_schema": {"type": "object", "properties": {
         "text": {"type": "string"},
         "proper_nouns": {"type": "array", "items": {"type": "object", "properties": {
-            "text": {"type": "string"}, "foreign": {"type": "boolean"}, "latin": {"type": "string"}},
-            "required": ["text", "foreign"]}}},
+            "text": {"type": "string"}, "foreign": {"type": "boolean"}, "latin": {"type": "string"},
+            "kind": {"type": "string", "enum": ["person", "place", "organization", "channel", "other"]}},
+            "required": ["text", "foreign", "kind"]}},
+        "numbers": {"type": "array", "items": {"type": "object", "properties": {
+            "text": {"type": "string"}, "spoken": {"type": "string"}}, "required": ["text", "spoken"]}}},
         "required": ["text"]},
 }
 
@@ -231,6 +238,9 @@ def _diacritize_once(text: str, dcfg: dict, client, reason: str | None) -> tuple
     record_usage(resp, model)
     data = next((b.input for b in resp.content if getattr(b, "type", "") == "tool_use"), None) or {}
     nouns = [n for n in (data.get("proper_nouns") or []) if isinstance(n, dict) and isinstance(n.get("text"), str)]
+    # الأرقام تُحمل مع الأعلام (kind: number) كي لا يتغير شكل ما يعيده diacritize_full لكل مستدعيه
+    nouns += [{"text": str(n["text"]).strip(), "spoken": str(n["spoken"]).strip(), "kind": "number"}
+              for n in (data.get("numbers") or []) if isinstance(n, dict) and n.get("text") and n.get("spoken")]
     return str(data.get("text") or ""), nouns
 
 
@@ -317,6 +327,8 @@ def apply_proper_nouns(text: str, nouns: list) -> str:
     words = [(m.start(), m.end(), strip_tashkeel(m.group())) for m in _WORD_RE.finditer(text or "")]
     wanted: dict[int, bool] = {}
     for n in nouns or []:
+        if (n or {}).get("kind") == "number":
+            continue
         toks = strip_tashkeel(str((n or {}).get("text") or "")).split()
         foreign = bool((n or {}).get("foreign"))
         hit = False
@@ -345,7 +357,7 @@ def latin_names(text: str, nouns: list, cfg=None) -> tuple[str, list]:
     لاتيني خالص وردت كلماته كلها في النص؛ والأطول كلماتٍ أولًا فلا يُبتر علم داخل علم. دالة خالصة."""
     valid = []
     for n in nouns or []:
-        if not isinstance(n, dict) or not n.get("foreign"):
+        if not isinstance(n, dict) or not n.get("foreign") or not latin_kind_ok(n, cfg):
             continue
         latin = " ".join(str(n.get("latin") or "").split())
         toks = strip_tashkeel(str(n.get("text") or "")).split()
@@ -377,6 +389,103 @@ def latin_names(text: str, nouns: list, cfg=None) -> tuple[str, list]:
         pos = end
     out.append(text[pos:])
     return "".join(out), used
+
+
+def latin_kind_ok(noun: dict, cfg=None) -> bool:
+    """هل يُنطق هذا العَلَم برسمه الأجنبي؟ (طلب صاحب المشروع 21/11): أسماء الأشخاص وحدها، والمدن والجهات تُقرأ بالعربية
+    («شنتشن» لا «Shenzhen»). علم بلا kind (مزيَّف قديم) يبقى كما كان. reel.tts.latin_names.kinds فارغة ← كل الأنواع."""
+    kinds = (cfg.path("reel.tts.latin_names.kinds") if cfg is not None else None) or []
+    kind = noun.get("kind")
+    return not kinds or not kind or kind in kinds
+
+
+# ───────────── الأرقام بالكلمات في نص النطق (طلب صاحب المشروع 21/11: الأصوات تنطق الأرقام بشكل غريب) ─────────────
+# الرقم مكتوبًا بالأرقام يقرؤه ElevenLabs بلغة أخرى أو خانةً خانة («2026»، «1.4»). النطق بالكلمات من نداء التشكيل نفسه
+# (numbers[].spoken، بإعرابه في سياقه)، وما لم يُعِده يُكتب هنا بقاعدة بسيطة. المعروض على الشاشة يبقى بالأرقام.
+
+# الحرف العربي قبل الرقم مباشرة (و1,200) حرف عطف لا جزء من الرقم، فالحدّ أرقام ونقطة وحدها
+_NUM_RE = re.compile(r"(?<![\d.])(\d{1,3}(?:,\d{3})+|\d+)(?:\.(\d+))?(%?)(?!\d)")
+_ONES = ["صفر", "واحد", "اثنان", "ثلاثة", "أربعة", "خمسة", "ستة", "سبعة", "ثمانية", "تسعة", "عشرة", "أحد عشر",
+         "اثنا عشر", "ثلاثة عشر", "أربعة عشر", "خمسة عشر", "ستة عشر", "سبعة عشر", "ثمانية عشر", "تسعة عشر"]
+_TENS = ["", "", "عشرون", "ثلاثون", "أربعون", "خمسون", "ستون", "سبعون", "ثمانون", "تسعون"]
+_HUNDREDS = ["", "مئة", "مئتان", "ثلاثمئة", "أربعمئة", "خمسمئة", "ستمئة", "سبعمئة", "ثمانمئة", "تسعمئة"]
+_SCALES = [("", "", "", ""), ("ألف", "ألفان", "آلاف", "ألف"), ("مليون", "مليونان", "ملايين", "مليون"),
+           ("مليار", "ملياران", "مليارات", "مليار")]
+
+
+def _below_thousand(n: int) -> str:
+    parts = []
+    if n >= 100:
+        parts.append(_HUNDREDS[n // 100])
+        n %= 100
+    if n >= 20:
+        parts.append((_ONES[n % 10] + " و" if n % 10 else "") + _TENS[n // 10])
+    elif n:
+        parts.append(_ONES[n])
+    return " و".join(parts)
+
+
+def number_words(n: int) -> str:
+    """عدد صحيح بالكلمات (مرفوعًا، مذكرًا): احتياط لما لم يُعِده نداء التشكيل. دالة خالصة."""
+    if n < 20:
+        return _ONES[n]
+    groups, scale = [], 0
+    while n and scale < len(_SCALES):
+        n, chunk = divmod(n, 1000)
+        if chunk:
+            one, two, few, many = _SCALES[scale]
+            if not scale:
+                groups.append(_below_thousand(chunk))
+            elif chunk == 1:
+                groups.append(one)
+            elif chunk == 2:
+                groups.append(two)
+            elif chunk <= 10:
+                groups.append(_below_thousand(chunk) + " " + few)
+            else:
+                groups.append(_below_thousand(chunk) + " " + many)
+        scale += 1
+    return " و".join(reversed(groups))
+
+
+def _number_token_words(whole: str, frac: str | None, pct: str) -> str:
+    words = number_words(int(whole.replace(",", "")))
+    if frac:
+        words += " فاصلة " + (number_words(int(frac)) if not frac.startswith("0") else " ".join(_ONES[int(d)] for d in frac))
+    if pct:
+        words += " بالمئة"
+    return words
+
+
+def spoken_numbers(text: str, nouns: list | None = None) -> str:
+    """نص النطق وحده: كل رقم بالكلمات — ما أعاده نداء التشكيل لذلك الرقم أولًا (بإعرابه)، وإلا number_words. والشرطة
+    المائلة بين كلمتين («أكتوبر/تشرين الأول») تُقرأ وقفة لا «سلاش». نطق فيه رقم أو حرف لاتيني لا يُقبل. دالة خالصة."""
+    given: dict[str, list[str]] = {}
+    for n in nouns or []:
+        if isinstance(n, dict) and n.get("kind") == "number":
+            spoken = str(n.get("spoken") or "").strip()
+            if spoken and not re.search(r"[0-9A-Za-z٠-٩]", spoken):
+                given.setdefault(str(n.get("text") or "").strip().rstrip("%"), []).append(spoken)
+
+    def sub(m: re.Match) -> str:
+        key = m.group(1) + (("." + m.group(2)) if m.group(2) else "")
+        if given.get(key):
+            return given[key].pop(0) if len(given[key]) > 1 else given[key][0]
+        return _number_token_words(m.group(1), m.group(2), m.group(3))
+
+    text = re.sub(r"(?<=[ء-يً-ْ])\s*/\s*(?=[ء-ي])", "، ", text or "")
+    return _NUM_RE.sub(sub, text)
+
+
+def spoken_line(sentence: str, nouns: list, cfg, latin: bool = False) -> tuple[str, list]:
+    """نص النطق لجملة واحدة كما يرسله التركيب وأداة القياس: الوقف ← الأسماء الأجنبية برسمها (latin) ← الأرقام بالكلمات.
+    يعيد (النص، الأسماء المستبدلة). الأرقام بعد الوقف كي لا يُسكَّن آخر رقم بالقاعدة: نطقه من نداء التشكيل بحركته."""
+    spoken, used = apply_waqf(sentence), []
+    if latin:
+        spoken, used = latin_names(spoken, nouns, cfg)
+    if cfg is None or cfg.path("reel.tts.numbers.enabled", True):
+        spoken = spoken_numbers(spoken, nouns)
+    return spoken, used
 
 
 def split_sentences(text: str) -> list[str]:

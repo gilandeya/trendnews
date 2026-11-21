@@ -2749,6 +2749,19 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 **اشتراك Creator السنوي (19/11):** `output_format: mp3_44100_192` و`usd_per_1000_chars: 0.07` (99$ للسنة الأولى ÷ 121 ألف حرف شهريًا؛
 بعدها نحو 0.15). الخطة المجانية وStarter لا تقبلان 192 فيرجع الريل إلى Google بسطر السبب.
 
+## رواة الريل الأربعة والأرقام والأعلام في النطق (طلب صاحب المشروع 21/11، بعد أداة القياس) — `src/tts.py`، `reel_script.next_narrator_voice`
+
+- **الأصوات:** `reel.tts.elevenlabs.narrators` أربعة أصوات (Woman1، Man1، Woman2، Man2) بالترتيب؛ `next_narrator_voice` يعطي كل ريل
+  جديد الصوت التالي بعد صوت آخر مسودة ريل محفوظة (`script.narrator_voice`) فيتناوب الجنس معه. `write_for_draft` يحفظ على السيناريو
+  `narrator`/`narrator_voice`/`narrator_name`، والتركيب يضعه في `VoiceSession.voice_id` فيغلب صوت الجنس. `narrator_label` يعرض
+  «راوٍ (ذكر): Man1» في المرحلة 2 وقضية المراجعة. أصوات المكتبة: التوليد يعمل وسؤال اسمها (`/v1/voices/{id}`) يُرفض بـ400، فالأسماء
+  في الإعداد. قائمة فارغة ← صوتا `voices` بالجنس كما كان.
+- **نص النطق (`tts.spoken_line`، يستعمله `_speech` وأداة القياس):** الوقف ← أسماء الأشخاص الأجنبية برسمها (`latin_names`، وفي
+  `proper_nouns` صار `kind` مطلوبًا و`reel.tts.latin_names.kinds: [person]`؛ المدن والجهات والقنوات بالعربية؛ علم بلا kind كما كان) ←
+  الأرقام بالكلمات (`spoken_numbers`): نطق نداء التشكيل نفسه (`numbers[].spoken` بإعرابه، يُحمل في قائمة الأعلام بـ`kind: number`) وإلا
+  `number_words` (قاعدة بسيطة مرفوعة مذكرة)، والشرطة المائلة بين كلمتين وقفة. المعروض على الشاشة لا يتغير. `reel.tts.numbers.enabled: false`
+  ← الأرقام كما هي. الاختبار `tests/test_youtube.py:test_narrator_voices_2111`.
+
 ## أسطر بالجمل في نصوص الريل (قرار صاحب المشروع 7/11) — `reel_render.clause_wrap`
 
 كل جملة (تنتهي بعلامة من `reel.render.clause_lines.marks` تليها مسافة) تبدأ سطرًا جديدًا، وما لا يسعه سطر يُكمل تحته قبل أن تبدأ التالية:

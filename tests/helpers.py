@@ -123,6 +123,8 @@ def load_config(path=None):
         el = ((cfg.get("reel") or {}).get("tts") or {}).get("elevenlabs")
         if isinstance(el, dict):
             el["enabled"] = False
+            # تناوب الأصوات الأربعة (21/11) يغيّر جنس الراوي الذي تثبّته اختبارات السيناريو؛ test_narrator_voices_2111 يعيده
+            el["narrators"] = []
         # سرعة الراوي (16/11) تضيف atempo إلى أوامر الصوت وتغيّر تقدير المدة، وmin_answers: 1 يُبقي سؤالًا بإجابة واحدة؛
         # الاختبارات القديمة على القيم السابقة وtest_reel_1895_fixes يثبّت قيم config.yaml
         if isinstance((cfg.get("reel") or {}).get("tts"), dict):

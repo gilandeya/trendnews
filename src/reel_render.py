@@ -3368,13 +3368,11 @@ def _speech(text: str, voice: str, cfg, deps: Deps, tmp: Path, tag: str) -> tupl
     latin_on = bool(cfg.path("reel.tts.latin_names.enabled")) and session is not None and session.multilingual()
     wavs, parts = [], []
     for k, sentence in enumerate(sentences):
-        spoken = tts.apply_waqf(sentence)
-        if latin_on:
-            # ريل 1913: الأسماء الأجنبية تُنطق برسمها الأصلي؛ المعروض (parts أدناه) عربي كما هو
-            spoken, used = tts.latin_names(spoken, nouns, cfg)
-            seen = getattr(deps, "spoken_names", None)
-            if seen is not None:
-                seen.extend(p for p in used if p not in seen)
+        # ريل 1913: أسماء الأشخاص الأجنبية تُنطق برسمها الأصلي، و21/11: الأرقام بالكلمات؛ المعروض (parts أدناه) كما هو
+        spoken, used = tts.spoken_line(sentence, nouns, cfg, latin=latin_on)
+        seen = getattr(deps, "spoken_names", None)
+        if seen is not None:
+            seen.extend(p for p in used if p not in seen)
         res = deps.synthesize(spoken, voice)
         if not res.get("ok"):
             raise RuntimeError("تعذّر توليد الصوت: " + str(res.get("error") or res.get("skipped") or "?")[:120])
@@ -7440,6 +7438,8 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     if len(clips) < need:
         raise RuntimeError(f"بقي {len(clips)} مقطعًا من {wanted} بعد الحذف والأدنى المطلوب {need}")
     voice = cfg.path(f"reel.tts.narrator_voices.{script.get('narrator', 'female')}")
+    if deps.voice_session is not None and script.get("narrator_voice"):
+        deps.voice_session.voice_id = str(script["narrator_voice"])   # صوت الراوي المختار للريل (تناوب الأصوات 21/11)
     stage_mark("background")
     bg, bg_saved = _resolve_background(path, draft, cfg, deps, notes)
     if bg is None and cfg.path("reel.render.background.navy_canvas", False):

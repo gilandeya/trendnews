@@ -25,7 +25,8 @@ def build_body(draft: dict, cfg) -> str:
     t = cfg.path("reel.review")
     base = cfg.path("reel.render.data_link_base")
     script = draft.get("script") or {}
-    narrator = cfg.path("reel.texts.narrator_" + str(script.get("narrator", "female")), "")
+    from . import reel_script
+    narrator = reel_script.narrator_label({"narrator": "female", **script}, cfg)
     # الروابط لا الصور: المستودع خاص فلا تُعرض الصورة في الـIssue
     # العلامة العارية <!-- draft:id --> تجدها review.all_draft_ids كبقية القضايا: بها تعرف cmd_reel_review ريل القضية
     lines = [stages.stage_header(3, cfg), "", t["explainer"], "",
