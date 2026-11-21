@@ -43,6 +43,9 @@ CONTEXT_TOOL = {
             "questions": {"type": "array", "items": {"type": "string"},
                           "description": "الأسئلة المختارة نفسها بترتيبها وعددها، مصوغةً لتتصل بالسياق: ما قدّمه السياق يُذكر معرفةً "
                                          "أو باسمه، والمعنى لا يتغير"},
+            # 21/11 (صاحب المشروع: «سؤال الهوك ركيك»): العنوان كُتب قبل كل شيء، فيُصاغ هنا سؤالًا واحدًا واضحًا بالمعنى نفسه
+            "hook_question": {"type": "string",
+                              "description": "السؤال الرئيس مصوغًا سؤالًا واحدًا واضحًا بالمعنى نفسه، يُقرأ أول الريل"},
         },
         "required": ["context", "closing_question"],
     },
@@ -203,6 +206,21 @@ def beats_text(data: dict) -> list[str]:
             if isinstance(b, dict) and " ".join(str(b.get("text") or "").split())]
 
 
+_COMPOUND_RE = re.compile(r"\sو\s?(?:ما|هل|كيف|لماذا|لم|من|متى|أين|أي|أيّ|ماذا|إلى\s+أين)(?=\s|؟|\?|$)")
+LEN_PREFIX, COMPOUND_PREFIX = "السياق أطول من", "سؤال مركّب"
+
+
+def compound_question(text: str) -> bool:
+    """سؤالان يصلهما «و» في جملة واحدة («كيف يرد الحوثيون… وما خطره على السعودية؟»، ريل 21/11): يُقرأ ركيكًا ولا تجيبه إجابات
+    سؤال واحد. الأداة بعد الواو بعد أول كلمة، فـ«وما» في أول السؤال لا تُعدّ."""
+    return bool(_COMPOUND_RE.search(" ".join(str(text or "").split())))
+
+
+def _soft(reason: str) -> bool:
+    """مخالفة لا تُسقط السيناريو بعد المحاولتين: طول السياق (قرار 1862/1885) والسؤال المركّب (يُقبل بتنبيه)."""
+    return reason.startswith(LEN_PREFIX) or reason.startswith(COMPOUND_PREFIX)
+
+
 def frame_problems(data: dict, cfg, limit: int | None = None, n_clips: int = 0) -> list[str]:
     """ما يرفض الكود من نداء السياق: سياق فارغ أو أطول من الحد، وختام فارغ أو يبدأ بـ«برأيك» (التركيب يضيفها هو)، وتوزيع
     السياق على مقاطعه حين أُرفقت (beats_problems). بمقاطع السياق يُعدّ كلام beats نفسه لا حقل context."""
@@ -223,6 +241,10 @@ def frame_problems(data: dict, cfg, limit: int | None = None, n_clips: int = 0) 
         out.append("سؤال الختام فارغ")
     elif closing.startswith("برأيك"):
         out.append("سؤال الختام يبدأ بـ«برأيك» والتركيب يضيفها")
+    from . import reel_script as _rs
+    for q in [data.get("hook_question")] + list(_rs._listish(data.get("questions")) or []):
+        if isinstance(q, str) and compound_question(q):
+            out.append(f"{COMPOUND_PREFIX}: «{' '.join(q.split())}» — اجعله سؤالًا واحدًا")
     return out + beats_problems(data, n_clips)
 
 
@@ -235,7 +257,8 @@ def write_frame(title: str, topic: dict, questions: list[dict], by_bite: dict, f
         cfg.path("youtube.meta_topics.script.words_per_context_clip", 0) or 0) * len(context_ids or [])
     from . import llm
     system = llm.with_notes(str(s.get("system", "")).replace("{context_max_words}", str(limit)).replace(
-        "{question_max_words}", str(int(cfg.path("reel.script.v2.question_max_words", 10)))), cfg)
+        "{question_max_words}", str(int(cfg.path("reel.script.v2.question_max_words", 10)))).replace(
+        "{main_question_max_words}", str(int(cfg.path("reel.script.v2.main_question_max_words", 12)))), cfg)
     messages: list[dict] = [{"role": "user", "content": frame_message(title, topic, questions, by_bite, facts, context_ids)}]
     reasons: list[str] = []
     data: dict = {}
@@ -254,7 +277,7 @@ def write_frame(title: str, topic: dict, questions: list[dict], by_bite: dict, f
                 info.setdefault("attempts", []).append({"attempt": attempt, "reasons": [f"رد مقطوع عند {budget}"]})
         if getattr(resp, "stop_reason", "") == "max_tokens":
             # بقي مقطوعًا بالميزانية الكبرى: ما كتبه في المحاولة السابقة يُقبل إن كان عيبه الطول وحده، وإلا يفشل كما كان
-            if data and reasons and all(r.startswith("السياق أطول من") for r in reasons):
+            if data and reasons and all(_soft(r) for r in reasons):
                 break
             return None, "رد السياق مقطوع عند حد الطول"
         block = next((b for b in getattr(resp, "content", []) or []
@@ -287,8 +310,19 @@ def write_frame(title: str, topic: dict, questions: list[dict], by_bite: dict, f
         reasons = [r for r in reasons if r not in bad]
         if not reasons:
             return data, ""
+    # سؤال مركّب بقي بعد المحاولتين لا يُسقط السيناريو (21/11): يُقبل بتنبيه، وreword_questions/reword_hook تُبقي نص المحرر
+    if data and reasons and all(_soft(r) for r in reasons):
+        bad = [r for r in reasons if r.startswith(COMPOUND_PREFIX)]
+        if bad and info is not None:
+            for r in bad:
+                q = r.split("«", 1)[-1].rsplit("»", 1)[0]
+                info.setdefault("warnings", []).append(_texts(cfg).get(
+                    "compound_kept", "⚠️ سؤال مركّب بقي كما هو بعد محاولتين: «{q}» — راجعه").format(q=q))
+        reasons = [r for r in reasons if r not in bad]
+        if not reasons:
+            return data, ""
     # قضية 1862 (قرار صاحب المشروع): المادة اختارها هو، فطول السياق لا يُسقط السيناريو أبدًا؛ يُقبل آخر ما كُتب وينبَّه المراجع
-    if data and reasons and all(r.startswith("السياق أطول من") for r in reasons):
+    if data and reasons and all(r.startswith(LEN_PREFIX) for r in reasons):
         if info is not None:
             info.setdefault("warnings", []).append(_texts(cfg).get(
                 "context_long", "⏱️ السياق {n} كلمة (الحد {limit}) فقُبل كما هو لأن المادة من اختيارك — راجعه").format(
@@ -310,12 +344,25 @@ def reword_questions(data: dict, originals: list[str], cfg) -> tuple[list[str], 
     tpl = _texts(cfg).get("question_reworded", "✏️ صيغ السؤال {n} ليتصل بالسياق: كان «{old}» صار «{new}»")
     out, notes = [], []
     for n, (old, new) in enumerate(zip(originals, got), 1):
-        if new and new != old and reel_script._ends_q(new) and reel_script._words(new) <= qmax:
+        if new and new != old and reel_script._ends_q(new) and reel_script._words(new) <= qmax and not compound_question(new):
             out.append(new)
             notes.append(tpl.format(n=n, old=old, new=new))
         else:
             out.append(old)
     return out, notes
+
+
+def reword_hook(data: dict, title: str, cfg) -> tuple[str, list[str]]:
+    """(سؤال الهوك، سطور التنبيه). صياغة الكاتب (hook_question) تُقبل إن كانت غير فارغة ومختلفة وتنتهي بعلامة استفهام وفي حد
+    main_question_max_words وليست سؤالين؛ وإلا يبقى العنوان المختار (21/11: «سؤال الهوك ركيك»)."""
+    from . import reel_script
+    if not _scfg(cfg).get("reword_questions", True):
+        return title, []
+    new = " ".join(str(data.get("hook_question") or "").split())
+    qmax = int(cfg.path("reel.script.v2.main_question_max_words", 12))
+    if not new or new == title or not reel_script._ends_q(new) or reel_script._words(new) > qmax or compound_question(new):
+        return title, []
+    return new, [_texts(cfg).get("hook_reworded", "✏️ صيغ سؤال الهوك: كان «{old}» صار «{new}»").format(old=title, new=new)]
 
 
 def _ctx_words(data: dict) -> int:
@@ -372,10 +419,14 @@ def make_builder(title: str, titles: list[str], topic: dict, questions: list[dic
                     continue
                 k = int(b.get("clip") or 0) if str(b.get("clip") or "0").lstrip("-").isdigit() else 0
                 beats.append({"text": b.get("text", ""), "clip": pid_of[ctx_ids[k - 1]] if 1 <= k <= len(ctx_ids) else None})
-        script = reel_script._build_v2({"main_question": title, "context": data.get("context"), "questions": qs,
+        hook, hook_notes = reword_hook(data, title, cfg)
+        info.setdefault("warnings", []).extend(hook_notes)
+        script = reel_script._build_v2({"main_question": hook, "context": data.get("context"), "questions": qs,
                                         "context_clips": [pid_of[bid] for bid in ctx_ids], "context_beats": beats,
                                         "closing_question": data.get("closing_question")}, valid, narrator, topic, cfg)
-        info["headlines"] = [title] + [t for t in titles if t != title]
+        # الهوك المصوغ أول العناوين (المعلَّم افتراضيًا في المرحلة 2)، والعنوان المختار بعده كي يبقى خيارًا للمراجع
+        heads = [hook] + [t for t in [title] + list(titles) if t != hook]
+        info["headlines"] = list(dict.fromkeys(heads))[:max(len(titles), 1)]
         return script, ""
 
     return build
