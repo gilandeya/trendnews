@@ -290,7 +290,8 @@ def gemini_topic_bites(topic: dict, data: dict, cfg, key: str, post=None,
     mark_actors(bites, cfg)
     # مقطع منقول عن برنامج قناة أخرى، أو كلام طرف في الحدث، يُستبدل بأصله إن وُجد (بعد قضيتي 1856 و1868)؛ لا يرفع
     from . import meta_original
-    bites = meta_original.find_originals(bites, data["date"], cfg, key, post=post, search=search, details=details, stats=stats)
+    bites = meta_original.find_originals(bites, data["date"], cfg, key, post=post, search=search, details=details, stats=stats,
+                                         topic=topic, client=client)
     bites = drop_read(bites, cfg, stats)
     return bites, failures, False
 

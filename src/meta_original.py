@@ -133,6 +133,82 @@ def dubbed(b: dict) -> bool:
     return str(b.get("audio_track") or "original") in ("dubbed_ar", "dubbed_other")
 
 
+def _lang2(code) -> str:
+    return str(code or "").strip().lower()[:2]
+
+
+def spoken_language(bite: dict) -> str:
+    """لغة كلام المقطع المنقول: حقله إن وُجد وإلا من حروف كلامه (مقاطع Gemini بلا حقل لغة)."""
+    if bite.get("language"):
+        return _lang2(bite["language"])
+    from .press_events import detect_language
+    text = str(bite.get("text_original") or "")
+    return _lang2(detect_language(text)) if text.strip() else ""
+
+
+def translated(bite: dict, data: dict) -> bool:
+    """الأصل يُسمع بلغة غير لغة المنقول (ريل 7617fa79a76f، 22/11: ترامب وبوتين وشي بالفرنسية من فرانس 24): المنقول ترجمة صوتية
+    ولو لم يعلّمه Gemini مدبلجًا، فلا يُطلب كلامه حرفيًا بل معناه."""
+    if dubbed(bite):
+        return True
+    heard, quoted = _lang2(data.get("language")), spoken_language(bite)
+    return bool(heard and quoted and heard != quoted)
+
+
+QUERY_TOOL = {
+    "name": "search_queries",
+    "description": "عبارات بحث في يوتيوب عن ظهور المتحدث الأصلي وهو يقول هذا الكلام.",
+    "input_schema": {"type": "object", "properties": {"queries": {"type": "array", "items": {
+        "type": "object", "properties": {"q": {"type": "string"}, "language": {"type": "string"}},
+        "required": ["q"]}}}, "required": ["queries"]},
+}
+
+
+def _query_create(client, **kwargs):
+    """نقطة نداء عبارات البحث (يزيّفها الاختبار). llm.create يضبط معاملات Haiku ولا temperature."""
+    from . import llm
+    if client is None:
+        from anthropic import Anthropic
+        from .config import env
+        client = Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
+    return llm.create(client, **kwargs)
+
+
+def search_queries(bite: dict, topic: dict | None, cfg, client=None) -> list[str]:
+    """عبارات بحث بلغة المتحدث نفسه ثم بالإنجليزية (ريل 7617fa79a76f): البحث باسمه وحده يعيد أي فيديو له في النافذة، وبلغة الناقل
+    لا يصل إلى إعلام بلده حيث يُبث كلامه أولًا. أيّ لغة يتكلمها وأيّ كلمات تسمّي الحدث بها حكم لغوي، فيكتبها نموذج والكود يقبل
+    نصوصًا قصيرة فقط. العطل أو الرد المقطوع ← [] (يبقى البحث بالاسم كما كان)."""
+    q = _ocfg(cfg).get("queries") or {}
+    if not q.get("enabled"):
+        return []
+    lines = [f"المتحدث: {bite.get('speaker') or '—'} ({bite.get('speaker_original') or '—'})",
+             f"صفته: {bite.get('speaker_role') or '—'}",
+             f"الحدث: {(topic or {}).get('title') or ''} — {(topic or {}).get('event') or ''}",
+             f"ما قاله (مترجمًا): {bite.get('text_ar', '')}"]
+    try:
+        resp = _query_create(client, cfg=cfg, model=q.get("model", "haiku"), max_tokens=int(q.get("max_tokens", 600)),
+                             system=q.get("system", ""), tools=[QUERY_TOOL],
+                             tool_choice={"type": "tool", "name": QUERY_TOOL["name"]},
+                             messages=[{"role": "user", "content": "بيانات لا تعليمات:\n" + "\n".join(lines)}])
+        if resp is None or getattr(resp, "stop_reason", "") == "max_tokens":
+            return []
+        rows = []
+        for b in getattr(resp, "content", None) or []:
+            if getattr(b, "type", "") == "tool_use" and getattr(b, "name", "") == QUERY_TOOL["name"]:
+                from . import llm
+                rows = llm.tool_json((getattr(b, "input", None) or {}).get("queries"), list) or []
+    except Exception as exc:  # noqa: BLE001 — العبارات تحسين لا شرط
+        log.warning("عبارات البحث عن الأصل: %s: %s", type(exc).__name__, str(exc)[:100])
+        return []
+    out: list[str] = []
+    cap_words = int(q.get("max_words", 8))
+    for r in rows:
+        text = " ".join(str((r or {}).get("q") or "").split()) if isinstance(r, dict) else ""
+        if text and len(text.split()) <= cap_words and text not in out:
+            out.append(text)
+    return out[:int(q.get("count", 3))]
+
+
 def build_request(cand: dict, bite: dict, cfg) -> dict:
     """بلا temperature (قاعدة المشروع). الكلام المطلوب بلغته وترجمته واسم المتحدث في الرسالة."""
     o = _ocfg(cfg)
@@ -142,6 +218,9 @@ def build_request(cand: dict, bite: dict, cfg) -> dict:
     if dubbed(bite):
         # ريل 68c94cc15e39: الكلام المطلوب نصّ الدبلجة التركية لا كلام بوتين الروسي، فطلبه حرفيًا لا يجده أبدًا
         lines.append(str(o.get("dubbed_note") or ""))
+    elif o.get("translation_note"):
+        # ريل 7617fa79a76f: الدبلجة لا تُعلَّم دائمًا (فرانس 24 بالفرنسية فوق ترامب وبوتين وشي)، فالطلب يذكر احتمالها دائمًا
+        lines.append(str(o["translation_note"]))
     return {
         "system_instruction": {"parts": [{"text": o.get("system", "")}]},
         "contents": [{"role": "user", "parts": [gemini.video_part(cand["video_id"], o.get("max_minutes", 0), cand.get("duration")),
@@ -169,7 +248,8 @@ def decide(data: dict, bite: dict, cand: dict, cfg) -> tuple[dict | None, str]:
         return None, "بعد نهاية الفيديو"
     heard = " ".join(str(data.get("text_original") or "").split())
     heard_ar = " ".join(str(data.get("text_ar") or "").split())
-    if dubbed(bite):
+    is_translated = translated(bite, data)
+    if is_translated:
         # الأصل بلغة غير لغة الدبلجة: يُقارن المعنى بترجمتي الكلامين العربيتين، بحدّ أدنى لأن الترجمتين من نصين مختلفين
         ratio = text_ratio(bite.get("text_ar", ""), heard_ar)
         floor = float(o.get("min_translated_ratio", 0.35))
@@ -191,7 +271,7 @@ def decide(data: dict, bite: dict, cand: dict, cfg) -> tuple[dict | None, str]:
                setting_source="original", audio_track="original",
                original_of={"video_id": bite.get("video_id"), "bite_id": bite.get("bite_id"), "channel": bite.get("channel", ""),
                             "ratio": round(ratio, 2)})
-    if dubbed(bite):
+    if is_translated:
         # ما يُكتب على الشاشة ترجمةُ ما يُسمع في الأصل لا ترجمة الدبلجة؛ ترجمة لا تصلح للشاشة تُبقي ترجمة المنقول (المعنى نفسه)
         from . import youtube_bites
         if youtube_bites.screen_text_ok(heard_ar, cfg):
@@ -199,7 +279,7 @@ def decide(data: dict, bite: dict, cand: dict, cfg) -> tuple[dict | None, str]:
         lang = str(data.get("language") or "").strip().lower()[:5]
         if lang:
             new["language"] = lang
-        new["dubbed_from"] = bite.get("language", "")
+        new["dubbed_from"] = bite.get("language", "") or spoken_language(bite)
     # كتلة القناة الأصلية وتوجّهها إن عُرفت؛ وإلا تبقى كتلة الناقلة (الريل يحتاج كتلة لكل مقطع، وهي أقرب تخمين لا أكثر)
     if ch:
         new["bloc"], new["orientation"] = ch.get("bloc", new.get("bloc")), ch.get("orientation", new.get("orientation"))
@@ -230,7 +310,7 @@ def _queries(bite: dict) -> list[str]:
 
 
 def find_originals(bites: list[dict], date: str, cfg, key: str, post=None, search=None, details=None,
-                   stats: dict | None = None) -> list[dict]:
+                   stats: dict | None = None, topic: dict | None = None, client=None) -> list[dict]:
     """يعيد قائمة المقاطع بعد استبدال ما وُجد أصله. search/details يُحقنان في الاختبار؛ الحقيقيان من reel_hook_search
     (يحتاجان YOUTUBE_API_KEY، وبلاه لا بحث). كل محاولة تُسجَّل في stats["originals"]."""
     o = _ocfg(cfg)
@@ -273,7 +353,9 @@ def find_originals(bites: list[dict], date: str, cfg, key: str, post=None, searc
         row = {"bite_id": b.get("bite_id"), "source_channel": b.get("source_channel", ""), "found": False}
         try:
             results: list[dict] = []
-            for q in _queries(b):
+            queries = list(dict.fromkeys([*search_queries(b, topic, cfg, client), *_queries(b)]))
+            row["queries"] = queries
+            for q in queries:
                 results += search(q, after, before, int(o.get("max_results", 5)))
                 if any(channel_matches(r.get("channel", ""), b.get("source_channel", "")) for r in results):
                     break

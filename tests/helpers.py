@@ -485,6 +485,9 @@ def install_fakes() -> None:
     _reel_script._fit_create = lambda client, **kw: None  # type: ignore
     # وقفات نصوص الراوي (22/11) بلا شبكة ولا استهلاك ردود العملاء المزيَّفة: ردّ None ← النصوص كما هي
     _reel_script._pause_create = lambda client, **kw: None  # type: ignore
+    # عبارات البحث عن الفيديو الأصلي (22/11) بلا شبكة: None ← البحث بالاسم كما كان
+    from src import meta_original as _meta_original
+    _meta_original._query_create = lambda client, **kw: None  # type: ignore
     # فحص تماسك القضايا بعد العنقدة (القضية 1770) بلا شبكة ولا استهلاك ردود العملاء المزيَّفة: ردّ بلا أداة ← القضايا كما هي
     # هوك المواجهة (8/11) بلا شبكة ولا استهلاك ردود العملاء المزيَّفة: ردّ None ← لا hook_clash فيبقى الهوك القديم في كل اختبار قديم
     from src import reel_clash as _reel_clash

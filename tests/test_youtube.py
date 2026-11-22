@@ -9988,3 +9988,64 @@ def test_reel_breath_pauses_2211() -> None:
     check("2211p: بعد المحرر وقبل الهوك وخطة اللقطات",
           src.index("reel_editor.run(") < src.index("add_pauses(") < src.index("reel_clash.plan(") < src.index("reel_broll.write_plan("))
     check("2211p: script_pauses يُحفظ", "script_pauses" in reel_script.SCRIPT_KEYS)
+
+
+def test_meta_original_native_2211() -> None:
+    """ريل 7617fa79a76f (22/11): تكلم ترامب وبوتين وشي كلٌّ بلغته وعُرضوا بالفرنسية من فرانس 24. البحث عن أصلهم جرى باسم كل منهم وحده
+    (فعاد أي فيديو له في النافذة) وطلب من Gemini الكلام الفرنسي حرفيًا. الآن عبارات بلغة المتحدث وكلمات الحدث، والأصل بلغة أخرى يُقارن
+    بالمعنى ولو لم يُعلَّم المنقول مدبلجًا."""
+    import json
+    from types import SimpleNamespace as NS
+
+    from src import meta_original
+    from src.config import load_config as real_load
+
+    cfg = real_load()
+    check("2211n: config.yaml يكتب عبارات البحث بلغة المتحدث", cfg.path("youtube.meta_topics.qa.original.queries.enabled") is True)
+    bite = {"bite_id": "vhFXlCmdkO8:g112", "video_id": "vhFXlCmdkO8", "channel": "France 24 Français", "speaker": "فلاديمير بوتين",
+            "speaker_original": "Vladimir Poutine", "speaker_role": "رئيس روسيا", "voice": "actor", "setting": "external",
+            "text_original": "Nous sommes prêts à travailler avec nos partenaires chinois et américains pour la paix",
+            "text_ar": "نحن مستعدون للعمل مع شركائنا الصينيين والأمريكيين من أجل السلام"}
+    check("2211n: لغة المنقول من حروف كلامه (مقاطع Gemini بلا حقل لغة)", meta_original.spoken_language(bite) == "fr")
+    check("2211n: الطلب يذكر احتمال الترجمة الصوتية ولو لم يُعلَّم مدبلجًا",
+          "ترجمة صوتية" in json.dumps(meta_original.build_request({"video_id": "R", "duration": 600}, bite, cfg), ensure_ascii=False))
+    data = {"found": True, "start": "02:00", "end": "02:14", "text_original": "Мы готовы работать с китайскими и американскими партнёрами",
+            "text_ar": "نحن مستعدون للعمل مع الشركاء الصينيين والأمريكيين من أجل السلام", "language": "ru",
+            "speaker_on_screen": True, "is_relay": False}
+    cand = {"video_id": "R", "channel": "Kremlin", "duration": 600}
+    new, why = meta_original.decide(data, bite, cand, cfg)
+    check("2211n: الأصل بالروسية يُقبل بمعناه ويأخذ ترجمته ولغته",
+          new is not None and new["language"] == "ru" and new["dubbed_from"] == "fr" and new["audio_track"] == "original", why)
+    same, why2 = meta_original.decide({**data, "language": "fr", "text_original": "autre chose tout à fait"}, bite, cand, cfg)
+    check("2211n: باللغة نفسها يبقى حرفيًا (لا يُقبل كلام آخر)", same is None, why2)
+
+    # العبارات من النموذج بلغة المتحدث أولًا، والقديمة بعدها؛ والطويلة تُرمى
+    seen_q, sent = [], {}
+
+    def fake_q(client, **kw):
+        sent["msg"] = kw["messages"][0]["content"]
+        return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="search_queries", input={"queries": json.dumps(
+            [{"q": "Путин саммит Шэньчжэнь", "language": "ru"}, {"q": "Putin Shenzhen summit Xi Trump", "language": "en"},
+             {"q": " ".join(["كلمة"] * 12)}])})])
+    old = meta_original._query_create
+    meta_original._query_create = fake_q
+    try:
+        def search(q, after, before, n):
+            seen_q.append(q)
+            return []
+        stats: dict = {}
+        mcfg = load_config()
+        mcfg["youtube"]["meta_topics"]["qa"]["original"] = cfg.path("youtube.meta_topics.qa.original")
+        meta_original.find_originals([bite], "2026-11-22", mcfg, "KEY", search=search, details=lambda ids: {}, stats=stats,
+                                     topic={"title": "قمة شنتشن", "event": "لقاء ترامب وبوتين وشي"})
+        check("2211n: الحدث والصفة في رسالة العبارات", "قمة شنتشن" in sent.get("msg", "") and "رئيس روسيا" in sent["msg"])
+        check("2211n: البحث بلغة المتحدث أولًا ثم بالاسم كما كان",
+              seen_q[:2] == ["Путин саммит Шэньчжэнь", "Putin Shenzhen summit Xi Trump"] and "Vladimir Poutine" in seen_q
+              and not any(len(q.split()) > 8 for q in seen_q), seen_q)
+        check("2211n: العبارات تُحفظ في سجل المحاولة", stats["originals"][0]["queries"] == seen_q, stats)
+        meta_original._query_create = lambda client, **kw: (_ for _ in ()).throw(RuntimeError("x"))
+        seen_q.clear()
+        meta_original.find_originals([bite], "2026-11-22", mcfg, "KEY", search=search, details=lambda ids: {}, stats={})
+        check("2211n: عطل العبارات ← البحث بالاسم كما كان", seen_q == ["Vladimir Poutine"], seen_q)
+    finally:
+        meta_original._query_create = old
