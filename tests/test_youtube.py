@@ -9773,3 +9773,109 @@ def test_reel_tone_hook_2111b() -> None:
               and any("مركّب" in w for w in info.get("warnings", [])), (reason, info))
     finally:
         meta_script._create = saved
+
+
+def test_reel_download_watchdog_2211() -> None:
+    """ريل 7617fa79a76f (22/11): تنزيل لقطة الهوك بمدى يمرّ بـffmpeg فلا تُنادى progress_hooks ولا يصله socket_timeout، فبقي صامتًا
+    41 دقيقة حتى أوقف موعد الوظيفة التركيب. حارس خارجي يقيس ما كُتب على القرص ويقتل ffmpeg، والمهلة لا تُعاد."""
+    import os
+    import subprocess
+    import tempfile
+    import time
+    from pathlib import Path
+    from types import SimpleNamespace as NS
+
+    from src import reel_clips, reel_hook_search
+
+    # (1) أبناء ffmpeg المباشرون من /proc وحدهم
+    with tempfile.TemporaryDirectory() as d:
+        for pid, stat in {"11": "11 (ffmpeg) S 500 1", "12": "12 (ffmpeg) S 999 1", "13": "13 (python3) S 500 1",
+                          "14": "14 (ffmpeg -i x) S 500 1"}.items():
+            os.makedirs(os.path.join(d, pid))
+            Path(d, pid, "stat").write_text(stat)
+        os.makedirs(os.path.join(d, "self"))
+        check("dog: أبناء ffmpeg لهذه العملية وحدهم", sorted(reel_clips.child_ffmpeg_pids(500, d)) == [11, 14])
+
+    # (2) الفحص: البايتات تجدّد المهلة، والتوقّف والسقف والموعد يقطعون
+    t = {"now": 0.0}
+    size = {"n": 0}
+    dog = reel_clips.TierWatchdog(Path("x.mp4"), {"stall_seconds": 180, "tier_seconds": 480}, clock=lambda: t["now"],
+                                  sizer=lambda p: size["n"], pids=lambda: [])
+    t["now"], size["n"] = 100, 10
+    check("dog: يتقدّم فلا قطع", dog.check() == "")
+    t["now"] = 279
+    check("dog: أقل من مهلة التوقّف", dog.check() == "")
+    t["now"] = 281
+    check("dog: 180 ث بلا بايت ← قطع", "بلا بايت" in dog.check())
+    size["n"], t["now"] = 50, 300
+    dog.check()
+    t["now"] = 481
+    check("dog: سقف الدرجة ولو تقدّم", "480" in dog.check())
+    reel_clips.set_deadline(time.time() - 1)
+    try:
+        dog2 = reel_clips.TierWatchdog(Path("x.mp4"), {}, clock=lambda: 0, sizer=lambda p: 1, pids=lambda: [])
+        check("dog: موعد التشغيلة", dog2.check() == "نفد وقت التشغيلة")
+    finally:
+        reel_clips.set_deadline(None)
+
+    # (3) الخيط يقتل ffmpeg المعلّق فعلًا (عملية حقيقية صامتة)
+    proc = subprocess.Popen(["sleep", "30"])
+    try:
+        with reel_clips.TierWatchdog(Path("x.mp4"), {"stall_seconds": 0.2, "watchdog_poll_seconds": 0.05},
+                                     sizer=lambda p: 0, pids=lambda: [proc.pid]) as live:
+            proc.wait(timeout=5)
+        check("dog: الخيط قتل العملية الصامتة وسجّل سببه", proc.returncode is not None and "بلا بايت" in live.reason,
+              (proc.returncode, live.reason))
+    finally:
+        if proc.poll() is None:
+            proc.kill()
+
+    # (4) خطأ yt-dlp بعد القطع يصير سبب الحارس، وبلا قطع يبقى كما هو
+    def boom(urls):
+        raise RuntimeError("ffmpeg exited with code 255")
+    cut = NS(reason="توقّف التنزيل 180 ثانية بلا بايت جديد")
+    try:
+        reel_clips._download_watched(NS(download=boom), "u", cut)
+        got = None
+    except reel_clips.ClipDownloadTimeout as exc:
+        got = str(exc)
+    check("dog: الخطأ يُنسب إلى الحارس", got and "بلا بايت" in got, got)
+    try:
+        reel_clips._download_watched(NS(download=boom), "u", NS(reason=""))
+        other = None
+    except Exception as exc:  # noqa: BLE001
+        other = type(exc).__name__
+    check("dog: بلا قطع يبقى الخطأ الأصلي", other == "RuntimeError", other)
+    try:
+        reel_clips._download_watched(NS(download=lambda urls: None), "u", cut)
+        quiet = False
+    except reel_clips.ClipDownloadTimeout:
+        quiet = True
+    check("dog: عاد بلا خطأ بعد القطع ← فشل لا ملف ناقص", quiet)
+
+    # (5) القراءة الميتة داخل ffmpeg نفسه
+    opts = reel_clips._ydl_opts(Path("x.mp4"), 240, None, False, None, None, lambda d: None)
+    check("dog: rw_timeout لـffmpeg من socket_timeout", opts.get("external_downloader_args", {}).get("ffmpeg_i")
+          == ["-rw_timeout", "60000000"], opts.get("external_downloader_args"))
+
+    # (6) فحص مرشّح الهوك لا يعيد تنزيلًا انتهى بمهلة، ويعيد العطل العابر كما كان
+    calls: list = []
+
+    def make(err):
+        def dl(vid, seconds, height, path):
+            calls.append(vid)
+            raise err
+        return dl
+    timeout_err = reel_clips.ClipDownloadError("فشلت كل الدرجات: x", [{"tier": "a", "error_tail": ["توقّف التنزيل 180 ثانية بلا بايت جديد"]}])
+    check("dog: timed_out يعرف المهلة", reel_clips.timed_out(timeout_err) and not reel_clips.timed_out(RuntimeError("HTTP 403")))
+    from src.config import load_config as real_load
+    cfg = real_load()
+    for err, want in ((timeout_err, 1), (RuntimeError("HTTP 403"), int(cfg.path("reel.broll.scan_download_attempts", 3)))):
+        calls.clear()
+        deps = NS(scan_download=make(err), scan_frames=lambda *a: [], sleep=lambda s: None)
+        with tempfile.TemporaryDirectory() as d:
+            try:
+                reel_hook_search._load_frames({"video_id": "v1"}, {}, cfg, deps, Path(d), reel_hook_search.ScanState(), 180)
+            except Exception:  # noqa: BLE001
+                pass
+        check(f"dog: محاولات التنزيل ({type(err).__name__})", len(calls) == want, (len(calls), want))
