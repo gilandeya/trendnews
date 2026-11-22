@@ -3809,3 +3809,13 @@ arabic ×4 وturkish وpersian ×2 ولم تصل الإسرائيلية ولا �
   أداة `judge_places`، ذاكرة `_VERIFY_CACHE` للجملة) يحكم هل الاسم فيها مكان؛ ما ليس مكانًا يُحذف، وبلا حكم أو عطل تُحذف المدن وتبقى الدول
   (`reel.maps.auto_detect.verify.on_error: drop_places`). `not_places` للتعليق (`comment_map_not_place`) و`render_maps[..].not_place`. اقتراح النموذج
   في خطة اللقطات لا يُفحص (قرأ الجملة أصلًا). `tests.helpers.install_fakes` يزيّف `judge_places` بقبول الكل. `render_version` بلا تغيير.
+
+## وقفات التنفّس في كل نص يقرؤه الراوي (طلب صاحب المشروع 22/11) — `reel_script.add_pauses`
+
+الحادثة: «هل يصمد هذا التفاهم الثلاثي أم ينهار عند أول أزمة؟» قُرئ نفَسًا واحدًا فصعب سماعه. الحل عام لا لـ«أم» ولا للختام وحده: في
+`_write_for_draft` بعد المحرر وقبل هوك المواجهة وخطة اللقطات، نداء Haiku واحد (`_pause_create`، أداة `mark_pauses`، `reel.script.pauses.system`)
+لكل مشهد يقرؤه الراوي (`pauses.kinds`: بطاقة العنوان والراوي بكل أدواره وسؤال الختام) نصه ≥ `min_words` كلمات، يزيد «،» حيث يتنفّس القارئ.
+`accept_pauses` (خالصة) لا تقبل إلا الكلمات نفسها بترتيبها بفواصل زائدة: فاصلة الأصل باقية، لا فاصلة بعد آخر كلمة، `min_gap` كلمة قبل كل مزيدة،
+وحتى `max_added`؛ وإلا يبقى النص كما هو. الرد المقطوع أو العطل ← بلا تغيير. نسختا `script.title`/`script.question` تتبعان مشهديهما، والمقبول في
+`script_pauses` (ضمن `SCRIPT_KEYS`). الفاصلة يقف عندها الصوت ويبدأ عندها سطر على الشاشة (`clause_lines`) فلا تغيير في التركيب ولا `render_version`.
+`install_fakes` يزيّف النداء بلا تغيير؛ الاختبار `tests/test_youtube.py:test_reel_breath_pauses_2211`. يحلّ محل PR #1979 (الضيّق).

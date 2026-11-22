@@ -9921,3 +9921,70 @@ def test_reel_follow_fragmented_2211() -> None:
     keys = reel_render.camera_keys(samples, (0, 0, W, H), 405, on, cuts=[5.2])
     check("2211f: النافذة تقفز مع القطع إلى موضعه الجديد", bool(keys) and keys[-1][1] < keys[0][1]
           and any(abs(t - 5.2) < 0.01 for t, _x in keys), keys)
+
+
+def test_reel_breath_pauses_2211() -> None:
+    """ريل 22/11: «هل يصمد هذا التفاهم الثلاثي أم ينهار عند أول أزمة؟» قُرئ نفَسًا واحدًا. الحل عام لكل نص يقرؤه الراوي: نموذج يزيد «،»
+    حيث يتنفّس القارئ، والكود لا يقبل غير الفاصلة بين الكلمات نفسها؛ والفاصلة يقف عندها الصوت ويبدأ عندها سطر على الشاشة."""
+    import copy
+    import inspect
+    from types import SimpleNamespace as NS
+
+    from src import reel_script
+    from src.config import load_config as real_load
+    real = real_load()
+    check("2211p: config.yaml يفعّل وقفات الراوي", real.path("reel.script.pauses.enabled") is True)
+    check("2211p: «،» من علامات أسطر الجمل (الوقفة تظهر سطرًا)", "،" in (real.path("reel.render.clause_lines.marks") or ""))
+    cfg = copy.deepcopy(load_config())
+    cfg["reel"]["script"]["pauses"] = copy.deepcopy(real.path("reel.script.pauses"))
+    q = "هل يصمد هذا التفاهم الثلاثي أم ينهار عند أول أزمة؟"
+    ok = "هل يصمد هذا التفاهم الثلاثي، أم ينهار عند أول أزمة؟"
+    acc = reel_script.accept_pauses
+    check("2211p: فاصلة بين الكلمات نفسها تُقبل", acc(q, ok, cfg) == ok)
+    check("2211p: كلمة تغيّرت تُرفض", acc(q, "هل يصمد هذا الاتفاق الثلاثي، أم ينهار عند أول أزمة؟", cfg) is None)
+    check("2211p: كلمة زيدت تُرفض", acc(q, "هل يصمد حقًا هذا التفاهم الثلاثي، أم ينهار عند أول أزمة؟", cfg) is None)
+    check("2211p: فاصلة بعد كلمتين تُرفض (تقطيع)", acc(q, "هل يصمد، هذا التفاهم الثلاثي أم ينهار عند أول أزمة؟", cfg) is None)
+    check("2211p: بلا فاصلة مزيدة ← لا تغيير", acc(q, q, cfg) is None)
+    had = "قالت أنقرة، إن الاتفاق يشمل الغاز والنفط والممرات البحرية"
+    check("2211p: فاصلة الأصل لا تُحذف", acc(had, had.replace("،", ""), cfg) is None)
+    check("2211p: فاصلة الأصل تبقى ويُزاد غيرها",
+          acc(had, "قالت أنقرة، إن الاتفاق يشمل الغاز والنفط، والممرات البحرية", cfg) is not None)
+
+    ctx = "اتفقت تركيا وروسيا وإيران على تفاهم جديد بشأن سوريا بعد أشهر من الخلاف حول الحدود"
+    script = {"title": "سؤال قصير؟", "question": q, "scenes": [
+        {"kind": "title_card", "text": "سؤال قصير؟"},
+        {"kind": "narration", "role": "context", "text": ctx},
+        {"kind": "clip", "point_id": "a", "text": "مقطع لا يقرؤه الراوي ولو كان طويلًا جدًا بما يكفي"},
+        {"kind": "question", "text": q}, {"kind": "outro", "text": ""}]}
+    check("2211p: المستهدف نصوص الراوي الطويلة وحدها", reel_script.pause_targets(script, cfg) == [1, 3])
+    seen = {}
+
+    def fake(client, **kw):
+        seen["msg"] = kw["messages"][0]["content"]
+        rows = [{"n": 1, "text": ctx.replace("سوريا ", "سوريا، ")}, {"n": 3, "text": ok}]
+        return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="mark_pauses", input={"texts": json.dumps(rows)})])
+    old = reel_script._pause_create
+    reel_script._pause_create = fake
+    try:
+        new, ch = reel_script.add_pauses(script, cfg, None)
+        check("2211p: نداء واحد بنصي الراوي", "[1]" in seen["msg"] and "[3]" in seen["msg"] and "[2]" not in seen["msg"])
+        check("2211p: السياق والختام بوقفاتهما (والقائمة نصًا JSON تُحلّ)",
+              new["scenes"][1]["text"].count("،") == 1 and new["scenes"][3]["text"] == ok and len(ch) == 2)
+        check("2211p: نسخة سؤال الختام تتبع مشهده", new["question"] == ok and script["question"] == q)
+        reel_script._pause_create = lambda client, **kw: NS(stop_reason="max_tokens", content=[])
+        check("2211p: الرد المقطوع ← كما هو", reel_script.add_pauses(script, cfg, None)[1] == [])
+
+        def boom(client, **kw):
+            raise RuntimeError("x")
+        reel_script._pause_create = boom
+        check("2211p: العطل ← كما هو", reel_script.add_pauses(script, cfg, None) == (script, []))
+        off = copy.deepcopy(cfg)
+        off["reel"]["script"]["pauses"]["enabled"] = False
+        reel_script._pause_create = fake
+        check("2211p: enabled false ← لا نداء", reel_script.add_pauses(script, off, None)[1] == [])
+    finally:
+        reel_script._pause_create = old
+    src = inspect.getsource(reel_script._write_for_draft)
+    check("2211p: بعد المحرر وقبل الهوك وخطة اللقطات",
+          src.index("reel_editor.run(") < src.index("add_pauses(") < src.index("reel_clash.plan(") < src.index("reel_broll.write_plan("))
+    check("2211p: script_pauses يُحفظ", "script_pauses" in reel_script.SCRIPT_KEYS)
