@@ -848,6 +848,12 @@ def _reel_broll_lines(d: dict, texts: dict, cfg=None) -> list[str]:
                     if resolved
                     else f"{tail} · " + texts.get("broll_map_skipped", "🗺️ لا خريطة ({reason})").format(
                         reason=reel_map.reason_text(why, cfg)))
+        if not spec and cfg is not None and cfg.path("reel.figures.enabled", False) and sc.get("role") != "question":
+            from . import reel_figures
+            person = reel_figures.person_of(p)
+            # صورة الشخص (22/11): الاسم الذي سمّته الخطة ويرد في الجملة يُعرض للمراجع، كما سيعرضه التركيب خلفها
+            if person and reel_figures.name_in_sentence(person["name_ar"], str(p.get("text", "")), cfg):
+                tail = texts.get("broll_figure", "🧑 صورة {name}").format(name=person["name_ar"])
         out.append(f"  {texts.get('broll_line', '').format(n=n, text=cut, tail=tail)}")
     return [*out, ""]
 

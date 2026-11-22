@@ -107,6 +107,12 @@ def load_config(path=None):
         # test_reel_skip_bad_clip_1919 يطلبهما ويثبّت أن config.yaml عليهما
         rcfg["drop_failed_clips"] = False
         rcfg["retried_last"] = False
+        # صور الأشخاص واقتراب الخريطة المستمر (22/11) يضيفان طبقات وإطارات إلى أوامر تثبّتها مراجع الخرائط ولقطات الحدث؛
+        # test_reel_figures_map_drift_2211 يطلبهما ويثبّت أن config.yaml عليهما
+        if isinstance((cfg.get("reel") or {}).get("figures"), dict):
+            cfg["reel"]["figures"]["enabled"] = False
+        if isinstance(((cfg.get("reel") or {}).get("maps") or {}).get("drift"), dict):
+            cfg["reel"]["maps"]["drift"]["enabled"] = False
         crop_c = rcfg.get("crop")
         if isinstance(crop_c, dict):
             if isinstance(crop_c.get("identity"), dict):

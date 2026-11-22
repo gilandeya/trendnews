@@ -27,7 +27,10 @@ PLAN_TOOL = {
                                        "countries": {"type": "array", "items": {"type": "string"}},
                                        "arrows": {"type": "array", "items": {
                                            "type": "object", "properties": {"from": {"type": "string"}, "to": {"type": "string"}},
-                                           "required": ["from", "to"]}}}}},
+                                           "required": ["from", "to"]}}}},
+                           # صورة الشخص (22/11): من تسمّيه الجملة نفسها باسمه، فيُعرض هو خلفها (reel_figures)
+                           "person": {"type": "object", "description": "الشخص الذي تسمّيه الجملة باسمه إن سمّت أحدًا؛ وإلا اتركه",
+                                      "properties": {"name_ar": {"type": "string"}, "name_en": {"type": "string"}}}},
             "required": ["scene", "sentence", "visual"]}}},
         "required": ["items"],
     },
@@ -103,6 +106,11 @@ def plan(script: dict, title: str, cfg: Any, client=None, candidates: list[dict]
             # الخام يُحفظ كما اقترحه النموذج، والتحقق منه (الاسم في الجملة وفي المعجم) عند العرض والتركيب: تعديل المراجع للجملة
             # في المرحلة 2 قد يُسقط مكانًا فيسقط معه ما بُني عليه
             entry["map"] = item["map"]
+        from . import reel_figures
+        person = reel_figures.person_of(item)
+        if person:
+            # الخام كما سمّاه النموذج، والتحقق (الاسم في الجملة كما ستُقرأ) في التركيب كالخريطة
+            entry["person"] = person
         out.append(entry)
     return out
 

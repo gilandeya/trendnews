@@ -26,7 +26,7 @@ from typing import Any, Callable
 
 from PIL import Image, ImageDraw
 
-from . import imaging, notify, reel_bgtrack, reel_broll, reel_clash, reel_clips, reel_hook_search, reel_map, reel_script, store, tts
+from . import imaging, notify, reel_bgtrack, reel_broll, reel_clash, reel_clips, reel_figures, reel_hook_search, reel_map, reel_script, store, tts
 from . import gemini_speakers as gemini_speakers_mod
 from .config import MUSIC_DIR, REELS_DIR, load_config
 
@@ -1040,6 +1040,13 @@ class Deps:
     # (video_id، [{id, start, end}] بثواني الحلقة، cfg) ← {verdicts: {id: حكم}, cost}؛ يرفع عند العطل (6/11، gemini_speakers).
     # None للمزيَّفات القديمة ← لا نداء وحرّاس سلسلتنا وحدها كما كانت
     gemini_speakers: Callable[[str, list, Any], dict] | None = None
+    # صورة الشخص خلف جملته (22/11، reel_figures): (ملف المقطع، الثانية) ← صورة PIL أو None · (الشخص، cfg) ← [(رابط، المصدر)] ·
+    # (رابط) ← صورة PIL أو None · (صورة) ← صناديق الوجوه · (صورة، الشخص، cfg) ← {clean, reason}. None للمزيَّفات القديمة ← لا صور
+    figure_frame: Callable[[Any, float], Any] | None = None
+    figure_urls: Callable[[dict, Any], list] | None = None
+    figure_image: Callable[[str], Any] | None = None
+    figure_faces: Callable[[Any], list] | None = None
+    figure_judge: Callable[[Any, dict, Any], dict] | None = None
 
     def resolved(self, cfg) -> "Deps":
         # جلسة واحدة للتركيب كله كالجمع (R8)؛ تُنشأ عند أول جلب لا عند الاستيراد
@@ -1144,6 +1151,11 @@ class Deps:
             gemini_speakers=self.gemini_speakers or (
                 (lambda vid, wins, c: gemini_speakers_mod.judge(vid, wins, c)) if real else None),
             assign_broll=self.assign_broll or ((lambda needy, chains, c: reel_broll.assign(needy, chains, c)) if real else None),
+            figure_frame=self.figure_frame or (_grab_frame if real else None),
+            figure_urls=self.figure_urls or (reel_figures.web_urls if real else None),
+            figure_image=self.figure_image or ((lambda url: imaging.download_image(url)) if real else None),
+            figure_faces=self.figure_faces or (imaging.face_boxes if real else None),
+            figure_judge=self.figure_judge or (figure_fits if real else None),
             make_queries=self.make_queries or (
                 (lambda script, draft, c, broad=False: reel_hook_search.call_make_queries(script, draft, c, broad=broad))
                 if real else None))
@@ -1203,6 +1215,49 @@ def bg_fits(img, subject: str, cfg, client=None) -> dict:
         if isinstance(data.get("clean_box"), dict):
             out["clean_box"] = data["clean_box"]
     return out
+
+
+FIGURE_JUDGE_TOOL = {
+    "name": "judge_portrait",
+    "description": "احكم هل الصورة صورة فوتوغرافية نظيفة لشخص تصلح خلفية لجملة تذكره.",
+    "input_schema": {"type": "object", "properties": {"clean": {"type": "boolean"}, "reason": {"type": "string"}},
+                     "required": ["clean", "reason"]},
+}
+
+
+def figure_fits(img, person: dict, cfg, client=None) -> dict:
+    """حكم نموذج يرى صورة الويب (22/11): صورة فوتوغرافية لشخص بلا نص مركَّب كبير ولا مونتاج ولا رسم؟ لا يحكم بهوية الوجه
+    (الهوية من البحث بالاسم)، بل بصلاح الصورة نفسها. يرفع عند العطل والمستدعي يقبل الصورة حينها (الوجه فُحص قبله)."""
+    import base64
+    import io
+
+    from . import llm
+    jcfg = cfg.path("reel.figures.judge") or {}
+    im = img.convert("RGB")
+    im.thumbnail((int(jcfg.get("max_side", 768)),) * 2)
+    buf = io.BytesIO()
+    im.save(buf, "JPEG", quality=80)
+    content = [{"type": "image", "source": {"type": "base64", "media_type": "image/jpeg",
+                                            "data": base64.b64encode(buf.getvalue()).decode("ascii")}},
+               {"type": "text", "text": f"الشخص المقصود: {person.get('name_ar', '')}"}]
+    resp = llm.create(client or reel_hook_search._client(), cfg=cfg, model=jcfg.get("model", "haiku"),
+                      max_tokens=int(jcfg.get("max_tokens", 200)), system=jcfg.get("system", ""), tools=[FIGURE_JUDGE_TOOL],
+                      tool_choice={"type": "tool", "name": FIGURE_JUDGE_TOOL["name"]}, messages=[{"role": "user", "content": content}])
+    data = reel_hook_search._tool_input(resp, FIGURE_JUDGE_TOOL["name"])
+    if not isinstance(data.get("clean"), bool):
+        raise ValueError("ردّ غير صالح من حاكم الصورة")
+    return {"clean": data["clean"], "reason": " ".join(str(data.get("reason") or "").split())[:160]}
+
+
+def _grab_frame(clip, seconds: float):
+    """لقطة واحدة من ملف المقطع عند الثانية (صورة PIL) أو None."""
+    import io
+    out = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{max(seconds, 0):.2f}", "-i", str(clip), "-frames:v", "1",
+                          "-f", "image2pipe", "-vcodec", "png", "-"], capture_output=True, timeout=60).stdout
+    if not out:
+        return None
+    from PIL import Image as _Image
+    return _Image.open(io.BytesIO(out)).convert("RGB")
 
 
 def bg_text_crop(img, verdict: dict, cfg) -> tuple[list | None, str | None]:
@@ -6533,6 +6588,174 @@ def _prepare_maps(script: dict, nar_idx: list[int], speech_cache: dict, plan: li
     return out
 
 
+def _figure_portrait(img, deps: Deps, cfg) -> tuple[dict | None, str]:
+    """صورة الشخص بمقاس الشاشة حول وجهه البارز: ({image, fx, fy}، "") أو (None، السبب no_face|small)."""
+    from PIL import Image as _Image
+    r = cfg.path("reel.render")
+    W, H = int(r["width"]), int(r["height"])
+    face = reel_figures.pick_face(deps.figure_faces(img) or [], img.size, cfg)
+    if face is None:
+        return None, "no_face"
+    box = reel_figures.portrait_box(img.size, face, cfg)
+    if box is None:
+        return None, "small"
+    sc = H / (box[3] - box[1])
+    return {"image": img.crop(box).resize((W, H), _Image.LANCZOS),
+            "fx": (face[0] + face[2] / 2 - box[0]) * sc, "fy": (face[1] + face[3] / 2 - box[1]) * sc}, ""
+
+
+def _find_figure(person: dict, clips: dict, script: dict, cfg, deps: Deps, tmp: Path, tag: str) -> dict:
+    """صورة الشخص بالترتيب: لقطة من مقطعه في الريل (الحدث نفسه) ← روابط الويب (Brave ثم ويكيميديا) بوجه بارز وحكم الصلاح.
+    يعيد {png, fx, fy, source, ...} أو {reason, tried}؛ لا يرفع."""
+    fcfg = cfg.path("reel.figures") or {}
+    sources = fcfg.get("sources") or ["event", "web", "wikimedia"]
+    why = "no_source"
+    if "event" in sources and deps.figure_frame is not None:
+        for idx in person.get("scenes") or []:
+            c = clips.get(idx)
+            if not c:
+                continue
+            secs = float(c.get("file_seconds") or c.get("seconds") or 0)
+            for frac in fcfg.get("frame_fractions") or [0.5, 0.3, 0.7]:
+                try:
+                    img = deps.figure_frame(c["file"], secs * float(frac))
+                except Exception as exc:  # noqa: BLE001 -- لقطة واحدة: تُجرَّب التالية
+                    log.warning("تعذّرت لقطة الشخص من %s: %s", c.get("file"), str(exc)[:120])
+                    continue
+                if img is None:
+                    continue
+                got, why = _figure_portrait(img, deps, cfg)
+                if got:
+                    png = tmp / f"figure_{tag}.png"
+                    got["image"].save(png)
+                    sc = script["scenes"][idx]
+                    return {"png": png, "fx": got["fx"], "fy": got["fy"], "source": "event",
+                            "channel": sc.get("channel_display", ""), "video_id": c.get("video_id", "")}
+    tried = 0
+    if deps.figure_urls is not None and deps.figure_image is not None and any(x in sources for x in ("web", "wikimedia")):
+        try:
+            urls = list(deps.figure_urls(person, cfg) or [])
+        except Exception as exc:  # noqa: BLE001
+            log.warning("تعذّر البحث عن صورة %s: %s", person.get("name_ar"), str(exc)[:120])
+            urls = []
+        judge = (fcfg.get("judge") or {}).get("enabled", True) and deps.figure_judge is not None
+        for url, src in urls[:int(fcfg.get("max_tries", 6))]:
+            tried += 1
+            try:
+                img = deps.figure_image(url)
+            except Exception:  # noqa: BLE001
+                img = None
+            if img is None:
+                why = "download"
+                continue
+            got, why = _figure_portrait(img, deps, cfg)
+            if not got:
+                continue
+            if judge:
+                try:
+                    verdict = deps.figure_judge(img, person, cfg) or {}
+                except Exception as exc:  # noqa: BLE001 -- الحكم تحسين: الوجه البارز فُحص قبله
+                    log.warning("تعذّر حكم صورة %s: %s", person.get("name_ar"), str(exc)[:120])
+                    verdict = {"clean": True}
+                if verdict.get("clean") is False:
+                    why = "judge"
+                    continue
+            png = tmp / f"figure_{tag}.png"
+            got["image"].save(png)
+            return {"png": png, "fx": got["fx"], "fy": got["fy"], "source": src, "url": url[:300]}
+    return {"reason": why, "tried": tried}
+
+
+def _prepare_figures(script: dict, nar_idx: list[int], speech_cache: dict, plan: list, clips: dict, cfg, deps: Deps, tmp: Path,
+                     lead: float, notes: list, results: list, skip: set) -> dict[int, list[dict]]:
+    """صورة الشخص خلف الجملة التي تسمّيه (22/11): القاعدة العامة «كل جملة راوٍ تُظهر ما تسمّيه» — المكان خريطة (_prepare_maps
+    قبلها، وجملتها في skip) والشخص صورته. الحكم بالشخص من الخطة أو من متحدثي الريل (reel_figures.sentence_person) والتحقق أن
+    اسمه في الجملة كما ستُقرأ؛ الصورة من الحدث ثم الويب، تقريب بطيء نحو الوجه تحت التظليل فيبقى النص مقروءًا.
+    يعيد {فهرس المشهد: [{a, b, clip, cexpr, sentence, figure}]} ويملأ results (render_figures)."""
+    fcfg = cfg.path("reel.figures") or {}
+    if not fcfg.get("enabled", False) or deps.figure_faces is None:
+        return {}
+    if budget_over(cfg, "figures", notes):
+        return {}
+    t = cfg.path("reel.render.texts")
+    rcfg = cfg.path("reel.render")
+    by_scene: dict[int, dict[int, dict]] = {}
+    for e in plan or []:
+        try:
+            by_scene.setdefault(int(e["scene"]), {})[int(e["sentence"])] = e
+        except (TypeError, ValueError, KeyError):
+            continue
+    # متحدثو الريل الذين بقيت مقاطعهم بعد الحرّاس وحدهم: مقطع محذوف ليس لقطة من الحدث، ومسمّى مصحَّح يُعرف باسمه الجديد
+    people = [{**p, "scenes": [i for i in p["scenes"] if i in clips]} for p in reel_figures.reel_people(script)]
+    exclude = set(fcfg.get("exclude_roles") or ["question"])
+    cache: dict[str, dict] = {}
+    out: dict[int, list[dict]] = {}
+    count = 0
+    for i in nar_idx:
+        scene = script["scenes"][i]
+        if scene.get("role") in exclude:
+            continue
+        parts = speech_cache[i][1]
+        texts = tts.split_sentences(scene.get("text", ""))
+        if len(parts) != len(texts):
+            continue
+        cursor = 0.0
+        for k, (_, dur) in enumerate(parts):
+            a = 0.0 if k == 0 else lead + cursor
+            cursor += dur
+            b = lead + cursor
+            if (i, k) in skip:
+                continue
+            e = by_scene.get(i, {}).get(k)
+            if e is not None and _plain(e.get("text")) != _plain(texts[k]):
+                e = None    # عدّل المراجع الجملة: لا يُعتمد اسم الخطة، ويبقى ما يجده الكود في نصها الحالي
+            person, how = reel_figures.sentence_person(e, texts[k], people, cfg)
+            if person is None:
+                if how:
+                    results.append({"scene": i, "sentence": k, "name": (reel_figures.person_of(e) or {}).get("name_ar", ""),
+                                    "rejected": how})
+                continue
+            rec: dict = {"scene": i, "sentence": k, "name": person["name_ar"], "how": how}
+            if count >= int(fcfg.get("max_per_reel", 4)):
+                rec["rejected"] = "max"
+                results.append(rec)
+                continue
+            key = reel_map.compact(person["name_ar"])
+            if key not in cache:
+                cache[key] = _find_figure(person, clips, script, cfg, deps, tmp, f"{len(cache)}")
+            got = cache[key]
+            if got.get("png") is None:
+                rec.update({"rejected": got.get("reason", "no_source"), "tried": got.get("tried", 0)})
+                results.append(rec)
+                continue
+            clip = tmp / f"figure_{i}_{k}.mp4"
+            try:
+                deps.run(_base("-loop", "1", "-framerate", str(rcfg["fps"]), "-i", str(got["png"]), "-vf",
+                               reel_figures.zoom_filter(got["fx"], got["fy"], b - a, cfg) + f",fps={rcfg['fps']},format=yuv420p",
+                               "-t", _fmt(b - a), "-an", "-c:v", "libx264", "-preset", str(rcfg.get("preset", "veryfast")),
+                               "-crf", str(rcfg.get("crf", 22)), "-pix_fmt", "yuv420p", str(clip)))
+            except Exception as exc:  # noqa: BLE001 -- الصورة تحسين: الجملة تبقى بخلفيتها
+                log.warning("تعذّر ترميز صورة %s: %s", person["name_ar"], str(exc)[:150])
+                rec["error"] = str(exc)[:150]
+                results.append(rec)
+                continue
+            rec.update({x: got[x] for x in ("source", "channel", "video_id", "url") if got.get(x)})
+            results.append(rec)
+            count += 1
+            out.setdefault(i, []).append({"a": a, "b": b, "clip": clip, "cexpr": "null", "sentence": k, "figure": True})
+    labels = t.get("figure_sources") or {}
+    shown = [r for r in results if r.get("source")]
+    if shown:
+        notes.append(t["comment_figures"].format(people=" · ".join(
+            f"{r['name']} ({labels.get(r['source'], r['source'])}{' ' + r['channel'] if r.get('channel') else ''})" for r in shown)))
+    reasons = t.get("figure_reasons") or {}
+    missed = list(dict.fromkeys(f"{r['name']} ({reasons.get(r['rejected'], r['rejected'])})"
+                                for r in results if r.get("rejected") and r.get("name") and r["rejected"] != "not_in_sentence"))
+    if missed:
+        notes.append(t["comment_figures_missed"].format(people="، ".join(missed)))
+    return out
+
+
 def _bg_clock(order: list, script: dict, hook_idx, panel_skip: set, groups: dict, clips: dict, speech_cache: dict,
               scene_broll: dict, cfg, lead: float) -> tuple[list[dict], float]:
     """فترات ساعة الخلفية (خ1): نفس المشاهد ونفس المدد التي يقدّم بها _assemble الزمنَ nar_t (الراوي وبطاقة السؤال بـscene_seconds،
@@ -6800,7 +7023,7 @@ def _bg_crop(cfg, bg_pan: tuple[float, float], bg_start: float, track: Path | No
 
 
 def _prepare_broll(script: dict, nar_idx: list[int], speech_cache: dict, plan: list, broll: dict, cfg, deps: Deps, tmp: Path,
-                   lead: float, notes: list, skip: set | None = None) -> dict[int, list[dict]]:
+                   lead: float, notes: list, skip: set | None = None, figures: set | None = None) -> dict[int, list[dict]]:
     """لقطات الحدث خلف الجمل (Issue #1452، R5d2): تقسم جمل الراوي بمددها الفعلية من تمريرة الصوت الأولى، وتطابق الخطة بالعدد
     ثم بالنص (المراجع قد يعدّل السيناريو في المرحلة 2)، ويسند النموذج، ويقرر المدقّق القطعي، وتُنزَّل النوافذ المقبولة.
     كل جملة لا تنال لقطة تبقى بالصورة المتحركة. يعيد {فهرس المشهد: [{a, b, clip, cexpr}]} ويملأ broll["result"] (render_broll)
@@ -6837,6 +7060,9 @@ def _prepare_broll(script: dict, nar_idx: list[int], speech_cache: dict, plan: l
             if (i, k) in (skip or set()):
                 # خريطة رُسمت لهذه الجملة: لا لقطة ولا احتياط لها، وتُسجَّل خريطةً لا صورة
                 rec["reason"] = "map"
+            elif (i, k) in (figures or set()):
+                # صورة الشخص الذي تسمّيه الجملة (22/11): لا لقطة ولا احتياط لها، وتُسجَّل صورةً لا لقطة
+                rec["reason"] = "figure"
             elif not count_ok:
                 rec["reason"] = "count"
             elif e is None or _plain(e.get("text")) != _plain(rec["text"]):
@@ -6867,7 +7093,7 @@ def _prepare_broll(script: dict, nar_idx: list[int], speech_cache: dict, plan: l
     # سلسلة relevant لم تُستعمل (نفس المدقّق: الطول والتداخل). لا سلسلة تصلح ← الصورة كما كانت
     if chains:
         left = [{"n": r["n"], "dur": r["b"] - r["a"]} for r in recs
-                if r["n"] not in acc and r["reason"] != "map"
+                if r["n"] not in acc and r["reason"] not in ("map", "figure")
                 and (r["reason"] != "no_visual" or script["scenes"][r["scene"]].get("role") == "question")]
         if left:
             acc.update(reel_broll.fallback(left, chains, list(acc.values()), broll.get("hook")))
@@ -6903,11 +7129,13 @@ def _prepare_broll(script: dict, nar_idx: list[int], speech_cache: dict, plan: l
             r["reason"] = r["reason"] or rej.get(r["n"]) or "no_match"
         if r["reason"] == "map":
             entry["map"] = True
+        elif r["reason"] == "figure":
+            entry["figure"] = True
         elif "video_id" not in entry:
             entry["photo"] = reasons.get(r["reason"], r["reason"])
         result.append(entry)
     total, used = len(recs), len(used_channels)
-    mapped = sum(1 for r in recs if r["reason"] == "map")
+    mapped = sum(1 for r in recs if r["reason"] in ("map", "figure"))
     if recs and not chains:
         videos = (broll.get("scan") or {}).get("videos") or {}
         notes.append(t["comment_broll_scan"].format(
@@ -7009,9 +7237,19 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
         if meta is not None and map_results:
             meta["maps"] = map_results
     mapped = {(e["scene"], e["sentence"]) for e in map_results if e.get("map")}
+    # صورة الشخص بعد الخرائط (الخريطة تغلب في جملة تسمّي مكانًا وشخصًا) وقبل لقطات الحدث: الجملة التي تسمّي شخصًا تُظهره هو
+    scene_figs: dict[int, list[dict]] = {}
+    fig_results: list = []
+    if nar_bg is not None and nar_idx:
+        stage_mark("figures")
+        scene_figs = _prepare_figures(script, nar_idx, speech_cache, plan or [], clips, cfg, deps, tmp, lead,
+                                      notes if notes is not None else [], fig_results, mapped)
+        if meta is not None and fig_results:
+            meta["figures"] = fig_results
+    figured = {(i, e["sentence"]) for i, lst in scene_figs.items() for e in lst}
     if broll is not None and plan and nar_bg is not None and deps.assign_broll is not None:
         scene_broll = _prepare_broll(script, nar_idx, speech_cache, plan, broll, cfg, deps, tmp, lead,
-                                     notes if notes is not None else [], skip=mapped)
+                                     notes if notes is not None else [], skip=mapped, figures=figured)
         # قنوات اللقطات المركَّبة تُنسب في الخاتمة مع قناة الهوك
         for ch in broll.get("channels", []):
             if ch.casefold() not in (n.casefold() for n in names):
@@ -7041,6 +7279,9 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
             for ch in (meta or {}).get("bg_track_channels", []):
                 if ch.casefold() not in (n.casefold() for n in names):
                     names.append(ch)
+    # صور الأشخاص كالخرائط تُدمج بعد شريط الخلفية: طبقة فوقه في زمن جملتها (تحت التظليل) لا جزء منه
+    for i, lst_figs in scene_figs.items():
+        scene_broll.setdefault(i, []).extend(lst_figs)
     for i, lst_maps in scene_maps.items():
         scene_broll.setdefault(i, []).extend(lst_maps)
     channels = "، ".join(names)
@@ -7413,7 +7654,7 @@ RENDER_META_KEYS = (("render_roster", "roster"), ("render_roster_source", "roste
                     ("render_roster_errors", "roster_errors"), ("render_attribution", "attribution"),
                     ("render_relabel", "relabel"), ("render_face_check", "face_check"),
                     ("render_speaker_map", "speaker_map"), ("render_map_assign", "map_assign"),
-                    ("render_map_errors", "map_errors"), ("render_maps", "maps"),
+                    ("render_map_errors", "map_errors"), ("render_maps", "maps"), ("render_figures", "figures"),
                     ("render_gemini_speakers", "gemini_speakers"), ("render_gemini_errors", "gemini_errors"),
                     ("render_gemini_cost", "gemini_cost"), ("render_bg_track", "bg_track"))
 RENDER_KEYS = tuple(k for k, _ in RENDER_META_KEYS) + ("render_exact_selfcheck", "render_budget", "render_timing")
