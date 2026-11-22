@@ -483,6 +483,8 @@ def install_fakes() -> None:
     # ردًّا من عملاء الاختبار المزيَّفين المتسلسلين. اختبار يحتاج غيره يستبدل reel_script._fit_create بنفسه
     from src import reel_script as _reel_script
     _reel_script._fit_create = lambda client, **kw: None  # type: ignore
+    # وقفات نصوص الراوي (22/11) بلا شبكة ولا استهلاك ردود العملاء المزيَّفة: ردّ None ← النصوص كما هي
+    _reel_script._pause_create = lambda client, **kw: None  # type: ignore
     # فحص تماسك القضايا بعد العنقدة (القضية 1770) بلا شبكة ولا استهلاك ردود العملاء المزيَّفة: ردّ بلا أداة ← القضايا كما هي
     # هوك المواجهة (8/11) بلا شبكة ولا استهلاك ردود العملاء المزيَّفة: ردّ None ← لا hook_clash فيبقى الهوك القديم في كل اختبار قديم
     from src import reel_clash as _reel_clash
