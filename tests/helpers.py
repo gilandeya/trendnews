@@ -115,6 +115,9 @@ def load_config(path=None):
                 crop_c["frame_check"]["enabled"] = False
             if isinstance(crop_c.get("follow"), dict):
                 crop_c["follow"]["cut_threshold"] = 0
+                # تتبع المسارات المقطّعة (ريل 7617fa79a76f) يحرّك نوافذ لوحات تثبّت المراجع القديمة أوامرها ثابتة؛
+                # test_reel_follow_fragmented_2211 يطلبه ويثبّت أن config.yaml عليه
+                crop_c["follow"]["fragmented"] = False
         # إعداد محرر الريل الخاص (15/11: Sonnet بلا بحث ولا مراجعة ثانية) يغيّر ما تثبّته اختبارات المحرر وجولة التصحيح
         # القديمة؛ test_reel_cost_cut يطلبه من config الحقيقي
         if isinstance(cfg.get("editor"), dict):

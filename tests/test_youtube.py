@@ -9879,3 +9879,45 @@ def test_reel_download_watchdog_2211() -> None:
             except Exception:  # noqa: BLE001
                 pass
         check(f"dog: محاولات التنزيل ({type(err).__name__})", len(calls) == want, (len(calls), want))
+
+
+def test_reel_follow_fragmented_2211() -> None:
+    """ريل 7617fa79a76f (22/11): قطع القناة بين لقطات ترامب قسم وجهه مسارات لم يبلغ أيٌّ منها min_presence، فلم يُحسم متكلم ولا
+    مسار، فثبتت النافذة على وسيط أكبر وجه (يمين الصورة) ووجهه خارجها. الآن تتبع اللقطات ذات الوجه الواحد وتقفز مع القطع."""
+    import copy
+
+    from src import reel_render
+    from src.config import load_config as real_load
+    real = real_load()
+    check("2211f: config.yaml يتتبع المسارات المقطّعة", real.path("reel.render.crop.follow.fragmented") is True)
+    check("2211f: نسخة التركيب 83", int(real.path("reel.render.version")) >= 83)
+    on = copy.deepcopy(load_config())
+    on["reel"]["render"]["crop"]["follow"]["fragmented"] = True
+    off = load_config()
+    # 30 لقطة: قريبة في الوسط (8) ثم عامة بوجهين (8) ثم متوسطة على اليسار بموضعين (7 + 7): كل مسار دون 40%
+    W, H = 1280, 720
+    face = lambda cx: (cx - 40, 200, 80, 90)
+    boxes = ([[face(640)]] * 8 + [[face(900), face(1200)]] * 8 + [[face(150)]] * 7 + [[face(420)]] * 7)
+    import numpy as np
+    frames = [np.zeros((H, W), dtype=np.uint8) for _ in boxes]
+    res = reel_render.speaker_track(frames, boxes, on)
+    check("2211f: المسارات المقطّعة لا يبلغ أيٌّ منها الحضور فلا متكلم", res["source"] == "face" and res["tracks"] == 0, res)
+    deps = reel_render.Deps(face_tracks=lambda f, c: (W, H, frames, boxes, {"cuts": [2.7, 5.4]}),
+                            faces=lambda f, s: (W, H, [1100.0, 1100.0, 1100.0]))
+    win, meta = reel_render._speaker_crop({"file": "x.mp4"}, on, deps)
+    path = meta.get("path") or []
+    check("2211f: لا حكم بالمتكلم لكن مسار اللقطات ذات الوجه الواحد يُحفظ ومعه القطع",
+          win is None and len(path) == 22 and meta["cuts"] == [2.7, 5.4] and meta.get("fragmented"), (win, len(path), meta))
+    check("2211f: لقطة بوجهين تُهمل (لا تخمين)", all(not 8 <= k < 16 for k, _c in path))
+    crop = reel_render._crop_for({"file": "x.mp4"}, on, deps)
+    check("2211f: النافذة تبدأ من وجهه أول المقطع لا من وسيط أكبر وجه",
+          crop["x"] == int(640 - crop["w"] // 2) and crop.get("path"), crop.get("x"))
+    _w, meta_off = reel_render._speaker_crop({"file": "x.mp4"}, off, deps)
+    crop_off = reel_render._crop_for({"file": "x.mp4"}, off, deps)
+    check("2211f: fragmented=false ← النافذة الثابتة على أكبر وجه كما كان",
+          "path" not in meta_off and crop_off["x"] == int(min(1100 - crop_off["w"] // 2, W - crop_off["w"])), crop_off)
+    # المفاتيح: قفزة عند القطع إلى يسار الصورة
+    samples = [(k / 3.0, c) for k, c in path]
+    keys = reel_render.camera_keys(samples, (0, 0, W, H), 405, on, cuts=[5.2])
+    check("2211f: النافذة تقفز مع القطع إلى موضعه الجديد", bool(keys) and keys[-1][1] < keys[0][1]
+          and any(abs(t - 5.2) < 0.01 for t, _x in keys), keys)
