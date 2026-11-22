@@ -1,0 +1,667 @@
+{
+  "id": "7617fa79a76f",
+  "created_at": "2026-11-22T06:56:13.226150+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "القمة الثلاثية ترامب-بوتين-شي في الصين",
+  "event": "القمة الثلاثية ترامب-بوتين-شي في الصين",
+  "tier": 7,
+  "blocs": [
+    "arabic",
+    "chinese",
+    "english",
+    "french",
+    "persian",
+    "russian",
+    "turkish"
+  ],
+  "channels": [
+    "CNN",
+    "CNN Türk",
+    "FRANCE 24",
+    "Iran International",
+    "RTVI",
+    "TVBS新聞",
+    "Дождь",
+    "Настоящее Время",
+    "العربية",
+    "فرانس 24 عربي",
+    "凤凰卫视"
+  ],
+  "agreement": "",
+  "score": 0,
+  "warnings": [
+    "⏱️ السياق 73 كلمة (الحد 61) فقُبل كما هو لأن المادة من اختيارك — راجعه",
+    "✏️ صيغ السؤال 1 ليتصل بالسياق: كان «من الرابح الأكبر من القمة الثلاثية في الصين؟» صار «من الرابح الأكبر من هذه القمة الثلاثية؟»",
+    "✏️ صيغ السؤال 2 ليتصل بالسياق: كان «هل خرجت القمة الثلاثية بنتائج ملموسة أم ببيان باهت؟» صار «هل خرجت القمة بنتائج ملموسة أم ببيان باهت؟»",
+    "✏️ صيغ سؤال الهوك: كان «هل اقتسمت واشنطن وموسكو وبكين العالم في الصين؟» صار «هل اقتسمت واشنطن وموسكو وبكين العالم في قمة الصين؟»"
+  ],
+  "run_date": "2026-11-22",
+  "topic_date": "2026-11-22",
+  "arabic": {
+    "post_title": "هل اقتسمت واشنطن وموسكو وبكين العالم في الصين؟",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "CNN",
+      "CNN Türk",
+      "FRANCE 24",
+      "Iran International",
+      "RTVI",
+      "TVBS新聞",
+      "Дождь",
+      "Настоящее Время",
+      "العربية",
+      "فرانس 24 عربي",
+      "凤凰卫视"
+    ]
+  },
+  "source_videos": [],
+  "meta_topic_id": "345ead6f903a",
+  "meta_issue": 1974,
+  "hook_pick": 3,
+  "cost_qa": {
+    "claude": {
+      "claude-haiku-5-5": 0.00128,
+      "claude-sonnet-5": 0.0589,
+      "claude-opus-5": 0.48876
+    },
+    "gemini": 0.84,
+    "proxy_bytes": 26011943
+  },
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "63619e18e7ab",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن ترك"
+      },
+      {
+        "point_id": "02f638fce5a9",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "فرانس 24 الفرنسية"
+      },
+      {
+        "point_id": "fca8489a6f35",
+        "speaker_said_it": "no",
+        "other_name": "دونالد ترامب",
+        "faithful": false,
+        "quote_arabic_fixed": "لم تكن هناك أي نتائج جوهرية متعلقة بالبرامج النووية لدى هذه الدول، فلم يطرح الرئيس مثلًا إعادة التفاوض على معاهدة ستارت. ومجرد تمكن الرئيس بوتين من حضور هذا الاجتماع الثلاثي دون تقديم أي تنازلات بشأن أوكرانيا يُعد في رأيي انتصارًا ضخمًا له. حين ننظر إلى المخرجات الفعلية الصادرة عن هذا الاجتماع الثلاثي، نجد أن الرئيس تحدث عن بعض الصفقات التجارية، ومنها اتفاق مع تايلاند.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن"
+      },
+      {
+        "point_id": "5fa0c56bc6e9",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "فرانس 24 الفرنسية"
+      },
+      {
+        "point_id": "0ec9fd1ef5aa",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "سنتحدث عن الحرب بين روسيا وأوكرانيا، وقد تحدثنا عنها بالفعل. أعتقد أننا جميعًا هنا نأمل أن تنتهي هذه الحرب.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "فرانس 24 الفرنسية"
+      },
+      {
+        "point_id": "c03c8f345391",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "فرانس 24 الفرنسية"
+      },
+      {
+        "point_id": "b4beff4506b9",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "فرانس 24 الفرنسية"
+      }
+    ]
+  },
+  "quote_retranslated": [
+    "0ec9fd1ef5aa"
+  ],
+  "clip_dropped": [
+    {
+      "point_id": "fca8489a6f35",
+      "channel": "سي إن إن",
+      "reason": "ملخّص النقطة ينسبها إلى شخص آخر: دونالد ترامب"
+    }
+  ],
+  "names_audit": [
+    {
+      "arabic": "جانان ترجان",
+      "latin": "Cemal Tercan"
+    },
+    {
+      "arabic": "أليس إكمان",
+      "latin": "Alice Ekman"
+    },
+    {
+      "arabic": "ماتيو مابان",
+      "latin": "Mathieu Mabanza"
+    },
+    {
+      "arabic": "دونالد ترامب",
+      "latin": "Donald Trump"
+    },
+    {
+      "arabic": "شي جين بينغ",
+      "latin": "Xi Jinping"
+    },
+    {
+      "arabic": "فلاديمير بوتين",
+      "latin": "Vladimir Poutine"
+    }
+  ],
+  "script_attempts": [
+    {
+      "attempt": 1,
+      "reasons": [
+        "السياق أطول من 61 كلمة (73)"
+      ]
+    }
+  ],
+  "headlines": [
+    "هل اقتسمت واشنطن وموسكو وبكين العالم في قمة الصين؟",
+    "من خرج رابحًا من قمة ترامب وبوتين وشي؟"
+  ],
+  "headline_selected": 0,
+  "script": {
+    "version": 2,
+    "narrator": "female",
+    "title": "من خرج رابحًا من قمة الصين الثلاثية؟",
+    "question": "هل يصمد هذا التفاهم الثلاثي أم ينهار عند أول أزمة؟",
+    "event": "",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "من خرج رابحًا من قمة الصين الثلاثية؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "في مدينة شنزن الصينية، أكد الرئيس الصيني شي جين بينغ أن اللقاء هو الأول بين قادة الدول الثلاث ويحمل أبعادًا تأسيسية."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "c03c8f345391",
+        "q": "c0",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=vhFXlCmdkO8",
+        "start": 89.7,
+        "end": 101.2,
+        "speaker_name": "شي جين بينغ",
+        "speaker_role": "الرئيس الصيني",
+        "speaker_verified": true,
+        "speaker_verified_from": "title",
+        "speaker_name_latin": "Xi Jinping",
+        "channel_display": "فرانس 24 الفرنسية",
+        "channel_original": "FRANCE 24",
+        "quote_arabic": "هذا هو اللقاء الأول على الإطلاق بين قادة دولنا الثلاث، وهو ما يمنحه أبعادًا تأسيسية.",
+        "quote_original": "Il s'agit de la toute première rencontre entre les dirigeants de nos trois pays, ce qui revêt une portée fondatrice.",
+        "language": "fr",
+        "video_published": "2026-11-20T15:56:21Z",
+        "relay": "external",
+        "relay_source": "",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "الرئيس الأمريكي دونالد ترامب تحدث عن الملف الأبرز على الطاولة، الحرب في أوكرانيا."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "0ec9fd1ef5aa",
+        "q": "c1",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=vhFXlCmdkO8",
+        "start": 166.7,
+        "end": 176.0,
+        "speaker_name": "دونالد ترامب",
+        "speaker_role": "الرئيس الأمريكي",
+        "speaker_verified": true,
+        "speaker_verified_from": "title",
+        "speaker_name_latin": "Donald Trump",
+        "channel_display": "فرانس 24 الفرنسية",
+        "channel_original": "FRANCE 24",
+        "quote_arabic": "سنتحدث عن الحرب بين روسيا وأوكرانيا، وقد تحدثنا عنها بالفعل. أعتقد أننا جميعًا هنا نأمل أن تنتهي هذه الحرب.",
+        "quote_original": "Nous allons parler de la guerre entre la Russie et l'Ukraine, et nous l'avons déjà fait. Je pense que nous espérons tous ici que cette guerre va prendre fin.",
+        "language": "fr",
+        "video_published": "2026-11-20T15:56:21Z",
+        "relay": "external",
+        "relay_source": "",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "أما الرئيس الروسي فلاديمير بوتين، العائد إلى الواجهة الدولية بعد سنوات من العزلة، فربط بين الدول الثلاث بإرث الحرب العالمية الثانية."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "b4beff4506b9",
+        "q": "c2",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=vhFXlCmdkO8",
+        "start": 108.5,
+        "end": 121.6,
+        "speaker_name": "فلاديمير بوتين",
+        "speaker_role": "الرئيس الروسي",
+        "speaker_verified": true,
+        "speaker_verified_from": "title",
+        "speaker_name_latin": "Vladimir Poutine",
+        "channel_display": "فرانس 24 الفرنسية",
+        "channel_original": "FRANCE 24",
+        "quote_arabic": "دولنا الثلاث متحدة ليس فقط بمكانتها كدول منتصرة في الحرب العالمية الثانية، بل أساسًا بمسؤوليتها المشتركة عن الحفاظ على السلم والأمن العالميين.",
+        "quote_original": "Nos trois États sont unis non seulement par leur statut de pays victorieux de la Seconde Guerre mondiale, mais surtout par leur responsabilité commune de maintenir la paix et la sécurité mondiale.",
+        "language": "fr",
+        "video_published": "2026-11-20T15:56:21Z",
+        "relay": "external",
+        "relay_source": "",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "القمة خرجت بأربع نقاط، أبرزها التمسك بحصانة القادة وانتقاد المحكمة الجنائية الدولية وزيادة إنتاج النفط وتكريره."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 0,
+        "text": "من الرابح الأكبر من هذه القمة الثلاثية؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "63619e18e7ab",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=Xz2fndF4N1g",
+        "start": 530.0,
+        "end": 563.0,
+        "speaker_name": "جانان ترجان",
+        "speaker_role": "أكاديمية في جامعة إسطنبول أيدن",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Canan Tercan",
+        "channel_display": "سي إن إن ترك",
+        "channel_original": "CNN Türk",
+        "quote_arabic": "حين ننظر إلى الأمر ونتساءل إن كانت الصين هي الرابح من القمة، وهو ما تداولته وسائل الإعلام بكثرة، نجد أن الرابح الحقيقي في الواقع هو روسيا. فقد كانت روسيا معزولة عن الاتحاد الأوروبي والعالم والأولمبياد ومجمدة العلاقات، أما اليوم فرأيناها فاعلًا رئيسيًا وعنصرًا حاسمًا على الطاولة ذاتها إلى جانب الصين والولايات المتحدة الأمريكية، وهو زخم كبير جدًا لموسكو.",
+        "quote_original": "Şimdi biz baktığımızda hani zirvenin kazananı Çin mi? Bugün medyada bu çok fazla yer aldı. Bu zirvenin kazananı gerçekten Rusya. Bakın, Avrupa Birliği'nden, dünyadan, olimpiyatlardan tecrit edilen bir Rusya vardı, ilişkiler dondurulmuştu. Bugün geldiğimizde Çin ve Amerika Birleşik Devletleri'nin oturduğu masada ana aktör olarak, dünyada belirleyici bir unsur olarak biz Rusya'yı gördük. Bu Rusya için çok önemli bir ivme.",
+        "language": "tr",
+        "video_published": "2026-11-21T06:30:35Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "02f638fce5a9",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=vhFXlCmdkO8",
+        "start": 236.1,
+        "end": 260.3,
+        "speaker_name": "أليس إكمان",
+        "speaker_role": "مديرة البحث في معهد دراسات الأمن التابع للاتحاد الأوروبي",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "Alice Ekman",
+        "channel_display": "فرانس 24 الفرنسية",
+        "channel_original": "FRANCE 24",
+        "quote_arabic": "النقاط الأربع الواردة في مخرجات القمة تصب بالكامل تقريبًا في صالح المصالح الروسية والصينية، ويتجسد هذا الخلل كتابيًا في التمسك بحصانة القادة، والمقصود أولًا الرئيس الروسي فلاديمير بوتين مع انتقاد مباشر للمحكمة الجنائية الدولية، فضلًا عن الرغبة في زيادة إنتاج المنتجات النفطية وتكريرها.",
+        "quote_original": "Mais les conclusions, c'est que quatre points sont quasiment tous en faveur des intérêts russes et chinois, et ce déséquilibre se matérialise par écrit. Très clairement, il y a une volonté de respecter l'immunité des dirigeants, et donc c'est-à-dire en premier lieu Vladimir Poutine avec une critique directe de la CPI. Il y a la volonté d'augmenter la production et le raffinage de produits pétroliers.",
+        "language": "fr",
+        "video_published": "2026-11-20T15:56:21Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 1,
+        "text": "هل خرجت القمة بنتائج ملموسة أم ببيان باهت؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "5fa0c56bc6e9",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=vhFXlCmdkO8",
+        "start": 457.0,
+        "end": 486.0,
+        "speaker_name": "ماتيو مابان",
+        "speaker_role": "مراسل فرانس 24 في واشنطن",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Matthieu Mabin",
+        "channel_display": "فرانس 24 الفرنسية",
+        "channel_original": "FRANCE 24",
+        "quote_arabic": "خلف الصور والرمزيات، لا وجود لأي تقدم حاسم بشأن أوكرانيا، ولا أي اتفاق ملموس حول الأسلحة النووية، ولا اختراق حقيقي في ملف إيران، والسؤال الأساسي هو من المستفيد الفعلي من هذه القمة؛ فالرئيس الروسي فلاديمير بوتين استعاد جانبًا من شرعيته الدولية، لكن الرابح الأكبر هو على الأرجح الرئيس الصيني شي جين بينغ.",
+        "quote_original": "Sauf que, derrière les images, quel est le bilan réel ? Aucun progrès décisif sur l'Ukraine, aucun accord concret sur les armes nucléaires, aucune véritable avancée sur l'Iran, et surtout il faut se demander à qui profite réellement ce sommet finalement. Vladimir Poutine retrouve une forme de légitimité internationale, mais le grand gagnant, c'est probablement Xi Jinping.",
+        "language": "fr",
+        "video_published": "2026-11-20T15:56:21Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "question",
+        "text": "هل يصمد هذا التفاهم الثلاثي أم ينهار عند أول أزمة؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": [],
+    "narrator_voices": [
+      {
+        "id": "s7VusoUfleDWGRQNqsF6",
+        "name": "Woman2",
+        "gender": "female"
+      },
+      {
+        "id": "imSStoespHEDicyPMZ3i",
+        "name": "Man2",
+        "gender": "male"
+      }
+    ]
+  },
+  "editor_revision": {
+    "at": "2026-11-22T06:56:31.412169+00:00",
+    "applied": true,
+    "error": null,
+    "before": [
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "في مدينة شنزن الصينية، جمعت طاولة واحدة قادة الولايات المتحدة وروسيا والصين. الرئيس الصيني شي جين بينغ افتتح اللقاء بتوصيفه حدثًا غير مسبوق.",
+        "fix": "في مدينة شنزن الصينية، أكد الرئيس الصيني شي جين بينغ أن اللقاء هو الأول بين قادة الدول الثلاث ويحمل أبعادًا تأسيسية.",
+        "note": "جملة السياق تصف فقط أن شي 'وصف' اللقاء، لكن لا تذكر الواقعة الجوهرية المحددة في وقائع الحدث المرفقة بدقة كافية (أنه أول لقاء بين قادة الدول الثلاث)، كما أن طولها يتجاوز الحد المسموح (3 جمل/25 كلمة) بحسب تنبيه المسودة؛ يفضَّل الاختصار بجملة تذكر الفعل والزمن مباشرة من وقائع الحدث.",
+        "sources": []
+      }
+    ],
+    "unresolved": []
+  },
+  "editor_review": {
+    "at": "2026-11-22T06:56:31.412169+00:00",
+    "applied": [
+      {
+        "category": "headline_overclaims",
+        "severity": "high",
+        "location": "h1",
+        "original": "هل اقتسمت واشنطن وموسكو وبكين العالم في قمة الصين؟",
+        "fix": "من خرج رابحًا من قمة الصين الثلاثية؟",
+        "note": "لا شيء في المقاطع أو السياق يسند فكرة \"اقتسام العالم\"؛ المصادر تتحدث عن مكاسب نسبية لكل طرف (روسيا عادت للواجهة، الصين الرابح الأكبر بحسب محلل) وليس عن اتفاق لتقسيم نفوذ عالمي. هذا جزم غير مسنود بالمتن.",
+        "sources": []
+      },
+      {
+        "category": "headline_overclaims",
+        "severity": "high",
+        "location": "headline_2",
+        "original": "هل اقتسمت واشنطن وموسكو وبكين العالم في الصين؟",
+        "fix": "",
+        "note": "نفس مشكلة العنوان الرئيس: لا سند لفكرة اقتسام العالم في أي من الاقتباسات المرفقة.",
+        "sources": []
+      }
+    ],
+    "notes": [],
+    "error": null,
+    "searches": 0,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "reel_bg": {
+    "url": "https://media.radiotunisienne.tn/uploads/content/images/1795084633948-bcb5ee90a468.jpg",
+    "kind": "web_search",
+    "publisher": "radionationale.tn",
+    "shows": "ثلاثة قادة (بوتين وشي جين بينغ وترامب) يقفون أمام خلفية زرقاء عليها شعارات بالصينية والروسية والإنجليزية، مع أعلام الصين",
+    "crop": [
+      0.0,
+      0.42,
+      1.0,
+      1.0
+    ],
+    "text_checked": true,
+    "judged": true,
+    "rejected": [
+      {
+        "url": "https://assets-news.asharq.com/images/articles/1200x630/social-image/061uZME3Og_1795298046.jpg",
+        "shows": "ثلاثة رجال في بدلات داكنة يقفون أمام خلفية زرقاء بين علمين صينيين",
+        "reason": "الصورة تُظهر بوتين وشي جين بينغ وترامب، وهي مرتبطة بموضوع القمة، لكن الخلفية الصورة نفسها تقدم اللقاء الثلاثي؛ ومع ذلك لا يوجد نص مركّب، لذا يُعد ملائمًا لموضوع القمة. (ملاحظة: الحكم هنا مُعاد التقييم"
+      },
+      {
+        "url": "https://www.gulfchannels.com/wp-content/uploads/2026/11/1795081153.jpeg",
+        "shows": "ثلاثة قادة (بوتين وشي جين بينغ وترامب) جالسون حول طاولة مستديرة في قاعة رسمية، مع علم روسيا والصين والولايات المتحدة ولو",
+        "reason": "عليها نص مركَّب والجزء الخالي منه صغير (1024×489 بكسل)"
+      },
+      {
+        "url": "https://imgs.search.brave.com/yXWA23GcvS4rSL7QdRRsQXACwEoPXG9MBymiNZqWkWo/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/Z3VsZmNoYW5uZWxz/LmNvbS93cC1jb250/ZW50L3VwbG9hZHMv/MjAyNi8xMS8xNzk1/MDgxMTUzLmpwZWc",
+        "shows": "ثلاثة قادة (بوتين وشي جين بينغ وترامب) جالسون حول طاولة مستديرة في قاعة رسمية، مع علمي روسيا والصين والولايات المتحدة وز",
+        "reason": "عليها نص مركَّب والجزء الخالي منه صغير (500×224 بكسل)"
+      }
+    ]
+  },
+  "hook_candidates": [
+    {
+      "video_id": "jn0rxoHXxbo",
+      "title": "LIVE | Trump & Putin Attend Xi Jinping's Grand APEC Reception in China's Shenzhen",
+      "channel": "APT",
+      "views": 610304,
+      "duration": 0,
+      "published": "2026-11-18T11:07:12Z",
+      "views_per_hour": 6644.6
+    },
+    {
+      "video_id": "rgjlv_z19gU",
+      "title": "Así fue la llegada de Trump, Putin y Xi a la cumbre trilateral en Shenzen",
+      "channel": "CNN en Español",
+      "views": 359888,
+      "duration": 31,
+      "published": "2026-11-19T09:46:16Z",
+      "views_per_hour": 5200.8
+    },
+    {
+      "video_id": "Zcre4TbW4fY",
+      "title": "Putin and Trump shake hands ahead of unprecedented talks",
+      "channel": "CNN",
+      "views": 469880,
+      "duration": 22,
+      "published": "2026-11-18T12:35:23Z",
+      "views_per_hour": 5198.9
+    },
+    {
+      "video_id": "h0CW1lNaPBw",
+      "title": "BREAKING: Trump attends HISTORIC trilateral meeting with Xi, Putin",
+      "channel": "Fox News",
+      "views": 326212,
+      "duration": 774,
+      "published": "2026-11-19T09:38:43Z",
+      "views_per_hour": 4705.6
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-11-20T00:00:00Z",
+          "2026-11-24T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "ترامب وبوتين وشي يصافحون في شنزن",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "Trump Putin Xi summit Shenzhen handshake crowds",
+            "raw": 3,
+            "channel_ok": 0
+          },
+          {
+            "query": "Shenzhen Xi Jinping welcome ceremony Chinese media footage",
+            "raw": 25,
+            "channel_ok": 1
+          }
+        ],
+        "duration_ok": 1,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "Asia Unfiltered",
+          "Universal Motion",
+          "UndergroundRichMan",
+          "Tribun Timur Viral",
+          "BRTEX MEDIA",
+          "India Today",
+          "OmniBrief",
+          "Vistaar Digital"
+        ]
+      },
+      {
+        "broad": true,
+        "window": [
+          "2026-11-18T00:00:00Z",
+          "2026-11-25T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "قمة ترامب بوتين شي",
+            "raw": 30,
+            "channel_ok": 17
+          },
+          {
+            "query": "Trump Putin Xi summit",
+            "raw": 30,
+            "channel_ok": 15
+          },
+          {
+            "query": "Trump Xi Jinping Putin Chinese cumbre trilateral",
+            "raw": 30,
+            "channel_ok": 5
+          }
+        ],
+        "duration_ok": 36,
+        "judged_ok": 35,
+        "rejected_channels": [
+          "The Hill",
+          "UltraSawt",
+          "News Central",
+          "New York Post",
+          "Fox Business",
+          "الروائي",
+          "صوت المجلة",
+          "AlQahera News -  القاهرة الإخبارية"
+        ]
+      }
+    ],
+    "picked": [
+      "jn0rxoHXxbo",
+      "rgjlv_z19gU",
+      "Zcre4TbW4fY",
+      "h0CW1lNaPBw"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "في مدينة شنزن الصينية، أكد الرئيس الصيني شي جين بينغ أن اللقاء هو الأول بين قادة الدول الثلاث ويحمل أبعادًا تأسيسية.",
+      "visual": ""
+    },
+    {
+      "scene": 3,
+      "sentence": 0,
+      "text": "الرئيس الأمريكي دونالد ترامب تحدث عن الملف الأبرز على الطاولة، الحرب في أوكرانيا.",
+      "visual": ""
+    },
+    {
+      "scene": 5,
+      "sentence": 0,
+      "text": "أما الرئيس الروسي فلاديمير بوتين، العائد إلى الواجهة الدولية بعد سنوات من العزلة، فربط بين الدول الثلاث بإرث الحرب العالمية الثانية.",
+      "visual": ""
+    },
+    {
+      "scene": 7,
+      "sentence": 0,
+      "text": "القمة خرجت بأربع نقاط، أبرزها التمسك بحصانة القادة وانتقاد المحكمة الجنائية الدولية وزيادة إنتاج النفط وتكريره.",
+      "visual": ""
+    },
+    {
+      "scene": 8,
+      "sentence": 0,
+      "text": "من الرابح الأكبر من هذه القمة الثلاثية؟",
+      "visual": ""
+    },
+    {
+      "scene": 11,
+      "sentence": 0,
+      "text": "هل خرجت القمة بنتائج ملموسة أم ببيان باهت؟",
+      "visual": ""
+    }
+  ],
+  "cost_script": {
+    "claude": {
+      "claude-haiku-5-5": 0.00489,
+      "claude-sonnet-5": 0.13736,
+      "claude-opus-5": 0.13337
+    }
+  },
+  "review_issue": 1975,
+  "stage2_issue": 1975
+}
