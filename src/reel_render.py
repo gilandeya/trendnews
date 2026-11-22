@@ -5348,7 +5348,7 @@ def _round_inputs(cfg, fw: int, fh: int, tmp: Path, add, a: str, seconds: float,
             f"[fr{k}][m{k}]alphamerge")
 
 
-def border_frames(cfg, fw: int, fh: int, tmp: Path) -> dict | None:
+def border_frames(cfg, fw: int, fh: int, tmp: Path, color: str | None = None) -> dict | None:
     """إطار ذهبي بلمعة متحركة حول نافذة الكلام (R14، قرار صاحب المشروع). يعيد {pattern, width, fps, count} لتسلسل PNG بمقاس
     (fw + 2·width)×(fh + 2·width): حلقة بلون panel.border.color (وإلا brand.accent_color) متدرّجة من الأفتح أعلى إلى الأغمق أسفل،
     وكل shine.period ثانية يعبرها شريط قطري أبيض (shine.alpha، عرضه shine.band من القطر) خلال shine.seconds ثم تسكن؛ يُقرأ
@@ -5362,13 +5362,14 @@ def border_frames(cfg, fw: int, fh: int, tmp: Path) -> dict | None:
     sfps = max(int(sc.get("fps", 15)), 1)
     count = max(int(round(float(sc.get("period", 3.0)) * sfps)), 1)
     rad = frame_radius(cfg)
-    stem = f"border_{fw}x{fh}_{b}" + (f"_r{rad}" if rad else "")
+    stem = f"border_{fw}x{fh}_{b}" + (f"_r{rad}" if rad else "") + (f"_{color.lstrip('#')}" if color else "")
     pattern = tmp / f"{stem}_%03d.png"
     info = {"pattern": str(pattern), "width": b, "fps": sfps, "count": count}
     if (tmp / f"{stem}_{count - 1:03d}.png").exists():
         return info
     w, h = fw + 2 * b, fh + 2 * b
-    gold = np.array(imaging.hex_rgb(bc.get("color") or cfg.path("brand.accent_color")), float)
+    # color: إطار الأم المعاكسة فضي وإطارات الصدى خضراء وزرقاء (23/11) بالحلقة واللمعة نفسيهما
+    gold = np.array(imaging.hex_rgb(color or bc.get("color") or cfg.path("brand.accent_color")), float)
     ys, xs = np.mgrid[0:h, 0:w]
     if rad:
         # حلقة مدوّرة تلاصق النافذة المدوّرة: خارجها بنصف قطر rad + b وداخلها (حافة النافذة) بنصف قطر rad
@@ -5547,6 +5548,230 @@ def _panel_scene(members: list[tuple[int, dict]], clips: dict, out: Path, cfg, d
                    *_enc(rcfg), str(out)))
     spans = [(i, starts[k] + grow, starts[k] + float(clips[i]["seconds"]) - shrink) for k, (i, _) in enumerate(members)]
     _check_frame_faces(out, spans, lay["frame"], members, clips, cfg, deps, notes)
+    return total
+
+
+# ───────────────────── الإجابة الأم وصداها (طلب صاحب المشروع 23/11، meta_echo) ─────────────────────
+
+def echo_sequence(members: list[tuple[int, dict]], clips: dict, cfg) -> list[dict] | None:
+    """تتابع لوحة سؤال فيها أم وصدى، أو None فتُركَّب اللوحة كما كانت. الأم تُقسم أفكارًا بحدودها المسموعة (reel_clash.span_times على
+    كلمات الملف المسموعة، ضبط Q13)، وبعد كل فكرة صداها: القطعة التي تكررها من إجابة أخرى، بحدودها المسموعة كذلك. ثم الأم المعاكسة
+    وصداها، ثم ما بقي من الإجابات كاملًا. فكرة للأم لا تُسمع حدودها ← None (لا تقسيم بتخمين)؛ صدى لا يُسمع أو أقصر من min_seconds ←
+    يُعرض إجابةً كاملة بعد الصدى. كل عنصر: {i, role (primary|opposing|echo|plain), src0, src1 (ثواني الملف؛ plain بلاهما)، seconds،
+    depth، color، text، words}، ثم start وuntil بثواني المشهد (until: حتى تعود الأم أو ينتهي دورها فتختفي إطارات الصدى)."""
+    ec = cfg.path("reel.render.echo") or {}
+    if not ec.get("enabled") or len(members) < 2:
+        return None
+    by_pid = {sc.get("point_id"): (i, sc) for i, sc in members}
+    masters = [(i, sc) for i, sc in members
+               if i in clips and (sc.get("echo") or {}).get("role") in ("primary", "opposing")]
+    if not masters:
+        return None
+    colors = ec.get("colors") or {}
+    echo_colors = list(colors.get("echo") or ["#2FA36B", "#2F7FD6"])
+    pre, post = float(ec.get("pre", 0.4)), float(ec.get("post", 0.3))
+    epre, epost = float(ec.get("echo_pre", 0.15)), float(ec.get("echo_post", 0.2))
+    min_echo, max_depth = float(ec.get("min_seconds", 1.2)), max(int(ec.get("max_depth", 2)), 1)
+    lead = transition_seconds(cfg)
+    seq: list[dict] = []
+    used: set[int] = set()
+    for i, sc in masters:
+        clip, e = clips[i], sc["echo"]
+        fsec = float(clip.get("file_seconds") or clip.get("seconds") or 0)
+        spans = []
+        for seg in e.get("segments") or []:
+            got = reel_clash.span_times(clip, {"sub_original": seg.get("sub_original", "")}, cfg)
+            if not got:
+                return None
+            spans.append((got[0], got[1], got[2], seg))
+        # التداخل بالكلمات المسموعة لا بالحدود: هامشا فكرتين متجاورتين يتلامسان دائمًا
+        if not spans or any(spans[k + 1][2][0][0] < spans[k][2][-1][1] - 1e-6 for k in range(len(spans) - 1)):
+            return None
+        bounds = [max(spans[0][0] - max(pre, lead), 0.0)] + [sp[0] for sp in spans[1:]] + [min(spans[-1][1] + post, fsec)]
+        used.add(i)
+        color = colors.get("opposing") if e["role"] == "opposing" else colors.get("primary")
+        k_color = 0
+        for j, (t0, t1, words, seg) in enumerate(spans):
+            seq.append({"i": i, "role": e["role"], "src0": round(bounds[j], 3), "src1": round(bounds[j + 1], 3),
+                        "depth": 0, "color": color, "text": seg.get("text_ar", ""), "words": words, "idea": seg.get("idea")})
+            depth = 0
+            for ie, esc in members:
+                ee = esc.get("echo") or {}
+                if (ie in used or ie not in clips or ee.get("role") != "echo" or ee.get("of") != sc.get("point_id")
+                        or ee.get("idea") != seg.get("idea")):
+                    continue
+                got = reel_clash.span_times(clips[ie], {"sub_original": ee.get("sub_original", "")}, cfg)
+                if not got:
+                    continue
+                efs = float(clips[ie].get("file_seconds") or clips[ie].get("seconds") or 0)
+                a, b = max(got[0] - epre, 0.0), min(got[1] + epost, efs)
+                if b - a < min_echo:
+                    continue
+                depth = min(depth + 1, max_depth)
+                used.add(ie)
+                seq.append({"i": ie, "role": "echo", "src0": round(a, 3), "src1": round(b, 3), "depth": depth,
+                            "color": echo_colors[k_color % len(echo_colors)], "text": ee.get("text_ar", ""),
+                            "words": got[2], "idea": seg.get("idea")})
+                k_color += 1
+    if not any(x["role"] == "echo" for x in seq):
+        return None
+    for i, _ in members:
+        if i in clips and i not in used:
+            seq.append({"i": i, "role": "plain", "depth": 0, "color": colors.get("primary")})
+    t = 0.0
+    for x in seq:
+        x["seconds"] = round(float(clips[x["i"]]["seconds"]) if x["role"] == "plain" else x["src1"] - x["src0"], 3)
+        x["start"] = round(t, 3)
+        t += x["seconds"]
+    for k, x in enumerate(seq):
+        nxt = next((y["start"] for y in seq[k + 1:] if y["role"] != "echo"), t)
+        x["until"] = round(x["start"] + x["seconds"] if x["role"] == "plain" else nxt, 3)
+    return seq
+
+
+def _echo_quote_times(x: dict, n: int) -> list[float]:
+    """أزمنة ظهور كلمات ترجمة القطعة بثواني القطعة: موزّعة بين أول كلمة مسموعة منها وآخرها."""
+    words = x.get("words") or []
+    if not words or n <= 0:
+        return [0.0] * max(n, 0)
+    a, b = float(words[0][0]) - x["src0"], float(words[-1][1]) - x["src0"]
+    a = max(a, 0.0)
+    b = max(min(b, x["seconds"] - 0.1), a)
+    return [round(a + (b - a) * k / n, 3) for k in range(n)]
+
+
+def _echo_scene(seq: list[dict], members: list[tuple[int, dict]], clips: dict, out: Path, cfg, deps: Deps, tmp: Path,
+                speakers: dict, notes: list, nar_bg: Path | None = None, nar_plan: dict | None = None,
+                bg_start: float = 0.0) -> float:
+    """لوحة الأم وصداها بأمر ffmpeg واحد: الأم في نافذة الكلام بإطارها (ذهبي، والمعاكسة فضي)، وكل صدى إطار بحجمها أسفلها ويسارها
+    بقدر echo.offset لكل عمق، يتبدّل لونه أخضر وأزرق بلمعة الإطار نفسها. القطعة تلعب في وقتها ثم تُجمَّد على آخر إطار حتى تعود الأم،
+    فتختفي إطارات الصدى. الصوت صوت القطعة النشطة وحدها، والشريط والترجمة لها وينزلان بقدر عمقها. الخلفية كلوحة الإجابة الواحدة."""
+    rcfg = cfg.path("reel.render")
+    W, H, fps = int(rcfg["width"]), int(rcfg["height"]), rcfg["fps"]
+    ec = rcfg.get("echo") or {}
+    dx, dy = int((ec.get("offset") or {}).get("dx", 36)), int((ec.get("offset") or {}).get("dy", 36))
+    lay = panel_layout(1, cfg)
+    fx, fy, fw, fh = lay["frame"]
+    by_i = dict(members)
+    inputs: list[str] = []
+    count = 0
+
+    def add(*args) -> int:
+        nonlocal count
+        inputs.extend(args)
+        count += 1
+        return count - 1
+    r, g, b = imaging.hex_rgb(cfg.path("brand.primary_color"))
+    navy = f"0x{r:02X}{g:02X}{b:02X}"
+    vg: list[str] = []
+    if nar_bg is not None and nar_plan is not None:
+        add(*_bg_input(nar_bg, nar_plan.get("track"), bg_start))
+        fog = add("-loop", "1", "-framerate", str(fps), "-i", str(_save(fog_layer(cfg), tmp / f"echo_fog_{members[0][0]}.png")))
+        vg.append(f"{_bg_crop(cfg, _pan_of(nar_plan), bg_start, nar_plan.get('track'))}[p0];"
+                  f"[p0]fps={fps}[bb];[{fog}:v]format=rgba[fg];[bb][fg]overlay=0:0[base]")
+    else:
+        add("-f", "lavfi", "-i", f"color=c={navy}:s={W}x{H}:r={fps}")
+        vg.append(f"[0:v]fps={fps}[base]")
+    crops: dict[int, str] = {}
+    layers: dict[int, tuple] = {}
+    for i in dict.fromkeys(x["i"] for x in seq):
+        clip, scene = clips[i], by_i[i]
+        crop = _prepare_crop(clip, cfg, deps, scene, notes)
+        _, frame_expr = _panel_crops(clip, crop, scene, scene.get("q"), None, lay["frame"], cfg, deps, notes)
+        fc = (clip.get("crop") or {}).get("frame_crop")
+        # قصّ ثابت: القطع تُقتطع من الملف بأزمنتها فلا يصلح تعبير التتبّع المحسوب بأزمنة المقطع كاملًا
+        crops[i] = f"crop={fc['w']}:{fc['h']}:{fc['x']}:{fc['y']}" if fc else frame_expr
+        if isinstance(clip.get("crop"), dict):
+            clip["crop"]["echo"] = [{k: x[k] for k in ("role", "src0", "src1", "depth") if k in x} for x in seq if x["i"] == i]
+    cur = "base"
+    a_idx: list[int] = []
+    for k, x in enumerate(seq):
+        clip = clips[x["i"]]
+        st, un = _fmt(x["start"]), _fmt(x["until"])
+        fi = add("-i", str(clip["file"]))
+        a_idx.append(fi)
+        hold = max(x["until"] - x["start"] - x["seconds"], 0.0)
+        if x["role"] == "plain":
+            head = _video_prefix(clip)
+        else:
+            head = f"trim=start={_fmt(x['src0'])}:end={_fmt(x['src1'])},setpts=PTS-STARTPTS,"
+        if hold > 0.01:
+            head += f"tpad=stop_mode=clone:stop_duration={_fmt(hold)},"
+        rnd = _round_inputs(cfg, fw, fh, tmp, add, st, x["until"] - x["start"], 100 + k)
+        px, py = fx - x["depth"] * dx, fy + x["depth"] * dy
+        vg.append(f"[{fi}:v]{head}{crops[x['i']]},scale={fw}:{fh},fps={fps},setpts=PTS-STARTPTS+{st}/TB{rnd}[e{k}];"
+                  f"[{cur}][e{k}]overlay={px}:{py}:enable='between(t,{st},{un})'[eo{k}]")
+        cur = f"eo{k}"
+        border = border_frames(cfg, fw, fh, tmp, x.get("color"))
+        if border:
+            ri = add("-loop", "1", "-framerate", str(border["fps"]), "-i", border["pattern"])
+            bw = border["width"]
+            vg.append(f"[{ri}:v]fps={fps},format=rgba,setpts=PTS-STARTPTS+{st}/TB[er{k}];"
+                      f"[{cur}][er{k}]overlay={px - bw}:{py - bw}:enable='between(t,{st},{un})'[ero{k}]")
+            cur = f"ero{k}"
+    slide = float(rcfg.get("band", {}).get("slide_seconds", 0) or 0)
+    lead = transition_seconds(cfg)
+    for k, x in enumerate(seq):
+        i, clip, scene = x["i"], clips[x["i"]], by_i[x["i"]]
+        st, en_t = x["start"], x["start"] + x["seconds"]
+        en = f"enable='between(t,{_fmt(st)},{_fmt(en_t)})'"
+        if x["role"] == "plain":
+            (static_png, band_png), qframes = _clip_layers(i, scene, clip, cfg, deps, tmp, speakers, notes, cover=False)
+        else:
+            _apply_chyron(scene, clip, cfg, deps, speakers, notes, i)
+            static, band = frame_clip_layers(cfg, scene, cover=False, quote=False)
+            static_png = _save(static, tmp / f"echo_{k}_static.png")
+            band_png = _save(band, tmp / f"echo_{k}_band.png")
+            qframes = None
+            text = " ".join(str(x.get("text") or "").split())
+            if text:
+                arabic = reel_clash.is_arabic_speech({"language": scene.get("language") or "",
+                                                      "quote_original": scene.get("quote_original") or ""}, cfg)
+                qframes = quote_frames(cfg, text, _echo_quote_times(x, len(text.split())), x["seconds"], tmp,
+                                       f"echo_quote_{k}", "word" if arabic else "line")
+        yoff = x["depth"] * dy
+        si = add("-loop", "1", "-framerate", str(fps), "-i", str(static_png))
+        vg.append(f"[{si}:v]fps={fps},format=rgba,setpts=PTS-STARTPTS+{_fmt(st)}/TB[es{k}];[{cur}][es{k}]overlay=0:{yoff}:{en}[eso{k}]")
+        cur = f"eso{k}"
+        if qframes:
+            lst = out.with_name(f"{out.stem}_echoq{k}.txt")
+            lst.write_text("".join(f"file '{f}'\nduration {_fmt(d)}\n" for f, d in qframes) + f"file '{qframes[-1][0]}'\n",
+                           encoding="utf-8")
+            qi = add("-f", "concat", "-safe", "0", "-i", str(lst))
+            vg.append(f"[{qi}:v]fps={fps},format=rgba,setpts=PTS-STARTPTS+{_fmt(st)}/TB[eq{k}];[{cur}][eq{k}]overlay=0:{yoff}:{en}[eqo{k}]")
+            cur = f"eqo{k}"
+        bi = add("-loop", "1", "-framerate", str(fps), "-i", str(band_png))
+        t0 = lead if k == 0 else st
+        # الشريط ينزلق عند أول ظهور للمتكلم وحده: عودة الأم بعد صداها تُكمل كلامها فلا يدخل شريطها من جديد
+        first = all(y["i"] != i for y in seq[:k])
+        pos = (f"x='W*pow(1-min(max((t-{_fmt(t0)})/{_fmt(slide)},0),1),3)':y={yoff}" if slide > 0 and first
+               else f"0:{yoff}")
+        vg.append(f"[{bi}:v]fps={fps},format=rgba,setpts=PTS-STARTPTS+{_fmt(st)}/TB[eb{k}];[{cur}][eb{k}]overlay={pos}:{en}[ebo{k}]")
+        cur = f"ebo{k}"
+    vg.append(f"[{cur}]fps={fps},format=yuv420p[v]")
+    rate = rcfg.get("audio_rate", 48000)
+    ag = []
+    fade = _fmt(float(ec.get("audio_fade", 0.03)))
+    for k, x in enumerate(seq):
+        clip, sec = clips[x["i"]], _fmt(x["seconds"])
+        if x["role"] == "plain":
+            body = (f"{_audio_prefix(clip) or f'atrim=duration={sec},asetpts=PTS-STARTPTS,'}{_gate_filter(clip, cfg)}")
+        else:
+            # حواف القطعة تلاشٍ قصير فلا تُسمع طقطقة القطع بين الأم وصداها
+            body = (f"atrim=start={_fmt(x['src0'])}:end={_fmt(x['src1'])},asetpts=PTS-STARTPTS,"
+                    f"afade=t=in:d={fade},afade=t=out:st={_fmt(max(x['seconds'] - float(fade), 0))}:d={fade},")
+        ag.append(f"[{a_idx[k]}:a]aresample={rate},aformat=channel_layouts=stereo,{body}apad=whole_dur={sec}[ea{k}]")
+    ag.append("".join(f"[ea{k}]" for k in range(len(seq))) + f"concat=n={len(seq)}:v=0:a=1,{_loudnorm(cfg)}[a]")
+    total = sum(x["seconds"] for x in seq)
+    deps.run(_base(*inputs, "-filter_complex", ";".join(vg + ag), "-map", "[v]", "-map", "[a]", "-t", _fmt(total),
+                   *_enc(rcfg), str(out)))
+    t = cfg.path("reel.render.texts")
+    masters = [x for x in seq if x["role"] in ("primary", "opposing")]
+    if t.get("comment_echo"):
+        first = by_i[masters[0]["i"]]
+        notes.append(t["comment_echo"].format(channel=first.get("channel_display", ""),
+                                              ideas=len({(x["i"], x["idea"]) for x in masters}),
+                                              echoes=sum(1 for x in seq if x["role"] == "echo")))
     return total
 
 
@@ -7327,11 +7552,23 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
                 continue
             kind = "panel"
             members = [(j, script["scenes"][j]) for j in groups[i]]
-            on_bg = len(members) == 1 and bg is not None and nar_plan is not None
-            dur = _panel_scene(members, clips, out, cfg, deps, tmp, speakers if speakers is not None else {},
-                               notes if notes is not None else [], nar_bg if on_bg else None, nar_plan if on_bg else None, nar_t)
-            if on_bg:
-                nar_t += dur - lead
+            # الإجابة الأم وصداها (23/11): تتابعها يُحسب من الكلمات المسموعة، وما لا يُحسب يُركَّب لوحةً كما كان
+            seq = None
+            try:
+                seq = echo_sequence(members, clips, cfg)
+            except Exception as exc:  # noqa: BLE001 -- الصدى تحسين: بلاه اللوحة كما كانت
+                log.warning("تعذّر حساب تتابع الأم وصداها: %s", str(exc)[:150])
+            if seq:
+                on_bg = bg is not None and nar_plan is not None
+                dur = _echo_scene(seq, members, clips, out, cfg, deps, tmp, speakers if speakers is not None else {},
+                                  notes if notes is not None else [], nar_bg if on_bg else None,
+                                  nar_plan if on_bg else None, nar_t)
+            else:
+                on_bg = len(members) == 1 and bg is not None and nar_plan is not None
+                dur = _panel_scene(members, clips, out, cfg, deps, tmp, speakers if speakers is not None else {},
+                                   notes if notes is not None else [], nar_bg if on_bg else None, nar_plan if on_bg else None, nar_t)
+                if on_bg:
+                    nar_t += dur - lead
         elif kind in reel_script.CLIP_KINDS:
             if i not in clips:
                 continue

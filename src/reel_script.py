@@ -977,6 +977,9 @@ def _build_v2(data: dict, valid: list[dict], narrator: str, topic: dict | None =
             c = by_id.get(pid)
             if c:
                 scene.update({k: c.get(k, "") for k in _CLIP_COPY})
+            if isinstance(a.get("echo"), dict):
+                # الإجابة الأم وصداها (meta_echo، 23/11): أفكار الأم وحدود الصدى يقرؤها التركيب
+                scene["echo"] = a["echo"]
             scenes.append(scene)
     scenes += [{"kind": "question", "text": closing}, {"kind": "outro"}]
     return {"version": 2, "narrator": narrator, "title": main, "question": closing,
@@ -1630,6 +1633,15 @@ def timeline_lines(script: dict, cfg: Any, hook_clash: dict | None = None) -> li
                 # Q13 (Issue #1681): ما سيُسمع وما سيُقرأ تحت كل مقطع كما هما في التركيب
                 extra_lines = [t.get("scene_heard", "🎙️ يُسمع: {text}").format(text=scene["quote_original"]),
                                t.get("scene_written", "💬 يُكتب: {text}").format(text=scene.get("quote_arabic", ""))]
+            echo = scene.get("echo") if isinstance(scene.get("echo"), dict) else None
+            if echo:
+                # الإجابة الأم وصداها (23/11): المراجع يرى قبل التركيب كيف تُقسم الأم وما يكرره كل صدى
+                if echo.get("role") in ("primary", "opposing"):
+                    head = t.get("scene_master" if echo["role"] == "primary" else "scene_opposing", "⭐ الإجابة الأم")
+                    extra_lines.append(head + ": " + " ← ".join(f"«{s.get('label', '')}»" for s in echo.get("segments") or []))
+                else:
+                    extra_lines.append(t.get("scene_echo", "↩️ يكرر «{label}»: {text}").format(
+                        label=echo.get("label", ""), text=echo.get("text_ar", "")))
             if v2 and scene.get("stance"):
                 extra = t.get("scene_stance", "↳ الموقف: {stance}").format(stance=scene["stance"])
                 if scene.get("angle"):

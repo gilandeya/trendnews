@@ -10197,3 +10197,223 @@ def test_reel_figures_map_drift_2211() -> None:
     frames = reel_map.render(res, 2.0, cfg, Path(tempfile.mkdtemp()), "t") if res else []
     check("2211f: خريطة أوكرانيا تُرسم إطارًا لكل 1/fps حتى آخر الجملة",
           res is not None and len(frames) >= int(2.0 * float(cfg.path("reel.maps.fps"))), len(frames))
+
+
+def test_meta_echo_2311() -> None:
+    """الإجابة الأم وصداها (طلب صاحب المشروع 23/11): لكل سؤال أم تحمل أكثر الأفكار التي تكررها الإجابات الأخرى وأم معاكسة على الأكثر،
+    تُعرض في الصف الأول من قضية الأسئلة مميَّزة؛ وفي الريل تُقطع الأم فكرةً فكرة وبعد كل فكرة صداها في إطار أخضر/أزرق ينزل يسارًا
+    ويختفي حين تعود الأم. الحكم اللغوي للنموذج (أفكار كل إجابة وحدودها حرفيًا) والقرار للكود."""
+    import copy
+    import os
+    import shutil
+    import subprocess
+    import tempfile
+    from pathlib import Path
+    from types import SimpleNamespace as NS
+
+    import numpy as np
+
+    from src import meta_echo, meta_qa, meta_script, reel_render, reel_script
+    from src.config import load_config as real_load
+    real = real_load()
+    check("2311e: config.yaml يفعّل الأم والصدى في الأسئلة والتركيب",
+          real.path("youtube.meta_topics.qa.echo.enabled") is True and real.path("reel.render.echo.enabled") is True
+          and real.path("reel.render.version") >= 85)
+    cfg = copy.deepcopy(load_config())
+    cfg["youtube"]["meta_topics"]["qa"]["echo"] = copy.deepcopy(real.path("youtube.meta_topics.qa.echo"))
+    cfg["youtube"]["meta_topics"]["qa"]["texts"] = copy.deepcopy(real.path("youtube.meta_topics.qa.texts"))
+
+    def bite(n, words, ar, lang="en"):
+        return {"bite_id": f"v{n}:{n}", "video_id": f"v{n}", "channel": f"قناة {n}", "bloc": "english", "orientation": "عام",
+                "speaker": f"محلل {n}", "speaker_role": "محلل", "type": "opinion", "start": 10, "end": 20, "language": lang,
+                "summary_ar": f"ملخص {n}", "text_original": words, "text_ar": ar}
+    bites = [bite(1, "alpha beta gamma delta epsilon zeta eta theta", "أ ب ج د هـ و ز ح"),
+             bite(2, "one alpha beta gamma two", "واحد أ ب ج اثنان"),
+             bite(3, "three epsilon zeta eta four", "ثلاثة هـ و ز أربعة"),
+             bite(4, "kappa lambda mu nu", "ك ل م ن"),
+             bite(5, "xi kappa lambda mu omicron pi rho sigma", "ق ك ل م س ع ف ص")]
+    reply = {"questions": [{"q": 1, "ideas": [
+        {"id": 1, "label": "الفكرة الأولى", "side": "a"}, {"id": 2, "label": "الفكرة الثانية", "side": "a"},
+        {"id": 3, "label": "فكرة معاكسة", "side": "b"}, {"id": 4, "label": "فكرة رابعة", "side": "b"}],
+        "answers": [
+            {"n": 1, "side": "a", "spans": [{"idea": 1, "first_words": "alpha beta", "last_words": "delta", "text_ar": "أ ب ج د"},
+                                            {"idea": 2, "first_words": "epsilon", "last_words": "theta", "text_ar": "هـ و ز ح"}]},
+            {"n": 2, "side": "a", "spans": [{"idea": 1, "first_words": "alpha", "last_words": "gamma", "text_ar": "أ ب ج"}]},
+            {"n": 3, "side": "a", "spans": [{"idea": 2, "first_words": "epsilon", "last_words": "eta", "text_ar": "هـ و ز"},
+                                            # ترجمة ليست من ترجمته المعتمدة ← تسقط الفكرة وحدها
+                                            {"idea": 1, "first_words": "three", "last_words": "three", "text_ar": "مخترعة"}]},
+            {"n": 4, "side": "b", "spans": [{"idea": 3, "first_words": "kappa", "last_words": "mu", "text_ar": "ك ل م"}]},
+            {"n": 5, "side": "b", "spans": [{"idea": 3, "first_words": "kappa", "last_words": "mu", "text_ar": "ك ل م"},
+                                            {"idea": 4, "first_words": "omicron", "last_words": "sigma", "text_ar": "س ع ف ص"},
+                                            # حدود ليست في الكلام ← تسقط
+                                            {"idea": 4, "first_words": "zzz", "last_words": "yyy", "text_ar": "ق"}]}]}]}
+    calls = []
+
+    def fake(client, **kw):
+        calls.append(kw)
+        return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="plan_echoes", input=reply)])
+    old = meta_echo._create
+    meta_echo._create = fake
+    try:
+        qs = [{"text": "س؟", "answers": [{"n": k, "fit": "direct", "view": "v"} for k in (1, 2, 3, 4, 5)]}]
+        info: dict = {}
+        found = meta_echo.apply(qs, bites, cfg, None, info)
+        order = [a["n"] for a in qs[0]["answers"]]
+        roles = {a["n"]: a.get("echo_role") for a in qs[0]["answers"]}
+        check("2311a: الأم ثم صداها بترتيب أفكارها ثم المعاكسة وصداها", found == 1 and order == [1, 2, 3, 5, 4], (order, info))
+        check("2311a: الأدوار: أم ومعاكسة وصدى",
+              roles == {1: "primary", 2: "echo", 3: "echo", 5: "opposing", 4: "echo"}, roles)
+        st = qs[0]["echo"]
+        segs = st["masters"][0]["segments"]
+        check("2311a: أفكار الأم بحدودها الحرفية، والمعاكسة الأكثر أفكارًا من جهتها",
+              [s["sub_original"] for s in segs] == ["alpha beta gamma delta", "epsilon zeta eta theta"]
+              and st["masters"][1]["n"] == 5 and len(st["masters"][1]["segments"]) == 2, st["masters"])
+        e3 = next(e for e in st["echoes"] if e["n"] == 3)
+        check("2311a: الصدى فكرته وكلماته، والترجمة المخترعة سقطت",
+              e3["idea"] == 2 and e3["sub_original"] == "epsilon zeta eta" and e3["of_bite"] == "v1:1", e3)
+        check("2311a: ما يُرسل للنموذج سؤال بثلاث إجابات فأكثر وكلامها", len(calls) == 1 and "alpha beta" in
+              calls[0]["messages"][0]["content"])
+        pub = meta_echo.public_question(qs[0])
+        check("2311b: الملف العام بلا كلمات الكلام ولا ترجمته",
+              "alpha" not in str(pub) and "أ ب ج" not in str(pub) and pub["echo"]["masters"][0]["bite_id"] == "v1:1", pub)
+        # مقطوع ← لا أم ولا تغيير
+        meta_echo._create = lambda client, **kw: NS(stop_reason="max_tokens", content=[])
+        qs2 = [{"text": "س؟", "answers": [{"n": k, "fit": "direct"} for k in (1, 2, 3)]}]
+        inf2: dict = {}
+        check("2311a: الرد المقطوع لا يُقبل", meta_echo.apply(qs2, bites, cfg, None, inf2) == 0
+              and "echo" not in qs2[0] and "مقطوع" in inf2.get("error", ""), inf2)
+    finally:
+        meta_echo._create = old
+
+    # القضية: الأم في الصف الأول مميَّزة، والصدى يذكر فكرته
+    for a in qs[0]["answers"]:
+        a["selected"] = True
+    qa = {"titles": ["ع؟"], "questions": [meta_echo.public_question(q) for q in qs],
+          "bites": [meta_qa.public_bite(b) for b in bites], "selected_seconds": 60}
+    topic = {"id": "t23", "title": "حدث", "blocs": ["english"], "orientations": 1, "minutes": 5, "channels": [], "videos": []}
+    body = meta_qa.issue_body(topic, {"date": "2026-11-23"}, qa, cfg, full_bites=bites)
+    row1 = next((ln for ln in body.splitlines() if ln.startswith("| 1 |")), "")
+    row2 = next((ln for ln in body.splitlines() if ln.startswith("| 2 |")), "")
+    check("2311c: الأم في الصف الأول بعلامتها، والصدى بفكرته",
+          "الإجابة الأم" in row1 and "محلل 1" in row1 and "يكرر «الفكرة الأولى»" in row2, (row1, row2))
+    check("2311c: القراءة كما كانت", meta_qa.read_marks(body)["answers"].get(1) == [f"v{k}:{k}" for k in (1, 2, 3, 5, 4)],
+          meta_qa.read_marks(body))
+
+    # السيناريو يحمل البنية إلى المشاهد
+    pid_of = {b["bite_id"]: f"p{k}" for k, b in enumerate(bites, 1)}
+    echo = meta_echo.scene_echo(qs[0]["echo"], ["v1:1", "v2:2", "v4:4"], pid_of)
+    check("2311d: أم بلا صدى معلَّم تصير إجابة عادية، وصدى أمه غير معلَّمة كذلك",
+          set(echo) == {"v1:1", "v2:2"} and echo["v2:2"]["of"] == "p1" and echo["v1:1"]["role"] == "primary", echo)
+    check("2311d: الترتيب الأم ثم صداها", meta_echo.order_bites(["v4:4", "v2:2", "v1:1"], echo, pid_of)
+          == ["v1:1", "v2:2", "v4:4"])
+    material = meta_script.selected_material({"questions": [1], "answers": {1: ["v1:1"]}, "titles": []},
+                                             {"questions": qs, "bites": bites}, cfg, [])
+    check("2311d: selected_material يحمل echo السؤال", material and material[0][0].get("echo") == qs[0]["echo"]
+          if isinstance(material, list) and material and isinstance(material[0], tuple) else
+          "echo" in str(material), str(material)[:300])
+    lines = reel_script.timeline_lines({"scenes": [
+        {"kind": "clip", "point_id": "p1", "start": 0, "end": 10, "channel_display": "ق", "speaker_name": "محلل 1",
+         "echo": {"role": "primary", "segments": [{"label": "الفكرة الأولى"}, {"label": "الفكرة الثانية"}]}},
+        {"kind": "clip", "point_id": "p2", "start": 0, "end": 5, "channel_display": "ق", "speaker_name": "محلل 2",
+         "echo": {"role": "echo", "label": "الفكرة الأولى", "text_ar": "أ ب ج"}}]}, cfg)
+    check("2311d: جدول المرحلة 2 يعرض أفكار الأم وصداها", "«الفكرة الأولى» ← «الفكرة الثانية»" in "\n".join(lines)
+          and "يكرر «الفكرة الأولى»" in "\n".join(lines), lines)
+
+    # التركيب: التتابع من الكلمات المسموعة
+    rcfg = copy.deepcopy(cfg)
+    rcfg["reel"]["render"]["echo"] = copy.deepcopy(real.path("reel.render.echo"))
+    rcfg["reel"]["render"]["texts"] = copy.deepcopy(real.path("reel.render.texts"))
+
+    def heard(words, t=0.5, step=0.6):
+        return [(round(t + k * step, 3), round(t + k * step + 0.5, 3), w) for k, w in enumerate(words.split())]
+    mseg = [{"idea": 1, "label": "الفكرة الأولى", "sub_original": "alpha beta gamma delta", "text_ar": "أ ب ج د"},
+            {"idea": 2, "label": "الفكرة الثانية", "sub_original": "epsilon zeta eta theta", "text_ar": "هـ و ز ح"}]
+    members = [(1, {"kind": "clip", "q": 0, "point_id": "p1", "channel_display": "أ", "language": "en",
+                    "echo": {"role": "primary", "segments": mseg}}),
+               (2, {"kind": "clip", "q": 0, "point_id": "p2", "channel_display": "ب", "language": "en",
+                    "echo": {"role": "echo", "of": "p1", "idea": 1, "label": "الفكرة الأولى",
+                             "sub_original": "one alpha beta gamma", "text_ar": "واحد أ ب ج"}}),
+               (3, {"kind": "clip", "q": 0, "point_id": "p3", "channel_display": "ج", "language": "en",
+                    "echo": {"role": "echo", "of": "p1", "idea": 2, "label": "الفكرة الثانية",
+                             "sub_original": "three epsilon zeta eta", "text_ar": "ثلاثة هـ و ز"}}),
+               (4, {"kind": "clip", "q": 0, "point_id": "p4", "channel_display": "د", "language": "en"})]
+    clips = {1: {"seconds": 6.0, "file_seconds": 6.0, "heard": heard("alpha beta gamma delta epsilon zeta eta theta")},
+             2: {"seconds": 4.0, "file_seconds": 4.0, "heard": heard("one alpha beta gamma two")},
+             3: {"seconds": 4.0, "file_seconds": 4.0, "heard": heard("three epsilon zeta eta four")},
+             4: {"seconds": 3.0, "file_seconds": 3.0, "heard": heard("kappa lambda")}}
+    seq = reel_render.echo_sequence(members, clips, rcfg)
+    check("2311f: التتابع الأم ← صدى ← الأم ← صدى ← البقية",
+          seq is not None and [(x["i"], x["role"]) for x in seq] == [(1, "primary"), (2, "echo"), (1, "primary"), (3, "echo"),
+                                                                     (4, "plain")],
+          [(x["i"], x["role"]) for x in seq or []])
+    if seq:
+        colors = real.path("reel.render.echo.colors")
+        check("2311f: الأم ذهبية والصدى أخضر ثم أزرق بعمق 1",
+              seq[0]["color"] == colors["primary"] and seq[1]["color"] == colors["echo"][0]
+              and seq[3]["color"] == colors["echo"][1] and seq[1]["depth"] == 1, seq)
+        check("2311f: الفكرة الأولى تنتهي حيث تبدأ الثانية، وإطار الصدى يبقى حتى تعود الأم",
+              abs(seq[0]["src1"] - seq[2]["src0"]) < 1e-6 and abs(seq[1]["until"] - seq[2]["start"]) < 1e-6
+              and abs(seq[0]["until"] - seq[2]["start"]) < 1e-6, seq)
+        check("2311f: البقية كاملة بمدتها", seq[4]["seconds"] == 3.0 and seq[4]["until"] == seq[4]["start"] + 3.0, seq[4])
+    lost = copy.deepcopy(clips)
+    lost[1]["heard"] = heard("alpha beta gamma delta")
+    check("2311f: فكرة للأم لا تُسمع ← اللوحة كما كانت", reel_render.echo_sequence(members, lost, rcfg) is None)
+    off = copy.deepcopy(rcfg)
+    off["reel"]["render"]["echo"]["enabled"] = False
+    check("2311f: مطفأ ← اللوحة كما كانت", reel_render.echo_sequence(members, clips, off) is None)
+
+    # ffmpeg حقيقي: إطار الصدى أسفل الأم ويسارها ثم يختفي حين تعود الأم
+    exe = shutil.which("ffmpeg")
+    bindir = None
+    tmpd = Path(tempfile.mkdtemp())
+    if not exe:
+        try:
+            import imageio_ffmpeg
+            src = imageio_ffmpeg.get_ffmpeg_exe()
+        except Exception:  # noqa: BLE001
+            src = None
+        if src:
+            bindir = tmpd / "bin"
+            bindir.mkdir()
+            (bindir / "ffmpeg").symlink_to(src)
+            exe = str(bindir / "ffmpeg")
+    if not exe:
+        check("2311g: تُخطّي — لا ffmpeg", True)
+        return
+    old_path = os.environ.get("PATH", "")
+    if bindir is not None:
+        os.environ["PATH"] = f"{bindir}{os.pathsep}{old_path}"
+    try:
+        def gen(name, color, sec):
+            out = tmpd / name
+            subprocess.run([exe, "-v", "error", "-y", "-f", "lavfi", "-i", f"color=c={color}:s=1080x1920:r=30:d={sec}",
+                            "-f", "lavfi", "-i", f"sine=frequency=440:duration={sec}", "-t", str(sec), "-c:v", "libx264",
+                            "-pix_fmt", "yuv420p", "-c:a", "aac", str(out)], check=True, capture_output=True)
+            return out
+        for k, (col, sec) in {1: ("red", 6), 2: ("blue", 4), 3: ("blue", 4), 4: ("red", 3)}.items():
+            clips[k]["file"] = gen(f"c{k}.mp4", col, sec)
+        deps = reel_render.Deps(faces=lambda f, fr: (1080, 1920, []), read_chyron=lambda f, c: None,
+                                streams=lambda p: {"video", "audio"}, sleep=lambda s: None,
+                                download_clip=lambda *a, **k: {}).resolved(rcfg)
+        seq = reel_render.echo_sequence(members, clips, rcfg)
+        out = tmpd / "scene.mp4"
+        notes: list = []
+        dur = reel_render._echo_scene(seq, members, clips, out, rcfg, deps, tmpd, {}, notes)
+        W, H = int(rcfg.path("reel.render.width")), int(rcfg.path("reel.render.height"))
+        fx, fy, fw, fh = reel_render.panel_layout(1, rcfg)["frame"]
+        dx = int(rcfg.path("reel.render.echo.offset.dx"))
+
+        def px(t, x, y):
+            raw = subprocess.run([exe, "-v", "error", "-ss", f"{t:.3f}", "-i", str(out), "-frames:v", "1", "-f", "rawvideo",
+                                  "-pix_fmt", "rgb24", "-"], capture_output=True, check=True).stdout
+            return np.frombuffer(raw, np.uint8).reshape(H, W, 3).astype(int)[y, x]
+        x, y = fx - dx + 12, fy + fh // 2
+        during = px((seq[1]["start"] + seq[1]["until"]) / 2, x, y)
+        after = px(seq[2]["start"] + 0.3, x, y)
+        mid = px(seq[2]["start"] + 0.3, fx + fw // 2, fy + fh // 2)
+        check("2311g: مدة المشهد مجموع القطع", abs(reel_render.probe_duration(out) - dur) < 0.4, dur)
+        check("2311g: أثناء الصدى إطاره الأزرق أسفل الأم ويسارها", during[2] > 150 and during[0] < 100, during.tolist())
+        check("2311g: حين تعود الأم يختفي الصدى وتبقى الأم حمراء", after[2] < 120 and mid[0] > 150, (after.tolist(), mid.tolist()))
+        check("2311g: سطر التعليق", any("الأم" in n for n in notes), notes)
+    finally:
+        os.environ["PATH"] = old_path

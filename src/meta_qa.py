@@ -21,7 +21,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from types import SimpleNamespace
 
-from . import llm, meta_verify
+from . import llm, meta_echo, meta_verify
 
 log = logging.getLogger(__name__)
 
@@ -760,7 +760,9 @@ def auto_select(questions: list[dict], bites: list[dict], cfg) -> float:
                 if not cands:
                     continue
                 # التوجّه الجديد أولًا، ثم القنوات غير العربية (قرار صاحب المشروع 11/11)، ثم الصلة ونوع الكلام
-                cands.sort(key=lambda a: ((bites[a["n"] - 1].get("bloc"), bites[a["n"] - 1].get("orientation")) in orients,
+                # الأم (23/11) أولًا: صداها لا يُعرض بلاها، فاختيار غيرها قبلها يفرّط في السؤال كله
+                cands.sort(key=lambda a: (a.get("echo_role") not in ("primary", "opposing"),
+                                          (bites[a["n"] - 1].get("bloc"), bites[a["n"] - 1].get("orientation")) in orients,
                                           _low_priority(bites[a["n"] - 1], cfg),
                                           *_rank(bites[a["n"] - 1], a["fit"])))
                 pick = cands[0]
@@ -831,6 +833,8 @@ def issue_body(topic: dict, data: dict, qa: dict, cfg, full_bites: list | None =
                          + f" <!-- mc:{b['bite_id']} -->")
         lines += [""] + boxes + [""]
     lines += [t.get("questions_header", "### ❓ الأسئلة والإجابات"), "", t.get("questions_explainer", ""), ""]
+    if any(qu.get("echo") for qu in qa.get("questions") or []):
+        lines += [t.get("echo_explainer", ""), ""]
     seconds = 0.0
     for qi, qu in enumerate(qa.get("questions") or [], 1):
         answers = [a for a in qu["answers"] if bites[a["n"] - 1].get("bite_id") not in gone]
@@ -851,6 +855,8 @@ def issue_body(topic: dict, data: dict, qa: dict, cfg, full_bites: list | None =
             weak = " · " + t.get("weak_label", "صلة ضعيفة") if a["fit"] == "weak" else ""
             # 🎧 = صوت المقطع طابق كلامه المكتوب (meta_verify)؛ ما بلا علامة لم يُفحص (نفد الوقت أو تعطّل) وحارسه التركيب
             weak += t.get("heard_mark", " · 🎧") if b.get("heard") else ""
+            weak += {"primary": t.get("master_box", " · ⭐ أم"), "opposing": t.get("opposing_box", " · 🔶 أم معاكسة"),
+                     "echo": t.get("echo_box", " · ↩️ صدى")}.get(a.get("echo_role") or "", "")
             boxes.append(f"- [{'x' if a.get('selected') else ' '}] "
                          + t.get("answer_box", "{k} · {who} · {seconds} ث · {kind}{weak}").format(
                              k=k, who=who, seconds=_fmt_sec(_sec(b)), kind=kind, weak=weak)
@@ -899,6 +905,14 @@ def _bite_row(k: int, b: dict, a: dict, t: dict, full_bites: list | None, n: int
     role = t.get("host_label", "مقدّم") if b.get("is_host") else (b.get("speaker_role") or "")
     tr = ((full_bites or [])[n - 1].get("text_ar") or "").strip() if full_bites and n <= len(full_bites) else ""
     quote = f"«{tr}»" if tr else (b.get("summary_ar") or "")
+    mark = ""
+    echo_role = a.get("echo_role")
+    if echo_role in ("primary", "opposing"):
+        # الأم (23/11) مميَّزة في أول صف وكلامها بالخط العريض؛ جداول GitHub لا تقبل الألوان فالتمييز بالرمز والخط
+        mark = t.get("master_mark" if echo_role == "primary" else "opposing_mark", "⭐ **الإجابة الأم**") + "<br>"
+        quote = f"**{quote}**"
+    elif echo_role == "echo":
+        mark = t.get("echo_mark", "↩️ يكرر «{idea}»").format(idea=a.get("echo_idea") or "") + "<br>"
     view = ""
     if a.get("view"):
         n_view = int(a.get("view_count") or 1)
@@ -911,7 +925,7 @@ def _bite_row(k: int, b: dict, a: dict, t: dict, full_bites: list | None, n: int
     if b.get("original_of"):
         relay = t.get("original_found", "🔎 الفيديو الأصلي بدل المنقول في {channel}").format(
             channel=(b["original_of"] or {}).get("channel") or "?")
-    row = (f"| {k} | {_cell(view + quote + link)} | {_cell(who)}{'<br><sub>' + _cell(role) + '</sub>' if role else ''} | "
+    row = (f"| {k} | {_cell(mark + view + quote + link)} | {_cell(who)}{'<br><sub>' + _cell(role) + '</sub>' if role else ''} | "
            f"{_cell(b.get('channel') or '')}{'<br><sub>' + _cell(orient) + '</sub>' if orient else ''}"
            f"{'<br><sub>' + _cell(relay) + '</sub>' if relay else ''} |")
     return row, who
@@ -1054,6 +1068,13 @@ def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: d
             for a in qu["answers"]:
                 a["n"] = remap[a["n"]]
         order_answers(questions, kept, cfg)
+        # الإجابة الأم وصداها (23/11): الأم أول السؤال وصداها بعدها، قبل الاختيار التلقائي فتتقدّم الأم فيه
+        echo_info: dict = {}
+        meta_echo.apply(questions, kept, cfg, client, echo_info)
+        if echo_info:
+            qa["echo"] = echo_info
+        else:
+            qa.pop("echo", None)
         qa["selected_seconds"] = auto_select(questions, kept, cfg)
         for qu in questions:
             for a in qu["answers"]:
@@ -1074,7 +1095,8 @@ def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: d
             _bites_cache_path(topic["id"]).unlink()
         except OSError:
             pass
-        qa.update(status="ready", titles=titles, questions=questions, context=context, bites=[public_bite(b) for b in kept],
+        qa.update(status="ready", titles=titles, questions=[meta_echo.public_question(qu) for qu in questions],
+                  context=context, bites=[public_bite(b) for b in kept],
                   error="", extracted=len(bites))
         try:
             # القضية تُفتح هنا والأسئلة فيها (طلب صاحب المشروع 16/11)؛ قضية مفتوحة من قبل (إعادة طلب) يُكتب جسمها. إشعار
