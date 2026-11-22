@@ -125,6 +125,8 @@ class VoiceSession:
         # صوت كل مشهد في ريل بصوتين متناوبين (reel_script.scene_voices، 21/11): {رقم المشهد: معرّف الصوت}
         self.scene_voice: dict[int, str] = {}
         self._default_voice = ""
+        # (الجملة السابقة، التالية) في المشهد نفسه: تُرسل إلى ElevenLabs previous_text/next_text فتتصل نبرة الجمل (21/11)
+        self.context: tuple[str, str] = ("", "")
 
     def _decide(self) -> None:
         e = _el_cfg(self.cfg)
@@ -171,7 +173,10 @@ class VoiceSession:
             self._decide()
         if self.provider == "elevenlabs":
             vid = self._el_voice(voice)
-            res = el_synthesize(text, vid, self.cfg, os.environ.get(EL_KEY_VAR, "").strip(), self._post) if vid else \
+            extra = None
+            if _el_cfg(self.cfg).get("sentence_context") and any(self.context):
+                extra = {"previous_text": self.context[0], "next_text": self.context[1]}
+            res = el_synthesize(text, vid, self.cfg, os.environ.get(EL_KEY_VAR, "").strip(), self._post, extra) if vid else \
                 {"ok": False, "error": "لا صوت ElevenLabs لهذا الجنس في الإعداد"}
             if res.get("ok"):
                 self.el_chars += len(text)
@@ -360,6 +365,84 @@ def apply_proper_nouns(text: str, nouns: list) -> str:
             pos = en
     out.append(text[pos:])
     return "".join(out)
+
+
+_GROUP_RE = re.compile("[ء-ي][ً-ْٰ]*")
+_SHADDA_MARK = "ّ"
+# سوابق تلتصق بالعَلَم («والحديدة»، «بالحديدة»)، و«ل» مع «ال» تصير «لل» («للحديدة»)
+_NOUN_PREFIXES = ("", "و", "ف", "ب", "ك", "وب", "فب", "وك", "فك")
+_LAM_PREFIXES = ("ل", "ول", "فل")
+
+
+def force_form(occ: str, canon: str) -> str | None:
+    """رسم الكلمة occ (مشكولة كما أعادها التشكيل) بحركات canon داخلها، أو None إن لم تكن الكلمة نفسها (مع سابقة ملتصقة).
+    الحرف الأخير يبقى بحركته في occ لأنها حركة الإعراب في موضعها (الحُدَيْدَةِ بعد «ميناء»)، وشدّته من canon؛ وحرف لا حركة
+    له في canon يبقى بحركته في occ (فيُكتب الإعداد «الحُدَيْدَة» بلا حركة على ال ولا على آخره). السابقة تبقى كما هي."""
+    og, cg = _GROUP_RE.findall(occ or ""), _GROUP_RE.findall(canon or "")
+    if not og or not cg or "".join(og) != occ:
+        return None
+    ob, cb = [g[0] for g in og], [g[0] for g in cg]
+    k = len(ob) - len(cb)
+    if k >= 0 and ob[k:] == cb and "".join(ob[:k]) in _NOUN_PREFIXES:
+        body = cg
+    elif cb[:2] == ["ا", "ل"] and len(ob) >= len(cb) - 1 and ob[len(ob) - len(cb) + 1:] == cb[1:] \
+            and "".join(ob[:len(ob) - len(cb) + 1]) in _LAM_PREFIXES:
+        k, body = len(ob) - len(cb) + 1, cg[1:]
+    else:
+        return None
+    out = og[:k]
+    for o, c in zip(og[k:-1], body[:-1]):
+        out.append(c if len(c) > 1 else o)
+    last_marks = og[-1][1:].replace(_SHADDA_MARK, "")
+    out.append(og[-1][0] + (_SHADDA_MARK if _SHADDA_MARK in body[-1] else "") + last_marks)
+    return "".join(out)
+
+
+def consistent_forms(text: str, nouns: list, memory: dict, cfg) -> str:
+    """تشكيل العَلَم واحدًا في الريل كله (ملاحظة صاحب المشروع 21/11: «الحديدة» شُكّلت صحيحة أول مرة وخاطئة في المشهد التالي؛ كل
+    مشهد يُشكَّل بنداء مستقل). يُفرض أولًا رسم reel.tts.consistent_forms.fixed (نطق المدن المحلي)، ثم أول رسم عرفه الريل لكل علم
+    من أنواع kinds؛ ثم يُسجَّل في memory أول رسم لكل علم جديد من أعلام هذا المشهد. الحركات وحدها تتغير (حارس التشكيل لا يتأثر)،
+    وحركة الإعراب على آخر حرف تبقى كما شُكّلت في موضعها. memory قاموس التركيب: {العلم بلا تشكيل: [كلماته مشكولة]}."""
+    ccfg = cfg.path("reel.tts.consistent_forms") or {}
+    if not ccfg.get("enabled") or not text:
+        return text
+    entries = {strip_tashkeel(k).strip(): str(v).split() for k, v in (ccfg.get("fixed") or {}).items() if k and v}
+    for k, v in (memory or {}).items():
+        entries.setdefault(k, v)
+    for bare, forms in sorted(entries.items(), key=lambda kv: -len(kv[0])):
+        toks = bare.split()
+        if len(toks) != len(forms):
+            continue
+        words = [(m.start(), m.end(), m.group()) for m in _WORD_RE.finditer(text)]
+        repl = []
+        for i in range(len(words) - len(toks) + 1):
+            new = []
+            for j, form in enumerate(forms):
+                w = words[i + j][2]
+                f = force_form(w, form) if j == 0 else (force_form(w, form) if strip_tashkeel(w) == toks[j] else None)
+                if f is None:
+                    break
+                new.append(f)
+            if len(new) == len(toks):
+                repl += [(words[i + j][0], words[i + j][1], new[j]) for j in range(len(toks))]
+        for st, en, f in sorted(repl, reverse=True):
+            text = text[:st] + f + text[en:]
+    kinds = ccfg.get("kinds") or ["place", "person"]
+    if memory is not None:
+        words = [m.group() for m in _WORD_RE.finditer(text)]
+        bare_words = [strip_tashkeel(w) for w in words]
+        for n in nouns or []:
+            if (n or {}).get("kind") not in kinds:
+                continue
+            bare = " ".join(strip_tashkeel(str(n.get("text") or "")).split())
+            if not bare or bare in entries or bare in memory:
+                continue
+            toks = bare.split()
+            for i in range(len(words) - len(toks) + 1):
+                if bare_words[i:i + len(toks)] == toks:
+                    memory[bare] = words[i:i + len(toks)]
+                    break
+    return text
 
 
 def latin_names(text: str, nouns: list, cfg=None) -> tuple[str, list]:

@@ -969,6 +969,8 @@ class Deps:
     voice_session: Any = None
     # (العربي، اللاتيني) لكل اسم أجنبي نُطق برسمه الأصلي في هذا التركيب (ريل 1913)؛ منه سطر 🔤 في التعليق
     spoken_names: list = field(default_factory=list)
+    # تشكيل كل عَلَم كما عرفه الريل أول مرة (21/11: «الحديدة» شُكّلت مختلفة بين مشهدين): {العلم بلا تشكيل: كلماته مشكولة}
+    word_forms: dict = field(default_factory=dict)
     # (ملف المقطع، نِسب العيّنات) ← (عرض المصدر، ارتفاعه، مراكز أكبر وجه أفقيًا لكل لقطة فيها وجه)
     faces: Callable[[Any, list], tuple[int, int, list[float]]] | None = None
     # (ملف المقطع، cfg) ← (عرض المصدر، ارتفاعه، إطارات رمادية، صناديق كل وجه في كل إطار) لاختيار الوجه المتكلم (Issue #1427)؛
@@ -3359,6 +3361,8 @@ def _speech(text: str, voice: str, cfg, deps: Deps, tmp: Path, tag: str) -> tupl
     nouns = res[2] if len(res) > 2 else []
     if warn:
         log.warning("تشكيل %s: %s", tag, warn)
+    forms = getattr(deps, "word_forms", None)
+    shown = tts.consistent_forms(shown, nouns, forms if forms is not None else {}, cfg)
     shown = tts.apply_proper_nouns(shown, nouns)
     sentences = tts.split_sentences(shown)
     if not sentences:
@@ -3369,12 +3373,16 @@ def _speech(text: str, voice: str, cfg, deps: Deps, tmp: Path, tag: str) -> tupl
         session.use_scene(tag)   # صوت هذا المشهد في ريل بصوتين متناوبين
     latin_on = bool(cfg.path("reel.tts.latin_names.enabled")) and session is not None and session.multilingual()
     wavs, parts = [], []
+    # ريل 1913: أسماء الأشخاص الأجنبية تُنطق برسمها الأصلي، و21/11: الأرقام بالكلمات؛ المعروض (parts أدناه) كما هو
+    lines = [tts.spoken_line(sentence, nouns, cfg, latin=latin_on) for sentence in sentences]
     for k, sentence in enumerate(sentences):
-        # ريل 1913: أسماء الأشخاص الأجنبية تُنطق برسمها الأصلي، و21/11: الأرقام بالكلمات؛ المعروض (parts أدناه) كما هو
-        spoken, used = tts.spoken_line(sentence, nouns, cfg, latin=latin_on)
+        spoken, used = lines[k]
         seen = getattr(deps, "spoken_names", None)
         if seen is not None:
             seen.extend(p for p in used if p not in seen)
+        if session is not None and hasattr(session, "context"):
+            # كل جملة نداء مستقل (لقياس مدتها)، فتُعطى جارتيها كي لا تُقرأ كل جملة كأنها نص وحدها (21/11)
+            session.context = (lines[k - 1][0] if k else "", lines[k + 1][0] if k + 1 < len(lines) else "")
         res = deps.synthesize(spoken, voice)
         if not res.get("ok"):
             raise RuntimeError("تعذّر توليد الصوت: " + str(res.get("error") or res.get("skipped") or "?")[:120])

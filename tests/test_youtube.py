@@ -7372,8 +7372,8 @@ def test_reel_1895_fixes() -> None:
     check("1895: name_compact_similarity 0 ← كما كان", sm("ظفر يشيلغول", "", "ظافر يشيل غول", off) is False)
 
     # سؤال فقد إحدى إجابتيه يبقى بالأخرى (min_answers: 1)، ولا يسقط إلا ما فقد كل إجاباته
-    check("1895: config.yaml على min_answers 1 وسرعة 1.2",
-          int(cfg.path("reel.render.min_answers")) == 1 and float(cfg.path("reel.tts.speed")) == 1.2)
+    check("1895: config.yaml على min_answers 1 وسرعة 1.26 (21/11: أسرع 5%)",
+          int(cfg.path("reel.render.min_answers")) == 1 and float(cfg.path("reel.tts.speed")) == 1.26)
     script = {"version": 2, "title": "", "scenes": [
         {"kind": "narration", "role": "question", "q": 0, "text": "لماذا؟"},
         {"kind": "clip", "q": 0, "point_id": "a", "speaker_text": "أ"}, {"kind": "clip", "q": 0, "point_id": "b", "speaker_text": "ب"},
@@ -7396,9 +7396,9 @@ def test_reel_1895_fixes() -> None:
     # السرعة: فلتر atempo قبل قياس المدة، وتقدير مدة الراوي يتبعها؛ 1 ← لا فلتر
     one = copy.deepcopy(cfg)
     one["reel"]["tts"]["speed"] = 1
-    check("1895: atempo بسرعة الإعداد ولا فلتر عند 1", reel_render._tempo(cfg) == "atempo=1.2," and reel_render._tempo(one) == "")
+    check("1895: atempo بسرعة الإعداد ولا فلتر عند 1", reel_render._tempo(cfg) == "atempo=1.26," and reel_render._tempo(one) == "")
     check("1895: تقدير كلمات الراوي في الثانية يتبع السرعة",
-          abs(reel_script.narration_wps(cfg) - 1.2 * reel_script.narration_wps(one)) < 1e-9)
+          abs(reel_script.narration_wps(cfg) - 1.26 * reel_script.narration_wps(one)) < 1e-9)
     cmds: list = []
 
     class D:
@@ -7410,7 +7410,7 @@ def test_reel_1895_fixes() -> None:
     from pathlib import Path
     with tempfile.TemporaryDirectory() as td:
         reel_render._speech("جملة أولى.", "v", cfg, D, Path(td), "t")
-    check("1895: أمر صوت الجملة يحمل atempo قبل إعادة العيّنة", any("atempo=1.2,aresample=" in " ".join(map(str, c)) for c in cmds), cmds[:1])
+    check("1895: أمر صوت الجملة يحمل atempo قبل إعادة العيّنة", any("atempo=1.26,aresample=" in " ".join(map(str, c)) for c in cmds), cmds[:1])
 
 
 def test_reel_like_bar_1313c() -> None:
@@ -9649,3 +9649,127 @@ def test_narrator_voices_2111() -> None:
     check("narr: التركيب يمرّر صوتي السيناريو إلى جلسة الصوت",
           "voice_session.scene_voice = {i: v[\"id\"] for i, v in reel_script.scene_voices(script).items()}" in src
           and "session.use_scene(tag)" in src)
+
+
+def test_reel_tone_hook_2111b() -> None:
+    """ملاحظات صاحب المشروع على ريل الحديدة (21/11 مساءً): «الحديدة» شُكّلت صحيحة أول مرة وخاطئة في المشهد التالي، والنبرة بطيئة
+    لا تلائم التقرير، وسؤال الهوك ركيك (وبطاقة سؤال فيها سؤالان)."""
+    import copy
+    import tempfile
+    from types import SimpleNamespace as NS
+
+    from src import meta_script, reel_render, tts
+    from src.config import load_config as real_load
+
+    cfg = copy.deepcopy(load_config())
+    prod = real_load()
+    cfg["reel"]["tts"]["consistent_forms"] = copy.deepcopy(prod.path("reel.tts.consistent_forms"))
+
+    # (1) رسم الكلمة بحركات الرسم المعتمد، وحركة الإعراب الأخيرة كما شُكّلت في موضعها
+    check("tone: الحديدة بنطقها المحلي", tts.force_form("الْحَدِيدَةِ", "الحُدَيْدَة") == "الْحُدَيْدَةِ")
+    check("tone: مع سابقة", tts.force_form("وَالْحَدِيدَةُ", "الحُدَيْدَة") == "وَالْحُدَيْدَةُ")
+    check("tone: «لل»", tts.force_form("لِلْحَدِيدَةِ", "الحُدَيْدَة") == "لِلْحُدَيْدَةِ")
+    check("tone: كلمة أخرى لا تُمسّ", tts.force_form("الْحَدِيقَةِ", "الحُدَيْدَة") is None)
+    check("tone: الشدة من الرسم المعتمد", tts.force_form("تَعِزِ", "تَعِزّ") == "تَعِز" + "\u0651" + "\u0650")
+    check("tone: سابقة غير معروفة لا تُقبل", tts.force_form("سَالْحَدِيدَةِ", "الحُدَيْدَة") is None)
+
+    # (2) الريل كله برسم واحد: الثابت من الإعداد، وأول رسم عرفه الريل لعلم غير مدرج
+    mem: dict = {}
+    s1 = tts.consistent_forms("أَعْلَنَ التَّحَالُفُ إِخْلَاءَ مِينَاءِ الْحَدِيدَةِ وَمِينَاءِ رَاسِ عِيسَى.",
+                              [{"text": "راس عيسى", "kind": "place"}], mem, cfg)
+    check("tone: الثابت يُفرض في المشهد الأول", "الْحُدَيْدَةِ" in s1, s1)
+    check("tone: أول رسم لعلم غير مدرج يُحفظ", mem.get("راس عيسى") == ["رَاسِ", "عِيسَى"], mem)
+    s2 = tts.consistent_forms("كَيْفَ يَرُدُّ الْحُوثِيُّونَ عَلَى قَصْفِ الْحَدِيدَةِ وَرَاسُ عَيْسَى؟", [], mem, cfg)
+    check("tone: المشهد الثاني بالرسم نفسه وإن لم يُبلَّغ علمًا", "الْحُدَيْدَةِ" in s2 and "عِي" in s2, s2)
+    check("tone: الحركات وحدها تتغير", tts.strip_tashkeel(s2) == tts.strip_tashkeel(
+        "كَيْفَ يَرُدُّ الْحُوثِيُّونَ عَلَى قَصْفِ الْحَدِيدَةِ وَرَاسُ عَيْسَى؟"))
+    check("tone: حركة الإعراب في موضعها تبقى", "رَاسُ" in s2, s2)
+    off = copy.deepcopy(cfg)
+    off["reel"]["tts"]["consistent_forms"]["enabled"] = False
+    check("tone: enabled false ← كما كان", tts.consistent_forms("قَصْفِ الْحَدِيدَةِ", [], {}, off) == "قَصْفِ الْحَدِيدَةِ")
+    check("tone: الأشخاص والأماكن وحدهم يُحفظون", (lambda m: (tts.consistent_forms(
+        "قَالَ الْجَيْشُ", [{"text": "الجيش", "kind": "organization"}], m, cfg), m)[1])({}) == {})
+
+    # (3) التركيب: الذاكرة على Deps بين المشاهد، وكل جملة تُعطى جارتيها
+    forms = iter(["مِينَاءُ الْحُدَيْدَةِ. وَقَصْفٌ.", "قَصْفُ الْحَدِيدَةِ؟"])
+    said: list = []
+
+    class Sess:
+        context = ("", "")
+
+        def use_scene(self, tag):
+            pass
+
+        def multilingual(self):
+            return False
+
+    sess = Sess()
+
+    def synth(text, voice):
+        said.append((text, sess.context))
+        return {"ok": True, "audio": b"x"}
+    deps = reel_render.Deps(synthesize=synth, diacritize=lambda t: (next(forms), None,
+                            [{"text": "الحديدة", "kind": "place"}]), run=lambda cmd: None, probe=lambda p: 1.0)
+    deps.voice_session = sess
+    nofix = copy.deepcopy(cfg)
+    nofix["reel"]["tts"]["consistent_forms"]["fixed"] = {}
+    with tempfile.TemporaryDirectory() as d:
+        reel_render._speech("ميناء الحديدة. وقصف.", "v", nofix, deps, Path(d), "s01")
+        reel_render._speech("قصف الحديدة؟", "v", nofix, deps, Path(d), "s02")
+    check("tone: المشهد الثاني يأخذ رسم الأول", any("الْحُدَيْدَ" in t for t, _ in said[2:]), said)
+    check("tone: الجملة تُعطى جارتيها", said[0][1][1] and said[1][1][0] and not said[0][1][0], said[:2])
+
+    # (4) ElevenLabs يتلقى previous_text/next_text
+    bodies: list = []
+    os.environ["ELEVENLABS_API_KEY"] = "k"
+    try:
+        el = copy.deepcopy(cfg)
+        el["reel"]["tts"]["elevenlabs"].update(enabled=True, sentence_context=True, voices={"female": "vf"})
+        vs = tts.VoiceSession(el, get=lambda *a: {"character_limit": 100000, "character_count": 0},
+                              post=lambda url, h, body, t: (bodies.append(body), b"mp3")[1])
+        vs.context = ("قبلها.", "بعدها.")
+        vs.synthesize("الجملة.", "ar-XA-Chirp3-HD-Aoede")
+        check("tone: السياق في جسم الطلب", bodies and bodies[0].get("previous_text") == "قبلها."
+              and bodies[0].get("next_text") == "بعدها.", bodies)
+    finally:
+        os.environ.pop("ELEVENLABS_API_KEY", None)
+    check("tone: الإنتاج أسرع 5% وبسياق الجمل", float(prod.path("reel.tts.speed")) == 1.26
+          and prod.path("reel.tts.elevenlabs.sentence_context") is True)
+
+    # (5) سؤال واحد لا سؤالان، وسؤال الهوك يُصاغ واضحًا
+    check("tone: السؤال المركّب يُكشف", meta_script.compound_question(
+        "كيف يرد الحوثيون على قصف الحديدة وما خطره على السعودية؟"))
+    check("tone: «أم» و«وما» أول السؤال ليستا مركّبًا", not meta_script.compound_question("هل يتوقف القتال أم يتسع؟")
+          and not meta_script.compound_question("وما الذي يريده ترامب؟"))
+    title = "من يضرب الآخر أولاً.. الحديدة أم موانئ المملكة؟"
+    hook, notes = meta_script.reword_hook({"hook_question": "هل تتحول ضربات الحديدة إلى حرب على موانئ السعودية؟"}, title, prod)
+    check("tone: سؤال الهوك المصوغ يُقبل بتنبيه", hook.startswith("هل تتحول") and notes and "كان" in notes[0], (hook, notes))
+    check("tone: هوك مركّب لا يُقبل", meta_script.reword_hook({"hook_question": "ماذا تريد إيران ولماذا الآن؟"}, title, prod)[0] == title)
+    check("tone: هوك طويل لا يُقبل", meta_script.reword_hook({"hook_question": " ".join(["كلمة"] * 15) + "؟"}, title, prod)[0] == title)
+    texts, _ = meta_script.reword_questions({"questions": ["كيف يرد الحوثيون وما خطره؟"]}, ["كيف يرد الحوثيون؟"], prod)
+    check("tone: صياغة مركّبة لسؤال لا تُقبل", texts == ["كيف يرد الحوثيون؟"], texts)
+    calls: list = []
+
+    def frame(client, **kw):
+        calls.append(kw)
+        q = "كيف يرد الحوثيون وما خطره على السعودية؟" if len(calls) == 1 else "كيف يرد الحوثيون على قصف الحديدة؟"
+        return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="write_reel_frame", id=f"t{len(calls)}", input={
+            "context": ["وقع قصف."], "closing_question": "ماذا بعد؟", "questions": [q]})])
+    saved = meta_script._create
+    try:
+        meta_script._create = frame
+        data, reason = meta_script.write_frame(title, {"title": "ت"}, [], {}, [], prod, object(), {})
+        check("tone: سؤال مركّب يُعاد مرة في المحادثة", data is not None and len(calls) == 2
+              and "سؤال مركّب" in str(calls[1]["messages"][-1]), (reason, len(calls)))
+        check("tone: البرومبت يحمل حد الهوك", "{main_question_max_words}" not in calls[0]["system"]
+              and "hook_question" in calls[0]["system"])
+        calls.clear()
+        meta_script._create = lambda client, **kw: (calls.append(kw), NS(stop_reason="tool_use", content=[NS(
+            type="tool_use", name="write_reel_frame", id="t", input={"context": ["وقع."], "closing_question": "ماذا؟",
+                                                                       "questions": ["ماذا يريد وما خطره؟"]})]))[1]
+        info: dict = {}
+        data, reason = meta_script.write_frame(title, {"title": "ت"}, [], {}, [], prod, object(), info)
+        check("tone: المركّب الباقي لا يُسقط السيناريو بل ينبّه", data is not None and not reason
+              and any("مركّب" in w for w in info.get("warnings", [])), (reason, info))
+    finally:
+        meta_script._create = saved
