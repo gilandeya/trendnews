@@ -3695,6 +3695,16 @@ arabic ×4 وturkish وpersian ×2 ولم تصل الإسرائيلية ولا �
 - **التوقيت:** `stage_mark` سطر «⏱️ … د من التركيب · يبقى … د · المرحلة» في سجل Actions عند كل مرحلة ومقطع ومشهد، ويُحفظ `render_timing` (ضمن `RENDER_KEYS`).
 - `tests.helpers.load_config` يطفئ الموعد والمخبأ. **لم يُجرَّب على Actions:** أول تشغيلة بعد الدمج تُظهر السطور ⏱️ وأين يذهب الوقت فعلًا.
 
+## حارس التنزيل من خارج yt-dlp (ريل 7617fa79a76f، 22/11) — `reel_clips.TierWatchdog`
+
+الحادثة: تنزيل مرشّح لقطة الهوك بقي صامتًا 41 دقيقة حتى أوقف موعد الوظيفة التركيب (فأطلق `--continue` تشغيلة تالية). التنزيل بمدى
+(`download_ranges`) يمرّ بـffmpeg فلا تُنادى `progress_hooks` (فحارس #1922 لا يعمل) ولا يصل `socket_timeout` إليه. الآن `_run_tier` يلفّ كل تنزيل
+بـ`TierWatchdog`: خيط يفحص كل `reel.render.download.watchdog_poll_seconds` حجم ما كُتب على القرص (`written_bytes`) ومدة الدرجة وموعد التشغيلة،
+وعند `stall_seconds` بلا بايت أو `tier_seconds` أو الموعد يقتل أبناء ffmpeg المباشرين (`child_ffmpeg_pids` من /proc) فتفشل الدرجة بسبب الحارس
+(`_download_watched` ← `ClipDownloadTimeout`). و`_ydl_opts` يمرّر `-rw_timeout` إلى ffmpeg من `socket_timeout`. وفحص مرشّح الهوك
+(`reel_hook_search._load_frames`) لا يعيد تنزيلًا انتهى بمهلة (`reel_clips.timed_out`) بل ينتقل إلى المرشّح التالي؛ العطل العابر يُعاد كما كان.
+الاختبار `tests/test_youtube.py:test_reel_download_watchdog_2211`. `render_version` بلا تغيير.
+
 ## مقطع معيب لا يؤجّل الريل كله، والمؤجَّل لا يسبق غيره (19/11) — `reel_render._fetch_clips`، `reel_render.queued_reels`
 
 الحادثة: تشغيلة يدوية التقطت ريل 68c94cc15e39 (الأحدث اعتمادًا، #1423) وأعادت تنزيل مقطع هابر ترك ثلاث مرات (12 دقيقة) فعاد «بلا صورة أو

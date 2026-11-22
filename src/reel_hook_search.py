@@ -460,7 +460,8 @@ def _load_frames(c: dict, hcfg, cfg, deps, tmp: Path, state: ScanState, seconds:
             except Exception as exc:  # noqa: BLE001 -- نحفظ سبب آخر عطل ليظهر في broll_scan
                 from . import reel_clips
                 state.error_text[vid] = reel_clips.scrub_text(str(exc))[:150]
-                if n >= attempts:
+                # مهلة لا عطل عابر: إعادته تضيّع المهلة نفسها مرة أخرى، فينتقل الفحص إلى المرشّح التالي (ريل 7617fa79a76f، 22/11)
+                if n >= attempts or reel_clips.timed_out(exc):
                     raise
                 log.warning("تعثّر تنزيل فحص %s (محاولة %s من %s): %s", vid, n, attempts, str(exc)[:150])
                 if sleep is not None:

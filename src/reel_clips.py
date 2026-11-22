@@ -7,7 +7,9 @@ from __future__ import annotations
 import logging
 import os
 import re
+import signal
 import subprocess
+import threading
 import time
 from collections import deque
 from pathlib import Path
@@ -446,6 +448,15 @@ class ClipDownloadTimeout(RuntimeError):
     """تنزيل تجاوز مهلته؛ يلتقطه download_clip كأي فشل درجة فينتقل إلى التي بعدها."""
 
 
+TIMEOUT_MARKS = ("توقّف التنزيل", "تجاوز التنزيل", "نفد وقت التشغيلة", "تُخطّيت الدرجة")
+
+
+def timed_out(exc: BaseException) -> bool:
+    """فشل تنزيل سببه مهلة (حارس أو موعد) لا عطل عابر: إعادته تضيّع المهلة نفسها مرة أخرى (ريل 7617fa79a76f، 22/11)."""
+    texts = [str(exc)] + [line for f in (getattr(exc, "failures", None) or []) for line in (f.get("error_tail") or [])]
+    return any(mark in t for t in texts for mark in TIMEOUT_MARKS)
+
+
 # موعد نهاية التنزيل في التشغيلة كلها (وقت الحائط time.time()، أو None): يضعه reel_render من عمر وظيفة Actions ناقص وقت التجميع
 # (deadline). حارس الدرجة وحده يحدّ التنزيل الواحد، وثلاثة مقاطع بطيئة متتالية كانت تأكل التشغيلة كلها فتُقتل بلا أثر (19/11)
 DEADLINE: dict = {"at": None}
@@ -492,6 +503,111 @@ def progress_guard(stall_seconds: float, max_seconds: float, clock=time.monotoni
     return tick
 
 
+def child_ffmpeg_pids(parent: int | None = None, proc_root: str = "/proc") -> list[int]:
+    """أبناء هذه العملية المباشرون باسم ffmpeg (من /proc، فلا مكتبة psutil). yt-dlp يشغّل ffmpeg بـPopen من العملية نفسها حين
+    يُطلب مدى (download_ranges)، فهو ابنها المباشر؛ لا نمسّ ffmpeg لا نملكه (التركيب نفسه يشغّل ffmpeg في الخيط الرئيسي بعد التنزيل)."""
+    parent = os.getpid() if parent is None else parent
+    out = []
+    try:
+        names = os.listdir(proc_root)
+    except OSError:
+        return out
+    for name in names:
+        if not name.isdigit():
+            continue
+        try:
+            with open(os.path.join(proc_root, name, "stat"), encoding="utf-8", errors="replace") as fh:
+                stat = fh.read()
+        except OSError:
+            continue
+        # comm بين قوسين وقد يحوي مسافات، فالحقول بعد آخر «)»: الحالة ثم ppid
+        comm = stat[stat.find("(") + 1:stat.rfind(")")]
+        rest = stat[stat.rfind(")") + 2:].split()
+        if comm.startswith("ffmpeg") and len(rest) > 1 and rest[1] == str(parent):
+            out.append(int(name))
+    return out
+
+
+def written_bytes(out_path: Path) -> int:
+    """حجم ما كُتب على القرص لهذا التنزيل (الملف وأجزاؤه المؤقتة بالاسم نفسه): مقياس التقدّم حين لا يبلّغ ffmpeg yt-dlp بشيء."""
+    total = 0
+    try:
+        for p in out_path.parent.glob(out_path.stem + "*"):
+            try:
+                total += p.stat().st_size
+            except OSError:
+                continue
+    except OSError:
+        return 0
+    return total
+
+
+class TierWatchdog:
+    """حارس الدرجة من خارج yt-dlp (ريل 7617fa79a76f، 22/11): تنزيل بمدى (download_ranges) يمرّ بـffmpeg فلا تُنادى progress_hooks
+    ولا يصل socket_timeout إليه، فبقي تنزيل لقطة الهوك صامتًا 41 دقيقة حتى قتل موعد الوظيفة التركيب كله. خيط يفحص كل poll ثانية
+    حجم ما كُتب على القرص (written_bytes) ومدة الدرجة وموعد التشغيلة، وعند تجاوز أحدها يقتل أبناء ffmpeg فيرفع yt-dlp خطأً
+    يلتقطه download_clip كفشل درجة. حدّاه stall_seconds وtier_seconds من reel.render.download (القيم نفسها لحارس التقدّم)."""
+
+    def __init__(self, out_path: Path, lim: dict, *, clock=time.monotonic, sizer=written_bytes, killer=None,
+                 pids=child_ffmpeg_pids):
+        self.out_path, self.clock, self.sizer, self.pids = out_path, clock, sizer, pids
+        self.killer = killer or (lambda pid: os.kill(pid, signal.SIGKILL))
+        self.stall = float(lim.get("stall_seconds") or 0)
+        self.cap = float(lim.get("tier_seconds") or 0)
+        self.poll = max(float(lim.get("watchdog_poll_seconds") or 5), 0.05)
+        self.reason = ""
+        self._stop = threading.Event()
+        self._thread = None
+        self._start = self._seen = clock()
+        self._bytes = -1
+
+    def check(self) -> str:
+        """يعيد سبب القطع أو "" (خالصة بالنسبة للساعة والحجم المحقونين؛ يستدعيها الخيط وتختبرها الحزمة مباشرة)."""
+        now = self.clock()
+        got = self.sizer(self.out_path)
+        if got > self._bytes:
+            self._bytes, self._seen = got, now
+        left = deadline_left()
+        if left is not None and left <= 0:
+            return "نفد وقت التشغيلة"
+        if self.cap and now - self._start > self.cap:
+            return f"تجاوز التنزيل {int(self.cap)} ثانية"
+        if self.stall and now - self._seen > self.stall:
+            return f"توقّف التنزيل {int(self.stall)} ثانية بلا بايت جديد"
+        return ""
+
+    def kill(self, reason: str) -> int:
+        self.reason = reason
+        n = 0
+        for pid in self.pids():
+            try:
+                self.killer(pid)
+                n += 1
+            except OSError:
+                continue
+        log.warning("قُطع تنزيل %s: %s (أُوقف %s من ffmpeg)", self.out_path.name, reason, n)
+        return n
+
+    def _loop(self) -> None:
+        while not self._stop.wait(self.poll):
+            why = self.check()
+            if why:
+                self.kill(why)
+                return
+
+    def __enter__(self):
+        if self.stall or self.cap or DEADLINE["at"] is not None:
+            self._thread = threading.Thread(target=self._loop, daemon=True)
+            self._thread.start()
+        return self
+
+    def __exit__(self, *exc):
+        self._stop.set()
+        if self._thread is not None:
+            self._thread.join(timeout=self.poll + 1)
+        return False
+
+
 def _ydl_opts(out_path: Path, height: int, ranges, force_keyframes: bool, proxy, capture, hook) -> dict:
     opts = {
         "format": f"bv*[height<={height}]+ba/b[height<={height}]",
@@ -513,11 +629,27 @@ def _ydl_opts(out_path: Path, height: int, ranges, force_keyframes: bool, proxy,
     for key in ("retries", "fragment_retries", "extractor_retries"):
         if lim.get(key) is not None:
             opts[key] = int(lim[key])
+    # القراءة الميتة داخل ffmpeg (التنزيل بمدى يمرّ به) لا يقطعها socket_timeout: rw_timeout بالمايكروثانية يجعله يخرج بخطأ
+    if float(lim.get("socket_timeout") or 0) > 0:
+        opts["external_downloader_args"] = {"ffmpeg_i": ["-rw_timeout", str(int(float(lim["socket_timeout"]) * 1_000_000))]}
     if force_keyframes:
         opts["force_keyframes_at_cuts"] = True
     if proxy:
         opts["proxy"] = proxy
     return opts
+
+
+def _download_watched(ydl, url: str, dog: TierWatchdog) -> None:
+    """ydl.download مع ترجمة قطع الحارس إلى ClipDownloadTimeout بسببه: بعد قتل ffmpeg قد يرفع yt-dlp خطأً عامًّا، أو يعود
+    بلا ملف كامل، فسبب الحارس هو ما يُسجَّل في failures لا رسالة ffmpeg المبتورة."""
+    try:
+        ydl.download([url])
+    except Exception:
+        if dog.reason:
+            raise ClipDownloadTimeout(dog.reason) from None
+        raise
+    if dog.reason:
+        raise ClipDownloadTimeout(dog.reason)
 
 
 def _run_tier(tier, video_id, start, end, height, out_path, proxy, capture) -> dict:
@@ -541,16 +673,16 @@ def _run_tier(tier, video_id, start, end, height, out_path, proxy, capture) -> d
     if tier in ("a", "b"):
         h = height if tier == "a" else 480
         opts = _ydl_opts(out_path, h, download_range_func(None, [(start, end)]), True, proxy, capture, hook)
-        with yt_dlp.YoutubeDL(opts) as ydl:
-            ydl.download([url])
+        with TierWatchdog(out_path, lim) as dog, yt_dlp.YoutubeDL(opts) as ydl:
+            _download_watched(ydl, url, dog)
         return {"bytes": sum(seen.values()), "format_id": capture.format_id, "protocol": capture.protocol}
 
     wide_start = max(0, start - WIDE_PAD_SECONDS)
     wide_end = end + WIDE_PAD_SECONDS
     wide = out_path.with_name(out_path.stem + "_wide.mp4")
     opts = _ydl_opts(wide, 480, download_range_func(None, [(wide_start, wide_end)]), False, proxy, capture, hook)
-    with yt_dlp.YoutubeDL(opts) as ydl:
-        ydl.download([url])
+    with TierWatchdog(wide, lim) as dog, yt_dlp.YoutubeDL(opts) as ydl:
+        _download_watched(ydl, url, dog)
     wide_actual = wide if wide.exists() else next(iter(sorted(wide.parent.glob(wide.stem + ".*"))), None)
     if wide_actual is None:
         raise RuntimeError("لا ملف للنافذة الأوسع")
