@@ -495,7 +495,8 @@
         "shows": "ثلاثة قادة (بوتين وشي جين بينغ وترامب) جالسون حول طاولة مستديرة في قاعة رسمية، مع علمي روسيا والصين والولايات المتحدة وز",
         "reason": "عليها نص مركَّب والجزء الخالي منه صغير (500×224 بكسل)"
       }
-    ]
+    ],
+    "layout": "A"
   },
   "hook_candidates": [
     {
@@ -612,10 +613,24 @@
       }
     ],
     "picked": [
-      "jn0rxoHXxbo",
-      "rgjlv_z19gU",
-      "Zcre4TbW4fY",
-      "h0CW1lNaPBw"
+      "rgjlv_z19gU"
+    ],
+    "compared": [
+      {
+        "video_id": "rgjlv_z19gU",
+        "impact": 6,
+        "footage_ratio": 0.667
+      },
+      {
+        "video_id": "Zcre4TbW4fY",
+        "impact": 5,
+        "footage_ratio": 0.773
+      },
+      {
+        "video_id": "h0CW1lNaPBw",
+        "impact": 6,
+        "footage_ratio": 0.06
+      }
     ]
   },
   "broll_plan": [
@@ -665,13 +680,12 @@
   },
   "review_issue": 1975,
   "stage2_issue": 1975,
-  "render_status": "failed",
+  "render_status": "rendered",
   "approved_script_at": "2026-11-22T07:01:29.696545+00:00",
   "hook_picked": 0,
-  "render_attempts": 3,
-  "render_error": "بلغ التركيب موعد نهاية التشغيلة في مرحلة تركيب المشاهد بعد 49 دقيقة",
+  "render_attempts": 0,
   "render_timing": {
-    "minutes": 48.9,
+    "minutes": 33.9,
     "stages": [
       [
         "clips",
@@ -679,15 +693,15 @@
       ],
       [
         "clip 2 فرانس 24 الفرنسية",
-        0.2
+        0.3
       ],
       [
         "clip 4 فرانس 24 الفرنسية",
-        0.2
+        0.3
       ],
       [
         "clip 6 فرانس 24 الفرنسية",
-        0.2
+        0.3
       ],
       [
         "clip 9 سي إن إن ترك",
@@ -703,7 +717,7 @@
       ],
       [
         "background",
-        0.8
+        0.9
       ],
       [
         "hook_scan",
@@ -711,50 +725,86 @@
       ],
       [
         "broll",
-        46.4
+        22.9
       ],
       [
         "assemble",
-        46.4
+        23.3
       ],
       [
         "speakers",
-        46.4
+        23.3
       ],
       [
         "maps",
-        47.1
+        24.0
       ],
       [
         "scene 0 title_card",
-        47.1
+        27.8
       ],
       [
         "scene 1 narration",
-        47.2
+        28.0
       ],
       [
         "scene 2 clip",
-        47.4
+        28.1
       ],
       [
         "scene 3 narration",
-        48.0
+        28.7
       ],
       [
         "scene 4 clip",
-        48.2
+        28.9
       ],
       [
         "scene 5 narration",
-        48.6
+        29.3
       ],
       [
         "scene 6 clip",
-        48.7
+        29.4
+      ],
+      [
+        "scene 7 narration",
+        29.9
+      ],
+      [
+        "scene 8 narration",
+        30.0
+      ],
+      [
+        "scene 9 clip",
+        30.1
+      ],
+      [
+        "scene 10 clip",
+        30.1
+      ],
+      [
+        "scene 11 narration",
+        30.9
+      ],
+      [
+        "scene 12 clip",
+        31.0
+      ],
+      [
+        "scene 13 question",
+        31.9
+      ],
+      [
+        "join",
+        32.2
+      ],
+      [
+        "final",
+        33.1
       ]
     ],
-    "left_minutes": -0.0
+    "left_minutes": 20.1
   },
   "cost_renders": [
     {
@@ -769,6 +819,1260 @@
       "gemini": 0.0344,
       "tts": 0.06356,
       "at": "2026-11-22T09:43:38.717834+00:00"
+    },
+    {
+      "claude": {
+        "claude-haiku-5-5": 0.01762,
+        "claude-sonnet-5": 0.05226
+      },
+      "gemini": 0.0354,
+      "tts": 0.07035,
+      "proxy_bytes": 28319027,
+      "at": "2026-11-22T10:24:55.519080+00:00"
     }
-  ]
+  ],
+  "hook_video": {
+    "video_id": "rgjlv_z19gU",
+    "start": 10,
+    "end": 22,
+    "channel": "CNN en Español",
+    "title": "Así fue la llegada de Trump, Putin y Xi a la cumbre trilateral en Shenzen",
+    "source": "auto",
+    "views": 359888,
+    "impact": 6,
+    "pre_ok": true,
+    "strong_start": 10,
+    "reason": "أقوى 3 ث (قوة 6)",
+    "render_version": 82
+  },
+  "reel_file": "reels/2026-11-22/7617fa79a76f.mp4",
+  "reel_gif": "reels/2026-11-22/7617fa79a76f.gif",
+  "duration_seconds": 145.4,
+  "render_version": 82,
+  "reel_music": "nastelbom-news-news-2-473288.mp3",
+  "render_sources": "فرانس 24 الفرنسية، CNN en Español، CNN، Fox News",
+  "render_crops": {
+    "2": {
+      "x": 454,
+      "source": "speaker_vision",
+      "speaker_score": 0.62,
+      "tracks": 2,
+      "vision": {
+        "pick": 2,
+        "agree": 3,
+        "archive": [
+          1
+        ]
+      },
+      "gate": {
+        "start": 0.88,
+        "end": 11.58,
+        "source": "transcript"
+      },
+      "exact": {
+        "t0": 90.72,
+        "t1": 101.18,
+        "ratio": 0.9,
+        "source": "words",
+        "saved": true
+      },
+      "faces": {
+        "samples": [
+          [
+            1.947,
+            848
+          ],
+          [
+            3.28,
+            916
+          ],
+          [
+            3.613,
+            925
+          ],
+          [
+            4.28,
+            271
+          ],
+          [
+            4.613,
+            645
+          ],
+          [
+            4.947,
+            651
+          ],
+          [
+            5.28,
+            657
+          ],
+          [
+            5.613,
+            661
+          ],
+          [
+            5.947,
+            663
+          ],
+          [
+            6.28,
+            664
+          ],
+          [
+            6.613,
+            665
+          ],
+          [
+            6.947,
+            665
+          ],
+          [
+            7.28,
+            664
+          ],
+          [
+            7.613,
+            664
+          ],
+          [
+            7.947,
+            665
+          ],
+          [
+            9.28,
+            663
+          ],
+          [
+            9.613,
+            662
+          ],
+          [
+            10.28,
+            657
+          ],
+          [
+            10.613,
+            651
+          ],
+          [
+            11.28,
+            642
+          ]
+        ],
+        "cuts": [],
+        "identity": {
+          "ref": 9,
+          "matched": 9,
+          "path": 21,
+          "single": 4
+        }
+      },
+      "panel_q": "c0",
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 668,
+        "y": 0,
+        "w": 496,
+        "h": 576,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.8,
+        "source": "detector",
+        "clamped": false,
+        "frames": [
+          1.0,
+          0.76,
+          1.0
+        ]
+      },
+      "follow": {
+        "keys": [
+          [
+            0.0,
+            668
+          ],
+          [
+            4.28,
+            668
+          ],
+          [
+            5.08,
+            398
+          ]
+        ],
+        "moves": 1
+      },
+      "quote_sync": "words",
+      "quote_mode": "line",
+      "frame_check": {
+        "samples": 25,
+        "lost": [
+          [
+            0.0,
+            12.0
+          ]
+        ]
+      }
+    },
+    "4": {
+      "x": 796,
+      "source": "face",
+      "gate": {
+        "start": 0.88,
+        "end": 9.48,
+        "source": "transcript"
+      },
+      "exact": {
+        "t0": 167.68,
+        "t1": 176.04,
+        "ratio": 1.0,
+        "source": "words",
+        "saved": true
+      },
+      "panel_q": "c1",
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 750,
+        "y": 0,
+        "w": 496,
+        "h": 576,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.8,
+        "source": "detector",
+        "clamped": false,
+        "frames": [
+          1.0,
+          0.76,
+          1.0
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "line",
+      "frame_check": {
+        "samples": 21,
+        "lost": [
+          [
+            1.0,
+            10.0
+          ]
+        ]
+      }
+    },
+    "6": {
+      "x": 488,
+      "source": "speaker",
+      "speaker_score": 1.18,
+      "tracks": 1,
+      "gate": {
+        "start": 0.88,
+        "end": 13.22,
+        "source": "transcript"
+      },
+      "exact": {
+        "t0": 109.46,
+        "t1": 121.56,
+        "ratio": 1.0,
+        "source": "words",
+        "saved": true
+      },
+      "faces": {
+        "samples": [
+          [
+            1.123,
+            694
+          ],
+          [
+            1.44,
+            692
+          ],
+          [
+            1.757,
+            706
+          ],
+          [
+            2.073,
+            708
+          ],
+          [
+            5.24,
+            695
+          ],
+          [
+            5.557,
+            697
+          ],
+          [
+            5.873,
+            705
+          ],
+          [
+            6.19,
+            698
+          ],
+          [
+            6.507,
+            700
+          ],
+          [
+            6.823,
+            703
+          ],
+          [
+            7.14,
+            700
+          ],
+          [
+            7.457,
+            693
+          ],
+          [
+            7.773,
+            689
+          ],
+          [
+            8.09,
+            688
+          ],
+          [
+            8.407,
+            697
+          ],
+          [
+            8.723,
+            694
+          ],
+          [
+            9.04,
+            675
+          ],
+          [
+            9.357,
+            679
+          ],
+          [
+            9.673,
+            689
+          ],
+          [
+            9.99,
+            684
+          ],
+          [
+            10.307,
+            680
+          ],
+          [
+            10.623,
+            678
+          ],
+          [
+            10.94,
+            683
+          ],
+          [
+            11.257,
+            684
+          ],
+          [
+            11.573,
+            689
+          ],
+          [
+            11.89,
+            694
+          ],
+          [
+            12.207,
+            705
+          ],
+          [
+            12.523,
+            706
+          ],
+          [
+            12.84,
+            708
+          ],
+          [
+            13.157,
+            708
+          ]
+        ],
+        "cuts": [
+          2.5,
+          5.1
+        ],
+        "identity": {
+          "ref": 46,
+          "matched": 37,
+          "path": 1,
+          "single": 0
+        }
+      },
+      "panel_q": "c2",
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 442,
+        "y": 0,
+        "w": 496,
+        "h": 576,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.8,
+        "source": "detector",
+        "clamped": false,
+        "frames": [
+          1.0,
+          0.76,
+          1.0
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "line",
+      "frame_check": {
+        "samples": 28,
+        "lost": []
+      }
+    },
+    "10": {
+      "x": 443,
+      "source": "speaker_vision",
+      "speaker_score": 0.87,
+      "tracks": 2,
+      "vision": {
+        "pick": 2,
+        "agree": 3,
+        "archive": []
+      },
+      "gate": {
+        "start": 0.88,
+        "end": 24.32,
+        "source": "transcript"
+      },
+      "exact": {
+        "t0": 237.06,
+        "t1": 260.26,
+        "ratio": 0.892,
+        "source": "words",
+        "saved": true
+      },
+      "faces": {
+        "samples": [
+          [
+            1.34,
+            631
+          ],
+          [
+            1.957,
+            643
+          ],
+          [
+            2.573,
+            629
+          ],
+          [
+            3.19,
+            628
+          ],
+          [
+            3.807,
+            629
+          ],
+          [
+            4.423,
+            632
+          ],
+          [
+            5.04,
+            779
+          ],
+          [
+            5.657,
+            776
+          ],
+          [
+            6.273,
+            775
+          ],
+          [
+            6.89,
+            772
+          ],
+          [
+            7.507,
+            768
+          ],
+          [
+            8.123,
+            766
+          ],
+          [
+            8.74,
+            761
+          ],
+          [
+            9.357,
+            759
+          ],
+          [
+            9.973,
+            755
+          ],
+          [
+            10.59,
+            753
+          ],
+          [
+            11.207,
+            668
+          ],
+          [
+            11.823,
+            668
+          ],
+          [
+            12.44,
+            645
+          ],
+          [
+            13.057,
+            646
+          ],
+          [
+            13.673,
+            644
+          ],
+          [
+            14.29,
+            595
+          ],
+          [
+            14.907,
+            601
+          ],
+          [
+            15.523,
+            606
+          ],
+          [
+            16.14,
+            642
+          ],
+          [
+            16.757,
+            668
+          ],
+          [
+            17.373,
+            989
+          ],
+          [
+            17.99,
+            1000
+          ],
+          [
+            18.607,
+            1000
+          ],
+          [
+            19.223,
+            990
+          ],
+          [
+            19.84,
+            973
+          ],
+          [
+            20.457,
+            645
+          ],
+          [
+            21.073,
+            643
+          ],
+          [
+            21.69,
+            657
+          ],
+          [
+            22.307,
+            662
+          ],
+          [
+            22.923,
+            647
+          ],
+          [
+            23.54,
+            618
+          ],
+          [
+            24.157,
+            644
+          ]
+        ],
+        "cuts": [
+          4.82,
+          10.94,
+          17.14,
+          20.42
+        ],
+        "identity": {
+          "ref": 18,
+          "matched": 49,
+          "path": 11,
+          "single": 0
+        }
+      },
+      "panel_q": 0,
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 334,
+        "y": 0,
+        "w": 620,
+        "h": 720,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": false,
+      "lower_graphics": {
+        "top": 1,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          1.0,
+          0.76,
+          1.0
+        ]
+      },
+      "follow": {
+        "keys": [
+          [
+            0.0,
+            334
+          ],
+          [
+            4.819,
+            334
+          ],
+          [
+            4.82,
+            466
+          ],
+          [
+            10.939,
+            466
+          ],
+          [
+            10.94,
+            358
+          ],
+          [
+            17.139,
+            358
+          ],
+          [
+            17.14,
+            660
+          ],
+          [
+            20.419,
+            660
+          ],
+          [
+            20.42,
+            336
+          ]
+        ],
+        "moves": 4
+      },
+      "quote_sync": "words",
+      "quote_mode": "line",
+      "frame_check": {
+        "samples": 50,
+        "lost": [
+          [
+            5.0,
+            10.5
+          ]
+        ]
+      }
+    },
+    "12": {
+      "x": 0,
+      "source": "speaker_vision",
+      "speaker_score": 0.77,
+      "tracks": 2,
+      "vision": {
+        "pick": 2,
+        "agree": 3,
+        "archive": [
+          1
+        ]
+      },
+      "gate": {
+        "start": 1.09,
+        "end": 25.48,
+        "source": "silence"
+      },
+      "exact": {
+        "t0": 1057.72,
+        "t1": 1082.08,
+        "ratio": 0.982,
+        "source": "words"
+      },
+      "faces": {
+        "samples": [
+          [
+            1.447,
+            197
+          ],
+          [
+            2.063,
+            202
+          ],
+          [
+            2.68,
+            195
+          ],
+          [
+            3.297,
+            190
+          ],
+          [
+            3.913,
+            184
+          ],
+          [
+            4.53,
+            168
+          ],
+          [
+            5.147,
+            190
+          ],
+          [
+            5.763,
+            209
+          ],
+          [
+            6.38,
+            180
+          ],
+          [
+            6.997,
+            177
+          ],
+          [
+            7.613,
+            198
+          ],
+          [
+            8.23,
+            188
+          ],
+          [
+            8.847,
+            195
+          ],
+          [
+            9.463,
+            181
+          ],
+          [
+            10.08,
+            184
+          ],
+          [
+            10.697,
+            184
+          ],
+          [
+            11.313,
+            181
+          ],
+          [
+            11.93,
+            197
+          ],
+          [
+            12.547,
+            197
+          ],
+          [
+            13.163,
+            195
+          ],
+          [
+            13.78,
+            166
+          ],
+          [
+            14.397,
+            160
+          ],
+          [
+            15.013,
+            153
+          ],
+          [
+            15.63,
+            143
+          ],
+          [
+            16.247,
+            147
+          ],
+          [
+            16.863,
+            161
+          ],
+          [
+            17.48,
+            153
+          ],
+          [
+            18.097,
+            150
+          ],
+          [
+            18.713,
+            150
+          ],
+          [
+            19.33,
+            145
+          ],
+          [
+            19.947,
+            148
+          ],
+          [
+            20.563,
+            143
+          ],
+          [
+            21.18,
+            163
+          ],
+          [
+            21.797,
+            163
+          ],
+          [
+            22.413,
+            160
+          ],
+          [
+            23.03,
+            147
+          ],
+          [
+            23.647,
+            155
+          ],
+          [
+            24.263,
+            189
+          ],
+          [
+            24.88,
+            193
+          ]
+        ],
+        "cuts": [],
+        "identity": {
+          "ref": 60,
+          "matched": 60,
+          "path": 0,
+          "single": 0
+        }
+      },
+      "panel_q": 1,
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 0,
+        "y": 0,
+        "w": 536,
+        "h": 624,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        95,
+        0,
+        0
+      ],
+      "ticker": false,
+      "lower_graphics": {
+        "top": 1,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          1.0,
+          0.76,
+          1.0
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "line",
+      "frame_check": {
+        "samples": 53,
+        "lost": []
+      }
+    },
+    "closing": {
+      "source": "continuous"
+    }
+  },
+  "render_speakers": {
+    "2": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "4": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "6": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "10": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "12": {
+      "accepted": false,
+      "source": "gemini"
+    }
+  },
+  "render_maps": [
+    {
+      "scene": 3,
+      "sentence": 0,
+      "auto": true,
+      "map": "أوكرانيا"
+    }
+  ],
+  "render_gemini_speakers": [
+    {
+      "point_id": "c03c8f345391",
+      "video_id": "vhFXlCmdkO8",
+      "start": 90.7,
+      "end": 101.2,
+      "name": "شي جين بينغ",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "0ec9fd1ef5aa",
+      "video_id": "vhFXlCmdkO8",
+      "start": 167.7,
+      "end": 176.0,
+      "name": "دونالد ترامب",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "b4beff4506b9",
+      "video_id": "vhFXlCmdkO8",
+      "start": 109.5,
+      "end": 121.6,
+      "name": "فلاديمير بوتين",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "02f638fce5a9",
+      "video_id": "vhFXlCmdkO8",
+      "start": 237.1,
+      "end": 260.3,
+      "name": "أليس إيكمان",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "5fa0c56bc6e9",
+      "video_id": "vhFXlCmdkO8",
+      "start": 1057.7,
+      "end": 1082.1,
+      "name": "ماتيو مابان",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    }
+  ],
+  "render_gemini_cost": 0.0354,
+  "render_bg_track": {
+    "continuous": true,
+    "pieces": [
+      {
+        "t0": 0.0,
+        "t1": 12.0,
+        "src": "footage",
+        "video_id": "rgjlv_z19gU",
+        "start": 10.0,
+        "channel": "CNN en Español",
+        "how": "hook"
+      },
+      {
+        "t0": 12.0,
+        "t1": 16.01,
+        "src": "footage",
+        "video_id": "Zcre4TbW4fY",
+        "start": 12.62,
+        "channel": "CNN",
+        "how": "assigned"
+      },
+      {
+        "t0": 16.01,
+        "t1": 20.47,
+        "src": "footage",
+        "video_id": "h0CW1lNaPBw",
+        "start": 194.9,
+        "channel": "Fox News",
+        "how": "assigned"
+      }
+    ],
+    "base": 20.47,
+    "need": 200.0
+  },
+  "render_exact_selfcheck": {
+    "ok": true,
+    "reason": ""
+  },
+  "render_broll": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "photo": "جملة مجرّدة"
+    },
+    {
+      "scene": 3,
+      "sentence": 0,
+      "map": true
+    },
+    {
+      "scene": 5,
+      "sentence": 0,
+      "photo": "جملة مجرّدة"
+    },
+    {
+      "scene": 7,
+      "sentence": 0,
+      "photo": "جملة مجرّدة"
+    },
+    {
+      "scene": 8,
+      "sentence": 0,
+      "video_id": "Zcre4TbW4fY",
+      "start": 12.62,
+      "end": 16.38,
+      "channel": "CNN",
+      "desc": "ظهر ترامب وبوتين من الخلف في القاعة · ترامب وبوتين وحاشيتهما يتحركون في القاعة · بوتين من الخلف وسط حشد من المرافقين",
+      "fallback": true
+    },
+    {
+      "scene": 11,
+      "sentence": 0,
+      "video_id": "h0CW1lNaPBw",
+      "start": 194.895,
+      "end": 199.105,
+      "channel": "Fox News",
+      "desc": "شي جين بينغ جالس أمام العلم الصيني والأمريكي وطاولة الاجتماع · شي جين بينغ جالس أمام العلمين الصيني والأمريكي · بوتين جالس على الطاولة مع العلم الروسي وشي في الخلفية",
+      "fallback": true
+    }
+  ],
+  "broll_scan": {
+    "videos": {
+      "jn0rxoHXxbo": {
+        "downloaded": 0,
+        "classified": 0,
+        "sheets": 0,
+        "kinds": {},
+        "footage_relevant": 0,
+        "footage_other": 0,
+        "chains": 0,
+        "longest": 0,
+        "error_text": "فشلت كل الدرجات: تجاوز التنزيل 480 ثانية",
+        "error": true
+      },
+      "rgjlv_z19gU": {
+        "downloaded": 30,
+        "classified": 30,
+        "sheets": 3,
+        "kinds": {
+          "text_heavy": 4,
+          "event_footage": 20,
+          "studio": 6
+        },
+        "footage_relevant": 20,
+        "footage_other": 0,
+        "chains": 1,
+        "longest": 6
+      },
+      "Zcre4TbW4fY": {
+        "downloaded": 22,
+        "classified": 22,
+        "sheets": 2,
+        "kinds": {
+          "event_footage": 17,
+          "text_heavy": 5
+        },
+        "footage_relevant": 17,
+        "footage_other": 0,
+        "chains": 1,
+        "longest": 15
+      },
+      "h0CW1lNaPBw": {
+        "downloaded": 600,
+        "classified": 276,
+        "sheets": 15,
+        "kinds": {
+          "anchor": 122,
+          "studio": 100,
+          "text_heavy": 29,
+          "event_footage": 23,
+          "other": 2
+        },
+        "footage_relevant": 23,
+        "footage_other": 0,
+        "chains": 3,
+        "longest": 14
+      }
+    },
+    "sheets_used": 20,
+    "chains": [
+      {
+        "video_id": "rgjlv_z19gU",
+        "start": 4,
+        "end": 10,
+        "desc": "قادة يسيرون أمام أعلام الدول الثلاث، لقطة هادئة من بعيد · قادة يسيرون أمام الأعلام، المشهد ثابت نسبيًا · قادة يسيرون أمام الأعلام، لقطة ميدانية هادئة",
+        "channel": "CNN en Español",
+        "relevant": true
+      },
+      {
+        "video_id": "Zcre4TbW4fY",
+        "start": 7,
+        "end": 22,
+        "desc": "ظهر ترامب وبوتين من الخلف في القاعة · ترامب وبوتين وحاشيتهما يتحركون في القاعة · بوتين من الخلف وسط حشد من المرافقين",
+        "channel": "CNN",
+        "relevant": true
+      },
+      {
+        "video_id": "h0CW1lNaPBw",
+        "start": 79,
+        "end": 84,
+        "desc": "مشهد هادئ لترامب على الطاولة في القاعة، ملء الإطار تقريبًا مع شريط عنوان · ترامب يجلس على الطاولة والقاعة تظهر بوضوح مع شريط عنوان · قادة على الطاولة مع علم روسيا والصين وأمريكا، اجتماع ثلاثي في القاعة",
+        "channel": "Fox News",
+        "relevant": true
+      },
+      {
+        "video_id": "h0CW1lNaPBw",
+        "start": 126,
+        "end": 130,
+        "desc": "لقطة واسعة لطاولة الاجتماع مع الأعلام وأحد الجالسين، شريط الخبر في الأسفل · شخص يمشي نحو الطاولة في القاعة والأعلام خلفها",
+        "channel": "Fox News",
+        "relevant": true
+      },
+      {
+        "video_id": "h0CW1lNaPBw",
+        "start": 190,
+        "end": 204,
+        "desc": "شي جين بينغ جالس أمام العلم الصيني والأمريكي وطاولة الاجتماع · شي جين بينغ جالس أمام العلمين الصيني والأمريكي · بوتين جالس على الطاولة مع العلم الروسي وشي في الخلفية",
+        "channel": "Fox News",
+        "relevant": true
+      }
+    ],
+    "assign": []
+  },
+  "render_dropped": [
+    {
+      "point_id": "63619e18e7ab",
+      "kind": "clip",
+      "reason": "تعذّر ضبط المقطع كلمة بكلمة: النسبة 0.017 أقل من 0.7",
+      "exact": {
+        "reason": "low_ratio",
+        "best_ratio": 0.017,
+        "heard_words": 250,
+        "lang": "en",
+        "approx": true,
+        "saved_words": false,
+        "window": [
+          510.0,
+          583.0
+        ],
+        "quote_words": 59
+      }
+    }
+  ],
+  "render_approx": [],
+  "rendered_at": "2026-11-22T10:24:55.519028+00:00",
+  "render_notes": [
+    "### 🎬 تركيب الريل",
+    "- ⏱️ المدة: 145.4 ث",
+    "- 🎞️ [الملف](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-11-22/7617fa79a76f.mp4) · [المعاينة](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-11-22/7617fa79a76f.gif)",
+    "- ✂️ حُذف 1: clip (تعذّر ضبط المقطع كلمة بكلمة: النسبة 0.017 أقل من 0.7)",
+    "- ⏱️ نافذة مقطع فرانس 24 الفرنسية مُدّت إلى مدته المعروفة (12 ث) — موضع الاقتباس في النص تقديري",
+    "- ⏱️ نافذة مقطع فرانس 24 الفرنسية مُدّت إلى مدته المعروفة (29 ث) — موضع الاقتباس في النص تقديري",
+    "- 🎞️ لقطة الهوك: CNN en Español — [Así fue la llegada de Trump, Putin y Xi a la cumbre trilateral en Shenzen](https://www.youtube.com/watch?v=rgjlv_z19gU&t=10) (10–22 ث) · 359,888 مشاهدة",
+    "- ✅ Gemini يؤكد المتكلم: شي جين بينغ (فرانس 24 الفرنسية)",
+    "- ✅ Gemini يؤكد المتكلم: دونالد ترامب (فرانس 24 الفرنسية)",
+    "- ✅ Gemini يؤكد المتكلم: فلاديمير بوتين (فرانس 24 الفرنسية)",
+    "- ✅ Gemini يؤكد المتكلم: أليس إكمان (فرانس 24 الفرنسية)",
+    "- ✅ Gemini يؤكد المتكلم: ماتيو مابان (فرانس 24 الفرنسية)",
+    "- 🗺️ خرائط السياق: 1 — أوكرانيا",
+    "- ✂️ أُخفي شريط القناة في Fox News: قُصّ أسفل 23%",
+    "- 🎞️ لقطات الحدث: 2 من 6 جمل (منها 2 احتياطية) (CNN ×1، Fox News ×1) — 3 بالصورة",
+    "- ✂️ أُخفي شريط القناة في CNN en Español: قُصّ أسفل 40%",
+    "- 🎞️ خلفية واحدة متصلة: فيديو 20 ث (CNN en Español، CNN، Fox News) يتكرر بتلاشٍ بين نهايته وبدايته",
+    "- 🎯 مقطع فرانس 24 الفرنسية: 2 وجوه — المتكلم بالرؤية",
+    "- 🎥 نافذة مقطع فرانس 24 الفرنسية تتبع المتحدث: 1 حركة",
+    "- ⚠️ نافذة مقطع فرانس 24 الفرنسية بلا وجه كامل للمتحدث في الثواني 0–12 من مقطعه — راجعها",
+    "- ⚠️ نافذة مقطع فرانس 24 الفرنسية بلا وجه كامل للمتحدث في الثواني 1–10 من مقطعه — راجعها",
+    "- 🎯 مقطع فرانس 24 الفرنسية: 2 وجوه — المتكلم بالرؤية",
+    "- 🎥 نافذة مقطع فرانس 24 الفرنسية تتبع المتحدث: 4 حركة",
+    "- ⚠️ نافذة مقطع فرانس 24 الفرنسية بلا وجه كامل للمتحدث في الثواني 5–10 من مقطعه — راجعها",
+    "- 🎯 مقطع فرانس 24 الفرنسية: 2 وجوه — المتكلم بالرؤية",
+    "- ▭ مقطع فرانس 24 الفرنسية: أُزيلت أشرطة سوداء",
+    "- 🎙️ الصوت: ElevenLabs (باقي الرصيد نحو ? حرف)",
+    "- 🔤 نُطقت أسماء أجنبية برسمها الأصلي: شي جين بينغ ← Xi Jinping، دونالد ترامب ← Donald Trump، فلاديمير بوتين ← Vladimir Putin",
+    "- 💵 كلفة الريل: 1.99$ — المقاطع والأسئلة 1.39$ · السيناريو 0.28$ · التركيب (3 محاولات) 0.33$ (Opus 0.62$ · Sonnet 0.30$ · Haiku 0.03$ · Gemini 0.91$ · صوت 0.13$ · بروكسي 84 MB) · البروكسي خارج المجموع"
+  ],
+  "reel_review_issue": 1977
 }
