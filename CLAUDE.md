@@ -3831,3 +3831,23 @@ arabic ×4 وturkish وpersian ×2 ولم تصل الإسرائيلية ولا �
   `press_events.detect_language` على كلامه) ← المقارنة بترجمتي الكلامين (`min_translated_ratio`) والأصل يأخذ ترجمته ولغته؛ باللغة نفسها حرفيًا كما كان.
   والطلب يحمل `qa.original.translation_note` لكل مقطع غير مدبلج. لم يوجد أصل ← يبقى المنقول (قرار صاحب المشروع).
 - `install_fakes` يزيّف `_query_create` بـNone؛ الاختبار `tests/test_youtube.py:test_meta_original_native_2211`. لم يُجرَّب على يوتيوب.
+
+## كل جملة راوٍ تُظهر ما تسمّيه: الشخص صورته والبلد خريطة تقترب منه (طلب صاحب المشروع 22/11) — `src/reel_figures.py`، `reel_map.zoom_at`
+
+ريل 22/11: «الرئيس الأمريكي دونالد ترمب تحدث عن الملف الأبرز على الطاولة» عُرضت على خلفية الحدث العامة، وخريطة «الحرب في أوكرانيا»
+اقتربت ثانية ثم ثبتت. `render_version` = 84 (للقادم فقط، S11). الاختبار `tests/test_youtube.py:test_reel_figures_map_drift_2211`؛
+`tests.helpers.load_config` يطفئ الاثنين.
+- **الشخص:** خطة اللقطات (`reel_broll.PLAN_TOOL`) لكل جملة حقل `person` ({name_ar كما ورد، name_en}) يُحفظ خامًا، وبلا اسم من الخطة يجد الكود
+  متحدثًا موثَّقًا في الريل يرد اسمه في الجملة (`reel_figures.reel_people`/`sentence_person`، `figures.auto_detect`). التحقق `name_in_sentence`: كلمة
+  من الاسم (غير `title_words`) ترد في الجملة حرفًا أو برسم قريب (`name_similarity`، «ترمب»/«ترامب»). `reel_render._prepare_figures` (بعد الخرائط
+  وقبل لقطات الحدث؛ الخريطة تغلب في جملة تسمّي مكانًا وشخصًا، وبطاقة السؤال `exclude_roles`) يجد الصورة بـ`_find_figure`: لقطة من مقطع الشخص
+  في الريل بعد الحرّاس (`frame_fractions`) ← روابط الويب (`reel_figures.web_urls`: Brave بـ«الاسم اللاتيني الشهر السنة» تحت سقف
+  `image.web_search` ثم ويكيميديا) بحكم Haiku على صلاح الصورة لا هويتها (`figure_fits`، `figures.judge`). الصورة تُقبل بوجه بارز
+  (`pick_face`: أكبر وجه ≥ `face.min_height`، والثاني أصغر بنسبة `dominance`) وتُقصّ 9:16 حوله (`portrait_box`، `min_crop_height`) وتُرمَّز
+  مقطعًا صامتًا بتقريب بطيء نحو الوجه (`zoom_filter`، `zoom_to`، scale بـeval=frame) قطعةً تحت التظليل في زمن جملتها، تُدمج بعد شريط الخلفية
+  كالخرائط. جملتها لا تأخذ لقطة حدث (`_prepare_broll(figures=)`، `render_broll[..].figure`). شخص واحد يُبحث له مرة، وسقف `max_per_reel`.
+  يُحفظ `render_figures` (ضمن `RENDER_KEYS`) وسطرا «🧑»/«⚠️ لم تُعرض صورة» في التعليق، و«🧑 صورة X» في جدول المرحلة 2. حقول `Deps.figure_*`
+  حقيقية حين لا حقن فقط. `figures.enabled: false` ← كما كان.
+- **الخريطة:** `reel.maps.drift` ← `timeline` تعيد `drift` و`settle` = مدة الجملة، و`zoom_at` (خالصة) تضرب اقتراب `zoom_from` في اقتراب خطّي
+  إلى `drift.to` على الجملة كلها، فتتحرك الخريطة ما دامت معروضة (تُرسم كل إطاراتها). `drift.enabled: false` ← تثبت كما كانت.
+- **لم يُجرَّب على Brave ولا يوتيوب.**

@@ -10049,3 +10049,151 @@ def test_meta_original_native_2211() -> None:
         check("2211n: عطل العبارات ← البحث بالاسم كما كان", seen_q == ["Vladimir Poutine"], seen_q)
     finally:
         meta_original._query_create = old
+
+
+def test_reel_figures_map_drift_2211() -> None:
+    """ريل 22/11: القاعدة العامة «كل جملة راوٍ تُظهر ما تسمّيه». جملة تسمّي شخصًا («الرئيس الأمريكي دونالد ترمب تحدث…») تُظهر صورته:
+    لقطة من مقطعه في الريل ثم أحدث صورة من الويب، بوجه بارز وتقريب بطيء؛ وجملة تسمّي بلدًا («الحرب في أوكرانيا») تُظهر خريطته
+    تقترب منه طوال الجملة لا ثانية ثم تثبت."""
+    import copy
+    import tempfile
+    from pathlib import Path
+    from types import SimpleNamespace as NS
+
+    from PIL import Image
+
+    from src import reel_broll, reel_figures, reel_map, reel_render, youtube_publish
+    from src.config import load_config as real_load
+    real = real_load()
+    check("2211f: config.yaml يفعّل صور الأشخاص واقتراب الخريطة المستمر",
+          real.path("reel.figures.enabled") is True and real.path("reel.maps.drift.enabled") is True
+          and real.path("reel.render.version") >= 84)
+    cfg = copy.deepcopy(load_config())
+    cfg["reel"]["figures"] = copy.deepcopy(real.path("reel.figures"))
+    cfg["reel"]["maps"]["drift"] = copy.deepcopy(real.path("reel.maps.drift"))
+    cfg["reel"]["render"]["texts"] = copy.deepcopy(real.path("reel.render.texts"))
+
+    # (أ) الاسم في الجملة: «ترمب»/«ترامب» رسمان لاسم واحد، والصفة وحدها لا تكفي
+    sent = "الرئيس الأمريكي دونالد ترمب تحدث عن الملف الأبرز على الطاولة."
+    nis = reel_figures.name_in_sentence
+    check("2211f: الاسم برسم آخر يرد في الجملة", nis("دونالد ترامب", sent, cfg) and nis("ترامب", "وقال لترمب إن", cfg))
+    check("2211f: الصفة وحدها ليست اسمًا، واسم لا يرد يُرفض",
+          not nis("الرئيس", sent, cfg) and not nis("فلاديمير بوتين", sent, cfg))
+    people = [{"name_ar": "دونالد ترامب", "name_en": "Donald Trump", "scenes": [3]}]
+    p, how = reel_figures.sentence_person({"person": {"name_ar": "دونالد ترمب", "name_en": ""}}, sent, people, cfg)
+    check("2211f: اسم الخطة يُقبل ويأخذ مقاطعه ورسمه اللاتيني من متحدثي الريل",
+          how == "plan" and p["scenes"] == [3] and p["name_en"] == "Donald Trump", (p, how))
+    p, how = reel_figures.sentence_person({"person": {"name_ar": "شي جين بينغ"}}, sent, [], cfg)
+    check("2211f: اسم خطة لا يرد في الجملة ← مرفوض بسببه", p is None and how == "not_in_sentence", (p, how))
+    p, how = reel_figures.sentence_person(None, sent, people, cfg)
+    check("2211f: بلا خطة يجد الكود متحدث الريل المذكور", how == "auto" and p["name_ar"] == "دونالد ترامب", (p, how))
+
+    # (ب) الوجه البارز ومستطيل الصورة والتقريب
+    pf = reel_figures.pick_face
+    check("2211f: وجه بارز يُقبل، ووجهان متقاربان يُرفضان، ووجه صغير يُرفض",
+          pf([(100, 100, 200, 260)], (1280, 720), cfg) == (100, 100, 200, 260)
+          and pf([(100, 100, 200, 260), (600, 100, 190, 240)], (1280, 720), cfg) is None
+          and pf([(100, 100, 20, 30)], (1280, 720), cfg) is None)
+    box = reel_figures.portrait_box((1280, 720), (900, 100, 200, 260), cfg)
+    check("2211f: مستطيل 9:16 داخل الصورة حول الوجه",
+          box is not None and box[3] - box[1] == 720 and box[2] <= 1280 and box[0] <= 1000 <= box[2]
+          and abs((box[2] - box[0]) / (box[3] - box[1]) - 9 / 16) < 0.01, box)
+    check("2211f: صورة صغيرة لا تُكبَّر إلى الشاشة", reel_figures.portrait_box((300, 200), (100, 50, 60, 80), cfg) is None)
+    zf = reel_figures.zoom_filter(540, 700, 4.0, cfg)
+    check("2211f: التقريب يُقيّم كل إطار ويثبّت نقطة الوجه", "eval=frame" in zf and "min(t/4.000,1)" in zf
+          and "x='(iw-1080)*0.5000'" in zf, zf)
+    q = reel_figures.web_query({"name_en": "Donald Trump"}, cfg, today=__import__("datetime").date(2026, 11, 22))
+    check("2211f: البحث عن أحدث صورة بالاسم اللاتيني والشهر", q == "Donald Trump November 2026", q)
+
+    # (ج) _prepare_figures: لقطة الحدث أولًا، وإلا الويب، وجملة الخريطة لا تُمسّ
+    script = {"scenes": [{"kind": "title_card", "text": "ع"},
+                         {"kind": "narration", "role": "context",
+                          "text": sent + " واستمرت الحرب في أوكرانيا. وقال بوتين إن الحوار ممكن."},
+                         {"kind": "narration", "role": "question", "text": "هل يتفق ترامب وبوتين؟"},
+                         {"kind": "clip", "speaker_name": "دونالد ترامب", "speaker_verified": True,
+                          "speaker_name_latin": "Donald Trump", "channel_display": "فرانس 24"}]}
+    plan = [{"scene": 1, "sentence": 0, "text": sent, "visual": "", "person": {"name_ar": "دونالد ترمب", "name_en": "Donald Trump"}},
+            {"scene": 1, "sentence": 1, "text": "واستمرت الحرب في أوكرانيا.", "visual": "", "map": {"countries": ["أوكرانيا"]},
+             "person": {"name_ar": "فلاديمير بوتين"}},
+            {"scene": 1, "sentence": 2, "text": "وقال بوتين إن الحوار ممكن.", "visual": "",
+             "person": {"name_ar": "بوتين", "name_en": "Vladimir Putin"}}]
+    speech = {1: (None, [("a", 3.0), ("b", 2.0), ("c", 2.5)]), 2: (None, [("d", 2.0)])}
+    frame = Image.new("RGB", (1280, 720), (90, 90, 90))
+    web = Image.new("RGB", (900, 1400), (120, 80, 60))
+    ran, judged, asked = [], [], []
+
+    def fake_run(cmd):
+        ran.append(cmd)
+        Path(cmd[-1]).write_bytes(b"x")
+    deps = NS(run=fake_run, figure_frame=lambda f, t: frame,
+              figure_urls=lambda person, c: asked.append(person["name_ar"]) or [("https://x/a.jpg", "web")],
+              figure_image=lambda url: web,
+              figure_faces=lambda img: [(500, 120, 200, 260)] if img is frame else [(300, 300, 300, 380)],
+              figure_judge=lambda img, person, c: judged.append(person["name_ar"]) or {"clean": True})
+    tmp = Path(tempfile.mkdtemp())
+    clips = {3: {"file": tmp / "c.mp4", "seconds": 8.0, "file_seconds": 9.0, "video_id": "V"}}
+    notes, results = [], []
+    out = reel_render._prepare_figures(script, [1, 2], speech, plan, clips, cfg, deps, tmp, 0.5, notes, results, {(1, 1)})
+    pieces = out.get(1) or []
+    by = {r["sentence"]: r for r in results}
+    check("2211f: جملة ترامب بلقطته من الحدث وجملة بوتين بصورة الويب، والخريطة وبطاقة السؤال بلا صورة",
+          [e["sentence"] for e in pieces] == [0, 2] and by[0]["source"] == "event" and by[2]["source"] == "web"
+          and 1 not in by and 2 not in out and asked == ["بوتين"] and judged == ["بوتين"], (pieces, results))
+    check("2211f: القطعة تحت التظليل بزمن جملتها، ومرمَّزة بالتقريب صامتة",
+          pieces[0]["a"] == 0.0 and abs(pieces[0]["b"] - 3.5) < 1e-9 and not pieces[0].get("over_shade")
+          and "eval=frame" in " ".join(ran[0]) and "-an" in ran[0], (pieces, ran))
+    check("2211f: سطر التعليق يذكر الشخصين ومصدريهما", any("🧑" in n and "فرانس 24" in n and "بوتين" in n for n in notes), notes)
+    deps2 = NS(run=fake_run, figure_frame=None, figure_urls=lambda person, c: [("u", "web")], figure_image=lambda u: web,
+               figure_faces=lambda img: [(100, 100, 200, 260), (500, 100, 190, 250)], figure_judge=None)
+    n2, r2 = [], []
+    out2 = reel_render._prepare_figures(script, [1], speech, plan, {}, cfg, deps2, Path(tempfile.mkdtemp()), 0.5, n2, r2, set())
+    check("2211f: صورة جماعية بلا وجه بارز ← لا صورة والسبب في التعليق",
+          not out2 and all(r.get("rejected") in ("no_face", "not_in_sentence") for r in r2)
+          and any(r.get("rejected") == "no_face" for r in r2) and any("⚠️ لم تُعرض صورة" in n for n in n2),
+          (r2, n2))
+    off = copy.deepcopy(cfg)
+    off["reel"]["figures"]["enabled"] = False
+    check("2211f: figures.enabled false ← لا شيء",
+          reel_render._prepare_figures(script, [1], speech, plan, clips, off, deps, tmp, 0.5, [], [], set()) == {})
+    check("2211f: Deps بلا حقن (مزيَّفات قديمة) ← لا صور",
+          reel_render._prepare_figures(script, [1], speech, plan, clips, cfg, NS(figure_faces=None), tmp, 0.5, [], [], set()) == {})
+
+    # (د) لقطات الحدث لا تُسند لجملة نالت صورة الشخص
+    bro: dict = {"chains": []}
+    reel_render._prepare_broll(script, [1], speech, plan, bro, cfg, NS(assign_broll=lambda *a: []), tmp, 0.5, [],
+                               skip={(1, 1)}, figures={(1, 0)})
+    check("2211f: render_broll يسجّل الجملة صورةَ شخص والخريطة خريطةً",
+          bro["result"][0].get("figure") and bro["result"][1].get("map"), bro["result"])
+
+    # (هـ) الخطة تحفظ الشخص، والمرحلة 2 تعرضه
+    def fake(client, **kw):
+        return NS(content=[NS(type="tool_use", name="plan_broll", input={"items": [
+            {"scene": 1, "sentence": 0, "visual": "", "person": {"name_ar": "دونالد ترمب", "name_en": "Donald Trump"}}]})],
+            stop_reason="tool_use", usage=None)
+    orig = reel_broll._create
+    reel_broll._create = fake
+    try:
+        pl = reel_broll.plan({"scenes": [{"kind": "title_card", "text": "ع"}, {"kind": "narration", "text": sent}]}, "ت", cfg)
+    finally:
+        reel_broll._create = orig
+    check("2211f: الخطة تحفظ الشخص كما سمّاه النموذج", pl[0].get("person") == {"name_ar": "دونالد ترمب", "name_en": "Donald Trump"}, pl)
+    texts = dict(cfg.path("reel.texts"))
+    lines = youtube_publish._reel_broll_lines({"broll_plan": pl, "script": {"scenes": [{"kind": "title_card"},
+                                                                                        {"kind": "narration", "role": "context"}]}},
+                                              texts, cfg)
+    check("2211f: المرحلة 2 تعرض «🧑 صورة» للجملة", any("🧑 صورة دونالد ترمب" in x for x in lines), lines)
+
+    # (و) الخريطة تقترب طوال الجملة
+    tl = reel_map.timeline(0, 0, 4.0, cfg)
+    zs = [reel_map.zoom_at(t, tl, cfg) for t in (0.0, 1.3, 2.5, 4.0)]
+    check("2211f: الاقتراب لا يتوقف بعد zoom_seconds ويبلغ drift.to آخر الجملة، والإطارات حتى آخرها",
+          zs[0] > zs[1] > zs[2] > zs[3] and abs(zs[3] - 0.85) < 1e-9 and tl["settle"] == 4.0, zs)
+    flat = copy.deepcopy(cfg)
+    flat["reel"]["maps"]["drift"]["enabled"] = False
+    tl2 = reel_map.timeline(0, 0, 4.0, flat)
+    check("2211f: drift مطفأ ← يثبت بعد الاقتراب كما كان",
+          reel_map.zoom_at(2.0, tl2, flat) == reel_map.zoom_at(4.0, tl2, flat) == 1.0 and tl2["settle"] < 4.0)
+    res, _ = reel_map.resolve({"countries": ["أوكرانيا"]}, "الحرب في أوكرانيا.", cfg)
+    frames = reel_map.render(res, 2.0, cfg, Path(tempfile.mkdtemp()), "t") if res else []
+    check("2211f: خريطة أوكرانيا تُرسم إطارًا لكل 1/fps حتى آخر الجملة",
+          res is not None and len(frames) >= int(2.0 * float(cfg.path("reel.maps.fps"))), len(frames))

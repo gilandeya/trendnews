@@ -452,7 +452,25 @@ def timeline(n_places: int, n_arrows: int, seconds: float, cfg) -> dict:
     arrows = [(start + j * each, start + (j + 1) * each) for j in range(n_arrows)]
     settle = max([zoom, (marks[-1] + float(m["pop_seconds"])) if marks else 0.0, arrows[-1][1] if arrows else 0.0,
                   float(m["highlight_start"]) + float(m["highlight_seconds"])])
-    return {"zoom": zoom, "marks": marks, "arrows": arrows, "settle": min(settle, seconds)}
+    out = {"zoom": zoom, "marks": marks, "arrows": arrows, "settle": min(settle, seconds)}
+    d = m.get("drift") or {}
+    if d.get("enabled"):
+        # ريل 22/11 («الحرب في أوكرانيا»): كانت الخريطة تقترب ثانية ثم تثبت بقية الجملة فتبدو صورة جامدة. الاقتراب يستمر حتى آخر
+        # الجملة (drift.to من مقياس الاستقرار)، فالخريطة تتحرك ما دامت معروضة؛ تُرسم كل إطاراتها لا حتى الاستقرار وحده
+        out["drift"] = {"to": max(min(float(d.get("to", 0.85)), 1.0), 0.6), "seconds": max(seconds, 1e-6)}
+        out["settle"] = seconds
+    return out
+
+
+def zoom_at(t: float, tl: dict, cfg) -> float:
+    """مقياس الإطار عند الثانية t (دالة خالصة؛ أكبر من 1 = أبعد): اقتراب zoom_from ← 1 خلال tl["zoom"] مضروبًا في اقتراب
+    بطيء خطّي من 1 إلى drift.to على الجملة كلها إن وُجد، فلا تتوقف الحركة حين ينتهي الاقتراب الأول."""
+    z0 = float(cfg.path("reel.maps.zoom_from"))
+    z = z0 - (z0 - 1.0) * ease(t / tl["zoom"])
+    d = tl.get("drift")
+    if d:
+        z *= 1.0 - (1.0 - d["to"]) * min(max(t / d["seconds"], 0.0), 1.0)
+    return z
 
 
 # ───────────────────────────── الرسم ─────────────────────────────
@@ -557,7 +575,7 @@ def frame(resolved: dict, cam: dict, layers: tuple, shade: Image.Image, t: float
     r, m = cfg.path("reel.render"), cfg.path("reel.maps")
     W, H = int(r["width"]), int(r["height"])
     z0 = float(m["zoom_from"])
-    z = z0 - (z0 - 1.0) * ease(t / tl["zoom"])
+    z = zoom_at(t, tl, cfg)
     base, lit = layers
     box = (cam["fx"] * z0 - cam["fx"] * z, cam["fy"] * z0 - cam["fy"] * z,
            cam["fx"] * z0 + (W - cam["fx"]) * z, cam["fy"] * z0 + (H - cam["fy"]) * z)
