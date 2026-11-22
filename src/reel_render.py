@@ -3698,6 +3698,13 @@ def _speaker_crop(clip: dict, cfg, deps: Deps, scene: dict | None = None) -> tup
             return {**win, "source": "speaker_combined", "speaker_score": round(float(chosen["score"]), 2),
                     "tracks": res["tracks"], "path": follow_path(chosen.get("path"))}, meta
         if res["source"] != "speaker":
+            if not res["tracks"] and cfg.path("reel.render.crop.follow.fragmented", False):
+                # ريل 7617fa79a76f (22/11): القناة قطعت بين لقطة قريبة لترامب ولقطة عامة ولقطة متوسطة هو فيها على يسارها، فانقسم وجهه
+                # ثلاثة مسارات لم يبلغ أيٌّ منها min_presence، فلم يُحسم متكلم ولم يُحفظ مسار، فبقيت النافذة ثابتة على وسيط أكبر وجه
+                # في ثلاث لقطات (على يمين الصورة) ووجهه خارجها ثماني ثوانٍ. لا حكم بالمتكلم هنا، لكن اللقطات التي فيها وجه واحد
+                # (camera_samples بلا مسار) تكفي لتتبع النافذة له وتقفز مع كل قطع؛ لقطة بوجهين تُهمل فلا تخمين
+                meta["path"], meta["cuts"] = camera_samples([], boxes), cuts
+                meta["fragmented"] = True
             return None, meta
         win = crop_window(int(sw), int(sh), [res["center"]], "face")
         return {**win, "source": "speaker", "speaker_score": round(float(res["speaker_score"]), 2), "tracks": res["tracks"],
@@ -3719,6 +3726,9 @@ def _crop_for(clip: dict, cfg, deps: Deps, scene: dict | None = None) -> dict:
         if picked is not None:
             return {**picked, **meta}
         sw, sh, centers = deps.faces(clip["file"], list(ccfg.get("samples", [0.2, 0.5, 0.8])))
+        if meta.get("path"):
+            # مسار الوجه الوحيد (المسارات المقطّعة) يغلب وسيط أكبر وجه: النافذة تبدأ حيث هو أول المقطع
+            centers = [meta["path"][0][1]]
         return {**crop_window(int(sw), int(sh), centers, mode), **meta}
     except Exception as exc:  # noqa: BLE001 -- الكشف تحسين لا شرط
         if mode == "face":
@@ -3735,6 +3745,7 @@ def _prepare_crop(clip: dict, cfg, deps: Deps, scene: dict | None, notes: list |
                        if crop["source"] in SPEAKER_SOURCES else {}),
                     **({"tracks": crop["tracks"]} if "tracks" in crop and crop["source"] not in SPEAKER_SOURCES else {}),
                     **({"vision": crop["vision"]} if "vision" in crop else {}),
+                    **({"fragmented": True} if crop.get("fragmented") else {}),
                     **({"quote_sync": clip["quote_sync"]} if clip.get("quote_sync") else {}),
                     **({"quote_mode": clip["quote_mode"]} if clip.get("quote_mode") else {}),
                     **({"gate": clip["gate"]} if clip.get("gate") else {}),
