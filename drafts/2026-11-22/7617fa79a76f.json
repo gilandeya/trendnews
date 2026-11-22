@@ -1,7 +1,7 @@
 {
   "id": "7617fa79a76f",
   "created_at": "2026-11-22T06:56:13.226150+00:00",
-  "status": "approved_script",
+  "status": "published",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -2074,5 +2074,12 @@
     "- 🔤 نُطقت أسماء أجنبية برسمها الأصلي: شي جين بينغ ← Xi Jinping، دونالد ترامب ← Donald Trump، فلاديمير بوتين ← Vladimir Putin",
     "- 💵 كلفة الريل: 1.99$ — المقاطع والأسئلة 1.39$ · السيناريو 0.28$ · التركيب (3 محاولات) 0.33$ (Opus 0.62$ · Sonnet 0.30$ · Haiku 0.03$ · Gemini 0.91$ · صوت 0.13$ · بروكسي 84 MB) · البروكسي خارج المجموع"
   ],
-  "reel_review_issue": 1977
+  "reel_review_issue": 1977,
+  "published_at": "2026-11-22T10:41:34.373899+00:00",
+  "facebook": {
+    "post_id": "1914621246193334",
+    "kind": "reel",
+    "url": "https://www.facebook.com/reel/1914621246193334"
+  },
+  "reel_seconds": 145
 }
