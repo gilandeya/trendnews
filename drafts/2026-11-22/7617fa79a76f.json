@@ -1,7 +1,7 @@
 {
   "id": "7617fa79a76f",
   "created_at": "2026-11-22T06:56:13.226150+00:00",
-  "status": "pending",
+  "status": "approved_script",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -505,7 +505,8 @@
       "views": 610304,
       "duration": 0,
       "published": "2026-11-18T11:07:12Z",
-      "views_per_hour": 6644.6
+      "views_per_hour": 6644.6,
+      "picked": true
     },
     {
       "video_id": "rgjlv_z19gU",
@@ -663,5 +664,8 @@
     }
   },
   "review_issue": 1975,
-  "stage2_issue": 1975
+  "stage2_issue": 1975,
+  "render_status": "queued",
+  "approved_script_at": "2026-11-22T07:01:29.696545+00:00",
+  "hook_picked": 0
 }
