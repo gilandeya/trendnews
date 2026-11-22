@@ -249,7 +249,968 @@
     }
    ],
    "qa_requested_at": "2026-11-22T06:32:31.692826+00:00",
-   "selected_from": 1972
+   "selected_from": 1972,
+   "topic_issue": 1974,
+   "qa": {
+    "attempts": 1,
+    "at": "2026-11-22T06:34:10.606236+00:00",
+    "videos": [
+     {
+      "video_id": "VQA2mFPbnOk",
+      "channel": "凤凰卫视",
+      "bloc": "chinese",
+      "minutes": 38.0,
+      "bites": 5,
+      "rejected": 0
+     },
+     {
+      "video_id": "8edeDBW1HDo",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "minutes": 18.3,
+      "bites": 5,
+      "rejected": 0
+     },
+     {
+      "video_id": "Xz2fndF4N1g",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "minutes": 16.8,
+      "bites": 5,
+      "rejected": 0
+     },
+     {
+      "video_id": "verlTV1jneA",
+      "channel": "فرانس 24 عربي",
+      "bloc": "arabic",
+      "minutes": 14.6,
+      "bites": 18,
+      "rejected": 0
+     },
+     {
+      "video_id": "vhFXlCmdkO8",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "minutes": 13.9,
+      "bites": 10,
+      "rejected": 0
+     },
+     {
+      "video_id": "_kj745sGs6A",
+      "channel": "CNN",
+      "bloc": "english",
+      "minutes": 21.0,
+      "bites": 4,
+      "rejected": 0
+     },
+     {
+      "video_id": "ihCgSHfx1ho",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "minutes": 28.0,
+      "bites": 7,
+      "rejected": 0
+     }
+    ],
+    "video_scores": {
+     "_kj745sGs6A": 2,
+     "Fsm58eYpDhg": 2,
+     "R_rXiysihBI": 2,
+     "ntfhNLiZIVI": 1,
+     "YbDXLYlg064": 1,
+     "Jx5XplJ6uSQ": 2,
+     "Xz2fndF4N1g": 3,
+     "LaQg7RUkCBM": 2,
+     "70WRuHb35zo": 2,
+     "fYU8r_mw8WI": 2,
+     "vhFXlCmdkO8": 3,
+     "BS6GLD0vjLc": 3,
+     "N3Rf4A6LmGg": 2,
+     "ihCgSHfx1ho": 1,
+     "kJWIF3bulxA": 2,
+     "8edeDBW1HDo": 3,
+     "zQLD2Cy_xH0": 2,
+     "DVQhu-hmFKg": 1,
+     "Tay9XMdQuZ4": 1,
+     "7Rpq7E-kDTg": 2,
+     "Et6WZCHQ8nU": 2,
+     "IMRV2DkbUXk": 1,
+     "aqVZrnFvGQs": 2,
+     "z-didvSXt-g": 2,
+     "zqdutAlDobE": 2,
+     "qs3eL6ZirLM": 2,
+     "verlTV1jneA": 3,
+     "fMSOGM6TjTE": 2,
+     "X1I7hZUt6vg": 3,
+     "y-qHxcfxTvk": 3,
+     "VQA2mFPbnOk": 3
+    },
+    "gemini_cost": 0.84,
+    "gemini_rejected": 0,
+    "channels": 7,
+    "answer_channels": 7,
+    "originals": [
+     {
+      "bite_id": "Xz2fndF4N1g:g199",
+      "source_channel": "",
+      "found": false,
+      "candidate": "xNbHS4agFpE",
+      "candidates": [
+       "xNbHS4agFpE"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "vhFXlCmdkO8:g91",
+      "source_channel": "",
+      "found": false,
+      "candidate": "VCY_2om-efY",
+      "candidates": [
+       "cTFP-AAFXJM",
+       "VCY_2om-efY"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "vhFXlCmdkO8:g112",
+      "source_channel": "",
+      "found": false,
+      "candidate": "oemWYK-yV78",
+      "candidates": [
+       "gudemojA1Ak",
+       "oemWYK-yV78"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "vhFXlCmdkO8:g168",
+      "source_channel": "",
+      "found": false,
+      "candidate": "_oX68NoVvkM",
+      "candidates": [
+       "T5UcGmapSzs",
+       "_oX68NoVvkM"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     }
+    ],
+    "originals_found": 0,
+    "read_dropped": 1,
+    "read_dropped_speakers": [
+     "محمد برديبيك"
+    ],
+    "source": "gemini",
+    "failures": [],
+    "plan": {
+     "attempts": [
+      {
+       "model": "claude-sonnet-5",
+       "stop_reason": "tool_use",
+       "bites": 49,
+       "rows": 0,
+       "raw_type": "str",
+       "answers": 0,
+       "bad_n": 0,
+       "error": "لم يقترح النموذج سؤالًا له إجابات"
+      },
+      {
+       "model": "claude-opus-5",
+       "stop_reason": "tool_use",
+       "bites": 49,
+       "rows": 5,
+       "raw_type": "list",
+       "answers": 44,
+       "bad_n": 0,
+       "error": ""
+      }
+     ]
+    },
+    "verify": {
+     "checked": 24,
+     "ok": 6,
+     "no_match": 1,
+     "failed": 17,
+     "no_text": 0,
+     "left": 15,
+     "audio_seconds": 406,
+     "skipped": "",
+     "cut_off": 5,
+     "seconds": 301
+    },
+    "capped": 17,
+    "selected_seconds": 114.2,
+    "status": "ready",
+    "titles": [
+     "من خرج رابحًا من قمة ترامب وبوتين وشي؟",
+     "هل اقتسمت واشنطن وموسكو وبكين العالم في الصين؟",
+     "لماذا جاء بيان القمة الثلاثية بلا أوكرانيا ولا هرمز؟"
+    ],
+    "questions": [
+     {
+      "text": "من الرابح الأكبر من القمة الثلاثية في الصين؟",
+      "answers": [
+       {
+        "n": 6,
+        "fit": "direct",
+        "view": "روسيا الرابح الحقيقي بعودتها للطاولة",
+        "view_count": 2,
+        "selected": true,
+        "bite_id": "Xz2fndF4N1g:g531"
+       },
+       {
+        "n": 19,
+        "fit": "direct",
+        "view": "روسيا الرابح الحقيقي بعودتها للطاولة",
+        "view_count": 2,
+        "selected": false,
+        "bite_id": "_kj745sGs6A:g814"
+       },
+       {
+        "n": 18,
+        "fit": "direct",
+        "view": "الصين الرابح الأكبر",
+        "view_count": 2,
+        "selected": false,
+        "bite_id": "vhFXlCmdkO8:g458"
+       },
+       {
+        "n": 10,
+        "fit": "direct",
+        "view": "الصين الرابح الأكبر",
+        "view_count": 2,
+        "selected": false,
+        "bite_id": "verlTV1jneA:g482"
+       },
+       {
+        "n": 15,
+        "fit": "direct",
+        "view": "البيان يخدم موسكو وبكين معًا",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "vhFXlCmdkO8:g235"
+       },
+       {
+        "n": 21,
+        "fit": "direct",
+        "view": "واشنطن خرجت بلا شيء",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "_kj745sGs6A:g1761"
+       }
+      ]
+     },
+     {
+      "text": "هل خرجت القمة الثلاثية بنتائج ملموسة أم ببيان باهت؟",
+      "answers": [
+       {
+        "n": 20,
+        "fit": "direct",
+        "view": "لا نتائج جوهرية حتى نوويًا",
+        "view_count": 2,
+        "selected": true,
+        "bite_id": "_kj745sGs6A:g855"
+       },
+       {
+        "n": 18,
+        "fit": "direct",
+        "view": "لا نتائج جوهرية حتى نوويًا",
+        "view_count": 2,
+        "selected": true,
+        "bite_id": "vhFXlCmdkO8:g458"
+       },
+       {
+        "n": 14,
+        "fit": "direct",
+        "view": "بيان باهت بعموميات عن السلام",
+        "view_count": 2,
+        "selected": false,
+        "bite_id": "verlTV1jneA:g903"
+       },
+       {
+        "n": 9,
+        "fit": "direct",
+        "view": "بيان باهت بعموميات عن السلام",
+        "view_count": 2,
+        "selected": false,
+        "bite_id": "verlTV1jneA:g457"
+       },
+       {
+        "n": 2,
+        "fit": "direct",
+        "view": "لا حاجة لبيان مفصل أصلًا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "VQA2mFPbnOk:g2308"
+       },
+       {
+        "n": 17,
+        "fit": "weak",
+        "view": "الإعلام الصيني أجمع على النجاح",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "vhFXlCmdkO8:g366"
+       }
+      ]
+     },
+     {
+      "text": "هل تقتسم واشنطن وموسكو وبكين النفوذ العالمي كما في يالطا؟",
+      "answers": [
+       {
+        "n": 5,
+        "fit": "direct",
+        "view": "منصة عدم الإضرار لا تقاسم",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "Xz2fndF4N1g:g284"
+       },
+       {
+        "n": 3,
+        "fit": "direct",
+        "view": "تقسيم النفوذ يتبع نتائج الحروب",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "8edeDBW1HDo:g74"
+       },
+       {
+        "n": 1,
+        "fit": "weak",
+        "view": "العالم ينتظر نظامًا دوليًا متوقعًا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "VQA2mFPbnOk:g2072"
+       },
+       {
+        "n": 14,
+        "fit": "direct",
+        "view": "لا اتفاق على تقسيم النفوذ",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "verlTV1jneA:g903"
+       },
+       {
+        "n": 11,
+        "fit": "weak",
+        "view": "تفاهمات خفية لنظام اقتصادي جديد",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "verlTV1jneA:g637"
+       }
+      ]
+     },
+     {
+      "text": "هل قدّمت موسكو وبكين تنازلات في ملف أوكرانيا؟",
+      "answers": [
+       {
+        "n": 16,
+        "fit": "direct",
+        "view": "لا تنازل جوهري والحرب مستمرة",
+        "view_count": 2,
+        "selected": false,
+        "bite_id": "vhFXlCmdkO8:g339"
+       },
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "لا تنازل جوهري والحرب مستمرة",
+        "view_count": 2,
+        "selected": false,
+        "bite_id": "verlTV1jneA:g316"
+       },
+       {
+        "n": 20,
+        "fit": "direct",
+        "view": "حضور بوتين بلا تنازل انتصار له",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "_kj745sGs6A:g855"
+       },
+       {
+        "n": 4,
+        "fit": "direct",
+        "view": "بكين ترفض أي التزام بالحرب",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "8edeDBW1HDo:g144"
+       },
+       {
+        "n": 18,
+        "fit": "weak",
+        "view": "لا تقدم حاسم بشأن أوكرانيا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "vhFXlCmdkO8:g458"
+       },
+       {
+        "n": 12,
+        "fit": "direct",
+        "view": "أوكرانيا طُرحت فعلًا على الطاولة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "verlTV1jneA:g728"
+       }
+      ]
+     },
+     {
+      "text": "ماذا ينتظر الملف التجاري بين واشنطن وبكين بعد القمة؟",
+      "answers": [
+       {
+        "n": 22,
+        "fit": "weak",
+        "view": "بكين تساوم بورقة النفط الإيراني",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "ihCgSHfx1ho:g1333"
+       },
+       {
+        "n": 7,
+        "fit": "direct",
+        "view": "تهدئة مؤقتة دون اتفاق دائم",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "verlTV1jneA:g294"
+       },
+       {
+        "n": 13,
+        "fit": "direct",
+        "view": "تمديد الهدنة متوقع في ميامي",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "verlTV1jneA:g823"
+       }
+      ]
+     }
+    ],
+    "context": [
+     {
+      "n": 23,
+      "selected": true,
+      "bite_id": "vhFXlCmdkO8:g168"
+     },
+     {
+      "n": 24,
+      "selected": true,
+      "bite_id": "vhFXlCmdkO8:g91"
+     },
+     {
+      "n": 25,
+      "selected": false,
+      "bite_id": "vhFXlCmdkO8:g112"
+     }
+    ],
+    "bites": [
+     {
+      "bite_id": "VQA2mFPbnOk:g2072",
+      "video_id": "VQA2mFPbnOk",
+      "channel": "凤凰卫视",
+      "bloc": "chinese",
+      "orientation": "هونغ كونغ قريب من بكين",
+      "speaker": "تانغ شيانغ لونغ",
+      "speaker_original": "唐湘龍",
+      "speaker_role": "معلق سياسي تايواني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2072.0,
+      "end": 2109.0,
+      "summary_ar": "يرى المعلق السياسي التايواني تانغ شيانغ لونغ أن دول العالم تنتظر من القمة الثلاثية بين الصين وروسيا والولايات المتحدة إعادة صياغة نظام دولي أكثر قابلية للتنبؤ.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "VQA2mFPbnOk:g2308",
+      "video_id": "VQA2mFPbnOk",
+      "channel": "凤凰卫视",
+      "bloc": "chinese",
+      "orientation": "هونغ كونغ قريب من بكين",
+      "speaker": "تانغ شيانغ لونغ",
+      "speaker_original": "唐湘龍",
+      "speaker_role": "معلق سياسي تايواني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2308.0,
+      "end": 2334.0,
+      "summary_ar": "يؤكد المعلق السياسي التايواني تانغ شيانغ لونغ أن نجاح القمة الثلاثية لا يقاس بإصدار بيان مشترك مفصل بل بإشاعة أجواء إيجابية تعزز التوازن الدولي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "8edeDBW1HDo:g74",
+      "video_id": "8edeDBW1HDo",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "orientation": "قريب من السلطة",
+      "speaker": "يكاتيرينا شولمان",
+      "speaker_original": "Екатерина Шульман",
+      "speaker_role": "عالمة سياسة وباحثة",
+      "is_host": false,
+      "type": "opinion",
+      "start": 74.0,
+      "end": 105.0,
+      "summary_ar": "ترى شولمان أن المقارنة بين قمة الصين لعام 2026 ومؤتمر يالطا غير دقيقة؛ لأن تقسيم مناطق النفوذ يرتبط بنتائج الحرب على الأرض وتقاسم المنتصرين للنصر.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "8edeDBW1HDo:g144",
+      "video_id": "8edeDBW1HDo",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "orientation": "قريب من السلطة",
+      "speaker": "يكاتيرينا شولمان",
+      "speaker_original": "Екатерина Шульман",
+      "speaker_role": "عالمة سياسة وباحثة",
+      "is_host": false,
+      "type": "opinion",
+      "start": 144.0,
+      "end": 174.0,
+      "summary_ar": "توضح شولمان أن لقاء قادة الولايات المتحدة وروسيا والصين يبدو مبهرًا كقمة للدول الأقوى، لكن تفاوت انخراطهم في حرب أوكرانيا يجعل بكين ترفض تحمل أي التزامات.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "Xz2fndF4N1g:g284",
+      "video_id": "Xz2fndF4N1g",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "محمد برديبيك",
+      "speaker_original": "Muhammed Berdibek",
+      "speaker_role": "خبير علاقات دولية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 284.22,
+      "end": 314.5,
+      "summary_ar": "يوضح أن قمة شنزن لا تهدف لتقاسم العالم كما في يالطا بل لتأسيس منصة تفاهم تقوم على عدم إضرار القوى الثلاث ببعضها.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "Xz2fndF4N1g:g531",
+      "video_id": "Xz2fndF4N1g",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "جانان ترجان",
+      "speaker_original": "Canan Tercan",
+      "speaker_role": "أكاديمية في جامعة إسطنبول أيدن",
+      "is_host": false,
+      "type": "opinion",
+      "start": 531.0,
+      "end": 563.0,
+      "summary_ar": "تعتبر أن روسيا هي الرابح الحقيقي من قمة شنزن لأنها عادت فاعلًا رئيسيًا ومحددًا مع واشنطن وبكين بعد عزلة دولية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "verlTV1jneA:g294",
+      "video_id": "verlTV1jneA",
+      "channel": "فرانس 24 عربي",
+      "bloc": "arabic",
+      "orientation": "فرنسي حكومي",
+      "speaker": "حسن عبيد",
+      "speaker_original": "حسن عبيد",
+      "speaker_role": "مدير قسم العلاقات الدولية والاقتصاد في جامعة باريس سكول أوف بيزنس",
+      "is_host": false,
+      "type": "opinion",
+      "start": 294.0,
+      "end": 316.0,
+      "summary_ar": "يوضح أن الرئيس الأمريكي دونالد ترامب لم يستجب لمطالب الصين التجارية وبقيت التهدئة بينهما مؤقتة دون اتفاق دائم.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "verlTV1jneA:g316",
+      "video_id": "verlTV1jneA",
+      "channel": "فرانس 24 عربي",
+      "bloc": "arabic",
+      "orientation": "فرنسي حكومي",
+      "speaker": "حسن عبيد",
+      "speaker_original": "حسن عبيد",
+      "speaker_role": "مدير قسم العلاقات الدولية والاقتصاد في جامعة باريس سكول أوف بيزنس",
+      "is_host": false,
+      "type": "opinion",
+      "start": 316.0,
+      "end": 332.0,
+      "summary_ar": "يشير إلى أن موسكو وبكين لم تستجيبا للرئيس الأمريكي دونالد ترامب بشأن أوكرانيا، وأن الرئيس الروسي فلاديمير بوتين تمسك بمطالبه.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "verlTV1jneA:g457",
+      "video_id": "verlTV1jneA",
+      "channel": "فرانس 24 عربي",
+      "bloc": "arabic",
+      "orientation": "فرنسي حكومي",
+      "speaker": "محمد كريم الكافي",
+      "speaker_original": "محمد كريم الكافي",
+      "speaker_role": "أستاذ إدارة الأعمال في جامعة باريس",
+      "is_host": false,
+      "type": "opinion",
+      "start": 457.0,
+      "end": 482.0,
+      "summary_ar": "يصف بيان القمة بالسطحي لاقتصاره على العموميات وتجاهله للأزمات، مشيراً إلى أن الرئيس الروسي فلاديمير بوتين طُلب منه عدم طرح ملف أوكرانيا.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "verlTV1jneA:g482",
+      "video_id": "verlTV1jneA",
+      "channel": "فرانس 24 عربي",
+      "bloc": "arabic",
+      "orientation": "فرنسي حكومي",
+      "speaker": "محمد كريم الكافي",
+      "speaker_original": "محمد كريم الكافي",
+      "speaker_role": "أستاذ إدارة الأعمال في جامعة باريس",
+      "is_host": false,
+      "type": "opinion",
+      "start": 482.0,
+      "end": 513.0,
+      "summary_ar": "يوضح أن الصين هي الأكثر استفادة اقتصادياً من القمة لعدم خوضها حروباً، وسعيها لممارسة دبلوماسية اقتصادية بين موسكو وواشنطن.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "verlTV1jneA:g637",
+      "video_id": "verlTV1jneA",
+      "channel": "فرانس 24 عربي",
+      "bloc": "arabic",
+      "orientation": "فرنسي حكومي",
+      "speaker": "محمد كريم الكافي",
+      "speaker_original": "محمد كريم الكافي",
+      "speaker_role": "أستاذ إدارة الأعمال في جامعة باريس",
+      "is_host": false,
+      "type": "forecast",
+      "start": 637.0,
+      "end": 665.0,
+      "summary_ar": "يتوقع أن القمة الثلاثية شهدت تفاهمات استراتيجية غير معلنة تمهد لنظام وبرنامج اقتصادي عالمي جديد.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "verlTV1jneA:g728",
+      "video_id": "verlTV1jneA",
+      "channel": "فرانس 24 عربي",
+      "bloc": "arabic",
+      "orientation": "فرنسي حكومي",
+      "speaker": "شاهر الشاهر",
+      "speaker_original": "شاهر الشاهر",
+      "speaker_role": "أستاذ الدراسات الدولية في جامعة صن يات سين في الصين",
+      "is_host": false,
+      "type": "opinion",
+      "start": 728.0,
+      "end": 757.0,
+      "summary_ar": "يخالف القائلين بعدم حدوث اختراق في القمة، مؤكداً أن ملف أوكرانيا نوقش بالفعل رغم إعلان الرئيس الأمريكي دونالد ترامب المسبق استبعاده.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "verlTV1jneA:g823",
+      "video_id": "verlTV1jneA",
+      "channel": "فرانس 24 عربي",
+      "bloc": "arabic",
+      "orientation": "فرنسي حكومي",
+      "speaker": "شاهر الشاهر",
+      "speaker_original": "شاهر الشاهر",
+      "speaker_role": "أستاذ الدراسات الدولية في جامعة صن يات سين في الصين",
+      "is_host": false,
+      "type": "forecast",
+      "start": 823.0,
+      "end": 847.0,
+      "summary_ar": "يؤكد أن مخرجات القمة خطوط عريضة ستنفذها الحكومات لاحقاً، متوقعاً تمديد الهدنة التجارية والإعلان عنها في قمة ميامي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "verlTV1jneA:g903",
+      "video_id": "verlTV1jneA",
+      "channel": "فرانس 24 عربي",
+      "bloc": "arabic",
+      "orientation": "فرنسي حكومي",
+      "speaker": "حسن عبيد",
+      "speaker_original": "حسن عبيد",
+      "speaker_role": "مدير قسم العلاقات الدولية والاقتصاد في جامعة باريس سكول أوف بيزنس",
+      "is_host": false,
+      "type": "opinion",
+      "start": 903.0,
+      "end": 933.0,
+      "summary_ar": "يؤكد أن القمة فشلت في التوصل لاتفاق لتقاسم النفوذ الدولي بين القوى الثلاث، واكتفت بعموميات مكررة عن السلام.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "vhFXlCmdkO8:g235",
+      "video_id": "vhFXlCmdkO8",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "orientation": "فرنسي حكومي",
+      "speaker": "أليس إكمان",
+      "speaker_original": "Alice Ekman",
+      "speaker_role": "مديرة الأبحاث في معهد الاتحاد الأوروبي للدراسات الأمنية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 237.06,
+      "end": 260.26,
+      "summary_ar": "أليس إكمان توضح أن مخرجات القمة جاءت لمصلحة روسيا والصين عبر رفض ملاحقات المحكمة الجنائية ودعم قطاع النفط.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "vhFXlCmdkO8:g339",
+      "video_id": "vhFXlCmdkO8",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "orientation": "فرنسي حكومي",
+      "speaker": "أليس إكمان",
+      "speaker_original": "Alice Ekman",
+      "speaker_role": "مديرة الأبحاث في معهد الاتحاد الأوروبي للدراسات الأمنية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 339.0,
+      "end": 361.0,
+      "summary_ar": "أليس إكمان تؤكد أن الصين وروسيا لم تقدما أي تنازلات جوهرية في القمة وثبتتا مواقفهما بشأن أوكرانيا وتايوان.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "vhFXlCmdkO8:g366",
+      "video_id": "vhFXlCmdkO8",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "orientation": "فرنسي حكومي",
+      "speaker": "باتيست فالفوز",
+      "speaker_original": "Baptiste Fallevoz",
+      "speaker_role": "مراسل فرانس 24 في بكين",
+      "is_host": false,
+      "type": "fact",
+      "start": 366.0,
+      "end": 390.0,
+      "summary_ar": "باتيست فالفوز يفيد بأن وسائل الإعلام الصينية أشادت بالإجماع بنجاح القمة الثلاثية واعتبرتها ضمانة للسلم العالمي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "vhFXlCmdkO8:g458",
+      "video_id": "vhFXlCmdkO8",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "orientation": "فرنسي حكومي",
+      "speaker": "ماتيو مابان",
+      "speaker_original": "Matthieu Mabin",
+      "speaker_role": "مراسل فرانس 24 في واشنطن",
+      "is_host": false,
+      "type": "opinion",
+      "start": 458.0,
+      "end": 486.0,
+      "summary_ar": "ماتيو مابان يوضح أن القمة لم تحقق تقدمًا ملموسًا في ملفات أوكرانيا والنووي وإيران وأن الصين هي الرابح الأكبر.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "_kj745sGs6A:g814",
+      "video_id": "_kj745sGs6A",
+      "channel": "CNN",
+      "bloc": "english",
+      "orientation": "أمريكي ليبرالي",
+      "speaker": "سابرينا سينغ",
+      "speaker_original": "Sabrina Singh",
+      "speaker_role": "نائبة السكرتير الصحفي لوزارة الحرب الأمريكية سابقًا",
+      "is_host": false,
+      "type": "opinion",
+      "start": 814.0,
+      "end": 845.0,
+      "summary_ar": "تؤكد سابرينا سينغ أن القمة الثلاثية شكلت مكسبًا كبيرًا للرئيس الروسي فلاديمير بوتين بإعادته للمشهد الدولي بعد عزلته إثر غزو أوكرانيا.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "_kj745sGs6A:g855",
+      "video_id": "_kj745sGs6A",
+      "channel": "CNN",
+      "bloc": "english",
+      "orientation": "أمريكي ليبرالي",
+      "speaker": "سابرينا سينغ",
+      "speaker_original": "Sabrina Singh",
+      "speaker_role": "نائبة السكرتير الصحفي لوزارة الحرب الأمريكية سابقًا",
+      "is_host": false,
+      "type": "opinion",
+      "start": 855.0,
+      "end": 886.0,
+      "summary_ar": "تشير سابرينا سينغ إلى أن القمة الثلاثية خلت من أي نتائج جوهرية بشأن البرامج النووية وسمحت لروسيا بعدم تقديم أي تنازلات في ملف أوكرانيا.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "_kj745sGs6A:g1761",
+      "video_id": "_kj745sGs6A",
+      "channel": "CNN",
+      "bloc": "english",
+      "orientation": "أمريكي ليبرالي",
+      "speaker": "بيث سانر",
+      "speaker_original": "Beth Sanner",
+      "speaker_role": "نائبة مدير الاستخبارات الوطنية الأمريكية سابقًا",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1761.0,
+      "end": 1786.0,
+      "summary_ar": "تعتبر بيث سانر أن الرئيس الصيني شي جين بينغ ونظيره الروسي فلاديمير بوتين تلاعبا بالرئيس الأمريكي دونالد ترامب في القمة دون خروج واشنطن بأي مكاسب.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "ihCgSHfx1ho:g1333",
+      "video_id": "ihCgSHfx1ho",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "نيما منصفي",
+      "speaker_original": "Nima Monsefi",
+      "speaker_role": "محلل سياسي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1333.0,
+      "end": 1355.0,
+      "summary_ar": "نيما منصفی يرى أن الصين تستغل علاقتها النفطية مع طهران كورقة ضغط لانتزاع تنازلات تجارية وتقنية من واشنطن.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "vhFXlCmdkO8:g168",
+      "video_id": "vhFXlCmdkO8",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "orientation": "فرنسي حكومي",
+      "speaker": "دونالد ترامب",
+      "speaker_original": "Donald Trump",
+      "speaker_role": "رئيس الولايات المتحدة",
+      "is_host": false,
+      "type": "opinion",
+      "start": 167.68,
+      "end": 176.04,
+      "summary_ar": "الرئيس الأمريكي دونالد ترامب يعرب عن أمله المشترك مع قادة القمة في إنهاء الحرب الروسية الأوكرانية.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "vhFXlCmdkO8:g91",
+      "video_id": "vhFXlCmdkO8",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "orientation": "فرنسي حكومي",
+      "speaker": "شي جين بينغ",
+      "speaker_original": "Xi Jinping",
+      "speaker_role": "رئيس الصين",
+      "is_host": false,
+      "type": "fact",
+      "start": 90.72,
+      "end": 101.18,
+      "summary_ar": "الرئيس الصيني شي جين بينغ يؤكد أن اللقاء هو الأول بين قادة الدول الثلاث ويحمل أبعادًا تأسيسية.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "vhFXlCmdkO8:g112",
+      "video_id": "vhFXlCmdkO8",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "orientation": "فرنسي حكومي",
+      "speaker": "فلاديمير بوتين",
+      "speaker_original": "Vladimir Poutine",
+      "speaker_role": "رئيس روسيا",
+      "is_host": false,
+      "type": "opinion",
+      "start": 109.46,
+      "end": 121.56,
+      "summary_ar": "الرئيس الروسي فلاديمير بوتين يؤكد أن الدول الثلاث متحدة بمسؤوليتها المشتركة عن صون السلم والأمن العالميين.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": true
+     }
+    ],
+    "error": "",
+    "extracted": 49,
+    "cost": {
+     "claude": {
+      "claude-haiku-5-5": 0.00128,
+      "claude-sonnet-5": 0.0589,
+      "claude-opus-5": 0.48876
+     },
+     "gemini": 0.84,
+     "proxy_bytes": 26011943
+    }
+   }
   },
   {
    "id": "dfe068ad4474",
