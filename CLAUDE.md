@@ -3620,6 +3620,12 @@ arabic ×4 وturkish وpersian ×2 ولم تصل الإسرائيلية ولا �
 (`camera_keys`)، ويُحفظ `render_crops[i].fragmented`. لا حكم بالمتكلم هنا ولا مساس بما حُسم. `render_version` = 83 (للقادم فقط، S11).
 `tests.helpers.load_config` يطفئه؛ الاختبار `tests/test_youtube.py:test_reel_follow_fragmented_2211`.
 
+## سؤال الختام ببديله يُقرأ جملتين (ريل 7617fa79a76f، 22/11) — `reel_render.alternative_pause`
+
+«هل يصمد هذا التفاهم الثلاثي أم ينهار عند أول أزمة؟» قُرئ نفَسًا واحدًا فصعب على السمع. `closing_question_text` تضع «،» قبل كلمة البديل
+(`reel.closing.alternative_pause.words`: أم) حين لا علامة قبلها، فيقف الراوي عندها ويبدأ البديل سطرًا جديدًا (`clause_lines`). أول كلمة لا تُمسّ.
+`enabled: false` ← النص كما كتبه السيناريو. الاختبار `tests/test_youtube.py:test_closing_alternative_pause_2211`.
+
 ## مهل التنزيل وميزانية وقت التركيب (القضية #1922) — `src/reel_clips.py`، `src/reel_render.py`
 
 الحادثة: الريل `973764aabdfe` اعتُمد سيناريوه 16:44 ولم يُركَّب. تشغيلة «🎬 تركيب الريل» قُتلت بمهلة وظيفتها (60 دقيقة؛ الوظيفة

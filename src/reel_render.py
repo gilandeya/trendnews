@@ -4676,8 +4676,22 @@ def closing_question_text(q: str, cfg) -> str:
     text = str(q or "").strip()
     words = list(cfg.path("reel.closing.question_words", []) or [])
     if text.startswith("و") and text[1:].split(" ", 1)[0].rstrip("؟?،,.!") in words:
-        return text[1:]
-    return text
+        text = text[1:]
+    return alternative_pause(text, cfg)
+
+
+def alternative_pause(text: str, cfg) -> str:
+    """فاصلة قبل بديل السؤال («… الثلاثي، أم ينهار…») حين لا علامة قبله (دالة خالصة). ريل 7617fa79a76f (22/11): «هل يصمد هذا
+    التفاهم الثلاثي أم ينهار عند أول أزمة؟» قُرئ نفَسًا واحدًا فصعب على السمع؛ الفاصلة نفسها تجعل الراوي يقف عندها وتبدأ البديل
+    سطرًا جديدًا على الشاشة (clause_lines)، فلا حاجة لتقسيم ثانٍ. أول كلمة لا تُمسّ (سؤال يبدأ بـ«أم» ليس بديلًا)."""
+    pc = cfg.path("reel.closing.alternative_pause") or {}
+    if not pc.get("enabled"):
+        return text
+    alts = [str(w) for w in pc.get("words", []) or [] if str(w)]
+    if not alts:
+        return text
+    pat = r"(?<=[^\s،,؛;.!?؟:])(\s+)(?=(?:" + "|".join(map(re.escape, alts)) + r")(?=\s))"
+    return re.sub(pat, "، ", text)
 
 
 def closing_plan(question_seconds: float, cfg, lead: float, label_seconds: float = 0.0) -> dict:

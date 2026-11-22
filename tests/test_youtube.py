@@ -9921,3 +9921,31 @@ def test_reel_follow_fragmented_2211() -> None:
     keys = reel_render.camera_keys(samples, (0, 0, W, H), 405, on, cuts=[5.2])
     check("2211f: النافذة تقفز مع القطع إلى موضعه الجديد", bool(keys) and keys[-1][1] < keys[0][1]
           and any(abs(t - 5.2) < 0.01 for t, _x in keys), keys)
+
+
+def test_closing_alternative_pause_2211() -> None:
+    """ريل 7617fa79a76f (22/11): «هل يصمد هذا التفاهم الثلاثي أم ينهار عند أول أزمة؟» قُرئ نفَسًا واحدًا؛ فاصلة قبل «أم» يقف عندها
+    الراوي ويبدأ بها سطر جديد على الشاشة."""
+    import copy
+
+    from src import reel_render
+    from src.config import load_config as real_load
+    real = real_load()
+    check("2211q: config.yaml يضع الفاصلة قبل البديل", real.path("reel.closing.alternative_pause.enabled") is True)
+    cfg = copy.deepcopy(load_config())
+    cfg["reel"]["closing"]["alternative_pause"] = {"enabled": True, "words": ["أم"]}
+    q = "هل يصمد هذا التفاهم الثلاثي أم ينهار عند أول أزمة؟"
+    got = reel_render.closing_question_text(q, cfg)
+    check("2211q: فاصلة قبل «أم»", got == "هل يصمد هذا التفاهم الثلاثي، أم ينهار عند أول أزمة؟", got)
+    check("2211q: علامة موجودة لا تُكرَّر",
+          reel_render.closing_question_text("هل يصمد، أم ينهار؟", cfg) == "هل يصمد، أم ينهار؟")
+    check("2211q: الواو تُحذف والفاصلة توضع معًا",
+          reel_render.closing_question_text("وهل تنجح أم تفشل؟", cfg) == "هل تنجح، أم تفشل؟")
+    check("2211q: «أم» أول الكلام وكلمة تبدأ بها لا تُمسّان",
+          reel_render.closing_question_text("أم الدنيا؟", cfg) == "أم الدنيا؟"
+          and reel_render.closing_question_text("هل يأتي أمين؟", cfg) == "هل يأتي أمين؟")
+    off = copy.deepcopy(cfg)
+    off["reel"]["closing"]["alternative_pause"]["enabled"] = False
+    check("2211q: enabled=false ← النص كما هو", reel_render.closing_question_text(q, off) == q)
+    # الفاصلة نفسها تقسم السطر على الشاشة (clause_lines) فيبدأ البديل سطرًا جديدًا
+    check("2211q: «،» من علامات أسطر الجمل", "،" in str(real.path("reel.render.clause_lines.marks")))
