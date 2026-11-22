@@ -665,13 +665,13 @@
   },
   "review_issue": 1975,
   "stage2_issue": 1975,
-  "render_status": "queued",
+  "render_status": "failed",
   "approved_script_at": "2026-11-22T07:01:29.696545+00:00",
   "hook_picked": 0,
-  "render_attempts": 2,
-  "render_error": "بلغ التركيب موعد نهاية التشغيلة في مرحلة فحص مرشّحي لقطة الهوك بعد 54 دقيقة",
+  "render_attempts": 3,
+  "render_error": "بلغ التركيب موعد نهاية التشغيلة في مرحلة تركيب المشاهد بعد 49 دقيقة",
   "render_timing": {
-    "minutes": 53.9,
+    "minutes": 48.9,
     "stages": [
       [
         "clips",
@@ -679,15 +679,15 @@
       ],
       [
         "clip 2 فرانس 24 الفرنسية",
-        0.3
+        0.2
       ],
       [
         "clip 4 فرانس 24 الفرنسية",
-        0.3
+        0.2
       ],
       [
         "clip 6 فرانس 24 الفرنسية",
-        0.3
+        0.2
       ],
       [
         "clip 9 سي إن إن ترك",
@@ -707,7 +707,51 @@
       ],
       [
         "hook_scan",
-        0.8
+        0.9
+      ],
+      [
+        "broll",
+        46.4
+      ],
+      [
+        "assemble",
+        46.4
+      ],
+      [
+        "speakers",
+        46.4
+      ],
+      [
+        "maps",
+        47.1
+      ],
+      [
+        "scene 0 title_card",
+        47.1
+      ],
+      [
+        "scene 1 narration",
+        47.2
+      ],
+      [
+        "scene 2 clip",
+        47.4
+      ],
+      [
+        "scene 3 narration",
+        48.0
+      ],
+      [
+        "scene 4 clip",
+        48.2
+      ],
+      [
+        "scene 5 narration",
+        48.6
+      ],
+      [
+        "scene 6 clip",
+        48.7
       ]
     ],
     "left_minutes": -0.0
@@ -716,6 +760,15 @@
     {
       "proxy_bytes": 30119502,
       "at": "2026-11-22T07:57:18.618172+00:00"
+    },
+    {
+      "claude": {
+        "claude-sonnet-5": 0.05116,
+        "claude-haiku-5-5": 0.00126
+      },
+      "gemini": 0.0344,
+      "tts": 0.06356,
+      "at": "2026-11-22T09:43:38.717834+00:00"
     }
   ]
 }
