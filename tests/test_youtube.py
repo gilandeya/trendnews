@@ -10538,3 +10538,198 @@ def test_reel_quote_2311() -> None:
     check("2311q: بند الريل في المرحلة 2 يستدعي سطور الاقتباس",
           "reel_quote.review_lines(d, cfg)" in open("src/youtube_publish.py", encoding="utf-8").read())
     _ = youtube_publish
+
+
+def test_reel_cartoon_2311() -> None:
+    """كاريكاتير الهوك (طلب صاحب المشروع 23/11): Claude يكتب الفكرة من إجابات المحللين، وGemini يرسمها، وتُعرض في قضية السيناريو
+    بمربع غير معلَّم، ولا تصير خلفية الهوك إلا إن علّمه المراجع. لا يُسقط سيناريو أبدًا."""
+    import base64
+    import copy
+    import io
+    import os
+    from types import SimpleNamespace as NS
+
+    import numpy as np
+    from PIL import Image
+
+    from src import publish, reel_cartoon, reel_render, review, store
+    from src.config import load_config as real_load
+    real = real_load()
+    check("2311c: config.yaml يفعّل الكاريكاتير ومولّده Gemini", real.path("reel.cartoon.enabled") is True
+          and str(real.path("reel.cartoon.model")).startswith("gemini") and real.path("reel.render.version") >= 86)
+    cfg = copy.deepcopy(load_config())
+    cfg["reel"]["cartoon"] = copy.deepcopy(real.path("reel.cartoon"))
+    script = {"title": "من يكسب من القمة؟", "scenes": [
+        {"kind": "title_card", "text": "من يكسب من القمة؟"},
+        {"kind": "narration", "role": "context", "text": "التقى القادة الثلاثة."},
+        {"kind": "narration", "role": "question", "text": "من الرابح؟", "q": 0},
+        {"kind": "clip", "q": 0, "speaker_name": "محلل أول", "channel_display": "القناة أ", "stance": "الصين",
+         "quote_arabic": "الصين أكبر الرابحين"},
+        {"kind": "clip", "role": "context", "speaker_name": "طرف", "quote_arabic": "لا يدخل"},
+        {"kind": "question", "text": "من الرابح؟"}, {"kind": "outro", "text": ""}]}
+
+    # (1) مادة الفكرة: السؤال والسياق والإجابات بأرقامها ومواقفها، ومقطع السياق خارجها
+    mat = reel_cartoon.material(script)
+    check("2311c: المادة تحمل الإجابة بموقفها ولا مقطع السياق",
+          "[1] محلل أول" in mat and "الموقف: الصين" in mat and "لا يدخل" not in mat and "التقى القادة" in mat, mat)
+
+    buf = io.BytesIO()
+    Image.new("RGB", (576, 1024), (200, 50, 50)).save(buf, "PNG")
+    png64 = base64.b64encode(buf.getvalue()).decode()
+    con = {"feasible": True, "idea_ar": "القادة يقتسمون كعكة والصين بأكبر قطعة", "basis_ar": "الإجابة 1",
+           "prompt_en": "Three leaders share a cake shaped like a world map"}
+    bodies = []
+
+    def fake_create(client, **kw):
+        return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="cartoon_concept", input=con)])
+
+    def fake_gen(body, model, key, timeout):
+        bodies.append((body, model, timeout))
+        return 200, {"candidates": [{"finishReason": "STOP", "content": {"parts": [
+            {"text": "thinking", "thought": True}, {"inlineData": {"mimeType": "image/png", "data": png64}}]}}],
+            "usageMetadata": {"candidatesTokenCount": 1290}}, 3.0
+    old = (reel_cartoon._create, reel_cartoon._generate, os.environ.get("GEMINI_API_KEY"))
+    try:
+        os.environ.pop("GEMINI_API_KEY", None)
+        d0 = {"id": "cafe2311c000", "script": script}
+        check("2311c: بلا مفتاح ← بلا نداء وسبب no_key", reel_cartoon.plan(d0, cfg)["error"] == "no_key")
+        os.environ["GEMINI_API_KEY"] = "k"
+        reel_cartoon._create, reel_cartoon._generate = fake_create, fake_gen
+        draft = {"id": "cafe2311c001", "script": script}
+        rec = reel_cartoon.plan(draft, cfg)
+        body, model, timeout = bodies[-1]
+        prompt = body["contents"][0]["parts"][0]["text"]
+        check("2311c: الطلب بنسبة 9:16 وصورة فقط ووصف الفكرة مع قواعد الشكل (بلا كتابة)",
+              body["generationConfig"]["responseModalities"] == ["IMAGE"]
+              and body["generationConfig"]["imageConfig"]["aspectRatio"] == "9:16"
+              and prompt.startswith("Three leaders") and "no text" in prompt.lower() and model == cfg.path("reel.cartoon.model"),
+              body)
+        path = reel_cartoon.local_path(rec)
+        check("2311c: الصورة محفوظة بجوار المسودة ومسارها بصيغة drafts/…",
+              rec["status"] == "ready" and rec["path"].startswith("drafts/") and rec["path"].endswith("cafe2311c001-cartoon.png")
+              and path is not None and draft["hook_cartoon"] is rec and rec["cost_usd"] > 0, rec)
+        reel_cartoon._create = lambda client, **kw: NS(stop_reason="tool_use", content=[NS(
+            type="tool_use", name="cartoon_concept", input={"feasible": False, "idea_ar": "الإجابات متفرقة", "basis_ar": "",
+                                                            "prompt_en": ""})])
+        n = len(bodies)
+        r2 = reel_cartoon.plan({"id": "cafe2311c002", "script": script}, cfg)
+        check("2311c: لا فكرة أمينة ← بلا رسم ولا نداء Gemini", r2["status"] == "none" and "متفرقة" in r2["error"]
+              and len(bodies) == n, r2)
+        reel_cartoon._create = lambda client, **kw: NS(stop_reason="max_tokens", content=[])
+        check("2311c: الرد المقطوع لا يُقبل", reel_cartoon.plan({"id": "cafe2311c003", "script": script}, cfg)["status"] == "none")
+        reel_cartoon._create = fake_create
+        reel_cartoon._generate = lambda body, model, key, timeout: (200, {"candidates": [{"finishReason": "SAFETY",
+                                                                                          "content": {"parts": []}}]}, 1.0)
+        r4 = reel_cartoon.plan({"id": "cafe2311c004", "script": script}, cfg)
+        check("2311c: رد بلا صورة ← سببه", r4["status"] == "none" and "SAFETY" in r4["error"], r4)
+        reel_cartoon._generate = lambda body, model, key, timeout: (_ for _ in ()).throw(RuntimeError("boom"))
+        r5 = reel_cartoon.plan({"id": "cafe2311c005", "script": script}, cfg)
+        check("2311c: عطل لا يرفع", r5["status"] == "none" and "boom" in r5["error"], r5)
+    finally:
+        reel_cartoon._create, reel_cartoon._generate = old[0], old[1]
+        if old[2] is None:
+            os.environ.pop("GEMINI_API_KEY", None)
+        else:
+            os.environ["GEMINI_API_KEY"] = old[2]
+
+    # (2) القضية: الصورة ومربع غير معلَّم، وقراءته
+    lines = reel_cartoon.review_lines(draft, cfg, "https://raw/x.png")
+    text = "\n".join(lines)
+    check("2311c: بند الريل يعرض الفكرة وأساسها والصورة ومربعًا غير معلَّم",
+          "يقتسمون كعكة" in text and "الإجابة 1" in text and 'src="https://raw/x.png"' in text
+          and "- [ ] " in text and "<!-- cartoonok:cafe2311c001 -->" in text, text)
+    check("2311c: القراءة: غير المعلَّم لا يُعدّ، والمعلَّم يُعدّ",
+          reel_cartoon.parse_ok(text) == set() and reel_cartoon.parse_ok(text.replace("- [ ] ", "- [x] ")) == {"cafe2311c001"})
+    check("2311c: بلا كاريكاتير سطر بسببه", "no_key" in "\n".join(reel_cartoon.review_lines(d0, cfg)))
+    off = copy.deepcopy(cfg)
+    off["reel"]["cartoon"]["enabled"] = False
+    check("2311c: مطفأ ← لا سطر", reel_cartoon.review_lines(draft, off) == [])
+    check("2311c: بند الريل يستدعي سطور الكاريكاتير والسيناريو يحفظ المفتاح",
+          "_reel_cartoon_lines(d, cfg)" in open("src/youtube_publish.py", encoding="utf-8").read()
+          and "hook_cartoon" in __import__("src.reel_script", fromlist=["x"]).SCRIPT_KEYS)
+    check("2311c: غير المعتمد لا يدخل الريل", reel_cartoon.usable(draft, cfg) is None)
+
+    # (3) الاعتماد: بالمربع يعلَّم approved، وبلاه لا
+    comments = []
+    old_comment = review.comment
+    review.comment = lambda n, t: comments.append(t)
+    try:
+        for mark, did in (("x", "cafe2311c00a"), (" ", "cafe2311c00b")):
+            store.save_draft({"id": did, "origin": "analysis", "format": "reel", "status": "pending", "script_status": "ready",
+                              "script": copy.deepcopy(script), "hook_cartoon": dict(rec), "headlines": ["أ؟", "ب؟", "ج؟"],
+                              "review_issue": 2312, "title": "ريل"})
+            publish.approve_reel_scripts(2312, [did], f"<!-- draft:{did} -->\n- [{mark}] استعمله <!-- cartoonok:{did} -->",
+                                         cfg, actions={did: "go3"})
+            after = store.load_draft(did)[1]
+            if mark == "x":
+                check("2311c: المربع المعلَّم يعتمده", after["hook_cartoon"].get("approved") is True
+                      and after["status"] == "approved_script" and reel_cartoon.usable(after, cfg) is not None, after["hook_cartoon"])
+            else:
+                check("2311c: بلا المربع لا يُعتمد", not after["hook_cartoon"].get("approved") and reel_cartoon.usable(after, cfg) is None)
+    finally:
+        review.comment = old_comment
+    check("2311c: تعليق الاعتماد يذكره", any("الكاريكاتير" in t for t in comments), comments)
+
+    # (4) التركيب: الكاريكاتير خلفية الهوك كلها، بلا تنزيل فيديو الهوك، والضباب مخفَّف، والختام يلتحم به
+    approved = dict(rec, approved=True)
+    cmds, downloads, notes = [], [], []
+
+    def run(cmd):
+        cmds.append([str(c) for c in cmd])
+        Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+        Path(cmd[-1]).write_bytes(b"x")
+
+    def download(video_id, start, end, height, out_path):
+        downloads.append(video_id)
+        Path(out_path).write_bytes(b"clip")
+        return {"tier": "a", "bytes": 4, "failures": []}
+    rcfg = copy.deepcopy(cfg)
+    deps = reel_render.Deps(
+        download_clip=download, synthesize=lambda t, v: {"ok": True, "audio": b"mp3", "chars": len(t)},
+        diacritize=lambda t: (t, None), run=run, probe=lambda p: 2.0, sleep=lambda s: None,
+        faces=lambda f, fr: (640, 360, []), frames=lambda p, fr: [np.full((360, 640), 100, np.uint8)] * len(fr),
+        streams=lambda p: {"video", "audio"}).resolved(rcfg)
+    import tempfile
+    work = Path(tempfile.mkdtemp())
+    info: dict = {}
+    scene = script["scenes"][0]
+    reel_render._hook_scene(0, scene, script, {"hook_video": {"video_id": "hv1", "start": 5, "end": 9}, "hook_cartoon": approved},
+                            None, "female", rcfg, deps, work, work / "o.mp4", notes, hook_info=info)
+    final = " ".join([c for c in cmds if c[-1].endswith("o.mp4")][-1])
+    png = work / "hook_cartoon_0.png"
+    check("2311c: الهوك بالكاريكاتير بلا تنزيل فيديو الهوك", not downloads and str(png) in final and "eval=frame" in final,
+          (downloads, final[:300]))
+    check("2311c: الكاريكاتير بمقاس الشاشة", Image.open(png).size == (int(cfg.path("reel.render.width")),
+                                                                     int(cfg.path("reel.render.height"))))
+    check("2311c: الضباب مضروب في fog_scale", f"*{reel_render._fmt(float(cfg.path('reel.cartoon.fog_scale')))}'" in final, final[-700:])
+    check("2311c: الختام يلتحم بالكاريكاتير (صورة عند x0 = 0) وسطر التعليق",
+          info.get("mode") == "image" and info.get("bgpng") == png and info.get("x0") == 0
+          and any("الكاريكاتير" in n for n in notes), (info, notes))
+    cmds.clear()
+    reel_render._hook_scene(0, scene, script, {"hook_video": {"video_id": "hv1", "start": 5, "end": 9}, "hook_cartoon": rec},
+                            None, "female", rcfg, deps, Path(tempfile.mkdtemp()), work / "o2.mp4", [])
+    check("2311c: غير المعتمد ← فيديو الهوك كما كان", downloads == ["hv1"])
+
+    # (5) ffmpeg حقيقي: الأمر يعمل وأسفل الإطار من الكاريكاتير
+    import shutil
+    import subprocess
+    if not shutil.which("ffmpeg"):
+        check("2311c: تُخطّي ffmpeg — غير موجود", True)
+        return
+    work2 = Path(tempfile.mkdtemp())
+    mp3 = work2 / "tone.mp3"
+    subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "lavfi", "-i", "sine=frequency=300:duration=2", str(mp3)], check=True)
+    rd = reel_render.Deps().resolved(rcfg)
+    deps2 = reel_render.Deps(
+        download_clip=download, synthesize=lambda t, v: {"ok": True, "audio": mp3.read_bytes(), "chars": len(t)},
+        diacritize=lambda t: (t, None), run=rd.run, probe=lambda p: 2.0, sleep=lambda s: None,
+        faces=lambda f, fr: (640, 360, []), frames=lambda p, fr: [np.full((360, 640), 100, np.uint8)] * len(fr),
+        streams=lambda p: {"video", "audio"}).resolved(rcfg)
+    out = work2 / "hook.mp4"
+    reel_render._hook_scene(0, scene, script, {"hook_cartoon": approved}, None, "female", rcfg, deps2, work2, out, [])
+    W, H = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
+    raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", "0.1", "-i", str(out), "-frames:v", "1", "-f", "rawvideo",
+                          "-pix_fmt", "rgb24", "-"], capture_output=True, check=True).stdout
+    frame = np.frombuffer(raw, np.uint8).reshape(H, W, 3).astype(int)
+    low = frame[int(H * 0.85):, :].reshape(-1, 3).mean(axis=0)
+    check("2311c: أسفل أول إطار أحمر الكاريكاتير", low[0] > 120 and low[0] > low[2] + 40, low.round().tolist())

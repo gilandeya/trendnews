@@ -124,6 +124,10 @@ def load_config(path=None):
         rquote = (cfg.get("reel") or {}).get("quote")
         if isinstance(rquote, dict):
             rquote["enabled"] = False
+        # كاريكاتير الهوك (23/11) نداءان وسطر في بند الريل؛ test_reel_cartoon_2311 يطلبه
+        rcart = (cfg.get("reel") or {}).get("cartoon")
+        if isinstance(rcart, dict):
+            rcart["enabled"] = False
         crop_c = rcfg.get("crop")
         if isinstance(crop_c, dict):
             if isinstance(crop_c.get("identity"), dict):
@@ -511,6 +515,9 @@ def install_fakes() -> None:
     from src import reel_quote as _reel_quote
     _reel_quote._create = lambda client, **kw: None  # type: ignore
     _reel_quote._http_get = lambda url, params, timeout: None  # type: ignore
+    from src import reel_cartoon as _reel_cartoon
+    _reel_cartoon._create = lambda client, **kw: None  # type: ignore
+    _reel_cartoon._generate = lambda body, model, key, timeout: (500, "لا شبكة في الاختبارات", 0.0)  # type: ignore
     # فحص تماسك القضايا بعد العنقدة (القضية 1770) بلا شبكة ولا استهلاك ردود العملاء المزيَّفة: ردّ بلا أداة ← القضايا كما هي
     # هوك المواجهة (8/11) بلا شبكة ولا استهلاك ردود العملاء المزيَّفة: ردّ None ← لا hook_clash فيبقى الهوك القديم في كل اختبار قديم
     from src import reel_clash as _reel_clash

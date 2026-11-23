@@ -1278,8 +1278,9 @@ def approve_reel_scripts(issue_number: int, reel_ids: list[str], body: str, cfg,
     ok_ids = stages.parse_editor_ok(body)
     choice = review.parse_headline_choice(body)
     hook_picks = reel_script.parse_hook_picks(body)
-    from . import reel_quote
+    from . import reel_cartoon, reel_quote
     quote_ok = reel_quote.parse_ok(body)
+    cartoon_ok = reel_cartoon.parse_ok(body)
     lines: list[str] = []
     blocked: list[str] = []
     for did in reel_ids:
@@ -1325,6 +1326,11 @@ def approve_reel_scripts(issue_number: int, reel_ids: list[str], body: str, cfg,
             if plan is not None:
                 extra["broll_plan"] = plan
             lines.append(cfg.path("reel.quote.texts.added", "").format(speaker=quote.get("speaker_ar", "")))
+        # كاريكاتير الهوك (23/11) لا يدخل الريل إلا بمربعه، كالاقتباس؛ بلا تعليم تبقى الخلفية لقطة الحدث كما كانت
+        cartoon = d.get("hook_cartoon")
+        if did in cartoon_ok and isinstance(cartoon, dict) and cartoon.get("status") == "ready":
+            extra["hook_cartoon"] = dict(cartoon, approved=True)
+            lines.append(str((cfg.path("reel.cartoon.texts") or {}).get("added", "🎨 يُستعمل الكاريكاتير خلفيةً للهوك")))
         # لقطة هوك اختارها صاحب المشروع (قضية السيناريو لمواضيع العناوين): المرشّح المختار يتقدّم ويُعلَّم picked فيغلب في الهوك إن
         # صلح، والبقية تبقى بعده. ريل 1850: كان يبقى وحده، وكان نشرة أستوديو بلا ثانية ميدانية، فلا لقطة للهوك ولا شريط
         # خلفية ولا ختام والمرشّحون الثلاثة الآخرون لم يُفحصوا. بلا مربع معلَّم الاختيار للفحص البصري كما كان

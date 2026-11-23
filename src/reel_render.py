@@ -4845,8 +4845,11 @@ def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None,
     seconds = min(voice_at + speech + float(hk["tail"]), float(hk["max_seconds"]))
     clip = None
     hv = draft.get("hook_video")
+    # كاريكاتير الهوك (23/11): إن علّمه المراجع في قضية السيناريو يصير خلفية الهوك كلها، فلا يُنزَّل فيديو الهوك أصلًا
+    from . import reel_cartoon
+    cartoon = reel_cartoon.usable(draft, cfg)
     # الخلفية المتصلة (20/11): الهوك أول قطعة من خلفية الريل الواحدة (لقطته في أول الشريط المتكرر) فلا يُنزَّل فيديوه هنا
-    if cont_bg is None and isinstance(hv, dict) and hv.get("video_id"):
+    if cartoon is None and cont_bg is None and isinstance(hv, dict) and hv.get("video_id"):
         try:
             clip = _download_with_retries(deps, rcfg, str(hv["video_id"]), int(hv["start"]), int(hv["end"]),
                                           tmp / "hook_clip.mp4")
@@ -4875,11 +4878,26 @@ def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None,
     # الضباب: ألفا الطبقة تُستخرج وتُصغَّر ثم geq بالزمن T (تعبير fog_alpha نفسه) ثم تُكبَّر وتُدمج ثانيةً بالألوان — geq على نسخة
     # مصغَّرة لأن القناع ناعم (تمويه 170) فلا يظهر فقدان الدقة، وعلى الدقة الكاملة يبطئ التركيب كثيرًا
     expr = _fog_alpha_expr(cfg, strong, var="T")
+    if cartoon is not None:
+        # الضباب فوق الكاريكاتير أخفّ (fog_scale): الرسم هو ما يُرى، والضباب يكفيه أن يقرأ العنوان فوقه
+        expr = f"({expr})*{_fmt(float(reel_cartoon.ccfg(cfg).get('fog_scale', 0.6)))}"
     fog_f = (f"[1:v]format=rgba,split[fa][fb];[fa]alphaextract,scale={w // 8}:{h // 8},format=gray,"
              f"geq=lum='lum(X,Y)*{expr}',scale={w}:{h},format=gray[fm];[fb][fm]alphamerge[fog];"
              f"[b][fog]overlay=0:0:shortest=1[bf];[2:v]fps={fps},format=rgba[t];[bf][t]overlay=0:0:shortest=1,format=yuv420p[v]")
     sp = f"aresample={rate},aformat=channel_layouts=stereo,{adelay},apad"
-    if cont_bg is not None:
+    if cartoon is not None:
+        cpng = _save(reel_cartoon.cover_frame(cartoon, w, h), tmp / f"hook_cartoon_{i}.png")
+        # الختام يلتحم بأول إطار من الهوك (خ2/P1a-2): الكاريكاتير صورة بمقاس الشاشة عند x0 = 0، وأول إطار بلا تقريب هو الصورة نفسها
+        if hook_info is not None:
+            hook_info.update(mode="image", bgpng=cpng, x0=0)
+        zf, tz = _fmt(float(reel_cartoon.ccfg(cfg).get("zoom", 1.06))), _fmt(seconds)
+        zexpr = f"(1+({zf}-1)*t/{tz})"
+        inputs = [*loop, "-i", str(cpng), *fog_in]
+        vg = (f"[0:v]scale=w='trunc({w}*{zexpr}/2)*2':h='trunc({h}*{zexpr}/2)*2':eval=frame:flags=bicubic,crop={w}:{h},"
+              f"fps={fps}[b];" + fog_f)
+        ag = f"[3:a]{sp}[a]"
+        notes.append(str((reel_cartoon.ccfg(cfg).get("texts") or {}).get("used", "🎨 الهوك بالكاريكاتير المعتمد")))
+    elif cont_bg is not None:
         cbg, cplan = cont_bg
         if hook_info is not None:
             hook_info.update(mode="continuous")
