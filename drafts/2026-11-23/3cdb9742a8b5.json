@@ -1,0 +1,753 @@
+{
+  "id": "3cdb9742a8b5",
+  "created_at": "2026-11-23T07:51:32.514335+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "الحرب الأمريكية الإسرائيلية الإيرانية وتطوراتها",
+  "event": "الحرب الأمريكية الإسرائيلية الإيرانية وتطوراتها",
+  "tier": 5,
+  "blocs": [
+    "arabic",
+    "chinese",
+    "english",
+    "persian",
+    "turkish"
+  ],
+  "channels": [
+    "CCTV中文",
+    "CNN",
+    "CNN Türk",
+    "Iran International",
+    "الجزيرة",
+    "العربية",
+    "الميادين",
+    "سكاي نيوز عربية"
+  ],
+  "agreement": "",
+  "score": 0,
+  "warnings": [
+    "اسم لم يُحسم: هونغ كاو (Hong Kao) — لا رسم مرشّح ظهر في 2 نطاقات عربية مستقلة (أقصى ما وُجد: 0)",
+    "⏱️ السياق 93 كلمة (الحد 61) فقُبل كما هو لأن المادة من اختيارك — راجعه",
+    "✏️ صيغ السؤال 1 ليتصل بالسياق: كان «من يتفوق فعليًا في مضيق هرمز: القوة الأمريكية أم الردع الإيراني؟» صار «من يتفوق فعليًا في مضيق هرمز: الولايات المتحدة أم إيران؟»",
+    "✏️ صيغ السؤال 2 ليتصل بالسياق: كان «لماذا كثّفت إيران هجماتها على الملاحة خارج مضيق هرمز؟» صار «لماذا كثّفت إيران هجماتها على الملاحة خارج المضيق؟»",
+    "✏️ صيغ سؤال الهوك: كان «هل تحسم أمريكا معركتها مع إيران في مضيق هرمز؟» صار «هل تحسم الولايات المتحدة معركتها مع إيران في مضيق هرمز؟»"
+  ],
+  "run_date": "2026-11-23",
+  "topic_date": "2026-11-23",
+  "arabic": {
+    "post_title": "هل تحسم أمريكا معركتها مع إيران في مضيق هرمز؟",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "CCTV中文",
+      "CNN",
+      "CNN Türk",
+      "Iran International",
+      "الجزيرة",
+      "العربية",
+      "الميادين",
+      "سكاي نيوز عربية"
+    ]
+  },
+  "source_videos": [],
+  "meta_topic_id": "389a715cdd28",
+  "meta_issue": 1988,
+  "hook_pick": 3,
+  "cost_qa": {
+    "claude": {
+      "claude-haiku-5-5": 0.00186,
+      "claude-sonnet-5": 0.11253
+    },
+    "gemini": 1.3365,
+    "proxy_bytes": 9988943
+  },
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "5bc88687dad6",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "859fc2270a83",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "الحديث عن جغرافيا رخوة فيها تنازع على السيطرة والنفوذ، يبدو أن هناك شطرًا من هذا المضيق لا يزال ضمن السيادة أو النفوذ الإيراني، وهنا يحق للخطاب الإيراني أن يدّعي هذه السيطرة، ولكن في المقابل ربما الشطر الجنوبي، ما تغير الآن هو أن إيران، وأربط هذا التطور بما جاء في رسالة المرشد الأعلى مجتبى خامنئي",
+        "complete": "no",
+        "incomplete_reason": "الجملة مبتورة في آخرها",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "57a41f5ecb62",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "ببينوا، أساسًا طهران حرفها لم يتغير كثيرًا خلال الأسابيع القليلة الماضية، في موضوع مضيق هرمز يقولون: إذا قبلت أمريكا شروطنا، نفتح مضيق هرمز، وأما عن الحرب فيقولون إن العقيدة العسكرية للجمهورية الإسلامية تحولت من الدفاعية إلى الهجومية، وهذا ما يقوله كثير من المسؤولين العسكريين وحتى السياسيين في الحكومة",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "45863d989e51",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "7d0695b6b797",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن"
+      },
+      {
+        "point_id": "2b621cacc21c",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "أنتم رأيتم، ذاك الأمين العام لحلف الناتو قال: لقد كان لدينا 5000 طلعة جوية من جميع دول الناتو.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "1d1793da1359",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "انظروا، لقد كان لدينا سابقًا صاروخ يصل إلى جزيرة دييغو غارسيا. كم كانت المسافة هناك؟ ما بين أربعة إلى خمسة آلاف كيلومتر. وصل صاروخنا إلى مسافة 4500 كيلومتر.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي سي تي في الصينية"
+      },
+      {
+        "point_id": "716de97e78ed",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "كثير من الذخائر التي استخدمناها في عملية الغضب الملحمي، كنا قادرين على إعادة برمجتها. كانت مرمّزة بالرمزين إيكو وفوكستروت، وهذا يعني أنها منتهية الصلاحية. لكن، كما تعلم، أنا أتيت من أسرة فقيرة، صحيح؟ الخبز وأشياء كهذه لا تنتهي صلاحيتها، فقط تبلّله بالماء وتضعه في الميكروويف خمس عشرة ثانية فيصبح صالحًا. ولذلك أعدنا برمجة بعض هذه الذخائر، فتمكنّا من إطلاق الذخائر منتهية الصلاحية يا سيناتور.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي سي تي في الصينية"
+      }
+    ]
+  },
+  "quote_retranslated": [
+    "57a41f5ecb62",
+    "2b621cacc21c",
+    "1d1793da1359",
+    "716de97e78ed"
+  ],
+  "clip_dropped": [
+    {
+      "point_id": "859fc2270a83",
+      "channel": "الجزيرة",
+      "reason": "اقتباس مبتور — الجملة مبتورة في آخرها"
+    }
+  ],
+  "name_unresolved": [
+    {
+      "arabic": "هونغ كاو",
+      "latin": "Hong Kao",
+      "reason": "لا رسم مرشّح ظهر في 2 نطاقات عربية مستقلة (أقصى ما وُجد: 0)"
+    }
+  ],
+  "names_audit": [
+    {
+      "arabic": "إبراهيم فريحات",
+      "latin": ""
+    },
+    {
+      "arabic": "مسعود كاظمي",
+      "latin": ""
+    },
+    {
+      "arabic": "لقاء مكي",
+      "latin": ""
+    },
+    {
+      "arabic": "جيك سوليفان",
+      "latin": "Jake Sullivan"
+    },
+    {
+      "arabic": "احمد وحيدي",
+      "latin": ""
+    },
+    {
+      "arabic": "حسين محبي",
+      "latin": ""
+    },
+    {
+      "arabic": "هونغ كاو",
+      "latin": "Hong Kao"
+    },
+    {
+      "arabic": "أحمد وحيدي",
+      "latin": "Ahmad Vahidi"
+    },
+    {
+      "arabic": "حسين محبي",
+      "latin": "Hossein Mohebi"
+    },
+    {
+      "arabic": "هونغ كاو",
+      "latin": "Hung Cao"
+    }
+  ],
+  "script_attempts": [
+    {
+      "attempt": 1,
+      "reasons": [
+        "السياق أطول من 61 كلمة (93)"
+      ]
+    }
+  ],
+  "headlines": [
+    "هل تحسم الولايات المتحدة معركتها مع إيران في مضيق هرمز؟",
+    "هل تحسم أمريكا معركتها مع إيران في مضيق هرمز؟",
+    "ماذا يريد ترامب من إيران: الحصار أم الحرب الشاملة؟"
+  ],
+  "headline_selected": 0,
+  "script": {
+    "version": 2,
+    "narrator": "female",
+    "title": "هل تحسم الولايات المتحدة معركتها مع إيران في مضيق هرمز؟",
+    "question": "هل يفتح مضيق هرمز بالتفاوض أم بالقوة العسكرية؟",
+    "event": "",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "هل تحسم الولايات المتحدة معركتها مع إيران في مضيق هرمز؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "في طهران، أكد القائد العام للحرس الثوري الإيراني أحمد وحيدي تنفيذ حلف الناتو 5 آلاف طلعة جوية من جميع دوله خلال الحرب على إيران."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "2b621cacc21c",
+        "q": "c0",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=Qmv3eCJJ65c",
+        "start": 135.0,
+        "end": 144.0,
+        "speaker_name": "احمد وحيدي",
+        "speaker_role": "القائد العام للحرس الثوري الإيراني",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "احمد وحیدی",
+        "channel_display": "إيران إنترناشيونال",
+        "channel_original": "Iran International",
+        "quote_arabic": "أنتم رأيتم، ذاك الأمين العام لحلف الناتو قال: لقد كان لدينا 5000 طلعة جوية من جميع دول الناتو.",
+        "quote_original": "شما دیدید اون دبیر کل ناتو گفت ما ۵۰۰۰ پرواز از همه کشورهای ناتو داشتیم.",
+        "language": "fa",
+        "video_published": "2026-11-21T17:39:38Z",
+        "relay": "external",
+        "relay_source": "",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "واستشهد المتحدث باسم الحرس الثوري الإيراني حسين محبي بوصول صاروخ إيراني إلى قاعدة دييغو غارسيا على بعد 4500 كيلومتر."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "1d1793da1359",
+        "q": "c1",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=AyCOjxY7ab0",
+        "start": 663.0,
+        "end": 679.0,
+        "speaker_name": "حسين محبي",
+        "speaker_role": "المتحدث باسم الحرس الثوري الإيراني",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Hossein Mohebbi",
+        "channel_display": "سي سي تي في الصينية",
+        "channel_original": "CCTV中文",
+        "quote_arabic": "انظروا، لقد كان لدينا سابقًا صاروخ يصل إلى جزيرة دييغو غارسيا. كم كانت المسافة هناك؟ ما بين أربعة إلى خمسة آلاف كيلومتر. وصل صاروخنا إلى مسافة 4500 كيلومتر.",
+        "quote_original": "ببینید ما قبلاً موشک‌مون به جزیره دیه‌گو گارسیا داشتیم. فاصله اونجا چقدر بوده؟ ۴-۵ هزار کیلومتر. موشک ما تا ۴۵۰۰ کیلومتری رفت.",
+        "language": "fa",
+        "video_published": "2026-11-22T08:02:40Z",
+        "relay": "external",
+        "relay_source": "",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "وفي واشنطن، اعترف القائم بأعمال وزير البحرية الأمريكي هونغ كاو بإعادة برمجة صواريخ منتهية الصلاحية واستخدامها في ضرب إيران."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "716de97e78ed",
+        "q": "c2",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=AyCOjxY7ab0",
+        "start": 782.0,
+        "end": 808.0,
+        "speaker_name": "هونغ كاو",
+        "speaker_role": "القائم بأعمال وزير البحرية الأمريكي",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Hung Cao",
+        "channel_display": "سي سي تي في الصينية",
+        "channel_original": "CCTV中文",
+        "quote_arabic": "كثير من الذخائر التي استخدمناها في عملية الغضب الملحمي، كنا قادرين على إعادة برمجتها. كانت مرمّزة بالرمزين إيكو وفوكستروت، وهذا يعني أنها منتهية الصلاحية. لكن، كما تعلم، أنا أتيت من أسرة فقيرة، صحيح؟ الخبز وأشياء كهذه لا تنتهي صلاحيتها، فقط تبلّله بالماء وتضعه في الميكروويف خمس عشرة ثانية فيصبح صالحًا. ولذلك أعدنا برمجة بعض هذه الذخائر، فتمكنّا من إطلاق الذخائر منتهية الصلاحية يا سيناتور.",
+        "quote_original": "A lot of the munitions we used in Epic Fury were actually, we were able to recode those. They were code Echo, code Foxtrot, which means they're expired. But, you know, I came from a poor family, right? Bread, things like bread doesn't expire, you just rub some water on it, microwave it for 15 seconds, and it's good to go. And so for some of these munitions, we recoded them, and so we were able to shoot off the expired munitions, Senator.",
+        "language": "en",
+        "video_published": "2026-11-22T08:02:40Z",
+        "relay": "external",
+        "relay_source": "",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "بين سيطرة أمريكية على الممرات وردع إيراني يتمدد، يبقى السؤال عن ميزان القوة في المضيق."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 0,
+        "text": "من يتفوق فعليًا في مضيق هرمز: الولايات المتحدة أم إيران؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "5bc88687dad6",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=DlWc7UmB7ts",
+        "start": 214.8,
+        "end": 240.5,
+        "speaker_name": "إبراهيم فريحات",
+        "speaker_role": "أستاذ الصراعات الدولية بمعهد الدوحة للدراسات العليا",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "إبراهيم فريحات",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "يميز بين نوعين من الموازين: موازين القوى العسكرية وموازين الردع، ويرى أنه فيما يخص موازين القوى العسكرية لا تزال الولايات المتحدة متفوقة وتهيمن بسيطرة أكبر على المضيق بفضل تفوق قدراتها العسكرية.",
+        "quote_original": "وهنا أميز ما بين نوعين من الموازين، هناك موازين القوى العسكرية وهناك موازين الردع. فيما يخص موازين القوى العسكرية، أعتقد ما زالت الولايات المتحدة هي من تتفوق وتحكم بسيطرة كبيرة أكبر على المضيق، وهذا يعود إلى سبب التفوق بالقدرات العسكرية للولايات المتحدة.",
+        "language": "ar",
+        "video_published": "2026-11-21T21:20:00Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 1,
+        "text": "لماذا كثّفت إيران هجماتها على الملاحة خارج المضيق؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "57a41f5ecb62",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=Qmv3eCJJ65c",
+        "start": 555.0,
+        "end": 577.0,
+        "speaker_name": "مسعود كاظمي",
+        "speaker_role": "صحفي إيراني",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "مسعود کاظمی",
+        "channel_display": "إيران إنترناشيونال",
+        "channel_original": "Iran International",
+        "quote_arabic": "ببينوا، أساسًا طهران حرفها لم يتغير كثيرًا خلال الأسابيع القليلة الماضية، في موضوع مضيق هرمز يقولون: إذا قبلت أمريكا شروطنا، نفتح مضيق هرمز، وأما عن الحرب فيقولون إن العقيدة العسكرية للجمهورية الإسلامية تحولت من الدفاعية إلى الهجومية، وهذا ما يقوله كثير من المسؤولين العسكريين وحتى السياسيين في الحكومة",
+        "quote_original": "ببینید اساساً تهران حرفش نسبت به چند هفته گذشته خیلی تغییر نکرده، در مورد تنگه هرمز میگن آمریکا شروط ما رو بپذیره، بعد ما تنگه هرمز رو باز می‌کنیم، درباره جنگ میگن دکترین نظامی جمهوری اسلامی از دفاعی به هجومی تغییر کرده، این رو بسیاری از مقام‌های نظامی و حتی سیاسی حکومت میگن،",
+        "language": "fa",
+        "video_published": "2026-11-21T17:39:38Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "45863d989e51",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=DlWc7UmB7ts",
+        "start": 329.8,
+        "end": 359.9,
+        "speaker_name": "لقاء مكي",
+        "speaker_role": "باحث أول في مركز الجزيرة للدراسات",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "لقاء مكي",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "شعر الإيرانيون بأن ورقة هرمز انتُزعت منهم، لذلك شرعوا في الأسابيع الأخيرة بمحاولة استعادتها عبر تكثيف نشر الألغام واستهداف السفن في مناطق تقع خارج المضيق.",
+        "quote_original": "الإيرانيين أحسوا بأنه ورقة هرمز أخذت منهم، ولذلك بدؤوا في الأسابيع الأخيرة، تحديداً الأسبوعين أو الثلاث الأخيرة، بمحاولة لاستعادة هذه الورقة، فكانت هناك عمليات زرع ألغام أكثر، يعني من خلال عمليات ما يدعيه الإيرانيون من أنها ألغام، زرعوا ألغاماً أكثر، وبدؤوا يضربون السفن في مناطق خارج المضيق.",
+        "language": "ar",
+        "video_published": "2026-11-21T21:20:00Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 2,
+        "text": "هل ينجح الحصار الاقتصادي الأمريكي في إركاع إيران؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "7d0695b6b797",
+        "q": 2,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=ITDfxQtsTG4",
+        "start": 1098.7,
+        "end": 1116.7,
+        "speaker_name": "جيك سوليفان",
+        "speaker_role": "مستشار الأمن القومي الأمريكي السابق",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "Jake Sullivan",
+        "channel_display": "سي إن إن",
+        "channel_original": "CNN",
+        "quote_arabic": "أعتقد أنك إذا سألت إدارة الرئيس الأمريكي دونالد ترامب بصدق عما تراه مسارًا لتحقيق النصر، فسيكون الجواب في جوهره: سنواصل الحصار، وسنستمر في حرمان إيران من عوائد الطاقة لتضعف بنيتها الاقتصادية تدريجيًا حتى تستسلم في النهاية رافعة يديها.",
+        "quote_original": "I think if you honestly ask the Trump administration what is their pathway to what they perceive to be a victory, it basically goes like this: We're going to keep the blockade in place, we're going to keep starving Iran of energy revenue, its economy will get weaker and weaker, and eventually it'll come out with its hands up.",
+        "language": "en",
+        "video_published": "2026-11-22T16:58:34Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "question",
+        "text": "هل يفتح مضيق هرمز بالتفاوض أم بالقوة العسكرية؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": [],
+    "narrator_voices": [
+      {
+        "id": "tavIIPLplRB883FzWU0V",
+        "name": "Woman1",
+        "gender": "female"
+      },
+      {
+        "id": "XdoLPWNt7ytn6BtU4FBf",
+        "name": "Man1",
+        "gender": "male"
+      }
+    ]
+  },
+  "editor_revision": {
+    "at": "2026-11-23T07:51:58.846074+00:00",
+    "applied": true,
+    "error": null,
+    "before": [
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "في طهران، أعلن القائد في الحرس الثوري الإيراني أحمد وحيدي بسط البحرية سيطرتها لمسافة تتجاوز 500 كيلومتر في المياه المفتوحة، وتحدث عن حجم مشاركة حلف الناتو في الحرب.",
+        "fix": "في طهران، أكد القائد العام للحرس الثوري الإيراني أحمد وحيدي تنفيذ حلف الناتو 5 آلاف طلعة جوية من جميع دوله خلال الحرب على إيران.",
+        "note": "مشهد السياق [2] لا يصف الحدث الذي وقع فعلًا (تأكيد القائد العام للحرس الثوري تنفيذ 5 آلاف طلعة جوية لحلف الناتو من جميع دوله)، بل يذكر واقعة غير مطابقة لوقائع الحدث المرفقة (سيطرة بحرية لمسافة 500 كيلومتر) ثم يشير بعمومية لمشاركة الناتو بدل ذكر الرقم والمصدر.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "وللرد على القواعد الأمريكية البعيدة، عرض المتحدث باسم الحرس الثوري الإيراني حسين محبي ما وصلت إليه صواريخ بلاده.",
+        "fix": "واستشهد المتحدث باسم الحرس الثوري الإيراني حسين محبي بوصول صاروخ إيراني إلى قاعدة دييغو غارسيا على بعد 4500 كيلومتر.",
+        "note": "السياق [4] لا يذكر الواقعة نفسها (المسافة 4500 كم ووصول الصاروخ لقاعدة دييغو غارسيا) بل يصفها بعمومية «ما وصلت إليه صواريخ بلاده» دون تفصيل الحدث.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "وفي واشنطن، تحدث القائم بأعمال وزير البحرية الأمريكي هونغ كاو عن الذخائر التي استُخدمت في ضرب إيران.",
+        "fix": "وفي واشنطن، اعترف القائم بأعمال وزير البحرية الأمريكي هونغ كاو بإعادة برمجة صواريخ منتهية الصلاحية واستخدامها في ضرب إيران.",
+        "note": "السياق [6] يصف الحديث بعمومية بدل ذكر الواقعة: اعتراف هونغ كاو بإعادة برمجة صواريخ منتهية الصلاحية واستخدامها في ضرب إيران.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "بين سيطرة أمريكية على الممرات وردع إيراني يتمدد، يبقى السؤال عن ميزان القوة في المضيق.",
+        "fix": "",
+        "note": "السياق [8] يصف الجدل/السؤال العام بدل سرد واقعة حدث محددة من وقائع الحدث المرفقة.",
+        "sources": []
+      },
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "القائم بأعمال وزير البحرية الأمريكي هونغ كاو",
+        "fix": "",
+        "note": "رسم الاسم (هونغ كاو/Hong Kao) غير محسوم ولم يظهر له مرشح موثوق في نطاقات عربية مستقلة بحسب تنبيهات المسودة، ما يستدعي التحقق قبل النشر.",
+        "sources": [],
+        "video": ""
+      }
+    ],
+    "unresolved": [
+      {
+        "n": 4,
+        "reason": "مشهد السياق [8] يصف السؤال العام/الجدل بدل واقعة محددة من وقائع الحدث المرفقة، ولا توجد واقعة حدث بديلة (فعل/زمن) في المصادر لتصف ما حدث في هذا السطر دون أن يكون خاتمة ختامية عامة؛ أُبقي كما هو لعدم توفر بديل مطابق لقواعد طول السياق."
+      },
+      {
+        "n": 5,
+        "reason": "رسم اسم هونغ كاو (Hong Kao) غير محسوم ولا يوجد في المصادر المرفقة رسم عربي بديل موثق في نطاقين مستقلين؛ لا يمكن تصحيحه دون تخمين."
+      }
+    ]
+  },
+  "editor_review": {
+    "at": "2026-11-23T07:51:58.846074+00:00",
+    "applied": [],
+    "notes": [
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "بين سيطرة أمريكية على الممرات وردع إيراني يتمدد، يبقى السؤال عن ميزان القوة في المضيق.",
+        "fix": "",
+        "note": "السياق [8] يصف الجدل/السؤال العام بدل سرد واقعة حدث محددة من وقائع الحدث المرفقة.",
+        "sources": []
+      },
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "القائم بأعمال وزير البحرية الأمريكي هونغ كاو",
+        "fix": "",
+        "note": "رسم الاسم (هونغ كاو/Hong Kao) غير محسوم ولم يظهر له مرشح موثوق في نطاقات عربية مستقلة بحسب تنبيهات المسودة، ما يستدعي التحقق قبل النشر.",
+        "sources": [],
+        "video": ""
+      }
+    ],
+    "error": null,
+    "searches": 0,
+    "search_skipped": null,
+    "speaker_unresolved": [
+      "هونغ كاو"
+    ]
+  },
+  "reel_quote": {
+    "status": "none",
+    "tried": [],
+    "error": "AttributeError: 'NoneType' object has no attribute 'messages'"
+  },
+  "hook_cartoon": {
+    "status": "none",
+    "error": "AttributeError: 'NoneType' object has no attribute 'messages'"
+  },
+  "reel_bg": {
+    "url": "",
+    "kind": "none",
+    "publisher": "",
+    "judged": true,
+    "rejected": [
+      {
+        "url": "https://www.assabahnews.tn/images/2026/11/1000184384.jpg",
+        "shows": "مدينة ليلاً يتصاعد منها دخان أسود كثيف ونيران ضخمة قرب جبال",
+        "reason": "الصورة لمدينة مشتعلة ليلاً، ولا تُظهر مضيق هرمز أو الأطراف المذكورة في السؤال بشكل واضح، والصورة تحمل شعار مصدر في الزاوية السفلية اليمنى، وفيها نص صغير مركّب، فهي غير مناسبة كخلفية لهذا الريل.</reaso"
+      },
+      {
+        "url": "https://ichef.bbci.co.uk/ace/ws/640/cpsprodpb/1a34/live/20d71270-17a3-11f1-b048-c9424b2cf5fd.png.webp",
+        "shows": "خريطة لمنطقة الشرق الأوسط تُظهر إيران والدول العربية وإسرائيل وقبرص، مع مربع أحمر يحوي نصًا عن الدول التي أبلغت عن تلقيه",
+        "reason": "الصورة خريطة توضيحية تتضمن نصًا مركّبًا، ولا تُظهر موضوع سؤال الريل المتعلق بمضيق هرمز والمعركة الأمريكية الإيرانية بشكل مباشر، فهي ليست صورة لطرفي المواجهة أو لمكانها بصورة واقعية."
+      },
+      {
+        "url": "https://imgs.search.brave.com/anvuNNpuycP9OnMRkQYBojS4pAKWwmjbBEfZHv3x3aA/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pY2hl/Zi5iYmNpLmNvLnVr/L2FjZS93cy82NDAv/Y3BzcHJvZHBiLzFh/MzQvbGl2ZS8yMGQ3/MTI3MC0xN2EzLTEx/ZjEtYjA0OC1jOTQy/NGIyY2Y1ZmQucG5n/LndlYnA",
+        "shows": "خريطة لمنطقة الخليج العربي وإيران تظهر دولًا عربية مع قائمة بالدول التي أُبلغت بتلقي ضربات انتقامية",
+        "reason": "الخريطة تعرض دول الخليج والشام وإيران، لكن موضوعها توزيع الضربات الانتقامية على الدول، وليس مضيق هرمز أو المواجهة الأمريكية الإيرانية بمشهد يصلح خلفية للريل، كما أنها تحمل نصًا مركّبًا كثيفًا وشعار BB"
+      },
+      {
+        "url": "https://ichef.bbci.co.uk/ace/ws/640/cpsprodpb/1333/live/498e9fd0-1712-11f1-801d-ed3cff6bf876.png.webp",
+        "shows": "خريطة لإيران تحمل أسماء مدن (تبريز، سهند، طهران، كرمانشاه، خومين، ميناب، كوناراك) على خلفية بيضاء مع بحر قزوين والخليج ا",
+        "reason": "الخريطة تعرض جغرافيا إيران فقط ولا تُظهر مضيق هرمز بوضوح أو أطراف النزاع أو الحدث المذكور في سؤال الريل، وعليها أسماء مدن مكتوبة كجزء من الخريطة نفسها."
+      }
+    ]
+  },
+  "hook_candidates": [
+    {
+      "video_id": "eToOzcc8uXY",
+      "title": "ألغام وهجمات متزامنة تربك الملاحة.. ماذا يجري في هرمز؟",
+      "channel": "AlArabiya العربية",
+      "views": 5475,
+      "duration": 536,
+      "published": "2026-11-21T12:20:02Z",
+      "views_per_hour": 125.7
+    },
+    {
+      "video_id": "jjPZ0_uAEds",
+      "title": "Iran Preparing to Challenge US Naval Blockade in Hormuz: Report | WION News",
+      "channel": "WION",
+      "views": 38264,
+      "duration": 216,
+      "published": "2026-11-22T12:54:12Z",
+      "views_per_hour": 2014.5
+    },
+    {
+      "video_id": "1k3xifiVbq4",
+      "title": "بحرية الحرس الثوري تتحدث عن خسائر فادحة وتلوح بالتعامل بحزم مع أي سفن تتحرك بعد إطفاء أنظمة الملاحة",
+      "channel": "العربي - أخبار ",
+      "views": 15258,
+      "duration": 208,
+      "published": "2026-11-21T11:10:08Z",
+      "views_per_hour": 341.1
+    },
+    {
+      "video_id": "7Wpu13vD0mw",
+      "title": "تراجع حركة الملاحة عبر مضيق هرمز تزامناً مع تصاعد الهجمات الإيرانية",
+      "channel": "AlHadath الحدث",
+      "views": 5052,
+      "duration": 127,
+      "published": "2026-11-21T20:59:10Z",
+      "views_per_hour": 144.7
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-11-21T00:00:00Z",
+          "2026-11-25T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "سفن تعبر مضيق هرمز",
+            "raw": 30,
+            "channel_ok": 7
+          },
+          {
+            "query": "Strait of Hormuz tankers transit warships",
+            "raw": 30,
+            "channel_ok": 1
+          },
+          {
+            "query": "Hormuz navy ships Gulf shipping",
+            "raw": 30,
+            "channel_ok": 2
+          }
+        ],
+        "duration_ok": 10,
+        "judged_ok": 8,
+        "rejected_channels": [
+          "AlQahera News -  القاهرة الإخبارية",
+          "Shams TV",
+          "CGTN Arabic",
+          "W360News",
+          "DWS News",
+          "One Small Cause",
+          "NDTV",
+          "Kanal13"
+        ]
+      }
+    ],
+    "picked": [
+      "eToOzcc8uXY",
+      "jjPZ0_uAEds",
+      "1k3xifiVbq4",
+      "7Wpu13vD0mw"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "في طهران، أكد القائد العام للحرس الثوري الإيراني أحمد وحيدي تنفيذ حلف الناتو 5 آلاف طلعة جوية من جميع دوله خلال الحرب على إيران.",
+      "visual": ""
+    },
+    {
+      "scene": 3,
+      "sentence": 0,
+      "text": "واستشهد المتحدث باسم الحرس الثوري الإيراني حسين محبي بوصول صاروخ إيراني إلى قاعدة دييغو غارسيا على بعد 4500 كيلومتر.",
+      "visual": ""
+    },
+    {
+      "scene": 5,
+      "sentence": 0,
+      "text": "وفي واشنطن، اعترف القائم بأعمال وزير البحرية الأمريكي هونغ كاو بإعادة برمجة صواريخ منتهية الصلاحية واستخدامها في ضرب إيران.",
+      "visual": ""
+    },
+    {
+      "scene": 7,
+      "sentence": 0,
+      "text": "بين سيطرة أمريكية على الممرات وردع إيراني يتمدد، يبقى السؤال عن ميزان القوة في المضيق.",
+      "visual": ""
+    },
+    {
+      "scene": 8,
+      "sentence": 0,
+      "text": "من يتفوق فعليًا في مضيق هرمز: الولايات المتحدة أم إيران؟",
+      "visual": ""
+    },
+    {
+      "scene": 10,
+      "sentence": 0,
+      "text": "لماذا كثّفت إيران هجماتها على الملاحة خارج المضيق؟",
+      "visual": ""
+    },
+    {
+      "scene": 13,
+      "sentence": 0,
+      "text": "هل ينجح الحصار الاقتصادي الأمريكي في إركاع إيران؟",
+      "visual": ""
+    }
+  ],
+  "cost_script": {
+    "claude": {
+      "claude-haiku-5-5": 0.00528,
+      "claude-sonnet-5": 0.15838,
+      "claude-opus-5": 0.15585
+    }
+  },
+  "review_issue": 1989,
+  "stage2_issue": 1989
+}
