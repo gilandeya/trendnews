@@ -1,7 +1,7 @@
 {
   "id": "3cdb9742a8b5",
   "created_at": "2026-11-23T07:51:32.514335+00:00",
-  "status": "pending",
+  "status": "approved_script",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -621,7 +621,8 @@
       "views": 5475,
       "duration": 536,
       "published": "2026-11-21T12:20:02Z",
-      "views_per_hour": 125.7
+      "views_per_hour": 125.7,
+      "picked": true
     },
     {
       "video_id": "jjPZ0_uAEds",
@@ -749,5 +750,16 @@
     }
   },
   "review_issue": 1989,
-  "stage2_issue": 1989
+  "stage2_issue": 1989,
+  "render_status": "queued",
+  "approved_script_at": "2026-11-23T07:57:24.333789+00:00",
+  "editor_override": {
+    "at": "2026-11-23T07:57:24.333770+00:00",
+    "reasons": [
+      "السياق [8] يصف الجدل/السؤال العام بدل سرد واقعة حدث محددة من وقائع الحدث المرفقة.",
+      "رسم الاسم (هونغ كاو/Hong Kao) غير محسوم ولم يظهر له مرشح موثوق في نطاقات عربية مستقلة بحسب تنبيهات المسودة، ما يستدعي التحقق قبل النشر.",
+      "اسم متحدث لم يُحسم: هونغ كاو"
+    ]
+  },
+  "hook_picked": 0
 }
