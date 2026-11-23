@@ -113,6 +113,13 @@ def load_config(path=None):
             cfg["reel"]["figures"]["enabled"] = False
         if isinstance(((cfg.get("reel") or {}).get("maps") or {}).get("drift"), dict):
             cfg["reel"]["maps"]["drift"]["enabled"] = False
+        # الإجابة الأم وصداها (23/11) تعيد ترتيب الإجابات وتضيف مفتاحًا إلى qa؛ test_meta_echo_2311 يطلبها
+        echo_c = (((cfg.get("youtube") or {}).get("meta_topics") or {}).get("qa") or {}).get("echo")
+        if isinstance(echo_c, dict):
+            echo_c["enabled"] = False
+        recho = (((cfg.get("reel") or {}).get("render") or {}).get("echo"))
+        if isinstance(recho, dict):
+            recho["enabled"] = False
         crop_c = rcfg.get("crop")
         if isinstance(crop_c, dict):
             if isinstance(crop_c.get("identity"), dict):
@@ -494,6 +501,9 @@ def install_fakes() -> None:
     # عبارات البحث عن الفيديو الأصلي (22/11) بلا شبكة: None ← البحث بالاسم كما كان
     from src import meta_original as _meta_original
     _meta_original._query_create = lambda client, **kw: None  # type: ignore
+    # تقسيم الإجابات إلى أفكار (23/11) بلا شبكة: None ← لا أم ولا صدى
+    from src import meta_echo as _meta_echo
+    _meta_echo._create = lambda client, **kw: None  # type: ignore
     # فحص تماسك القضايا بعد العنقدة (القضية 1770) بلا شبكة ولا استهلاك ردود العملاء المزيَّفة: ردّ بلا أداة ← القضايا كما هي
     # هوك المواجهة (8/11) بلا شبكة ولا استهلاك ردود العملاء المزيَّفة: ردّ None ← لا hook_clash فيبقى الهوك القديم في كل اختبار قديم
     from src import reel_clash as _reel_clash

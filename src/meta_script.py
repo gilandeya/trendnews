@@ -88,7 +88,8 @@ def selected_material(marks: dict, priv: dict, cfg=None, notes: list | None = No
         if not ids:
             continue
         used.update(ids)
-        questions.append({"text": priv["questions"][qi - 1]["text"], "bite_ids": ids})
+        questions.append({"text": priv["questions"][qi - 1]["text"], "bite_ids": ids,
+                          "echo": priv["questions"][qi - 1].get("echo")})
         bites += [by_id[bid] for bid in ids]
     return questions, bites
 
@@ -384,9 +385,14 @@ def make_builder(title: str, titles: list[str], topic: dict, questions: list[dic
         valid_ids = {c["point_id"] for c in valid}
         info.setdefault("warnings", []).extend(n for n in notes or [] if n not in info["warnings"])
         qs, live = [], []
+        from . import meta_echo
         for q in questions:
             bids = [bid for bid in q["bite_ids"] if pid_of.get(bid) in valid_ids]
-            ans = [{"point_id": pid_of[bid], "stance": "", "angle": ""} for bid in bids]
+            # الإجابة الأم وصداها (23/11): ما بقي معلَّمًا منهما بعد فحص القائلين، والأم أول السؤال وصداها بعدها
+            echo = meta_echo.scene_echo(q.get("echo"), bids, pid_of)
+            bids = meta_echo.order_bites(bids, echo, pid_of)
+            ans = [dict({"point_id": pid_of[bid], "stance": "", "angle": ""}, **({"echo": echo[bid]} if bid in echo else {}))
+                   for bid in bids]
             if ans:
                 qs.append({"role": "", "text": q["text"], "answers": ans})
                 # ريل 1913: الكاتب لا يرى إلا ما سيُعرض فعلًا — سؤالًا بقيت له إجابة وإجاباته الباقية بعد فحص القائلين —
