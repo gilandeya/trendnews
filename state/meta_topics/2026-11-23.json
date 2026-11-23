@@ -1,0 +1,919 @@
+{
+ "date": "2026-11-23",
+ "generated_at": "2026-11-23T02:04:31.777167+00:00",
+ "topics": [
+  {
+   "id": "389a715cdd28",
+   "title": "الحرب الأمريكية الإسرائيلية الإيرانية وتطوراتها",
+   "blocs": [
+    "arabic",
+    "chinese",
+    "english",
+    "persian",
+    "turkish"
+   ],
+   "orientations": 8,
+   "minutes": 510,
+   "channels": [
+    "CCTV中文",
+    "CNN",
+    "CNN Türk",
+    "Iran International",
+    "الجزيرة",
+    "العربية",
+    "الميادين",
+    "سكاي نيوز عربية"
+   ],
+   "videos": [
+    {
+     "video_id": "A0aF2RLNfxg",
+     "channel": "CCTV中文",
+     "bloc": "chinese",
+     "orientation": "صيني حكومي",
+     "minutes": 5.395833333333333
+    },
+    {
+     "video_id": "AyCOjxY7ab0",
+     "channel": "CCTV中文",
+     "bloc": "chinese",
+     "orientation": "صيني حكومي",
+     "minutes": 8.144444444444444
+    },
+    {
+     "video_id": "ITDfxQtsTG4",
+     "channel": "CNN",
+     "bloc": "english",
+     "orientation": "أمريكي ليبرالي",
+     "minutes": 12.450000000000001
+    },
+    {
+     "video_id": "YPL9UIe8kkM",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 14.85
+    },
+    {
+     "video_id": "DdlWGWcFu8g",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 12.883333333333333
+    },
+    {
+     "video_id": "jkBJJP13M8o",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 48.82333333333334
+    },
+    {
+     "video_id": "Qmv3eCJJ65c",
+     "channel": "Iran International",
+     "bloc": "persian",
+     "orientation": "معارض للنظام",
+     "minutes": 10.975
+    },
+    {
+     "video_id": "5C4SBZUltSg",
+     "channel": "Iran International",
+     "bloc": "persian",
+     "orientation": "معارض للنظام",
+     "minutes": 10.9875
+    },
+    {
+     "video_id": "DlWc7UmB7ts",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 29.925
+    },
+    {
+     "video_id": "NYMpiDA2DCE",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 4.3500000000000005
+    },
+    {
+     "video_id": "9dRBLV7jGOo",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 19.961111111111112
+    },
+    {
+     "video_id": "HnNKW1_RaJs",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 6.066666666666666
+    },
+    {
+     "video_id": "oTDjmNNIhDI",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 25.408333333333335
+    },
+    {
+     "video_id": "TvSsFZS3rcM",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 21.933333333333334
+    },
+    {
+     "video_id": "wq-03wj9Jjk",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 18.833333333333332
+    },
+    {
+     "video_id": "v4Wo2RDV7lE",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 11.15
+    },
+    {
+     "video_id": "NDyz3EaqWv0",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 16.283333333333335
+    },
+    {
+     "video_id": "7Qkz_imsmjM",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 22.125
+    },
+    {
+     "video_id": "jJPvXlb1AN0",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 4.622222222222223
+    },
+    {
+     "video_id": "tng1bux5Pzg",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "مقربة من النظام الإيراني",
+     "minutes": 52.3
+    },
+    {
+     "video_id": "9HQkECSpjiY",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "مقربة من النظام الإيراني",
+     "minutes": 13.391666666666667
+    },
+    {
+     "video_id": "1j05-3SwzgU",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "مقربة من النظام الإيراني",
+     "minutes": 12.766666666666667
+    },
+    {
+     "video_id": "uBELxMNCduw",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "مقربة من النظام الإيراني",
+     "minutes": 12.733333333333333
+    },
+    {
+     "video_id": "L0qjirkydVM",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "مقربة من النظام الإيراني",
+     "minutes": 52.96666666666667
+    },
+    {
+     "video_id": "3qrXxO7FfQE",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "مقربة من النظام الإيراني",
+     "minutes": 12.3375
+    },
+    {
+     "video_id": "yRQhZKTAy4Q",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "مقربة من النظام الإيراني",
+     "minutes": 13.079166666666667
+    },
+    {
+     "video_id": "f0wLjjH0TBo",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "مقربة من النظام الإيراني",
+     "minutes": 16.755555555555556
+    },
+    {
+     "video_id": "YpO-TGROGmY",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 18.933333333333334
+    }
+   ]
+  },
+  {
+   "id": "e963677cc0e2",
+   "title": "قمة شنتشن الثلاثية بين ترامب وشي وبوتين",
+   "blocs": [
+    "chinese",
+    "english",
+    "russian",
+    "turkish"
+   ],
+   "orientations": 6,
+   "minutes": 135,
+   "channels": [
+    "CNN",
+    "CNN Türk",
+    "DW News",
+    "TVBS新聞",
+    "Дождь",
+    "凤凰卫视"
+   ],
+   "videos": [
+    {
+     "video_id": "R_rXiysihBI",
+     "channel": "CNN",
+     "bloc": "english",
+     "orientation": "أمريكي ليبرالي",
+     "minutes": 9.729166666666666
+    },
+    {
+     "video_id": "ITDfxQtsTG4",
+     "channel": "CNN",
+     "bloc": "english",
+     "orientation": "أمريكي ليبرالي",
+     "minutes": 12.450000000000001
+    },
+    {
+     "video_id": "jXTtSVxjRjU",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 5.575
+    },
+    {
+     "video_id": "4wcTnS-bYJI",
+     "channel": "DW News",
+     "bloc": "english",
+     "orientation": "ألماني حكومي",
+     "minutes": 9.222222222222223
+    },
+    {
+     "video_id": "zMS5H8kPLY0",
+     "channel": "TVBS新聞",
+     "bloc": "chinese",
+     "orientation": "تايواني",
+     "minutes": 18.1
+    },
+    {
+     "video_id": "oL9fEtldB0g",
+     "channel": "TVBS新聞",
+     "bloc": "chinese",
+     "orientation": "تايواني",
+     "minutes": 14.422222222222222
+    },
+    {
+     "video_id": "q-rxZTiCY_o",
+     "channel": "TVBS新聞",
+     "bloc": "chinese",
+     "orientation": "تايواني",
+     "minutes": 9.216666666666667
+    },
+    {
+     "video_id": "va_Wch8EPCY",
+     "channel": "Дождь",
+     "bloc": "russian",
+     "orientation": "معارض في المنفى",
+     "minutes": 4.627777777777777
+    },
+    {
+     "video_id": "g6YiE1pjR3Y",
+     "channel": "凤凰卫视",
+     "bloc": "chinese",
+     "orientation": "هونغ كونغ قريب من بكين",
+     "minutes": 27.15
+    },
+    {
+     "video_id": "uPMHILAwhlo",
+     "channel": "凤凰卫视",
+     "bloc": "chinese",
+     "orientation": "هونغ كونغ قريب من بكين",
+     "minutes": 24.783333333333335
+    }
+   ]
+  },
+  {
+   "id": "648cf37a3b90",
+   "title": "مفاوضات إنهاء الحرب الروسية الأوكرانية وضمانات الأمن",
+   "blocs": [
+    "arabic",
+    "french",
+    "russian",
+    "turkish"
+   ],
+   "orientations": 4,
+   "minutes": 71,
+   "channels": [
+    "CNN Türk",
+    "FRANCE 24",
+    "Дождь",
+    "الجزيرة"
+   ],
+   "videos": [
+    {
+     "video_id": "z9EMbkJn8MA",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 27.383333333333333
+    },
+    {
+     "video_id": "mb8f8kALwJY",
+     "channel": "FRANCE 24",
+     "bloc": "french",
+     "orientation": "فرنسي حكومي",
+     "minutes": 10.883333333333333
+    },
+    {
+     "video_id": "va_Wch8EPCY",
+     "channel": "Дождь",
+     "bloc": "russian",
+     "orientation": "معارض في المنفى",
+     "minutes": 4.627777777777777
+    },
+    {
+     "video_id": "DEoyPuNORJE",
+     "channel": "Дождь",
+     "bloc": "russian",
+     "orientation": "معارض في المنفى",
+     "minutes": 8.129166666666666
+    },
+    {
+     "video_id": "yZcQUM6penY",
+     "channel": "Дождь",
+     "bloc": "russian",
+     "orientation": "معارض في المنفى",
+     "minutes": 11.293333333333333
+    },
+    {
+     "video_id": "CCIx2rT3S5g",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 2.1222222222222222
+    },
+    {
+     "video_id": "HnNKW1_RaJs",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 6.066666666666666
+    }
+   ]
+  },
+  {
+   "id": "86feae449873",
+   "title": "تهديد ترامب بضربة عسكرية جديدة على إيران",
+   "blocs": [
+    "arabic",
+    "persian",
+    "turkish"
+   ],
+   "orientations": 6,
+   "minutes": 277,
+   "channels": [
+    "CNN Türk",
+    "Iran International",
+    "الجزيرة",
+    "العربية",
+    "الميادين",
+    "سكاي نيوز عربية"
+   ],
+   "videos": [
+    {
+     "video_id": "akUurUQ-lIQ",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 13.383333333333333
+    },
+    {
+     "video_id": "creKEGRmJa4",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 52.55
+    },
+    {
+     "video_id": "hqt3_LCLMPs",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 75.73333333333333
+    },
+    {
+     "video_id": "7Ht-lKnMDsE",
+     "channel": "Iran International",
+     "bloc": "persian",
+     "orientation": "معارض للنظام",
+     "minutes": 5.966666666666667
+    },
+    {
+     "video_id": "Qmv3eCJJ65c",
+     "channel": "Iran International",
+     "bloc": "persian",
+     "orientation": "معارض للنظام",
+     "minutes": 10.975
+    },
+    {
+     "video_id": "izBr7Wc2t7Y",
+     "channel": "Iran International",
+     "bloc": "persian",
+     "orientation": "معارض للنظام",
+     "minutes": 24.0
+    },
+    {
+     "video_id": "_BoFGmdiJE0",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 5.0777777777777775
+    },
+    {
+     "video_id": "drlfySBtZ5E",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 10.6
+    },
+    {
+     "video_id": "YHaRFwZ_Gfo",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 5.15
+    },
+    {
+     "video_id": "T53nEASZY1o",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 26.3
+    },
+    {
+     "video_id": "gWcDO_Hmcv0",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 5.983333333333333
+    },
+    {
+     "video_id": "yRQhZKTAy4Q",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "مقربة من النظام الإيراني",
+     "minutes": 13.079166666666667
+    },
+    {
+     "video_id": "KXUF5FShyww",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 28.083333333333332
+    }
+   ]
+  },
+  {
+   "id": "939cba2506bb",
+   "title": "مفاوضات أيزنكوت والليكود لتشكيل الحكومة الإسرائيلية",
+   "blocs": [
+    "arabic",
+    "israeli",
+    "turkish"
+   ],
+   "orientations": 6,
+   "minutes": 125,
+   "channels": [
+    "Habertürk",
+    "ערוץ 14",
+    "الجزيرة",
+    "العربية",
+    "الميادين",
+    "سكاي نيوز عربية"
+   ],
+   "videos": [
+    {
+     "video_id": "OSn9n55wEXQ",
+     "channel": "Habertürk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 14.216666666666667
+    },
+    {
+     "video_id": "H7neNI1EO54",
+     "channel": "ערוץ 14",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 5.058333333333334
+    },
+    {
+     "video_id": "PV-B4_d2lrk",
+     "channel": "ערוץ 14",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 5.308333333333334
+    },
+    {
+     "video_id": "o13hMnsosxg",
+     "channel": "ערוץ 14",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 10.5
+    },
+    {
+     "video_id": "hj5uJTHhbbg",
+     "channel": "ערוץ 14",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 10.3
+    },
+    {
+     "video_id": "ON4TBp8p0Yg",
+     "channel": "ערוץ 14",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 11.15
+    },
+    {
+     "video_id": "Hbh62fFQar8",
+     "channel": "ערוץ 14",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 14.25
+    },
+    {
+     "video_id": "4HqkAiw1T0Q",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 8.433333333333334
+    },
+    {
+     "video_id": "nmUa4OoNF1I",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 15.0
+    },
+    {
+     "video_id": "GrNpSnfqlTo",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "مقربة من النظام الإيراني",
+     "minutes": 12.425
+    },
+    {
+     "video_id": "nF3O06ZmSAE",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 10.216666666666667
+    },
+    {
+     "video_id": "9-9D0BY7pKs",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 7.891666666666667
+    }
+   ]
+  },
+  {
+   "id": "07889630c1ab",
+   "title": "الوساطة القطرية بين طهران وواشنطن",
+   "blocs": [
+    "arabic",
+    "persian",
+    "russian"
+   ],
+   "orientations": 5,
+   "minutes": 85,
+   "channels": [
+    "Iran International",
+    "Дождь",
+    "الجزيرة",
+    "الميادين",
+    "سكاي نيوز عربية"
+   ],
+   "videos": [
+    {
+     "video_id": "Qmv3eCJJ65c",
+     "channel": "Iran International",
+     "bloc": "persian",
+     "orientation": "معارض للنظام",
+     "minutes": 10.975
+    },
+    {
+     "video_id": "RIxxvWGYGKg",
+     "channel": "Дождь",
+     "bloc": "russian",
+     "orientation": "معارض في المنفى",
+     "minutes": 8.677777777777779
+    },
+    {
+     "video_id": "9dRBLV7jGOo",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 19.961111111111112
+    },
+    {
+     "video_id": "9HQkECSpjiY",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "مقربة من النظام الإيراني",
+     "minutes": 13.391666666666667
+    },
+    {
+     "video_id": "uBELxMNCduw",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "مقربة من النظام الإيراني",
+     "minutes": 12.733333333333333
+    },
+    {
+     "video_id": "YpO-TGROGmY",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 18.933333333333334
+    }
+   ]
+  },
+  {
+   "id": "8ba4ca709845",
+   "title": "اختراق قاعدة بيانات مكتب التحقيقات الفيدرالي FBI",
+   "blocs": [
+    "arabic",
+    "english",
+    "russian"
+   ],
+   "orientations": 5,
+   "minutes": 84,
+   "channels": [
+    "DW News",
+    "Fox News",
+    "Дождь",
+    "الجزيرة",
+    "العربية"
+   ],
+   "videos": [
+    {
+     "video_id": "V-f2hnjsTCk",
+     "channel": "DW News",
+     "bloc": "english",
+     "orientation": "ألماني حكومي",
+     "minutes": 7.233333333333333
+    },
+    {
+     "video_id": "_oX68NoVvkM",
+     "channel": "Fox News",
+     "bloc": "english",
+     "orientation": "أمريكي محافظ",
+     "minutes": 25.666666666666668
+    },
+    {
+     "video_id": "yZcQUM6penY",
+     "channel": "Дождь",
+     "bloc": "russian",
+     "orientation": "معارض في المنفى",
+     "minutes": 11.293333333333333
+    },
+    {
+     "video_id": "7TyfO4SD6XQ",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 4.705555555555556
+    },
+    {
+     "video_id": "W32d9fgsRHA",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 7.658333333333333
+    },
+    {
+     "video_id": "wrUyrvljLok",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 10.8
+    },
+    {
+     "video_id": "7H73neByGDg",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 16.55
+    }
+   ]
+  },
+  {
+   "id": "a2e147167ccf",
+   "title": "أزمة الطاقة وانقطاع الكهرباء في إيران",
+   "blocs": [
+    "arabic",
+    "english",
+    "persian"
+   ],
+   "orientations": 4,
+   "minutes": 195,
+   "channels": [
+    "BBC News",
+    "BBC Persian",
+    "Iran International",
+    "سكاي نيوز عربية"
+   ],
+   "videos": [
+    {
+     "video_id": "HmDdYE2UYkg",
+     "channel": "BBC News",
+     "bloc": "english",
+     "orientation": "بريطاني عام",
+     "minutes": 7.683333333333334
+    },
+    {
+     "video_id": "QgzIchudTC8",
+     "channel": "BBC Persian",
+     "bloc": "persian",
+     "orientation": "بريطاني عام",
+     "minutes": 28.35
+    },
+    {
+     "video_id": "RWqcM_G9Dyw",
+     "channel": "BBC Persian",
+     "bloc": "persian",
+     "orientation": "بريطاني عام",
+     "minutes": 30.35
+    },
+    {
+     "video_id": "Z-EnXTccN3g",
+     "channel": "BBC Persian",
+     "bloc": "persian",
+     "orientation": "بريطاني عام",
+     "minutes": 58.35
+    },
+    {
+     "video_id": "7Ht-lKnMDsE",
+     "channel": "Iran International",
+     "bloc": "persian",
+     "orientation": "معارض للنظام",
+     "minutes": 5.966666666666667
+    },
+    {
+     "video_id": "AkSxQvrOoo0",
+     "channel": "Iran International",
+     "bloc": "persian",
+     "orientation": "معارض للنظام",
+     "minutes": 6.008333333333334
+    },
+    {
+     "video_id": "4XwoavpXVws",
+     "channel": "Iran International",
+     "bloc": "persian",
+     "orientation": "معارض للنظام",
+     "minutes": 43.983333333333334
+    },
+    {
+     "video_id": "6mngqEjWJWA",
+     "channel": "Iran International",
+     "bloc": "persian",
+     "orientation": "معارض للنظام",
+     "minutes": 2.9291666666666667
+    },
+    {
+     "video_id": "etiLuuBGXK0",
+     "channel": "Iran International",
+     "bloc": "persian",
+     "orientation": "معارض للنظام",
+     "minutes": 5.991666666666666
+    },
+    {
+     "video_id": "PRx2kRaZzIo",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 5.591666666666667
+    }
+   ]
+  },
+  {
+   "id": "acb1636118a8",
+   "title": "موجة أعطال تقنية وهجمات سيبرانية في أمريكا وأوروبا",
+   "blocs": [
+    "arabic",
+    "english",
+    "turkish"
+   ],
+   "orientations": 4,
+   "minutes": 36,
+   "channels": [
+    "CNN",
+    "CNN Türk",
+    "DW News",
+    "الجزيرة"
+   ],
+   "videos": [
+    {
+     "video_id": "D2wPl9A9dyA",
+     "channel": "CNN",
+     "bloc": "english",
+     "orientation": "أمريكي ليبرالي",
+     "minutes": 18.016666666666666
+    },
+    {
+     "video_id": "jXTtSVxjRjU",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 5.575
+    },
+    {
+     "video_id": "V-f2hnjsTCk",
+     "channel": "DW News",
+     "bloc": "english",
+     "orientation": "ألماني حكومي",
+     "minutes": 7.233333333333333
+    },
+    {
+     "video_id": "7TyfO4SD6XQ",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 4.705555555555556
+    }
+   ]
+  },
+  {
+   "id": "b67adab9ea1b",
+   "title": "استهداف سفينة شحن روسية في خليج فنلندا",
+   "blocs": [
+    "arabic",
+    "russian",
+    "turkish"
+   ],
+   "orientations": 3,
+   "minutes": 43,
+   "channels": [
+    "CNN Türk",
+    "Дождь",
+    "الجزيرة"
+   ],
+   "videos": [
+    {
+     "video_id": "HuInkhbOEEk",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 21.433333333333334
+    },
+    {
+     "video_id": "RIxxvWGYGKg",
+     "channel": "Дождь",
+     "bloc": "russian",
+     "orientation": "معارض في المنفى",
+     "minutes": 8.677777777777779
+    },
+    {
+     "video_id": "DEoyPuNORJE",
+     "channel": "Дождь",
+     "bloc": "russian",
+     "orientation": "معارض في المنفى",
+     "minutes": 8.129166666666666
+    },
+    {
+     "video_id": "VgbjJ45QTyA",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 4.538888888888889
+    }
+   ]
+  }
+ ],
+ "selection_issue": 1986
+}
