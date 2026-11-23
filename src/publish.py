@@ -1278,6 +1278,8 @@ def approve_reel_scripts(issue_number: int, reel_ids: list[str], body: str, cfg,
     ok_ids = stages.parse_editor_ok(body)
     choice = review.parse_headline_choice(body)
     hook_picks = reel_script.parse_hook_picks(body)
+    from . import reel_quote
+    quote_ok = reel_quote.parse_ok(body)
     lines: list[str] = []
     blocked: list[str] = []
     for did in reel_ids:
@@ -1315,6 +1317,14 @@ def approve_reel_scripts(issue_number: int, reel_ids: list[str], body: str, cfg,
         if did in blocks:
             script, warnings = reel_script.apply_lines(d["script"], blocks[did], texts)
         extra = {"editor_override": {"at": datetime.now(timezone.utc).isoformat(), "reasons": reasons}} if override else {}
+        # اقتباس المفكر لا يدخل إلا بمربعه (قرار صاحب المشروع 23/11)؛ يُدرج بعد تطبيق السطور المعدَّلة لأن أرقامها [n] أرقام مشاهد قبله
+        quote = d.get("reel_quote")
+        if did in quote_ok and isinstance(quote, dict) and quote.get("status") == "ready":
+            script, plan = reel_quote.approve(script, d.get("broll_plan"), quote, cfg)
+            extra.update(reel_quote=dict(quote, approved=True))
+            if plan is not None:
+                extra["broll_plan"] = plan
+            lines.append(cfg.path("reel.quote.texts.added", "").format(speaker=quote.get("speaker_ar", "")))
         # لقطة هوك اختارها صاحب المشروع (قضية السيناريو لمواضيع العناوين): المرشّح المختار يتقدّم ويُعلَّم picked فيغلب في الهوك إن
         # صلح، والبقية تبقى بعده. ريل 1850: كان يبقى وحده، وكان نشرة أستوديو بلا ثانية ميدانية، فلا لقطة للهوك ولا شريط
         # خلفية ولا ختام والمرشّحون الثلاثة الآخرون لم يُفحصوا. بلا مربع معلَّم الاختيار للفحص البصري كما كان

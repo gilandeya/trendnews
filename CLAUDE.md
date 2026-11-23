@@ -3873,3 +3873,22 @@ arabic ×4 وturkish وpersian ×2 ولم تصل الإسرائيلية ولا �
   (`border_frames(color=)` بالحلقة واللمعة نفسيهما)؛ القطعة تُجمَّد على آخر إطار حتى تعود الأم فتختفي إطارات الصدى. الصوت صوت القطعة النشطة
   بتلاشٍ `audio_fade`، والشريط والترجمة لها وينزلان بقدر عمقها أفقيًا كما هما، والشريط ينزلق عند أول ظهور للمتكلم وحده. الخلفية كلوحة الإجابة
   الواحدة. سطر `comment_echo`. `tests.helpers.load_config` يطفئ `qa.echo` و`reel.render.echo`.
+
+## اقتباس مفكر قبل سؤال الختام (طلب صاحب المشروع 23/11) — `src/reel_quote.py`
+
+شرطا صاحب المشروع: الاقتباس حرفي من صفحة مصدر قرأناها، ولا اقتباس يعمّم على شعوب؛ ومكانه قبل سؤال الختام مباشرة، ولا يدخل إلا بموافقته في
+قضية مراجعة السيناريو. الاختبار `tests/test_youtube.py:test_reel_quote_2311`. `render_version` بلا تغيير (مشهد راوٍ عادي).
+
+- **الاقتراح (`reel_quote.plan`، من `reel_script._write_for_draft` بعد هوك المواجهة):** نداء Sonnet (`suggest_thinkers`، `reel.quote.suggest_system`
+  عبر `llm.with_notes`) بسؤال الريل وسياقه وختامه ← حتى `candidates` مفكرًا (`name_ar`/`name_en`). لكل منهم صفحة ويكي الاقتباس بلغات `languages`
+  (العربية أولًا ثم الإنجليزية، `fetch_page` عبر `_http_get`) ← نداء ثانٍ (`pick_quote`) يختار جملة منقولة من نص الصفحة. **القرار في الكود
+  (`verify`):** الجملة قطعة متصلة من نص الصفحة (`reel_clash.contiguous_in`)، بين `min_words` و`max_words` (والترجمة ≤ `max_words_ar`)، و`generalizes_people`
+  false صراحةً، ولا كلمة من `banned_terms` (شبكة أمان بحدود الكلمة وسابقتها)، والترجمة `screen_text_ok`؛ من الصفحة العربية الترجمة هي الجملة نفسها.
+  أول مقبول يُحفظ `draft["reel_quote"]` (ضمن `SCRIPT_KEYS`) = {status: ready, speaker_ar/en, quote, text_ar, lang, url, why, tried}؛ وإلا status none بما جُرّب
+  وسببه. الرد المقطوع أو العطل ← بلا اقتباس، ولا يُسقط السيناريو.
+- **القضية:** `reel_quote.review_lines` في بند الريل بالمرحلة 2 (`youtube_publish._reel_item_lines`): الاقتباس بقائله ورابط صفحته (والأصل الإنجليزي تحته)
+  ومربع `<!-- quoteok:id -->` **غير معلَّم**، أو «📜 لم يُقترح اقتباس» بأسبابه.
+- **الاعتماد (`publish.approve_reel_scripts`):** المربع معلَّم ← بعد تطبيق السطور المعدَّلة `reel_quote.approve` يُدرج مشهد `narration` بـ`role: quote`
+  (`narration`: «يذكّر هذا بقول {speaker}: «{text}»») قبل مشهد `question` مباشرة، ويُزيح مداخل `broll_plan` لما بعده ويضيف لجمله `person` بقائله (فتظهر
+  صورته بـ`reel_figures`)، ويضع `reel_quote.approved` وسطر `texts.added` في تعليق الاعتماد. بلا المربع لا يتغير شيء. لا يُدرج مرتين.
+- `tests.helpers.load_config` يطفئه، و`install_fakes` يزيّف `_create` و`_http_get`. **لم يُجرَّب على ويكي الاقتباس ولا نموذج حقيقي.**
