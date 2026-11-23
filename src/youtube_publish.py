@@ -863,6 +863,16 @@ def _reel_cost_line(d: dict, cfg) -> str:
     return costs.reel_line(d, cfg)
 
 
+def _reel_cartoon_lines(d: dict, cfg) -> list[str]:
+    from . import reel_cartoon
+    rec = d.get("hook_cartoon") or {}
+    url = ""
+    if isinstance(rec, dict) and rec.get("path"):
+        url = review.raw_url(os.environ.get("GITHUB_REPOSITORY", ""), os.environ.get("GITHUB_REF_NAME", "main") or "main",
+                             rec["path"])
+    return reel_cartoon.review_lines(d, cfg, url)
+
+
 def _reel_long_note(seconds: float, cfg) -> str:
     """سطر ⏱️ لريل تتجاوز مدته حدّ Reels API (L1، Issue #1627)، وفارغ دونه."""
     rcfg = cfg.path("reel.review", {}) or {}
@@ -918,6 +928,8 @@ def _reel_item_lines(idx: int, d: dict, cfg) -> list[str]:
                 *_reel_hook_lines(d, texts),
                 # اقتباس المفكر قبل سؤال الختام (23/11): يُعرض بمصدره ومربع موافقة غير معلَّم، ولا يدخل الريل إلا بتعليمه
                 *reel_quote.review_lines(d, cfg),
+                # كاريكاتير الهوك (23/11): الصورة ومربع غير معلَّم؛ لا يدخل الريل إلا بتعليمه
+                *_reel_cartoon_lines(d, cfg),
                 *_reel_broll_lines(d, texts, cfg),
                 *_reel_bg_lines(d, cfg, texts),
                 f"  {texts.get('edit_header', '')}", "",

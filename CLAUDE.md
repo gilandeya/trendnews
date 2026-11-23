@@ -3892,3 +3892,22 @@ arabic ×4 وturkish وpersian ×2 ولم تصل الإسرائيلية ولا �
   (`narration`: «يذكّر هذا بقول {speaker}: «{text}»») قبل مشهد `question` مباشرة، ويُزيح مداخل `broll_plan` لما بعده ويضيف لجمله `person` بقائله (فتظهر
   صورته بـ`reel_figures`)، ويضع `reel_quote.approved` وسطر `texts.added` في تعليق الاعتماد. بلا المربع لا يتغير شيء. لا يُدرج مرتين.
 - `tests.helpers.load_config` يطفئه، و`install_fakes` يزيّف `_create` و`_http_get`. **لم يُجرَّب على ويكي الاقتباس ولا نموذج حقيقي.**
+
+## كاريكاتير الهوك بموافقة المراجع (طلب صاحب المشروع 23/11) — `src/reel_cartoon.py`
+
+خلفية الهوك رسم كاريكاتيري يلخّص ما يقوله المحللون (قادة يقتسمون كعكة خريطة، منصة تتويج بترتيب التحليل). الاختبار
+`tests/test_youtube.py:test_reel_cartoon_2311` (فيه ffmpeg حقيقي). `render_version` = 86 (للقادم فقط، S11).
+
+- **الفكرة ثم الرسم (`plan`، من `reel_script._write_for_draft` بعد اقتباس المفكر):** نداء Sonnet (`cartoon_concept`، `reel.cartoon.concept_system`)
+  بمادة الريل (`material`: السؤال والسياق والإجابات مرقّمة بقائليها ومواقفها، بلا مقاطع السياق) ← `feasible`/`idea_ar`/`basis_ar` (أرقام الإجابات التي
+  يقوم عليها)/`prompt_en`؛ لا فكرة أمينة أو رد مقطوع ← بلا رسم. ثم Gemini (`reel.cartoon.model`، `GEMINI_API_KEY`) بالوصف + `style` (فراغ كحلي أعلى
+  40% لعنوان الهوك، ولا كتابة في الرسم) و`imageConfig.aspectRatio` 9:16 ورد صورة فقط؛ `read_image` يتخطى أجزاء التفكير. الصورة PNG بجوار المسودة
+  (`drafts/<اليوم>/<id>-cartoon.png`، يودِعها publish.yml مع drafts) و`draft["hook_cartoon"]` (ضمن `SCRIPT_KEYS`) = {status ready|none، الفكرة، path،
+  cost_usd (تقدير `usd_per_mtok_output` في دفتر gemini)، error}. بلا مفتاح ← `no_key` بلا نداء. لا يرفع أبدًا.
+- **القضية:** `youtube_publish._reel_cartoon_lines` في بند الريل: الفكرة وأساسها والصورة (`review.raw_url`) ومربع `<!-- cartoonok:id -->` **غير معلَّم**،
+  أو «🎨 لا كاريكاتير» بسببه. `publish.approve_reel_scripts`: المعلَّم ← `hook_cartoon.approved` وسطر `texts.added`.
+- **التركيب (`_hook_scene`):** `reel_cartoon.usable` (جاهز ومعتمد وملفه موجود) ← الكاريكاتير بمقاس الشاشة (`cover_frame`) خلفية الهوك كلها يقترب حتى
+  `zoom`، والضباب مضروب في `fog_scale`، ولا يُنزَّل فيديو الهوك؛ و`hook_info` = صورة عند x0 = 0 فيلتحم الختام بأول إطار. **قيد معروف:** مع الخلفية
+  المتصلة (`continuous_bg`) يلتحم الختام بالشريط لا بالكاريكاتير.
+- **تشغيليًا:** كتابة السيناريو في publish.yml، فيحتاج `GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}` في env خطوة النشر (يضيفه صاحب المشروع بيده)؛
+  بدونه يظهر «🎨 لا كاريكاتير للهوك: no_key». `tests.helpers.load_config` يطفئه و`install_fakes` يزيّف النداءين. **لم يُجرَّب على Gemini حقيقي.**
