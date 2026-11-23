@@ -96,37 +96,89 @@ def plan_echoes(questions: list[dict], bites: list[dict], cfg, client, info: dic
         if info is not None:
             info["error"] = "الرد مقطوع عند max_tokens"
         return {}
-    out: dict[int, dict] = {}
-    for row in _rows(_tool_input(resp, ECHO_TOOL["name"]) or {}, "questions"):
-        qi = _int(row.get("q"))
-        if qi is not None and 1 <= qi <= len(questions):
-            out[qi] = row
+    rows = _rows(_tool_input(resp, ECHO_TOOL["name"]) or {}, "questions")
+    out = match_rows(rows, questions, lo)
+    if info is not None:
+        info["rows"] = len(rows)
+        moved = sum(1 for qi, row in out.items() if _int(row.get("q")) != qi)
+        if moved:
+            info["renumbered"] = moved
     return out
 
 
-def _span(b: dict, s: dict, cfg) -> dict | None:
-    """حدود فكرة في إجابة بعد التحقق، أو None: الكلمتان في كلام المقطع نفسه بلغته، والترجمة المعروضة ما يُسمع بالضبط (العربي كلماته
-    نفسها، وغيره قطعة متصلة من ترجمته المعتمدة) — قاعدة «ما يُكتب هو ما يُسمع»."""
+def match_rows(rows: list[dict], questions: list[dict], lo: int) -> dict[int, dict]:
+    """{رقم السؤال: صفّه} بأرقام إجاباته لا برقم q وحده (دالة خالصة). السبب (قضية 1988): الأسئلة المرسلة قد لا تبدأ بالأول (سؤال
+    بإجابتين لا يُرسل)، فيعيد النموذج ترقيمها 1، 2، 3 فيقع كل صف على سؤال ليست إجاباته فيه، ولا أم لأي سؤال بلا سبب يُرى. الصف يذهب
+    إلى السؤال المرسل الذي تقع فيه أكثر أرقام إجاباته، وعند التساوي إلى رقمه q إن كان منها؛ سؤال لا يأخذ صفّين."""
+    from .meta_topics import _int, _rows
+    sent = {qi: {a["n"] for a in qu.get("answers") or []}
+            for qi, qu in enumerate(questions, 1) if len(qu.get("answers") or []) >= lo}
+    out: dict[int, dict] = {}
+    for row in rows:
+        ns = {_int(a.get("n")) for a in _rows(row, "answers")} - {None}
+        q = _int(row.get("q"))
+        best = max((qi for qi in sent if qi not in out),
+                   key=lambda qi: (len(ns & sent[qi]), qi == q), default=None)
+        if best is not None and ns & sent[best]:
+            out[best] = row
+        elif q in sent and q not in out:
+            out[q] = row
+    return out
+
+
+def _span(b: dict, s: dict, cfg) -> tuple[dict | None, str]:
+    """(حدود فكرة في إجابة بعد التحقق، "") أو (None، السبب): الكلمتان في كلام المقطع نفسه بلغته، والترجمة المعروضة ما يُسمع بالضبط
+    (العربي كلماته نفسها، وغيره قطعة متصلة من ترجمته المعتمدة) — قاعدة «ما يُكتب هو ما يُسمع».
+    ترجمة النموذج للقطعة قد تختلف حرفًا عن المعتمدة (قضية 1988)، فتُقصّ القطعة من المعتمدة نفسها بأول كلمات ترجمته وآخرها
+    (reel_clash.locate بتسامحه)، والقطعة التي تغطي الكلام كله تأخذ الترجمة كلها؛ المعروض يبقى من المعتمدة حرفًا."""
     from . import reel_clash
     from .meta_topics import _int
     idea = _int(s.get("idea"))
+    if idea is None:
+        return None, "bad_idea"
     original = b.get("text_original") or ""
     loc = reel_clash.locate(original, str(s.get("first_words") or ""), str(s.get("last_words") or ""), cfg)
-    if idea is None or loc is None:
-        return None
-    i, j, _ = loc
-    sub = " ".join(original.split()[i:j + 1])
+    if loc is None:
+        return None, "not_verbatim"
+    i, j, total = loc
+    words = original.split()
+    sub = " ".join(words[i:j + 1])
     cand = {"language": b.get("language") or "", "quote_original": original}
     text_ar = " ".join(str(s.get("text_ar") or "").split())
+    approved = " ".join(str(b.get("text_ar") or "").split())
     if reel_clash.is_arabic_speech(cand, cfg):
         text_ar = sub
-    elif not text_ar or not reel_clash.contiguous_in(text_ar, b.get("text_ar") or ""):
-        return None
+    elif not text_ar or not reel_clash.contiguous_in(text_ar, approved):
+        cut = _cut_translation(text_ar, approved, cfg)
+        if cut is not None:
+            text_ar = " ".join(approved.split()[cut[0]:cut[1] + 1])
+        elif i == 0 and j == total - 1 and approved:
+            text_ar = approved
+        else:
+            return None, "translation"
     return {"idea": idea, "i": i, "j": j, "sub_original": sub, "text_ar": text_ar,
-            "words": len(sub.split())}
+            "words": len(sub.split())}, ""
 
 
-def echo_structure(qu: dict, row: dict, bites: list[dict], cfg) -> dict | None:
+def _cut_translation(text_ar: str, approved: str, cfg) -> tuple[int, int, int] | None:
+    """موضع قطعة ترجمة النموذج في الترجمة المعتمدة بأول كلماتها وآخرها، أو None. كلمة زائدة أو ناقصة في طرف عبارته («العوائد
+    المالية» والمعتمدة «العوائد») تُتجاوز بقصّ حتى translation_trim كلمة من كل طرف قبل الحكم بأنها ليست منها."""
+    from . import reel_clash
+    c = ecfg(cfg)
+    k, trim = int(c.get("translation_anchor_words", 3)), int(c.get("translation_trim", 2))
+    tw = text_ar.split()
+    for a in range(trim + 1):
+        for z in range(trim + 1):
+            part = tw[a:len(tw) - z]
+            if len(part) < k:
+                continue
+            cut = reel_clash.locate(approved, " ".join(part[:k]), " ".join(part[-k:]), cfg)
+            if cut is not None:
+                return cut
+    return None
+
+
+def echo_structure(qu: dict, row: dict, bites: list[dict], cfg, diag: dict | None = None) -> dict | None:
     """البنية المعتمدة لسؤال واحد (دالة خالصة عدا قراءة الإعداد)، أو None حين لا أم:
     {"masters": [{n, side, rank: primary|opposing, segments: [{idea, label, sub_original, text_ar}]}],
      "echoes": [{n, of: n الأم, idea, label, sub_original, text_ar}]}.
@@ -136,7 +188,12 @@ def echo_structure(qu: dict, row: dict, bites: list[dict], cfg) -> dict | None:
     تطابق الكلام تسقط وحدها."""
     from .meta_topics import _int, _rows
     c = ecfg(cfg)
+    d = diag if diag is not None else {}
     if len(qu.get("answers") or []) < int(c.get("min_answers", 3)):
+        d["reason"] = "few_answers"
+        return None
+    if not row:
+        d["reason"] = "no_row"
         return None
     labels = {}
     idea_side = {}
@@ -154,17 +211,26 @@ def echo_structure(qu: dict, row: dict, bites: list[dict], cfg) -> dict | None:
         if n is None or n not in in_q or n in spans or a.get("side") not in ("a", "b"):
             continue
         got, used = [], set()
+        rejected = d.setdefault("rejected", {})
         for s in _rows(a, "spans"):
-            sp = _span(bites[n - 1], s, cfg)
+            sp, why = _span(bites[n - 1], s, cfg)
             # فكرة من جهة أخرى أو مكررة في الإجابة، أو قطعة تتداخل مع ما قبلها، تسقط
-            if (not sp or sp["idea"] not in labels or idea_side[sp["idea"]] != a["side"] or sp["idea"] in used
-                    or any(not (sp["j"] < g["i"] or sp["i"] > g["j"]) for g in got)):
+            if sp and sp["idea"] not in labels:
+                why = "unknown_idea"
+            elif sp and idea_side[sp["idea"]] != a["side"]:
+                why = "side"
+            elif sp and (sp["idea"] in used or any(not (sp["j"] < g["i"] or sp["i"] > g["j"]) for g in got)):
+                why = "overlap"
+            if why:
+                rejected[why] = rejected.get(why, 0) + 1
                 continue
             used.add(sp["idea"])
             got.append(sp)
         if got:
             spans[n] = sorted(got, key=lambda g: g["i"])
             side_of[n] = a["side"]
+    d["spans"] = sum(len(v) for v in spans.values())
+    d["answers"] = len(spans)
     masters = []
     for side in ("a", "b"):
         members = [n for n in order if side_of.get(n) == side]
@@ -179,11 +245,17 @@ def echo_structure(qu: dict, row: dict, bites: list[dict], cfg) -> dict | None:
             shared = sum(1 for g in spans[n] if len(holders[g["idea"]]) >= 2)
             return (shared, len(spans[n]), -order.index(n))
         best = max(members, key=score)
+        d["shared"] = max(d.get("shared", 0), score(best)[0])
         if score(best)[0] < int(c.get("min_shared", 1)):
             continue
         masters.append({"n": best, "side": side, "size": len(members)})
     if not masters:
+        # السبب بترتيب ما يحدث أولًا: لا قطعة صحّت ← الحدود؛ قطع لا تجتمع إجابتان منها في جهة ← الجهات؛ وإلا لا فكرة مشتركة
+        d["reason"] = ("no_spans" if not spans else
+                       "one_per_side" if all(sum(1 for v in side_of.values() if v == sd) < 2 for sd in ("a", "b"))
+                       else "no_shared")
         return None
+    d["reason"] = ""
     masters.sort(key=lambda m: (-m["size"], order.index(m["n"])))
     masters = masters[: int(c.get("max_masters", 2))]
     cap = int(c.get("max_echoes_per_idea", 2))
@@ -215,8 +287,14 @@ def apply(questions: list[dict], bites: list[dict], cfg, client, info: dict | No
         return 0
     plan = plan_echoes(questions, bites, cfg, client, info)
     found = 0
+    lo = int(ecfg(cfg).get("min_answers", 3))
+    per_q = []
     for qi, qu in enumerate(questions, 1):
-        st = echo_structure(qu, plan.get(qi) or {}, bites, cfg) if qi in plan else None
+        diag: dict = {"q": qi}
+        if len(qu.get("answers") or []) < lo:
+            continue
+        st = echo_structure(qu, plan.get(qi) or {}, bites, cfg, diag)
+        per_q.append(diag)
         if not st:
             continue
         found += 1
@@ -242,7 +320,32 @@ def apply(questions: list[dict], bites: list[dict], cfg, client, info: dict | No
         qu["echo"] = st_ids
     if info is not None:
         info["questions"] = found
+        # أرقام وأسباب وحدها (الملف العام): ما يفسّر غياب الأم في قضية بلا ⭐ (قضية 1988 لم يُحفظ لها شيء)
+        info["per_question"] = per_q
     return found
+
+
+def summary_line(info: dict | None, cfg) -> str:
+    """سطر قضية الأسئلة: كم سؤالًا وُجدت له أم، ولماذا غابت عن غيره؛ فإن غابت كان السبب مرئيًا (قضية 1988: لا ⭐ ولا سبب)."""
+    if not info:
+        return ""
+    t = (cfg.path("youtube.meta_topics.qa.texts") or {})
+    reasons = t.get("echo_reasons") or {}
+    if info.get("error"):
+        return t.get("echo_failed", "⚠️ تعذّر فحص الصدى: {reason}").format(reason=info["error"])
+    per = info.get("per_question") or []
+    if not per:
+        return ""
+    misses = []
+    for d in per:
+        if d.get("reason"):
+            r = reasons.get(d["reason"], d["reason"])
+            bad = d.get("rejected") or {}
+            if bad:
+                r += " (" + "، ".join(f"{reasons.get('span_' + k, k)} {v}" for k, v in bad.items()) + ")"
+            misses.append(t.get("echo_miss", "السؤال {q}: {reason}").format(q=d["q"], reason=r))
+    return t.get("echo_summary", "🔁 الصدى: {found} من {sent} أسئلة لها إجابة أم{misses}").format(
+        found=info.get("questions", 0), sent=len(per), misses=(" — " + " · ".join(misses)) if misses else "")
 
 
 _WORD_KEYS = ("sub_original", "text_ar")

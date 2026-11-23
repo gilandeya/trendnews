@@ -835,6 +835,10 @@ def issue_body(topic: dict, data: dict, qa: dict, cfg, full_bites: list | None =
     lines += [t.get("questions_header", "### ❓ الأسئلة والإجابات"), "", t.get("questions_explainer", ""), ""]
     if any(qu.get("echo") for qu in qa.get("questions") or []):
         lines += [t.get("echo_explainer", ""), ""]
+    # سبب غياب الأم مرئي في القضية: ما لم يُكتب يظنه المراجع عطلًا (قضية 1988)
+    echo_line = meta_echo.summary_line(qa.get("echo"), cfg)
+    if echo_line:
+        lines += [echo_line, ""]
     seconds = 0.0
     for qi, qu in enumerate(qa.get("questions") or [], 1):
         answers = [a for a in qu["answers"] if bites[a["n"] - 1].get("bite_id") not in gone]
