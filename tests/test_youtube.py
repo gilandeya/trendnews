@@ -10733,3 +10733,88 @@ def test_reel_cartoon_2311() -> None:
     frame = np.frombuffer(raw, np.uint8).reshape(H, W, 3).astype(int)
     low = frame[int(H * 0.85):, :].reshape(-1, 3).mean(axis=0)
     check("2311c: أسفل أول إطار أحمر الكاريكاتير", low[0] > 120 and low[0] > low[2] + 40, low.round().tolist())
+
+
+def test_meta_echo_1988() -> None:
+    """قضية 1988: أربعة أسئلة بثلاث إجابات فأكثر ولا ⭐ ولا سبب محفوظ (echo = {questions: 0}). الإصلاح: الصف يُطابَق بسؤاله بأرقام
+    إجاباته لا برقم q وحده (النموذج يعيد ترقيم الأسئلة المرسلة حين لا يُرسل الأول)، وترجمة القطعة تُقصّ من المعتمدة حين لا تطابقها
+    حرفًا، وسبب غياب الأم يُحفظ ويُكتب في القضية. الشاهد مصنوع بشكل القضية (كلام القنوات لا يدخل المستودع العام)."""
+    import copy
+    from types import SimpleNamespace as NS
+
+    from src import meta_echo, meta_qa
+    from src.config import load_config as real_load
+    real = real_load()
+    cfg = copy.deepcopy(load_config())
+    cfg["youtube"]["meta_topics"]["qa"]["echo"] = copy.deepcopy(real.path("youtube.meta_topics.qa.echo"))
+    cfg["youtube"]["meta_topics"]["qa"]["texts"] = copy.deepcopy(real.path("youtube.meta_topics.qa.texts"))
+
+    def bite(n, words, ar, lang):
+        return {"bite_id": f"v{n}:{n}", "video_id": f"v{n}", "channel": f"قناة {n}", "speaker": f"محلل {n}", "type": "opinion",
+                "language": lang, "text_original": words, "text_ar": ar}
+    # السؤال 1 بإجابتين (لا يُرسل)، والسؤال 2 بثلاث: الأولى إنجليزية وترجمتها المعتمدة، والأخريان عربيتان
+    bites = [bite(1, "x y z", "س ص ع", "en"), bite(2, "p q r", "ف ق ر", "en"),
+             bite(3, "we will keep the blockade and keep starving the regime of revenue until it gives up",
+                  "سنبقي الحصار ونواصل حرمان النظام من العوائد حتى يستسلم", "en"),
+             bite(4, "الحصار نجح والعوائد ستنفد خلال أسابيع", "", "ar"),
+             bite(5, "ينتظرون انهيار الاقتصاد ثم يضربون ضربتهم", "", "ar")]
+    for b in bites[3:]:
+        b["text_ar"] = b["text_original"]
+    questions = [{"text": "س1؟", "answers": [{"n": 1, "fit": "direct"}, {"n": 2, "fit": "direct"}]},
+                 {"text": "س2؟", "answers": [{"n": 3, "fit": "direct"}, {"n": 4, "fit": "direct"}, {"n": 5, "fit": "direct"}]}]
+    # النموذج رقّم السؤال المرسل الوحيد «1»، وترجم القطعة الإنجليزية بعبارته («سنُبقي على الحصار…»)
+    reply = {"questions": [{"q": 1, "ideas": [{"id": 1, "label": "الحصار يجفف العوائد", "side": "a"},
+                                              {"id": 2, "label": "انتظار الاستسلام", "side": "a"}],
+                            "answers": [
+                                {"n": 3, "side": "a", "spans": [
+                                    {"idea": 1, "first_words": "keep the blockade", "last_words": "of revenue",
+                                     "text_ar": "سنبقي الحصار ونواصل حرمان النظام من العوائد الماليه"},
+                                    {"idea": 2, "first_words": "until it", "last_words": "gives up", "text_ar": "حتى يستسلم"}]},
+                                {"n": 4, "side": "a", "spans": [{"idea": 1, "first_words": "الحصار نجح",
+                                                                 "last_words": "خلال أسابيع", "text_ar": ""}]},
+                                {"n": 5, "side": "a", "spans": [{"idea": 2, "first_words": "ينتظرون انهيار",
+                                                                 "last_words": "ضربتهم", "text_ar": ""}]}]}]}
+    old = meta_echo._create
+    meta_echo._create = lambda client, **kw: NS(stop_reason="tool_use", content=[NS(
+        type="tool_use", name="plan_echoes", input=copy.deepcopy(reply))])
+    try:
+        qs = copy.deepcopy(questions)
+        info: dict = {}
+        found = meta_echo.apply(qs, bites, cfg, None, info)
+    finally:
+        meta_echo._create = old
+    check("1988e: الصف المرقّم «1» يقع على السؤال الذي فيه إجاباته فتوجد الأم",
+          found == 1 and qs[1].get("echo") and qs[1]["answers"][0]["n"] == 3
+          and qs[1]["answers"][0].get("echo_role") == "primary" and not qs[0].get("echo")
+          and info.get("renumbered") == 1, (found, info, qs[1]["answers"]))
+    seg = qs[1]["echo"]["masters"][0]["segments"][0]
+    check("1988e: ترجمة القطعة تُقصّ من المعتمدة نفسها حرفًا (لا من عبارة النموذج)",
+          seg["text_ar"] == "سنبقي الحصار ونواصل حرمان النظام من العوائد", seg)
+    check("1988e: match_rows برقم q حين لا تقع إجاباته في سؤال آخر",
+          set(meta_echo.match_rows([{"q": 2, "answers": [{"n": 9}]}], questions, 3)) == {2})
+    # سؤال بلا فكرة مشتركة: سببه محفوظ ومكتوب في القضية
+    lone = {"questions": [{"q": 2, "ideas": [{"id": k, "label": f"ف{k}", "side": "a"} for k in (1, 2, 3)], "answers": [
+        {"n": 3, "side": "a", "spans": [{"idea": 1, "first_words": "we will", "last_words": "the blockade",
+                                         "text_ar": "سنبقي الحصار"}]},
+        {"n": 4, "side": "a", "spans": [{"idea": 2, "first_words": "الحصار", "last_words": "نجح", "text_ar": ""}]},
+        {"n": 5, "side": "a", "spans": [{"idea": 3, "first_words": "كلمة غائبة", "last_words": "ضربتهم", "text_ar": ""}]}]}]}
+    meta_echo._create = lambda client, **kw: NS(stop_reason="tool_use", content=[NS(
+        type="tool_use", name="plan_echoes", input=copy.deepcopy(lone))])
+    try:
+        qs = copy.deepcopy(questions)
+        info = {}
+        meta_echo.apply(qs, bites, cfg, None, info)
+    finally:
+        meta_echo._create = old
+    d = info["per_question"][0]
+    check("1988e: لا أم ← السبب والقطع المرفوضة في echo العام (أرقام وأسباب)",
+          d["q"] == 2 and d["reason"] == "no_shared" and d["rejected"] == {"not_verbatim": 1} and info["questions"] == 0, info)
+    line = meta_echo.summary_line(info, cfg)
+    check("1988e: سطر القضية يقول لماذا لا أم", "0 من 1" in line and "لا فكرة تكررها إجابتان" in line
+          and "حدود ليست في الكلام 1" in line, line)
+    qa = {"status": "ready", "titles": ["ع؟"], "questions": [dict(questions[1])], "bites": bites, "echo": info}
+    body = meta_qa.issue_body({"id": "t1988", "title": "موضوع", "blocs": ["arabic"], "orientations": 1, "minutes": 5,
+                                "channels": [], "videos": []}, {"date": "2026-11-23"}, qa, cfg)
+    check("1988e: السطر في جسم قضية الأسئلة", line in body)
+    check("1988e: البرومبت يمنع إعادة الترقيم ويطلب الرقم الواحد للمعنى الواحد",
+          "لا تُعد ترقيم" in real.path("youtube.meta_topics.qa.echo.system"))
