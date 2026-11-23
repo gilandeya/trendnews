@@ -223,7 +223,787 @@
     }
    ],
    "qa_requested_at": "2026-11-23T07:20:19.041731+00:00",
-   "selected_from": 1986
+   "selected_from": 1986,
+   "topic_issue": 1988,
+   "qa": {
+    "attempts": 1,
+    "at": "2026-11-23T07:22:10.973426+00:00",
+    "videos": [
+     {
+      "video_id": "DlWc7UmB7ts",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "minutes": 29.9,
+      "bites": 11,
+      "rejected": 0
+     },
+     {
+      "video_id": "jkBJJP13M8o",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "minutes": 48.8,
+      "bites": 5,
+      "rejected": 0
+     },
+     {
+      "video_id": "Qmv3eCJJ65c",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "minutes": 11.0,
+      "bites": 31,
+      "rejected": 0
+     },
+     {
+      "video_id": "AyCOjxY7ab0",
+      "channel": "CCTV中文",
+      "bloc": "chinese",
+      "minutes": 8.1,
+      "bites": 9,
+      "rejected": 0
+     },
+     {
+      "video_id": "ITDfxQtsTG4",
+      "channel": "CNN",
+      "bloc": "english",
+      "minutes": 12.5,
+      "bites": 8,
+      "rejected": 0
+     },
+     {
+      "video_id": "oTDjmNNIhDI",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "minutes": 25.4,
+      "bites": 2,
+      "rejected": 3,
+      "rejected_why": {
+       "المدة N ث خارج [N، N]": 3
+      }
+     },
+     {
+      "video_id": "YpO-TGROGmY",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "minutes": 18.9,
+      "bites": 22,
+      "rejected": 0
+     }
+    ],
+    "video_scores": {
+     "A0aF2RLNfxg": 2,
+     "AyCOjxY7ab0": 2,
+     "ITDfxQtsTG4": 1,
+     "YPL9UIe8kkM": 2,
+     "DdlWGWcFu8g": 1,
+     "jkBJJP13M8o": 2,
+     "Qmv3eCJJ65c": 2,
+     "5C4SBZUltSg": 1,
+     "DlWc7UmB7ts": 3,
+     "NYMpiDA2DCE": 2,
+     "9dRBLV7jGOo": 3,
+     "HnNKW1_RaJs": 3,
+     "oTDjmNNIhDI": 3,
+     "TvSsFZS3rcM": 3,
+     "wq-03wj9Jjk": 1,
+     "v4Wo2RDV7lE": 0,
+     "NDyz3EaqWv0": 1,
+     "7Qkz_imsmjM": 1,
+     "jJPvXlb1AN0": 3,
+     "tng1bux5Pzg": 2,
+     "9HQkECSpjiY": 3,
+     "1j05-3SwzgU": 3,
+     "uBELxMNCduw": 3,
+     "L0qjirkydVM": 2,
+     "3qrXxO7FfQE": 3,
+     "yRQhZKTAy4Q": 3,
+     "f0wLjjH0TBo": 3,
+     "YpO-TGROGmY": 3
+    },
+    "gemini_cost": 1.3365,
+    "gemini_rejected": 3,
+    "channels": 7,
+    "answer_channels": 7,
+    "originals": [
+     {
+      "bite_id": "DlWc7UmB7ts:g798",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "Sergio de la Peña Iran blockade sanctions",
+       "Sergio de la Peña"
+      ],
+      "candidate": "L2mWcu0Kklw",
+      "candidates": [
+       "0dF-fRfY6rE",
+       "55UrqQ2yeJo",
+       "L2mWcu0Kklw"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "DlWc7UmB7ts:g1049",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "عباس اصلانی امنیت منطقه تجزیه ناپذیر صادرات نفت",
+       "عباس اصلانی تحلیل جنگ ایران آمریکا اسرائیل",
+       "عباس أصلاني"
+      ],
+      "candidate": "FtAEXWhoqFM",
+      "candidates": [
+       "YPLL-k6d4Wk",
+       "WFH-PZQLLt4",
+       "FtAEXWhoqFM"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "AyCOjxY7ab0:g390",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "李自新 中国国际问题研究院 伊朗 以色列",
+       "李自新 中国国际问题研究院 讲话 伊朗 美国 以色列 战争",
+       "Li Zixin"
+      ],
+      "candidate": "V-MZyvQ0nsY",
+      "candidates": [
+       "qTDgIpulZe8",
+       "S8dTGYyqhfY",
+       "V-MZyvQ0nsY"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "Qmv3eCJJ65c:g136",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "احمد وحیدی سرلشکر ناتو ۵۰۰۰ پرواز",
+       "احمد وحیدی فرمانده کل سپاه سخنرانی جنگ",
+       "Ahmad Vahidi IRGC commander NATO 5000 sorties",
+       "احمد وحیدی"
+      ],
+      "candidate": "w9FzLBOYvWE",
+      "candidates": [
+       "Rr2Fibx5fkY",
+       "wUv0G2yZhGY",
+       "w9FzLBOYvWE"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     }
+    ],
+    "originals_found": 0,
+    "read_dropped": 2,
+    "read_dropped_speakers": [
+     "لي تسي شين"
+    ],
+    "source": "gemini",
+    "failures": [],
+    "not_analysts": {
+     "kind": 1,
+     "host": 1
+    },
+    "plan": {
+     "attempts": [
+      {
+       "model": "claude-sonnet-5",
+       "stop_reason": "tool_use",
+       "bites": 76,
+       "rows": 5,
+       "raw_type": "list",
+       "answers": 25,
+       "bad_n": 0,
+       "error": ""
+      }
+     ]
+    },
+    "verify": {
+     "checked": 27,
+     "ok": 5,
+     "no_match": 2,
+     "failed": 20,
+     "no_text": 0,
+     "left": 6,
+     "audio_seconds": 402,
+     "skipped": "",
+     "cut_off": 4,
+     "seconds": 301
+    },
+    "capped": 10,
+    "echo": {
+     "stop_reason": "tool_use",
+     "questions": 0
+    },
+    "selected_seconds": 99.7,
+    "status": "ready",
+    "titles": [
+     "هل تحسم أمريكا معركتها مع إيران في مضيق هرمز؟",
+     "ماذا يريد ترامب من إيران: الحصار أم الحرب الشاملة؟",
+     "هل تقترب إيران من تغيير عقيدتها النووية إلى التسلح؟"
+    ],
+    "questions": [
+     {
+      "text": "من يتفوق فعليًا في مضيق هرمز: القوة الأمريكية أم الردع الإيراني؟",
+      "answers": [
+       {
+        "n": 1,
+        "fit": "direct",
+        "view": "أمريكا متفوقة بموازين القوى العسكرية",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "DlWc7UmB7ts:g216"
+       },
+       {
+        "n": 3,
+        "fit": "direct",
+        "view": "نفوذ مشترك متنازع عليه بالمضيق",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "DlWc7UmB7ts:g504"
+       }
+      ]
+     },
+     {
+      "text": "لماذا كثّفت إيران هجماتها على الملاحة خارج مضيق هرمز؟",
+      "answers": [
+       {
+        "n": 7,
+        "fit": "direct",
+        "view": "اشتراط قبول واشنطن الشروط لفتح المضيق",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "Qmv3eCJJ65c:g556"
+       },
+       {
+        "n": 2,
+        "fit": "direct",
+        "view": "استعادة ورقة هرمز المفقودة بالألغام",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "DlWc7UmB7ts:g331"
+       },
+       {
+        "n": 4,
+        "fit": "direct",
+        "view": "الرد على التفاف أمريكا عبر مذكرة التفاهم",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "DlWc7UmB7ts:g659"
+       }
+      ]
+     },
+     {
+      "text": "هل ينجح الحصار الاقتصادي الأمريكي في إركاع إيران؟",
+      "answers": [
+       {
+        "n": 11,
+        "fit": "direct",
+        "view": "خطة ترامب تراهن على تجويع إيران اقتصاديًا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "ITDfxQtsTG4:g1100"
+       },
+       {
+        "n": 5,
+        "fit": "direct",
+        "view": "الحصار نجح وسينهك عوائد إيران قريبًا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "DlWc7UmB7ts:g1256"
+       },
+       {
+        "n": 13,
+        "fit": "direct",
+        "view": "واشنطن تنتظر انهيار الاقتصاد الإيراني",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "YpO-TGROGmY:g307"
+       }
+      ]
+     },
+     {
+      "text": "هل تحسم واشنطن قرارها بين التفاوض والحرب الشاملة مع إيران؟",
+      "answers": [
+       {
+        "n": 6,
+        "fit": "direct",
+        "view": "انقسام أمريكي بين الحصار والحسم العسكري",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "Qmv3eCJJ65c:g258"
+       },
+       {
+        "n": 9,
+        "fit": "direct",
+        "view": "ترامب عاجز عن حسم قراره وتكاليفه",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "Qmv3eCJJ65c:g788"
+       },
+       {
+        "n": 12,
+        "fit": "direct",
+        "view": "الأفضل لأمريكا إنهاء الحرب الآن",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "ITDfxQtsTG4:g1148"
+       }
+      ]
+     },
+     {
+      "text": "هل تتجه إيران لتغيير عقيدتها النووية نحو التسلح؟",
+      "answers": [
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "إيران ترفض تسليم اليورانيوم وتتجه للمواجهة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "Qmv3eCJJ65c:g578"
+       },
+       {
+        "n": 10,
+        "fit": "weak",
+        "view": "روسيا والصين ترفضان التسلح غير التقليدي",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "Qmv3eCJJ65c:g864"
+       },
+       {
+        "n": 14,
+        "fit": "direct",
+        "view": "إيران بلغت العتبة النووية فعليًا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "YpO-TGROGmY:g2380"
+       },
+       {
+        "n": 15,
+        "fit": "direct",
+        "view": "القيادة الإيرانية متمسكة بالعقيدة السلمية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "YpO-TGROGmY:g2544"
+       }
+      ]
+     }
+    ],
+    "context": [
+     {
+      "n": 16,
+      "selected": true,
+      "bite_id": "Qmv3eCJJ65c:g136"
+     },
+     {
+      "n": 17,
+      "selected": true,
+      "bite_id": "AyCOjxY7ab0:g664"
+     },
+     {
+      "n": 18,
+      "selected": false,
+      "bite_id": "AyCOjxY7ab0:g783"
+     },
+     {
+      "n": 19,
+      "selected": false,
+      "bite_id": "AyCOjxY7ab0:g539"
+     }
+    ],
+    "bites": [
+     {
+      "bite_id": "DlWc7UmB7ts:g216",
+      "video_id": "DlWc7UmB7ts",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "إبراهيم فريحات",
+      "speaker_original": "إبراهيم فريحات",
+      "speaker_role": "أستاذ الصراعات الدولية بمعهد الدوحة للدراسات العليا",
+      "is_host": false,
+      "type": "opinion",
+      "start": 215.78,
+      "end": 240.46,
+      "summary_ar": "يرى أن واشنطن تتفوق عسكريًا في السيطرة على مضيق هرمز بفضل قدراتها العسكرية الكبيرة مقارنة بموازين الردع.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "DlWc7UmB7ts:g331",
+      "video_id": "DlWc7UmB7ts",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "لقاء مكي",
+      "speaker_original": "لقاء مكي",
+      "speaker_role": "باحث أول في مركز الجزيرة للدراسات",
+      "is_host": false,
+      "type": "opinion",
+      "start": 330.84,
+      "end": 359.86,
+      "summary_ar": "يوضح أن إيران شعرت بفقدان ورقة هرمز فبدأت بتكثيف زرع الألغام واستهداف السفن خارج المضيق لاستعادتها.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "DlWc7UmB7ts:g504",
+      "video_id": "DlWc7UmB7ts",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "محمد الشرقاوي",
+      "speaker_original": "محمد الشرقاوي",
+      "speaker_role": "أستاذ تسوية الصراعات الدولية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 504.0,
+      "end": 529.0,
+      "summary_ar": "يرى أن مضيق هرمز يمثل جغرافيا رخوة متنازعًا عليها بين واشنطن وطهران وأن إيران تبسط نفوذها على شطر منه.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "DlWc7UmB7ts:g659",
+      "video_id": "DlWc7UmB7ts",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "محجوب الزويري",
+      "speaker_original": "محجوب الزويري",
+      "speaker_role": "أكاديمي وخبير في القضايا الاستراتيجية وتحليل السياسات",
+      "is_host": false,
+      "type": "opinion",
+      "start": 659.0,
+      "end": 684.0,
+      "summary_ar": "يشير إلى أن التفاف واشنطن على إغلاق مضيق هرمز عبر مذكرة التفاهم دفع طهران لتغيير استراتيجيتها في التعامل معه.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "DlWc7UmB7ts:g1256",
+      "video_id": "DlWc7UmB7ts",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "عمر عاشور",
+      "speaker_original": "عمر عاشور",
+      "speaker_role": "أستاذ الدراسات الأمنية والعسكرية بمعهد الدوحة للدراسات العليا",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1256.0,
+      "end": 1284.0,
+      "summary_ar": "يرى أن واشنطن نجحت في حصار صادرات النفط الإيرانية وخفضها من مليوني برميل إلى الصفر مما ينذر بنفاد عوائدها قريبًا.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "Qmv3eCJJ65c:g258",
+      "video_id": "Qmv3eCJJ65c",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "اردوان روزبه",
+      "speaker_original": "اردوان روزبه",
+      "speaker_role": "مراسل القناة في واشنطن",
+      "is_host": false,
+      "type": "opinion",
+      "start": 258.0,
+      "end": 282.0,
+      "summary_ar": "يوضح المراسل انقسام الآراء في واشنطن بين الاكتفاء بالحصار الاقتصادي والضربة العسكرية لإنهاء النظام الإيراني وفق تصريح السفير الإسرائيلي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "Qmv3eCJJ65c:g556",
+      "video_id": "Qmv3eCJJ65c",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "مسعود كاظمي",
+      "speaker_original": "مسعود کاظمی",
+      "speaker_role": "صحفي إيراني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 556.0,
+      "end": 577.0,
+      "summary_ar": "يؤكد الصحفي أن طهران لم تغير خطابها وموقفها العسكري حول مضيق هرمز وتحول عقيدتها للهجوم.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "Qmv3eCJJ65c:g578",
+      "video_id": "Qmv3eCJJ65c",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "مسعود كاظمي",
+      "speaker_original": "مسعود کاظمی",
+      "speaker_role": "صحفي إيراني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 578.0,
+      "end": 604.0,
+      "summary_ar": "يشير الكاظمي إلى إصرار طهران على عدم إخراج اليورانيوم المخصب والاستعداد لمواجهة عسكرية وشيكة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "Qmv3eCJJ65c:g788",
+      "video_id": "Qmv3eCJJ65c",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "عليرضا نامور حقيقي",
+      "speaker_original": "علیرضا نامورحقیقی",
+      "speaker_role": "محلل سياسي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 788.0,
+      "end": 810.0,
+      "summary_ar": "يرى المحلل أن واشنطن عاجزة عن تحديد آلية واضحة لتحقيق أهدافها وتحمل تكاليفها، وترامب لم يحسم قراره بعد.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "Qmv3eCJJ65c:g864",
+      "video_id": "Qmv3eCJJ65c",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "عليرضا نامور حقيقي",
+      "speaker_original": "علیرضا نامورحقیقی",
+      "speaker_role": "محلل سياسي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 864.0,
+      "end": 885.0,
+      "summary_ar": "يوضح المحلل معارضة روسيا والصين لتوجه إيران نحو الأسلحة غير التقليدية مما يشل حركتها الاستراتيجية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "ITDfxQtsTG4:g1100",
+      "video_id": "ITDfxQtsTG4",
+      "channel": "CNN",
+      "bloc": "english",
+      "orientation": "أمريكي ليبرالي",
+      "speaker": "جيك سوليفان",
+      "speaker_original": "Jake Sullivan",
+      "speaker_role": "مستشار الأمن القومي الأمريكي السابق",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1099.7,
+      "end": 1116.68,
+      "summary_ar": "يرى جيك سوليفان أن خطة إدارة ترامب تقوم على تجويع إيران من عوائد الطاقة عبر الحصار لإجبارها على الاستسلام.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "ITDfxQtsTG4:g1148",
+      "video_id": "ITDfxQtsTG4",
+      "channel": "CNN",
+      "bloc": "english",
+      "orientation": "أمريكي ليبرالي",
+      "speaker": "جيك سوليفان",
+      "speaker_original": "Jake Sullivan",
+      "speaker_role": "مستشار الأمن القومي الأمريكي السابق",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1148.0,
+      "end": 1163.0,
+      "summary_ar": "يرى جيك سوليفان أن الأفضل للولايات المتحدة إنهاء الحرب وإعادة ترتيب أوراقها بدل هدر المزيد من الموارد في مسار فاشل.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "YpO-TGROGmY:g307",
+      "video_id": "YpO-TGROGmY",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "عماد آبشناس",
+      "speaker_original": "عماد آبشناس",
+      "speaker_role": "رئيس نقابة مدراء مراكز الأبحاث والدراسات الإيرانية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 307.0,
+      "end": 329.0,
+      "summary_ar": "يوضح عماد آبشناس أن واشنطن تراهن على انهيار الاقتصاد الإيراني لتوجيه ضربة عسكرية حاسمة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "YpO-TGROGmY:g2380",
+      "video_id": "YpO-TGROGmY",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "مهند العزاوي",
+      "speaker_original": "مهند العزاوي",
+      "speaker_role": "محلل الشؤون السياسية والعسكرية في سكاي نيوز عربية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2380.0,
+      "end": 2407.0,
+      "summary_ar": "يرجح مهند العزاوي بلوغ طهران العتبة النووية كشرط لتبني عقيدة نووية عسكرية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "YpO-TGROGmY:g2544",
+      "video_id": "YpO-TGROGmY",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "عماد آبشناس",
+      "speaker_original": "عماد آبشناس",
+      "speaker_role": "رئيس نقابة مدراء مراكز الأبحاث والدراسات الإيرانية",
+      "is_host": false,
+      "type": "fact",
+      "start": 2544.0,
+      "end": 2565.0,
+      "summary_ar": "يؤكد عماد آبشناس تمسك القيادة الإيرانية بعقيدتها النووية السلمية وإبلاغ موسكو وبكين بذلك.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "Qmv3eCJJ65c:g136",
+      "video_id": "Qmv3eCJJ65c",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "احمد وحيدي",
+      "speaker_original": "احمد وحیدی",
+      "speaker_role": "القائد العام للحرس الثوري الإيراني",
+      "is_host": false,
+      "type": "fact",
+      "start": 136.0,
+      "end": 144.0,
+      "summary_ar": "يؤكد القائد العام للحرس الثوري الإيراني تنفيذ 5 آلاف طلعة جوية لحلف الناتو من جميع دوله.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "AyCOjxY7ab0:g664",
+      "video_id": "AyCOjxY7ab0",
+      "channel": "CCTV中文",
+      "bloc": "chinese",
+      "orientation": "صيني حكومي",
+      "speaker": "حسين محبي",
+      "speaker_original": "Hossein Mohebbi",
+      "speaker_role": "المتحدث باسم الحرس الثوري الإيراني",
+      "is_host": false,
+      "type": "fact",
+      "start": 664.0,
+      "end": 679.0,
+      "summary_ar": "المتحدث باسم الحرس الثوري الإيراني حسين محبي يستشهد بوصول الصواريخ الإيرانية لقاعدة دييغو غارسيا على بعد 4500 كيلومتر.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "AyCOjxY7ab0:g783",
+      "video_id": "AyCOjxY7ab0",
+      "channel": "CCTV中文",
+      "bloc": "chinese",
+      "orientation": "صيني حكومي",
+      "speaker": "هونغ كاو",
+      "speaker_original": "Hung Cao",
+      "speaker_role": "القائم بأعمال وزير البحرية الأمريكي",
+      "is_host": false,
+      "type": "fact",
+      "start": 783.0,
+      "end": 808.0,
+      "summary_ar": "القائم بأعمال وزير البحرية الأمريكي هونغ كاو يعترف بإعادة برمجة صواريخ منتهية الصلاحية واستخدامها في ضرب إيران.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "AyCOjxY7ab0:g539",
+      "video_id": "AyCOjxY7ab0",
+      "channel": "CCTV中文",
+      "bloc": "chinese",
+      "orientation": "صيني حكومي",
+      "speaker": "أحمد وحيدي",
+      "speaker_original": "Ahmad Vahidi",
+      "speaker_role": "قائد في الحرس الثوري الإيراني",
+      "is_host": false,
+      "type": "fact",
+      "start": 539.0,
+      "end": 568.0,
+      "summary_ar": "القائد في الحرس الثوري الإيراني أحمد وحيدي يعلن بسط البحرية الإيرانية سيطرتها لمسافة تتجاوز 500 كيلومتر في المياه المفتوحة.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     }
+    ],
+    "error": "",
+    "extracted": 76,
+    "cost": {
+     "claude": {
+      "claude-haiku-5-5": 0.00186,
+      "claude-sonnet-5": 0.11253
+     },
+     "gemini": 1.3365,
+     "proxy_bytes": 9988943
+    }
+   }
   },
   {
    "id": "e963677cc0e2",
