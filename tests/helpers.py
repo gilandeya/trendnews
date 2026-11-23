@@ -120,6 +120,10 @@ def load_config(path=None):
         recho = (((cfg.get("reel") or {}).get("render") or {}).get("echo"))
         if isinstance(recho, dict):
             recho["enabled"] = False
+        # اقتباس المفكر (23/11) يضيف سطرًا إلى بند الريل ونداءين؛ test_reel_quote_2311 يطلبه
+        rquote = (cfg.get("reel") or {}).get("quote")
+        if isinstance(rquote, dict):
+            rquote["enabled"] = False
         crop_c = rcfg.get("crop")
         if isinstance(crop_c, dict):
             if isinstance(crop_c.get("identity"), dict):
@@ -504,6 +508,9 @@ def install_fakes() -> None:
     # تقسيم الإجابات إلى أفكار (23/11) بلا شبكة: None ← لا أم ولا صدى
     from src import meta_echo as _meta_echo
     _meta_echo._create = lambda client, **kw: None  # type: ignore
+    from src import reel_quote as _reel_quote
+    _reel_quote._create = lambda client, **kw: None  # type: ignore
+    _reel_quote._http_get = lambda url, params, timeout: None  # type: ignore
     # فحص تماسك القضايا بعد العنقدة (القضية 1770) بلا شبكة ولا استهلاك ردود العملاء المزيَّفة: ردّ بلا أداة ← القضايا كما هي
     # هوك المواجهة (8/11) بلا شبكة ولا استهلاك ردود العملاء المزيَّفة: ردّ None ← لا hook_clash فيبقى الهوك القديم في كل اختبار قديم
     from src import reel_clash as _reel_clash

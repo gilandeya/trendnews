@@ -903,7 +903,7 @@ def _reel_item_lines(idx: int, d: dict, cfg) -> list[str]:
             tried = " ".join(f"{a.get('attempt')}) {'؛ '.join(a.get('reasons') or [])}" for a in d["script_attempts"])
             out += [f"  {texts.get('script_attempts_line', 'محاولات الكتابة: {attempts}').format(attempts=tried)}", ""]
     elif on and script and d.get("script_status") == "ready":
-        from . import editor, reel_script
+        from . import editor, reel_quote, reel_script
         only, labels = ("go1", "go3", "publish"), {"go3": texts.get("go3", ""), "publish": texts.get("publish", "")}
         narrator = reel_script.narrator_label(script, cfg)
         seconds = round(reel_script.estimate_seconds(script, cfg))
@@ -916,6 +916,8 @@ def _reel_item_lines(idx: int, d: dict, cfg) -> list[str]:
                 *_reel_clip_note_lines(d, script, texts),
                 *_reel_clash_lines(d, cfg),
                 *_reel_hook_lines(d, texts),
+                # اقتباس المفكر قبل سؤال الختام (23/11): يُعرض بمصدره ومربع موافقة غير معلَّم، ولا يدخل الريل إلا بتعليمه
+                *reel_quote.review_lines(d, cfg),
                 *_reel_broll_lines(d, texts, cfg),
                 *_reel_bg_lines(d, cfg, texts),
                 f"  {texts.get('edit_header', '')}", "",

@@ -2003,7 +2003,7 @@ SCRIPT_KEYS = ("script", "script_status", "script_error", "headlines", "headline
                "name_corrections", "name_unresolved", "names_audit", "reel_bg", "hook_candidates", "hook_search",
                "broll_plan", "broll_plan_error", "quote_retranslated", "clip_dropped", "clip_audit",
                "editor_revision", "script_attempts", "script_fit", "script_raw", "script_repairs", "clip_rechecked", "script_picks",
-               "cost_script", "hook_clash", "script_pauses")
+               "cost_script", "hook_clash", "script_pauses", "reel_quote")
 
 
 def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article_text: str, unresolved: list,
@@ -2134,6 +2134,9 @@ def _write_for_draft(draft: dict, topic: dict, member_points: list[dict], articl
     # هوك المواجهة (8/11): جملتان من إجابتين معتمدتين بعد المحرر؛ لا يُسقط سيناريو صالحًا أبدًا
     from . import reel_clash
     reel_clash.plan(draft, cfg, client)
+    # اقتباس المفكر (23/11) يُقترح هنا ويُدرج عند الاعتماد وحده بموافقة المراجع؛ لا يُسقط سيناريو صالحًا أبدًا
+    from . import reel_quote
+    reel_quote.plan(draft, cfg, client)
     _pick_background(draft, cfg)
     _pick_hook(draft, cfg, hook_deps)
     from . import reel_broll

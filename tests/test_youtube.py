@@ -10417,3 +10417,124 @@ def test_meta_echo_2311() -> None:
         check("2311g: سطر التعليق", any("الأم" in n for n in notes), notes)
     finally:
         os.environ["PATH"] = old_path
+
+
+def test_reel_quote_2311() -> None:
+    """اقتباس مفكر قبل سؤال الختام (طلب صاحب المشروع 23/11): حرفي من صفحة قرأناها (ويكي الاقتباس)، ولا يعمّم على شعب، ولا يدخل
+    الريل إلا إن علّم المراجع مربعه في قضية السيناريو؛ حينها يُدرج قبل سؤال الختام وتُزاح خطة اللقطات وتُضاف صورة قائله."""
+    import copy
+    from types import SimpleNamespace as NS
+
+    from src import publish, reel_quote, store, youtube_publish
+    from src.config import load_config as real_load
+    real = real_load()
+    check("2311q: config.yaml يفعّل الاقتباس", real.path("reel.quote.enabled") is True)
+    cfg = copy.deepcopy(load_config())
+    cfg["reel"]["quote"] = copy.deepcopy(real.path("reel.quote"))
+    page_ar = "مقدمة الصفحة.\nالمغلوب مولع أبدًا بالاقتداء بالغالب في شعاره وزيه ونحلته وسائر أحواله وعوائده.\nقول آخر."
+    page_en = "Quotes.\nThe vanquished always want to imitate the victor in his distinctive mark, his dress, his occupation.\n"
+
+    # (1) التحقق في الكود
+    ok, why = reel_quote.verify({"found": True, "quote": "المغلوب مولع أبدًا بالاقتداء بالغالب في شعاره وزيه",
+                                 "text_ar": "ترجمة لا تُستعمل", "generalizes_people": False}, page_ar, "ar", cfg)
+    check("2311q: جملة عربية حرفية من الصفحة تُقبل وترجمتها هي نفسها",
+          ok and ok["text_ar"] == "المغلوب مولع أبدًا بالاقتداء بالغالب في شعاره وزيه", (ok, why))
+    ok2, why2 = reel_quote.verify({"found": True, "quote": "المغلوب يحب دائمًا أن يقلّد الغالب في كل شيء",
+                                   "text_ar": "x", "generalizes_people": False}, page_ar, "ar", cfg)
+    check("2311q: جملة ليست في نص الصفحة تُرفض", ok2 is None and "ليست حرفيًا" in why2, why2)
+    ok3, why3 = reel_quote.verify({"found": True, "quote": "The vanquished always want to imitate the victor",
+                                   "text_ar": "المغلوب يريد دائمًا تقليد الغالب", "generalizes_people": True}, page_en, "en", cfg)
+    check("2311q: حكم النموذج بالتعميم على شعب يرفض", ok3 is None and "يعمّم" in why3, why3)
+    page_b = "Arabs are always the first to imitate the victor in every matter of life."
+    ok4, why4 = reel_quote.verify({"found": True, "quote": "Arabs are always the first to imitate the victor",
+                                   "text_ar": "العرب دائمًا أول من يقلّد الغالب", "generalizes_people": False}, page_b, "en", cfg)
+    check("2311q: كلمة محظورة شبكة أمان ولو أخطأ النموذج", ok4 is None and "محظورة" in why4, why4)
+    ok5, _ = reel_quote.verify({"found": True, "quote": "Quotes.", "text_ar": "أقوال", "generalizes_people": False},
+                               page_en, "en", cfg)
+    check("2311q: أقصر من الحد يُرفض", ok5 is None)
+
+    # (2) الاقتراح ثم الاختيار من الصفحة؛ مفكر بلا صفحة يُتخطّى ويُسجَّل
+    calls = []
+
+    def fake_create(client, **kw):
+        calls.append(kw["tools"][0]["name"])
+        if kw["tools"][0]["name"] == "suggest_thinkers":
+            return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="suggest_thinkers", input={"thinkers": [
+                {"name_ar": "مجهول", "name_en": "Nobody Here", "why": "x"},
+                {"name_ar": "ابن خلدون", "name_en": "Ibn Khaldun", "why": "الغالب والمغلوب"}]})])
+        return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="pick_quote", input={
+            "found": True, "quote": "المغلوب مولع أبدًا بالاقتداء بالغالب في شعاره وزيه ونحلته",
+            "text_ar": "", "generalizes_people": False})])
+
+    def fake_http(url, params, timeout):
+        title = params["titles"]
+        if title == "ابن خلدون" and "ar." in url:
+            return {"query": {"pages": {"7": {"title": "ابن خلدون", "extract": page_ar}}}}
+        return {"query": {"pages": {"-1": {"title": title}}}}
+    old_c, old_h = reel_quote._create, reel_quote._http_get
+    reel_quote._create, reel_quote._http_get = fake_create, fake_http
+    script = {"title": "من يفرض شروطه؟", "question": "من الغالب؟", "scenes": [
+        {"kind": "title_card", "text": "من يفرض شروطه؟"}, {"kind": "narration", "role": "context", "text": "سياق."},
+        {"kind": "narration", "role": "question", "text": "سؤال؟", "q": 0}, {"kind": "question", "text": "من الغالب؟"},
+        {"kind": "outro", "text": ""}]}
+    try:
+        draft = {"id": "abcd2311ef01", "script": script}
+        rec = reel_quote.plan(draft, cfg, None)
+        check("2311q: الاقتباس الجاهز من الصفحة العربية بقائله ورابطه",
+              rec["status"] == "ready" and rec["speaker_ar"] == "ابن خلدون" and rec["lang"] == "ar"
+              and rec["url"].startswith("https://ar.wikiquote.org/") and draft["reel_quote"] is rec, rec)
+        check("2311q: المفكر بلا صفحة مسجَّل في tried", any(t["name"] == "مجهول" and t["reason"] == "لا صفحة" for t in rec["tried"]),
+              rec["tried"])
+        reel_quote._create = lambda client, **kw: NS(stop_reason="max_tokens", content=[])
+        d2 = {"id": "abcd2311ef02", "script": script}
+        check("2311q: الرد المقطوع ← بلا اقتباس", reel_quote.plan(d2, cfg, None)["status"] == "none")
+    finally:
+        reel_quote._create, reel_quote._http_get = old_c, old_h
+
+    # (3) القضية: مربع غير معلَّم وقراءته
+    lines = reel_quote.review_lines(draft, cfg)
+    body = "\n".join(lines)
+    check("2311q: بند الريل يعرض الاقتباس ومصدره ومربعًا غير معلَّم",
+          "ابن خلدون" in body and "wikiquote" in body and "- [ ] " in body and "<!-- quoteok:abcd2311ef01 -->" in body, body)
+    check("2311q: القراءة: غير المعلَّم لا يُعدّ، والمعلَّم يُعدّ",
+          reel_quote.parse_ok(body) == set() and reel_quote.parse_ok(body.replace("- [ ] ", "- [x] ")) == {"abcd2311ef01"})
+    off = copy.deepcopy(cfg)
+    off["reel"]["quote"]["enabled"] = False
+    check("2311q: مطفأ ← لا سطر", reel_quote.review_lines(draft, off) == [])
+
+    # (4) الإدراج قبل سؤال الختام وإزاحة خطة اللقطات وصورة القائل
+    plan = [{"scene": 1, "sentence": 0, "text": "سياق.", "visual": "x"}, {"scene": 3, "sentence": 0, "text": "من الغالب؟", "visual": ""}]
+    new, nplan = reel_quote.approve(script, plan, rec, cfg)
+    kinds = [(s["kind"], s.get("role")) for s in new["scenes"]]
+    check("2311q: مشهد الاقتباس قبل سؤال الختام مباشرة ونصه بقائله",
+          kinds[3] == ("narration", "quote") and kinds[4] == ("question", None)
+          and new["scenes"][3]["text"].startswith("يذكّر هذا بقول ابن خلدون: «") and len(script["scenes"]) == 5, kinds)
+    check("2311q: ما بعد الإدراج يُزاح في الخطة، ولمشهد الاقتباس مدخل بشخصه",
+          nplan[0]["scene"] == 1 and nplan[1]["scene"] == 4
+          and any(e["scene"] == 3 and (e.get("person") or {}).get("name_ar") == "ابن خلدون" for e in nplan), nplan)
+    again, _ = reel_quote.approve(new, nplan, rec, cfg)
+    check("2311q: لا يُدرج مرتين", again is new)
+
+    # (5) الاعتماد في قضية السيناريو: بالمربع يُدرج، وبلاه لا
+    from src import review
+    comments = []
+    old_comment = review.comment
+    review.comment = lambda n, text: comments.append((n, text))
+    for mark, did in (("x", "abcd2311ef0a"), (" ", "abcd2311ef0b")):
+        store.save_draft({"id": did, "origin": "analysis", "format": "reel", "status": "pending", "script_status": "ready",
+                          "script": copy.deepcopy(script), "reel_quote": rec, "broll_plan": copy.deepcopy(plan),
+                          "headlines": ["أ؟", "ب؟", "ج؟"], "review_issue": 2311, "title": "ريل"})
+        qbody = f"<!-- draft:{did} -->\n- [{mark}] أضفه <!-- quoteok:{did} -->"
+        publish.approve_reel_scripts(2311, [did], qbody, cfg, actions={did: "go3"})
+        after = store.load_draft(did)[1]
+        roles = [s.get("role") for s in after["script"]["scenes"]]
+        if mark == "x":
+            check("2311q: المربع المعلَّم يُدرج الاقتباس ويعلَّم approved", "quote" in roles
+                  and after["reel_quote"].get("approved") is True and after["status"] == "approved_script", roles)
+        else:
+            check("2311q: بلا المربع لا اقتباس", "quote" not in roles and not after["reel_quote"].get("approved"), roles)
+    review.comment = old_comment
+    check("2311q: تعليق الاعتماد يذكر الاقتباس المضاف", any("اقتباس ابن خلدون" in t for _, t in comments), comments)
+    check("2311q: بند الريل في المرحلة 2 يستدعي سطور الاقتباس",
+          "reel_quote.review_lines(d, cfg)" in open("src/youtube_publish.py", encoding="utf-8").read())
+    _ = youtube_publish
