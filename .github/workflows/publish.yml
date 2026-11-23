@@ -168,6 +168,7 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           TRENDNEWS_YOUTUBE_POINTS_DIR: ${{ github.workspace }}/youtube-data/state/youtube_points
           TRENDNEWS_RENDER_DISPATCH_FILE: ${{ runner.temp }}/reel_dispatch.json
         run: |
