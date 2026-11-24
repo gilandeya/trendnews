@@ -248,7 +248,785 @@
     }
    ],
    "qa_requested_at": "2026-11-24T06:49:52.113808+00:00",
-   "selected_from": 1993
+   "selected_from": 1993,
+   "topic_issue": 1995,
+   "qa": {
+    "attempts": 1,
+    "at": "2026-11-24T06:52:04.300799+00:00",
+    "videos": [
+     {
+      "video_id": "5Nr40EcWYiI",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "minutes": 52.8,
+      "bites": 4,
+      "rejected": 0
+     },
+     {
+      "video_id": "izBr7Wc2t7Y",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "minutes": 24.0,
+      "bites": 4,
+      "rejected": 0
+     },
+     {
+      "video_id": "tpTZIdE13-E",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "minutes": 15.1,
+      "bites": 6,
+      "rejected": 0
+     },
+     {
+      "video_id": "Yq9rbNcjHKA",
+      "channel": "凤凰卫视",
+      "bloc": "chinese",
+      "minutes": 8.7,
+      "bites": 5,
+      "rejected": 0
+     },
+     {
+      "video_id": "hqt3_LCLMPs",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "minutes": 75.7,
+      "bites": 4,
+      "rejected": 0
+     },
+     {
+      "video_id": "3i4eI7l0BFE",
+      "channel": "BBC News",
+      "bloc": "english",
+      "minutes": 7.3,
+      "bites": 5,
+      "rejected": 0
+     },
+     {
+      "video_id": "P4rayXcD5_g",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "minutes": 23.1,
+      "bites": 6,
+      "rejected": 0
+     }
+    ],
+    "video_scores": {
+     "3i4eI7l0BFE": 1,
+     "hqt3_LCLMPs": 1,
+     "UenfPwO_8_Y": 1,
+     "tpTZIdE13-E": 2,
+     "cfDREAUxFOs": 2,
+     "pptTFkJRvgI": 1,
+     "RTJGZ9p9vX4": 2,
+     "YaIVVlZQgFI": 2,
+     "izBr7Wc2t7Y": 3,
+     "fzdtm8KABQE": 3,
+     "D7BgQ3_Q33Y": 0,
+     "9dRBLV7jGOo": 3,
+     "HnNKW1_RaJs": 3,
+     "Rqi8N3C-O5A": 3,
+     "EEwM9H0mPGg": 3,
+     "V1YXXlGGor4": 2,
+     "lmYcGJsVV8g": 2,
+     "b5-uUrZFF-8": 0,
+     "qMiHOdk6wN8": 1,
+     "3qrXxO7FfQE": 3,
+     "yRQhZKTAy4Q": 3,
+     "jbddVcT-GFA": 2,
+     "5Nr40EcWYiI": 3,
+     "gEnsFrHezIU": 3,
+     "vxTVW5WtNhA": 3,
+     "LJNoMMc7uI4": 3,
+     "TaTz6rbHYwM": 2,
+     "-ZWW6c7FsEE": 3,
+     "P4rayXcD5_g": 3,
+     "9MpYRzClfAQ": 1,
+     "Yq9rbNcjHKA": 2
+    },
+    "gemini_cost": 0.8921,
+    "gemini_rejected": 0,
+    "channels": 7,
+    "answer_channels": 6,
+    "originals": [
+     {
+      "bite_id": "5Nr40EcWYiI:g375",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "فاطمه حسن‌زاده تنگه هرمز محاصره آمریکا",
+       "فاطمه حسن‌زاده سخنرانی تنگه هرمز",
+       "فاطمه حسن‌زاده"
+      ],
+      "candidate": "PWOcp9V6BVw",
+      "candidates": [
+       "PWOcp9V6BVw"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "5Nr40EcWYiI:g719",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "سليم بوزيدي مضيق هرمز الحصار البحري",
+       "سليم بوزيدي التصعيد الأمريكي الإيراني",
+       "Salim Bouzidi Hormuz US Iran blockade analysis",
+       "سليم بوزيدي"
+      ],
+      "candidate": "SgxtHA-05lk",
+      "candidates": [
+       "SgxtHA-05lk"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "izBr7Wc2t7Y:g114",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "ترامب هرمز الحصار ناقلات النفط قاع البحر خطاب",
+       "Donald Trump"
+      ],
+      "candidate": "OdTnaGruFhE",
+      "candidates": [
+       "X8cxfDfgQrA",
+       "ky9vjdwLpGI",
+       "OdTnaGruFhE"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "izBr7Wc2t7Y:g385",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "سكوت بيسنت إيران حيوان جريح",
+       "Scott Bessent Iran wounded animal blockade Hormuz",
+       "Scott Bessent Iran cornered animal economic blockade remarks",
+       "Scott Bessent"
+      ],
+      "candidate": "EbWB-a4B36Q",
+      "candidates": [
+       "0azM8ogzmgM",
+       "xAc7zaM6lZg",
+       "EbWB-a4B36Q"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     }
+    ],
+    "originals_found": 0,
+    "read_dropped": 9,
+    "read_dropped_speakers": [
+     "إسماعيل بقائي",
+     "حسين شريعتمداري",
+     "دونالد ترامب",
+     "دونغ مانيوان",
+     "سكوت بيسنت",
+     "سليم بوزيدي",
+     "لويس بيو"
+    ],
+    "source": "gemini",
+    "failures": [],
+    "plan": {
+     "attempts": [
+      {
+       "model": "claude-sonnet-5",
+       "stop_reason": "tool_use",
+       "bites": 23,
+       "rows": 5,
+       "raw_type": "list",
+       "answers": 19,
+       "bad_n": 0,
+       "error": ""
+      }
+     ]
+    },
+    "verify": {
+     "checked": 13,
+     "ok": 3,
+     "no_match": 3,
+     "failed": 7,
+     "no_text": 0,
+     "left": 7,
+     "audio_seconds": 359,
+     "skipped": "",
+     "cut_off": 4,
+     "download_error": "ClipDownloadError: فشلت كل الدرجات: ERROR: ffmpeg exited with code 8",
+     "seconds": 301
+    },
+    "capped": 1,
+    "echo": {
+     "stop_reason": "tool_use",
+     "rows": 4,
+     "questions": 1,
+     "per_question": [
+      {
+       "q": 2,
+       "rejected": {
+        "not_verbatim": 1
+       },
+       "spans": 5,
+       "answers": 5,
+       "shared": 1,
+       "reason": ""
+      },
+      {
+       "q": 3,
+       "rejected": {
+        "not_verbatim": 1
+       },
+       "spans": 2,
+       "answers": 2,
+       "reason": "one_per_side"
+      },
+      {
+       "q": 4,
+       "rejected": {},
+       "spans": 3,
+       "answers": 3,
+       "shared": 0,
+       "reason": "no_shared"
+      },
+      {
+       "q": 5,
+       "rejected": {},
+       "spans": 3,
+       "answers": 3,
+       "shared": 0,
+       "reason": "no_shared"
+      }
+     ]
+    },
+    "selected_seconds": 97.0,
+    "status": "ready",
+    "titles": [
+     "هل تقترب إيران فعلًا من كسر الحصار الأمريكي في هرمز؟",
+     "لماذا تتردد واشنطن في مواجهة عسكرية جديدة مع إيران؟",
+     "كيف توحّد المواجهة البحرية الصف الداخلي الإيراني؟"
+    ],
+    "questions": [
+     {
+      "text": "ما الذي تريده إيران من كسر الحصار البحري الأمريكي؟",
+      "answers": [
+       {
+        "n": 1,
+        "fit": "weak",
+        "view": "إعلان العزم على كسر الحصار",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "5Nr40EcWYiI:g375"
+       }
+      ]
+     },
+     {
+      "text": "كيف تخطط إيران لكسر الحصار عبر ناقلاتها النفطية؟",
+      "answers": [
+       {
+        "n": 9,
+        "fit": "direct",
+        "view": "إرسال ناقلات واختراق الحصار",
+        "view_count": 1,
+        "echo_role": "primary",
+        "selected": true,
+        "bite_id": "3i4eI7l0BFE:g216"
+       },
+       {
+        "n": 12,
+        "fit": "weak",
+        "view": "خطة لاستهداف سفن أمريكية",
+        "view_count": 1,
+        "echo_role": "echo",
+        "echo_of": "3i4eI7l0BFE:g216",
+        "echo_idea": "استهداف أي سفينة أمريكية مقتربة ثم تراجع",
+        "selected": false,
+        "bite_id": "P4rayXcD5_g:g420"
+       },
+       {
+        "n": 5,
+        "fit": "direct",
+        "view": "تسيير ناقلات فارغة لاختبار الرد",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "hqt3_LCLMPs:g1351"
+       },
+       {
+        "n": 6,
+        "fit": "direct",
+        "view": "تجميع الناقلات بحماية عسكرية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "hqt3_LCLMPs:g2248"
+       },
+       {
+        "n": 2,
+        "fit": "direct",
+        "view": "تحريك ناقلات ضخمة بقرار قيادي",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "5Nr40EcWYiI:g606"
+       }
+      ],
+      "echo": {
+       "masters": [
+        {
+         "n": 9,
+         "side": "a",
+         "rank": "primary",
+         "bite_id": "3i4eI7l0BFE:g216",
+         "segments": [
+          {
+           "idea": 4,
+           "label": "استهداف أي سفينة أمريكية مقتربة ثم تراجع"
+          }
+         ]
+        }
+       ],
+       "echoes": [
+        {
+         "n": 12,
+         "of": 9,
+         "idea": 4,
+         "label": "استهداف أي سفينة أمريكية مقتربة ثم تراجع",
+         "bite_id": "P4rayXcD5_g:g420",
+         "of_bite": "3i4eI7l0BFE:g216"
+        }
+       ]
+      }
+     },
+     {
+      "text": "كيف سيكون الرد الأمريكي إذا حاولت إيران تمرير ناقلاتها؟",
+      "answers": [
+       {
+        "n": 7,
+        "fit": "direct",
+        "view": "ملاحقة سفن النقل بعقوبات موسعة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "hqt3_LCLMPs:g2400"
+       },
+       {
+        "n": 11,
+        "fit": "direct",
+        "view": "ضرب القطع العسكرية ومصادرة الناقلات",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "P4rayXcD5_g:g222"
+       },
+       {
+        "n": 12,
+        "fit": "weak",
+        "view": "خطة إيرانية لضرب سفن أمريكية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "P4rayXcD5_g:g420"
+       }
+      ]
+     },
+     {
+      "text": "لماذا تتراجع رغبة واشنطن في خوض حرب جديدة ضد إيران؟",
+      "answers": [
+       {
+        "n": 4,
+        "fit": "direct",
+        "view": "أزمة إسرائيل السياسية تعيق الحرب",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "tpTZIdE13-E:g1256"
+       },
+       {
+        "n": 8,
+        "fit": "weak",
+        "view": "الصين تفضل فتح المضيق سلميًا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "hqt3_LCLMPs:g4135"
+       },
+       {
+        "n": 3,
+        "fit": "direct",
+        "view": "استنفاد الأدوات وخسائر الجمهوريين",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "5Nr40EcWYiI:g743"
+       }
+      ]
+     },
+     {
+      "text": "كيف يؤثر التصعيد والحصار على الداخل الإيراني؟",
+      "answers": [
+       {
+        "n": 10,
+        "fit": "weak",
+        "view": "ضغط اقتصادي خانق متصاعد",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "3i4eI7l0BFE:g265"
+       },
+       {
+        "n": 14,
+        "fit": "direct",
+        "view": "تفضيل مواجهة خارجية لتجنب انفجار داخلي",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "P4rayXcD5_g:g508"
+       },
+       {
+        "n": 13,
+        "fit": "direct",
+        "view": "الرهان على تراجع أمريكي بعد خسائر",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "P4rayXcD5_g:g456"
+       }
+      ]
+     }
+    ],
+    "context": [
+     {
+      "n": 15,
+      "selected": true,
+      "bite_id": "izBr7Wc2t7Y:g353"
+     },
+     {
+      "n": 16,
+      "selected": true,
+      "bite_id": "3i4eI7l0BFE:g107"
+     }
+    ],
+    "bites": [
+     {
+      "bite_id": "5Nr40EcWYiI:g375",
+      "video_id": "5Nr40EcWYiI",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "فاطمة حسن زاده",
+      "speaker_original": "فاطمه حسن‌زاده",
+      "speaker_role": "صانعة محتوى إيرانية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 375.0,
+      "end": 398.0,
+      "summary_ar": "أكدت صانعة المحتوى الإيرانية فاطمة حسن زاده أن إيران أعدت العدة لكسر الحصار الأمريكي ووجهت رسائل تحذيرية لواشنطن تؤكد عزمها على المضي قدمًا.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "5Nr40EcWYiI:g606",
+      "video_id": "5Nr40EcWYiI",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "سليم بوزيدي",
+      "speaker_original": "سليم بوزيدي",
+      "speaker_role": "محلل الميادين للشؤون الثقافية والإقليمية",
+      "is_host": false,
+      "type": "fact",
+      "start": 606.0,
+      "end": 641.0,
+      "summary_ar": "أوضح محلل الميادين سليم بوزيدي أن القيادة العليا الإيرانية حسمت قرار كسر الحصار الأمريكي عبر تحريك ناقلات نفط ضخمة وعممت التوجيهات على المستويين العسكري والسياسي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "5Nr40EcWYiI:g743",
+      "video_id": "5Nr40EcWYiI",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "سليم بوزيدي",
+      "speaker_original": "سليم بوزيدي",
+      "speaker_role": "محلل الميادين للشؤون الثقافية والإقليمية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 743.0,
+      "end": 767.0,
+      "summary_ar": "رأى محلل الميادين سليم بوزيدي أن أصواتًا داخل الإدارة الأمريكية تستبعد العودة إلى الحرب بعد استنفاد الأدوات العسكرية وخشية مضاعفة الخسائر السياسية للحزب الجمهوري الأمريكي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "tpTZIdE13-E:g1256",
+      "video_id": "tpTZIdE13-E",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "روتي بلوم",
+      "speaker_original": "Ruthie Blum",
+      "speaker_role": "محررة أولى في خدمة الأخبار اليهودية JNS",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1256.0,
+      "end": 1286.0,
+      "summary_ar": "روتي بلوم تشكك في قدرة إسرائيل على خوض مواجهة عسكرية جديدة إلى جانب واشنطن ضد إيران في ظل أزمة حكومة انتقالية أو حكومة أقلية هشة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "hqt3_LCLMPs:g1351",
+      "video_id": "hqt3_LCLMPs",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "إبراهيم كيليش",
+      "speaker_original": "İbrahim Keleş",
+      "speaker_role": "خبير أمني وشؤون الإرهاب",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1351.0,
+      "end": 1378.0,
+      "summary_ar": "إبراهيم كيليش يرى أن تسيير إيران ناقلات فارغة عبر مضيق هرمز خطوة لاختبار الرد الأمريكي في ظل الحصار الاقتصادي الخانق.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "hqt3_LCLMPs:g2248",
+      "video_id": "hqt3_LCLMPs",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "نجم الدين موتلو",
+      "speaker_original": "Necmettin Mutlu",
+      "speaker_role": "خبير في العلاقات الدولية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2248.0,
+      "end": 2275.0,
+      "summary_ar": "نجم الدين موتلو يفسر تحريك إيران قوافل الناقلات بمحاولة حمايتها بعد إعلان واشنطن استهداف النقل البحري بين السفن.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "hqt3_LCLMPs:g2400",
+      "video_id": "hqt3_LCLMPs",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "نجم الدين موتلو",
+      "speaker_original": "Necmettin Mutlu",
+      "speaker_role": "خبير في العلاقات الدولية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2400.0,
+      "end": 2428.0,
+      "summary_ar": "نجم الدين موتلو يشير إلى توسيع الولايات المتحدة حصارها البحري عبر ملاحقة شبكات نقل النفط الإيراني داخل مضيق هرمز.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "hqt3_LCLMPs:g4135",
+      "video_id": "hqt3_LCLMPs",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "تولغا ساكمان",
+      "speaker_original": "Tolga Sakman",
+      "speaker_role": "رئيس مركز ديبام للبحوث والدراسات الدبلوماسية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 4135.0,
+      "end": 4157.0,
+      "summary_ar": "تولغا ساكمان يوضح أن الأولوية الصينية تكمن في ضمان حرية الملاحة بمضيق هرمز حتى لو اقتضى الأمر تقديم طهران لتنازلات.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "3i4eI7l0BFE:g216",
+      "video_id": "3i4eI7l0BFE",
+      "channel": "BBC News",
+      "bloc": "english",
+      "orientation": "بريطاني عام",
+      "speaker": "كسرى ناجي",
+      "speaker_original": "Kasra Naji",
+      "speaker_role": "مراسل بي بي سي فارسي الخاص",
+      "is_host": false,
+      "type": "opinion",
+      "start": 216.0,
+      "end": 251.0,
+      "summary_ar": "كسرى ناجي يستعرض سيناريوهات متداولة في إيران لاختراق الحصار الأمريكي عبر إرسال ناقلات نفط ومهاجمة المنشآت النفطية بالمنطقة إن هوجمت.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "3i4eI7l0BFE:g265",
+      "video_id": "3i4eI7l0BFE",
+      "channel": "BBC News",
+      "bloc": "english",
+      "orientation": "بريطاني عام",
+      "speaker": "كسرى ناجي",
+      "speaker_original": "Kasra Naji",
+      "speaker_role": "مراسل بي بي سي فارسي الخاص",
+      "is_host": false,
+      "type": "fact",
+      "start": 265.0,
+      "end": 303.0,
+      "summary_ar": "كسرى ناجي يوضح تصاعد الضغوط على إيران مع استمرار الحصار وتوقف تصدير النفط واستيراد القمح لعدة أشهر.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "P4rayXcD5_g:g222",
+      "video_id": "P4rayXcD5_g",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "فهد الشليمي",
+      "speaker_original": "فهد الشليمي",
+      "speaker_role": "رئيس المنتدى الخليجي للأمن والسلام",
+      "is_host": false,
+      "type": "forecast",
+      "start": 222.2,
+      "end": 246.34,
+      "summary_ar": "توقع الشليمي أن تستهدف القوات الأمريكية القطع البحرية الإيرانية وتصادر ناقلات النفط إذا حاولت كسر الحصار.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "P4rayXcD5_g:g420",
+      "video_id": "P4rayXcD5_g",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "عماد آبشناس",
+      "speaker_original": "عماد آبشناس",
+      "speaker_role": "رئيس نقابة مدراء مراكز الأبحاث والدراسات الإيرانية",
+      "is_host": false,
+      "type": "fact",
+      "start": 420.0,
+      "end": 448.0,
+      "summary_ar": "كشف آبشناس عن خطة إيرانية كانت جاهزة لاستهداف السفن الأمريكية لكسر الحصار قبل أن تتدخل الحكومة الإيرانية في اللحظات الأخيرة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "P4rayXcD5_g:g456",
+      "video_id": "P4rayXcD5_g",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "عماد آبشناس",
+      "speaker_original": "عماد آبشناس",
+      "speaker_role": "رئيس نقابة مدراء مراكز الأبحاث والدراسات الإيرانية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 456.0,
+      "end": 473.0,
+      "summary_ar": "أوضح آبشناس أن بعض الأطراف في طهران تراهن على أن تكبيد الجيش الأمريكي خسائر سيجبره على التراجع وفك الحصار.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "P4rayXcD5_g:g508",
+      "video_id": "P4rayXcD5_g",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "فهد الشليمي",
+      "speaker_original": "فهد الشليمي",
+      "speaker_role": "رئيس المنتدى الخليجي للأمن والسلام",
+      "is_host": false,
+      "type": "opinion",
+      "start": 508.0,
+      "end": 537.0,
+      "summary_ar": "رأى الشليمي أن النظام الإيراني يفضل خوض مواجهة خارجية مع واشنطن لتوحيد صفوفه وتفادي الانفجار الداخلي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "izBr7Wc2t7Y:g353",
+      "video_id": "izBr7Wc2t7Y",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "محمد باقر قاليباف",
+      "speaker_original": "محمدباقر قالیباف",
+      "speaker_role": "رئيس مجلس الشورى الإيراني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 352.96,
+      "end": 381.16,
+      "summary_ar": "يرى رئيس مجلس الشورى الإيراني محمد باقر قاليباف أن السبيل الوحيد لإبعاد التهديد وشبح الحرب عن بلاده هو تحقيق ردع عسكري مستدام.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "3i4eI7l0BFE:g107",
+      "video_id": "3i4eI7l0BFE",
+      "channel": "BBC News",
+      "bloc": "english",
+      "orientation": "بريطاني عام",
+      "speaker": "إسماعيل بقائي",
+      "speaker_original": "Esmaeil Baghaei",
+      "speaker_role": "المتحدث باسم وزارة الخارجية الإيرانية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 107.64,
+      "end": 125.98,
+      "summary_ar": "المتحدث باسم الخارجية الإيرانية يؤكد عدم التسامح مع العدوان الأمريكي واستخدام كافة الوسائل للتصدي له.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": true
+     }
+    ],
+    "error": "",
+    "extracted": 23,
+    "cost": {
+     "claude": {
+      "claude-haiku-5-5": 0.00194,
+      "claude-sonnet-5": 0.08658
+     },
+     "gemini": 0.8921,
+     "proxy_bytes": 8766050
+    }
+   }
   },
   {
    "id": "34831e0970c2",
