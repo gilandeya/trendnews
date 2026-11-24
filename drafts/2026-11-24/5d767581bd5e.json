@@ -1,0 +1,571 @@
+{
+  "id": "5d767581bd5e",
+  "created_at": "2026-11-24T07:12:56.253916+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "التصعيد الأمريكي الإيراني في مضيق هرمز والحصار البحري",
+  "event": "التصعيد الأمريكي الإيراني في مضيق هرمز والحصار البحري",
+  "tier": 7,
+  "blocs": [
+    "arabic",
+    "chinese",
+    "english",
+    "israeli",
+    "persian",
+    "russian",
+    "turkish"
+  ],
+  "channels": [
+    "BBC News",
+    "CNN Türk",
+    "ILTV",
+    "Iran International",
+    "Дождь",
+    "الجزيرة",
+    "العربية",
+    "الميادين",
+    "سكاي نيوز عربية",
+    "凤凰卫视"
+  ],
+  "agreement": "",
+  "score": 0,
+  "warnings": [
+    "⏱️ السياق 66 كلمة (الحد 49) فقُبل كما هو لأن المادة من اختيارك — راجعه",
+    "✏️ صيغ سؤال الهوك: كان «لماذا تتردد واشنطن في مواجهة عسكرية جديدة مع إيران؟» صار «لماذا تتردد واشنطن في خوض مواجهة عسكرية جديدة مع إيران؟»"
+  ],
+  "run_date": "2026-11-24",
+  "topic_date": "2026-11-24",
+  "arabic": {
+    "post_title": "لماذا تتردد واشنطن في مواجهة عسكرية جديدة مع إيران؟",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "BBC News",
+      "CNN Türk",
+      "ILTV",
+      "Iran International",
+      "Дождь",
+      "الجزيرة",
+      "العربية",
+      "الميادين",
+      "سكاي نيوز عربية",
+      "凤凰卫视"
+    ]
+  },
+  "source_videos": [],
+  "meta_topic_id": "7da486a6fa75",
+  "meta_issue": 1995,
+  "hook_pick": 3,
+  "cost_qa": {
+    "claude": {
+      "claude-haiku-5-5": 0.00194,
+      "claude-sonnet-5": 0.08658
+    },
+    "gemini": 0.8921,
+    "proxy_bytes": 8766050
+  },
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "9e309087d6de",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "بي بي سي نيوز"
+      },
+      {
+        "point_id": "ae249011e9a0",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن ترك"
+      },
+      {
+        "point_id": "1101501d9a33",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "حسمت إيران أمرها نهائيًا، والحديث عن تحرك ناقلات نفط إيرانية ضخمة لكسر الحصار، هذا يعني أن إيران أولًا على المستوى الاستراتيجي، وأعني هنا القيادة العليا الإيرانية وتحديدًا مرشد الثورة قائد الجمهورية قد أخذ القرار، والقرار وصل إلى مستوى مجلس الأمن القومي، وبلغت القيادة العسكرية، والقيادة السياسية الآن تتصرف على هذا الأساس.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الميادين"
+      },
+      {
+        "point_id": "6e95a01fce2f",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "4e18a0eb4c6a",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "بي بي سي نيوز"
+      }
+    ]
+  },
+  "quote_retranslated": [
+    "1101501d9a33"
+  ],
+  "name_corrections": [
+    {
+      "from": "إبراهيم كيليش",
+      "to": "إبراهيم كالن",
+      "latin": "İbrahim Kalın",
+      "sources": [
+        "alarabiya.net",
+        "syria.tv",
+        "alaraby.co.uk",
+        "cnn.com",
+        "twaslnews.com",
+        "dora.sa",
+        "gazete.app",
+        "sharqforum.org",
+        "tr.agency"
+      ],
+      "kind": "بحث"
+    }
+  ],
+  "names_audit": [
+    {
+      "arabic": "كسرى ناجي",
+      "latin": ""
+    },
+    {
+      "arabic": "إبراهيم كالن",
+      "latin": "İbrahim Kalın"
+    },
+    {
+      "arabic": "سليم بوزيدي",
+      "latin": ""
+    },
+    {
+      "arabic": "محمد باقر قاليباف",
+      "latin": ""
+    },
+    {
+      "arabic": "إسماعيل بقائي",
+      "latin": "Esmaeil Baghaei"
+    },
+    {
+      "arabic": "محمد باقر قاليباف",
+      "latin": "Mohammad Bagher Ghalibaf"
+    }
+  ],
+  "script_attempts": [
+    {
+      "attempt": 1,
+      "reasons": [
+        "السياق أطول من 49 كلمة (66)"
+      ]
+    }
+  ],
+  "headlines": [
+    "هل تقترب إيران فعلًا من كسر الحصار الأمريكي في هرمز؟",
+    "هل تقترب إيران فعلًا من كسر الحصار الأمريكي في هرمز؟"
+  ],
+  "headline_selected": 0,
+  "script": {
+    "version": 2,
+    "narrator": "female",
+    "title": "هل تنجح إيران في كسر الحصار الأمريكي عبر ناقلاتها النفطية؟",
+    "question": "هل تنجح الناقلات الإيرانية في كسر الحصار دون حرب؟",
+    "event": "",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "هل تنجح إيران في كسر الحصار الأمريكي عبر ناقلاتها النفطية؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "فرضت الولايات المتحدة حصارًا بحريًا على إيران أوقف تصدير النفط واستيراد القمح منذ أشهر. وفي طهران، يربط رئيس مجلس الشورى الإيراني محمد باقر قاليباف إبعاد شبح الحرب عن بلاده بمعادلة واحدة."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "6e95a01fce2f",
+        "q": "c0",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=izBr7Wc2t7Y",
+        "start": 352.0,
+        "end": 381.2,
+        "speaker_name": "محمد باقر قاليباف",
+        "speaker_role": "رئيس مجلس الشورى الإيراني",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "محمدباقر قالیباف",
+        "channel_display": "إيران إنترناشيونال",
+        "channel_original": "Iran International",
+        "quote_arabic": "كيف نبعد التهديد عنا؟ ثمة طريقة واحدة ممكنة فقط، وهي أن نصل إلى الردع المستدام. فإذا حققنا الردع، نكون قد أبعدنا التهديد عنا ونفذنا أوامر القائد الأعلى للقوات المسلحة.",
+        "quote_original": "خب چگونه ما تهدید رو از خودمون دور کنیم؟ دوستان فقط یک جور امکان داره، و اون اینکه ما به بازدارندگی پایدار برسیم. اگر به بازدارندگی رسیدیم، تهدید رو از خودمون دور کردیم، امر فرماندهی معظم کل قوا رو اجرایی‌ش کردیم.",
+        "language": "fa",
+        "video_published": "2026-11-22T22:16:37Z",
+        "relay": "external",
+        "relay_source": "",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "ومن جانب الحكومة الإيرانية، حدد المتحدث باسم الخارجية إسماعيل بقائي سقف الرد على ما سماه العدوان الأمريكي."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "4e18a0eb4c6a",
+        "q": "c1",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=3i4eI7l0BFE",
+        "start": 106.6,
+        "end": 126.0,
+        "speaker_name": "إسماعيل بقائي",
+        "speaker_role": "المتحدث باسم وزارة الخارجية الإيرانية",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Esmaeil Baghaei",
+        "channel_display": "بي بي سي نيوز",
+        "channel_original": "BBC News",
+        "quote_arabic": "لن نتسامح إطلاقا مع أي عدوان، وسنستخدم كافة الوسائل المتاحة لدينا للتصدي للعدوان الأمريكي. بطبيعة الحال، يحق لإيران استخدام أي وسيلة متاحة لها للدفاع عن نفسها ومواجهة هذه الأعمال العدوانية.",
+        "quote_original": "We will absolutely not tolerate any aggression and will use all the means at our disposal to counter US aggression. Naturally, Iran is entitled to use any means at its disposal to defend itself and counter these acts of aggression.",
+        "language": "en",
+        "video_published": "2026-11-23T21:45:06Z",
+        "relay": "external",
+        "relay_source": "",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "وفي الميدان، حسمت القيادة العليا الإيرانية قرار كسر الحصار عبر تحريك ناقلات نفط ضخمة وعممت التوجيهات عسكريًا وسياسيًا."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 0,
+        "text": "كيف تخطط إيران لكسر الحصار عبر ناقلاتها النفطية؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "9e309087d6de",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=3i4eI7l0BFE",
+        "start": 215.0,
+        "end": 251.0,
+        "speaker_name": "كسرى ناجي",
+        "speaker_role": "مراسل بي بي سي فارسي الخاص",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Kasra Naji",
+        "channel_display": "بي بي سي نيوز",
+        "channel_original": "BBC News",
+        "quote_arabic": "في الأيام الأخيرة وردت مقترحات في وكالات أنباء إيرانية مقربة من الحرس الثوري تفيد بإمكانية إرسال ناقلات محملة بالنفط إلى مضيق هرمز وما بعده لاختراق خط الحصار الذي فرضه الأمريكيون، وذكروا أنه إما أن تعبر وهو أمر جيد، وإما ألا تعبر وإذا هوجمت فستهاجم إيران المنشآت النفطية لدول المنطقة.",
+        "quote_original": "Well, in recent days, there have been suggestions in Iranian news agencies close to Revolutionary Guard that we could send tankers full of oil into the Strait of Hormuz and beyond to run the line of blockade that Americans have imposed. And they said either they get through, which is fine, and if they don't get through, and if they are attacked, Iran will attack the oil installations of countries in the region.",
+        "language": "en",
+        "video_published": "2026-11-23T21:45:06Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "ae249011e9a0",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=hqt3_LCLMPs",
+        "start": 1350.0,
+        "end": 1378.0,
+        "speaker_name": "إبراهيم كالن",
+        "speaker_role": "خبير أمني وشؤون الإرهاب",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "İbrahim Keleş",
+        "channel_display": "سي إن إن ترك",
+        "channel_original": "CNN Türk",
+        "quote_arabic": "إن إرسال إيران 14 ناقلة نفط فارغة الليلة من مضيق هرمز نحو المياه الدولية يبدو خطوة تهدف إلى قياس رد الفعل الأمريكي، فإيران تعيش مأزقًا اقتصاديًا حقيقيًا وعنق زجاجة بالغ الصعوبة، وهذا وضع لا يمكن أن يستمر هكذا إلى ما لا نهاية.",
+        "quote_original": "İran'ın bu gece 14 tane boş tankeri Hürmüz Boğazı'ndan açık denize gönderdiği, bir nevi Amerika'nın tepkisini ölçmek için öyle bir şey yapıyorlar belli ki. Yani İran artık ekonomik olarak darboğazda, ciddi bir darboğazda. Yani bu bir yere kadar gidebiliyor.",
+        "language": "tr",
+        "video_published": "2026-11-22T16:30:29Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "1101501d9a33",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=5Nr40EcWYiI",
+        "start": 605.0,
+        "end": 641.0,
+        "speaker_name": "سليم بوزيدي",
+        "speaker_role": "محلل الميادين للشؤون الثقافية والإقليمية",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "سليم بوزيدي",
+        "channel_display": "الميادين",
+        "channel_original": "الميادين",
+        "quote_arabic": "حسمت إيران أمرها نهائيًا، والحديث عن تحرك ناقلات نفط إيرانية ضخمة لكسر الحصار، هذا يعني أن إيران أولًا على المستوى الاستراتيجي، وأعني هنا القيادة العليا الإيرانية وتحديدًا مرشد الثورة قائد الجمهورية قد أخذ القرار، والقرار وصل إلى مستوى مجلس الأمن القومي، وبلغت القيادة العسكرية، والقيادة السياسية الآن تتصرف على هذا الأساس.",
+        "quote_original": "إيران قد حسمت أمرها بشكل نهائي، والحديث على تحرك ناقلات نفط إيرانية، وهي ناقلات ضخمة ليست ناقلات عادية لكسر الحصار، هذا يعني أن إيران أولاً على المستوى الاستراتيجي، وأعني هنا القيادة العليا الإيرانية وتحديداً مرشد الثورة قائد الجمهورية قد أخذ القرار، والقرار وصل إلى مستوى مجلس الأمن القومي، وبلغت القيادة العسكرية، والقيادة السياسية الآن تتصرف على هذا الأساس.",
+        "language": "ar",
+        "video_published": "2026-11-23T15:05:04Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "question",
+        "text": "هل تنجح الناقلات الإيرانية في كسر الحصار دون حرب؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": [],
+    "narrator_voices": [
+      {
+        "id": "s7VusoUfleDWGRQNqsF6",
+        "name": "Woman2",
+        "gender": "female"
+      },
+      {
+        "id": "imSStoespHEDicyPMZ3i",
+        "name": "Man2",
+        "gender": "male"
+      }
+    ]
+  },
+  "editor_revision": {
+    "at": "2026-11-24T07:13:14.858162+00:00",
+    "applied": true,
+    "error": null,
+    "before": [
+      {
+        "category": "sibling_duplicate",
+        "severity": "high",
+        "location": "headline_1",
+        "original": "لماذا تتردد واشنطن في خوض مواجهة عسكرية جديدة مع إيران؟",
+        "fix": "",
+        "note": "نفس مضمون h1 ويعاني من العيب نفسه: لا علاقة مباشرة بموضوع الريل (كسر الحصار بالناقلات)، ويكرر الافتراض غير المسنود بتردد واشنطن.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "ومن جانب الحكومة الإيرانية، حدد المتحدث باسم الخارجية إسماعيل بقائي سقف الرد على ما سماه العدوان الأمريكي.",
+        "fix": "",
+        "note": "مشهد السياق [4] يصف موقفًا/تصريحًا عامًا بدل سرد وقائع حدث محدد (من فعل ماذا ومتى)، وهذا مقبول نسبيًا لأنه استعراض لموقف المتحدث نفسه الذي يظهر بعده مباشرة، لكن الأهم هو ملاحظة [6] أدناه.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "وفي الميدان، تحركت ناقلات نفط إيرانية نحو مضيق هرمز في خطوة تُقرأ على أنها محاولة لاختراق خط الحصار.",
+        "fix": "حسمت القيادة العليا الإيرانية قرار كسر الحصار عبر تحريك ناقلات نفط ضخمة وعممت التوجيهات عسكريًا وسياسيًا.",
+        "note": "جملة السياق تصف 'قراءة' للخطوة (تحليل/تفسير) بدل سرد الحدث نفسه كما وثّقته وقائع الحدث المرفقة (قرار القيادة العليا الإيرانية وتعميم التوجيهات)، وهذا أقرب لوصف نقاش/تأويل لا فعل محدد.",
+        "sources": []
+      },
+      {
+        "category": "vague_attribution",
+        "severity": "low",
+        "location": "body",
+        "original": "خطوة تُقرأ على أنها محاولة لاختراق خط الحصار",
+        "fix": "",
+        "note": "صيغة مبنية للمجهول (تُقرأ) دون نسبة لمن يقرأ الموقف هكذا، رغم وجود تحليل منسوب صراحة لسليم بوزيدي في المقطع التالي يمكن الاستناد إليه مباشرة.",
+        "sources": []
+      }
+    ],
+    "unresolved": [
+      {
+        "n": 1,
+        "reason": "لا بديل من المصادر المرفقة لعنوان ثانٍ مستقل غير مكرر؛ تم استبداله بتكرار headline_2 المقبول لعدم توفر مادة بديلة ذات صلة مباشرة بموضوع الناقلات في المصادر، ويلزم تزويد عنوان بديل فعلي من المحرر."
+      }
+    ]
+  },
+  "editor_review": {
+    "at": "2026-11-24T07:13:14.858162+00:00",
+    "applied": [
+      {
+        "category": "headline_contradicts",
+        "severity": "high",
+        "location": "h1",
+        "original": "لماذا تتردد واشنطن في خوض مواجهة عسكرية جديدة مع إيران؟",
+        "fix": "هل تنجح إيران في كسر الحصار الأمريكي عبر ناقلاتها النفطية؟",
+        "note": "العنوان الرئيسي يفترض أن واشنطن متحمسة لمواجهة لكنها مترددة، بينما المتن كله يتحدث عن حصار أمريكي قائم ومحاولة إيرانية لكسره عبر الناقلات، ولا يناقش تردد واشنطن في خوض مواجهة عسكرية جديدة؛ لا شيء في المقاطع يسند فكرة 'تردد واشنطن'. العنوان يناقش موضوعًا مختلفًا عن مضمون الريل.",
+        "sources": []
+      },
+      {
+        "category": "headline_contradicts",
+        "severity": "high",
+        "location": "headline_2",
+        "original": "لماذا تتردد واشنطن في مواجهة عسكرية جديدة مع إيران؟",
+        "fix": "",
+        "note": "نفس إشكال h1: يفترض تردد واشنطن في مواجهة عسكرية، وهو موضوع غير مطروق في المتن الذي يركز على الحصار وناقلات النفط الإيرانية.",
+        "sources": []
+      }
+    ],
+    "notes": [
+      {
+        "category": "sibling_duplicate",
+        "severity": "high",
+        "location": "headline_1",
+        "original": "لماذا تتردد واشنطن في خوض مواجهة عسكرية جديدة مع إيران؟",
+        "fix": "",
+        "note": "نفس مضمون h1 ويعاني من العيب نفسه: لا علاقة مباشرة بموضوع الريل (كسر الحصار بالناقلات)، ويكرر الافتراض غير المسنود بتردد واشنطن.",
+        "sources": []
+      }
+    ],
+    "error": null,
+    "searches": 0,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "reel_quote": {
+    "status": "none",
+    "tried": [],
+    "error": "AttributeError: 'NoneType' object has no attribute 'messages'"
+  },
+  "hook_cartoon": {
+    "status": "none",
+    "error": "AttributeError: 'NoneType' object has no attribute 'messages'"
+  },
+  "reel_bg": {
+    "url": "https://media.youlyou.com/2026/11/Landscape/30691473211687202611231044544454.jpg",
+    "kind": "news_photo",
+    "publisher": "https://www.youlyou.com/",
+    "shows": "ناقلات نفط وسفن شحن إيرانية في البحر، وقارب صغير يمر أمامها، وإحداها تحمل اسم PARS SADAF 1",
+    "text_checked": true,
+    "judged": true
+  },
+  "hook_candidates": [
+    {
+      "video_id": "fXyonz7gaj4",
+      "title": "Iran Sends 8 Oil Tankers Toward China—And Warns of Retaliation #shorts",
+      "channel": "Judge Napolitano - Judging Freedom",
+      "views": 15093,
+      "duration": 35,
+      "published": "2026-11-23T21:00:22Z",
+      "views_per_hour": 1473.6
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-11-22T00:00:00Z",
+          "2026-11-26T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "ناقلة نفط إيرانية تبحر مضيق هرمز",
+            "raw": 4,
+            "channel_ok": 1
+          },
+          {
+            "query": "Iranian oil tanker leaving port under blockade",
+            "raw": 27,
+            "channel_ok": 0
+          },
+          {
+            "query": "ميناء إيراني رصيف ناقلات النفط تحميل",
+            "raw": 0,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 1,
+        "judged_ok": 1,
+        "rejected_channels": [
+          "TechComputings",
+          "Zawaya24 | World in Focus",
+          "Big Leaders",
+          "Samachar IAS",
+          "De cluttering things",
+          "Oculis Market News",
+          "GEOPOLITICS4YOU",
+          "AeroPulse"
+        ]
+      }
+    ],
+    "picked": [
+      "fXyonz7gaj4"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "فرضت الولايات المتحدة حصارًا بحريًا على إيران أوقف تصدير النفط واستيراد القمح منذ أشهر.",
+      "visual": "ناقلات نفط عملاقة في عرض البحر"
+    },
+    {
+      "scene": 1,
+      "sentence": 1,
+      "text": "وفي طهران، يربط رئيس مجلس الشورى الإيراني محمد باقر قاليباف إبعاد شبح الحرب عن بلاده بمعادلة واحدة.",
+      "visual": ""
+    },
+    {
+      "scene": 3,
+      "sentence": 0,
+      "text": "ومن جانب الحكومة الإيرانية، حدد المتحدث باسم الخارجية إسماعيل بقائي سقف الرد على ما سماه العدوان الأمريكي.",
+      "visual": ""
+    },
+    {
+      "scene": 5,
+      "sentence": 0,
+      "text": "وفي الميدان، حسمت القيادة العليا الإيرانية قرار كسر الحصار عبر تحريك ناقلات نفط ضخمة وعممت التوجيهات عسكريًا وسياسيًا.",
+      "visual": "ناقلات نفط ضخمة تتحرك في البحر"
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "text": "كيف تخطط إيران لكسر الحصار عبر ناقلاتها النفطية؟",
+      "visual": "ناقلات نفط تبحر نحو الصين"
+    }
+  ],
+  "cost_script": {
+    "claude": {
+      "claude-haiku-5-5": 0.00295,
+      "claude-sonnet-5": 0.1366,
+      "claude-opus-5": 0.12819
+    }
+  },
+  "review_issue": 1996,
+  "stage2_issue": 1996
+}
