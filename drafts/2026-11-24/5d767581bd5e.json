@@ -1,7 +1,7 @@
 {
   "id": "5d767581bd5e",
   "created_at": "2026-11-24T07:12:56.253916+00:00",
-  "status": "approved_script",
+  "status": "published",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -1532,5 +1532,12 @@
     "- 🔤 نُطقت أسماء أجنبية برسمها الأصلي: إسماعيل بقائي ← Esmaeil Baghaei",
     "- 💵 كلفة الريل: 1.39$ — المقاطع والأسئلة 0.98$ · السيناريو 0.27$ · التركيب 0.14$ (Sonnet 0.27$ · Opus 0.13$ · Haiku 0.01$ · Gemini 0.92$ · صوت 0.07$ · بروكسي 34 MB) · البروكسي خارج المجموع"
   ],
-  "reel_review_issue": 1997
+  "reel_review_issue": 1997,
+  "published_at": "2026-11-24T08:05:08.246617+00:00",
+  "facebook": {
+    "post_id": "1852656649075481",
+    "kind": "reel",
+    "url": "https://www.facebook.com/reel/1852656649075481"
+  },
+  "reel_seconds": 140
 }
