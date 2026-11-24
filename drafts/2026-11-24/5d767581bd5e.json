@@ -1,7 +1,7 @@
 {
   "id": "5d767581bd5e",
   "created_at": "2026-11-24T07:12:56.253916+00:00",
-  "status": "pending",
+  "status": "approved_script",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -481,7 +481,8 @@
       "views": 15093,
       "duration": 35,
       "published": "2026-11-23T21:00:22Z",
-      "views_per_hour": 1473.6
+      "views_per_hour": 1473.6,
+      "picked": true
     }
   ],
   "hook_search": {
@@ -567,5 +568,14 @@
     }
   },
   "review_issue": 1996,
-  "stage2_issue": 1996
+  "stage2_issue": 1996,
+  "render_status": "queued",
+  "approved_script_at": "2026-11-24T07:39:32.888141+00:00",
+  "editor_override": {
+    "at": "2026-11-24T07:39:32.888125+00:00",
+    "reasons": [
+      "نفس مضمون h1 ويعاني من العيب نفسه: لا علاقة مباشرة بموضوع الريل (كسر الحصار بالناقلات)، ويكرر الافتراض غير المسنود بتردد واشنطن."
+    ]
+  },
+  "hook_picked": 0
 }
