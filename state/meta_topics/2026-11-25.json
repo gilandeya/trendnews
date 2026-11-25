@@ -1601,7 +1601,962 @@
     }
    ],
    "qa_requested_at": "2026-11-25T11:59:27.190613+00:00",
-   "selected_from": 2003
+   "selected_from": 2003,
+   "topic_issue": 2011,
+   "qa": {
+    "attempts": 1,
+    "at": "2026-11-25T12:01:14.861801+00:00",
+    "videos": [
+     {
+      "video_id": "IOY6WzXez9E",
+      "channel": "CNN",
+      "bloc": "english",
+      "minutes": 44.1,
+      "bites": 13,
+      "rejected": 0
+     },
+     {
+      "video_id": "_1l4Sz65yqQ",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "minutes": 14.6,
+      "bites": 9,
+      "rejected": 0
+     },
+     {
+      "video_id": "JPTY2KiZYzM",
+      "channel": "TVBS新聞",
+      "bloc": "chinese",
+      "minutes": 20.3,
+      "bites": 2,
+      "rejected": 0
+     },
+     {
+      "video_id": "vi83ZKPVd7U",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "minutes": 13.8,
+      "bites": 2,
+      "rejected": 4,
+      "rejected_why": {
+       "مدبلج بالعربية ونصه الأصلي ليس ما يُسمع": 2,
+       "المدة N ث خارج [N، N]": 2
+      }
+     },
+     {
+      "video_id": "kTq6yGSSKeM",
+      "channel": "BBC News",
+      "bloc": "english",
+      "minutes": 26.7,
+      "bites": 6,
+      "rejected": 0
+     },
+     {
+      "video_id": "iO6O9HDSXNw",
+      "channel": "凤凰卫视",
+      "bloc": "chinese",
+      "minutes": 6.3,
+      "bites": 3,
+      "rejected": 0
+     },
+     {
+      "video_id": "IqhAvjuBwqY",
+      "channel": "Дождь",
+      "bloc": "russian",
+      "minutes": 8.4,
+      "bites": 6,
+      "rejected": 0
+     }
+    ],
+    "video_scores": {
+     "1maJH1t1osc": 3,
+     "kTq6yGSSKeM": 3,
+     "IOY6WzXez9E": 3,
+     "zdfypeSP89M": 3,
+     "pvPwvKS5g-E": 3,
+     "VB35cD9KJL4": 3,
+     "uWI7K4wevQ4": 3,
+     "rIWDK8JnHJw": 3,
+     "xz8svAOUPKk": 2,
+     "LJu77ZNulXc": 2,
+     "vi83ZKPVd7U": 2,
+     "JPTY2KiZYzM": 2,
+     "vs5XWrSqkBA": 1,
+     "vzDzYiJS16o": 2,
+     "Cl1FNQKVFzk": 2,
+     "ivuFCpwGtQg": 1,
+     "essOr1CrZ4U": 1,
+     "IqhAvjuBwqY": 1,
+     "IZioQzDe_ew": 1,
+     "U307j_p1Qcs": 1,
+     "_-7UEvhmF5w": 1,
+     "_1l4Sz65yqQ": 3,
+     "iO6O9HDSXNw": 2
+    },
+    "gemini_cost": 0.8523,
+    "gemini_rejected": 4,
+    "channels": 7,
+    "answer_channels": 5,
+    "originals": [
+     {
+      "bite_id": "IOY6WzXez9E:g135",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "Donald Trump Jensen Huang Nvidia return CEO investigation",
+       "Trump Jensen Huang Nvidia rehire press conference",
+       "ترامب جنسن هوانغ إنفيديا عودة تحقيق",
+       "Donald Trump"
+      ],
+      "candidate": "UcbH_16zvYs",
+      "candidates": [
+       "M-Wkd9BPo6g",
+       "YJqfI5H0tJc",
+       "UcbH_16zvYs"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "_1l4Sz65yqQ:g233",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "Stan Veuger Trump stock market Nvidia",
+       "Stan Veuger"
+      ],
+      "reason": "لا مرشّح"
+     },
+     {
+      "bite_id": "_1l4Sz65yqQ:g334",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "Josh Rogin Nvidia Jensen Huang Bessent Lutnick Rubio",
+       "Josh Rogin Washington Post Intelligence Nvidia divide administration",
+       "Josh Rogin"
+      ],
+      "candidate": "ZmZXjzvEnaM",
+      "candidates": [
+       "4X8Db0s4Otc",
+       "XTqwp4T8CXM",
+       "ZmZXjzvEnaM"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "iO6O9HDSXNw:g83",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "Jensen Huang 黄仁勋 Nvidia 重返 首席执行官 演讲",
+       "黄仁勋 英伟达 讲话 新电脑 第二次机会",
+       "Jensen Huang"
+      ],
+      "candidate": "U3KZ5htTTkM",
+      "candidates": [
+       "djgHeJJvAHY",
+       "uAqO-diIj2Q",
+       "U3KZ5htTTkM"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     }
+    ],
+    "originals_found": 0,
+    "read_dropped": 8,
+    "read_dropped_speakers": [
+     "جنسن هوانغ",
+     "دونالد ترامب",
+     "هارفي جونسون"
+    ],
+    "source": "gemini",
+    "failures": [],
+    "plan": {
+     "attempts": [
+      {
+       "model": "claude-sonnet-5",
+       "stop_reason": "tool_use",
+       "bites": 31,
+       "rows": 0,
+       "raw_type": "str",
+       "answers": 0,
+       "bad_n": 0,
+       "error": "لم يقترح النموذج سؤالًا له إجابات"
+      },
+      {
+       "model": "claude-opus-5",
+       "stop_reason": "tool_use",
+       "bites": 31,
+       "rows": 5,
+       "raw_type": "list",
+       "answers": 34,
+       "bad_n": 0,
+       "error": ""
+      }
+     ]
+    },
+    "verify": {
+     "checked": 27,
+     "ok": 21,
+     "no_match": 0,
+     "failed": 6,
+     "no_text": 0,
+     "left": 0,
+     "audio_seconds": 1238,
+     "skipped": "",
+     "cut_off": 2,
+     "seconds": 491
+    },
+    "capped": 13,
+    "echo": {
+     "stop_reason": "tool_use",
+     "rows": 5,
+     "questions": 2,
+     "per_question": [
+      {
+       "q": 1,
+       "rejected": {},
+       "spans": 7,
+       "answers": 6,
+       "shared": 1,
+       "reason": ""
+      },
+      {
+       "q": 2,
+       "rejected": {},
+       "spans": 3,
+       "answers": 3,
+       "shared": 1,
+       "reason": ""
+      },
+      {
+       "q": 3,
+       "rejected": {},
+       "spans": 4,
+       "answers": 4,
+       "shared": 0,
+       "reason": "no_shared"
+      },
+      {
+       "q": 4,
+       "rejected": {},
+       "spans": 3,
+       "answers": 3,
+       "shared": 0,
+       "reason": "no_shared"
+      },
+      {
+       "q": 5,
+       "rejected": {},
+       "spans": 5,
+       "answers": 5,
+       "shared": 0,
+       "reason": "no_shared"
+      }
+     ]
+    },
+    "selected_seconds": 109.2,
+    "status": "ready",
+    "titles": [
+     "هل اشترى ترامب ولاء رئيس إنفيديا بإعادته إلى منصبه؟",
+     "من أعاد جنسن هوانغ: مجلس الإدارة أم البيت الأبيض؟",
+     "هل تبرر مواجهة الصين تجاهل شبهات التجسس في إنفيديا؟"
+    ],
+    "questions": [
+     {
+      "text": "لماذا تدخّل الرئيس الأمريكي دونالد ترامب لإعادة جنسن هوانغ إلى رئاسة إنفيديا؟",
+      "answers": [
+       {
+        "n": 16,
+        "fit": "weak",
+        "view": "إدارة يدوية مباشرة بعد تبرئته",
+        "view_count": 1,
+        "echo_role": "primary",
+        "selected": true,
+        "bite_id": "IqhAvjuBwqY:g3316"
+       },
+       {
+        "n": 6,
+        "fit": "direct",
+        "view": "مصلحة شخصية مالية تتقدم الأمن",
+        "view_count": 1,
+        "echo_role": "echo",
+        "echo_of": "IqhAvjuBwqY:g3316",
+        "echo_idea": "ترامب له مصلحة شخصية/يدين له هوانغ بالولاء",
+        "selected": true,
+        "bite_id": "IOY6WzXez9E:g1341"
+       },
+       {
+        "n": 15,
+        "fit": "direct",
+        "view": "كسب رئيس إنفيديا تابعًا مدينًا له",
+        "view_count": 1,
+        "echo_role": "echo",
+        "echo_of": "IqhAvjuBwqY:g3316",
+        "echo_idea": "ترامب له مصلحة شخصية/يدين له هوانغ بالولاء",
+        "selected": true,
+        "bite_id": "kTq6yGSSKeM:g746"
+       },
+       {
+        "n": 1,
+        "fit": "direct",
+        "view": "منع الصين من الهيمنة التقنية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "IOY6WzXez9E:g313"
+       },
+       {
+        "n": 7,
+        "fit": "direct",
+        "view": "خوفه على ارتفاع سوق الأسهم",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "_1l4Sz65yqQ:g233"
+       },
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "إطلاق يد إنفيديا لمنافسة الصين",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "_1l4Sz65yqQ:g364"
+       }
+      ],
+      "echo": {
+       "masters": [
+        {
+         "n": 16,
+         "side": "b",
+         "rank": "primary",
+         "bite_id": "IqhAvjuBwqY:g3316",
+         "segments": [
+          {
+           "idea": 5,
+           "label": "تدخل مباشر بلا أدلة على مخالفات"
+          },
+          {
+           "idea": 2,
+           "label": "ترامب له مصلحة شخصية/يدين له هوانغ بالولاء"
+          }
+         ]
+        }
+       ],
+       "echoes": [
+        {
+         "n": 6,
+         "of": 16,
+         "idea": 2,
+         "label": "ترامب له مصلحة شخصية/يدين له هوانغ بالولاء",
+         "bite_id": "IOY6WzXez9E:g1341",
+         "of_bite": "IqhAvjuBwqY:g3316"
+        },
+        {
+         "n": 15,
+         "of": 16,
+         "idea": 2,
+         "label": "ترامب له مصلحة شخصية/يدين له هوانغ بالولاء",
+         "bite_id": "kTq6yGSSKeM:g746",
+         "of_bite": "IqhAvjuBwqY:g3316"
+        }
+       ]
+      }
+     },
+     {
+      "text": "هل تبرر المنافسة مع الصين تجاوز الشبهات الأمنية حول رئيس إنفيديا؟",
+      "answers": [
+       {
+        "n": 1,
+        "fit": "direct",
+        "view": "نعم، أمريكا تحتاجه لتهيمن",
+        "view_count": 1,
+        "echo_role": "primary",
+        "selected": true,
+        "bite_id": "IOY6WzXez9E:g313"
+       },
+       {
+        "n": 3,
+        "fit": "direct",
+        "view": "نعم، الأمن القومي يقتضي بقاءه",
+        "view_count": 1,
+        "echo_role": "echo",
+        "echo_of": "IOY6WzXez9E:g313",
+        "echo_idea": "نعم، الأمن القومي يستلزم فوز أمريكا بسباق الذكاء الاصطناعي",
+        "selected": true,
+        "bite_id": "IOY6WzXez9E:g402"
+       },
+       {
+        "n": 9,
+        "fit": "weak",
+        "view": "تحقيق في تمرير رقائق للصين",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "_1l4Sz65yqQ:g446"
+       }
+      ],
+      "echo": {
+       "masters": [
+        {
+         "n": 1,
+         "side": "a",
+         "rank": "primary",
+         "bite_id": "IOY6WzXez9E:g313",
+         "segments": [
+          {
+           "idea": 1,
+           "label": "نعم، الأمن القومي يستلزم فوز أمريكا بسباق الذكاء الاصطناعي"
+          }
+         ]
+        }
+       ],
+       "echoes": [
+        {
+         "n": 3,
+         "of": 1,
+         "idea": 1,
+         "label": "نعم، الأمن القومي يستلزم فوز أمريكا بسباق الذكاء الاصطناعي",
+         "bite_id": "IOY6WzXez9E:g402",
+         "of_bite": "IOY6WzXez9E:g313"
+        }
+       ]
+      }
+     },
+     {
+      "text": "هل تهدد عودة رجل واحد حوكمة الشركات في أمريكا؟",
+      "answers": [
+       {
+        "n": 14,
+        "fit": "direct",
+        "view": "الأموال الطائلة أطاحت بأعراف الحوكمة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "kTq6yGSSKeM:g547"
+       },
+       {
+        "n": 2,
+        "fit": "direct",
+        "view": "تدخل الحكومة في قرار خاص مقلق",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "IOY6WzXez9E:g343"
+       },
+       {
+        "n": 4,
+        "fit": "direct",
+        "view": "خطأ افتراض أنه لا بديل له",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "IOY6WzXez9E:g466"
+       },
+       {
+        "n": 17,
+        "fit": "weak",
+        "view": "المجلس استجاب لضغوط الجميع",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "IqhAvjuBwqY:g3371"
+       }
+      ]
+     },
+     {
+      "text": "لماذا تراجع مجلس إدارة إنفيديا عن قراره بإقصاء جنسن هوانغ؟",
+      "answers": [
+       {
+        "n": 17,
+        "fit": "direct",
+        "view": "ضغوط المساهمين وترامب وماسك",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "IqhAvjuBwqY:g3371"
+       },
+       {
+        "n": 13,
+        "fit": "direct",
+        "view": "موجة دعم عارمة توقعها هوانغ",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "kTq6yGSSKeM:g524"
+       },
+       {
+        "n": 2,
+        "fit": "weak",
+        "view": "الحكومة تدخلت في قرار الشركة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "IOY6WzXez9E:g343"
+       }
+      ]
+     },
+     {
+      "text": "هل تكفي عودة جنسن هوانغ لحماية أسهم الذكاء الاصطناعي من الانهيار؟",
+      "answers": [
+       {
+        "n": 18,
+        "fit": "direct",
+        "view": "لا، التصحيح بدأ قبل استقالته",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "IqhAvjuBwqY:g3497"
+       },
+       {
+        "n": 12,
+        "fit": "direct",
+        "view": "عودته أضافت تريليون دولار فورًا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "kTq6yGSSKeM:g445"
+       },
+       {
+        "n": 11,
+        "fit": "direct",
+        "view": "إنفيديا أصمد بفضل تنوع رقائقها",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "vi83ZKPVd7U:g1783"
+       },
+       {
+        "n": 5,
+        "fit": "weak",
+        "view": "رحيله كلّف ثلاثة تريليونات دولار",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "IOY6WzXez9E:g1105"
+       },
+       {
+        "n": 10,
+        "fit": "weak",
+        "view": "سيطرة غير مسبوقة على السوق",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "_1l4Sz65yqQ:g545"
+       }
+      ]
+     }
+    ],
+    "context": [
+     {
+      "n": 19,
+      "selected": true,
+      "bite_id": "JPTY2KiZYzM:g441"
+     },
+     {
+      "n": 20,
+      "selected": true,
+      "bite_id": "JPTY2KiZYzM:g1020"
+     }
+    ],
+    "bites": [
+     {
+      "bite_id": "IOY6WzXez9E:g313",
+      "video_id": "IOY6WzXez9E",
+      "channel": "CNN",
+      "bloc": "english",
+      "orientation": "أمريكي ليبرالي",
+      "speaker": "سكوت جينينغز",
+      "speaker_original": "Scott Jennings",
+      "speaker_role": "معلق سياسي ومستشار سابق في البيت الأبيض",
+      "is_host": false,
+      "type": "opinion",
+      "start": 313.32,
+      "end": 322.86,
+      "summary_ar": "سكوت جينينغز يشدد على ضرورة بقاء جنسن هوانغ لمنع الصين من الهيمنة على الذكاء الاصطناعي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "IOY6WzXez9E:g343",
+      "video_id": "IOY6WzXez9E",
+      "channel": "CNN",
+      "bloc": "english",
+      "orientation": "أمريكي ليبرالي",
+      "speaker": "آشلي أليسون",
+      "speaker_original": "Ashley Allison",
+      "speaker_role": "معلقة سياسية ومسؤولة سابقة في البيت الأبيض",
+      "is_host": false,
+      "type": "opinion",
+      "start": 343.76,
+      "end": 355.8,
+      "summary_ar": "آشلي أليسون تعتبر تدخل الحكومة الأمريكية في قرارات إدارة الشركات الخاصة أمرًا مثيرًا للقلق.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "IOY6WzXez9E:g402",
+      "video_id": "IOY6WzXez9E",
+      "channel": "CNN",
+      "bloc": "english",
+      "orientation": "أمريكي ليبرالي",
+      "speaker": "تيري شيلينغ",
+      "speaker_original": "Terry Schilling",
+      "speaker_role": "رئيس مشروع المبادئ الأمريكية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 402.46,
+      "end": 421.62,
+      "summary_ar": "تيري شيلينغ يرى أن فوز أمريكا بسباق الذكاء الاصطناعي يتطلب بقاء جنسن هوانغ على رأس إنفيديا.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "IOY6WzXez9E:g466",
+      "video_id": "IOY6WzXez9E",
+      "channel": "CNN",
+      "bloc": "english",
+      "orientation": "أمريكي ليبرالي",
+      "speaker": "أميشا كروس",
+      "speaker_original": "Amisha Cross",
+      "speaker_role": "محللة سياسية واستراتيجية ديمقراطية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 465.86,
+      "end": 479.46,
+      "summary_ar": "أميشا كروس تنتقد حصر قيادة إنفيديا في شخص جنسن هوانغ وتطالب بالتحقيق في سلوكه.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "IOY6WzXez9E:g1105",
+      "video_id": "IOY6WzXez9E",
+      "channel": "CNN",
+      "bloc": "english",
+      "orientation": "أمريكي ليبرالي",
+      "speaker": "تيري شيلينغ",
+      "speaker_original": "Terry Schilling",
+      "speaker_role": "رئيس مشروع المبادئ الأمريكية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1105.0,
+      "end": 1127.0,
+      "summary_ar": "تيري شيلينغ يرى أن خطورة سقوط إنفيديا تفوق مسألة تضارب المصالح مع الرئيس الأمريكي دونالد ترامب.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "IOY6WzXez9E:g1341",
+      "video_id": "IOY6WzXez9E",
+      "channel": "CNN",
+      "bloc": "english",
+      "orientation": "أمريكي ليبرالي",
+      "speaker": "آشلي أليسون",
+      "speaker_original": "Ashley Allison",
+      "speaker_role": "معلقة سياسية ومسؤولة سابقة في البيت الأبيض",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1341.0,
+      "end": 1365.0,
+      "summary_ar": "آشلي أليسون تحذر من تغليب الرئيس الأمريكي لمصالحه المالية الخاصة على حساب الأمن القومي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "_1l4Sz65yqQ:g233",
+      "video_id": "_1l4Sz65yqQ",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "ستان فويغر",
+      "speaker_original": "Stan Veuger",
+      "speaker_role": "زميل أول في دراسات السياسة الاقتصادية بمعهد أمريكان إنتربرايز",
+      "is_host": false,
+      "type": "opinion",
+      "start": 232.88,
+      "end": 252.18,
+      "summary_ar": "يرى ستان فويغر أن قلق الرئيس الأمريكي دونالد ترامب على سوق الأسهم ورغبته في ضمان صعودها كانا دافعًا رئيسيًا لتدخله لإعادة جنسن هوانغ.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "_1l4Sz65yqQ:g364",
+      "video_id": "_1l4Sz65yqQ",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "جوش روغين",
+      "speaker_original": "Josh Rogin",
+      "speaker_role": "كبير محللي الأمن العالمي في واشنطن بوست إنتلجنس",
+      "is_host": false,
+      "type": "opinion",
+      "start": 362.98,
+      "end": 391.64,
+      "summary_ar": "يرى جوش روغين أن ترامب انحاز لمنح إنفيديا حرية التصرف باعتبارها الوسيلة الأفضل لحماية المصالح التجارية الأمريكية أمام الصين.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "_1l4Sz65yqQ:g446",
+      "video_id": "_1l4Sz65yqQ",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "جوش روغين",
+      "speaker_original": "Josh Rogin",
+      "speaker_role": "كبير محللي الأمن العالمي في واشنطن بوست إنتلجنس",
+      "is_host": false,
+      "type": "fact",
+      "start": 446.74,
+      "end": 474.6,
+      "summary_ar": "يوضح جوش روغين أن المحققين يسعون لكشف ما إذا كان جنسن هوانغ وأليس هوانغ قد تآمرا لتمرير الرقائق المتطورة إلى الصين.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "_1l4Sz65yqQ:g545",
+      "video_id": "_1l4Sz65yqQ",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "ستان فويغر",
+      "speaker_original": "Stan Veuger",
+      "speaker_role": "زميل أول في دراسات السياسة الاقتصادية بمعهد أمريكان إنتربرايز",
+      "is_host": false,
+      "type": "opinion",
+      "start": 545.64,
+      "end": 567.92,
+      "summary_ar": "يشدد ستان فويغر على السيطرة الاستثنائية لشركة إنفيديا وقطاع الذكاء الاصطناعي على سوق الأسهم الأمريكية بصورة غير مسبوقة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "vi83ZKPVd7U:g1783",
+      "video_id": "vi83ZKPVd7U",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "orientation": "قريب من السلطة",
+      "speaker": "أندريه بارخوتا",
+      "speaker_original": "Андрей Бархота",
+      "speaker_role": "خبير مالي واقتصادي مستقل",
+      "is_host": false,
+      "type": "forecast",
+      "start": 1783.38,
+      "end": 1818.3,
+      "summary_ar": "توقع الخبير الاقتصادي أندريه بارخوتا أن تكون إنفيديا أكثر صمودًا أمام أي تصحيح لسوق الذكاء الاصطناعي بفضل تنوع استخدامات رقائقها.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "kTq6yGSSKeM:g445",
+      "video_id": "kTq6yGSSKeM",
+      "channel": "BBC News",
+      "bloc": "english",
+      "orientation": "بريطاني عام",
+      "speaker": "سايمون جاك",
+      "speaker_original": "Simon Jack",
+      "speaker_role": "محرر الشؤون الاقتصادية في بي بي سي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 445.48,
+      "end": 459.32,
+      "summary_ar": "يوضح سايمون جاك أن عودة جنسن هوانغ رفعت سهم إنفيديا بتريليون دولار وأثارت شائعات ونظريات مؤامرة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "kTq6yGSSKeM:g524",
+      "video_id": "kTq6yGSSKeM",
+      "channel": "BBC News",
+      "bloc": "english",
+      "orientation": "بريطاني عام",
+      "speaker": "سايمون جاك",
+      "speaker_original": "Simon Jack",
+      "speaker_role": "محرر الشؤون الاقتصادية في بي بي سي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 523.14,
+      "end": 542.26,
+      "summary_ar": "يرى سايمون جاك أن تلميح جنسن هوانغ باستعداده للعودة عكس ثقته بوجود دعم واسع لإعادته إلى منصبه.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "kTq6yGSSKeM:g547",
+      "video_id": "kTq6yGSSKeM",
+      "channel": "BBC News",
+      "bloc": "english",
+      "orientation": "بريطاني عام",
+      "speaker": "سايمون جاك",
+      "speaker_original": "Simon Jack",
+      "speaker_role": "محرر الشؤون الاقتصادية في بي بي سي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 548.12,
+      "end": 565.68,
+      "summary_ar": "يؤكد سايمون جاك أن حجم الأموال الضخمة المعرضة للخطر أطاح بقواعد حوكمة الشركات لفرض عودة هوانغ.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "kTq6yGSSKeM:g746",
+      "video_id": "kTq6yGSSKeM",
+      "channel": "BBC News",
+      "bloc": "english",
+      "orientation": "بريطاني عام",
+      "speaker": "سايمون جاك",
+      "speaker_original": "Simon Jack",
+      "speaker_role": "محرر الشؤون الاقتصادية في بي بي سي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 746.0,
+      "end": 779.0,
+      "summary_ar": "يشير سايمون جاك إلى أن تدخل الرئيس الأمريكي السابق دونالد ترامب لإعادة هوانغ يمنحه نفوذًا سياسيًا عليه.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "IqhAvjuBwqY:g3316",
+      "video_id": "IqhAvjuBwqY",
+      "channel": "Дождь",
+      "bloc": "russian",
+      "orientation": "معارض في المنفى",
+      "speaker": "إليزافيتا أوسيتينسكايا",
+      "speaker_original": "Елизавета Осетинская",
+      "speaker_role": "صحفية روسية ومؤسسة منصة ذا بيل",
+      "is_host": false,
+      "type": "opinion",
+      "start": 3316.5,
+      "end": 3340.0,
+      "summary_ar": "إليزافيتا أوسيتينسكايا ترى أن عودة جنسن هوانغ جاءت بتدخل مباشر من الرئيس الأمريكي دونالد ترامب بعد تبرئته من شبهات التجسس.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "IqhAvjuBwqY:g3371",
+      "video_id": "IqhAvjuBwqY",
+      "channel": "Дождь",
+      "bloc": "russian",
+      "orientation": "معارض في المنفى",
+      "speaker": "إليزافيتا أوسيتينسكايا",
+      "speaker_original": "Елизавета Осетинская",
+      "speaker_role": "صحفية روسية ومؤسسة منصة ذا بيل",
+      "is_host": false,
+      "type": "opinion",
+      "start": 3370.76,
+      "end": 3403.16,
+      "summary_ar": "إليزافيتا أوسيتينسكايا توضح أن مجلس إدارة إنفيديا أعاد جنسن هوانغ بعد تطمينات من الإدارة الأمريكية وضغوط المستثمرين ودونالد ترامب وإيلون ماسك.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "IqhAvjuBwqY:g3497",
+      "video_id": "IqhAvjuBwqY",
+      "channel": "Дождь",
+      "bloc": "russian",
+      "orientation": "معارض في المنفى",
+      "speaker": "إليزافيتا أوسيتينسكايا",
+      "speaker_original": "Елизавета Осетинская",
+      "speaker_role": "صحفية روسية ومؤسسة منصة ذا بيل",
+      "is_host": false,
+      "type": "opinion",
+      "start": 3497.2,
+      "end": 3536.06,
+      "summary_ar": "إليزافيتا أوسيتينسكايا تشكك في قدرة عودة جنسن هوانغ على وقف موجة تصحيح أسهم الذكاء الاصطناعي التي بدأت قبل استقالته.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "JPTY2KiZYzM:g441",
+      "video_id": "JPTY2KiZYzM",
+      "channel": "TVBS新聞",
+      "bloc": "chinese",
+      "orientation": "تايواني",
+      "speaker": "سكوت بيسنت",
+      "speaker_original": "Scott Bessent",
+      "speaker_role": "وزير الخزانة الأمريكي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 440.92,
+      "end": 453.3,
+      "summary_ar": "وزير الخزانة الأمريكي يرى ضرورة تحديد المسؤول عن المخالفات في إنفيديا قبل البت في عودة جنسن هوانغ.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "JPTY2KiZYzM:g1020",
+      "video_id": "JPTY2KiZYzM",
+      "channel": "TVBS新聞",
+      "bloc": "chinese",
+      "orientation": "تايواني",
+      "speaker": "دونالد ترامب",
+      "speaker_original": "Donald Trump",
+      "speaker_role": "الرئيس الأمريكي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1020.0,
+      "end": 1033.22,
+      "summary_ar": "الرئيس الأمريكي يدعو لمنح جنسن هوانغ فرصة ثانية والقبول باعتذاره لإعادته إلى منصبه في إنفيديا.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": true
+     }
+    ],
+    "error": "",
+    "extracted": 31,
+    "cost": {
+     "claude": {
+      "claude-haiku-5-5": 0.00184,
+      "claude-sonnet-5": 0.08793,
+      "claude-opus-5": 0.33869
+     },
+     "gemini": 0.8523,
+     "proxy_bytes": 34746586
+    }
+   }
   },
   {
    "id": "c831fe420512",
