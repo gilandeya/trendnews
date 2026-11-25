@@ -1864,12 +1864,28 @@ reel:
   cartoon:
     enabled: true
     concept_model: claude-sonnet-5
-    max_tokens: 2000
+    max_tokens: 3000
     model: gemini-3.1-flash-image
-    aspect: "9:16"
+    # قطع لا لوحة (قرار صاحب المشروع 25/11، قضية 2007): الرسم بخلفيته غطّى الشاشة فغابت لقطة الحدث خلف الهوك. صار 2–5 قطع بلا
+    # خلفية تُرسم كل واحدة وحدها (piece_aspect) على لون مفتاح مسطّح (key_color) يُزال في الكود حيث يتصل بالحافة (key_tolerance مسافة
+    # اللون)، وتُقبل القطعة إن غطّت بين min_cover وmax_cover من صورتها. أقل من min_pieces قطعة ناجحة ← بلا كاريكاتير
+    min_pieces: 2
+    max_pieces: 5
+    min_width: 0.15
+    max_width: 0.9
+    piece_aspect: "1:1"
+    key_color: "#FF00FF"
+    key_tolerance: 110
+    min_cover: 0.03
+    max_cover: 0.95
+    trim_pad: 4
+    # منطقة القطع بنسب الشاشة: تحت عنوان السؤال وحتى أسفل الصورة (ما تحت caption_top يغطيه نص منشور فيسبوك جزئيًا، والقطع صور لا نص)
+    area: {left: 0.04, top: 0.5, right: 0.96, bottom: 0.94}
+    # الدخول: كل قطعة تبدأ مع السؤال (hook_voice_at) بفارق stagger عن سابقتها، وتنزلق من خارج الشاشة إلى موضعها خلال enter_seconds
+    # بتباطؤ في آخرها (ease-out تكعيبي)، ثم تبقى حتى آخر الهوك
+    enter_seconds: 0.7
+    stagger: 0.35
     timeout: 180
-    zoom: 1.06
-    fog_scale: 0.6
     usd_per_mtok_output: 30
     usd_per_image: 0
     concept_system: |-
@@ -1880,20 +1896,27 @@ reel:
       2. الشخصيات العامة تُرسم كاريكاتيرًا مبالغًا فيه بملامح معروفة وملابس رسمية، بلا إهانة جسدية ولا عنف ولا إيحاء جنسي ولا
          رموز دينية، ولا تعميم على شعب أو أمة أو دين.
       3. لا كتابة ولا أرقام ولا أعلام بكلمات داخل الرسم؛ تُعرف البلدان بألوان أعلامها أو بخريطتها.
-      4. prompt_en وصف بصري دقيق بالإنجليزية لمولّد صور: الشخصيات بأسمائها ومواضعها والأشياء وألوانها والتكوين.
+      4. prompt_en وصف المشهد كاملًا بالإنجليزية (يُعطى لمولّد الصور مع كل قطعة ليتّسق أسلوبها).
+      5. الرسم بلا خلفية: قسّمه في pieces إلى 2–5 قطع، كل قطعة شيء واحد أو مجموعة متماسكة تُرسم وحدها بلا أرضية ولا سماء (مثل:
+         سفينة حربية بعلمها، قارب مسيَّر، خريطة ليبيا وعليها جنود، موجة بحر). prompt_en للقطعة يصفها وحدها بزاويتها وألوانها.
+         x وy مركزها في منطقة الرسم (أسفل الشاشة، تحت عنوان السؤال؛ 0..1) وwidth عرضها من عرض المنطقة، فتتكوّن الصورة حين تجتمع
+         القطع في مواضعها؛ وenter الجهة التي تدخل منها (السفينة من جهة إبحارها مثلًا). القطع لا تتداخل كثيرًا ولا تخرج عن المنطقة.
       إن لم تحمل الإجابات فكرة يرسمها كاريكاتير بأمانة فاجعل feasible = false واكتب السبب في idea_ar.
     style: |-
       Style: editorial political cartoon, bold clean ink lines, flat colors, slightly exaggerated caricature faces, rich but restrained
-      palette. Vertical 9:16 composition. Keep the top 40% of the image a calm, plain dark navy area (#12203A) with no objects, so a
-      headline can be placed there; all characters and action sit in the lower 60%. Absolutely no text, letters, numbers, captions,
-      speech bubbles, logos or watermarks anywhere in the image.
+      palette. Absolutely no text, letters, numbers, captions, speech bubbles, logos or watermarks anywhere in the image.
+    piece_style: |-
+      Draw exactly one isolated element, whole and uncropped, centered with a small margin, on a perfectly flat solid pure magenta
+      background (#FF00FF) that fills everything around it: no ground, no sky, no scenery, no shadow on the background, no gradient,
+      no other objects. Do not use magenta anywhere inside the element itself.
     texts:
       header: "🎨 **كاريكاتير مقترح للهوك**"
       basis: "يقوم على"
-      approve: "🎨 استعمل الكاريكاتير خلفيةً للهوك (بلا تعليم تبقى لقطة الحدث)"
+      approve: "🎨 استعمل قطع الكاريكاتير في الهوك فوق لقطة الحدث (بلا تعليم يبقى الهوك بلا رسم)"
+      pieces: "القطع"
       none: "🎨 لا كاريكاتير للهوك"
-      added: "🎨 يُستعمل الكاريكاتير خلفيةً للهوك"
-      used: "🎨 الهوك بالكاريكاتير المعتمد"
+      added: "🎨 تُستعمل قطع الكاريكاتير في الهوك"
+      used: "🎨 قطع الكاريكاتير المعتمد تتجمّع في الهوك ({n})"
   # اقتباس من عالم أو فيلسوف قبل سؤال الختام (طلب صاحب المشروع 23/11، src/reel_quote.py): الاقتباس حرفي من صفحة قرأناها (ويكي الاقتباس،
   # languages بالترتيب: العربية أولًا لأن قول ابن خلدون بالعربية أصله، ثم الإنجليزية مترجمًا)، ولا اقتباس يعمّم على شعب أو أمة (حكم النموذج،
   # وbanned_terms شبكة أمان). لا يدخل الريل إلا إن علّم المراجع مربعه في قضية السيناريو (غير معلَّم افتراضيًا). candidates عدد المفكرين
@@ -2645,13 +2668,14 @@ reel:
         female: EXAVITQu4vr4xnSDxMaL
         male: JBFqnCBsd6RMkjVDRZzb
       # رواة الريل (طلب صاحب المشروع 21/11): كل ريل صوتان يتناوبان على مشاهد الراوي (الهوك ← السياق ← بطاقة السؤال ← …
-      # ← الختام)، والريل التالي الزوج التالي: Woman1/Man1 ثم Woman2/Man2 ثم الأول… الاسم يظهر في السيناريو وقضية المراجعة.
-      # أصوات من المكتبة: التوليد يعمل، وسؤال اسمها من الـAPI يُرفض بـ400، فالأسماء هنا. فارغة ← صوتا voices بالجنس كما كان
+      # ← الختام)، والريل التالي الزوج التالي. الاسم يظهر في السيناريو وقضية المراجعة. أصوات من المكتبة: التوليد يعمل، وسؤال
+      # اسمها من الـAPI يُرفض بـ400، فالأسماء هنا. فارغة ← صوتا voices بالجنس كما كان.
+      # قرار صاحب المشروع 25/11 (قضية 2007): Woman2/Man2 وحدهما لكل الريلات من الآن (حُذف Woman1/Man1: tavIIPLplRB883FzWU0V وXdoLPWNt7ytn6BtU4FBf)
       narrator_pairs:
-        - - {id: tavIIPLplRB883FzWU0V, name: Woman1, gender: female}
-          - {id: XdoLPWNt7ytn6BtU4FBf, name: Man1, gender: male}
         - - {id: s7VusoUfleDWGRQNqsF6, name: Woman2, gender: female}
           - {id: imSStoespHEDicyPMZ3i, name: Man2, gender: male}
+      # سيناريو محفوظ بصوت أُخرج من narrator_pairs يُركَّب بأول زوج فيها (reel_script.current_voices)؛ false ← بصوته المحفوظ
+      replace_retired: true
       # Creator سنويًا (19/11): 99$ للسنة الأولى بـ121 ألف حرف شهريًا ← 8.25 ÷ 121 ≈ 0.07$ لكل ألف حرف؛ بعد السنة الأولى 18.33$
       # شهريًا ← نحو 0.15. يدخل سطر «💵 كلفة الريل» (costs)
       usd_per_1000_chars: 0.07
@@ -2754,7 +2778,7 @@ reel:
     # فلا يتحرك. قيمة ≥ min(lead_seconds, clip_tail_seconds) تُخفَّض إلى ذلك الحد − 0.1 كي لا يقع كلام المقطع في التلاشي
     transition: {type: slideleft, outro_type: fade, seconds: 0.35}
     # نسخة التركيب: رفعها تعيد --pending تركيب كل ريل معتمد مُركَّب بنسخة أقدم (المنشور والمرفوض لا يُمسّان)
-    version: 88
+    version: 89
     # أسطر بالجمل (قرار صاحب المشروع 7/11): في كل نص على الشاشة (الراوي والترجمة وكلام المتكلم والعنوان والسؤال) تبدأ كل جملة سطرًا
     # جديدًا، وما لا يسعه سطر يُكمل تحته قبل أن تبدأ التالية. marks: العلامات التي تنهي الجملة إن تلتها مسافة. false ← التقسيم بالعرض وحده
     clause_lines: {enabled: true, marks: "،,؛;.!?؟"}
@@ -3106,6 +3130,16 @@ reel:
         min_ref: 2
       # فحص بعد التركيب: وجوه نافذة الكلام في ملف المشهد الناتج (fps لقطة/ث). غياب وجه كامل (ارتفاعه ≥ min_face من النافذة
       # وحافتاه داخلها بهامش edge) lost_seconds فأكثر ← سطر تحذير لا حجب
+      # ضمان وجه المتكلم في نافذة الكلام (قضية 2007، زيلينسكي من TVBS): مواضع وجهه المعروضة كلها في وسط الصورة (~580) والنافذة
+      # الثابتة على يمينها (746..1222) فلم يُرَ ستّ عشرة ثانية. السبب عام لا لهذا المقطع: موضع النافذة الأول قد يُؤخذ من لقطة
+      # خارج المعروض (مقدّمة قبل القطع)، أو من أكبر وجه، أو من مسار غير المتكلم، ولا يتحرك التتبع إلا إذا خرج الوجه عن موضعه
+      # الأول. القاعدة: النافذة الثابتة تُقاس بما يُعرض: إن وقع أقل من min_inside من مواضع وجهه المعروضة داخلها (بهامش margin من
+      # عرضها) تُوسَّط على وسيطها. وعيّنات أكبر وجه (crop.samples) تُؤخذ من المدى المعروض لا من الملف كله. enabled: false ← كما كان
+      recenter:
+        enabled: true
+        min_inside: 0.6
+        margin: 0.1
+        shown_samples: true
       frame_check:
         enabled: true
         fps: 2
@@ -3582,6 +3616,7 @@ reel:
       comment_vertical: "📱 مقطع {channel}: مصدر ضيق فقُصّ من الارتفاع"
       # ريل 1913: القصّ تحرك مع المتحدث حين نقلته القناة على شاشتها
       comment_follow: "🎥 نافذة مقطع {channel} تتبع المتحدث: {n} حركة"
+      comment_recentered: "🎯 نافذة مقطع {channel} وُسِّطت على وجه المتكلم المعروض (كانت بعيدة عنه)"
       comment_face_lost: "⚠️ نافذة مقطع {channel} بلا وجه كامل للمتحدث في الثواني {spans} من مقطعه — راجعها"
       # مقطع سيُعرض بلا اسم ولا قناة (ريل 1913): يُرى وجه بلا بطاقة تعريف، فلا يمضي ذلك صامتًا
       comment_no_band: "⚠️ مقطع {channel} يظهر بلا بطاقة تعريف: لا اسم موثَّق ولا قناة تُذكر"

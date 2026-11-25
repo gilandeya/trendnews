@@ -9551,7 +9551,14 @@ def test_narrator_voices_2111() -> None:
     from src import reel_script, store, tts
     cfg = copy.deepcopy(load_config())
     prod = yaml.safe_load((Path(__file__).resolve().parents[1] / "config.yaml").read_text(encoding="utf-8"))
-    cfg["reel"]["tts"]["elevenlabs"]["narrator_pairs"] = prod["reel"]["tts"]["elevenlabs"]["narrator_pairs"]
+    # قضية 2007 (25/11): الإنتاج على Woman2/Man2 وحدهما؛ آلية التناوب بين زوجين تُختبر بزوجين صريحين هنا
+    prod_pairs = prod["reel"]["tts"]["elevenlabs"]["narrator_pairs"]
+    check("narr: الإنتاج Woman2/Man2 وحدهما (قضية 2007)",
+          [[v["name"] for v in p] for p in prod_pairs] == [["Woman2", "Man2"]]
+          and [v["id"] for v in prod_pairs[0]] == ["s7VusoUfleDWGRQNqsF6", "imSStoespHEDicyPMZ3i"], prod_pairs)
+    cfg["reel"]["tts"]["elevenlabs"]["narrator_pairs"] = [
+        [{"id": "tavIIPLplRB883FzWU0V", "name": "Woman1", "gender": "female"},
+         {"id": "XdoLPWNt7ytn6BtU4FBf", "name": "Man1", "gender": "male"}], prod_pairs[0]]
 
     # (1) الأرقام: نطق نداء التشكيل بإعرابه أولًا، وإلا القاعدة؛ والشرطة المائلة وقفة
     nouns = [{"text": "2026", "spoken": "أَلْفَيْنِ وَسِتَّةٍ وَعِشْرِينَ", "kind": "number"}]
@@ -9617,6 +9624,19 @@ def test_narrator_voices_2111() -> None:
     cfg4 = copy.deepcopy(cfg)
     cfg4["reel"]["tts"]["elevenlabs"]["narrator_pairs"] = []
     check("narr: بلا أزواج ← None والجنس كما كان", reel_script.next_narrator_pair(cfg4) is None)
+    # قضية 2007: سيناريو محفوظ بـWoman1/Man1 قبل القرار يُركَّب بالزوج الحالي، والحالي يبقى كما هو
+    cfg5 = copy.deepcopy(cfg)
+    cfg5["reel"]["tts"]["elevenlabs"]["narrator_pairs"] = prod_pairs
+    oldv = {"narrator": "female", "narrator_voices": pairs[0], "scenes": []}
+    cur = reel_script.current_voices(oldv, cfg5)
+    check("narr: صوت أُخرج ← الزوج الحالي في التركيب (2007)",
+          [v["name"] for v in cur["narrator_voices"]] == ["Woman2", "Man2"] and oldv["narrator_voices"] is pairs[0], cur)
+    keep = {"narrator": "female", "narrator_voices": prod_pairs[0], "scenes": []}
+    check("narr: الزوج الحالي يبقى كما هو", reel_script.current_voices(keep, cfg5) is keep)
+    cfg5["reel"]["tts"]["elevenlabs"]["replace_retired"] = False
+    check("narr: replace_retired false ← بصوته المحفوظ", reel_script.current_voices(oldv, cfg5) is oldv)
+    check("narr: التركيب يقرأ الصوت بعد current_voices",
+          "reel_script.current_voices(script, cfg)" in open("src/reel_render.py", encoding="utf-8").read())
 
     # (4) الصوتان يتناوبان على مشاهد الراوي بترتيبها، والمقاطع لا صوت للراوي فيها
     pair = pairs[0]
@@ -9648,7 +9668,7 @@ def test_narrator_voices_2111() -> None:
     check("narr: الجلسة تأخذ صوت كل مشهد، و«برأيك..» بصوت سؤالها", picked == [w, m, w, m, m, w, w], picked)
     src = (Path(__file__).resolve().parents[1] / "src" / "reel_render.py").read_text(encoding="utf-8")
     check("narr: التركيب يمرّر صوتي السيناريو إلى جلسة الصوت",
-          "voice_session.scene_voice = {i: v[\"id\"] for i, v in reel_script.scene_voices(script).items()}" in src
+          "voice_session.scene_voice = {i: v[\"id\"] for i, v in reel_script.scene_voices(vscript).items()}" in src
           and "session.use_scene(tag)" in src)
 
 
@@ -10543,7 +10563,9 @@ def test_reel_quote_2311() -> None:
 
 def test_reel_cartoon_2311() -> None:
     """كاريكاتير الهوك (طلب صاحب المشروع 23/11): Claude يكتب الفكرة من إجابات المحللين، وGemini يرسمها، وتُعرض في قضية السيناريو
-    بمربع غير معلَّم، ولا تصير خلفية الهوك إلا إن علّمه المراجع. لا يُسقط سيناريو أبدًا."""
+    بمربع غير معلَّم، ولا تدخل الهوك إلا إن علّمه المراجع. لا يُسقط سيناريو أبدًا.
+    قضية 2007 (25/11): قطع بلا خلفية (2–5) تُرسم كل واحدة على لون مفتاح يُزال في الكود، وتتجمّع مع دخول السؤال فوق خلفية الهوك
+    المعتادة (لقطة الحدث تبقى)."""
     import base64
     import copy
     import io
@@ -10556,10 +10578,13 @@ def test_reel_cartoon_2311() -> None:
     from src import publish, reel_cartoon, reel_render, review, store
     from src.config import load_config as real_load
     real = real_load()
-    check("2311c: config.yaml يفعّل الكاريكاتير ومولّده Gemini", real.path("reel.cartoon.enabled") is True
-          and str(real.path("reel.cartoon.model")).startswith("gemini") and real.path("reel.render.version") >= 86)
+    check("2311c: config.yaml يفعّل الكاريكاتير قطعًا ومولّده Gemini", real.path("reel.cartoon.enabled") is True
+          and str(real.path("reel.cartoon.model")).startswith("gemini") and real.path("reel.render.version") >= 89
+          and real.path("reel.cartoon.min_pieces") == 2 and real.path("reel.cartoon.max_pieces") == 5
+          and "magenta" in real.path("reel.cartoon.piece_style").lower())
     cfg = copy.deepcopy(load_config())
     cfg["reel"]["cartoon"] = copy.deepcopy(real.path("reel.cartoon"))
+    W, H = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
     script = {"title": "من يكسب من القمة؟", "scenes": [
         {"kind": "title_card", "text": "من يكسب من القمة؟"},
         {"kind": "narration", "role": "context", "text": "التقى القادة الثلاثة."},
@@ -10574,11 +10599,63 @@ def test_reel_cartoon_2311() -> None:
     check("2311c: المادة تحمل الإجابة بموقفها ولا مقطع السياق",
           "[1] محلل أول" in mat and "الموقف: الصين" in mat and "لا يدخل" not in mat and "التقى القادة" in mat, mat)
 
+    # (2) إزالة الخلفية: لون المفتاح المتصل بالحافة وحده يُزال، والقطعة تُقصّ إلى حدودها
+    piece = Image.new("RGB", (400, 400), (255, 0, 255))
+    arr = np.asarray(piece).copy()
+    arr[100:300, 120:280] = (200, 40, 40)
+    arr[180:220, 180:220] = (255, 0, 255)          # لون المفتاح داخل الرسم غير متصل بالحافة
+    cut = reel_cartoon.cutout(Image.fromarray(arr), cfg)
+    ca = np.asarray(cut)
+    check("2311c: القطعة مقصوصة إلى حدودها وخلفيتها شفافة",
+          cut.mode == "RGBA" and abs(cut.size[0] - 168) <= 4 and abs(cut.size[1] - 208) <= 4 and ca[0, 0, 3] == 0, cut.size)
+    cy, cx = ca.shape[0] // 2, ca.shape[1] // 2
+    check("2311c: لون المفتاح داخل الرسم (غير متصل بالحافة) لا يُمحى", ca[cy, cx, 3] == 255, ca[cy, cx].tolist())
+    check("2311c: صورة بلا خلفية مسطّحة ← لا قطعة",
+          reel_cartoon.cutout(Image.new("RGB", (100, 100), (30, 90, 160)), cfg) is None
+          and reel_cartoon.cutout(Image.new("RGB", (100, 100), (255, 0, 255)), cfg) is None)
+
+    # (3) الموضع والدخول (دوال خالصة)
+    al, at, ar, ab = reel_cartoon.area_px(cfg, W, H)
+    box = reel_cartoon.place((200, 100), {"x": 0.5, "y": 0.5, "width": 0.5}, cfg, W, H)
+    check("2311c: القطعة بعرضها من المنطقة ونسبتها وفي وسطها",
+          abs(box[2] - round(0.5 * (ar - al))) <= 1 and abs(box[3] - box[2] / 2) <= 1
+          and abs(box[0] + box[2] / 2 - (al + ar) / 2) <= 1, box)
+    tall = reel_cartoon.place((100, 1000), {"x": 1.0, "y": 1.0, "width": 0.9}, cfg, W, H)
+    check("2311c: الأطول من المنطقة يُصغَّر ويُحصر داخلها",
+          tall[3] <= ab - at and tall[0] + tall[2] <= ar and tall[1] + tall[3] <= ab and tall[0] >= al, tall)
+    check("2311c: الدخول من خارج الشاشة بجهته",
+          reel_cartoon.start_pos("left", box, W, H) == (-box[2], box[1])
+          and reel_cartoon.start_pos("right", box, W, H) == (W, box[1])
+          and reel_cartoon.start_pos("top", box, W, H) == (box[0], -box[3])
+          and reel_cartoon.start_pos("bottom", box, W, H) == (box[0], H))
+    d = float(cfg.path("reel.cartoon.enter_seconds"))
+    check("2311c: enter_pos ثابت قبل البدء ويصل موضعه بعد enter_seconds",
+          reel_render.enter_pos(0.1, -300, 100, 0.5, cfg) == -300 and reel_render.enter_pos(0.5 + d, -300, 100, 0.5, cfg) == 100
+          and -300 < reel_render.enter_pos(0.5 + d / 2, -300, 100, 0.5, cfg) < 100)
+    ex = reel_render._enter_expr(-300, 100, 0.5, cfg)
+    ok = True
+    for tt in (0.0, 0.6, 0.9, 2.0):
+        v = eval(ex.replace("min", "min").replace("max", "max"), {"t": tt, "min": min, "max": max})
+        ok &= abs(v - reel_render.enter_pos(tt, -300, 100, 0.5, cfg)) < 1e-6
+    check("2311c: تعبير ffmpeg مطابق لـenter_pos", ok, ex)
+    check("2311c: قطع الفكرة تُنظَّف (وصف فارغ يسقط، والعرض محصور، والاتجاه المجهول من الأسفل)",
+          reel_cartoon.clean_pieces([{"prompt_en": "", "x": 0.5}, {"prompt_en": "ship", "width": 5, "enter": "up", "x": -1}], cfg)
+          == [{"name_ar": "", "prompt_en": "ship", "x": 0.0, "y": 0.5, "width": float(cfg.path("reel.cartoon.max_width")),
+               "enter": "bottom"}])
+
+    # (4) الخطة: فكرة بقطع، ونداء Gemini لكل قطعة، وملفات شفافة ومعاينة
     buf = io.BytesIO()
-    Image.new("RGB", (576, 1024), (200, 50, 50)).save(buf, "PNG")
+    pimg = Image.new("RGB", (512, 512), (255, 0, 255))
+    pa = np.asarray(pimg).copy()
+    pa[150:360, 120:400] = (220, 30, 30)
+    Image.fromarray(pa).save(buf, "PNG")
     png64 = base64.b64encode(buf.getvalue()).decode()
     con = {"feasible": True, "idea_ar": "القادة يقتسمون كعكة والصين بأكبر قطعة", "basis_ar": "الإجابة 1",
-           "prompt_en": "Three leaders share a cake shaped like a world map"}
+           "prompt_en": "Three leaders share a cake shaped like a world map",
+           "pieces": [{"name_ar": "الكعكة", "prompt_en": "A cake shaped like a world map", "x": 0.5, "y": 0.6, "width": 0.7,
+                       "enter": "bottom"},
+                      {"name_ar": "القائد", "prompt_en": "A caricature leader holding a knife", "x": 0.2, "y": 0.3,
+                       "width": 0.3, "enter": "left"}]}
     bodies = []
 
     def fake_create(client, **kw):
@@ -10600,19 +10677,34 @@ def test_reel_cartoon_2311() -> None:
         rec = reel_cartoon.plan(draft, cfg)
         body, model, timeout = bodies[-1]
         prompt = body["contents"][0]["parts"][0]["text"]
-        check("2311c: الطلب بنسبة 9:16 وصورة فقط ووصف الفكرة مع قواعد الشكل (بلا كتابة)",
-              body["generationConfig"]["responseModalities"] == ["IMAGE"]
-              and body["generationConfig"]["imageConfig"]["aspectRatio"] == "9:16"
-              and prompt.startswith("Three leaders") and "no text" in prompt.lower() and model == cfg.path("reel.cartoon.model"),
-              body)
-        path = reel_cartoon.local_path(rec)
-        check("2311c: الصورة محفوظة بجوار المسودة ومسارها بصيغة drafts/…",
-              rec["status"] == "ready" and rec["path"].startswith("drafts/") and rec["path"].endswith("cafe2311c001-cartoon.png")
-              and path is not None and draft["hook_cartoon"] is rec and rec["cost_usd"] > 0, rec)
+        check("2311c: نداء لكل قطعة بنسبة القطعة ووصفها وحدها على لون المفتاح بلا كتابة",
+              len(bodies) == 2 and body["generationConfig"]["imageConfig"]["aspectRatio"] == "1:1"
+              and prompt.startswith("A caricature leader") and "magenta" in prompt.lower() and "no text" in prompt.lower()
+              and "Three leaders" in prompt and model == cfg.path("reel.cartoon.model"), prompt[:200])
+        files = [reel_cartoon.local_path(p["path"]) for p in rec.get("pieces") or []]
+        check("2311c: القطع ملفات شفافة بجوار المسودة والمعاينة في path",
+              rec["status"] == "ready" and len(files) == 2 and all(f is not None for f in files)
+              and Image.open(files[0]).mode == "RGBA" and rec["path"].endswith("cafe2311c001-cartoon.png")
+              and reel_cartoon.local_path(rec) is not None and draft["hook_cartoon"] is rec and rec["cost_usd"] > 0
+              and "file" not in rec["pieces"][0], rec)
+        prev = np.asarray(Image.open(reel_cartoon.local_path(rec)).convert("RGB"))
+        check("2311c: المعاينة بمقاس الشاشة والقطع في مواضعها فوق لون العلامة",
+              prev.shape[:2] == (H, W) and prev[0, 0].tolist() != [220, 30, 30]
+              and (prev[at:ab, al:ar] == [220, 30, 30]).all(axis=2).any())
+        flat = base64.b64encode((lambda b: (Image.new("RGB", (64, 64), (30, 90, 160)).save(b, "PNG"), b.getvalue())[1])(io.BytesIO())).decode()
+        reel_cartoon._generate = lambda body, model, key, timeout: (200, {"candidates": [{"finishReason": "STOP", "content": {
+            "parts": [{"inlineData": {"mimeType": "image/png", "data": flat}}]}}]}, 1.0)
+        r1 = reel_cartoon.plan({"id": "cafe2311c006", "script": script}, cfg)
+        check("2311c: قطع لم تُفصل عن خلفيتها ← بلا كاريكاتير بسببها", r1["status"] == "none" and "خلفيتها" in r1["error"], r1)
+        reel_cartoon._generate = fake_gen
+        reel_cartoon._create = lambda client, **kw: NS(stop_reason="tool_use", content=[NS(
+            type="tool_use", name="cartoon_concept", input={**con, "pieces": con["pieces"][:1]})])
+        n = len(bodies)
+        r0 = reel_cartoon.plan({"id": "cafe2311c007", "script": script}, cfg)
+        check("2311c: قطعة واحدة ← بلا رسم ولا نداء Gemini", r0["status"] == "none" and len(bodies) == n, r0)
         reel_cartoon._create = lambda client, **kw: NS(stop_reason="tool_use", content=[NS(
             type="tool_use", name="cartoon_concept", input={"feasible": False, "idea_ar": "الإجابات متفرقة", "basis_ar": "",
-                                                            "prompt_en": ""})])
-        n = len(bodies)
+                                                            "prompt_en": "", "pieces": []})])
         r2 = reel_cartoon.plan({"id": "cafe2311c002", "script": script}, cfg)
         check("2311c: لا فكرة أمينة ← بلا رسم ولا نداء Gemini", r2["status"] == "none" and "متفرقة" in r2["error"]
               and len(bodies) == n, r2)
@@ -10633,11 +10725,11 @@ def test_reel_cartoon_2311() -> None:
         else:
             os.environ["GEMINI_API_KEY"] = old[2]
 
-    # (2) القضية: الصورة ومربع غير معلَّم، وقراءته
+    # (5) القضية: المعاينة وأسماء القطع ومربع غير معلَّم، وقراءته
     lines = reel_cartoon.review_lines(draft, cfg, "https://raw/x.png")
     text = "\n".join(lines)
-    check("2311c: بند الريل يعرض الفكرة وأساسها والصورة ومربعًا غير معلَّم",
-          "يقتسمون كعكة" in text and "الإجابة 1" in text and 'src="https://raw/x.png"' in text
+    check("2311c: بند الريل يعرض الفكرة وأساسها وقطعها والمعاينة ومربعًا غير معلَّم",
+          "يقتسمون كعكة" in text and "الإجابة 1" in text and "الكعكة · القائد" in text and 'src="https://raw/x.png"' in text
           and "- [ ] " in text and "<!-- cartoonok:cafe2311c001 -->" in text, text)
     check("2311c: القراءة: غير المعلَّم لا يُعدّ، والمعلَّم يُعدّ",
           reel_cartoon.parse_ok(text) == set() and reel_cartoon.parse_ok(text.replace("- [ ] ", "- [x] ")) == {"cafe2311c001"})
@@ -10649,8 +10741,10 @@ def test_reel_cartoon_2311() -> None:
           "_reel_cartoon_lines(d, cfg)" in open("src/youtube_publish.py", encoding="utf-8").read()
           and "hook_cartoon" in __import__("src.reel_script", fromlist=["x"]).SCRIPT_KEYS)
     check("2311c: غير المعتمد لا يدخل الريل", reel_cartoon.usable(draft, cfg) is None)
+    check("2311c: لوحة قديمة بلا قطع لا تدخل ولو معتمدة",
+          reel_cartoon.usable({"hook_cartoon": {"status": "ready", "approved": True, "path": rec["path"]}}, cfg) is None)
 
-    # (3) الاعتماد: بالمربع يعلَّم approved، وبلاه لا
+    # (6) الاعتماد: بالمربع يعلَّم approved، وبلاه لا
     comments = []
     old_comment = review.comment
     review.comment = lambda n, t: comments.append(t)
@@ -10671,7 +10765,7 @@ def test_reel_cartoon_2311() -> None:
         review.comment = old_comment
     check("2311c: تعليق الاعتماد يذكره", any("الكاريكاتير" in t for t in comments), comments)
 
-    # (4) التركيب: الكاريكاتير خلفية الهوك كلها، بلا تنزيل فيديو الهوك، والضباب مخفَّف، والختام يلتحم به
+    # (7) التركيب: فيديو الهوك ينزل كما هو، والقطع فوق الضباب وتحت الكلمات بتعبير دخول، والختام يلتحم بلقطة الهوك
     approved = dict(rec, approved=True)
     cmds, downloads, notes = [], [], []
 
@@ -10696,22 +10790,23 @@ def test_reel_cartoon_2311() -> None:
     scene = script["scenes"][0]
     reel_render._hook_scene(0, scene, script, {"hook_video": {"video_id": "hv1", "start": 5, "end": 9}, "hook_cartoon": approved},
                             None, "female", rcfg, deps, work, work / "o.mp4", notes, hook_info=info)
-    final = " ".join([c for c in cmds if c[-1].endswith("o.mp4")][-1])
-    png = work / "hook_cartoon_0.png"
-    check("2311c: الهوك بالكاريكاتير بلا تنزيل فيديو الهوك", not downloads and str(png) in final and "eval=frame" in final,
-          (downloads, final[:300]))
-    check("2311c: الكاريكاتير بمقاس الشاشة", Image.open(png).size == (int(cfg.path("reel.render.width")),
-                                                                     int(cfg.path("reel.render.height"))))
-    check("2311c: الضباب مضروب في fog_scale", f"*{reel_render._fmt(float(cfg.path('reel.cartoon.fog_scale')))}'" in final, final[-700:])
-    check("2311c: الختام يلتحم بالكاريكاتير (صورة عند x0 = 0) وسطر التعليق",
-          info.get("mode") == "image" and info.get("bgpng") == png and info.get("x0") == 0
-          and any("الكاريكاتير" in n for n in notes), (info, notes))
+    final = [c for c in cmds if c[-1].endswith("o.mp4")][-1]
+    fs = " ".join(final)
+    check("2311c: لقطة الهوك تنزل كما هي والختام يلتحم بها", downloads == ["hv1"] and info.get("mode") == "clip", (downloads, info))
+    check("2311c: قطعتان مدخلين بعد الصوت ومتراكبتان بين الضباب والكلمات",
+          fs.count("hook_piece_0_") == 2 and "[4:v]format=rgba[pc0]" in fs and "[5:v]format=rgba[pc1]" in fs
+          and "[bf][pc0]overlay" in fs and "[pp0][pc1]overlay" in fs and "[pp1][t]overlay" in fs, fs[-900:])
+    voice_at = reel_render.hook_voice_at(rcfg)
+    check("2311c: الدخول مع السؤال وبفارق stagger", f"(t-{reel_render._fmt(voice_at)})" in fs
+          and f"(t-{reel_render._fmt(voice_at + float(cfg.path('reel.cartoon.stagger')))})" in fs, fs[-600:])
+    check("2311c: سطر التعليق يذكر القطع", any("الكاريكاتير" in n and "(2)" in n for n in notes), notes)
     cmds.clear()
     reel_render._hook_scene(0, scene, script, {"hook_video": {"video_id": "hv1", "start": 5, "end": 9}, "hook_cartoon": rec},
                             None, "female", rcfg, deps, Path(tempfile.mkdtemp()), work / "o2.mp4", [])
-    check("2311c: غير المعتمد ← فيديو الهوك كما كان", downloads == ["hv1"])
+    fs2 = " ".join([c for c in cmds if c[-1].endswith("o2.mp4")][-1])
+    check("2311c: غير المعتمد ← بلا قطع", "hook_piece" not in fs2 and "[bf][t]overlay" in fs2)
 
-    # (5) ffmpeg حقيقي: الأمر يعمل وأسفل الإطار من الكاريكاتير
+    # (8) ffmpeg حقيقي: قبل السؤال لا قطعة، وبعد تجمّعها أحمرها في موضعها والخلفية المعتادة حولها
     import shutil
     import subprocess
     if not shutil.which("ffmpeg"):
@@ -10719,21 +10814,30 @@ def test_reel_cartoon_2311() -> None:
         return
     work2 = Path(tempfile.mkdtemp())
     mp3 = work2 / "tone.mp3"
-    subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "lavfi", "-i", "sine=frequency=300:duration=2", str(mp3)], check=True)
+    subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "lavfi", "-i", "sine=frequency=300:duration=3", str(mp3)], check=True)
     rd = reel_render.Deps().resolved(rcfg)
     deps2 = reel_render.Deps(
         download_clip=download, synthesize=lambda t, v: {"ok": True, "audio": mp3.read_bytes(), "chars": len(t)},
-        diacritize=lambda t: (t, None), run=rd.run, probe=lambda p: 2.0, sleep=lambda s: None,
+        diacritize=lambda t: (t, None), run=rd.run, probe=lambda p: 3.0, sleep=lambda s: None,
         faces=lambda f, fr: (640, 360, []), frames=lambda p, fr: [np.full((360, 640), 100, np.uint8)] * len(fr),
         streams=lambda p: {"video", "audio"}).resolved(rcfg)
     out = work2 / "hook.mp4"
     reel_render._hook_scene(0, scene, script, {"hook_cartoon": approved}, None, "female", rcfg, deps2, work2, out, [])
-    W, H = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
-    raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", "0.1", "-i", str(out), "-frames:v", "1", "-f", "rawvideo",
-                          "-pix_fmt", "rgb24", "-"], capture_output=True, check=True).stdout
-    frame = np.frombuffer(raw, np.uint8).reshape(H, W, 3).astype(int)
-    low = frame[int(H * 0.85):, :].reshape(-1, 3).mean(axis=0)
-    check("2311c: أسفل أول إطار أحمر الكاريكاتير", low[0] > 120 and low[0] > low[2] + 40, low.round().tolist())
+    big = rec["pieces"][0]
+    pw_ = Image.open(reel_cartoon.local_path(big["path"])).size
+    bx, by, bw, bh = reel_cartoon.place(pw_, big, cfg, W, H)
+
+    def frame_at(ts):
+        raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", str(ts), "-i", str(out), "-frames:v", "1", "-f", "rawvideo",
+                              "-pix_fmt", "rgb24", "-"], capture_output=True, check=True).stdout
+        return np.frombuffer(raw, np.uint8).reshape(H, W, 3).astype(int)
+    late = voice_at + float(cfg.path("reel.cartoon.stagger")) + d + 0.3
+    f1 = frame_at(late)
+    mid = f1[by + bh // 2 - 10:by + bh // 2 + 10, bx + bw // 2 - 10:bx + bw // 2 + 10].reshape(-1, 3).mean(axis=0)
+    check("2311c: بعد التجمّع أحمر القطعة في موضعها", mid[0] > 150 and mid[0] > mid[2] + 80, mid.round().tolist())
+    f0 = frame_at(0.05)
+    mid0 = f0[by + bh // 2 - 10:by + bh // 2 + 10, bx + bw // 2 - 10:bx + bw // 2 + 10].reshape(-1, 3).mean(axis=0)
+    check("2311c: قبل السؤال لا قطعة في موضعها", not (mid0[0] > 150 and mid0[0] > mid0[2] + 80), mid0.round().tolist())
 
 
 def test_meta_echo_1988() -> None:
@@ -11158,3 +11262,60 @@ def test_meta_echo_units_2005() -> None:
           and seg[1].get("text_ar") == "الميناء مهم، يستقبل السفن الحربية، ويمدّ أفريقيا.", (found, seg, info))
     check("2005c: رقم خارج الوحدات يُسقط الفكرة وحدها بسببه",
           info["per_question"][0]["rejected"].get("bad_units") == 1, info.get("per_question"))
+
+
+def _no_shown(cfg):
+    cfg["reel"]["render"]["crop"]["recenter"]["shown_samples"] = False
+    return cfg
+
+
+def test_reel_crop_recenter_2007() -> None:
+    """قضية 2007: زيلينسكي (TVBS) لم يظهر في نافذة الكلام 16 ث. مواضع وجهه المعروضة ~580 والنافذة الثابتة 746..1222، لأن موضعها الأول
+    أُخذ من أول لقطة في المسار المقطّع وهي قبل القطع خارج المعروض، والتتبع لا يتحرك إلا إن خرج الوجه عن موضعه الأول. الإصلاح عام:
+    النافذة تبدأ من أول موضع معروض، وتُقاس الثابتة بما يُعرض فتُوسَّط على وجه المتكلم إن وقع خارجها، وعيّنات أكبر وجه من المدى
+    المعروض. الأرقام من المسودة 2026-11-25/a6812ba3faa9 (render_crops[3])."""
+    import copy
+
+    import numpy as np
+
+    from src import reel_render
+    from src.config import load_config as real_load
+    real = real_load()
+    check("2007c: config.yaml يفعّل التوسيط وعيّنات المدى المعروض",
+          real.path("reel.render.crop.recenter.enabled") is True and real.path("reel.render.crop.recenter.shown_samples") is True
+          and real.path("reel.render.version") >= 89)
+    cfg = copy.deepcopy(load_config())
+    cfg["reel"]["render"]["crop"]["recenter"] = copy.deepcopy(real.path("reel.render.crop.recenter"))
+    shown = [[1.866, 591], [2.784, 590], [3.702, 597], [4.619, 589], [5.537, 574], [6.455, 563], [7.372, 572], [8.29, 559],
+             [9.208, 566], [10.125, 574], [11.043, 571], [11.961, 590], [12.878, 589], [13.796, 574], [14.714, 585], [15.631, 589]]
+    new = reel_render.recenter_static(shown, 746, 476, cfg)
+    check("2007c: نافذة لا وجه فيها ← تُوسَّط على وسيط مواضعه", new is not None and 570 <= new <= 590, new)
+    check("2007c: نافذة فيها الوجه ← كما هي", reel_render.recenter_static(shown, 350, 476, cfg) is None)
+    off = copy.deepcopy(cfg)
+    off["reel"]["render"]["crop"]["recenter"]["enabled"] = False
+    check("2007c: مطفأ ← كما هي", reel_render.recenter_static(shown, 746, 476, off) is None)
+    clip = {"file_seconds": 20.0, "trim": [2.0, 18.0]}
+    check("2007c: عيّنات أكبر وجه من المدى المعروض",
+          reel_render.shown_fractions(clip, [0.0, 0.5, 1.0], cfg) == [0.1, 0.5, 0.9]
+          and reel_render.shown_fractions({"file_seconds": 20.0}, [0.2], cfg) == [0.2]
+          and reel_render.shown_fractions(clip, [0.2], _no_shown(off)) == [0.2])
+
+    # التكامل في _panel_crops: مسار مقطّع أوله خارج المعروض على وجه آخر (~984) ثم المتكلم ~580 طوال المعروض
+    fps_rate = reel_render.face_sample_rate(20.0, cfg)
+    path = [[int(round(0.5 * fps_rate)), 984]] + [[int(round((2.0 + tt) * fps_rate)), c] for tt, c in shown]
+    clip = {"file": "x.mp4", "file_seconds": 20.0, "trim": [2.0, 18.0], "video_id": "v1", "crop": {}}
+    deps = reel_render.Deps(faces=lambda f, fr: (1280, 720, []),
+                            frames=lambda p, fr: [np.full((72, 128), 100, np.uint8)] * len(fr))
+    crop = {"x": 746, "w": 405, "source": "face", "path": path, "cuts": [], "fragmented": True}
+    clip["crop"] = {"x": 746, "source": "face", "fragmented": True}
+    pc = cfg.path("reel.render.panel")
+    frame = (0, 0, int(pc["frame"]["width"]), int(pc["frame"]["height"]))
+    notes: list = []
+    reel_render._panel_crops(clip, crop, {"channel_display": "تي في بي إس"}, 0, None, frame, cfg, deps, notes)
+    fc = clip["crop"]["frame_crop"]
+    check("2007c: نافذة اللوحة تتوسط وجه المتكلم المعروض",
+          fc["x"] <= 580 <= fc["x"] + fc["w"] and abs(fc["x"] + fc["w"] / 2 - 580) <= 30, fc)
+    check("2007c: التوسيط يُحفظ ويُكتب سطره", clip["crop"].get("recentered") and any("وُسِّطت" in n for n in notes),
+          (clip["crop"].get("recentered"), notes))
+    check("2007c: _crop_for يبدأ من أول موضع معروض لا أول المسار",
+          "shown = _follow_samples(clip, meta[\"path\"], cfg)" in open("src/reel_render.py", encoding="utf-8").read())

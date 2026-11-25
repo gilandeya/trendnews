@@ -560,6 +560,22 @@ def next_narrator_pair(cfg: Any, exclude_id: str = "") -> list[dict] | None:
     return pairs[0] if k is None else pairs[(k + 1) % len(pairs)]
 
 
+def current_voices(script: dict, cfg: Any) -> dict:
+    """السيناريو بصوتين ما زالا في narrator_pairs، وإلا بأول زوج فيها (قرار صاحب المشروع 25/11، قضية 2007: «Woman2/Man2 لكل
+    الفيديوهات من الآن»): سيناريو كُتب قبل القرار ولم يُركَّب بعد يحمل Woman1/Man1 فيُقرأ بالزوج الحالي. نسخة لا تعديل في مكانه؛
+    replace_retired: false أو بلا أزواج أو بلا صوت محفوظ ← كما هو."""
+    pairs = _narrator_pairs(cfg)
+    ids = _script_voice_ids(script)
+    if not pairs or not ids or not cfg.path("reel.tts.elevenlabs.replace_retired", True):
+        return script
+    known = {v["id"] for pair in pairs for v in pair}
+    if all(i in known for i in ids):
+        return script
+    out = dict(script, narrator=pairs[0][0]["gender"], narrator_voices=[dict(v) for v in pairs[0]])
+    out.pop("narrator_voice", None)
+    return out
+
+
 def scene_voices(script: dict) -> dict[int, dict]:
     """صوت كل مشهد يقرؤه الراوي: صوتا الريل بالتناوب على المشاهد المنطوقة بترتيبها. دالة خالصة يقرؤها التركيب والجدول معًا
     فما يُعرض للمراجع هو ما يُنطق. سيناريو بصوت واحد أو بلا صوت ← {}."""

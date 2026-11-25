@@ -3989,3 +3989,22 @@ tool_use, questions: 0}` بلا ما يفسّره. محاكاة رد صحيح ع
 `qa.echo.units.max_words` (25) تُقسم عند الفاصلة؛ `numbered`)، والأداة لكل فكرة `from`/`to` في الكلام و`ar_from`/`ar_to` في الترجمة،
 والكود يأخذ الكلمات بين الرقمين من النص نفسه (فما يُعرض حرفيٌّ دائمًا). رقم خارج الوحدات أو مقلوب ← الفكرة وحدها تسقط بسبب `bad_units`.
 رد بالصيغة القديمة (first_words/last_words) يُقبل بالتحقق الحرفي كما كان. الاختبار `tests/test_youtube.py:test_meta_echo_units_2005`.
+
+## ملاحظات قضية 2007 (25/11): الكاريكاتير قطعًا، ووجه المتكلم في نافذته، وزوج رواة واحد
+
+- **الكاريكاتير قطع بلا خلفية (`reel_cartoon`):** اللوحة الكاملة غطّت خلفية الهوك فغابت لقطة الحدث. الفكرة (`cartoon_concept`) تعيد
+  `pieces` (2–5: `name_ar`، `prompt_en` للقطعة وحدها، `x`/`y`/`width` في منطقة `reel.cartoon.area`، `enter` جهة الدخول؛ `clean_pieces` تحصرها).
+  كل قطعة نداء Gemini (`piece_aspect`) بوصفها ووصف المشهد و`piece_style` (لون مفتاح مسطّح `key_color`)، و`cutout` يزيل اللون المتصل بحافة
+  الصورة وحده (`cv2.connectedComponents`؛ لون مشابه داخل الرسم يبقى) ويقصّها إلى حدودها، وتغطية خارج `min_cover`/`max_cover` ← قطعة فاشلة.
+  أقل من `min_pieces` ← بلا كاريكاتير بسببه. القطع PNG شفافة `…-cartoon-<k>.png` و`preview` معاينتها فوق لون العلامة في `path` (القضية).
+  التركيب (`_hook_scene`): الخلفية المعتادة كما هي (فيديو الهوك ينزل، والختام يلتحم به)، والقطع مدخلات بعد الصوت فوق الضباب وتحت
+  الكلمات، كل واحدة تبدأ عند `hook_voice_at` + k × `stagger` وتنزلق من خارج الشاشة (`start_pos`) إلى `place` خلال `enter_seconds`
+  (`enter_pos`/`_enter_expr`، ease-out تكعيبي). لوحة قديمة بلا `pieces` لا تدخل (`usable`). حُذف `cover_frame` و`zoom`/`fog_scale`.
+- **وجه المتكلم في نافذة الكلام (`recenter_static`، `shown_fractions`):** زيلينسكي (TVBS) غاب 16 ث: مواضعه المعروضة ~580 والنافذة
+  746..1222، لأن موضعها الأول من أول لقطة في المسار المقطّع (قبل القطع، خارج المعروض، وجه آخر)، والتتبع لا يتحرك ما لم يخرج الوجه عن
+  موضعه الأول. القاعدة العامة: `_crop_for` يبدأ من أول موضع **معروض**؛ و`_panel_crops` حين لا حركة يقيس النافذة الثابتة بمواضع المتكلم
+  المعروضة، فإن وقع أقل من `crop.recenter.min_inside` منها داخلها (بهامش `margin`) تُوسَّط على وسيطها والبلاطة معها (`recentered` وسطر
+  `comment_recentered`)؛ وعيّنات أكبر وجه (`crop.samples`) من المدى المعروض (trim/freeze) لا الملف كله. `tests.helpers.load_config` يطفئهما.
+- **الرواة:** `narrator_pairs` = Woman2/Man2 وحده (قرار صاحب المشروع)؛ وسيناريو محفوظ بصوت أُخرج منها يُركَّب بالزوج الحالي
+  (`reel_script.current_voices`، `elevenlabs.replace_retired`).
+- `render_version` = 89 (للقادم فقط، S11). الاختبارات `test_reel_cartoon_2311` و`test_reel_crop_recenter_2007` و`test_narrator_voices_2111`.
