@@ -636,7 +636,8 @@
         "shows": "شخص يسير بجانب لافتة شركة إنفيديا (NVIDIA) أمام مبنى الشركة برقم 2788، مع شعار الشركة الأخضر",
         "reason": "عليها نص مركَّب ولا مستطيل خالٍ منه"
       }
-    ]
+    ],
+    "layout": "A"
   },
   "hook_candidates": [
     {
@@ -735,7 +736,7 @@
   },
   "review_issue": 2012,
   "stage2_issue": 2012,
-  "render_status": "queued",
+  "render_status": "rendered",
   "approved_script_at": "2026-11-25T12:33:52.062868+00:00",
   "editor_override": {
     "at": "2026-11-25T12:33:52.062845+00:00",
@@ -744,5 +745,741 @@
       "لا تسند المصادر المرفقة وقوع إقالة فعلية لجنسن هوانغ ولا تحقيقًا بهذا الوصف؛ أقصى ما تقوله المقاطع هو تصريحات سياسية ونقاش حول شبهات امتثال دون تفاصيل قانونية محددة كهذه. هذه الواقعة تحتاج تأكيدًا من مصدر موثق."
     ]
   },
-  "hook_picked": 0
+  "hook_picked": 0,
+  "reel_file": "reels/2026-11-25/900212c77395.mp4",
+  "reel_gif": "reels/2026-11-25/900212c77395.gif",
+  "duration_seconds": 79.4,
+  "render_version": 89,
+  "render_attempts": 0,
+  "reel_music": "nastelbom-news-news-2-473288.mp3",
+  "render_sources": "تي في بي إس، تلفزيون دوشد",
+  "render_crops": {
+    "2": {
+      "x": 455,
+      "source": "speaker",
+      "speaker_score": 0.49,
+      "tracks": 1,
+      "gate": {
+        "start": 0.88,
+        "end": 13.5,
+        "source": "transcript"
+      },
+      "exact": {
+        "t0": 440.92,
+        "t1": 453.3,
+        "ratio": 0.931,
+        "source": "words",
+        "saved": true
+      },
+      "faces": {
+        "samples": [
+          [
+            1.104,
+            662
+          ],
+          [
+            2.022,
+            663
+          ],
+          [
+            2.939,
+            653
+          ],
+          [
+            3.857,
+            651
+          ],
+          [
+            4.775,
+            658
+          ],
+          [
+            5.692,
+            656
+          ],
+          [
+            6.61,
+            661
+          ],
+          [
+            7.528,
+            637
+          ],
+          [
+            8.445,
+            641
+          ],
+          [
+            9.363,
+            663
+          ],
+          [
+            10.281,
+            642
+          ],
+          [
+            11.198,
+            627
+          ],
+          [
+            12.116,
+            652
+          ]
+        ],
+        "cuts": [
+          13.381
+        ],
+        "identity": {
+          "ref": 41,
+          "matched": 44,
+          "path": 1,
+          "single": 0
+        }
+      },
+      "panel_q": "c0",
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 422,
+        "y": 0,
+        "w": 470,
+        "h": 546,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.76,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.8,
+          0.78,
+          0.8
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "line",
+      "frame_check": {
+        "samples": 29,
+        "lost": []
+      }
+    },
+    "7": {
+      "x": 0,
+      "source": "speaker_vision",
+      "speaker_score": 0.98,
+      "tracks": 2,
+      "vision": {
+        "pick": 2,
+        "agree": 3,
+        "archive": [
+          1
+        ]
+      },
+      "gate": {
+        "start": 1.09,
+        "end": 24.7,
+        "source": "silence"
+      },
+      "exact": {
+        "t0": 3316.5,
+        "t1": 3340.0,
+        "ratio": 0.913,
+        "source": "words",
+        "saved": true
+      },
+      "faces": {
+        "samples": [
+          [
+            1.55,
+            200
+          ],
+          [
+            2.1,
+            196
+          ],
+          [
+            2.65,
+            181
+          ],
+          [
+            3.2,
+            175
+          ],
+          [
+            3.75,
+            175
+          ],
+          [
+            4.3,
+            183
+          ],
+          [
+            4.85,
+            179
+          ],
+          [
+            5.4,
+            182
+          ],
+          [
+            5.95,
+            182
+          ],
+          [
+            6.5,
+            185
+          ],
+          [
+            7.05,
+            180
+          ],
+          [
+            7.6,
+            178
+          ],
+          [
+            8.15,
+            179
+          ],
+          [
+            8.7,
+            181
+          ],
+          [
+            9.25,
+            179
+          ],
+          [
+            9.8,
+            177
+          ],
+          [
+            10.35,
+            174
+          ],
+          [
+            10.9,
+            173
+          ],
+          [
+            11.45,
+            163
+          ],
+          [
+            12.0,
+            157
+          ],
+          [
+            12.55,
+            160
+          ],
+          [
+            13.1,
+            177
+          ],
+          [
+            13.65,
+            180
+          ],
+          [
+            14.2,
+            182
+          ],
+          [
+            14.75,
+            182
+          ],
+          [
+            15.3,
+            169
+          ],
+          [
+            15.85,
+            170
+          ],
+          [
+            16.4,
+            178
+          ],
+          [
+            16.95,
+            182
+          ],
+          [
+            17.5,
+            183
+          ],
+          [
+            18.05,
+            180
+          ],
+          [
+            18.6,
+            155
+          ],
+          [
+            19.15,
+            158
+          ],
+          [
+            19.7,
+            153
+          ],
+          [
+            20.25,
+            156
+          ],
+          [
+            20.8,
+            161
+          ],
+          [
+            21.35,
+            165
+          ],
+          [
+            21.9,
+            166
+          ],
+          [
+            22.45,
+            179
+          ],
+          [
+            23.0,
+            194
+          ],
+          [
+            23.55,
+            189
+          ],
+          [
+            24.1,
+            201
+          ],
+          [
+            24.65,
+            197
+          ]
+        ],
+        "cuts": [],
+        "identity": {
+          "ref": 59,
+          "matched": 59,
+          "path": 0,
+          "single": 0
+        }
+      },
+      "panel_q": 0,
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 0,
+        "y": 0,
+        "w": 488,
+        "h": 568,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.79,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.81,
+          0.81,
+          0.81
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "line",
+      "frame_check": {
+        "samples": 51,
+        "lost": []
+      }
+    },
+    "closing": {
+      "source": "continuous"
+    }
+  },
+  "render_speakers": {
+    "2": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "4": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "7": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "8": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "10": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "11": {
+      "accepted": false,
+      "source": "gemini"
+    }
+  },
+  "render_figures": [
+    {
+      "scene": 3,
+      "sentence": 0,
+      "name": "دونالد ترامب",
+      "how": "auto",
+      "source": "wikimedia",
+      "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/President_Trump_Visits_St._John%27s_Episcopal_Church_%2849963649028%29.jpg/1280px-President_Trump_Visits_St._John%27s_Episcopal_Church_%2849963649028%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+    }
+  ],
+  "render_gemini_speakers": [
+    {
+      "point_id": "aab36ac9fe2d",
+      "video_id": "JPTY2KiZYzM",
+      "start": 440.9,
+      "end": 453.3,
+      "name": "سكوت بيسنت",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "6f262d6eb371",
+      "video_id": "JPTY2KiZYzM",
+      "start": 1020.0,
+      "end": 1033.2,
+      "name": "دونالد ترمب",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "0df5070849c2",
+      "video_id": "IqhAvjuBwqY",
+      "start": 3316.5,
+      "end": 3340.0,
+      "name": "إليزافيتا أوسيتينسكايا",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "9ed2a96357c2",
+      "video_id": "IOY6WzXez9E",
+      "start": 1343.9,
+      "end": 1364.6,
+      "name": "آشلي أليسون",
+      "source": "",
+      "is_host": false,
+      "applied": true,
+      "off_screen": true
+    },
+    {
+      "point_id": "b35ef580fc76",
+      "video_id": "IOY6WzXez9E",
+      "start": 313.3,
+      "end": 322.9,
+      "name": "سكوت جينينغز",
+      "source": "",
+      "is_host": false,
+      "applied": true,
+      "off_screen": true
+    },
+    {
+      "point_id": "2adbbd3bce8a",
+      "video_id": "IOY6WzXez9E",
+      "start": 402.5,
+      "end": 421.6,
+      "name": "تيري شيلينغ",
+      "source": "",
+      "is_host": false,
+      "applied": true,
+      "off_screen": true
+    }
+  ],
+  "render_gemini_cost": 0.1691,
+  "render_exact_selfcheck": {
+    "ok": true,
+    "reason": ""
+  },
+  "render_broll": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "photo": "جملة مجرّدة"
+    },
+    {
+      "scene": 3,
+      "sentence": 0,
+      "figure": true
+    },
+    {
+      "scene": 5,
+      "sentence": 0,
+      "photo": "جملة مجرّدة"
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "photo": "جملة مجرّدة"
+    }
+  ],
+  "broll_scan": {
+    "videos": {
+      "6l2iet1cmBw": {
+        "downloaded": 310,
+        "classified": 216,
+        "sheets": 15,
+        "kinds": {
+          "anchor": 208,
+          "text_heavy": 2,
+          "studio": 6
+        },
+        "footage_relevant": 0,
+        "footage_other": 0,
+        "chains": 0,
+        "longest": 0
+      }
+    },
+    "sheets_used": 15,
+    "chains": [],
+    "assign": [],
+    "hook_assign": []
+  },
+  "render_timing": {
+    "minutes": 22.9,
+    "stages": [
+      [
+        "clips",
+        0.0
+      ],
+      [
+        "clip 2 تي في بي إس",
+        0.2
+      ],
+      [
+        "clip 4 تي في بي إس",
+        1.2
+      ],
+      [
+        "clip 7 تلفزيون دوشد",
+        2.4
+      ],
+      [
+        "clip 8 سي إن إن",
+        3.5
+      ],
+      [
+        "clip 10 سي إن إن",
+        10.0
+      ],
+      [
+        "clip 11 سي إن إن",
+        11.5
+      ],
+      [
+        "background",
+        13.7
+      ],
+      [
+        "hook_scan",
+        13.7
+      ],
+      [
+        "broll",
+        18.0
+      ],
+      [
+        "assemble",
+        18.2
+      ],
+      [
+        "speakers",
+        18.2
+      ],
+      [
+        "maps",
+        19.7
+      ],
+      [
+        "figures",
+        19.7
+      ],
+      [
+        "scene 0 title_card",
+        19.8
+      ],
+      [
+        "scene 1 narration",
+        20.0
+      ],
+      [
+        "scene 2 clip",
+        20.1
+      ],
+      [
+        "scene 3 narration",
+        20.8
+      ],
+      [
+        "scene 4 clip",
+        20.9
+      ],
+      [
+        "scene 5 narration",
+        20.9
+      ],
+      [
+        "scene 6 narration",
+        21.0
+      ],
+      [
+        "scene 7 clip",
+        21.0
+      ],
+      [
+        "scene 8 clip",
+        21.9
+      ],
+      [
+        "scene 10 clip",
+        21.9
+      ],
+      [
+        "scene 11 clip",
+        21.9
+      ],
+      [
+        "scene 12 question",
+        21.9
+      ],
+      [
+        "join",
+        22.3
+      ],
+      [
+        "final",
+        22.6
+      ]
+    ],
+    "left_minutes": 30.8
+  },
+  "render_dropped": [
+    {
+      "point_id": "6f262d6eb371",
+      "kind": "clip",
+      "reason": "المتكلم في لحظة اقتباس دونالد ترامب هو دونالد ترمب بحسب Gemini — حُذف المقطع"
+    },
+    {
+      "point_id": "9ed2a96357c2",
+      "kind": "clip",
+      "reason": "آشلي أليسون لا يظهر على الشاشة وهو يتكلم في مقطع سي إن إن (الكاميرا على غيره) بحسب Gemini — حُذف المقطع"
+    },
+    {
+      "point_id": "b35ef580fc76",
+      "kind": "clip",
+      "reason": "سكوت جينينغز لا يظهر على الشاشة وهو يتكلم في مقطع سي إن إن (الكاميرا على غيره) بحسب Gemini — حُذف المقطع"
+    },
+    {
+      "point_id": "2adbbd3bce8a",
+      "kind": "clip",
+      "reason": "تيري شيلينغ لا يظهر على الشاشة وهو يتكلم في مقطع سي إن إن (الكاميرا على غيره) بحسب Gemini — حُذف المقطع"
+    }
+  ],
+  "render_approx": [
+    {
+      "point_id": "aab36ac9fe2d",
+      "kind": "clip",
+      "start": 439,
+      "end": 454,
+      "reason": "تعذّر جلب نص الفيديو: لا نص متاح: Could not retrieve a transcript for the video https://www.youtube.com/watch?v=JPTY2KiZYzM! This is most likely caused by: Subtitles are disabled for this video If you are sure that the des",
+      "aligned": true
+    },
+    {
+      "point_id": "6f262d6eb371",
+      "kind": "clip",
+      "start": 1019,
+      "end": 1034,
+      "reason": "تعذّر جلب نص الفيديو: لا نص متاح: Could not retrieve a transcript for the video https://www.youtube.com/watch?v=JPTY2KiZYzM! This is most likely caused by: Subtitles are disabled for this video If you are sure that the des",
+      "aligned": true
+    },
+    {
+      "point_id": "9ed2a96357c2",
+      "kind": "clip",
+      "start": 1340,
+      "end": 1365,
+      "reason": "تعذّر جلب نص الفيديو: لا نص متاح: Could not retrieve a transcript for the video https://www.youtube.com/watch?v=IOY6WzXez9E! This is most likely caused by: Subtitles are disabled for this video If you are sure that the des",
+      "aligned": true
+    },
+    {
+      "point_id": "b35ef580fc76",
+      "kind": "clip",
+      "start": 312,
+      "end": 323,
+      "reason": "تعذّر جلب نص الفيديو: لا نص متاح: Could not retrieve a transcript for the video https://www.youtube.com/watch?v=IOY6WzXez9E! This is most likely caused by: Subtitles are disabled for this video If you are sure that the des",
+      "aligned": true
+    },
+    {
+      "point_id": "2adbbd3bce8a",
+      "kind": "clip",
+      "start": 401,
+      "end": 422,
+      "reason": "تعذّر جلب نص الفيديو: لا نص متاح: Could not retrieve a transcript for the video https://www.youtube.com/watch?v=IOY6WzXez9E! This is most likely caused by: Subtitles are disabled for this video If you are sure that the des",
+      "aligned": true
+    }
+  ],
+  "rendered_at": "2026-11-25T12:58:57.441994+00:00",
+  "cost_renders": [
+    {
+      "claude": {
+        "claude-haiku-5-5": 0.01158,
+        "claude-sonnet-5": 0.0482
+      },
+      "gemini": 0.1691,
+      "tts": 0.04102,
+      "proxy_bytes": 39338221,
+      "at": "2026-11-25T12:58:57.442044+00:00"
+    }
+  ],
+  "render_notes": [
+    "### 🎬 تركيب الريل",
+    "- ⏱️ المدة: 79.4 ث",
+    "- 🎞️ [الملف](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-11-25/900212c77395.mp4) · [المعاينة](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-11-25/900212c77395.gif)",
+    "- ✂️ حُذف 4: clip (المتكلم في لحظة اقتباس دونالد ترامب هو دونالد ترمب بحسب Gemini — حُذف المقطع)؛ clip (آشلي أليسون لا يظهر على الشاشة وهو يتكلم في مقطع سي إن إن (الكاميرا على غيره) بحسب Gemini — حُذف المقطع)؛ clip (سكوت جينينغز لا يظهر على الشاشة وهو يتكلم في مقطع سي إن إن (الكاميرا على غيره) بحسب Gemini — حُذف المقطع)؛ clip (تيري شيلينغ لا يظهر على الشاشة وهو يتكلم في مقطع سي إن إن (الكاميرا على غيره) بحسب Gemini — حُذف المقطع)",
+    "- ⏱️ نافذة مقطع تلفزيون دوشد مُدّت إلى مدته المعروفة (24 ث) — موضع الاقتباس في النص تقديري",
+    "- 🟦 لا صورة صالحة لخلفية الراوي — خلفية كحلية تُركَّب فوقها الخرائط ولقطات الحدث",
+    "- 🎞️ المرشّحون لم يحوِ أيٌّ منهم لقطات صالحة من الحدث — الهوك بصورة الخبر",
+    "- ✅ Gemini يؤكد المتكلم: سكوت بيسنت (تي في بي إس)",
+    "- ✅ Gemini يؤكد المتكلم: إليزافيتا أوسيتينسكايا (تلفزيون دوشد)",
+    "- سقط سؤال «هل تبرر المنافسة مع الصين تجاوز الشبهات حول هوانغ؟» لأن كل إجاباته حُذفت",
+    "- 🧑 صور الأشخاص خلف جملهم: دونالد ترامب (من ويكيميديا)",
+    "- 🎞️ فحصت 216 ث من 1 فيديو: لقطات ميدانية 0 ث — لا سلسلة ≥ 3 ث",
+    "- 🎞️ لقطات الحدث: 0 من 4 جمل — 3 بالصورة",
+    "- 🖼️ خلفية واحدة متصلة: الصورة تتحرك ذهابًا وإيابًا طوال الريل (لا لقطات حدث تكفي فيديو)",
+    "- 🎨 قطع الكاريكاتير المعتمد تتجمّع في الهوك (4)",
+    "- ✂️ أُخفي شريط القناة في تي في بي إس: قُصّ أسفل 24%",
+    "- 🎯 مقطع تلفزيون دوشد: 2 وجوه — المتكلم بالرؤية",
+    "- ✂️ أُخفي شريط القناة في تلفزيون دوشد: قُصّ أسفل 21%",
+    "- 🎙️ الصوت: ElevenLabs (باقي الرصيد نحو ? حرف)",
+    "- 🔤 نُطقت أسماء أجنبية برسمها الأصلي: دونالد ترامب ← Donald Trump، هوانغ ← Huang، ترامب ← Trump",
+    "- 💵 كلفة الريل: 2.14$ — المقاطع والأسئلة 1.28$ · السيناريو 0.59$ · التركيب 0.27$ (Opus 0.47$ · Sonnet 0.38$ · Haiku 0.02$ · Gemini 1.24$ · صوت 0.04$ · بروكسي 74 MB) · البروكسي خارج المجموع"
+  ],
+  "reel_review_issue": 2013
 }
