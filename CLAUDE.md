@@ -3972,3 +3972,11 @@ tool_use, questions: 0}` بلا ما يفسّره. محاكاة رد صحيح ع
 `client=None` (سيناريو مسار العناوين لا ينشئ عميلًا) وكل وحدة قديمة كانت تنشئ عميلها بنفسها، والوحدتان الجديدتان لم تفعلا، فحُفظ
 `{"status": "none", "error": "AttributeError: 'NoneType' object has no attribute 'messages'"}` بصمت. `llm.create(None, ...)` ينشئ الآن عميلًا واحدًا
 للعملية من `ANTHROPIC_API_KEY` (`llm.default_client`)، والعميل الممرَّر يغلب. الاختبار `tests/test_youtube.py:test_llm_default_client_2511`.
+
+## لا وقفة داخل اسم أجنبي (ريل 5d767581bd5e، 25/11) — `tts.foreign_every_word`
+
+الحادثة: سُمعت استراحة بين «باقر» و«قاليباف» في جملة واحدة (توزّع الاسم على شريحتين أمر عرض لا علاقة له بالصوت: الجملة كلها نداء
+واحد). السبب `tts.apply_proper_nouns`: العَلَم الأجنبي يُسكَّن آخر **كل** كلماته («محمدْ باقرْ قاليبافْ»، Issue #1423 لأن أصوات Google
+تخمّن الإعراب)، وElevenLabs يقرأ السكون وقفًا. الآن `reel.tts.foreign_waqf.every_word_providers` (["google"]): المزوّد فيها ← كل كلمة
+كما كان، وغيره ← آخر كلمة ساكنة، وما قبلها بلا حركة إعراب ولا سكون (`_bare_end`: «محمد باقر قاليبافْ»؛ لا إعراب على اسم أجنبي). العلم العربي بإعرابه كما كان. `_speech` يحسم المزوّد (`VoiceSession.multilingual`) قبل الوقف؛ بلا جلسة ← كما كان.
+وأداة `tools/voice_probe.py` بقاعدة ElevenLabs. `render_version` = 88 (للقادم فقط، S11). الاختبار `tests/test_youtube.py:test_foreign_name_waqf_2511`.

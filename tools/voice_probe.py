@@ -55,7 +55,8 @@ def prepare(cfg, diacritize=None) -> dict:
     text = " ".join(lines)
     diacritize = diacritize or (lambda t: tts.diacritize_full(t, cfg))
     shown, warn, nouns = diacritize(text)
-    shown = tts.apply_proper_nouns(shown, nouns)
+    # الأداة تقيس ElevenLabs وحده، فوقف الأعلام بقاعدته (ريل 5d767581bd5e)
+    shown = tts.apply_proper_nouns(shown, nouns, every_word=tts.foreign_every_word(cfg, "elevenlabs"))
     marked = tts.split_sentences(shown)
     return {"text": text, "warn": warn, "nouns": nouns, "marked": marked,
             "plain": [tts.strip_tashkeel(s) for s in marked]}
