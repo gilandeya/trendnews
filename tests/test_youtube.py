@@ -10949,3 +10949,65 @@ def test_llm_default_client_2511() -> None:
     from src import reel_cartoon, reel_quote
     check("2511: نقطتا نداء الكاريكاتير والاقتباس تمرّان بـllm.create",
           "llm.create(client" in inspect.getsource(reel_cartoon) and "llm.create(client" in inspect.getsource(reel_quote))
+
+
+def test_meta_echo_pair_2511() -> None:
+    """ريل 5d767581bd5e (25/11): وُجدت أم وصداها في السؤال 2 فاختار الاختيار الآلي الأم ثم قدّم التوجّه الجديد على الصدى فنفد سقف
+    120 ث قبله، فعُرضت الأم إجابة عادية. الآن يُعلَّم الصدى مع أمه إن اتسع له السقف، والباني يقول حين تُعرض أم بلا صداها."""
+    from types import SimpleNamespace as NS
+    from src import meta_qa, meta_script
+    from src.config import Config
+    cfg = load_config()
+    cfg["youtube"]["meta_topics"]["qa"]["max_seconds"] = 120
+    # أرقام الشاهد نفسها: المدد والكتل والتوجّهات (الأسماء مصنوعة)
+    spec = [(9, "محلل1", "english", "بريطاني", 216, 251), (12, "محلل2", "arabic", "إماراتي", 420, 448),
+            (5, "محلل3", "turkish", "حكومي", 1351, 1378), (6, "محلل4", "turkish", "حكومي", 2248, 2275),
+            (2, "محلل5", "arabic", "إيراني", 606, 641)]
+    bites = [{"bite_id": f"v{k}:{k}", "speaker": f"ض{k}", "bloc": "arabic", "orientation": "x", "start": 0, "end": 1,
+              "type": "opinion"} for k in range(1, 15)]
+    for n, sp, bloc, orient, s, e in spec:
+        bites[n - 1].update(speaker=sp, bloc=bloc, orientation=orient, start=s, end=e)
+
+    def question():
+        return [{"text": "س؟", "answers": [
+            {"n": 9, "fit": "direct", "echo_role": "primary"},
+            {"n": 12, "fit": "weak", "echo_role": "echo", "echo_of": "v9:9"},
+            {"n": 5, "fit": "direct"}, {"n": 6, "fit": "direct"}, {"n": 2, "fit": "direct"}]}]
+    qs = question()
+    meta_qa.auto_select(qs, bites, cfg)
+    sel = [a["n"] for a in qs[0]["answers"] if a["selected"]]
+    check("2511a: الصدى يُعلَّم مع أمه", 9 in sel and 12 in sel and len(sel) <= 4, sel)
+    off = load_config()
+    off["youtube"]["meta_topics"]["qa"]["max_seconds"] = 120
+    off["youtube"]["meta_topics"]["qa"]["echo"]["select_pair"] = False
+    old = question()
+    meta_qa.auto_select(old, bites, off)
+    check("2511b: select_pair: false ← كما كان (الصدى لا يتسع)",
+          [a["n"] for a in old[0]["answers"] if a["selected"]] == [9, 5, 2], old)
+    tight = load_config()
+    tight["youtube"]["meta_topics"]["qa"]["max_seconds"] = 60
+    t = question()
+    meta_qa.auto_select(t, bites, tight)
+    check("2511c: لا صدى إن لم يتسع له السقف مع أمه",
+          12 not in [a["n"] for a in t[0]["answers"] if a["selected"]], t)
+
+    # الباني: أم معلَّمة وصداها غير معلَّم ← تنبيه بأنها تُعرض إجابة عادية
+    def frame(client, **kw):
+        return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="write_reel_frame", id="t", input={
+            "context": ["سياق قصير."], "closing_question": "ماذا بعد؟"})])
+    echo = {"masters": [{"bite_id": "a1", "rank": "primary", "segments": [{"label": "ف"}]}],
+            "echoes": [{"bite_id": "a3", "of_bite": "a1", "idea": 1, "label": "ف", "sub_original": "x", "text_ar": "ق"}]}
+    qq = [{"text": "هل؟", "bite_ids": ["a1", "a2"], "echo": echo}]
+    valid = [{"point_id": p, "speaker_name": n, "speaker_verified": True, "quote_original": "x", "quote_arabic": "ق",
+              "channel_display": "قناة", "start": 0, "end": 10} for p, n in (("p1", "أ"), ("p2", "ب"))]
+    saved = meta_script._create
+    try:
+        meta_script._create = frame
+        info: dict = {}
+        build = meta_script.make_builder("س؟", ["س؟"], {"title": "ت"}, qq, {"a1": {"speaker": "كسرى"}},
+                                         {"a1": "p1", "a2": "p2", "a3": "p3"}, [], Config(dict(cfg)), object(), [])
+        build(valid, "female", info)
+    finally:
+        meta_script._create = saved
+    check("2511d: تنبيه الأم بلا صدى يسمّيها", any(w.startswith("⭐") and "كسرى" in w for w in info.get("warnings", [])),
+          info.get("warnings"))
