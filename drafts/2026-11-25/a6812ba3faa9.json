@@ -1,7 +1,7 @@
 {
   "id": "a6812ba3faa9",
   "created_at": "2026-11-25T07:29:51.565932+00:00",
-  "status": "pending",
+  "status": "approved_script",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -375,6 +375,13 @@
         "exclusive": true
       },
       {
+        "kind": "narration",
+        "role": "quote",
+        "text": "يذكّر هذا بقول ابن خلدون: «الظفر في الحروب إنما يقع بأمور نفسانية وهمية، وإن كان السلاح والقتال كفيلاً به، لذلك كان الخداع من أنفع ما يستعمل في الحرب ويُظفر به.»",
+        "quote_source": "https://ar.wikiquote.org/wiki/ابن_خلدون",
+        "quote_speaker": "ابن خلدون"
+      },
+      {
         "kind": "question",
         "text": "هل تتحول ليبيا إلى ساحة مفتوحة للحرب الروسية الأوكرانية؟"
       },
@@ -435,7 +442,8 @@
     "why": "تحول موانئ وأقاليم ضعيفة السلطة إلى ساحات صراع خارجي يعكس فكرته عن العمران حين يغيب العصبية الجامعة",
     "quote": "الظفر في الحروب إنما يقع بأمور نفسانية وهمية، وإن كان السلاح والقتال كفيلاً به، لذلك كان الخداع من أنفع ما يستعمل في الحرب ويُظفر به.",
     "text_ar": "الظفر في الحروب إنما يقع بأمور نفسانية وهمية، وإن كان السلاح والقتال كفيلاً به، لذلك كان الخداع من أنفع ما يستعمل في الحرب ويُظفر به.",
-    "lang": "ar"
+    "lang": "ar",
+    "approved": true
   },
   "hook_cartoon": {
     "status": "ready",
@@ -444,7 +452,8 @@
     "prompt_en": "A political cartoon map of the Mediterranean and North Africa. On the right side, a caricatured Russian warship (gray hull, Russian naval ensign colors) sails from a stylized Libyan coastline port (Benghazi), loaded with crates and weapon silhouettes, heading toward a simplified map of Africa where small shadowy mercenary figures wait. On the left, a small sleek unmanned surface drone boat (Ukrainian blue-yellow colors) emerges from the sea, cutting across the ship's path with a trail of water behind it. In the background, faint ghostly outline of Syria's map fading away, symbolizing the shift of Russia's logistics base from Syria to Libya. Bold, satirical editorial cartoon style, no text, no flags with words, clean composition.",
     "cost_usd": 0.0434,
     "path": "drafts/2026-11-25/a6812ba3faa9-cartoon.png",
-    "model": "gemini-3.1-flash-image"
+    "model": "gemini-3.1-flash-image",
+    "approved": true
   },
   "reel_bg": {
     "url": "",
@@ -492,7 +501,8 @@
       "views": 22,
       "duration": 450,
       "published": "2026-11-24T18:00:29Z",
-      "views_per_hour": 1.6
+      "views_per_hour": 1.6,
+      "picked": true
     }
   ],
   "hook_search": {
@@ -568,6 +578,16 @@
       "sentence": 0,
       "text": "من أين انطلقت الزوارق المسيرة التي ضربت السفن الروسية؟",
       "visual": ""
+    },
+    {
+      "scene": 12,
+      "sentence": 0,
+      "text": "يذكّر هذا بقول ابن خلدون: «الظفر في الحروب إنما يقع بأمور نفسانية وهمية، وإن كان السلاح والقتال كفيلاً به، لذلك كان الخداع من أنفع ما يستعمل في الحرب ويُظفر به.»",
+      "visual": "",
+      "person": {
+        "name_ar": "ابن خلدون",
+        "name_en": "Ibn Khaldun"
+      }
     }
   ],
   "cost_script": {
@@ -579,5 +599,8 @@
     "gemini": 0.0434
   },
   "review_issue": 2006,
-  "stage2_issue": 2006
+  "stage2_issue": 2006,
+  "render_status": "queued",
+  "approved_script_at": "2026-11-25T07:38:46.929377+00:00",
+  "hook_picked": 0
 }
