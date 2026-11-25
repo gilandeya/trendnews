@@ -7125,7 +7125,8 @@ def test_reel_scenario_fallbacks_1313() -> None:
     os.environ["YOUTUBE_API_KEY"] = "x"
     try:
         dr = {"script": {"title": "س", "scenes": []}, "topic_date": day, "meta_topic_id": "T1"}
-        reel_hook_search.pick_hook_candidates(dr, cfg, deps)
+        # التكميل بفيديوهات الموضوع (قضية 2013) يُختبر في test_reel_notes_2013؛ هنا الترتيب وحده
+        reel_hook_search.pick_hook_candidates(dr, _cfg_with(cfg, "reel.hook_search.topic_fallback.min_candidates", 1), deps)
         check("الصلة تكفي، وما يُرجَّح عنوانه لقطاتٍ يتقدّم",
               [c["video_id"] for c in dr["hook_candidates"]] == ["V2", "V1"], dr.get("hook_candidates"))
         strict = _cfg_with(cfg, "reel.hook_search.require_footage_title", True)
@@ -9373,6 +9374,9 @@ def test_reel_offscreen_mapverify_2011() -> None:
     script = {"scenes": [{"kind": "clip", "point_id": "p1", "speaker_name": "شي جين بينغ", "speaker_verified": True,
                           "speaker_text": "شي جين بينغ", "channel_display": "بي بي سي الصينية"}]}
     meta = {"gemini_speakers": [{"point_id": "p1"}]}
+    # الصوت وحده بصورته (قضية 2013) يُختبر في test_reel_notes_2013؛ هنا الحذف حين يُطفأ
+    cfg = copy.deepcopy(cfg)
+    cfg["reel"]["render"]["gemini_speaker"]["off_screen_photo"] = False
     decided, drop = reel_render._apply_gemini(0, script, [0], {0: {}}, {}, got["p1"], cfg, [], meta)
     check("التركيب يحذف المقطع بسبب يقول ذلك", decided and drop and drop["reason_key"] == "drop_off_screen"
           and "شي جين بينغ" in cfg.path("reel.render.texts")[drop["reason_key"]].format(**drop), drop)
