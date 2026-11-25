@@ -11072,7 +11072,9 @@ def test_foreign_name_waqf_2511() -> None:
     every = tts.apply_proper_nouns(text, nouns)
     last = tts.apply_proper_nouns(text, nouns, every_word=False)
     check("2511w-a: القديم يسكّن كل كلمة (Google)", "مُحَمَّدْ بَاقِرْ قَالِيبَافْ" in every, every)
-    check("2511w-b: آخر كلمة وحدها لـElevenLabs", "مُحَمَّدُ بَاقِرُ قَالِيبَافْ" in last, last)
+    check("2511w-b: ElevenLabs: الكلمات الداخلية بلا إعراب ولا سكون، وآخرها ساكن", "مُحَمَّد بَاقِر قَالِيبَافْ" in last, last)
+    ar = tts.apply_proper_nouns("مَطَارِ المَلِكِ خَالِدٍ", [{"text": "مطار الملك خالد", "foreign": False}], every_word=False)
+    check("2511w-b2: العلم العربي يبقى بإعرابه", ar == "مَطَارِ المَلِكِ خَالِدْ", ar)
     check("2511w-c: الحسم بالمزوّد", tts.foreign_every_word(cfg, "google") and not tts.foreign_every_word(cfg, "elevenlabs")
           and tts.foreign_every_word(cfg, None))
     check("2511w-d: الإعداد في config.yaml", cfg.path("reel.tts.foreign_waqf.every_word_providers") == ["google"]
@@ -11098,4 +11100,4 @@ def test_foreign_name_waqf_2511() -> None:
             synthesize=lambda s, v: sent.append(s) or {"ok": True, "audio": b"x"},
             run=lambda cmd: None, probe=lambda p: 1.0)
         reel_render._speech(text, "v", cfg, deps, Path(td), "s01")
-    check("2511w-e: نص النطق إلى ElevenLabs بلا وقف داخل الاسم", sent and "بَاقِرُ قَالِيبَافْ" in sent[0], sent)
+    check("2511w-e: نص النطق إلى ElevenLabs بلا وقف داخل الاسم", sent and "مُحَمَّد بَاقِر قَالِيبَافْ" in sent[0], sent)
