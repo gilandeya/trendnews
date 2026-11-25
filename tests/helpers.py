@@ -139,6 +139,11 @@ def load_config(path=None):
                 # تتبع المسارات المقطّعة (ريل 7617fa79a76f) يحرّك نوافذ لوحات تثبّت المراجع القديمة أوامرها ثابتة؛
                 # test_reel_follow_fragmented_2211 يطلبه ويثبّت أن config.yaml عليه
                 crop_c["follow"]["fragmented"] = False
+            if isinstance(crop_c.get("recenter"), dict):
+                # توسيط النافذة على الوجه المعروض وعيّنات المدى المعروض (قضية 2007) يغيّران أوامر المراجع القديمة؛
+                # test_reel_crop_recenter_2007 يطلبهما ويثبّت أن config.yaml عليهما
+                crop_c["recenter"]["enabled"] = False
+                crop_c["recenter"]["shown_samples"] = False
         # إعداد محرر الريل الخاص (15/11: Sonnet بلا بحث ولا مراجعة ثانية) يغيّر ما تثبّته اختبارات المحرر وجولة التصحيح
         # القديمة؛ test_reel_cost_cut يطلبه من config الحقيقي
         if isinstance(cfg.get("editor"), dict):

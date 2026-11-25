@@ -3823,10 +3823,12 @@ def _crop_for(clip: dict, cfg, deps: Deps, scene: dict | None = None) -> dict:
         picked, meta = _speaker_crop(clip, cfg, deps, scene)
         if picked is not None:
             return {**picked, **meta}
-        sw, sh, centers = deps.faces(clip["file"], list(ccfg.get("samples", [0.2, 0.5, 0.8])))
+        sw, sh, centers = deps.faces(clip["file"], shown_fractions(clip, list(ccfg.get("samples", [0.2, 0.5, 0.8])), cfg))
         if meta.get("path"):
-            # مسار الوجه الوحيد (المسارات المقطّعة) يغلب وسيط أكبر وجه: النافذة تبدأ حيث هو أول المقطع
-            centers = [meta["path"][0][1]]
+            # مسار الوجه الوحيد (المسارات المقطّعة) يغلب وسيط أكبر وجه: النافذة تبدأ حيث هو أول المقطع المعروض (قضية 2007:
+            # أول لقطة في المسار كانت قبل القطع، خارج المعروض، على وجه آخر)
+            shown = _follow_samples(clip, meta["path"], cfg)
+            centers = [shown[0][1] if shown else meta["path"][0][1]]
         return {**crop_window(int(sw), int(sh), centers, mode), **meta}
     except Exception as exc:  # noqa: BLE001 -- الكشف تحسين لا شرط
         if mode == "face":
@@ -4888,11 +4890,11 @@ def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None,
     seconds = min(voice_at + speech + float(hk["tail"]), float(hk["max_seconds"]))
     clip = None
     hv = draft.get("hook_video")
-    # كاريكاتير الهوك (23/11): إن علّمه المراجع في قضية السيناريو يصير خلفية الهوك كلها، فلا يُنزَّل فيديو الهوك أصلًا
+    # كاريكاتير الهوك (23/11): قطع بلا خلفية تتجمّع فوق خلفية الهوك المعتادة (قضية 2007، 25/11) — لا تغيّر الخلفية ولا تمنع فيديوه
     from . import reel_cartoon
     cartoon = reel_cartoon.usable(draft, cfg)
     # الخلفية المتصلة (20/11): الهوك أول قطعة من خلفية الريل الواحدة (لقطته في أول الشريط المتكرر) فلا يُنزَّل فيديوه هنا
-    if cartoon is None and cont_bg is None and isinstance(hv, dict) and hv.get("video_id"):
+    if cont_bg is None and isinstance(hv, dict) and hv.get("video_id"):
         try:
             clip = _download_with_retries(deps, rcfg, str(hv["video_id"]), int(hv["start"]), int(hv["end"]),
                                           tmp / "hook_clip.mp4")
@@ -4921,26 +4923,22 @@ def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None,
     # الضباب: ألفا الطبقة تُستخرج وتُصغَّر ثم geq بالزمن T (تعبير fog_alpha نفسه) ثم تُكبَّر وتُدمج ثانيةً بالألوان — geq على نسخة
     # مصغَّرة لأن القناع ناعم (تمويه 170) فلا يظهر فقدان الدقة، وعلى الدقة الكاملة يبطئ التركيب كثيرًا
     expr = _fog_alpha_expr(cfg, strong, var="T")
-    if cartoon is not None:
-        # الضباب فوق الكاريكاتير أخفّ (fog_scale): الرسم هو ما يُرى، والضباب يكفيه أن يقرأ العنوان فوقه
-        expr = f"({expr})*{_fmt(float(reel_cartoon.ccfg(cfg).get('fog_scale', 0.6)))}"
+    # قطع الكاريكاتير فوق الضباب وتحت كلمات العنوان: تدخل من خارج الشاشة مع السؤال وتتجمّع في مواضعها (مدخلاتها بعد الصوت: 4…)
+    piece_in, piece_f, top = [], "", "bf"
+    if cartoon:
+        for k, (png, sx, sy, x, y) in enumerate(_cartoon_pieces(cartoon, cfg, tmp, i)):
+            t0 = voice_at + k * float(reel_cartoon.ccfg(cfg).get("stagger", 0.35))
+            piece_in += [*loop_args(fps), "-i", str(png)]
+            piece_f += (f";[{4 + k}:v]format=rgba[pc{k}];[{top}][pc{k}]overlay="
+                        f"x='{_enter_expr(sx, x, t0, cfg)}':y='{_enter_expr(sy, y, t0, cfg)}':shortest=1[pp{k}]")
+            top = f"pp{k}"
+        notes.append(str((reel_cartoon.ccfg(cfg).get("texts") or {}).get("used", "🎨 قطع الكاريكاتير ({n})")).format(n=len(cartoon)))
     fog_f = (f"[1:v]format=rgba,split[fa][fb];[fa]alphaextract,scale={w // 8}:{h // 8},format=gray,"
              f"geq=lum='lum(X,Y)*{expr}',scale={w}:{h},format=gray[fm];[fb][fm]alphamerge[fog];"
-             f"[b][fog]overlay=0:0:shortest=1[bf];[2:v]fps={fps},format=rgba[t];[bf][t]overlay=0:0:shortest=1,format=yuv420p[v]")
+             f"[b][fog]overlay=0:0:shortest=1[bf]{piece_f};[2:v]fps={fps},format=rgba[t];"
+             f"[{top}][t]overlay=0:0:shortest=1,format=yuv420p[v]")
     sp = f"aresample={rate},aformat=channel_layouts=stereo,{adelay},apad"
-    if cartoon is not None:
-        cpng = _save(reel_cartoon.cover_frame(cartoon, w, h), tmp / f"hook_cartoon_{i}.png")
-        # الختام يلتحم بأول إطار من الهوك (خ2/P1a-2): الكاريكاتير صورة بمقاس الشاشة عند x0 = 0، وأول إطار بلا تقريب هو الصورة نفسها
-        if hook_info is not None:
-            hook_info.update(mode="image", bgpng=cpng, x0=0)
-        zf, tz = _fmt(float(reel_cartoon.ccfg(cfg).get("zoom", 1.06))), _fmt(seconds)
-        zexpr = f"(1+({zf}-1)*t/{tz})"
-        inputs = [*loop, "-i", str(cpng), *fog_in]
-        vg = (f"[0:v]scale=w='trunc({w}*{zexpr}/2)*2':h='trunc({h}*{zexpr}/2)*2':eval=frame:flags=bicubic,crop={w}:{h},"
-              f"fps={fps}[b];" + fog_f)
-        ag = f"[3:a]{sp}[a]"
-        notes.append(str((reel_cartoon.ccfg(cfg).get("texts") or {}).get("used", "🎨 الهوك بالكاريكاتير المعتمد")))
-    elif cont_bg is not None:
+    if cont_bg is not None:
         cbg, cplan = cont_bg
         if hook_info is not None:
             hook_info.update(mode="continuous")
@@ -4971,9 +4969,46 @@ def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None,
         inputs = ["-f", "lavfi", "-i", f"color=c=0x{r:02X}{g:02X}{bl:02X}:s={w}x{h}:r={fps}", *fog_in]
         vg = f"[0:v]fps={fps}[b];" + fog_f
         ag = f"[3:a]{sp}[a]"
+    inputs += piece_in
     deps.run(_base(*inputs, "-filter_complex", vg + ";" + ag, "-map", "[v]", "-map", "[a]", "-t", _fmt(seconds),
                    *_enc(rcfg), str(out)))
     return seconds
+
+
+def loop_args(fps) -> list[str]:
+    return ["-loop", "1", "-framerate", str(fps)]
+
+
+def _cartoon_pieces(pieces: list[dict], cfg, tmp: Path, i: int) -> list[tuple[Path, int, int, int, int]]:
+    """كل قطعة بمقاسها النهائي في ملف PNG شفاف ومعها (موضع البدء خارج الشاشة، والموضع النهائي) من reel_cartoon.place/start_pos."""
+    from PIL import Image
+
+    from . import reel_cartoon
+    w, h = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
+    out = []
+    for k, p in enumerate(pieces):
+        img = Image.open(p["file"]).convert("RGBA")
+        box = reel_cartoon.place(img.size, p, cfg, w, h)
+        sx, sy = reel_cartoon.start_pos(p.get("enter", "bottom"), box, w, h)
+        png = tmp / f"hook_piece_{i}_{k}.png"
+        img.resize((box[2], box[3]), Image.LANCZOS).save(png, "PNG")
+        out.append((png, sx, sy, box[0], box[1]))
+    return out
+
+
+def enter_pos(t: float, start: float, end: float, t0: float, cfg) -> float:
+    """موضع قطعة الكاريكاتير عند t (دالة خالصة): ثابت عند start قبل t0، ثم ينزلق إلى end خلال reel.cartoon.enter_seconds بتباطؤ
+    تكعيبي في آخره، ثم يثبت. توأم _enter_expr حرفًا بحرف."""
+    d = max(float((cfg.path("reel.cartoon") or {}).get("enter_seconds", 0.7)), 0.01)
+    p = min(max((t - t0) / d, 0.0), 1.0)
+    return start + (end - start) * (1 - (1 - p) ** 3)
+
+
+def _enter_expr(start: int, end: int, t0: float, cfg) -> str:
+    """تعبير ffmpeg لـenter_pos بالمعادلة نفسها (overlay يُقيَّم بالمتغير t لكل إطار)."""
+    d = max(float((cfg.path("reel.cartoon") or {}).get("enter_seconds", 0.7)), 0.01)
+    p = f"min(max((t-{_fmt(t0)})/{_fmt(d)},0),1)"
+    return f"{int(start)}+({int(end) - int(start)})*(1-(1-{p})*(1-{p})*(1-{p}))"
 
 
 def closing_uses_pre(entries: list | None, ws: int, we: int, cfg) -> tuple[bool, float]:
@@ -5247,6 +5282,40 @@ def _clip_layers(i: int, scene: dict, clip: dict, cfg, deps: Deps, tmp: Path, sp
     return (_save(static, tmp / f"overlay_{i}_static.png"), _save(band, tmp / f"overlay_{i}_band.png")), qframes
 
 
+def shown_fractions(clip: dict, fractions: list, cfg) -> list:
+    """كسور العيّنات (من الملف) داخل المدى المعروض من المقطع (الاقتطاع trim أو التجميد freeze) لا الملف كله (قضية 2007): ملف
+    التنزيل أوسع من الكلام بهامش، فعيّنة عند 0.2 من الملف قد تقع على مقدّمة قبل القطع ووجهٍ لا يُعرض. بلا مدى أو بلا مدة ← كما هي."""
+    if not (cfg.path("reel.render.crop.recenter") or {}).get("shown_samples", True):
+        return fractions
+    dur = float(clip.get("file_seconds") or 0)
+    tr, fz = clip.get("trim"), clip.get("freeze")
+    if bool(fz) and float(fz["src1"]) - float(fz["src0"]) > 0.1:
+        a, b = float(fz["src0"]), float(fz["src1"])
+    elif tr:
+        a, b = float(tr[0]), float(tr[1])
+    else:
+        return fractions
+    if dur <= 0 or not 0 <= a < b:
+        return fractions
+    b = min(b, dur)
+    return [round((a + float(f) * (b - a)) / dur, 4) for f in fractions]
+
+
+def recenter_static(samples: list, x: int, w: int, cfg) -> float | None:
+    """مركز جديد لنافذة ثابتة لا يقع فيها وجه المتكلم المعروض (دالة خالصة، قضية 2007): samples [(ثانية المشهد، مركز الوجه)]؛
+    إن وقع أقل من recenter.min_inside منها داخل [x + margin·w، x + w − margin·w] يعاد وسيطها، وإلا None (النافذة كما هي).
+    لا عيّنات أو مطفأ ← None."""
+    rc = cfg.path("reel.render.crop.recenter") or {}
+    if not rc.get("enabled") or not samples or not w:
+        return None
+    m = float(rc.get("margin", 0.1)) * float(w)
+    inside = sum(1 for _t, c in samples if x + m <= float(c) <= x + w - m) / len(samples)
+    if inside >= float(rc.get("min_inside", 0.6)):
+        return None
+    cs = sorted(float(c) for _t, c in samples)
+    return cs[len(cs) // 2]
+
+
 def _follow_samples(clip: dict, path: list, cfg) -> list[tuple[float, float]]:
     """[(ثانية المشهد، مركز الوجه الأفقي)] من مسار الوجه المتكلم (فهارس لقطات الكشف): الفهرس ÷ معدل اللقطات = ثانية الملف،
     ثم ثانية المشهد بحسب الاقتطاع (trim) أو التجميد (freeze، فما قبل الكلام وما بعده إطار مجمَّد لا يتحرك فيه الوجه).
@@ -5345,6 +5414,17 @@ def _panel_crops(clip: dict, crop: dict, scene: dict, q, tile: tuple | None, fra
             frame_crop = {**frame_crop, "x": int(keys[0][1])}
             if tile_crop:
                 tile_crop = {**tile_crop, "x": crop_x_for_center(content, tile_crop["w"], keys[0][1] + frame_crop["w"] / 2)}
+        elif frame_crop["mode"] == "full_height" and crop.get("path"):
+            # النافذة الثابتة تُقاس بما يُعرض (قضية 2007): مواضع وجه المتكلم المعروضة خارجها ← تُوسَّط عليها، والبلاطة معها
+            new_c = recenter_static(samples_f, int(frame_crop["x"]), int(frame_crop["w"]), cfg)
+            if new_c is not None:
+                old_x = int(frame_crop["x"])
+                frame_crop = {**frame_crop, "x": crop_x_for_center(content, frame_crop["w"], new_c)}
+                if tile_crop:
+                    tile_crop = {**tile_crop, "x": crop_x_for_center(content, tile_crop["w"], new_c)}
+                if int(frame_crop["x"]) != old_x:
+                    clip["crop"]["recentered"] = {"from": old_x, "to": int(frame_crop["x"])}
+                    notes.append(t["comment_recentered"].format(channel=channel))
     except Exception as exc:  # noqa: BLE001 -- القصّ المحسوب تحسين لا شرط
         log.warning("تعذّر حساب قصّ اللوحة فالارتفاع الكامل المتمركز: %s", str(exc)[:100])
         clip["crop"].update(panel_q=q, tile_crop=None, frame_crop=None, bars=[0, 0, 0, 0], ticker=False)
@@ -7998,10 +8078,12 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     if len(clips) < need:
         raise RuntimeError(f"بقي {len(clips)} مقطعًا من {wanted} بعد الحذف والأدنى المطلوب {need}")
     voice = cfg.path(f"reel.tts.narrator_voices.{script.get('narrator', 'female')}")
-    if deps.voice_session is not None and (ids := reel_script._script_voice_ids(script)):
+    # صوت أُخرج من narrator_pairs (قضية 2007) لا يُقرأ به ريل لم يُركَّب بعد: الزوج الحالي بدله
+    vscript = reel_script.current_voices(script, cfg)
+    if deps.voice_session is not None and (ids := reel_script._script_voice_ids(vscript)):
         # صوتا راوي الريل بالتناوب على مشاهده (21/11)؛ أولهما الافتراضي لما لا يحمل رقم مشهد
         deps.voice_session.voice_id = ids[0]
-        deps.voice_session.scene_voice = {i: v["id"] for i, v in reel_script.scene_voices(script).items()}
+        deps.voice_session.scene_voice = {i: v["id"] for i, v in reel_script.scene_voices(vscript).items()}
     stage_mark("background")
     bg, bg_saved = _resolve_background(path, draft, cfg, deps, notes)
     if bg is None and cfg.path("reel.render.background.navy_canvas", False):
