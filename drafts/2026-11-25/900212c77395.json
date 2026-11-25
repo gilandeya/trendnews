@@ -1,0 +1,736 @@
+{
+  "id": "900212c77395",
+  "created_at": "2026-11-25T12:26:06.941932+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "عودة جنسن هوانغ إلى رئاسة إنفيديا",
+  "event": "عودة جنسن هوانغ إلى رئاسة إنفيديا",
+  "tier": 4,
+  "blocs": [
+    "arabic",
+    "chinese",
+    "english",
+    "russian"
+  ],
+  "channels": [
+    "BBC News",
+    "CNN",
+    "DW News",
+    "RTVI",
+    "TVBS新聞",
+    "Дождь",
+    "Настоящее Время",
+    "الجزيرة",
+    "凤凰卫视"
+  ],
+  "agreement": "",
+  "score": 0,
+  "warnings": [
+    "✏️ صيغ السؤال 1 ليتصل بالسياق: كان «لماذا تدخّل الرئيس الأمريكي دونالد ترامب لإعادة جنسن هوانغ إلى رئاسة إنفيديا؟» صار «لماذا تدخّل ترامب لإعادة هوانغ إلى رئاسة إنفيديا؟»",
+    "✏️ صيغ السؤال 2 ليتصل بالسياق: كان «هل تبرر المنافسة مع الصين تجاوز الشبهات الأمنية حول رئيس إنفيديا؟» صار «هل تبرر المنافسة مع الصين تجاوز الشبهات حول هوانغ؟»"
+  ],
+  "run_date": "2026-11-25",
+  "topic_date": "2026-11-25",
+  "arabic": {
+    "post_title": "هل اشترى ترامب ولاء رئيس إنفيديا بإعادته إلى منصبه؟",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "BBC News",
+      "CNN",
+      "DW News",
+      "RTVI",
+      "TVBS新聞",
+      "Дождь",
+      "Настоящее Время",
+      "الجزيرة",
+      "凤凰卫视"
+    ]
+  },
+  "source_videos": [],
+  "meta_topic_id": "af41df5c72f8",
+  "meta_issue": 2011,
+  "hook_pick": 3,
+  "cost_qa": {
+    "claude": {
+      "claude-haiku-5-5": 0.00184,
+      "claude-sonnet-5": 0.08793,
+      "claude-opus-5": 0.33869
+    },
+    "gemini": 0.8523,
+    "proxy_bytes": 34746586
+  },
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "0df5070849c2",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "تلفزيون دوشد"
+      },
+      {
+        "point_id": "9ed2a96357c2",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "لا أنجرف خلف ذريعة الخسارة أمام الصين؛ فأنا أدرك أهمية الذكاء الاصطناعي وأدير شركة بنفسي. ما تتجاهلونه في طرحكم هو أن رئيس الولايات المتحدة لديه مصلحة شخصية في هذا الأمر، والمصلحة الذاتية تتجاوز أحيانًا متطلبات الأمن القومي، وهذا بالتحديد ما يتطلب رقابة ومحاسبة.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن"
+      },
+      {
+        "point_id": "44bfc0f2b9c9",
+        "speaker_said_it": "no",
+        "other_name": "مقدّم البرنامج",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "بي بي سي نيوز"
+      },
+      {
+        "point_id": "b35ef580fc76",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن"
+      },
+      {
+        "point_id": "2adbbd3bce8a",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن"
+      },
+      {
+        "point_id": "aab36ac9fe2d",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "تي في بي إس"
+      },
+      {
+        "point_id": "6f262d6eb371",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "تي في بي إس"
+      }
+    ]
+  },
+  "quote_retranslated": [
+    "9ed2a96357c2"
+  ],
+  "clip_dropped": [
+    {
+      "point_id": "44bfc0f2b9c9",
+      "channel": "بي بي سي نيوز",
+      "reason": "ملخّص النقطة ينسبها إلى شخص آخر: مقدّم البرنامج"
+    }
+  ],
+  "names_audit": [
+    {
+      "arabic": "إليزافيتا أوسيتينسكايا",
+      "latin": "Elizaveta Osetinskaya"
+    },
+    {
+      "arabic": "آشلي أليسون",
+      "latin": "Ashley Allison"
+    },
+    {
+      "arabic": "سكوت جينينغز",
+      "latin": "Scott Jennings"
+    },
+    {
+      "arabic": "تيري شيلينغ",
+      "latin": "Terry Schilling"
+    },
+    {
+      "arabic": "سكوت بيسنت",
+      "latin": "Scott Bessent"
+    },
+    {
+      "arabic": "دونالد ترامب",
+      "latin": "Donald Trump"
+    },
+    {
+      "arabic": "جنسن هوانغ",
+      "latin": "Jensen Huang"
+    },
+    {
+      "arabic": "أليس هوانغ",
+      "latin": ""
+    }
+  ],
+  "headlines": [
+    "هل اشترى ترامب ولاء رئيس إنفيديا بإعادته إلى منصبه؟",
+    "من أعاد جنسن هوانغ: مجلس الإدارة أم البيت الأبيض؟",
+    "هل تبرر مواجهة الصين تجاهل شبهات التجسس في إنفيديا؟"
+  ],
+  "headline_selected": 0,
+  "script": {
+    "version": 2,
+    "narrator": "female",
+    "title": "هل اشترى ترامب ولاء رئيس إنفيديا بإعادته إلى منصبه؟",
+    "question": "هل تبقى شركات التكنولوجيا الأمريكية الكبرى مستقلة عن إرادة البيت الأبيض؟",
+    "event": "",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "هل اشترى ترامب ولاء رئيس إنفيديا بإعادته إلى منصبه؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "واجه جنسن هوانغ شبهات امتثال داخل شركة إنفيديا الأمريكية دفعت مجلس الإدارة لإبعاده عن رئاستها."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "aab36ac9fe2d",
+        "q": "c0",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=JPTY2KiZYzM",
+        "start": 439.9,
+        "end": 453.3,
+        "speaker_name": "سكوت بيسنت",
+        "speaker_role": "وزير الخزانة الأمريكي",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Scott Bessent",
+        "channel_display": "تي في بي إس",
+        "channel_original": "TVBS新聞",
+        "quote_arabic": "أعتقد أنه ينبغي لنا أن نرى أين تقع المسؤولية، وما إذا كان المتسببون في عدم الامتثال مجرد أطراف خبيثة في أسفل الهيكل الإداري للشركة.",
+        "quote_original": "I think we have to see the where, where the buck stops. Were these malicious actors down at the bottom of the company who were responsible for the non-compliance?",
+        "language": "en",
+        "video_published": "2026-11-23T15:04:11Z",
+        "relay": "external",
+        "relay_source": "",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "ثم دعا الرئيس الأمريكي دونالد ترامب لمنح هوانغ فرصة ثانية وإعادته إلى عمله."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "6f262d6eb371",
+        "q": "c1",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=JPTY2KiZYzM",
+        "start": 1019.0,
+        "end": 1033.2,
+        "speaker_name": "دونالد ترامب",
+        "speaker_role": "الرئيس الأمريكي",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Donald Trump",
+        "channel_display": "تي في بي إس",
+        "channel_original": "TVBS新聞",
+        "quote_arabic": "أود أن أرى جنسن يحصل على فرصة ثانية، فنحن بلد الفرص الثانية، وأعتقد أن الشركة إن كانت ذكية فستقبل اعتذار هذا الرجل العبقري وتدعه يعود إلى عمله.",
+        "quote_original": "I think that I would love to see Jensen be given a second chance. You know, we're a country of second chances, and I think the company, if they were smart, they take that brilliant man, accept an apology, and let him go back to work.",
+        "language": "en",
+        "video_published": "2026-11-23T15:04:11Z",
+        "relay": "external",
+        "relay_source": "",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "وبعد أيام تراجع مجلس إدارة إنفيديا وأعاد هوانغ إلى منصبه."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 0,
+        "text": "لماذا تدخّل ترامب لإعادة هوانغ إلى رئاسة إنفيديا؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "0df5070849c2",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=IqhAvjuBwqY",
+        "start": 3315.5,
+        "end": 3340.0,
+        "speaker_name": "إليزافيتا أوسيتينسكايا",
+        "speaker_role": "صحفية روسية ومؤسسة منصة ذا بيل",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Елизавета Осетинская",
+        "channel_display": "تلفزيون دوشد",
+        "channel_original": "Дождь",
+        "quote_arabic": "وفجأة استيقظت أمريكا في الصباح واستيقظ الرئيس الأمريكي دونالد ترامب ليقول إننا لم نجد أي دلائل على ارتكابه مخالفات أو تجسسه، وسيكون من الجيد للجميع أن يعود، إنه نوع من الإدارة اليدوية المباشرة، فتراجع مجلس الإدارة فورًا.",
+        "quote_original": "И тут так раз, утром просыпается Америка, просыпается Трамп и говорит: «Ну, мы тут не нашли каких-то вообще признаков, что он там что-то нарушал и куда-то там шпионил. Для всех будет хорошо, если он вернется». Вот. То есть такое ручное управление. И совет директоров сразу такой...",
+        "language": "ru",
+        "video_published": "2026-11-23T16:18:51Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true,
+        "echo": {
+          "role": "primary",
+          "segments": [
+            {
+              "idea": 5,
+              "label": "تدخل مباشر بلا أدلة على مخالفات",
+              "sub_original": "И тут так раз, утром просыпается Америка, просыпается Трамп и говорит: «Ну, мы тут не нашли каких-то вообще признаков, что он там что-то нарушал и куда-то там шпионил. Для всех будет хорошо, если он вернется».",
+              "text_ar": "وفجأة استيقظت أمريكا في الصباح واستيقظ الرئيس الأمريكي دونالد ترامب ليقول إننا لم نجد أي دلائل على ارتكابه مخالفات أو تجسسه، وسيكون من الجيد للجميع أن يعود،"
+            },
+            {
+              "idea": 2,
+              "label": "ترامب له مصلحة شخصية/يدين له هوانغ بالولاء",
+              "sub_original": "То есть такое ручное управление. И совет директоров сразу такой...",
+              "text_ar": "إنه نوع من الإدارة اليدوية المباشرة، فتراجع مجلس الإدارة فورًا."
+            }
+          ]
+        }
+      },
+      {
+        "kind": "clip",
+        "point_id": "9ed2a96357c2",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=IOY6WzXez9E",
+        "start": 1340.0,
+        "end": 1365.0,
+        "speaker_name": "آشلي أليسون",
+        "speaker_role": "معلقة سياسية ومسؤولة سابقة في البيت الأبيض",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Ashley Allison",
+        "channel_display": "سي إن إن",
+        "channel_original": "CNN",
+        "quote_arabic": "لا أنجرف خلف ذريعة الخسارة أمام الصين؛ فأنا أدرك أهمية الذكاء الاصطناعي وأدير شركة بنفسي. ما تتجاهلونه في طرحكم هو أن رئيس الولايات المتحدة لديه مصلحة شخصية في هذا الأمر، والمصلحة الذاتية تتجاوز أحيانًا متطلبات الأمن القومي، وهذا بالتحديد ما يتطلب رقابة ومحاسبة.",
+        "quote_original": "I don't take a bait of you saying like we're going to lose against China. I know how important AI is. I run a company myself. I understand that. What you guys are omitting in your argument though is that the President of the United States has self-interest in this, and self-interest often, sometimes overrides national security, and that is what we want a checks and balances on.",
+        "language": "en",
+        "video_published": "2026-11-24T05:17:51Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true,
+        "echo": {
+          "role": "echo",
+          "of": "0df5070849c2",
+          "idea": 2,
+          "label": "ترامب له مصلحة شخصية/يدين له هوانغ بالولاء",
+          "sub_original": "What you guys are omitting in your argument though is that the President of the United States has self-interest in this, and self-interest often, sometimes overrides national security, and that is what we want a checks and balances on.",
+          "text_ar": "ما تتجاهلونه في طرحكم هو أن رئيس الولايات المتحدة لديه مصلحة شخصية في هذا الأمر، والمصلحة الذاتية تتجاوز أحيانًا متطلبات الأمن القومي، وهذا بالتحديد ما يتطلب رقابة ومحاسبة."
+        }
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 1,
+        "text": "هل تبرر المنافسة مع الصين تجاوز الشبهات حول هوانغ؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "b35ef580fc76",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=IOY6WzXez9E",
+        "start": 312.3,
+        "end": 322.9,
+        "speaker_name": "سكوت جينينغز",
+        "speaker_role": "معلق سياسي ومستشار سابق في البيت الأبيض",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Scott Jennings",
+        "channel_display": "سي إن إن",
+        "channel_original": "CNN",
+        "quote_arabic": "رأيي أنني مع الفريق الأمريكي؛ أريد لأمريكا أن تسيطر وتهيمن على هذا المجال ولا أريد للصينيين أن يهيمنوا عليه، وإذا كنا بحاجة إلى جنسن لتحقيق ذلك فنحن بحاجة إليه الآن فورًا.",
+        "quote_original": "My view is, I'm Team America. I want America to control and dominate this. I do not want the Chinese to control and dominate it, and if we need Jensen to do that, we need Jensen to do that right now.",
+        "language": "en",
+        "video_published": "2026-11-24T05:17:51Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true,
+        "echo": {
+          "role": "primary",
+          "segments": [
+            {
+              "idea": 1,
+              "label": "نعم، الأمن القومي يستلزم فوز أمريكا بسباق الذكاء الاصطناعي",
+              "sub_original": "My view is, I'm Team America. I want America to control and dominate this. I do not want the Chinese to control and dominate it, and if we need Jensen to do that, we need Jensen to do that right now.",
+              "text_ar": "رأيي أنني مع الفريق الأمريكي؛ أريد لأمريكا أن تسيطر وتهيمن على هذا المجال ولا أريد للصينيين أن يهيمنوا عليه، وإذا كنا بحاجة إلى جنسن لتحقيق ذلك فنحن بحاجة إليه الآن فورًا."
+            }
+          ]
+        }
+      },
+      {
+        "kind": "clip",
+        "point_id": "2adbbd3bce8a",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=IOY6WzXez9E",
+        "start": 401.5,
+        "end": 421.6,
+        "speaker_name": "تيري شيلينغ",
+        "speaker_role": "رئيس مشروع المبادئ الأمريكية",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Terry Schilling",
+        "channel_display": "سي إن إن",
+        "channel_original": "CNN",
+        "quote_arabic": "أنا أتفق مع سكوت، فالأمر يرتبط بدرجة أكبر بالأمن القومي للولايات المتحدة وكسب سباق الذكاء الاصطناعي. والأهم هنا هو أن الشعب الأمريكي يريد الفوز بسباق الذكاء الفائق، وذلك يقتضي أن يقود جنسن هوانغ هذه الشركة.",
+        "quote_original": "I'm with Scott. I think this is much more about the national security of the United States, I think it's about winning the AI race... but I think that the bigger thing here is that the American people want to win the AI race. They want to win the supreme intelligence race, and that means Jensen Huang needs to be in charge of this company.",
+        "language": "en",
+        "video_published": "2026-11-24T05:17:51Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true,
+        "echo": {
+          "role": "echo",
+          "of": "b35ef580fc76",
+          "idea": 1,
+          "label": "نعم، الأمن القومي يستلزم فوز أمريكا بسباق الذكاء الاصطناعي",
+          "sub_original": "I'm with Scott. I think this is much more about the national security of the United States, I think it's about winning the AI race... but I think that the bigger thing here is that the American people want to win the AI race. They want to win the supreme intelligence race, and that means Jensen Huang needs to be in charge of this company.",
+          "text_ar": "أنا أتفق مع سكوت، فالأمر يرتبط بدرجة أكبر بالأمن القومي للولايات المتحدة وكسب سباق الذكاء الاصطناعي. والأهم هنا هو أن الشعب الأمريكي يريد الفوز بسباق الذكاء الفائق، وذلك يقتضي أن يقود جنسن هوانغ هذه الشركة."
+        }
+      },
+      {
+        "kind": "question",
+        "text": "هل تبقى شركات التكنولوجيا الأمريكية الكبرى مستقلة عن إرادة البيت الأبيض؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": [],
+    "narrator_voices": [
+      {
+        "id": "s7VusoUfleDWGRQNqsF6",
+        "name": "Woman2",
+        "gender": "female"
+      },
+      {
+        "id": "imSStoespHEDicyPMZ3i",
+        "name": "Man2",
+        "gender": "male"
+      }
+    ]
+  },
+  "editor_revision": {
+    "at": "2026-11-25T12:26:22.580169+00:00",
+    "applied": true,
+    "error": null,
+    "before": [
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "تآمر مع أليس هوانغ لتمرير رقائق متطورة إلى الصين",
+        "fix": "",
+        "note": "لا يوجد في المصادر المرفقة أي ذكر لشخص باسم \"أليس هوانغ\" أو لتفاصيل التحقيق بهذا الشكل؛ هذه الواقعة غير موثقة في أي من المقاطع الست المرفقة ولا نقاطها المصدرية، ولا يوجد دليل على أن إقالة هوانغ وقعت أصلاً أو أن تحقيقًا بهذا المضمون جرى. هذا يتجاوز ما تسنده المصادر.",
+        "sources": [],
+        "video": ""
+      },
+      {
+        "category": "fact_outdated",
+        "severity": "high",
+        "location": "body",
+        "original": "أُقيل جنسن هوانغ من رئاسة شركة إنفيديا الأمريكية على خلفية تحقيق يسعى لكشف ما إذا كان قد تآمر مع أليس هوانغ لتمرير رقائق متطورة إلى الصين.",
+        "fix": "",
+        "note": "لا تسند المصادر المرفقة وقوع إقالة فعلية لجنسن هوانغ ولا تحقيقًا بهذا الوصف؛ أقصى ما تقوله المقاطع هو تصريحات سياسية ونقاش حول شبهات امتثال دون تفاصيل قانونية محددة كهذه. هذه الواقعة تحتاج تأكيدًا من مصدر موثق.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "ثم خرج الرئيس الأمريكي دونالد ترامب من البيت الأبيض بموقف مغاير.",
+        "fix": "ثم دعا الرئيس الأمريكي دونالد ترامب لمنح هوانغ فرصة ثانية وإعادته إلى عمله.",
+        "note": "سطر السياق [4] يصف ردة فعل عامة دون أن يذكر ماذا قال ترامب تحديدًا أو متى؛ لا يفي بمتطلب وصف الحدث نفسه (من فعل ماذا ومتى) بل يكتفي بوصف عام مبهم.",
+        "sources": []
+      },
+      {
+        "category": "vague_attribution",
+        "severity": "low",
+        "location": "body",
+        "original": "وبعد أيام تراجع مجلس إدارة إنفيديا وأعاد هوانغ إلى منصبه.",
+        "fix": "",
+        "note": "عبارة \"بعد أيام\" زمن نسبي غامض غير محدد التاريخ، ولا تسنده المصادر المرفقة بوضوح من حيث عدد الأيام الفعلي.",
+        "sources": []
+      }
+    ],
+    "unresolved": [
+      {
+        "n": 1,
+        "reason": "لا يوجد في المصادر المرفقة أي ذكر لشخص باسم (أليس هوانغ) أو تفاصيل تحقيق بهذا الشكل؛ لا يمكن تأكيد الواقعة أو حذفها بدقة دون معرفة ما وقع فعلاً، فاكتُفي بصياغة عامة تصف شبهات الامتثال دون تفاصيل غير مسندة."
+      },
+      {
+        "n": 2,
+        "reason": "لا تسند المصادر المرفقة تفاصيل الإقالة أو التحقيق المحدد؛ أعيدت الصياغة لتصف ما تؤكده المقاطع فقط (شبهات امتثال وإبعاد عن الرئاسة) دون الزعم بتفاصيل غير موثقة."
+      },
+      {
+        "n": 4,
+        "reason": "عبارة (بعد أيام) زمن نسبي غير محدد بدقة في المصادر المرفقة، ولا يوجد تاريخ محدد بديل يمكن إثباته منها، فتُركت كما كانت لعدم توفر تاريخ دقيق يسند التعديل."
+      }
+    ],
+    "attempts": [
+      {
+        "attempt": 1,
+        "error": "السؤال # أطول من # كلمات (#)"
+      }
+    ]
+  },
+  "editor_review": {
+    "at": "2026-11-25T12:26:22.580169+00:00",
+    "applied": [],
+    "notes": [
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "تآمر مع أليس هوانغ لتمرير رقائق متطورة إلى الصين",
+        "fix": "",
+        "note": "لا يوجد في المصادر المرفقة أي ذكر لشخص باسم \"أليس هوانغ\" أو لتفاصيل التحقيق بهذا الشكل؛ هذه الواقعة غير موثقة في أي من المقاطع الست المرفقة ولا نقاطها المصدرية، ولا يوجد دليل على أن إقالة هوانغ وقعت أصلاً أو أن تحقيقًا بهذا المضمون جرى. هذا يتجاوز ما تسنده المصادر.",
+        "sources": [],
+        "video": ""
+      },
+      {
+        "category": "fact_outdated",
+        "severity": "high",
+        "location": "body",
+        "original": "أُقيل جنسن هوانغ من رئاسة شركة إنفيديا الأمريكية على خلفية تحقيق يسعى لكشف ما إذا كان قد تآمر مع أليس هوانغ لتمرير رقائق متطورة إلى الصين.",
+        "fix": "",
+        "note": "لا تسند المصادر المرفقة وقوع إقالة فعلية لجنسن هوانغ ولا تحقيقًا بهذا الوصف؛ أقصى ما تقوله المقاطع هو تصريحات سياسية ونقاش حول شبهات امتثال دون تفاصيل قانونية محددة كهذه. هذه الواقعة تحتاج تأكيدًا من مصدر موثق.",
+        "sources": []
+      },
+      {
+        "category": "vague_attribution",
+        "severity": "low",
+        "location": "body",
+        "original": "وبعد أيام تراجع مجلس إدارة إنفيديا وأعاد هوانغ إلى منصبه.",
+        "fix": "",
+        "note": "عبارة \"بعد أيام\" زمن نسبي غامض غير محدد التاريخ، ولا تسنده المصادر المرفقة بوضوح من حيث عدد الأيام الفعلي.",
+        "sources": []
+      }
+    ],
+    "error": null,
+    "searches": 0,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "reel_quote": {
+    "status": "ready",
+    "tried": [
+      {
+        "name": "ميخائيل باكونين",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      }
+    ],
+    "speaker_ar": "ميخائيل باكونين",
+    "speaker_en": "Mikhail Bakunin",
+    "url": "https://en.wikiquote.org/wiki/Mikhail_Bakunin",
+    "why": "فكرة أن من يملك القدرة على منحك منصبك يملك ولاءك",
+    "quote": "All exercise of authority perverts, and submission to authority humiliates.",
+    "text_ar": "كل ممارسة للسلطة تُفسد، والخضوع للسلطة يُذل.",
+    "lang": "en"
+  },
+  "hook_cartoon": {
+    "status": "ready",
+    "idea_ar": "ترامب بيد يُعيد هوانغ إلى كرسي رئاسة إنفيديا فيما مجلس الإدارة يتراجع خاضعًا، وفي الخلفية سباق مع الصين يُستخدم ذريعة، مع ميزان \"مصلحة شخصية مقابل أمن قومي\" يميل لصالح ترامب (استنادًا لـ1 و2 و3 و4)",
+    "basis_ar": "[1] يصف تدخل ترامب المباشر وتراجع مجلس الإدارة فورًا؛ [2] تتهم بوجود مصلحة شخصية لترامب تتجاوز الأمن القومي وتطالب برقابة؛ [3] و[4] يبرران الأمر بالمنافسة مع الصين وضرورة قيادة هوانغ للفوز بسباق الذكاء الاصطناعي",
+    "prompt_en": "Political satire cartoon, bold outlines, flat colors, editorial caricature style, exaggerated but respectful features, no text, no numbers, no flags with words, countries represented by map shapes and color palettes only, dramatic lighting, clean vector-like shading",
+    "cost_usd": 0.2166,
+    "failed": [
+      "ترامب يمسك بكرسي الرئاسة: لم تُفصل القطعة عن خلفيتها"
+    ],
+    "path": "drafts/2026-11-25/900212c77395-cartoon.png",
+    "model": "gemini-3.1-flash-image",
+    "pieces": [
+      {
+        "name_ar": "هوانغ يجلس عائدًا إلى الكرسي",
+        "prompt_en": "Caricature of an Asian tech executive figure with spiky gray hair, black leather jacket, sitting confidently back into a large black executive office chair, relieved and smug smile, three-quarter view",
+        "x": 0.5,
+        "y": 0.55,
+        "width": 0.3,
+        "enter": "bottom",
+        "path": "drafts/2026-11-25/900212c77395-cartoon-1.png"
+      },
+      {
+        "name_ar": "مجلس الإدارة منحني متراجع",
+        "prompt_en": "Small group of caricatured corporate board members in gray suits, bowing slightly backward with worried nervous expressions, stepping away submissively, muted gray and beige tones",
+        "x": 0.78,
+        "y": 0.6,
+        "width": 0.3,
+        "enter": "right",
+        "path": "drafts/2026-11-25/900212c77395-cartoon-2.png"
+      },
+      {
+        "name_ar": "ميزان مصلحة شخصية مقابل أمن قومي",
+        "prompt_en": "A tilted golden balance scale, one side weighed down with a small bag of coins symbolizing personal interest, the other side lighter with a small shield symbolizing national security, dramatic tilt toward the coins side, floating above the scene",
+        "x": 0.5,
+        "y": 0.15,
+        "width": 0.4,
+        "enter": "top",
+        "path": "drafts/2026-11-25/900212c77395-cartoon-3.png"
+      },
+      {
+        "name_ar": "خريطة صينية صغيرة في الخلفية كذريعة",
+        "prompt_en": "A small stylized red-toned map silhouette representing a rival nation, placed subtly in the corner, with a tiny competing tech chip icon glowing on it, muted and distant in scale",
+        "x": 0.88,
+        "y": 0.25,
+        "width": 0.18,
+        "enter": "right",
+        "path": "drafts/2026-11-25/900212c77395-cartoon-4.png"
+      }
+    ]
+  },
+  "reel_bg": {
+    "url": "",
+    "kind": "none",
+    "publisher": "",
+    "judged": true,
+    "rejected": [
+      {
+        "url": "https://static.srpcdigital.com/styles/1200x600/public/2026-11/1889176.jpeg.webp?VersionId=JV2LgTncJsfdRiyk.MkRJ_OTmxUDD1xa",
+        "shows": "شاشة في واجهة زجاجية تعرض قناة CNBC، فيها صورة جنسن هوانغ وشريط خبر \"Jensen Huang reinstated as CEO of Nvidia\" وسعر سهم ",
+        "reason": "عليها نص مركَّب والجزء الخالي منه صغير (660×520 بكسل)"
+      },
+      {
+        "url": "https://www.skynewsarabia.com/images/v1/2026/11/25/1906927/1200/630/1-1906927.JPG",
+        "shows": "شخص يسير بجانب لافتة شركة إنفيديا (NVIDIA) أمام مبنى الشركة برقم 2788، مع شعار الشركة الأخضر",
+        "reason": "عليها نص مركَّب ولا مستطيل خالٍ منه"
+      }
+    ]
+  },
+  "hook_candidates": [
+    {
+      "video_id": "6l2iet1cmBw",
+      "title": "Why Nvidia Stock Jumped 30% as Jensen Huang Returns, and What Didn't Change",
+      "channel": "Comeback or Collapse",
+      "views": 2092,
+      "duration": 311,
+      "published": "2026-11-23T16:15:07Z",
+      "views_per_hour": 47.3
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-11-23T00:00:00Z",
+          "2026-11-27T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "جنسن هوانغ يصل مقر إنفيديا",
+            "raw": 14,
+            "channel_ok": 1
+          },
+          {
+            "query": "Jensen Huang Nvidia headquarters Santa Clara crowd reporters",
+            "raw": 5,
+            "channel_ok": 0
+          },
+          {
+            "query": "Jensen Huang Nvidia CEO press conference cameras",
+            "raw": 30,
+            "channel_ok": 1
+          }
+        ],
+        "duration_ok": 2,
+        "judged_ok": 1,
+        "rejected_channels": [
+          "Academic Dissent",
+          "Official Bullish Raid",
+          "Democratic Reporter",
+          "Mitchell Makes Vids",
+          "StockedUp",
+          "Dr. Know-it-all Knows it all",
+          "Sergio Ávila | Bolsa y Economía",
+          "Khoulasa | خلاصة"
+        ]
+      }
+    ],
+    "picked": [
+      "6l2iet1cmBw"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "واجه جنسن هوانغ شبهات امتثال داخل شركة إنفيديا الأمريكية دفعت مجلس الإدارة لإبعاده عن رئاستها.",
+      "visual": ""
+    },
+    {
+      "scene": 3,
+      "sentence": 0,
+      "text": "ثم دعا الرئيس الأمريكي دونالد ترامب لمنح هوانغ فرصة ثانية وإعادته إلى عمله.",
+      "visual": ""
+    },
+    {
+      "scene": 5,
+      "sentence": 0,
+      "text": "وبعد أيام تراجع مجلس إدارة إنفيديا وأعاد هوانغ إلى منصبه.",
+      "visual": ""
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "text": "لماذا تدخّل ترامب لإعادة هوانغ إلى رئاسة إنفيديا؟",
+      "visual": ""
+    },
+    {
+      "scene": 9,
+      "sentence": 0,
+      "text": "هل تبرر المنافسة مع الصين تجاوز الشبهات حول هوانغ؟",
+      "visual": ""
+    }
+  ],
+  "cost_script": {
+    "claude": {
+      "claude-haiku-5-5": 0.00323,
+      "claude-sonnet-5": 0.23902,
+      "claude-opus-5": 0.12633
+    },
+    "gemini": 0.2166
+  },
+  "review_issue": 2012,
+  "stage2_issue": 2012
+}
