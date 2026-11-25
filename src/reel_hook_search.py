@@ -322,8 +322,14 @@ def pick_hook_candidates(draft: dict, cfg, deps: HookDeps | None = None) -> None
         search["error"] = reel_clips.scrub_text(str(exc))[:150]
         log.warning("تعذّر البحث عن مرشّحي لقطة الهوك: %s", search["error"])
         cands = []
-    if not cands:
-        cands = topic_video_candidates(draft, cfg, deps, search)
+    # قضيتا 2007 و2013 (25/11): بقي من البحث مرشّح واحد (برنامج أستوديو، أو فيديو نزلت قطعه بعطل) فغابت لقطة الحدث وشريط الخلفية
+    # معًا. فيديوهات موضوع العناوين نفسه تكمّل المرشّحين حتى min_candidates (لا حين ينعدمون وحدهم)، والفحص البصري يقرّر
+    fb = (hcfg.get("topic_fallback") or {})
+    want = int(fb.get("min_candidates", 1) or 1)
+    if len(cands) < want:
+        have = {c["video_id"] for c in cands}
+        extra = [c for c in topic_video_candidates(draft, cfg, deps, search) if c["video_id"] not in have]
+        cands = cands + extra[:max(int(fb.get("max_candidates", 4)) - len(cands), 0)] if cands else extra
     search["picked"] = [c["video_id"] for c in cands]
     draft["hook_candidates"] = cands
     draft["hook_search"] = search

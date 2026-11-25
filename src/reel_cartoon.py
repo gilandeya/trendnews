@@ -32,13 +32,15 @@ CONCEPT_TOOL = {
         "pieces": {"type": "array", "description": "قطع الرسم بلا خلفية، كل قطعة شيء واحد أو مجموعة متماسكة", "items": {
             "type": "object", "properties": {
                 "name_ar": {"type": "string"},
-                "prompt_en": {"type": "string", "description": "وصف القطعة وحدها بالإنجليزية: الشيء وألوانه وزاويته، بلا أرضية ولا سماء"},
+                "person_ar": {"type": "string", "description": "اسم الشخص الذي ترسمه القطعة بالعربية كما يرد في نص الريل"},
+                "person_en": {"type": "string", "description": "اسمه بحروفه اللاتينية المعروفة"},
+                "prompt_en": {"type": "string", "description": "وصف القطعة وحدها بالإنجليزية: الشخص بملامحه وموقعه وما يحمله، بلا أرضية ولا سماء"},
                 "x": {"type": "number", "description": "مركز القطعة أفقيًا في منطقة الرسم: 0 يسار، 1 يمين"},
                 "y": {"type": "number", "description": "مركزها رأسيًا في منطقة الرسم: 0 أعلى، 1 أسفل"},
                 "width": {"type": "number", "description": "عرضها نسبةً من عرض منطقة الرسم (0.15–0.9)"},
                 "enter": {"type": "string", "enum": ["left", "right", "top", "bottom"],
                           "description": "من أين تدخل الشاشة"}},
-            "required": ["name_ar", "prompt_en", "x", "y", "width", "enter"]}}},
+            "required": ["name_ar", "person_ar", "person_en", "prompt_en", "enter"]}}},
         "required": ["feasible", "idea_ar", "basis_ar", "prompt_en", "pieces"]},
 }
 
@@ -127,7 +129,12 @@ def clean_pieces(raw: list, cfg) -> list[dict]:
         if not prompt:
             continue
         enter = str(p.get("enter") or "bottom")
-        out.append({"name_ar": " ".join(str(p.get("name_ar") or "").split()), "prompt_en": prompt,
+        person_ar = " ".join(str(p.get("person_ar") or "").split())
+        # قضية 2013: قطع بلا معنى (ميزان، خريطة صغيرة، مجلس إدارة) كثّرت الصور؛ القطعة شخص من الحدث يُعرف باسمه فيتبع الراوي
+        if c.get("persons_only", False) and not person_ar:
+            continue
+        out.append({"name_ar": " ".join(str(p.get("name_ar") or "").split()), "prompt_en": prompt, "person_ar": person_ar,
+                    "person_en": " ".join(str(p.get("person_en") or "").split()),
                     "x": min(max(_num(p.get("x"), 0.5), 0.0), 1.0), "y": min(max(_num(p.get("y"), 0.5), 0.0), 1.0),
                     "width": min(max(_num(p.get("width"), 0.4), lo_w), hi_w),
                     "enter": enter if enter in ("left", "right", "top", "bottom") else "bottom"})
@@ -157,6 +164,32 @@ def place(size: tuple[int, int], spec: dict, cfg, w: int, h: int) -> tuple[int, 
     x = int(round(min(max(cx - pw / 2, al), ar - pw)))
     y = int(round(min(max(cy - ph / 2, at), ab - ph)))
     return x, y, pw, ph
+
+
+def row_layout(sizes: list[tuple[int, int]], band: tuple[int, int], cfg, w: int) -> list[tuple[int, int, int, int]]:
+    """مواضع القطع (x، y، عرض، ارتفاع) صفًّا واحدًا في الحزام [أعلى، أسفل] تحت النص (دالة خالصة): لكل قطعة خانة بعرض متساوٍ بين
+    هامشي cast.side، تُصغَّر فيها بنسبتها حتى تسع الخانة وارتفاع الحزام (وcast.max_height)، وتقف على أسفل الحزام، والصف كله في
+    وسط الشاشة. القطع لا تتداخل أبدًا ولا تنزل على النص (قضية 2013: قطع النموذج بمواضعه غطّت عنوان الهوك وبعضها بعضًا)."""
+    k = ccfg(cfg).get("cast") or {}
+    n = len(sizes)
+    if not n:
+        return []
+    side, gap = int(k.get("side", 60)), int(k.get("gap", 30))
+    top, bottom = int(band[0]), int(band[1])
+    bh = max(min(bottom - top, int(k.get("max_height", 520))), 2)
+    slot = max((w - 2 * side - gap * (n - 1)) / n, 2.0)
+    dims = []
+    for sw, sh in sizes:
+        sw, sh = max(int(sw), 1), max(int(sh), 1)
+        sc = min(slot / sw, bh / sh)
+        dims.append((max(int(round(sw * sc)), 2), max(int(round(sh * sc)), 2)))
+    total = sum(d[0] for d in dims) + gap * (n - 1)
+    x = int(round((w - total) / 2))
+    out = []
+    for pw, ph in dims:
+        out.append((x, bottom - ph, pw, ph))
+        x += pw + gap
+    return out
 
 
 def start_pos(enter: str, box: tuple[int, int, int, int], w: int, h: int) -> tuple[int, int]:
@@ -248,17 +281,52 @@ def _draw_piece(piece: dict, con: dict, cfg, key: str) -> tuple[Any, float, str]
     return cut, usd, ""
 
 
+def row_mode(cfg) -> bool:
+    return str(ccfg(cfg).get("layout", "model")) == "row"
+
+
 def preview(pieces: list[dict], cfg, w: int, h: int):
     """صورة المراجعة: القطع في مواضعها النهائية فوق لون العلامة (الخلفية الفعلية في الريل لقطة الهوك المعتادة)."""
     from PIL import Image
 
     from . import imaging
     base = Image.new("RGBA", (w, h), (*imaging.hex_rgb(str(cfg.path("brand.primary_color") or "#12203A")), 255))
-    for p in pieces:
-        img = Image.open(p["file"]).convert("RGBA")
-        x, y, pw, ph = place(img.size, p, cfg, w, h)
+    imgs = [Image.open(p["file"]).convert("RGBA") for p in pieces]
+    if row_mode(cfg):
+        al, at, ar, ab = area_px(cfg, w, h)
+        boxes = row_layout([im.size for im in imgs], (at, ab), cfg, w)
+    else:
+        boxes = [place(im.size, p, cfg, w, h) for im, p in zip(imgs, pieces)]
+    for img, (x, y, pw, ph) in zip(imgs, boxes):
         base.alpha_composite(img.resize((pw, ph), Image.LANCZOS), (x, y))
     return base.convert("RGB")
+
+
+def draw_thinker(draft: dict, cfg, key: str) -> None:
+    """كاريكاتير قائل الاقتباس تحت نصه (قضية 2007، طلب صاحب المشروع): قطعة واحدة بأسلوب قطع الهوك تُرسم إن اقتُرح اقتباس، وتُحفظ في
+    draft["reel_quote"]["cartoon"] = {path, cost_usd} أو {error}؛ تظهر في مشهد الاقتباس إن وافقت عليه (لا تتبع موافقة رسم الهوك)."""
+    q = draft.get("reel_quote")
+    c = ccfg(cfg)
+    if not isinstance(q, dict) or q.get("status") != "ready" or not c.get("thinker", {}).get("enabled", False):
+        return
+    name = q.get("speaker_en") or q.get("speaker_ar") or ""
+    piece = {"name_ar": q.get("speaker_ar", ""), "person_ar": q.get("speaker_ar", ""), "person_en": q.get("speaker_en", ""),
+             "prompt_en": str(c["thinker"].get("prompt", "{name}")).format(name=name)}
+    con = {"prompt_en": str(c["thinker"].get("scene", "")).format(name=name)}
+    try:
+        img, usd, err = _draw_piece(piece, con, cfg, key)
+        from . import costs, store
+        costs.add("gemini", usd)
+        if img is None:
+            q["cartoon"] = {"error": err, "cost_usd": usd}
+            return
+        out_dir = store.draft_dir()
+        out_dir.mkdir(parents=True, exist_ok=True)
+        path = out_dir / f"{draft['id']}-thinker.png"
+        img.save(path, "PNG")
+        q["cartoon"] = {"path": f"drafts/{out_dir.name}/{path.name}", "cost_usd": usd}
+    except Exception as exc:  # noqa: BLE001 -- إضافة: الاقتباس صالح بلا رسم
+        q["cartoon"] = {"error": f"{type(exc).__name__}: {str(exc)[:150]}"}
 
 
 def plan(draft: dict, cfg: Any, client=None) -> dict | None:
@@ -275,6 +343,7 @@ def plan(draft: dict, cfg: Any, client=None) -> dict | None:
         rec["error"] = "no_key"
         draft["hook_cartoon"] = rec
         return rec
+    draw_thinker(draft, cfg, key)
     try:
         con, why = concept(draft["script"], cfg, client)
         if not con:
@@ -338,6 +407,23 @@ def usable(draft: dict, cfg) -> list[dict] | None:
         if f is not None:
             out.append({**p, "file": f})
     return out if len(out) >= int(ccfg(cfg).get("min_pieces", 2)) else None
+
+
+def cast_pieces(draft: dict, cfg) -> list[dict]:
+    """أشخاص الرسم الذين يتبعون الراوي (قضية 2013): قطع الهوك المعتمدة التي لها person_ar، وقائل الاقتباس إن رُسم وأُدرج الاقتباس
+    في الريل. [{person_ar, person_en, file, quote}]؛ cast.enabled: false ← []."""
+    if not enabled(cfg) or not (ccfg(cfg).get("cast") or {}).get("enabled", False):
+        return []
+    out = []
+    for p in usable(draft, cfg) or []:
+        if p.get("person_ar"):
+            out.append({"person_ar": p["person_ar"], "person_en": p.get("person_en", ""), "file": p["file"]})
+    q = draft.get("reel_quote")
+    if isinstance(q, dict) and q.get("approved") and isinstance(q.get("cartoon"), dict):
+        f = local_path(q["cartoon"].get("path"))
+        if f is not None:
+            out.append({"person_ar": q.get("speaker_ar", ""), "person_en": q.get("speaker_en", ""), "file": f, "quote": True})
+    return out
 
 
 def parse_ok(body: str) -> set[str]:
