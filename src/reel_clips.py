@@ -354,6 +354,33 @@ def has_persian_letters(text: str) -> bool:
     return any(ch in PERSIAN_ONLY for ch in str(text or ""))
 
 
+# لغات لا تُكتب بالحروف اللاتينية: نص لاتيني لمقطع «لغته» إحداها يعني أن اللغة المعلنة لغة القناة لا لغة المتكلم
+NON_LATIN_LANGS = frozenset({"ar", "fa", "ur", "zh", "ja", "ko", "ru", "uk", "he", "el", "hi"})
+
+
+def speech_language(text: str, declared: str | None) -> str | None:
+    """لغة الكلام المسموع لتفريغه (القضيتان 1991 و1997). اللغة المعلنة قد تكون لغة القناة لا المتكلم: مقطع «zh» من CCTV
+    كلامه المكتوب فارسي لمسؤول إيراني، ومقطع إنجليزي لمسؤول أمريكي على القناة نفسها؛ وإجبار المفرِّغ على لغة غير المسموعة
+    يجعله يترجم بدل أن يسمع فتنهار المطابقة (0.045 و0.077) ويُحذف المقطع. حروف الكلام المكتوب حاسمة في غير اللاتينية؛
+    واللاتيني لا يميّز التركية من الإنجليزية بثقة فيبقى المعلن إن كان لاتينيًا. None = لا لغة يُعتمد عليها (يكشفها المفرِّغ)."""
+    from . import press_events
+    base = (str(declared or "").strip().lower().split("-")[0].split("_")[0]) or None
+    body = str(text or "")
+    if sum(1 for ch in body if ch.isalpha()) < 4:
+        return base
+    found = press_events.detect_language(body)
+    if found == "und":
+        return base
+    if found == "ar" and (has_persian_letters(body) or base in ("fa", "ur")):
+        found = base if base in ("fa", "ur") else "fa"
+    if found in NON_LATIN_LANGS:
+        return found
+    # كلام بالحروف اللاتينية: المعلن غير اللاتيني لغة القناة، والمعلن اللاتيني أوثق من كشف الكلمات الوظيفية
+    if base is None or base in NON_LATIN_LANGS:
+        return found
+    return base
+
+
 def is_arabic_audio(text: str, lang: str | None = None, cfg=None) -> bool:
     """لغة الصوت. رمز لغة النص المجلوب (language_code) إن عُرف هو الحكم: عربي إن بدأ بـar. وبلا رمز من حروف النص نفسه لا من
     scene.language: الصوت المدبلج عربي وإن استُخرجت النقطة من غيره (نسبة حروف النطاق العربي ≥ 0.6) بشرط ألا تبلغ نسبة الحروف
@@ -608,7 +635,7 @@ class TierWatchdog:
         return False
 
 
-def _ydl_opts(out_path: Path, height: int, ranges, force_keyframes: bool, proxy, capture, hook) -> dict:
+def _ydl_opts(out_path: Path, height: int, ranges, force_keyframes: bool, proxy, capture, hook, clients=None) -> dict:
     opts = {
         "format": f"bv*[height<={height}]+ba/b[height<={height}]",
         "merge_output_format": "mp4",
@@ -632,6 +659,9 @@ def _ydl_opts(out_path: Path, height: int, ranges, force_keyframes: bool, proxy,
     # القراءة الميتة داخل ffmpeg (التنزيل بمدى يمرّ به) لا يقطعها socket_timeout: rw_timeout بالمايكروثانية يجعله يخرج بخطأ
     if float(lim.get("socket_timeout") or 0) > 0:
         opts["external_downloader_args"] = {"ffmpeg_i": ["-rw_timeout", str(int(float(lim["socket_timeout"]) * 1_000_000))]}
+    if clients:
+        # درجة خطأ HTTP (القضية 1997): عميل يوتيوب آخر يعطي روابط وسائط أخرى غير التي رفضها الخادم
+        opts["extractor_args"] = {"youtube": {"player_client": list(clients)}}
     if force_keyframes:
         opts["force_keyframes_at_cuts"] = True
     if proxy:
@@ -670,9 +700,10 @@ def _run_tier(tier, video_id, start, end, height, out_path, proxy, capture) -> d
         guard(sum(seen.values()) if seen else None)   # يرفع فيُلغى التنزيل المعلّق بدل أن يبتلع مهلة الوظيفة
 
     url = f"https://www.youtube.com/watch?v={video_id}"
-    if tier in ("a", "b"):
-        h = height if tier == "a" else 480
-        opts = _ydl_opts(out_path, h, download_range_func(None, [(start, end)]), True, proxy, capture, hook)
+    if tier in ("a", "b", "d"):
+        h = 480 if tier == "b" else height
+        clients = (lim.get("http_error_clients") or None) if tier == "d" else None
+        opts = _ydl_opts(out_path, h, download_range_func(None, [(start, end)]), True, proxy, capture, hook, clients)
         with TierWatchdog(out_path, lim) as dog, yt_dlp.YoutubeDL(opts) as ydl:
             _download_watched(ydl, url, dog)
         return {"bytes": sum(seen.values()), "format_id": capture.format_id, "protocol": capture.protocol}
@@ -694,6 +725,17 @@ def _run_tier(tier, video_id, start, end, height, out_path, proxy, capture) -> d
     if proc.returncode != 0:
         raise RuntimeError(f"ffmpeg local cut exited with code {proc.returncode}")
     return {"bytes": sum(seen.values()), "format_id": capture.format_id, "protocol": capture.protocol}
+
+
+def http_error_tier(failures: list) -> bool:
+    """هل تستحق الدرجة الأخيرة بعميل آخر؟ دالة خالصة: الدرجات الثلاث جُرّبت (لا تخطٍّ بالموعد أو السقف) وكلها فشلت بخطأ HTTP
+    من خادم الوسائط (reel.render.download.http_error_patterns)، والعملاء معرَّفون."""
+    lim = download_limits()
+    pats = [str(p) for p in lim.get("http_error_patterns") or []]
+    tried = [f for f in failures if not f.get("skipped")]
+    if not lim.get("http_error_clients") or not pats or len(tried) < 3:
+        return False
+    return all(any(p in " ".join(map(str, f.get("error_tail") or [])) for p in pats) for f in tried)
 
 
 def download_clip(video_id: str, start: int, end: int, height: int, out_path: Path,
@@ -727,5 +769,22 @@ def download_clip(video_id: str, start: int, end: int, height: int, out_path: Pa
         return {"bytes": int(res.get("bytes", 0)), "tier": tier, "failures": failures,
                 "format_id": res.get("format_id") or capture.format_id,
                 "protocol": res.get("protocol") or capture.protocol}
+    if http_error_tier(failures):
+        # الدرجات الثلاث رفضها خادم الوسائط بخطأ HTTP: درجة أخيرة بعميل يوتيوب آخر (القضية 1997)
+        left = deadline_left()
+        if left is None or left > 0:
+            capture = TailCapture()
+            try:
+                res = runner("d", video_id, start, end, height, out_path, proxy, capture) or {}
+            except Exception as exc:  # noqa: BLE001 -- فشلها يُضاف إلى الأسباب ويُرفع الخطأ كما كان
+                capture.write(str(exc))
+                failures.append({"tier": "d", "error_tail": capture.tail(),
+                                 "format_id": capture.format_id, "protocol": capture.protocol})
+            else:
+                from . import costs
+                costs.add("proxy_bytes", int(res.get("bytes", 0) or 0))
+                return {"bytes": int(res.get("bytes", 0)), "tier": "d", "failures": failures,
+                        "format_id": res.get("format_id") or capture.format_id,
+                        "protocol": res.get("protocol") or capture.protocol}
     last = failures[-1]["error_tail"][-1:] or ["?"]
     raise ClipDownloadError(scrub_text(f"فشلت كل الدرجات: {last[0]}")[:200], failures)

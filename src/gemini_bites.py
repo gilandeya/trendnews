@@ -45,9 +45,10 @@ SCHEMA = {
             # والحكم لمن يرى الحلقة (النموذج) لا لكلمات الصفة: «مراسل صحيفة كذا» ضيفٌ في برنامج قناة أخرى
             "speaker_kind": {"type": "STRING", "enum": list(SPEAKER_KINDS)},
             # ريل 8f6a0649b60c: صوت شي جين بينغ والكاميرا على بوتين فقُصّ وجه بوتين تحت اسمه. هل يُرى صاحب الكلام وهو يتكلم؟
+            # مطلوب (القضية 1991): اختياريًا أغفله Gemini فعُرض مقطع سوليفان والكاميرا على غيره، ثم حذفه التركيب بعد اختياره
             "speaker_on_screen": {"type": "STRING", "enum": ["most", "partly", "none"]}},
             "required": ["start", "end", "speaker", "type", "summary_ar", "text_original", "text_ar", "setting", "delivery",
-                         "speaker_kind"]}},
+                         "speaker_kind", "speaker_on_screen"]}},
     },
     "required": ["speakers", "bites"],
 }

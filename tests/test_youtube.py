@@ -8288,9 +8288,10 @@ def test_meta_verify_deadline_1904() -> None:
 
     base = real_load()
     v = base.path("youtube.meta_topics.qa.verify")
-    check("1904: الإعداد — مهلة خمس دقائق، وطريق التركيب أولًا، وثلاثة تنزيلات معًا",
+    # رُفعت المهلة في القضيتين 1991 و1997 (فُحص 5 من 27): ثماني دقائق وأربعة تنزيلات معًا
+    check("1904: الإعداد — مهلة ثماني دقائق، وطريق التركيب أولًا، وأربعة تنزيلات معًا",
           (v.get("budget_seconds"), v.get("download"), v.get("parallel"), v.get("video_seconds"), v.get("clip_height"))
-          == (300, "clip", 3, 150, 144), v)
+          == (480, "clip", 4, 240, 144), v)
 
     cfg = copy.deepcopy(base)
     cfg["youtube"]["meta_topics"]["qa"]["verify"].update(budget_seconds=70, video_seconds=40, parallel=2, poll_seconds=1)
@@ -10818,3 +10819,104 @@ def test_meta_echo_1988() -> None:
     check("1988e: السطر في جسم قضية الأسئلة", line in body)
     check("1988e: البرومبت يمنع إعادة الترقيم ويطلب الرقم الواحد للمعنى الواحد",
           "لا تُعد ترقيم" in real.path("youtube.meta_topics.qa.echo.system"))
+
+
+def test_clip_drops_1991() -> None:
+    """القضيتان 1991 و1997: مقاطع اختارها المراجع سقطت في التركيب. (1) لغة التفريغ من حروف الكلام المكتوب لا من لغة القناة،
+    ومقطع Gemini بلغته لا بلغة مسار نص قد يكون ترجمة؛ (2) نافذة تقديرية لم يطابق مسموعها تُجرَّب مرة بنافذة أوسع قبل الحذف؛
+    (3) خطأ HTTP (ffmpeg 8) في الدرجات الثلاث ← درجة أخيرة بعميل يوتيوب آخر؛ (4) on_screen مطلوب من Gemini؛ (5) علامة ❔ لما لم
+    يُفحص صوته في قضية الأسئلة."""
+    from src import gemini_bites, reel_clips, reel_render, reel_script
+    from src.config import load_config as real_load
+
+    cfg = real_load()
+    sl = reel_clips.speech_language
+    check("1991: كلام فارسي لمقطع «zh» من CCTV ← fa", sl("ببینید ما قبلاً موشک‌مون به جزیره داشتیم", "zh") == "fa")
+    check("1991: كلام إنجليزي لمقطع «zh» ← لغة لاتينية لا الصينية", sl("A lot of the munitions we used in the war", "zh") == "en")
+    check("1991: لاتيني معلن لاتينيًا يبقى (R14: ترجمة إنجليزية لكلام تركي)", sl("the minister said in the talks", "tr") == "tr")
+    check("1991: عربي بلا حروف فارسية ومعلن fa يبقى fa", sl("ما قال هذا في الجلسة اليوم", "fa") == "fa")
+    check("1991: بلا نص أو بنص قصير ← المعلن", sl("", "tr") == "tr" and sl("ok", "zh-CN") == "zh")
+
+    # (1) اللغة في _exact_apply
+    seen: list = []
+
+    def tw(path, lang, c):
+        seen.append(lang)
+        return []
+    deps = reel_render.Deps(transcribe_words=tw, transcript_lang=lambda v: "en")
+    args = ({"file": "x", "seconds": 60.0}, {"channel_display": "CNN Türk", "language": "tr"})
+    gem = {"video_id": "v", "language": "tr", "bite_source": "gemini", "quote_original": "İran'ın bu gece 14 tane boş tankeri gönderdi"}
+    reel_render._exact_apply(*args, gem, 0, 10, 40, False, cfg, deps, [], [])
+    txt = dict(gem, bite_source="")
+    reel_render._exact_apply(*args, txt, 0, 10, 40, False, cfg, deps, [], [])
+    check("1997: مقطع Gemini يُفرَّغ بلغته لا بلغة المسار المجلوب، ومقطع النص بلغة المسار (R14)", seen == ["tr", "en"], seen)
+
+    # (2) النافذة الأوسع
+    quote = "alpha bravo charlie delta echo foxtrot golf hotel"
+    point = {"video_id": "v1", "statement": "s", "quote_original": quote, "quote_arabic": "ترجمة", "speaker": "زيد",
+             "channel": "CCTV", "timestamp": 100.0, "start": 100.0, "end": 110.0, "language": "en"}
+    scene = {"kind": "clip", "point_id": reel_script.point_key_id(point), "start": 100.0, "end": 110.0,
+             "channel_display": "سي سي تي في", "language": "en", "quote_arabic": "ترجمة"}
+
+    def run(c):
+        downloads: list = []
+
+        def download(video_id, start, end, height, out_path):
+            downloads.append((start, end))
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        def words(path, lang, c2):
+            if "_wide" in str(path):      # الكلام بعد التقدير بـ45 ث: خارج الهامش الأول وداخل الواسع
+                return [(85.0 + k * 0.4, 85.3 + k * 0.4, w) for k, w in enumerate(quote.split())]
+            return [(1.0 + k * 0.4, 1.3 + k * 0.4, w) for k, w in enumerate("zulu yankee xray whiskey victor uniform tango sierra".split())]
+
+        def fetch(vid):
+            raise reel_render.TranscriptUnavailable("لا نص")
+        deps2 = reel_render.Deps(fetch_transcript=fetch, download_clip=download, load_points=lambda d: [point],
+                                 probe=lambda p: 160.0, streams=lambda p: {"video", "audio"}, sleep=lambda s: None,
+                                 transcribe_words=words, detect_silence=lambda clip, c3: []).resolved(c)
+        notes: list = []
+        tmp = Path(tempfile.mkdtemp(prefix="r1991_"))
+        clips, dropped, approx = reel_render._fetch_clips({"scenes": [scene]}, {"topic_date": "2099-12-20"}, c, deps2, tmp, notes)
+        return clips, dropped, downloads, notes
+
+    clips, dropped, downloads, notes = run(cfg)
+    check("1991: تقديرية لم تطابق ← نافذة أوسع فطوبقت ولم تُحذف",
+          not dropped and len(downloads) == 2 and clips and next(iter(clips.values())).get("sync") == "words", (dropped, downloads))
+    check("1991: الواسعة تحيط بالتقدير بهامش approx_retry_margin", downloads[-1][0] <= 100 - 60 and downloads[-1][1] >= 110 + 60, downloads)
+    check("1991: سطر 🔁 في التعليق", any(n.startswith("🔁") and "سي سي تي في" in n for n in notes), notes)
+    import copy
+    off = copy.deepcopy(cfg)
+    off["reel"]["render"]["exact"]["approx_retry_margin"] = 0
+    _, dropped0, dl0, _ = run(off)
+    check("1991: approx_retry_margin 0 ← الحذف بعد المحاولة الأولى كما كان", len(dl0) == 1 and dropped0, (dl0, dropped0))
+
+    # (3) درجة عميل آخر على خطأ HTTP
+    calls: list = []
+
+    def runner(tier, *a):
+        calls.append(tier)
+        if tier != "d":
+            raise RuntimeError("ERROR: ffmpeg exited with code 8")
+        return {"bytes": 9}
+    tmpf = Path(tempfile.mkdtemp(prefix="r1997_")) / "c.mp4"
+    got = reel_clips.download_clip("v", 1, 5, 144, tmpf, None, runner=runner)
+    check("1997: الدرجات الثلاث بخطأ HTTP ← درجة d بعميل آخر نجحت", calls == ["a", "b", "c", "d"] and got["tier"] == "d", calls)
+    calls.clear()
+
+    def runner2(tier, *a):
+        calls.append(tier)
+        raise RuntimeError("some other failure")
+    try:
+        reel_clips.download_clip("v", 1, 5, 144, tmpf, None, runner=runner2)
+    except reel_clips.ClipDownloadError:
+        pass
+    check("1997: عطل غير HTTP لا يجرّب الدرجة d", calls == ["a", "b", "c"], calls)
+    check("1997: الدرجة d تمرّر عملاء يوتيوب من الإعداد",
+          reel_clips._ydl_opts(tmpf, 144, None, True, None, None, None, ["tv"])["extractor_args"] == {"youtube": {"player_client": ["tv"]}})
+
+    # (4) و(5)
+    req = gemini_bites.SCHEMA["properties"]["bites"]["items"]["required"]
+    check("1991: on_screen مطلوب من Gemini", "speaker_on_screen" in req)
+    check("1991: علامة ❔ في الإعداد", "❔" in cfg.path("youtube.meta_topics.qa.texts.unheard_mark"))

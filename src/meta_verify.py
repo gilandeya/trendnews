@@ -89,8 +89,11 @@ def check_bite(b: dict, source: list, deps: bite_audio.Deps, cfg: Any, tmp: Path
     النافذة الضيقة أولًا (انزياح Gemini الوسيط نحو ثانية، والتفريغ على المعالج بطول الصوت)، ثم الواسعة مرة لما لم يطابق."""
     from . import reel_clips
     v = _vcfg(cfg)
-    rec: dict = {"source": "meta_verify", "orig": [b["start"], b["end"]], "lang": b.get("language") or ""}
     original = str(b.get("text_original") or "")
+    # لغة الكلام لا لغة القناة (القضية 1991): مقطع «zh» من CCTV كلامه فارسي، وإجبار المفرِّغ على الصينية يترجم ولا يسمع
+    lang = (reel_clips.speech_language(original, b.get("language")) if cfg.path("reel.render.exact.language_from_text", True)
+            else b.get("language")) or None
+    rec: dict = {"source": "meta_verify", "orig": [b["start"], b["end"]], "lang": lang or ""}
     if not original:
         return {**rec, "status": "no_text"}
     relaxed = v.get("relaxed_ratio", cfg.path("reel.render.exact.relaxed_ratio"))
@@ -105,7 +108,7 @@ def check_bite(b: dict, source: list, deps: bite_audio.Deps, cfg: Any, tmp: Path
             return {**rec, "status": "failed", "error": "لا قسم منزَّل يغطي نافذة المقطع"}
         try:
             path = deps.cut(sec[1], w0 - sec[0], w1 - sec[0], tmp)
-            words = deps.transcribe(path, b.get("language") or None, cfg) or []
+            words = deps.transcribe(path, lang, cfg) or []
         except Exception as exc:  # noqa: BLE001 -- عطل تفريغ: المقطع يبقى بلا حكم، والتركيب حارسه
             return {**rec, "status": "failed", "error": _safe(exc)}
         words = [(round(float(s) + w0, 2), round(float(e) + w0, 2), str(w)) for s, e, w in words]

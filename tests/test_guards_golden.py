@@ -20269,7 +20269,9 @@ def test_reel_exact_q13_guards() -> None:
         xc = cfg.path("reel.render.exact") or {}
         check("g608: الإعداد", xc == {"enabled": True, "model": "small", "margin": 4, "approx_margin": 20, "min_ratio": 0.7, "pad": 0.12,
                                      "snap": 0.3, "require": False, "word_similarity": 0.7, "word_min_len": 3,
-                                     "drop_approx_reasons": ["low_ratio", "no_words"], "relaxed_ratio": 0.6}, xc)
+                                     "drop_approx_reasons": ["low_ratio", "no_words"], "relaxed_ratio": 0.6,
+                                     # القضيتان 1991 و1997: نافذة أوسع قبل الحذف، ولغة الكلام من حروفه
+                                     "approx_retry_margin": 60, "language_from_text": True, "gemini_language": True}, xc)
         # S7 أضاف المفتاحين، وريلا 13/11 relaxed_ratio
         check("g608: نصوص الإعداد", all(cfg.path(f"reel.texts.{k}") for k in ("clip_drop_incomplete", "scene_heard", "scene_written"))
               and all(cfg.path(f"reel.render.texts.{k}") for k in ("comment_exact_failed", "drop_exact_failed")), None)
@@ -21573,7 +21575,8 @@ def test_reel_r14_guards() -> None:
         seen.clear()
         deps2 = reel_render.Deps(transcribe_words=lambda f, lang, c: seen.append(lang) or [])
         reel_render._exact_apply({"file": "x.mp4", "seconds": 10.0}, {"language": "ar", "channel_display": "ق"},
-                                 {"video_id": "v", "quote_original": "a b c d e"}, 0, 0, 10, False, cfg, deps2, None, [])
+                                 {"video_id": "v", "quote_original": "هذا ما قاله الوزير في الجلسة"}, 0, 0, 10, False, cfg, deps2, None, [])
+        # الكلام المكتوب عربي (القضية 1991: كلام لاتيني لمعلن عربي يُفرَّغ بلغته المكتشفة، فالمثال صار عربيًا)
         check("g695: بلا لغة نص مجلوب ← لغة النقطة كما كان", seen == ["ar"], seen)
     guarded("g695", g695)
 
