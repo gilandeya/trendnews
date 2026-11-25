@@ -10920,3 +10920,32 @@ def test_clip_drops_1991() -> None:
     req = gemini_bites.SCHEMA["properties"]["bites"]["items"]["required"]
     check("1991: on_screen مطلوب من Gemini", "speaker_on_screen" in req)
     check("1991: علامة ❔ في الإعداد", "❔" in cfg.path("youtube.meta_topics.qa.texts.unheard_mark"))
+
+
+def test_llm_default_client_2511() -> None:
+    """25/11: كاريكاتير الهوك واقتباس المفكر سقطا في كل ريل بـ«'NoneType' object has no attribute 'messages'» لأن client=None
+    مُرِّر إليهما. llm.create ينشئ عميلًا واحدًا للعملية حين لا يُمرَّر، فلا تسقط ميزة بنسيان إنشائه في وحدتها."""
+    from types import SimpleNamespace
+
+    from src import llm
+    from src.config import load_config as real_load
+
+    calls: list = []
+    fake = SimpleNamespace(messages=SimpleNamespace(create=lambda **kw: calls.append(kw) or SimpleNamespace(
+        stop_reason="end_turn", content=[], usage=None)))
+    saved = list(llm._CLIENT)
+    llm._CLIENT[:] = [fake]
+    try:
+        llm.create(None, cfg=real_load(), model="claude-sonnet-5", max_tokens=10, messages=[{"role": "user", "content": "x"}])
+        check("2511: llm.create بلا عميل يستعمل عميل العملية", len(calls) == 1, calls)
+        other: list = []
+        mine = SimpleNamespace(messages=SimpleNamespace(create=lambda **kw: other.append(kw) or SimpleNamespace(
+            stop_reason="end_turn", content=[], usage=None)))
+        llm.create(mine, cfg=real_load(), model="claude-sonnet-5", max_tokens=10, messages=[])
+        check("2511: العميل الممرَّر يغلب", len(other) == 1 and len(calls) == 1)
+    finally:
+        llm._CLIENT[:] = saved
+    import inspect
+    from src import reel_cartoon, reel_quote
+    check("2511: نقطتا نداء الكاريكاتير والاقتباس تمرّان بـllm.create",
+          "llm.create(client" in inspect.getsource(reel_cartoon) and "llm.create(client" in inspect.getsource(reel_quote))
