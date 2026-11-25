@@ -390,6 +390,11 @@ def make_builder(title: str, titles: list[str], topic: dict, questions: list[dic
             bids = [bid for bid in q["bite_ids"] if pid_of.get(bid) in valid_ids]
             # الإجابة الأم وصداها (23/11): ما بقي معلَّمًا منهما بعد فحص القائلين، والأم أول السؤال وصداها بعدها
             echo = meta_echo.scene_echo(q.get("echo"), bids, pid_of)
+            for m in (q.get("echo") or {}).get("masters") or []:
+                if m.get("bite_id") in bids and m.get("bite_id") not in echo:
+                    who = (by_bite.get(m["bite_id"]) or {}).get("speaker") or (by_bite.get(m["bite_id"]) or {}).get("channel") or ""
+                    info.setdefault("warnings", []).append(_texts(cfg).get(
+                        "master_alone", "⭐ الإجابة الأم ({speaker}) تُعرض إجابة عادية — في سؤال: {q}").format(speaker=who, q=q["text"]))
             bids = meta_echo.order_bites(bids, echo, pid_of)
             ans = [dict({"point_id": pid_of[bid], "stance": "", "angle": ""}, **({"echo": echo[bid]} if bid in echo else {}))
                    for bid in bids]

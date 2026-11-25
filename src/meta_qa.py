@@ -733,6 +733,7 @@ def auto_select(questions: list[dict], bites: list[dict], cfg) -> float:
     budget = float(q.get("max_seconds", 120))
     per_q = int(q.get("answers_per_question", 4))
     min_a = int(q.get("min_answers", 2))
+    pair = bool((q.get("echo") or {}).get("select_pair", True))
     dropped: set[int] = set()
     while True:
         for qu in questions:
@@ -765,12 +766,23 @@ def auto_select(questions: list[dict], bites: list[dict], cfg) -> float:
                                           (bites[a["n"] - 1].get("bloc"), bites[a["n"] - 1].get("orientation")) in orients,
                                           _low_priority(bites[a["n"] - 1], cfg),
                                           *_rank(bites[a["n"] - 1], a["fit"])))
-                pick = cands[0]
-                pick["selected"] = True
-                used.add(pick["n"])
-                if _speaker_key(bites[pick["n"] - 1]) != bites[pick["n"] - 1]["bite_id"]:
-                    spoke.add(_speaker_key(bites[pick["n"] - 1]))
-                total += _sec(bites[pick["n"] - 1])
+                picks = [cands[0]]
+                # الأم وصداها معًا (ريل 5d767581bd5e، 25/11): الصدى لا يُعرض صدًى إلا مع أمه، وكان يأتي بعد التوجّه الجديد
+                # فيأكل غيرُه السقف قبله وتُعرض الأم إجابة عادية؛ فإن اتسع السقف لصدى من متحدث آخر يُعلَّم معها في الجولة نفسها
+                if pair and cands[0].get("echo_role") in ("primary", "opposing") and len(chosen) + 2 <= per_q:
+                    mid = bites[cands[0]["n"] - 1].get("bite_id")
+                    room = budget - total - _sec(bites[cands[0]["n"] - 1])
+                    mkey = _speaker_key(bites[cands[0]["n"] - 1])
+                    echoes = [a for a in cands[1:] if a.get("echo_role") == "echo" and a.get("echo_of") == mid
+                              and _speaker_key(bites[a["n"] - 1]) != mkey and _sec(bites[a["n"] - 1]) <= room]
+                    if echoes:
+                        picks.append(echoes[0])
+                for pick in picks:
+                    pick["selected"] = True
+                    used.add(pick["n"])
+                    if _speaker_key(bites[pick["n"] - 1]) != bites[pick["n"] - 1]["bite_id"]:
+                        spoke.add(_speaker_key(bites[pick["n"] - 1]))
+                    total += _sec(bites[pick["n"] - 1])
                 progress = True
         thin = {qi for qi, qu in enumerate(questions) if qi not in dropped
                 and 0 < sum(a["selected"] for a in qu["answers"]) < min_a}
