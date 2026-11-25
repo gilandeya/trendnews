@@ -232,12 +232,12 @@ def _cut_translation(text_ar: str, approved: str, cfg) -> tuple[int, int, int] |
 
 def echo_structure(qu: dict, row: dict, bites: list[dict], cfg, diag: dict | None = None) -> dict | None:
     """البنية المعتمدة لسؤال واحد (دالة خالصة عدا قراءة الإعداد)، أو None حين لا أم:
-    {"masters": [{n, side, rank: primary|opposing, segments: [{idea, label, sub_original, text_ar}]}],
+    {"masters": [{n, side, rank: primary|opposing, echo_count, segments: [{idea, label, sub_original, text_ar}]}],
      "echoes": [{n, of: n الأم, idea, label, sub_original, text_ar}]}.
-    الأم في كل جهة: الإجابة التي تحمل أكثر الأفكار الواردة في إجابة أخرى من جهتها (min_shared فأكثر)، وعند التساوي الأكثر أفكارًا ثم
-    الأسبق في السؤال. الأولى أم الجهة الأكثر إجابات، والثانية معاكسة إن وُجدت لها أم (max_masters). الصدى: كل إجابة أخرى من جهة الأم
-    تحمل فكرة من أفكار الأم، مرة واحدة لكل إجابة (أول فكرة لها بترتيب الأم)، وحتى max_echoes_per_idea لكل فكرة. فكرة حدودها لا
-    تطابق الكلام تسقط وحدها."""
+    الأم: كل إجابة لها صدى (min_shared إجابة فأكثر من جهتها تكرر فكرة منها)، وقد تكون في السؤال أمهات عدة مرتّبة بعدد صداها (الأكثر
+    أولًا، max_masters). في كل جهة تُختار الأكثر صدى ثم تُرفع هي وصداها ويُعاد الاختيار فيما بقي. rank: primary لأمهات الجهة الأكثر
+    إجابات، وopposing للأخرى. الصدى: جملة الإجابة التي تكرر فكرة الأم وحدها لا الإجابة كلها، مرة لكل إجابة (أول فكرة لها بترتيب
+    الأم)، وحتى max_echoes_per_idea لكل فكرة. فكرة حدودها لا تطابق الكلام تسقط وحدها."""
     from .meta_topics import _int, _rows
     c = ecfg(cfg)
     d = diag if diag is not None else {}
@@ -283,56 +283,64 @@ def echo_structure(qu: dict, row: dict, bites: list[dict], cfg, diag: dict | Non
             side_of[n] = a["side"]
     d["spans"] = sum(len(v) for v in spans.values())
     d["answers"] = len(spans)
+    # أمهات متعددة (طلب صاحب المشروع 25/11): كل إجابة لها صدى أمٌّ، وتُرتَّب بعدد صداها. في كل جهة تُختار أولًا الإجابة التي يكررها
+    # أكثر الإجابات، ثم تُرفع هي وصداها من الجهة ويُعاد الاختيار فيما بقي، حتى لا يبقى إلا ما لا صدى له. إجابة صارت صدى لا تكون أمًّا
+    cap = int(c.get("max_echoes_per_idea", 2))
+    min_e = max(int(c.get("min_shared", 1)), 1)
+    side_size = {sd: sum(1 for v in side_of.values() if v == sd) for sd in ("a", "b")}
+
+    def echoes_of(m: int, pool: list[int]) -> list[tuple[int, dict]]:
+        """(n الصدى، فكرة الأم التي يكررها) لكل إجابة في pool تحمل فكرة من أفكار m، مرة لكل إجابة وحتى cap لكل فكرة."""
+        per_idea: dict[int, int] = {}
+        got = []
+        for n in pool:
+            if n == m:
+                continue
+            mine = {g["idea"] for g in spans[n]}
+            for seg in spans[m]:
+                if seg["idea"] in mine and per_idea.get(seg["idea"], 0) < cap:
+                    per_idea[seg["idea"]] = per_idea.get(seg["idea"], 0) + 1
+                    got.append((n, seg))
+                    break
+        return got
     masters = []
     for side in ("a", "b"):
-        members = [n for n in order if side_of.get(n) == side]
-        if len(members) < 2:
-            continue
-        holders = {}
-        for n in members:
-            for g in spans[n]:
-                holders.setdefault(g["idea"], set()).add(n)
-
-        def score(n):
-            shared = sum(1 for g in spans[n] if len(holders[g["idea"]]) >= 2)
-            return (shared, len(spans[n]), -order.index(n))
-        best = max(members, key=score)
-        d["shared"] = max(d.get("shared", 0), score(best)[0])
-        if score(best)[0] < int(c.get("min_shared", 1)):
-            continue
-        masters.append({"n": best, "side": side, "size": len(members)})
+        pool = [n for n in order if side_of.get(n) == side]
+        while len(pool) >= 2:
+            best = max(pool, key=lambda n: (len(echoes_of(n, pool)), len(spans[n]), -order.index(n)))
+            ech = echoes_of(best, pool)
+            d["shared"] = max(d.get("shared", 0), len(ech))
+            if len(ech) < min_e:
+                break
+            masters.append({"n": best, "side": side, "size": side_size[side], "echoes": ech})
+            gone = {best} | {n for n, _ in ech}
+            pool = [n for n in pool if n not in gone]
     if not masters:
         # السبب بترتيب ما يحدث أولًا: لا قطعة صحّت ← الحدود؛ قطع لا تجتمع إجابتان منها في جهة ← الجهات؛ وإلا لا فكرة مشتركة
         d["reason"] = ("no_spans" if not spans else
-                       "one_per_side" if all(sum(1 for v in side_of.values() if v == sd) < 2 for sd in ("a", "b"))
+                       "one_per_side" if all(side_size[sd] < 2 for sd in ("a", "b"))
                        else "no_shared")
         return None
     d["reason"] = ""
-    masters.sort(key=lambda m: (-m["size"], order.index(m["n"])))
-    masters = masters[: int(c.get("max_masters", 2))]
-    cap = int(c.get("max_echoes_per_idea", 2))
+    # الأكثر صدى أولًا (الأعلى والأسبق)، وعند التساوي أم الجهة الأكبر ثم الأسبق في السؤال
+    masters.sort(key=lambda m: (-len(m["echoes"]), -m["size"], order.index(m["n"])))
+    masters = masters[: int(c.get("max_masters", 4))]
+    main_side = max(("a", "b"), key=lambda sd: (side_size[sd], sd == "a"))
     out_masters, echoes = [], []
-    for rank, m in zip(("primary", "opposing"), masters):
+    for m in masters:
         segs = [{"idea": g["idea"], "label": labels[g["idea"]], "sub_original": g["sub_original"], "text_ar": g["text_ar"]}
                 for g in spans[m["n"]]]
-        out_masters.append({"n": m["n"], "side": m["side"], "rank": rank, "segments": segs})
-        per_idea: dict[int, int] = {}
-        for n in order:
-            if n == m["n"] or side_of.get(n) != m["side"] or n in {x["n"] for x in masters}:
-                continue
-            mine = {g["idea"]: g for g in spans[n]}
-            for seg in segs:
-                g = mine.get(seg["idea"])
-                if g and per_idea.get(seg["idea"], 0) < cap:
-                    per_idea[seg["idea"]] = per_idea.get(seg["idea"], 0) + 1
-                    echoes.append({"n": n, "of": m["n"], "idea": seg["idea"], "label": seg["label"],
-                                   "sub_original": g["sub_original"], "text_ar": g["text_ar"]})
-                    break
+        out_masters.append({"n": m["n"], "side": m["side"], "rank": "primary" if m["side"] == main_side else "opposing",
+                            "segments": segs, "echo_count": len(m["echoes"])})
+        for n, seg in m["echoes"]:
+            g = next(x for x in spans[n] if x["idea"] == seg["idea"])
+            echoes.append({"n": n, "of": m["n"], "idea": seg["idea"], "label": labels[seg["idea"]],
+                           "sub_original": g["sub_original"], "text_ar": g["text_ar"]})
     return {"masters": out_masters, "echoes": echoes}
 
 
 def apply(questions: list[dict], bites: list[dict], cfg, client, info: dict | None = None) -> int:
-    """يقسم الإجابات ويختار الأم وصداها لكل سؤال، ويعيد ترتيب إجاباته: الأم ثم صداها بترتيب أفكارها، ثم المعاكسة وصداها، ثم البقية
+    """يقسم الإجابات ويختار الأم وصداها لكل سؤال، ويعيد ترتيب إجاباته: كل أم ثم صداها، الأمهات بعدد صداها (الأكثر أولًا)، ثم البقية
     كما كانت. يكتب على كل إجابة echo_role (primary|opposing|echo) وecho_of/echo_idea، وعلى السؤال echo (البنية كاملة بكلماتها، للملف
     الخاص؛ public_question يحذف الكلمات للعام). يعيد عدد الأسئلة التي وُجدت لها أم. مطفأ أو بلا أم ← لا تغيير."""
     if not enabled(cfg):
@@ -352,11 +360,12 @@ def apply(questions: list[dict], bites: list[dict], cfg, client, info: dict | No
         found += 1
         by_n = {a["n"]: a for a in qu["answers"]}
         for n in by_n:
-            by_n[n].pop("echo_role", None)
+            for k in ("echo_role", "echo_rank", "echo_count", "echo_of", "echo_idea"):
+                by_n[n].pop(k, None)
         ordered, seen = [], set()
-        for m in st["masters"]:
+        for rank_k, m in enumerate(st["masters"]):
             a = by_n[m["n"]]
-            a.update(echo_role=m["rank"])
+            a.update(echo_role=m["rank"], echo_rank=rank_k, echo_count=m.get("echo_count", 0))
             ordered.append(a)
             seen.add(m["n"])
             for e in st["echoes"]:
@@ -427,7 +436,8 @@ def scene_echo(qu_echo: dict | None, bite_ids: list[str], pid_of: dict) -> dict[
         mine = [e for e in echoes if e["of_bite"] == bid]
         if bid not in chosen or not mine or not pid_of.get(bid):
             continue
-        out[bid] = {"role": m["rank"], "segments": [dict(s) for s in m["segments"]]}
+        out[bid] = {"role": m["rank"], "order": len([v for v in out.values() if v.get("role") != "echo"]),
+                    "segments": [dict(s) for s in m["segments"]]}
         for e in mine:
             if pid_of.get(e["bite_id"]):
                 out[e["bite_id"]] = {"role": "echo", "of": pid_of[bid], "idea": e["idea"], "label": e["label"],
@@ -436,10 +446,10 @@ def scene_echo(qu_echo: dict | None, bite_ids: list[str], pid_of: dict) -> dict[
 
 
 def order_bites(bite_ids: list[str], echo: dict[str, dict], pid_of: dict) -> list[str]:
-    """ترتيب إجابات السؤال في السيناريو: الأم ثم صداها، ثم المعاكسة وصداها، ثم البقية بترتيبها في القضية."""
+    """ترتيب إجابات السؤال في السيناريو: كل أم ثم صداها، الأمهات بترتيبها (الأكثر صدى أولًا)، ثم البقية بترتيبها في القضية."""
     rev = {v: k for k, v in pid_of.items()}
     masters = [b for b in bite_ids if (echo.get(b) or {}).get("role") in ("primary", "opposing")]
-    masters.sort(key=lambda b: echo[b]["role"] != "primary")
+    masters.sort(key=lambda b: (echo[b].get("order", echo[b]["role"] != "primary")))
     out = []
     for m in masters:
         out.append(m)

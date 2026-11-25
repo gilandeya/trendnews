@@ -5820,11 +5820,11 @@ def echo_sequence(members: list[tuple[int, dict]], clips: dict, cfg) -> list[dic
         bounds = [max(spans[0][0] - max(pre, lead), 0.0)] + [sp[0] for sp in spans[1:]] + [min(spans[-1][1] + post, fsec)]
         used.add(i)
         color = colors.get("opposing") if e["role"] == "opposing" else colors.get("primary")
-        k_color = 0
         for j, (t0, t1, words, seg) in enumerate(spans):
             seq.append({"i": i, "role": e["role"], "src0": round(bounds[j], 3), "src1": round(bounds[j + 1], 3),
                         "depth": 0, "color": color, "text": seg.get("text_ar", ""), "words": words, "idea": seg.get("idea")})
-            depth = 0
+            # صدى الفكرة كله أولًا: عددها يحدد حجم نوافذها ومواضعها (echo_geometry)، فلا تُرصّ قبل أن يُعرف آخرها
+            found = []
             for ie, esc in members:
                 ee = esc.get("echo") or {}
                 if (ie in used or ie not in clips or ee.get("role") != "echo" or ee.get("of") != sc.get("point_id")
@@ -5837,12 +5837,15 @@ def echo_sequence(members: list[tuple[int, dict]], clips: dict, cfg) -> list[dic
                 a, b = max(got[0] - epre, 0.0), min(got[1] + epost, efs)
                 if b - a < min_echo:
                     continue
-                depth = min(depth + 1, max_depth)
+                found.append((ie, ee, a, b, got[2]))
+                if len(found) >= max_depth:
+                    break
+            for k, (ie, ee, a, b, words) in enumerate(found, 1):
                 used.add(ie)
-                seq.append({"i": ie, "role": "echo", "src0": round(a, 3), "src1": round(b, 3), "depth": depth,
-                            "color": echo_colors[k_color % len(echo_colors)], "text": ee.get("text_ar", ""),
-                            "words": got[2], "idea": seg.get("idea")})
-                k_color += 1
+                # الأخضر ثم الأزرق بالتناوب في كل فكرة (طلب صاحب المشروع)
+                seq.append({"i": ie, "role": "echo", "src0": round(a, 3), "src1": round(b, 3), "depth": k,
+                            "of_n": len(found), "color": echo_colors[(k - 1) % len(echo_colors)],
+                            "text": ee.get("text_ar", ""), "words": words, "idea": seg.get("idea")})
     if not any(x["role"] == "echo" for x in seq):
         return None
     for i, _ in members:
@@ -5859,6 +5862,26 @@ def echo_sequence(members: list[tuple[int, dict]], clips: dict, cfg) -> list[dic
     return seq
 
 
+def echo_geometry(frame: tuple, depth: int, count: int, cfg) -> tuple[int, int, int, int]:
+    """(x، y، العرض، الارتفاع) لنافذة القطعة (دالة خالصة). الأم (depth 0) في إطارها كاملًا. صدى k من count صدى لفكرة واحدة
+    (طلب صاحب المشروع 25/11): كل نوافذ صدى الفكرة أصغر من الأم بنسبة step × count (5% لصدى واحد، 10% لاثنين، 15% لثلاثة…)،
+    وزاويتها العليا اليمنى مزاحة عن زاوية الأم بـstep × k من عرضها يسارًا ومن ارتفاعها أسفل، فتلتقي الزاوية السفلى اليسرى لآخر صدى
+    بالزاوية السفلى اليسرى لإطار الأم. نصيب كل صدى من التصغير يُقلَّل حين يتجاوز التصغير 1 − min_scale (لا نافذة أصغر منه)."""
+    fx, fy, fw, fh = (int(v) for v in frame)
+    if depth <= 0 or count <= 0:
+        return fx, fy, fw, fh
+    ec = cfg.path("reel.render.echo") or {}
+    step = float(ec.get("shrink_step", 0.05))
+    step = min(step, (1.0 - float(ec.get("min_scale", 0.55))) / count)
+    s = 1.0 - step * count
+    ew, eh = max(int(fw * s) // 2 * 2, 2), max(int(fh * s) // 2 * 2, 2)
+    right, top = fx + fw - round(step * depth * fw), fy + round(step * depth * fh)
+    if depth >= count:
+        # آخر صدى على زاوية الأم السفلى اليسرى بالضبط (التقريب إلى أعداد زوجية لا يزيحها)
+        return fx, fy + fh - eh, ew, eh
+    return right - ew, top, ew, eh
+
+
 def _echo_quote_times(x: dict, n: int) -> list[float]:
     """أزمنة ظهور كلمات ترجمة القطعة بثواني القطعة: موزّعة بين أول كلمة مسموعة منها وآخرها."""
     words = x.get("words") or []
@@ -5873,13 +5896,12 @@ def _echo_quote_times(x: dict, n: int) -> list[float]:
 def _echo_scene(seq: list[dict], members: list[tuple[int, dict]], clips: dict, out: Path, cfg, deps: Deps, tmp: Path,
                 speakers: dict, notes: list, nar_bg: Path | None = None, nar_plan: dict | None = None,
                 bg_start: float = 0.0) -> float:
-    """لوحة الأم وصداها بأمر ffmpeg واحد: الأم في نافذة الكلام بإطارها (ذهبي، والمعاكسة فضي)، وكل صدى إطار بحجمها أسفلها ويسارها
-    بقدر echo.offset لكل عمق، يتبدّل لونه أخضر وأزرق بلمعة الإطار نفسها. القطعة تلعب في وقتها ثم تُجمَّد على آخر إطار حتى تعود الأم،
+    """لوحة الأم وصداها بأمر ffmpeg واحد: الأم في نافذة الكلام بإطارها (ذهبي، والمعاكسة فضي)، وكل صدى نافذة أصغر منها أسفلها
+    ويسارها (echo_geometry)، يتبدّل لونه أخضر وأزرق بلمعة الإطار نفسها. القطعة تلعب في وقتها ثم تُجمَّد على آخر إطار حتى تعود الأم،
     فتختفي إطارات الصدى. الصوت صوت القطعة النشطة وحدها، والشريط والترجمة لها وينزلان بقدر عمقها. الخلفية كلوحة الإجابة الواحدة."""
     rcfg = cfg.path("reel.render")
     W, H, fps = int(rcfg["width"]), int(rcfg["height"]), rcfg["fps"]
     ec = rcfg.get("echo") or {}
-    dx, dy = int((ec.get("offset") or {}).get("dx", 36)), int((ec.get("offset") or {}).get("dy", 36))
     lay = panel_layout(1, cfg)
     fx, fy, fw, fh = lay["frame"]
     by_i = dict(members)
@@ -5927,12 +5949,12 @@ def _echo_scene(seq: list[dict], members: list[tuple[int, dict]], clips: dict, o
             head = f"trim=start={_fmt(x['src0'])}:end={_fmt(x['src1'])},setpts=PTS-STARTPTS,"
         if hold > 0.01:
             head += f"tpad=stop_mode=clone:stop_duration={_fmt(hold)},"
-        rnd = _round_inputs(cfg, fw, fh, tmp, add, st, x["until"] - x["start"], 100 + k)
-        px, py = fx - x["depth"] * dx, fy + x["depth"] * dy
-        vg.append(f"[{fi}:v]{head}{crops[x['i']]},scale={fw}:{fh},fps={fps},setpts=PTS-STARTPTS+{st}/TB{rnd}[e{k}];"
+        px, py, ew, eh = echo_geometry(lay["frame"], x.get("depth", 0), x.get("of_n", 0), cfg)
+        rnd = _round_inputs(cfg, ew, eh, tmp, add, st, x["until"] - x["start"], 100 + k)
+        vg.append(f"[{fi}:v]{head}{crops[x['i']]},scale={ew}:{eh},fps={fps},setpts=PTS-STARTPTS+{st}/TB{rnd}[e{k}];"
                   f"[{cur}][e{k}]overlay={px}:{py}:enable='between(t,{st},{un})'[eo{k}]")
         cur = f"eo{k}"
-        border = border_frames(cfg, fw, fh, tmp, x.get("color"))
+        border = border_frames(cfg, ew, eh, tmp, x.get("color"))
         if border:
             ri = add("-loop", "1", "-framerate", str(border["fps"]), "-i", border["pattern"])
             bw = border["width"]
@@ -5959,7 +5981,8 @@ def _echo_scene(seq: list[dict], members: list[tuple[int, dict]], clips: dict, o
                                                       "quote_original": scene.get("quote_original") or ""}, cfg)
                 qframes = quote_frames(cfg, text, _echo_quote_times(x, len(text.split())), x["seconds"], tmp,
                                        f"echo_quote_{k}", "word" if arabic else "line")
-        yoff = x["depth"] * dy
+        # الشريط والترجمة في مكانهما تحت إطار الأم: نوافذ الصدى داخل حدودها (آخرها يلتقي زاويتها السفلى اليسرى)
+        yoff = 0
         si = add("-loop", "1", "-framerate", str(fps), "-i", str(static_png))
         vg.append(f"[{si}:v]fps={fps},format=rgba,setpts=PTS-STARTPTS+{_fmt(st)}/TB[es{k}];[{cur}][es{k}]overlay=0:{yoff}:{en}[eso{k}]")
         cur = f"eso{k}"
