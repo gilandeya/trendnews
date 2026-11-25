@@ -11101,3 +11101,60 @@ def test_foreign_name_waqf_2511() -> None:
             run=lambda cmd: None, probe=lambda p: 1.0)
         reel_render._speech(text, "v", cfg, deps, Path(td), "s01")
     check("2511w-e: نص النطق إلى ElevenLabs بلا وقف داخل الاسم", sent and "مُحَمَّد بَاقِر قَالِيبَافْ" in sent[0], sent)
+
+
+def test_meta_echo_units_2005() -> None:
+    """القضية 2005: «🔁 الصدى: 0 من 3» وكل حدود الأفكار الأربع عشرة «ليست في الكلام» — كان النموذج ينسخ أول كلمات الفكرة وآخرها
+    حرفيًا. الآن الكلام وترجمته وحدات مرقّمة ويختار النموذج الأرقام، والكود يأخذ الكلمات بينها من النص نفسه. الشاهد مصنوع بشكل القضية."""
+    import copy
+    from types import SimpleNamespace as NS
+
+    from src import meta_echo
+    from src.config import load_config as real_load
+    real = real_load()
+    cfg = copy.deepcopy(load_config())
+    cfg["youtube"]["meta_topics"]["qa"]["echo"] = copy.deepcopy(real.path("youtube.meta_topics.qa.echo"))
+    cfg["youtube"]["meta_topics"]["qa"]["texts"] = copy.deepcopy(real.path("youtube.meta_topics.qa.texts"))
+    check("2005a: units في config.yaml", real.path("youtube.meta_topics.qa.echo.units.max_words") == 25)
+    t = "Libya is Russia's new Syria. The port matters, it hosts warships, and it supplies Africa. That is why Kyiv strikes there."
+    us = meta_echo.units(t, cfg)
+    words = t.split()
+    check("2005a: الوحدات جمل متصلة تغطي النص كله", us[0][0] == 0 and us[-1][1] == len(words) - 1
+          and all(us[k][1] + 1 == us[k + 1][0] for k in range(len(us) - 1)) and len(us) == 3, us)
+    long = " ".join(["word"] * 20) + ", " + " ".join(["more"] * 20) + "."
+    check("2005a: جملة أطول من max_words تُقسم عند الفاصلة", len(meta_echo.units(long, cfg)) == 2)
+    check("2005a: المعروض مرقّم", meta_echo.numbered(t, cfg).startswith("(1) Libya") and "(ت1)" in meta_echo.numbered("أ. ب.", cfg, "ت"))
+
+    def bite(n, words, ar, lang):
+        return {"bite_id": f"v{n}:{n}", "video_id": f"v{n}", "channel": f"قناة {n}", "speaker": f"محلل {n}", "type": "opinion",
+                "language": lang, "text_original": words, "text_ar": ar}
+    bites = [bite(1, t, "ليبيا سوريا روسيا الجديدة. الميناء مهم، يستقبل السفن الحربية، ويمدّ أفريقيا. لهذا تضربه كييف.", "en"),
+             bite(2, "ليبيا اليوم لروسيا ما كانت سوريا. ومنها تصل إلى أفريقيا.", "", "ar"),
+             bite(3, "بنغازي ممر النفوذ الروسي إلى أفريقيا. والضربة رسالة.", "", "ar")]
+    for b in bites[1:]:
+        b["text_ar"] = b["text_original"]
+    qs = [{"text": "س؟", "answers": [{"n": 1, "fit": "direct"}, {"n": 2, "fit": "direct"}, {"n": 3, "fit": "direct"}]}]
+    reply = {"questions": [{"q": 1, "ideas": [{"id": 1, "label": "ليبيا سوريا الجديدة", "side": "a"},
+                                              {"id": 2, "label": "بوابة أفريقيا", "side": "a"}],
+                            "answers": [
+                                {"n": 1, "side": "a", "spans": [{"idea": 1, "from": 1, "to": 1, "ar_from": 1, "ar_to": 1},
+                                                                {"idea": 2, "from": 2, "to": 2, "ar_from": 2, "ar_to": 2}]},
+                                {"n": 2, "side": "a", "spans": [{"idea": 1, "from": 1, "to": 1}, {"idea": 2, "from": 2, "to": 2}]},
+                                {"n": 3, "side": "a", "spans": [{"idea": 2, "from": 1, "to": 9}]}]}]}
+    sent: list = []
+    old = meta_echo._create
+    meta_echo._create = lambda client, **kw: sent.append(kw) or NS(stop_reason="tool_use", content=[NS(
+        type="tool_use", name="plan_echoes", input=copy.deepcopy(reply))])
+    try:
+        info: dict = {}
+        found = meta_echo.apply(qs, bites, cfg, None, info)
+    finally:
+        meta_echo._create = old
+    msg = sent[0]["messages"][0]["content"] if sent else ""
+    check("2005b: النموذج يرى الكلام والترجمة وحدات مرقّمة", "(1) Libya" in msg and "(ت2) الميناء" in msg, msg[:300])
+    seg = (qs[0].get("echo") or {}).get("masters", [{}])[0].get("segments", [{}])
+    check("2005b: الأم توجد بحدود الأرقام، والكلمات من الكلام نفسه والترجمة من المعتمدة حرفًا",
+          found == 1 and qs[0]["answers"][0]["n"] == 1 and seg[0].get("sub_original") == "Libya is Russia's new Syria."
+          and seg[1].get("text_ar") == "الميناء مهم، يستقبل السفن الحربية، ويمدّ أفريقيا.", (found, seg, info))
+    check("2005c: رقم خارج الوحدات يُسقط الفكرة وحدها بسببه",
+          info["per_question"][0]["rejected"].get("bad_units") == 1, info.get("per_question"))
