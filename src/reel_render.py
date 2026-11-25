@@ -3456,14 +3456,19 @@ def _speech(text: str, voice: str, cfg, deps: Deps, tmp: Path, tag: str) -> tupl
         log.warning("تشكيل %s: %s", tag, warn)
     forms = getattr(deps, "word_forms", None)
     shown = tts.consistent_forms(shown, nouns, forms if forms is not None else {}, cfg)
-    shown = tts.apply_proper_nouns(shown, nouns)
-    sentences = tts.split_sentences(shown)
-    if not sentences:
-        raise RuntimeError(f"مشهد {tag} بلا جمل")
     # مزيَّفات قديمة بلا voice_session (ولا spoken_names) ← الأسماء بالعربية كما كانت
     session = getattr(deps, "voice_session", None)
     if session is not None and hasattr(session, "use_scene"):
         session.use_scene(tag)   # صوت هذا المشهد في ريل بصوتين متناوبين
+    # المزوّد يُحسم قبل الوقف على الأعلام: ElevenLabs يقرأ سكون كل كلمة من الاسم الأجنبي وقفة (ريل 5d767581bd5e)
+    provider = None
+    if session is not None and hasattr(session, "multilingual"):
+        session.multilingual()
+        provider = getattr(session, "provider", None)
+    shown = tts.apply_proper_nouns(shown, nouns, every_word=tts.foreign_every_word(cfg, provider))
+    sentences = tts.split_sentences(shown)
+    if not sentences:
+        raise RuntimeError(f"مشهد {tag} بلا جمل")
     latin_on = bool(cfg.path("reel.tts.latin_names.enabled")) and session is not None and session.multilingual()
     wavs, parts = [], []
     # ريل 1913: أسماء الأشخاص الأجنبية تُنطق برسمها الأصلي، و21/11: الأرقام بالكلمات؛ المعروض (parts أدناه) كما هو

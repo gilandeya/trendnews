@@ -11056,3 +11056,46 @@ def test_reel_map_tour_2511() -> None:
     check("2511m-i: التركيب يمرّر نص الجملة", "sentence=texts[k]" in inspect.getsource(reel_render._prepare_maps))
     check("2511m-j: render_version 87 فأكثر", cfg.path("reel.render.version") >= 87 or
           __import__("src.config", fromlist=["load_config"]).load_config().path("reel.render.version") >= 87)
+
+
+def test_foreign_name_waqf_2511() -> None:
+    """ريل 5d767581bd5e (25/11): سُمعت وقفة بين «باقر» و«قاليباف» في جملة واحدة. السبب سكون الوقف على آخر كل كلمة من العَلَم
+    الأجنبي («محمدْ باقرْ قاليبافْ»، Issue #1423 لأصوات Google)، وElevenLabs يقرأ السكون وقفة. الآن آخر كلمة وحدها لغير Google."""
+    from types import SimpleNamespace
+
+    from src import reel_render, tts
+    from src.config import load_config as real_load
+
+    cfg = real_load()
+    text = "يَرْبِطُ مُحَمَّدُ بَاقِرُ قَالِيبَافُ إِبْعَادَ"
+    nouns = [{"text": "محمد باقر قاليباف", "foreign": True, "kind": "person"}]
+    every = tts.apply_proper_nouns(text, nouns)
+    last = tts.apply_proper_nouns(text, nouns, every_word=False)
+    check("2511w-a: القديم يسكّن كل كلمة (Google)", "مُحَمَّدْ بَاقِرْ قَالِيبَافْ" in every, every)
+    check("2511w-b: آخر كلمة وحدها لـElevenLabs", "مُحَمَّدُ بَاقِرُ قَالِيبَافْ" in last, last)
+    check("2511w-c: الحسم بالمزوّد", tts.foreign_every_word(cfg, "google") and not tts.foreign_every_word(cfg, "elevenlabs")
+          and tts.foreign_every_word(cfg, None))
+    check("2511w-d: الإعداد في config.yaml", cfg.path("reel.tts.foreign_waqf.every_word_providers") == ["google"]
+          and cfg.path("reel.render.version") >= 88)
+
+    sent: list = []
+
+    class Sess:
+        provider = None
+
+        def use_scene(self, tag):
+            pass
+
+        def multilingual(self):
+            self.provider = "elevenlabs"
+            return True
+
+    import tempfile
+    from pathlib import Path
+    with tempfile.TemporaryDirectory() as td:
+        deps = SimpleNamespace(
+            diacritize=lambda t: (text + ".", None, nouns), word_forms={}, spoken_names=[], voice_session=Sess(),
+            synthesize=lambda s, v: sent.append(s) or {"ok": True, "audio": b"x"},
+            run=lambda cmd: None, probe=lambda p: 1.0)
+        reel_render._speech(text, "v", cfg, deps, Path(td), "s01")
+    check("2511w-e: نص النطق إلى ElevenLabs بلا وقف داخل الاسم", sent and "بَاقِرُ قَالِيبَافْ" in sent[0], sent)

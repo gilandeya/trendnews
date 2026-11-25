@@ -281,7 +281,7 @@ from tests.test_youtube import (
     test_meta_actor_originals_1868,
     test_reel_scenario_fallbacks_1313,
     test_reel_context_beats_1313b,
-    test_reel_like_bar_1313c, test_reel_1913_fixes, test_reel_1913b_fixes, test_reel_follow_identity_c28, test_reel_render_budget_1922, test_reel_deadline_cache_1919, test_reel_skip_bad_clip_1919, test_reel_continuous_bg_2011, test_reel_dubbed_actor_2011, test_reel_orphan_question_2011, test_meta_qa_depth_1938, test_reel_auto_continue_1954, test_reel_offscreen_mapverify_2011, test_voice_probe_2011, test_narrator_voices_2111, test_reel_tone_hook_2111b, test_reel_download_watchdog_2211, test_reel_follow_fragmented_2211, test_reel_breath_pauses_2211, test_meta_original_native_2211, test_reel_figures_map_drift_2211, test_meta_echo_2311, test_meta_echo_1988, test_meta_echo_pair_2511, test_clip_drops_1991, test_llm_default_client_2511, test_reel_map_tour_2511, test_reel_quote_2311, test_reel_cartoon_2311, test_reel_clash_1929,
+    test_reel_like_bar_1313c, test_reel_1913_fixes, test_reel_1913b_fixes, test_reel_follow_identity_c28, test_reel_render_budget_1922, test_reel_deadline_cache_1919, test_reel_skip_bad_clip_1919, test_reel_continuous_bg_2011, test_reel_dubbed_actor_2011, test_reel_orphan_question_2011, test_meta_qa_depth_1938, test_reel_auto_continue_1954, test_reel_offscreen_mapverify_2011, test_voice_probe_2011, test_narrator_voices_2111, test_reel_tone_hook_2111b, test_reel_download_watchdog_2211, test_reel_follow_fragmented_2211, test_reel_breath_pauses_2211, test_meta_original_native_2211, test_reel_figures_map_drift_2211, test_meta_echo_2311, test_meta_echo_1988, test_meta_echo_pair_2511, test_clip_drops_1991, test_llm_default_client_2511, test_foreign_name_waqf_2511, test_reel_map_tour_2511, test_reel_quote_2311, test_reel_cartoon_2311, test_reel_clash_1929,
     test_reel_question_wording_1313d,
     test_reel_timeline_clash_1881,
     test_reel_fail_reselect_1881,
@@ -776,6 +776,7 @@ def main() -> int:
     test_meta_echo_pair_2511()
     test_clip_drops_1991()
     test_llm_default_client_2511()
+    test_foreign_name_waqf_2511()
     test_reel_map_tour_2511()
     test_reel_quote_2311()
     test_reel_cartoon_2311()

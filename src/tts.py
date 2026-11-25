@@ -338,9 +338,19 @@ def apply_waqf(sentence: str) -> str:
     return "".join(out)
 
 
-def apply_proper_nouns(text: str, nouns: list) -> str:
+def foreign_every_word(cfg, provider) -> bool:
+    """هل يُسكَّن آخر كل كلمة من العَلَم الأجنبي أم آخر كلمة منه وحدها؟ (ريل 5d767581bd5e، 25/11) السكون على كل كلمة وُضع
+    لأصوات Google التي تخمّن إعراب الحرف الأخير (Issue #1423)، لكن ElevenLabs يقرأ السكون وقفًا فيقطع الاسم: «محمدْ باقرْ
+    قاليبافْ» سُمعت بوقفة بين «باقر» و«قاليباف». مزوّد في every_word_providers ← كل كلمة كما كان، وغيره ← آخر كلمة وحدها
+    كالعلم العربي. مزوّد لم يُحسم (None) ← كما كان."""
+    if provider is None:
+        return True
+    return provider in (cfg.path("reel.tts.foreign_waqf.every_word_providers") or ["google"])
+
+
+def apply_proper_nouns(text: str, nouns: list, every_word: bool = True) -> str:
     """وقف على أعلام النص (Issue #1423): الأجنبي المنقول على آخر حرف من كل كلماته (سيْ إنْ إنْ تركْ) والعربي على كلمته
-    الأخيرة وحدها (مطارِ الملكِ خالدْ). العَلَم يُطابَق بـstrip_tashkeel كلمةً كلمة؛ غير الموجود يُتجاهل بسطر log.
+    الأخيرة وحدها (مطارِ الملكِ خالدْ). every_word=False ← الأجنبي كالعربي (foreign_every_word). العَلَم يُطابَق بـstrip_tashkeel كلمةً كلمة؛ غير الموجود يُتجاهل بسطر log.
     الحركات وحدها تتغير فما عداها حرفيًا كما هو، وتاء مربوطة في علم تبقى (التحويل إلى «هْ» في apply_waqf وحده)."""
     words = [(m.start(), m.end(), strip_tashkeel(m.group())) for m in _WORD_RE.finditer(text or "")]
     wanted: dict[int, bool] = {}
@@ -348,7 +358,7 @@ def apply_proper_nouns(text: str, nouns: list) -> str:
         if (n or {}).get("kind") == "number":
             continue
         toks = strip_tashkeel(str((n or {}).get("text") or "")).split()
-        foreign = bool((n or {}).get("foreign"))
+        foreign = bool((n or {}).get("foreign")) and every_word
         hit = False
         for i in range(len(words) - len(toks) + 1):
             if toks and [w[2] for w in words[i:i + len(toks)]] == toks:
