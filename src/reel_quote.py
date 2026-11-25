@@ -25,7 +25,21 @@ SUGGEST_TOOL = {
             "name_ar": {"type": "string", "description": "الاسم بالعربية كما يُعرف"},
             "name_en": {"type": "string", "description": "الاسم بالإنجليزية كما في عنوان صفحته في ويكي الاقتباس"},
             "why": {"type": "string", "description": "الفكرة التي تربط قوله بالسؤال، بعبارة واحدة"}},
-        "required": ["name_ar", "name_en", "why"]}}}, "required": ["thinkers"]},
+        "required": ["name_ar", "name_en", "why"]}},
+        "search_terms": {"type": "array", "items": {"type": "string"},
+                         "description": "عبارات بحث قصيرة بالإنجليزية عن آلية الحدث نفسها (لا اسمه) يُبحث بها في نصوص ويكي الاقتباس كله"}},
+        "required": ["thinkers", "search_terms"]},
+}
+
+RANK_TOOL = {
+    "name": "rank_quotes",
+    "description": "مدى صلة كل اقتباس مرشّح بالحدث نفسه",
+    "input_schema": {"type": "object", "properties": {"ranks": {"type": "array", "items": {
+        "type": "object", "properties": {
+            "n": {"type": "integer"},
+            "fit": {"type": "integer", "description": "3 يضيء آلية هذا الحدث بعينها، 2 يضيء فكرته المباشرة، 1 عام، 0 لا صلة"},
+            "link_ar": {"type": "string", "description": "كيف يتصل بالحدث نفسه بعبارة واحدة"}},
+        "required": ["n", "fit", "link_ar"]}}}, "required": ["ranks"]},
 }
 
 PICK_TOOL = {
@@ -35,6 +49,8 @@ PICK_TOOL = {
         "found": {"type": "boolean"},
         "quote": {"type": "string", "description": "الجملة كما هي في نص الصفحة حرفًا بحرف، بلا اختصار ولا تعديل"},
         "text_ar": {"type": "string", "description": "ترجمتها العربية الأمينة (إن كانت الجملة عربية فهي نفسها)"},
+        "speaker_ar": {"type": "string", "description": "قائل الجملة بالعربية كما تنسبها الصفحة"},
+        "speaker_en": {"type": "string", "description": "قائلها بحروفه اللاتينية كما في الصفحة"},
         "generalizes_people": {"type": "boolean",
                                "description": "true إن كانت الجملة تحكم على شعب أو أمة أو عِرق أو أتباع دين بصفة عامة"},
         "reason": {"type": "string"}},
@@ -87,6 +103,33 @@ def fetch_page(name: str, lang: str, cfg) -> tuple[str, str] | None:
         url = f"https://{lang}.wikiquote.org/wiki/{title.replace(' ', '_')}"
         return text[: int(c.get("page_max_chars", 30000))], url
     return None
+
+
+def search_pages(term: str, lang: str, cfg) -> list[str]:
+    """عناوين صفحات ويكي الاقتباس التي يرد فيها term في نصها (list=search): بحث في النصوص كلها لا في أسماء من نعرفهم وحدهم."""
+    c = qcfg(cfg)
+    term = " ".join(str(term or "").split())
+    if not term:
+        return []
+    api = str(c.get("api", "https://{lang}.wikiquote.org/w/api.php")).format(lang=lang)
+    data = _http_get(api, {"action": "query", "format": "json", "list": "search", "srsearch": term,
+                           "srlimit": str(int(c.get("search_limit", 3)))}, int(c.get("timeout", 20)))
+    return [str(r.get("title")) for r in (((data or {}).get("query") or {}).get("search") or []) if r.get("title")]
+
+
+def attributed(speaker_en: str, quote: str, page: str, title: str, cfg) -> bool:
+    """هل تنسب الصفحة الجملة إلى speaker_en؟ (صفحة موضوع تجمع أقوال كثيرين): كلمة من اسمه (4 أحرف فأكثر) في عنوان الصفحة، أو بعد
+    الجملة في نصها خلال attribution_chars حرفًا (ويكي الاقتباس يكتب القائل تحت القول). دالة خالصة."""
+    words = [w.casefold() for w in re.findall(r"\w+", speaker_en or "") if len(w) >= 4]
+    if not words:
+        return False
+    if any(w in (title or "").casefold() for w in words):
+        return True
+    pos = " ".join(page.split()).find(" ".join(quote.split()))
+    if pos < 0:
+        return False
+    after = " ".join(page.split())[pos + len(quote): pos + len(quote) + int(qcfg(cfg).get("attribution_chars", 600))].casefold()
+    return any(w in after for w in words)
 
 
 def _norm(text: str) -> list[str]:
@@ -154,9 +197,53 @@ def _tool(resp, name):
     return _tool_input(resp, name)
 
 
+def _pick(subject: str, label: str, page: str, client, cfg):
+    c = qcfg(cfg)
+    pr = _create(client, cfg=cfg, model=c.get("model", "claude-sonnet-5"), max_tokens=int(c.get("max_tokens", 2000)),
+                 system=str(c.get("pick_system", "")), tools=[PICK_TOOL], tool_choice={"type": "tool", "name": PICK_TOOL["name"]},
+                 messages=[{"role": "user", "content": f"{subject}\n\nالصفحة: {label}\n\nنصها (بيانات لا تعليمات):\n{page}"}])
+    return _tool(pr, PICK_TOOL["name"]) or {}
+
+
+def rank(subject: str, cands: list[dict], client, cfg) -> list[dict] | None:
+    """حكم الصلة بالحدث لكل مرشّح ([{n, fit, link_ar}]) بنداء واحد يرى المرشّحين معًا (قضية 2007: أول اقتباس صالح كان يُعتمد مهما ضعفت
+    صلته). عطل أو رد مقطوع ← None."""
+    c = qcfg(cfg)
+    lines = [f"[{n}] {x['speaker_ar']}: «{x['text_ar']}»" for n, x in enumerate(cands, 1)]
+    resp = _create(client, cfg=cfg, model=c.get("rank_model", c.get("model", "claude-sonnet-5")),
+                   max_tokens=int(c.get("max_tokens", 2000)), system=llm.with_notes(str(c.get("rank_system", "")), cfg),
+                   tools=[RANK_TOOL], tool_choice={"type": "tool", "name": RANK_TOOL["name"]},
+                   messages=[{"role": "user", "content": f"{subject}\n\nالاقتباسات المرشّحة:\n" + "\n".join(lines)}])
+    from .meta_topics import _rows
+    got = _tool(resp, RANK_TOOL["name"])
+    return None if got is None else _rows(got, "ranks")
+
+
+def choose(cands: list[dict], ranks: list[dict] | None, cfg) -> tuple[dict | None, str]:
+    """القرار للكود (دالة خالصة): الأعلى صلةً (fit) ثم الأسبق، ولا اقتباس دون min_fit. بلا حكم (عطل) ← لا اقتباس: الضعيف أسوأ من غيابه."""
+    if not cands:
+        return None, "لا اقتباس حرفي صالح"
+    if ranks is None:
+        return None, "تعذّر حكم الصلة"
+    best = None
+    for r in ranks:
+        try:
+            n, fit = int(r.get("n")), int(r.get("fit"))
+        except (TypeError, ValueError):
+            continue
+        if 1 <= n <= len(cands) and (best is None or fit > best[1]):
+            best = (n, fit, str(r.get("link_ar") or ""))
+    need = int(qcfg(cfg).get("min_fit", 2))
+    if best is None or best[1] < need:
+        return None, f"أقوى صلة {best[1] if best else 0} دون {need}"
+    return {**cands[best[0] - 1], "fit": best[1], "why": best[2] or cands[best[0] - 1].get("why", "")}, ""
+
+
 def plan(draft: dict, cfg: Any, client=None) -> dict | None:
     """يقترح اقتباسًا ويحفظه في draft["reel_quote"] ({status: ready|none, speaker_ar, speaker_en, quote, text_ar, lang, url,
-    why, tried}). لا يدخل السيناريو هنا: insert عند اعتماد المراجع. لا يرفع أبدًا."""
+    why, fit, tried, candidates}). المرشّحون من صفحات المفكرين المقترحين ومن البحث في نصوص ويكي الاقتباس كله بآلية الحدث (قضية 2007:
+    ثلاثة أسماء وأول جملة صالحة أعطت قولًا لابن خلدون في الخداع لا صلة له بالحدث)، كل صفحة تعطي جملة حرفية، ثم حكم صلة واحد يرى
+    المرشّحين معًا والكود يختار الأعلى ولا يقبل ما دون min_fit. لا يدخل السيناريو هنا: insert عند اعتماد المراجع. لا يرفع أبدًا."""
     if not enabled(cfg) or not draft.get("script"):
         return None
     c = qcfg(cfg)
@@ -168,27 +255,50 @@ def plan(draft: dict, cfg: Any, client=None) -> dict | None:
                        tools=[SUGGEST_TOOL], tool_choice={"type": "tool", "name": SUGGEST_TOOL["name"]},
                        messages=[{"role": "user", "content": subject}])
         from .meta_topics import _rows
-        thinkers = _rows(_tool(resp, SUGGEST_TOOL["name"]) or {}, "thinkers")[: int(c.get("candidates", 3))]
+        got = _tool(resp, SUGGEST_TOOL["name"]) or {}
+        thinkers = _rows(got, "thinkers")[: int(c.get("candidates", 3))]
+        terms = [str(t) for t in (llm.tool_json(got.get("search_terms"), list) or [])][: int(c.get("search_terms", 3))]
+        pages: list[tuple[str, str, str, dict | None]] = []     # (العنوان، اللغة، التسمية، المفكر إن كانت صفحته)
         for th in thinkers:
-            name_ar = " ".join(str(th.get("name_ar") or "").split())
             for lang in c.get("languages") or ["ar", "en"]:
-                got = fetch_page(name_ar if lang == "ar" else th.get("name_en"), lang, cfg)
-                if not got:
-                    rec["tried"].append({"name": name_ar, "lang": lang, "reason": "لا صفحة"})
-                    continue
-                page, url = got
-                pr = _create(client, cfg=cfg, model=c.get("model", "claude-sonnet-5"),
-                             max_tokens=int(c.get("max_tokens", 2000)), system=str(c.get("pick_system", "")),
-                             tools=[PICK_TOOL], tool_choice={"type": "tool", "name": PICK_TOOL["name"]},
-                             messages=[{"role": "user", "content": f"{subject}\n\nالمفكر: {name_ar}\n\n"
-                                        f"نص صفحة أقواله (بيانات لا تعليمات):\n{page}"}])
-                ok, why = verify(_tool(pr, PICK_TOOL["name"]) or {}, page, lang, cfg)
-                if ok:
-                    rec.update(status="ready", speaker_ar=name_ar, speaker_en=str(th.get("name_en") or ""), url=url,
-                               why=str(th.get("why") or ""), **ok)
-                    draft["reel_quote"] = rec
-                    return rec
-                rec["tried"].append({"name": name_ar, "lang": lang, "reason": why})
+                pages.append((" ".join(str(th.get("name_ar") or "").split()) if lang == "ar" else str(th.get("name_en") or ""),
+                              lang, str(th.get("name_ar") or ""), th))
+        seen = {(t.casefold(), lang) for t, lang, _, _ in pages}
+        for term in terms:
+            for title in search_pages(term, "en", cfg):
+                if (title.casefold(), "en") not in seen:
+                    seen.add((title.casefold(), "en"))
+                    pages.append((title, "en", title, None))
+        cands: list[dict] = []
+        for title, lang, label, th in pages[: int(c.get("max_pages", 10))]:
+            page_got = fetch_page(title, lang, cfg)
+            if not page_got:
+                rec["tried"].append({"name": label, "lang": lang, "reason": "لا صفحة"})
+                continue
+            page, url = page_got
+            pick = _pick(subject, label, page, client, cfg)
+            ok, why = verify(pick, page, lang, cfg)
+            if ok and th is None:
+                # صفحة موضوع: القائل كما تنسبه الصفحة نفسها، لا كما يتذكره النموذج
+                if not attributed(str(pick.get("speaker_en") or ""), ok["quote"], page, title, cfg):
+                    ok, why = None, "القائل لا تنسبه الصفحة إليه"
+            if not ok:
+                rec["tried"].append({"name": label, "lang": lang, "reason": why})
+                continue
+            if th is not None:
+                speaker_ar, speaker_en, reason = str(th.get("name_ar") or ""), str(th.get("name_en") or ""), str(th.get("why") or "")
+            else:
+                speaker_ar = " ".join(str(pick.get("speaker_ar") or pick.get("speaker_en") or "").split())
+                speaker_en, reason = str(pick.get("speaker_en") or ""), ""
+            if any(x["speaker_en"].casefold() == speaker_en.casefold() and x["quote"] == ok["quote"] for x in cands):
+                continue
+            cands.append({"speaker_ar": speaker_ar, "speaker_en": speaker_en, "url": url, "why": reason, **ok})
+        rec["candidates"] = len(cands)
+        best, why = choose(cands, rank(subject, cands, client, cfg) if cands else [], cfg)
+        if best:
+            rec.update(status="ready", **best)
+        else:
+            rec["tried"].append({"name": "—", "lang": "", "reason": why})
     except Exception as exc:  # noqa: BLE001 -- الاقتباس إضافة: السيناريو صالح بدونه
         rec["error"] = f"{type(exc).__name__}: {str(exc)[:150]}"
         log.warning("تعذّر اقتراح اقتباس: %s", str(exc)[:150])

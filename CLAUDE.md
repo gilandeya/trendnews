@@ -4008,3 +4008,26 @@ tool_use, questions: 0}` بلا ما يفسّره. محاكاة رد صحيح ع
 - **الرواة:** `narrator_pairs` = Woman2/Man2 وحده (قرار صاحب المشروع)؛ وسيناريو محفوظ بصوت أُخرج منها يُركَّب بالزوج الحالي
   (`reel_script.current_voices`، `elevenlabs.replace_retired`).
 - `render_version` = 89 (للقادم فقط، S11). الاختبارات `test_reel_cartoon_2311` و`test_reel_crop_recenter_2007` و`test_narrator_voices_2111`.
+
+## ملاحظات قضيتي 2007 و2013 (25/11) — `tests/test_youtube.py:test_reel_notes_2013`
+
+- **رسمان لاسم واحد:** مقطع ترامب حُذف لأن Gemini كتب «دونالد ترمب» والسيناريو «دونالد ترامب». `speaker_matches` يمرّر الطرفين بمعجم الأسماء
+  (`names.normalize_names`، اليدوي والمتعلَّم) قبل المقارنة (`reel.render.chyron.normalize_names`).
+- **المتكلم لا يُرى ← صوته وصورته:** ثلاث إجابات من حلقة سي إن إن سقطت (وسؤالها كله) لأن الكاميرا على غير المتكلم. مع
+  `gemini_speaker.off_screen_photo` يعلَّم مقطع المتكلم المسمّى `audio_only` بدل الحذف، و`_audio_only_photos` (في `_prune_mismatched` قبل
+  مقارنة الوجه، التي تتخطاه) تجد صورته من الويب (`_find_figure(sources=[web, wikimedia])`: لقطات الحدث تُظهر غيره) وتبني ملفًّا بالصورة
+  وتقريبها وصوت المقطع نفسه، وصفته تحمل `audio_only_label` («صوت فقط») وسطر `comment_audio_only`. لا صورة صالحة ← الحذف بـ`drop_off_screen_no_photo`.
+- **الخلفية:** في القضيتين بقي من البحث مرشّح لقطة واحد ورُفضت صور الخلفية لنص مركَّب فخرج الريل كله على الكحلي. (أ) فيديوهات موضوع العناوين
+  تكمّل المرشّحين حتى `hook_search.topic_fallback.min_candidates` (لا حين ينعدمون وحدهم). (ب) `background.text_crop.fallback_whole`: لا صورة
+  نظيفة ← أول صورة تناسب الموضوع ورُفضت لنصها المركَّب وحده تُستعمل كاملة (`text_overlay: true`) تحت تظليل الراوي.
+- **عنوان الهوك بحجم السؤال:** `sizes.hook` = `sizes.question`.
+- **قطع الكاريكاتير أشخاص يتبعون الراوي:** `reel.cartoon.persons_only` (القطعة شخص من الحدث بـ`person_ar`/`person_en`، 1–3)، و`layout: row`:
+  الكود يضعها صفًّا بلا تداخل في حزام تحت آخر سطر من النص (`reel_cartoon.row_layout`؛ في الهوك تحت عنوانه). `cast`: في مشاهد `roles`
+  (السياق والاقتباس) كل جملة تُظهر من تسمّيهم (`reel_figures.name_in_sentence`)، وجملة بلا اسم تُبقي من قبلها في المشهد نفسه (`_cast_plan`،
+  خالصة)، ويُركَّبون على إطارات الجملة تحت حبر نصها (`_overlay_cast`، والجمل تُبنى واحدة واحدة عبر `_narration_frames_plain`)، وجملتهم لا تأخذ
+  صورة من الويب. `thinker`: رسم قائل الاقتباس (`reel_cartoon.draw_thinker` مع خطة الكاريكاتير) في `reel_quote.cartoon`، يدخل مشهد الاقتباس إن
+  اعتمدتَه (`cast_pieces`).
+- **الاقتباس:** كان من ثلاثة أسماء وأول جملة صالحة. الآن `candidates` مفكرًا (قدماء ومعاصرون في آلية الحدث) + `search_terms` يُبحث بها في نصوص
+  ويكي الاقتباس كله (`search_pages`)، جملة حرفية من كل صفحة (صفحة موضوع: قائلها كما تنسبه الصفحة، `attributed`)، ثم حكم صلة واحد (`rank`،
+  `rank_model`) والكود يختار الأعلى ولا يقبل ما دون `min_fit` (`choose`)؛ عطل الحكم ← بلا اقتباس.
+- `render_version` = 90 (للقادم فقط، S11). `tests.helpers.load_config` يطفئ الصوت وحده والاحتياطين ويعيد حجم الهوك؛ اختبار 2311 يثبّت قطع 2007 بمواضع النموذج.

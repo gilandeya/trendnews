@@ -7125,7 +7125,8 @@ def test_reel_scenario_fallbacks_1313() -> None:
     os.environ["YOUTUBE_API_KEY"] = "x"
     try:
         dr = {"script": {"title": "س", "scenes": []}, "topic_date": day, "meta_topic_id": "T1"}
-        reel_hook_search.pick_hook_candidates(dr, cfg, deps)
+        # التكميل بفيديوهات الموضوع (قضية 2013) يُختبر في test_reel_notes_2013؛ هنا الترتيب وحده
+        reel_hook_search.pick_hook_candidates(dr, _cfg_with(cfg, "reel.hook_search.topic_fallback.min_candidates", 1), deps)
         check("الصلة تكفي، وما يُرجَّح عنوانه لقطاتٍ يتقدّم",
               [c["video_id"] for c in dr["hook_candidates"]] == ["V2", "V1"], dr.get("hook_candidates"))
         strict = _cfg_with(cfg, "reel.hook_search.require_footage_title", True)
@@ -9373,6 +9374,9 @@ def test_reel_offscreen_mapverify_2011() -> None:
     script = {"scenes": [{"kind": "clip", "point_id": "p1", "speaker_name": "شي جين بينغ", "speaker_verified": True,
                           "speaker_text": "شي جين بينغ", "channel_display": "بي بي سي الصينية"}]}
     meta = {"gemini_speakers": [{"point_id": "p1"}]}
+    # الصوت وحده بصورته (قضية 2013) يُختبر في test_reel_notes_2013؛ هنا الحذف حين يُطفأ
+    cfg = copy.deepcopy(cfg)
+    cfg["reel"]["render"]["gemini_speaker"]["off_screen_photo"] = False
     decided, drop = reel_render._apply_gemini(0, script, [0], {0: {}}, {}, got["p1"], cfg, [], meta)
     check("التركيب يحذف المقطع بسبب يقول ذلك", decided and drop and drop["reason_key"] == "drop_off_screen"
           and "شي جين بينغ" in cfg.path("reel.render.texts")[drop["reason_key"]].format(**drop), drop)
@@ -10483,6 +10487,9 @@ def test_reel_quote_2311() -> None:
             return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="suggest_thinkers", input={"thinkers": [
                 {"name_ar": "مجهول", "name_en": "Nobody Here", "why": "x"},
                 {"name_ar": "ابن خلدون", "name_en": "Ibn Khaldun", "why": "الغالب والمغلوب"}]})])
+        if kw["tools"][0]["name"] == "rank_quotes":
+            return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="rank_quotes", input={
+                "ranks": [{"n": 1, "fit": 3, "link_ar": "الغالب يفرض شروطه"}]})])
         return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="pick_quote", input={
             "found": True, "quote": "المغلوب مولع أبدًا بالاقتداء بالغالب في شعاره وزيه ونحلته",
             "text_ar": "", "generalizes_people": False})])
@@ -10580,10 +10587,14 @@ def test_reel_cartoon_2311() -> None:
     real = real_load()
     check("2311c: config.yaml يفعّل الكاريكاتير قطعًا ومولّده Gemini", real.path("reel.cartoon.enabled") is True
           and str(real.path("reel.cartoon.model")).startswith("gemini") and real.path("reel.render.version") >= 89
-          and real.path("reel.cartoon.min_pieces") == 2 and real.path("reel.cartoon.max_pieces") == 5
+          and real.path("reel.cartoon.min_pieces") == 1 and real.path("reel.cartoon.max_pieces") == 3
           and "magenta" in real.path("reel.cartoon.piece_style").lower())
     cfg = copy.deepcopy(load_config())
     cfg["reel"]["cartoon"] = copy.deepcopy(real.path("reel.cartoon"))
+    # هذا الاختبار يثبّت قطع 2007 بمواضع النموذج؛ صفّ الأشخاص وتتبّع الراوي (قضية 2013) في test_reel_notes_2013
+    cfg["reel"]["cartoon"].update(layout="model", persons_only=False, min_pieces=2, max_pieces=5)
+    cfg["reel"]["cartoon"]["cast"]["enabled"] = False
+    cfg["reel"]["cartoon"]["thinker"]["enabled"] = False
     W, H = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
     script = {"title": "من يكسب من القمة؟", "scenes": [
         {"kind": "title_card", "text": "من يكسب من القمة؟"},
@@ -10640,8 +10651,8 @@ def test_reel_cartoon_2311() -> None:
     check("2311c: تعبير ffmpeg مطابق لـenter_pos", ok, ex)
     check("2311c: قطع الفكرة تُنظَّف (وصف فارغ يسقط، والعرض محصور، والاتجاه المجهول من الأسفل)",
           reel_cartoon.clean_pieces([{"prompt_en": "", "x": 0.5}, {"prompt_en": "ship", "width": 5, "enter": "up", "x": -1}], cfg)
-          == [{"name_ar": "", "prompt_en": "ship", "x": 0.0, "y": 0.5, "width": float(cfg.path("reel.cartoon.max_width")),
-               "enter": "bottom"}])
+          == [{"name_ar": "", "prompt_en": "ship", "person_ar": "", "person_en": "", "x": 0.0, "y": 0.5,
+               "width": float(cfg.path("reel.cartoon.max_width")), "enter": "bottom"}])
 
     # (4) الخطة: فكرة بقطع، ونداء Gemini لكل قطعة، وملفات شفافة ومعاينة
     buf = io.BytesIO()
@@ -11319,3 +11330,220 @@ def test_reel_crop_recenter_2007() -> None:
           (clip["crop"].get("recentered"), notes))
     check("2007c: _crop_for يبدأ من أول موضع معروض لا أول المسار",
           "shown = _follow_samples(clip, meta[\"path\"], cfg)" in open("src/reel_render.py", encoding="utf-8").read())
+
+
+def test_reel_notes_2013() -> None:
+    """ملاحظات قضيتي 2007 و2013 (25/11): رسمان لاسم واحد لا يحذفان مقطعًا، والمتكلم الذي لا يُرى يُعرض بصوته وصورته، واحتياطا
+    الخلفية (مرشّحو الموضوع وصورة عليها نص)، وعنوان الهوك بحجم السؤال، وقطع الكاريكاتير أشخاص صفًّا تحت النص يتبعون الراوي، ورسم
+    قائل الاقتباس، والاقتباس من بحث أوسع بحكم صلة لا يقبل الضعيف."""
+    import copy
+    from types import SimpleNamespace as NS
+
+    from src import reel_cartoon, reel_hook_search, reel_quote, reel_render
+    from src.config import load_config as real_load
+    real = real_load()
+    check("2013: config.yaml عليها", real.path("reel.render.chyron.normalize_names") is True
+          and real.path("reel.render.gemini_speaker.off_screen_photo") is True
+          and real.path("reel.render.background.text_crop.fallback_whole") is True
+          and real.path("reel.hook_search.topic_fallback.min_candidates") >= 2
+          and real.path("reel.render.sizes.hook") == real.path("reel.render.sizes.question")
+          and real.path("reel.cartoon.persons_only") is True and real.path("reel.cartoon.layout") == "row"
+          and real.path("reel.cartoon.cast.enabled") is True and real.path("reel.cartoon.thinker.enabled") is True
+          and real.path("reel.quote.min_fit") >= 2 and real.path("reel.render.version") >= 90)
+    cfg = copy.deepcopy(load_config())
+    for key in ("gemini_speaker", "background", "sizes"):
+        cfg["reel"]["render"][key] = copy.deepcopy(real.path(f"reel.render.{key}"))
+    cfg["reel"]["cartoon"] = copy.deepcopy(real.path("reel.cartoon"))
+    cfg["reel"]["quote"] = copy.deepcopy(real.path("reel.quote"))
+    cfg["reel"]["hook_search"]["topic_fallback"] = copy.deepcopy(real.path("reel.hook_search.topic_fallback"))
+    W, H = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
+    work = Path(tempfile.mkdtemp())
+
+    # (1) «دونالد ترمب» من Gemini و«دونالد ترامب» في السيناريو شخص واحد بمعجم الأسماء
+    check("2013: الرسمان بالمعجم شخص واحد", reel_render.speaker_matches("دونالد ترمب", "", "دونالد ترامب", cfg) is True)
+    off = copy.deepcopy(cfg)
+    off["reel"]["render"]["chyron"]["normalize_names"] = False
+    check("2013: بلا المعجم يُعدّان شخصين (الحادثة)", reel_render.speaker_matches("دونالد ترمب", "", "دونالد ترامب", off) is False)
+
+    # (2) المتكلم لا يُرى: يبقى بصوته وصورته من الويب، وبلا صورة يُحذف
+    script = {"scenes": [{"kind": "clip", "q": 0, "point_id": "p1", "speaker_name": "آشلي أليسون", "speaker_role": "محللة",
+                          "speaker_name_latin": "Ashley Allison", "speaker_verified": True, "channel_display": "سي إن إن"}]}
+    meta = {"gemini_speakers": [{"point_id": "p1"}]}
+    decided, mm = reel_render._apply_gemini(0, script, [0], {0: {}}, {}, {"name": "آشلي أليسون", "off_screen": True}, cfg, [], meta)
+    check("2013: حكم «لا يُرى» يعلّم المقطع صوتًا فقط ولا يحذفه", decided and mm is None and script["scenes"][0].get("audio_only"))
+    clipf = work / "clip_0.mp4"
+    clipf.write_bytes(b"clip")
+    cmds = []
+
+    def run(cmd):
+        cmds.append([str(c) for c in cmd])
+        Path(cmd[-1]).write_bytes(b"x")
+    deps = reel_render.Deps(run=run, probe=lambda p: 5.0, figure_faces=lambda img: [(400, 300, 300, 400)],
+                            figure_urls=lambda p, c: [("https://x/a.jpg", "web")],
+                            figure_image=lambda url: Image.new("RGB", (1200, 1600), (90, 90, 90)),
+                            figure_judge=lambda img, p, c: {"clean": True})
+    live, pending, notes = {0: {"file": clipf, "file_seconds": 5.0}}, {}, []
+    reel_render._audio_only_photos(script, live, cfg, deps, notes, pending)
+    cmd = " ".join(cmds[-1]) if cmds else ""
+    check("2013: صورته بتقريب وصوت المقطع نفسه في ملف جديد", 0 in live and str(live[0]["file"]).endswith("audio_only_0.mp4")
+          and "-map 0:v -map 1:a" in cmd and str(clipf) in cmd and not pending, (cmd, pending))
+    check("2013: صفته تحمل «صوت فقط» وسطر التعليق", "صوت فقط" in script["scenes"][0]["speaker_role"]
+          and any("بصوته وحده" in n for n in notes), (script["scenes"][0]["speaker_role"], notes))
+    script["scenes"][0]["audio_only"] = True
+    nophoto = reel_render.Deps(run=run, probe=lambda p: 5.0, figure_faces=lambda img: [],
+                               figure_urls=lambda p, c: [("https://x/a.jpg", "web")], figure_image=lambda url: Image.new("RGB", (900, 900)))
+    live2, pending2 = {0: {"file": clipf, "file_seconds": 5.0}}, {}
+    reel_render._audio_only_photos(script, live2, cfg, nophoto, [], pending2)
+    check("2013: بلا صورة صالحة يُحذف بسببه", 0 not in live2 and pending2[0]["reason_key"] == "drop_off_screen_no_photo")
+
+    # (3) احتياطا الخلفية: مرشّحو الموضوع يكمّلون مرشّحًا واحدًا، وصورة الموضوع عليها نص بدل الكحلي
+    old = (reel_hook_search._attempt, reel_hook_search.topic_video_candidates, os.environ.get("YOUTUBE_API_KEY"))
+    try:
+        os.environ["YOUTUBE_API_KEY"] = "k"
+        reel_hook_search._attempt = lambda *a, **k: ([{"video_id": "s1"}], {})
+        reel_hook_search.topic_video_candidates = lambda d, c, dp, s: [{"video_id": "s1"}, {"video_id": "t1"}, {"video_id": "t2"}]
+        dr: dict = {"script": {"title": "س"}}
+        hd = NS()
+        hd.resolved = lambda: hd
+        reel_hook_search.pick_hook_candidates(dr, cfg, hd)
+        check("2013: مرشّح واحد يُكمَّل بفيديوهات الموضوع بلا تكرار",
+              [c["video_id"] for c in dr["hook_candidates"]] == ["s1", "t1", "t2"], dr["hook_candidates"])
+    finally:
+        reel_hook_search._attempt, reel_hook_search.topic_video_candidates = old[0], old[1]
+        if old[2] is None:
+            os.environ.pop("YOUTUBE_API_KEY", None)
+        else:
+            os.environ["YOUTUBE_API_KEY"] = old[2]
+    pv = {"news": lambda t, e, c, q: [{"url": "https://n/ship.jpg", "publisher": "الجزيرة"}],
+          "web": lambda q, c, st: [], "free": lambda t, e, c, q: [],
+          "download": lambda u: Image.new("RGB", (800, 500), (60, 60, 60)),
+          "judge": lambda img, subj, c: {"fits": True, "shows": "سفينة تحترق", "overlaid_text": True,
+                                         "clean_box": {"x0": 0, "y0": 0, "x1": 1, "y1": 0.3}}}
+    bgd = {"title": "ميناء بنغازي", "script": {"title": "لماذا بنغازي؟", "scenes": []}}
+    got = reel_render.pick_background(bgd, cfg, pv, "2026-11-25")
+    check("2013: صورة الموضوع المرفوضة لنصها وحده تُستعمل كاملة بدل الكحلي",
+          got["url"] == "https://n/ship.jpg" and got.get("text_overlay") and got["kind"] == "news_photo" and not got.get("crop"), got)
+    offbg = copy.deepcopy(cfg)
+    offbg["reel"]["render"]["background"]["text_crop"]["fallback_whole"] = False
+    check("2013: مطفأ ← الكحلي كما كان", reel_render.pick_background(bgd, offbg, pv, "2026-11-25")["kind"] == "none")
+
+    # (4) قطع الكاريكاتير: أشخاص فقط، صفًّا بلا تداخل تحت النص
+    pieces = reel_cartoon.clean_pieces([{"prompt_en": "scale", "name_ar": "ميزان"},
+                                        {"prompt_en": "Huang", "person_ar": "جنسن هوانغ", "person_en": "Jensen Huang"},
+                                        {"prompt_en": "Trump", "person_ar": "دونالد ترامب", "person_en": "Donald Trump"}], cfg)
+    check("2013: قطعة بلا شخص تسقط", [p["person_ar"] for p in pieces] == ["جنسن هوانغ", "دونالد ترامب"], pieces)
+    boxes = reel_cartoon.row_layout([(400, 600), (900, 500), (300, 300)], (1100, 1500), cfg, W)
+    check("2013: الصف داخل الحزام وعلى أسفله بلا تداخل",
+          all(1100 <= y and y + h == 1500 and 0 <= x and x + w <= W for x, y, w, h in boxes)
+          and all(boxes[k][0] + boxes[k][2] <= boxes[k + 1][0] for k in range(2)), boxes)
+    files = []
+    for k, col in enumerate([(200, 40, 40), (40, 160, 40)]):
+        f = work / f"piece{k}.png"
+        Image.new("RGBA", (300, 400), (*col, 255)).save(f)
+        files.append(f)
+    hooked = [{**pieces[0], "file": files[0], "enter": "left"}, {**pieces[1], "file": files[1], "enter": "right"}]
+    text_top = 600
+    lay = reel_render.word_layout(cfg, "هل اشترى ترامب ولاء رئيس إنفيديا بإعادته إلى منصبه؟", text_top)
+    bottom_text = max(int(wd["box"][3]) for wd in lay["words"])
+    placed = reel_render._cartoon_pieces(hooked, cfg, work, 0, (bottom_text + 40, reel_cartoon.area_px(cfg, W, H)[3]))
+    check("2013: قطع الهوك تحت آخر سطر من العنوان", all(y >= bottom_text + 40 for _, _, _, _, y in placed), placed)
+
+    # (5) الأشخاص يتبعون الراوي: من سُمّي يظهر، والجملة بلا اسم تُبقي السابقة، والمشهد الجديد بلا اسم بلا رسم
+    people = [{"person_ar": "جنسن هوانغ", "file": files[0]}, {"person_ar": "دونالد ترامب", "file": files[1]},
+              {"person_ar": "ابن خلدون", "file": files[0], "quote": True}]
+    sc = {"scenes": [
+        {"kind": "narration", "role": "context", "text": "واجه جنسن هوانغ شبهات. ثم دعا ترمب لإعادته. وتراجع المجلس."},
+        {"kind": "narration", "role": "context", "text": "وبعد أيام عاد إلى منصبه."},
+        {"kind": "narration", "role": "quote", "text": "يذكّر هذا بقول ابن خلدون: «العدل أساس الملك»"}]}
+    cp = reel_render._cast_plan(sc, [0, 1, 2], people, cfg)
+    names_of = {k: [p["person_ar"] for p in v] for k, v in cp.items()}
+    check("2013: جنسن ثم ترامب ثم يبقى ترامب، والمشهد التالي بلا رسم، وقائل الاقتباس في مشهده",
+          names_of == {(0, 0): ["جنسن هوانغ"], (0, 1): ["دونالد ترامب"], (0, 2): ["دونالد ترامب"], (2, 0): ["ابن خلدون"]},
+          names_of)
+    text_layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    text_layer.paste((255, 255, 255, 255), (200, 600, 880, 1100))
+    fr = work / "nar.png"
+    text_layer.save(fr)
+    out = reel_render._overlay_cast([(fr, 1.0), (fr, 2.0)], [people[0]], cfg, work, "t")
+    comp = Image.open(out[0][0])
+    a = comp.getchannel("A")
+    check("2013: الرسم تحت حبر النص لا عليه، والإطار المكرر يُرسم مرة",
+          out[0][0] == out[1][0] and a.getpixel((540, 900)) == 255 and comp.getpixel((540, 900))[:3] == (255, 255, 255)
+          and a.crop((0, 1100 + 40, W, int(0.8 * H))).getbbox() is not None and a.crop((0, int(0.8 * H) + 1, W, H)).getbbox() is None,
+          out)
+    check("2013: الجملة التي يُرسم فيها الشخص لا تأخذ صورته من الويب", "mapped | set(cast_plan)" in open("src/reel_render.py", encoding="utf-8").read())
+
+    # (6) رسم قائل الاقتباس يُحفظ على الاقتباس ويدخل الأشخاص إن اعتُمد الاقتباس
+    import base64
+    import io
+    buf = io.BytesIO()
+    arr = Image.new("RGB", (256, 256), (255, 0, 255))
+    arr.paste((30, 30, 200), (60, 60, 200, 200))
+    arr.save(buf, "PNG")
+    png64 = base64.b64encode(buf.getvalue()).decode()
+    oldg = reel_cartoon._generate
+    reel_cartoon._generate = lambda body, model, key, timeout: (200, {"candidates": [{"finishReason": "STOP", "content": {
+        "parts": [{"inlineData": {"mimeType": "image/png", "data": png64}}]}}]}, 1.0)
+    try:
+        dq = {"id": "beef2013aa01", "reel_quote": {"status": "ready", "speaker_ar": "ابن خلدون", "speaker_en": "Ibn Khaldun"}}
+        reel_cartoon.draw_thinker(dq, cfg, "k")
+    finally:
+        reel_cartoon._generate = oldg
+    qc = dq["reel_quote"].get("cartoon") or {}
+    check("2013: رسم القائل ملف بجوار المسودة", str(qc.get("path", "")).endswith("beef2013aa01-thinker.png")
+          and reel_cartoon.local_path(qc["path"]) is not None, qc)
+    check("2013: لا يدخل الأشخاص قبل اعتماد الاقتباس ويدخل بعده",
+          reel_cartoon.cast_pieces(dq, cfg) == [] and
+          [p["person_ar"] for p in reel_cartoon.cast_pieces({**dq, "reel_quote": {**dq["reel_quote"], "approved": True}}, cfg)]
+          == ["ابن خلدون"])
+
+    # (7) الاقتباس: بحث في النصوص كلها وحكم صلة يختار الأعلى ولا يقبل الضعيف
+    page_ar = "مقدمة.\nالظفر في الحروب إنما يقع بأمور نفسانية وهمية وإن كان السلاح كفيلا به.\n"
+    page_topic = ("Proxy war.\nA nation that buys the loyalty of another's elite commands it without a single soldier.\n"
+                  "~ Hans Morgenthau, Politics Among Nations\n")
+    check("2013: القائل منسوب في صفحة الموضوع بعد القول", reel_quote.attributed(
+        "Hans Morgenthau", "A nation that buys the loyalty of another's elite commands it without a single soldier.",
+        page_topic, "Proxy war", cfg) and not reel_quote.attributed("Henry Kissinger", "A nation that buys", page_topic, "Proxy war", cfg))
+    ranks = {"v": [{"n": 1, "fit": 1, "link_ar": "عام"}, {"n": 2, "fit": 3, "link_ar": "شراء ولاء النخبة"}]}
+
+    def fake_create(client, **kw):
+        name = kw["tools"][0]["name"]
+        if name == "suggest_thinkers":
+            return NS(stop_reason="tool_use", content=[NS(type="tool_use", name=name, input={
+                "thinkers": [{"name_ar": "ابن خلدون", "name_en": "Ibn Khaldun", "why": "الحرب"}], "search_terms": ["buy loyalty"]})])
+        if name == "rank_quotes":
+            return NS(stop_reason="tool_use", content=[NS(type="tool_use", name=name, input={"ranks": ranks["v"]})])
+        txt = kw["messages"][0]["content"]
+        if "Proxy war" in txt:
+            inp = {"found": True, "quote": "A nation that buys the loyalty of another's elite commands it without a single soldier.",
+                   "text_ar": "أمة تشتري ولاء نخبة أمة أخرى تحكمها بلا جندي واحد.", "speaker_ar": "هانز مورغنثاو",
+                   "speaker_en": "Hans Morgenthau", "generalizes_people": False}
+        else:
+            inp = {"found": True, "quote": "الظفر في الحروب إنما يقع بأمور نفسانية وهمية", "text_ar": "",
+                   "generalizes_people": False}
+        return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="pick_quote", input=inp)])
+
+    def fake_http(url, params, timeout):
+        if params.get("list") == "search":
+            return {"query": {"search": [{"title": "Proxy war"}]}}
+        title = params.get("titles")
+        if title == "ابن خلدون" and "ar." in url:
+            return {"query": {"pages": {"1": {"title": title, "extract": page_ar}}}}
+        if title == "Proxy war":
+            return {"query": {"pages": {"2": {"title": title, "extract": page_topic}}}}
+        return {"query": {"pages": {"-1": {"title": title}}}}
+    oldq = (reel_quote._create, reel_quote._http_get)
+    reel_quote._create, reel_quote._http_get = fake_create, fake_http
+    qscript = {"title": "هل اشترى ترامب ولاء رئيس إنفيديا؟", "question": "هل تبقى الشركات مستقلة؟", "scenes": []}
+    try:
+        rec = reel_quote.plan({"id": "beef2013aa02", "script": qscript}, cfg)
+        check("2013: الأعلى صلةً من صفحة الموضوع بقائله كما تنسبه الصفحة", rec["status"] == "ready"
+              and rec["speaker_en"] == "Hans Morgenthau" and rec["fit"] == 3 and rec["candidates"] == 2
+              and rec["why"] == "شراء ولاء النخبة", rec)
+        ranks["v"] = [{"n": 1, "fit": 1, "link_ar": ""}, {"n": 2, "fit": 1, "link_ar": ""}]
+        weak = reel_quote.plan({"id": "beef2013aa03", "script": qscript}, cfg)
+        check("2013: كل المرشّحين عامّون ← بلا اقتباس وسببه", weak["status"] == "none"
+              and any("دون" in t["reason"] for t in weak["tried"]), weak)
+    finally:
+        reel_quote._create, reel_quote._http_get = oldq
+    check("2013: عطل حكم الصلة ← بلا اقتباس", reel_quote.choose([{"quote": "x"}], None, cfg)[0] is None)

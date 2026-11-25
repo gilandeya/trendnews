@@ -128,6 +128,19 @@ def load_config(path=None):
         rcart = (cfg.get("reel") or {}).get("cartoon")
         if isinstance(rcart, dict):
             rcart["enabled"] = False
+        # ملاحظات قضيتي 2007 و2013 (25/11): الصوت وحده بصورة المتكلم، واحتياطا الخلفية (مرشّحو الموضوع وصورة النص)، وحجم عنوان
+        # الهوك؛ تغيّر ما تثبّته اختبارات قديمة (حذف off_screen، المرشّح الواحد، الكحلي، أوامر الهوك). test_reel_notes_2013 يطلبها
+        gsc = rcfg.get("gemini_speaker")
+        if isinstance(gsc, dict):
+            gsc["off_screen_photo"] = False
+        tcrop = (rcfg.get("background") or {}).get("text_crop")
+        if isinstance(tcrop, dict):
+            tcrop["fallback_whole"] = False
+        if isinstance(rcfg.get("sizes"), dict):
+            rcfg["sizes"]["hook"] = [110, 70]
+        tfb = ((cfg.get("reel") or {}).get("hook_search") or {}).get("topic_fallback")
+        if isinstance(tfb, dict):
+            tfb["min_candidates"] = 1
         crop_c = rcfg.get("crop")
         if isinstance(crop_c, dict):
             if isinstance(crop_c.get("identity"), dict):

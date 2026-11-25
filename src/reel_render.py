@@ -1390,6 +1390,8 @@ def pick_background(draft: dict, cfg, providers: dict | None = None, draft_date:
             log.info("رُفض مرشّح خلفية الراوي %s: %s", url[:80], why)
             if len(rejected) < max_rejected:
                 rejected.append({"url": url, "shows": v.get("shows", ""), "reason": why})
+            if not text_only:
+                text_only.append({**cur, "url": url, "shows": v.get("shows", "")})
             return False
         verdict["shows"] = v.get("shows", "")
         verdict["crop"] = crop
@@ -1417,16 +1419,30 @@ def pick_background(draft: dict, cfg, providers: dict | None = None, draft_date:
             log.warning("مزوّد صور الخلفية %s فشل: %s", name, str(exc)[:100])
             return []
 
+    # أول صورة تناسب الموضوع ورُفضت لنصها المركَّب وحده (قضيتا 2007 و2013: سفينة تحترق في ميناء بنغازي رُفضت لشريط نص صغير، فخرج
+    # الريل كله على الكحلي). cur يحمل درجة المرشّح الجاري لتُعرف عند الاحتياط
+    text_only: list[dict] = []
+    cur: dict = {}
     for cand in safe("news", lambda: pv["news"](title, event, cfg, query_en))[:tries]:
+        cur = {"kind": "news_photo", "publisher": cand.get("publisher", "")}
         if usable(cand.get("url", "")):
             return done({"url": cand["url"], "kind": "news_photo", "publisher": cand.get("publisher", "")})
     state: dict = {}
     for cand in safe("web", lambda: pv["web"](query_en or title, cfg, state))[:tries]:
+        cur = {"kind": "web_search", "publisher": cand.get("domain", "")}
         if usable(cand.get("url", "")):
             return done({"url": cand["url"], "kind": "web_search", "publisher": cand.get("domain", "")})
     for url in safe("free", lambda: pv["free"](title, event, cfg, query_en))[:tries]:
+        cur = {"kind": "free", "publisher": ""}
         if usable(url):
             return done({"url": url, "kind": "free", "publisher": ""})
+    if text_only and (cfg.path("reel.render.background.text_crop") or {}).get("fallback_whole", False):
+        # لا صورة نظيفة: صورة الموضوع كاملةً تحت تظليل الراوي أفضل من الكحلي (النص المركَّب يغيب تحت التظليل ونصّنا فوقه)
+        fb = text_only[0]
+        verdict["shows"] = fb.get("shows", "")
+        verdict["crop"] = None
+        verdict["text_checked"] = True
+        return done({"url": fb["url"], "kind": fb.get("kind", ""), "publisher": fb.get("publisher", ""), "text_overlay": True})
     return done({"url": "", "kind": "none", "publisher": ""})
 
 
@@ -3993,9 +4009,65 @@ def quote_word_times(n_words: int, clip_seconds: float, segments: list, start_of
 
 
 def _narration_frames(parts: list[tuple[str, float]], i: int, cfg, tmp: Path, lead: float,
-                      bg: dict | None = None, map_sentences: set | None = None) -> list[tuple[Path, float]]:
+                      bg: dict | None = None, map_sentences: set | None = None,
+                      cast: dict | None = None) -> list[tuple[Path, float]]:
+    """إطارات مشهد الراوي، ومع cast ({رقم الجملة: [قطع]}) يُرسم أشخاص الكاريكاتير صفًّا تحت نص جملتهم (قضية 2013)."""
+    if not cast:
+        return _narration_frames_plain(parts, i, cfg, tmp, lead, bg, map_sentences)
+    frames: list[tuple[Path, float]] = []
+    for k, part in enumerate(parts):
+        sub = _narration_frames_plain([part], i, cfg, tmp, lead if k == 0 else 0.0, bg, map_sentences and
+                                      ({0} if k in map_sentences else set()), tag=f"{i}_{k}")
+        if cast.get(k):
+            sub = _overlay_cast(sub, cast[k], cfg, tmp, f"{i}_{k}")
+        frames += sub
+    return frames
+
+
+def _overlay_cast(frames: list[tuple[Path, float]], pieces: list[dict], cfg, tmp: Path, tag: str) -> list[tuple[Path, float]]:
+    """يضيف أشخاص الكاريكاتير إلى إطارات جملة: صفًّا في الحزام من أسفل نصها (حدّ حبر آخر إطار، فيه الجملة كاملة) إلى
+    cast.bottom، بلا تداخل (reel_cartoon.row_layout). حزام أقصر من cast.min_height أو عطل ← الإطارات كما هي."""
+    from PIL import Image, ImageChops
+
+    from . import reel_cartoon
+    try:
+        k = reel_cartoon.ccfg(cfg).get("cast") or {}
+        w, h = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
+        last = Image.open(frames[-1][0])
+        if last.mode == "RGBA":
+            box = last.getchannel("A").getbbox()
+        else:
+            navy = Image.new("RGB", last.size, imaging.hex_rgb(cfg.path("brand.primary_color")))
+            box = ImageChops.difference(last.convert("RGB"), navy).getbbox()
+        top = (box[3] if box else int(h * 0.5)) + int(k.get("text_gap", 40))
+        bottom = int(float(k.get("bottom", 0.8)) * h)
+        if bottom - top < int(k.get("min_height", 200)):
+            return frames
+        imgs = [Image.open(p["file"]).convert("RGBA") for p in pieces]
+        layer = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+        for img, (x, y, pw, ph) in zip(imgs, reel_cartoon.row_layout([im.size for im in imgs], (top, bottom), cfg, w)):
+            layer.alpha_composite(img.resize((pw, ph), Image.LANCZOS), (x, y))
+        done: dict = {}
+        out = []
+        for n, (f, d) in enumerate(frames):
+            if f not in done:
+                im = Image.open(f)
+                comp = Image.alpha_composite(im.convert("RGBA"), layer)
+                done[f] = _save(comp if im.mode == "RGBA" else comp.convert("RGB"), tmp / f"cast_{tag}_{len(done)}.png")
+            out.append((done[f], d))
+        return out
+    except Exception as exc:  # noqa: BLE001 -- الرسم إضافة: الجملة تبقى بنصها
+        log.warning("تعذّر رسم أشخاص الكاريكاتير تحت الجملة: %s", str(exc)[:150])
+        return frames
+
+
+def _narration_frames_plain(parts: list[tuple[str, float]], i: int, cfg, tmp: Path, lead: float,
+                            bg: dict | None = None, map_sentences: set | None = None,
+                            tag: str | None = None) -> list[tuple[Path, float]]:
     """إطارات مشهد الراوي. مع typewriter: خطوة لكل حرف (typewriter_steps) بمدة كلام الجملة = مدة صوتها − الصمت بعدها،
-    ويبقى النص كاملًا خلال الصمت. بدونه: إطار كامل لكل جملة كما كان. أول إطار فارغ كي يقع صمت الانتقال بلا نص."""
+    ويبقى النص كاملًا خلال الصمت. بدونه: إطار كامل لكل جملة كما كان. أول إطار فارغ كي يقع صمت الانتقال بلا نص.
+    tag يميّز أسماء الملفات حين تُبنى الجمل واحدة واحدة (cast)."""
+    i = tag if tag is not None else i
     def bg_of(k):
         return {**bg, "map_layout": True} if bg is not None and k in (map_sentences or set()) else bg
     if not cfg.path("reel.render.typewriter.enabled", False):
@@ -4406,6 +4478,13 @@ def speaker_matches(name_arabic: str, name_original: str, speaker_text: str, cfg
     الشريط والاسم الأصلي إن كان عربي الحروف. None = لا مقارنة (قائل بلا اسم علم، أو شريط بلا كلمات صالحة) فيبقى السلوك كما كان.
     القاعدة لا تغيّر لحالات النقل المختلف للاسم نفسه («براء» مقابل «بار»): تلك تُحذف احتياطًا، ونسبة الكلام إلى غير قائله أسوأ."""
     from . import youtube_article
+    if cfg.path("reel.render.chyron.normalize_names", False):
+        # ريل 900212c77395 (قضية 2013): «دونالد ترامب» في السيناريو و«دونالد ترمب» من Gemini رسمان في معجم الأسماء نفسه
+        # (names.aliases) فحُذف مقطع ترامب على أنه لغيره. كل اسم يمرّ بالمعجم أولًا (اليدوي والمتعلَّم) فلا يُقارن رسم برسم
+        from . import names as _names
+        name_arabic = _names.normalize_names(name_arabic or "", cfg)
+        name_original = _names.normalize_names(name_original or "", cfg)
+        speaker_text = _names.normalize_names(speaker_text or "", cfg)
     skip = _speaker_words(" ".join(cfg.path("reel.render.chyron.unnamed_words", []) or []))
     spoken_list = [w for w in _speaker_word_list(" ".join(youtube_article.speaker_name_tokens(speaker_text or "", "", cfg))) if w not in skip]
     spoken = set(spoken_list)
@@ -4926,7 +5005,12 @@ def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None,
     # قطع الكاريكاتير فوق الضباب وتحت كلمات العنوان: تدخل من خارج الشاشة مع السؤال وتتجمّع في مواضعها (مدخلاتها بعد الصوت: 4…)
     piece_in, piece_f, top = [], "", "bf"
     if cartoon:
-        for k, (png, sx, sy, x, y) in enumerate(_cartoon_pieces(cartoon, cfg, tmp, i)):
+        # الحزام تحت آخر سطر من العنوان (قضية 2013): القطع لا تنزل على كلماته
+        lay = word_layout(cfg, title, text_top)
+        text_bottom = max((int(wd["box"][3]) for wd in lay.get("words") or []), default=text_top)
+        band = (text_bottom + int((reel_cartoon.ccfg(cfg).get("cast") or {}).get("text_gap", 40)),
+                reel_cartoon.area_px(cfg, w, h)[3])
+        for k, (png, sx, sy, x, y) in enumerate(_cartoon_pieces(cartoon, cfg, tmp, i, band)):
             t0 = voice_at + k * float(reel_cartoon.ccfg(cfg).get("stagger", 0.35))
             piece_in += [*loop_args(fps), "-i", str(png)]
             piece_f += (f";[{4 + k}:v]format=rgba[pc{k}];[{top}][pc{k}]overlay="
@@ -4979,16 +5063,21 @@ def loop_args(fps) -> list[str]:
     return ["-loop", "1", "-framerate", str(fps)]
 
 
-def _cartoon_pieces(pieces: list[dict], cfg, tmp: Path, i: int) -> list[tuple[Path, int, int, int, int]]:
-    """كل قطعة بمقاسها النهائي في ملف PNG شفاف ومعها (موضع البدء خارج الشاشة، والموضع النهائي) من reel_cartoon.place/start_pos."""
+def _cartoon_pieces(pieces: list[dict], cfg, tmp: Path, i: int,
+                    band: tuple[int, int] | None = None) -> list[tuple[Path, int, int, int, int]]:
+    """كل قطعة بمقاسها النهائي في ملف PNG شفاف ومعها (موضع البدء خارج الشاشة، والموضع النهائي): صفًّا في الحزام تحت النص
+    (reel_cartoon.row_layout، layout: row) أو بمواضع النموذج (place)."""
     from PIL import Image
 
     from . import reel_cartoon
     w, h = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
+    imgs = [Image.open(p["file"]).convert("RGBA") for p in pieces]
+    rows = (reel_cartoon.row_layout([im.size for im in imgs], band or reel_cartoon.area_px(cfg, w, h)[1::2], cfg, w)
+            if reel_cartoon.row_mode(cfg) else None)
     out = []
     for k, p in enumerate(pieces):
-        img = Image.open(p["file"]).convert("RGBA")
-        box = reel_cartoon.place(img.size, p, cfg, w, h)
+        img = imgs[k]
+        box = rows[k] if rows else reel_cartoon.place(img.size, p, cfg, w, h)
         sx, sy = reel_cartoon.start_pos(p.get("enter", "bottom"), box, w, h)
         png = tmp / f"hook_piece_{i}_{k}.png"
         img.resize((box[2], box[3]), Image.LANCZOS).save(png, "PNG")
@@ -6438,6 +6527,8 @@ def _face_check(script: dict, live: dict, rosters: dict, cfg, deps: Deps, speake
             name = " ".join(str(sc.get("speaker_name") or "").split())
             if not name:
                 continue
+            if sc.get("audio_only"):
+                continue    # صورته من الويب لا من الحلقة: لا وجه في المقطع يُقارن
             if sc.get("speaker_verified_from") in _INDEPENDENT_PROOF:
                 refs.setdefault(_name_key(name), {"name": name, "name_original": sc.get("speaker_name_latin") or "",
                                                   "role": sc.get("speaker_role") or "", "i": i})
@@ -6721,10 +6812,15 @@ def _apply_gemini(i: int, script: dict, run: list, live: dict, speakers: dict, v
     row = next((r for r in reversed(meta.get("gemini_speakers") or []) if r["point_id"] == (scene.get("point_id") or str(i))), {})
     if verdict.get("off_screen"):
         # ريل 8f6a0649b60c: قصّ الوجه المتكلم يختار وجهًا في الصورة، والمتكلم ليس فيها، فظهر بوتين تحت اسم شي جين بينغ
-        if not (cfg.path("reel.render.gemini_speaker", {}) or {}).get("drop_off_screen", True):
+        gsc = cfg.path("reel.render.gemini_speaker", {}) or {}
+        if not gsc.get("drop_off_screen", True):
             return False, None
         row.update(applied=True, off_screen=True)
         speakers[str(i)] = {"accepted": False, "source": "gemini"}
+        if gsc.get("off_screen_photo") and scene.get("speaker_name"):
+            # قضية 2013: الصوت صوت المتكلم المسمّى والكاميرا على غيره ← صورته في إطاره (_audio_only_photos) بدل الحذف
+            scene["audio_only"] = True
+            return True, None
         return True, {"reason_key": "drop_off_screen", "speaker": scene.get("speaker_text") or scene.get("speaker_name") or "",
                       "channel": channel, "new": "", "chyron": "", "name": name}
     named = bool(scene.get("speaker_verified") and scene.get("speaker_name"))
@@ -6813,6 +6909,7 @@ def _prune_mismatched(script: dict, clips: dict, cfg, deps: Deps, speakers: dict
             if mm:
                 pending[i] = mm
                 live.pop(i)
+    _audio_only_photos(script, live, cfg, deps, notes, pending)
     _face_check(script, live, rosters, cfg, deps, speakers, notes, meta, pending)
     for members in _iter_runs(order):
         gone = []
@@ -6970,11 +7067,13 @@ def _figure_portrait(img, deps: Deps, cfg) -> tuple[dict | None, str]:
             "fx": (face[0] + face[2] / 2 - box[0]) * sc, "fy": (face[1] + face[3] / 2 - box[1]) * sc}, ""
 
 
-def _find_figure(person: dict, clips: dict, script: dict, cfg, deps: Deps, tmp: Path, tag: str) -> dict:
+def _find_figure(person: dict, clips: dict, script: dict, cfg, deps: Deps, tmp: Path, tag: str,
+                 sources: list | None = None) -> dict:
     """صورة الشخص بالترتيب: لقطة من مقطعه في الريل (الحدث نفسه) ← روابط الويب (Brave ثم ويكيميديا) بوجه بارز وحكم الصلاح.
-    يعيد {png, fx, fy, source, ...} أو {reason, tried}؛ لا يرفع."""
+    sources تقصر الدرجات (مقطع الصوت وحده بلا لقطات الحدث). يعيد {png, fx, fy, source, ...} أو {reason, tried}؛ لا يرفع."""
     fcfg = cfg.path("reel.figures") or {}
-    sources = fcfg.get("sources") or ["event", "web", "wikimedia"]
+    allowed = fcfg.get("sources") or ["event", "web", "wikimedia"]
+    sources = [x for x in allowed if x in sources] if sources is not None else allowed
     why = "no_source"
     if "event" in sources and deps.figure_frame is not None:
         for idx in person.get("scenes") or []:
@@ -7030,6 +7129,78 @@ def _find_figure(person: dict, clips: dict, script: dict, cfg, deps: Deps, tmp: 
             got["image"].save(png)
             return {"png": png, "fx": got["fx"], "fy": got["fy"], "source": src, "url": url[:300]}
     return {"reason": why, "tried": tried}
+
+
+def _cast_plan(script: dict, nar_idx: list[int], people: list[dict], cfg) -> dict:
+    """{(فهرس المشهد، رقم الجملة): [قطع]} لأشخاص الكاريكاتير (قضية 2013، طلب صاحب المشروع): في مشاهد cast.roles تُظهر كل جملة من
+    تسمّيهم (reel_figures.name_in_sentence، فـ«ترمب»/«ترامب» واحد)، وجملة لا تسمّي أحدًا تُبقي من سمّتهم الجملة قبلها في المشهد نفسه
+    (الحديث ما زال عنه)، وأول جملة في مشهد لا تسمّي أحدًا بلا رسم. رسم قائل الاقتباس لمشهد الاقتباس وحده. دالة خالصة."""
+    from . import reel_cartoon
+    roles = set((reel_cartoon.ccfg(cfg).get("cast") or {}).get("roles") or [])
+    out: dict = {}
+    if not people:
+        return out
+    for i in nar_idx:
+        scene = script["scenes"][i]
+        role = scene.get("role")
+        if role not in roles:
+            continue
+        pool = [p for p in people if bool(p.get("quote")) == (role == "quote")]
+        prev: list = []
+        for k, sent in enumerate(tts.split_sentences(scene.get("text", ""))):
+            named = [p for p in pool if reel_figures.name_in_sentence(p["person_ar"], sent, cfg)]
+            cur = named or (prev if k else [])
+            if cur:
+                out[(i, k)] = cur
+            prev = cur
+    return out
+
+
+def _audio_only_photos(script: dict, live: dict, cfg, deps: Deps, notes: list, pending: dict) -> None:
+    """مقطع صوت فقط (قضية 2013): Gemini قال إن المتكلم لا يُرى والكاميرا على غيره. صورته من الويب (لا لقطات الحدث، فهي تُظهر غيره)
+    تحلّ محل صورة المقطع بتقريب بطيء نحو وجهه وصوته كما هو، وصفته تحمل audio_only_label فلا يُظن الوجه في الحلقة. لا صورة صالحة أو
+    عطل ← حذف المقطع بسببه كما كان قبل القرار."""
+    gsc = cfg.path("reel.render.gemini_speaker") or {}
+    t = cfg.path("reel.render.texts")
+    rcfg = cfg.path("reel.render")
+    for i in sorted(live):
+        scene = script["scenes"][i]
+        if not scene.get("audio_only"):
+            continue
+        c = live[i]
+        channel = scene.get("channel_display") or ""
+        speaker = scene.get("speaker_name") or scene.get("speaker_text") or ""
+        got: dict = {}
+        if deps.figure_faces is not None and c.get("file"):
+            person = {"name_ar": speaker, "name_en": scene.get("speaker_name_latin") or "", "scenes": []}
+            got = _find_figure(person, {}, script, cfg, deps, Path(c["file"]).parent, f"ao{i}", sources=["web", "wikimedia"])
+        if got.get("png") is not None:
+            out = Path(c["file"]).with_name(f"audio_only_{i}.mp4")
+            secs = float(c.get("file_seconds") or deps.probe(Path(c["file"])) or c.get("seconds") or 0)
+            try:
+                deps.run(_base("-loop", "1", "-framerate", str(rcfg["fps"]), "-i", str(got["png"]), "-i", str(c["file"]),
+                               "-map", "0:v", "-map", "1:a", "-vf",
+                               reel_figures.zoom_filter(got["fx"], got["fy"], secs, cfg) + f",fps={rcfg['fps']},format=yuv420p",
+                               "-t", _fmt(secs), "-c:v", "libx264", "-preset", str(rcfg.get("preset", "veryfast")),
+                               "-crf", str(rcfg.get("crf", 22)), "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "160k", str(out)))
+            except Exception as exc:  # noqa: BLE001 -- ترميز الصورة فشل: الحذف كما كان
+                log.warning("تعذّر بناء مقطع الصوت وحده لـ%s: %s", speaker, str(exc)[:150])
+                got = {}
+            else:
+                c["file"] = out
+                c["audio_only"] = {"source": got.get("source", ""), "url": got.get("url", "")}
+                label = str(gsc.get("audio_only_label") or "")
+                role = scene.get("speaker_role") or ""
+                if label and label not in role:
+                    scene["speaker_role"] = f"{role} · {label}" if role else label
+                labels = t.get("figure_sources") or {}
+                notes.append(t["comment_audio_only"].format(speaker=speaker, channel=channel,
+                                                            source=labels.get(got.get("source", ""), got.get("source", ""))))
+                continue
+        scene.pop("audio_only", None)
+        pending[i] = {"reason_key": "drop_off_screen_no_photo", "speaker": speaker, "channel": channel, "new": "", "chyron": "",
+                      "name": speaker}
+        live.pop(i)
 
 
 def _prepare_figures(script: dict, nar_idx: list[int], speech_cache: dict, plan: list, clips: dict, cfg, deps: Deps, tmp: Path,
@@ -7606,10 +7777,16 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
     # صورة الشخص بعد الخرائط (الخريطة تغلب في جملة تسمّي مكانًا وشخصًا) وقبل لقطات الحدث: الجملة التي تسمّي شخصًا تُظهره هو
     scene_figs: dict[int, list[dict]] = {}
     fig_results: list = []
+    # أشخاص الكاريكاتير يتبعون الراوي (قضية 2013): جملة يظهر فيها رسم الشخص لا تأخذ صورته من الويب أيضًا
+    from . import reel_cartoon
+    cast_plan = _cast_plan(script, nar_idx, reel_cartoon.cast_pieces(draft or {}, cfg), cfg)
+    if cast_plan and notes is not None:
+        names_cast = list(dict.fromkeys(p["person_ar"] for lst in cast_plan.values() for p in lst))
+        notes.append(cfg.path("reel.render.texts.comment_cast").format(n=len(cast_plan), people="، ".join(names_cast)))
     if nar_bg is not None and nar_idx:
         stage_mark("figures")
         scene_figs = _prepare_figures(script, nar_idx, speech_cache, plan or [], clips, cfg, deps, tmp, lead,
-                                      notes if notes is not None else [], fig_results, mapped)
+                                      notes if notes is not None else [], fig_results, mapped | set(cast_plan))
         if meta is not None and fig_results:
             meta["figures"] = fig_results
     figured = {(i, e["sentence"]) for i, lst in scene_figs.items() for e in lst}
@@ -7735,7 +7912,9 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
                 continue
             if kind == "narration":
                 frames = _narration_frames(parts, i, cfg, tmp, lead, bg,
-                                           {e["sentence"] for e in scene_maps.get(i, [])})
+                                           {e["sentence"] for e in scene_maps.get(i, [])},
+                                           cast={k: v for (ii, k), v in cast_plan.items() if ii == i}
+                                           if len(parts) == len(tts.split_sentences(scene.get("text", ""))) else None)
                 tail = 0.0
                 if bg is not None and nar_plan is not None:
                     dur = _timed_scene(frames, audio, out, cfg, deps, tmp, tail, lead, bg_png=nar_bg, bg_start=nar_t,
