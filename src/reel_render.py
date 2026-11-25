@@ -3049,8 +3049,14 @@ def _exact_apply(clip: dict, scene: dict, point: dict, dstart: int, wstart: int,
     # R14: لغة الكلام من مسار النص المجلوب الآن (pick_track) تغلب لغة النقطة المحفوظة: نقطة استُخرجت من ترجمة بلغة أخرى كانت
     # تُفرِّغ صوتًا تركيًا بالإنجليزية فيُترجمه المفرِّغ بدل أن يسمعه
     code = deps.transcript_lang(point.get("video_id")) if deps.transcript_lang is not None and point.get("video_id") else None
-    if code:
+    if code and not (point.get("bite_source") == "gemini" and xcfg.get("gemini_language", True)):
         lang = youtube_extract_base_lang(code)
+    elif code:
+        # مقطع Gemini سمع الصوت نفسه فلغته لغة المتكلم، ومسار النص المجلوب قد يكون ترجمة (القضية 1997: نص إنجليزي لحلقة CNN Türk
+        # فرُغ الصوت التركي بالإنجليزية بنسبة 0.077 وحُذف المقطع). قاعدة R14 تبقى لمقاطع النص (لغة مسارها لغة الكلام)
+        lang = (point.get("language") or lang or youtube_extract_base_lang(code)) or None
+    if xcfg.get("language_from_text", True):
+        lang = reel_clips.speech_language(point.get("quote_original", ""), lang)
     fsecs = float(clip["seconds"])
     # off: الفحص الذاتي فشل (Q13b) ← لا نداء تفريغ، والسبب واحد يُكتب مرة في التعليق لا مقطعًا مقطعًا
     diag: dict = {}
@@ -3321,56 +3327,88 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
                 span_info = {"res": span_res, "loc": loc}
                 ex_margin = float(xcfg.get("margin", 4))
         # Q13: نافذة التنزيل أوسع من النافذة المنطقية (wstart..wend) لتفريغ الكلمات؛ على الفشل يُقتطع الملف إلى المنطقية
-        dstart, dend = wstart, wend
         # المرحلة «أ»: مقطع له كلمات صوت محفوظة من الجمع يُضبط بها ولو لم يتوفر مفرِّغ في التركيب
         scene_exact = exact_on or (bool(xcfg.get("enabled", True)) and bool(point.get("audio_words")))
-        if scene_exact and ex_margin is not None:
-            base0 = float(loc["start"]) if span_info else float(wstart)
-            base1 = float(loc["end"]) if span_info else float(wend)
-            dstart = int(min(max(0, math.floor(base0 - ex_margin)), wstart))
-            dend = int(max(math.ceil(base1 + ex_margin), wend))
-        out = tmp / f"clip_{i}.mp4"
-        stage_mark("clip", f"{i} {scene.get('channel_display', '')}")
-        try:
-            got = _download_with_retries(deps, rcfg, vid, dstart, dend, out)
-        except Exception as exc:  # noqa: BLE001 -- عطل تنزيل لا إسقاط تحريري
-            failure = ClipDownloadFailed(scene.get("channel_display", ""),
-                                         "فشل تنزيل المقطع: " + reel_clips.scrub_text(str(exc))[:120],
-                                         proxy=proxy_exhausted(str(exc), cfg))
-            # نفاد الرصيد يُسقط كل مقطع بعده فالريل كله ينتظر؛ غيره عطل لهذا المقطع وحده فيُترك والريل يمضي (19/11)
-            if failure.proxy or not cfg.path("reel.render.drop_failed_clips", False):
-                raise failure from exc
-            # ريل 68c94cc15e39 (20/11): نفد وقت التشغيلة فتُركت 4 من 6 مقاطع بحجة «مقطع معيب» وخرج ريل بسؤال بلا إجابات.
-            # بلوغ الموعد ليس عيبًا في المقطع: التركيب يتوقف كمحاولة محسوبة (_on_timeout) والمنزَّل في المخبأ فتكمل التشغيلة التالية
-            if cfg.path("reel.render.deadline.defer_on_clip", True) and _deadline_reached():
-                raise RenderTimeout(f"clip {i}") from exc
-            download_failed.append(failure)
-            _drop(dropped, scene, cfg.path("reel.render.texts.drop_download_failed").format(
-                reason=failure.reason.replace("فشل تنزيل المقطع: ", "", 1)))
-            if approx and approx[-1]["point_id"] == scene.get("point_id", ""):
-                approx.pop()
-            continue
-        if got is None:
-            _drop(dropped, scene, "لم يُنتج التنزيل ملفًا")
-            if approx and approx[-1]["point_id"] == scene.get("point_id", ""):
-                approx.pop()
-            continue
-        out = got
-        secs = deps.probe(out) or float(dend - dstart)
-        # dstart: ثانية الفيديو لأول الملف (S4). file_seconds: مدة الملف المنزَّل كلها (seconds تصير مدة المشهد بعد الاقتطاع)،
-        # وبها يُحوَّل فهرس لقطة كشف الوجوه إلى ثانية في القصّ المتحرك (ريل 1913)
-        clips[i] = {"file": out, "seconds": float(secs), "file_seconds": float(secs), "video_id": vid, "dstart": float(dstart)}
-        is_approx_win = bool(approx and approx[-1]["point_id"] == scene.get("point_id", "") and approx[-1]["start"] == wstart)
-        aligned, why = None, ""
-        if scene_exact and ex_margin is not None:
-            exact_tried = True
-            aligned, why = _exact_apply(clips[i], scene, point, dstart, wstart, wend, is_approx_win, cfg, deps, exact_fails, approx, exact_off)
-            if aligned == "drop":
-                diag_x = clips.pop(i).get("exact_diag")
-                _drop(dropped, scene, cfg.path("reel.render.texts.drop_exact_failed").format(reason=why), exact=diag_x)
-                if is_approx_win:
+        approx_here = bool(approx and approx[-1]["point_id"] == scene.get("point_id", "") and approx[-1]["start"] == wstart)
+        margins = [ex_margin]
+        # القضيتان 1991 و1997: نافذة Gemini التقديرية بعيدة عن الكلام أكثر من approx_margin فلم يطابق المسموع (0.133) وحُذف
+        # المقطع وقد اختاره المراجع. قبل الحذف محاولة واحدة بنافذة أوسع حول التقدير نفسه؛ الحذف يبقى لما لا يُسمع فيها أيضًا
+        wide = float(xcfg.get("approx_retry_margin") or 0)
+        if scene_exact and approx_here and not point.get("audio_words") and ex_margin is not None and wide > ex_margin:
+            margins.append(wide)
+        aligned, why, diag_x, skip, retried, first_why = None, "", None, False, False, ""
+        for k, margin_k in enumerate(margins):
+            dstart, dend = wstart, wend
+            if scene_exact and margin_k is not None:
+                base0 = float(loc["start"]) if span_info else float(wstart)
+                base1 = float(loc["end"]) if span_info else float(wend)
+                dstart = int(min(max(0, math.floor(base0 - margin_k)), wstart))
+                dend = int(max(math.ceil(base1 + margin_k), wend))
+            out = tmp / (f"clip_{i}.mp4" if k == 0 else f"clip_{i}_wide.mp4")
+            stage_mark("clip", f"{i} {scene.get('channel_display', '')}" + (" (نافذة أوسع)" if k else ""))
+            try:
+                got = _download_with_retries(deps, rcfg, vid, dstart, dend, out)
+            except Exception as exc:  # noqa: BLE001 -- عطل تنزيل لا إسقاط تحريري
+                if k:
+                    # المحاولة الواسعة لم تُنزَّل: الحكم حكم الأولى (حذف بسببها) لا عطل تنزيل يؤجّل الريل
+                    got = None
+                    break
+                failure = ClipDownloadFailed(scene.get("channel_display", ""),
+                                             "فشل تنزيل المقطع: " + reel_clips.scrub_text(str(exc))[:120],
+                                             proxy=proxy_exhausted(str(exc), cfg))
+                # نفاد الرصيد يُسقط كل مقطع بعده فالريل كله ينتظر؛ غيره عطل لهذا المقطع وحده فيُترك والريل يمضي (19/11)
+                if failure.proxy or not cfg.path("reel.render.drop_failed_clips", False):
+                    raise failure from exc
+                # ريل 68c94cc15e39 (20/11): نفد وقت التشغيلة فتُركت 4 من 6 مقاطع بحجة «مقطع معيب» وخرج ريل بسؤال بلا إجابات.
+                # بلوغ الموعد ليس عيبًا في المقطع: التركيب يتوقف كمحاولة محسوبة (_on_timeout) والمنزَّل في المخبأ فتكمل التشغيلة التالية
+                if cfg.path("reel.render.deadline.defer_on_clip", True) and _deadline_reached():
+                    raise RenderTimeout(f"clip {i}") from exc
+                download_failed.append(failure)
+                _drop(dropped, scene, cfg.path("reel.render.texts.drop_download_failed").format(
+                    reason=failure.reason.replace("فشل تنزيل المقطع: ", "", 1)))
+                if approx_here:
                     approx.pop()
-                continue
+                skip = True
+                break
+            if got is None:
+                if k:
+                    break
+                _drop(dropped, scene, "لم يُنتج التنزيل ملفًا")
+                if approx_here:
+                    approx.pop()
+                skip = True
+                break
+            out = got
+            secs = deps.probe(out) or float(dend - dstart)
+            # dstart: ثانية الفيديو لأول الملف (S4). file_seconds: مدة الملف المنزَّل كلها (seconds تصير مدة المشهد بعد الاقتطاع)،
+            # وبها يُحوَّل فهرس لقطة كشف الوجوه إلى ثانية في القصّ المتحرك (ريل 1913)
+            clips[i] = {"file": out, "seconds": float(secs), "file_seconds": float(secs), "video_id": vid, "dstart": float(dstart)}
+            if k:
+                retried = True
+            if not (scene_exact and margin_k is not None):
+                break
+            exact_tried = True
+            aligned, why = _exact_apply(clips[i], scene, point, dstart, wstart, wend, approx_here, cfg, deps, exact_fails, approx, exact_off)
+            if aligned != "drop":
+                break
+            popped = clips.pop(i).get("exact_diag")
+            if k == 0:
+                diag_x, first_why = popped, why
+            else:
+                why = first_why      # سبب الحذف سبب النافذة الأولى (المعروضة على المراجع) لا الواسعة
+            if k + 1 < len(margins) and (diag_x or {}).get("reason") not in (xcfg.get("drop_approx_reasons") or []):
+                break      # سبب الحذف ليس بُعد النافذة (عطل المفرِّغ مثلًا): لا جدوى من نافذة أوسع
+        if skip:
+            continue
+        is_approx_win = approx_here
+        if aligned == "drop" or i not in clips:
+            _drop(dropped, scene, cfg.path("reel.render.texts.drop_exact_failed").format(reason=why), exact=diag_x)
+            if is_approx_win and approx and approx[-1]["point_id"] == scene.get("point_id", ""):
+                approx.pop()
+            continue
+        if retried and notes is not None and aligned == "words":
+            notes.append(cfg.path("reel.render.texts.comment_approx_retry").format(
+                channel=scene.get("channel_display", ""), margin=round(wide)))
         loc_found = (span_info or {}).get("loc")
         if transcripts[vid] and loc_found:
             # Q12: النص الكامل وموضع الاقتباس فيه لقائمة الضيوف وإسناد القائل (يُمرَّران ولا يُجلبان ثانية). قبل خروج المضبوط بالكلمات:

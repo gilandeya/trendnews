@@ -858,7 +858,11 @@ def issue_body(topic: dict, data: dict, qa: dict, cfg, full_bites: list | None =
             kind = (t.get("types") or {}).get(b.get("type"), b.get("type") or "")
             weak = " · " + t.get("weak_label", "صلة ضعيفة") if a["fit"] == "weak" else ""
             # 🎧 = صوت المقطع طابق كلامه المكتوب (meta_verify)؛ ما بلا علامة لم يُفحص (نفد الوقت أو تعطّل) وحارسه التركيب
-            weak += t.get("heard_mark", " · 🎧") if b.get("heard") else ""
+            if b.get("heard"):
+                weak += t.get("heard_mark", " · 🎧")
+            elif (qa.get("verify") or {}).get("checked"):
+                # القضيتان 1991 و1997: خمسة مقاطع بلا 🎧 اختيرت فحُذفت في التركيب، وغياب العلامة لا يُلحظ؛ علامة صريحة تقول إنه لم يُفحص
+                weak += t.get("unheard_mark", " · ❔ لم يُفحص صوته")
             weak += {"primary": t.get("master_box", " · ⭐ أم"), "opposing": t.get("opposing_box", " · 🔶 أم معاكسة"),
                      "echo": t.get("echo_box", " · ↩️ صدى")}.get(a.get("echo_role") or "", "")
             boxes.append(f"- [{'x' if a.get('selected') else ' '}] "
