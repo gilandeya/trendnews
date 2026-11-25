@@ -8288,9 +8288,10 @@ def test_meta_verify_deadline_1904() -> None:
 
     base = real_load()
     v = base.path("youtube.meta_topics.qa.verify")
-    check("1904: الإعداد — مهلة خمس دقائق، وطريق التركيب أولًا، وثلاثة تنزيلات معًا",
+    # رُفعت المهلة في القضيتين 1991 و1997 (فُحص 5 من 27): ثماني دقائق وأربعة تنزيلات معًا
+    check("1904: الإعداد — مهلة ثماني دقائق، وطريق التركيب أولًا، وأربعة تنزيلات معًا",
           (v.get("budget_seconds"), v.get("download"), v.get("parallel"), v.get("video_seconds"), v.get("clip_height"))
-          == (300, "clip", 3, 150, 144), v)
+          == (480, "clip", 4, 240, 144), v)
 
     cfg = copy.deepcopy(base)
     cfg["youtube"]["meta_topics"]["qa"]["verify"].update(budget_seconds=70, video_seconds=40, parallel=2, poll_seconds=1)
