@@ -89,9 +89,26 @@ def haiku_params(model, cfg=None) -> dict:
             "output_config": {"effort": cfg.path("llm.haiku_effort", "low")}}
 
 
+_CLIENT: list = []
+
+
+def default_client():
+    """عميل Anthropic واحد للعملية من ANTHROPIC_API_KEY، يُنشأ عند أول نداء بلا عميل."""
+    if not _CLIENT:
+        from anthropic import Anthropic
+        from .config import env
+        _CLIENT.append(Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True)))
+    return _CLIENT[0]
+
+
 def create(client, *, cfg=None, **kwargs):
     """بديل ``client.messages.create`` لكل نداء يمر بنموذج من الأسماء المختصرة أو بمعرّف صريح."""
     cfg = cfg or default_cfg()
+    if client is None:
+        # القضيتان 1991 و1997: كاريكاتير الهوك واقتباس المفكر مُرِّر لهما client=None (السيناريو من مسار العناوين لا ينشئ عميلًا)،
+        # فسقطا بـ«'NoneType' object has no attribute 'messages'» في كل ريل منذ دمجهما. كل وحدة كانت تنشئ عميلها بنفسها، ونسيانه
+        # في وحدة جديدة يُسقط ميزتها بصمت؛ فالمنفذ المشترك ينشئه مرة واحدة للعملية
+        client = default_client()
     model = resolve(kwargs.get("model"), cfg)
     kwargs["model"] = model
     params = haiku_params(model, cfg)

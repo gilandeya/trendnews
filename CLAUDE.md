@@ -3946,3 +3946,10 @@ tool_use, questions: 0}` بلا ما يفسّره. محاكاة رد صحيح ع
 - **قبل الاختيار:** `speaker_on_screen` مطلوب في مخطط Gemini (أغفله فعُرض سوليفان)؛ علامة `qa.texts.unheard_mark` («❔ لم يُفحص صوته») على
   ما لم يُفحص حين جرى الفحص؛ و`qa.verify.budget_seconds` 480 و`parallel` 4 و`video_seconds` 240. **لم يُعالَج:** حكم Gemini في التركيب
   المخالف لحكمه في الاستخراج (القائل، الظهور) — يبقى حذفًا لأن نسبة الكلام إلى غير صاحبه أسوأ من نقص إجابة.
+
+## عميل Claude واحد حين لا يُمرَّر (25/11) — `llm.default_client`
+
+الحادثة: كاريكاتير الهوك (`reel_cartoon`) واقتباس المفكر (`reel_quote`) لم يظهرا في أي ريل منذ دمجهما: `reel_script._write_for_draft` يمرّر
+`client=None` (سيناريو مسار العناوين لا ينشئ عميلًا) وكل وحدة قديمة كانت تنشئ عميلها بنفسها، والوحدتان الجديدتان لم تفعلا، فحُفظ
+`{"status": "none", "error": "AttributeError: 'NoneType' object has no attribute 'messages'"}` بصمت. `llm.create(None, ...)` ينشئ الآن عميلًا واحدًا
+للعملية من `ANTHROPIC_API_KEY` (`llm.default_client`)، والعميل الممرَّر يغلب. الاختبار `tests/test_youtube.py:test_llm_default_client_2511`.
