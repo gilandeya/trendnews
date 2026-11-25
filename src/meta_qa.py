@@ -762,7 +762,7 @@ def auto_select(questions: list[dict], bites: list[dict], cfg) -> float:
                     continue
                 # التوجّه الجديد أولًا، ثم القنوات غير العربية (قرار صاحب المشروع 11/11)، ثم الصلة ونوع الكلام
                 # الأم (23/11) أولًا: صداها لا يُعرض بلاها، فاختيار غيرها قبلها يفرّط في السؤال كله
-                cands.sort(key=lambda a: (a.get("echo_role") not in ("primary", "opposing"),
+                cands.sort(key=lambda a: (a.get("echo_role") not in ("primary", "opposing"), a.get("echo_rank", 0),
                                           (bites[a["n"] - 1].get("bloc"), bites[a["n"] - 1].get("orientation")) in orients,
                                           _low_priority(bites[a["n"] - 1], cfg),
                                           *_rank(bites[a["n"] - 1], a["fit"])))
@@ -773,10 +773,17 @@ def auto_select(questions: list[dict], bites: list[dict], cfg) -> float:
                     mid = bites[cands[0]["n"] - 1].get("bite_id")
                     room = budget - total - _sec(bites[cands[0]["n"] - 1])
                     mkey = _speaker_key(bites[cands[0]["n"] - 1])
-                    echoes = [a for a in cands[1:] if a.get("echo_role") == "echo" and a.get("echo_of") == mid
-                              and _speaker_key(bites[a["n"] - 1]) != mkey and _sec(bites[a["n"] - 1]) <= room]
-                    if echoes:
-                        picks.append(echoes[0])
+                    # كل صدى يتسع له السقف لا الأول وحده (25/11: الأم تُعرض بصداها كله، صدى1 وصدى2…)
+                    seen_spk = {mkey}
+                    for a in cands[1:]:
+                        if len(chosen) + len(picks) >= per_q:
+                            break
+                        spk = _speaker_key(bites[a["n"] - 1])
+                        if (a.get("echo_role") == "echo" and a.get("echo_of") == mid and spk not in seen_spk
+                                and _sec(bites[a["n"] - 1]) <= room):
+                            picks.append(a)
+                            seen_spk.add(spk)
+                            room -= _sec(bites[a["n"] - 1])
                 for pick in picks:
                     pick["selected"] = True
                     used.add(pick["n"])
@@ -804,9 +811,11 @@ def _cell(text: str) -> str:
     return " ".join(str(text or "").split()).replace("|", "\\|")
 
 
-def issue_body(topic: dict, data: dict, qa: dict, cfg, full_bites: list | None = None) -> str:
+def issue_body(topic: dict, data: dict, qa: dict, cfg, full_bites: list | None = None,
+               private_questions: list | None = None) -> str:
     """full_bites: المقاطع من الملف الخاص بترجمتها، بترتيب qa["bites"]؛ يُعرض منها سطر الترجمة تحت كل إجابة
-    (قرار صاحب المشروع 5/11: يختار الإجابة مما سيُكتب على الشاشة، ولا مانع من نشره في القضية). الكلام بلغته لا يُعرض."""
+    (قرار صاحب المشروع 5/11: يختار الإجابة مما سيُكتب على الشاشة، ولا مانع من نشره في القضية). الكلام بلغته لا يُعرض.
+    private_questions: أسئلة الملف الخاص بجمل الصدى المترجمة (العام يحمل البنية بلا كلماتها)؛ بلاها يُكتب عنوان الفكرة مكان الجملة."""
     from .meta_topics import topic_body
     t = _texts(cfg)
     head = topic_body(topic, data, cfg).split("\n")
@@ -863,24 +872,39 @@ def issue_body(topic: dict, data: dict, qa: dict, cfg, full_bites: list | None =
         # المربع داخل الجدول قابلًا للنقر، فالمربعات تحت الجدول برقم الصف واسم القائل
         lines += ["", t.get("table_header", "| # | المقولة | القائل | القناة والتوجّه |"), "|:-:|---|---|---|"]
         boxes = []
-        for k, a in enumerate(answers, 1):
+        # الأم وصداها في صف واحد (طلب صاحب المشروع 25/11): تحت مقولة الأم جملة كل صدى بقائله وقناته، والإجابة التي صارت صدى لا
+        # تُعرض صفًّا وحدها؛ الأمهات أولًا بعدد صداها ثم الإجابات العادية. مربع الصدى تحت مربع أمه بعلامته ma فيُقرأ كما كان
+        echo = ((private_questions or [])[qi - 1].get("echo") if private_questions and qi <= len(private_questions)
+                else None) or qu.get("echo") or {}
+        present = {bites[a["n"] - 1].get("bite_id") for a in answers}
+        by_bid = {bites[a["n"] - 1].get("bite_id"): a for a in answers}
+        mine: dict[str, list[dict]] = {}
+        for e in echo.get("echoes") or []:
+            if e.get("of_bite") in present and e.get("bite_id") in present:
+                mine.setdefault(e["of_bite"], []).append(e)
+        masters = [m.get("bite_id") for m in echo.get("masters") or [] if m.get("bite_id") in mine]
+        absorbed = {e["bite_id"] for v in mine.values() for e in v}
+        shown = ([by_bid[b] for b in masters]
+                 + [a for a in answers if bites[a["n"] - 1].get("bite_id") not in absorbed | set(masters)])
+        for k, a in enumerate(shown, 1):
             b = bites[a["n"] - 1]
-            row, who = _bite_row(k, b, a, t, full_bites, a["n"])
+            bid = b.get("bite_id")
+            role = a.get("echo_role") if bid in masters else ""
+            extra = []
+            for j, e in enumerate(mine.get(bid, []) if role else [], 1):
+                eb = bites[by_bid[e["bite_id"]]["n"] - 1]
+                ewho = eb.get("speaker") or eb.get("speaker_original") or t.get("unnamed", "متحدث غير مسمّى")
+                extra.append(t.get("echo_line", "↩️ صدى{j}: «{text}» — {who} ({channel})").format(
+                    j=j, text=" ".join(str(e.get("text_ar") or e.get("label") or "").split()), who=ewho,
+                    channel=eb.get("channel") or ""))
+            row, who = _bite_row(k, b, dict(a, echo_role=role or None), t, full_bites, a["n"], extra)
             lines.append(row)
-            kind = (t.get("types") or {}).get(b.get("type"), b.get("type") or "")
-            weak = " · " + t.get("weak_label", "صلة ضعيفة") if a["fit"] == "weak" else ""
-            # 🎧 = صوت المقطع طابق كلامه المكتوب (meta_verify)؛ ما بلا علامة لم يُفحص (نفد الوقت أو تعطّل) وحارسه التركيب
-            if b.get("heard"):
-                weak += t.get("heard_mark", " · 🎧")
-            elif (qa.get("verify") or {}).get("checked"):
-                # القضيتان 1991 و1997: خمسة مقاطع بلا 🎧 اختيرت فحُذفت في التركيب، وغياب العلامة لا يُلحظ؛ علامة صريحة تقول إنه لم يُفحص
-                weak += t.get("unheard_mark", " · ❔ لم يُفحص صوته")
-            weak += {"primary": t.get("master_box", " · ⭐ أم"), "opposing": t.get("opposing_box", " · 🔶 أم معاكسة"),
-                     "echo": t.get("echo_box", " · ↩️ صدى")}.get(a.get("echo_role") or "", "")
-            boxes.append(f"- [{'x' if a.get('selected') else ' '}] "
-                         + t.get("answer_box", "{k} · {who} · {seconds} ث · {kind}{weak}").format(
-                             k=k, who=who, seconds=_fmt_sec(_sec(b)), kind=kind, weak=weak)
-                         + f" <!-- ma:{qi}:{b['bite_id']} -->")
+            boxes.append(_answer_box(k, qi, b, a, who, role, t, qa))
+            for j, e in enumerate(mine.get(bid, []) if role else [], 1):
+                ea = by_bid[e["bite_id"]]
+                eb = bites[ea["n"] - 1]
+                ewho = eb.get("speaker") or eb.get("speaker_original") or t.get("unnamed", "متحدث غير مسمّى")
+                boxes.append("  " + _answer_box(f"{k}.{j}", qi, eb, ea, ewho, "echo", t, qa, echo_j=j))
         lines += [""] + boxes + [""]
     lines.append(t.get("total_line", "⏱️ مجموع الإجابات المعلَّمة: {seconds} ث من {budget}").format(
         seconds=_fmt_sec(seconds if gone else (qa.get("selected_seconds") or 0)), budget=_fmt_sec(float(_qcfg(cfg).get("max_seconds", 120)))))
@@ -919,8 +943,29 @@ def issue_body(topic: dict, data: dict, qa: dict, cfg, full_bites: list | None =
     return "\n".join(ln for ln in lines if ln is not None)
 
 
-def _bite_row(k: int, b: dict, a: dict, t: dict, full_bites: list | None, n: int) -> tuple[str, str]:
-    """صف جدول مقطع واحد (للإجابات ولمقاطع السياق) واسم قائله."""
+def _answer_box(k, qi: int, b: dict, a: dict, who: str, role: str, t: dict, qa: dict, echo_j: int = 0) -> str:
+    """مربع اختيار إجابة تحت الجدول برقم صفها وقائلها، وعلامته ma يقرؤها read_marks. مربع الصدى برقمه في أمه وقناته."""
+    kind = (t.get("types") or {}).get(b.get("type"), b.get("type") or "")
+    weak = " · " + t.get("weak_label", "صلة ضعيفة") if a.get("fit") == "weak" else ""
+    # 🎧 = صوت المقطع طابق كلامه المكتوب (meta_verify)؛ ما بلا علامة لم يُفحص (نفد الوقت أو تعطّل) وحارسه التركيب
+    if b.get("heard"):
+        weak += t.get("heard_mark", " · 🎧")
+    elif (qa.get("verify") or {}).get("checked"):
+        # القضيتان 1991 و1997: خمسة مقاطع بلا 🎧 اختيرت فحُذفت في التركيب، وغياب العلامة لا يُلحظ؛ علامة صريحة تقول إنه لم يُفحص
+        weak += t.get("unheard_mark", " · ❔ لم يُفحص صوته")
+    if role == "echo":
+        label = t.get("echo_answer_box", "↩️ صدى{j} · {who} · {channel} · {seconds} ث{weak}").format(
+            j=echo_j, who=who, channel=b.get("channel") or "", seconds=_fmt_sec(_sec(b)), weak=weak)
+    else:
+        weak += {"primary": t.get("master_box", " · ⭐ أم"), "opposing": t.get("opposing_box", " · 🔶 أم معاكسة")}.get(role or "", "")
+        label = t.get("answer_box", "{k} · {who} · {seconds} ث · {kind}{weak}").format(
+            k=k, who=who, seconds=_fmt_sec(_sec(b)), kind=kind, weak=weak)
+    return f"- [{'x' if a.get('selected') else ' '}] {label} <!-- ma:{qi}:{b['bite_id']} -->"
+
+
+def _bite_row(k: int, b: dict, a: dict, t: dict, full_bites: list | None, n: int,
+              extra: list | None = None) -> tuple[str, str]:
+    """صف جدول مقطع واحد (للإجابات ولمقاطع السياق) واسم قائله. extra: سطور تُلحق بخلية المقولة (جمل صدى الأم)."""
     who = b.get("speaker") or b.get("speaker_original") or t.get("unnamed", "متحدث غير مسمّى")
     role = t.get("host_label", "مقدّم") if b.get("is_host") else (b.get("speaker_role") or "")
     tr = ((full_bites or [])[n - 1].get("text_ar") or "").strip() if full_bites and n <= len(full_bites) else ""
@@ -931,8 +976,6 @@ def _bite_row(k: int, b: dict, a: dict, t: dict, full_bites: list | None, n: int
         # الأم (23/11) مميَّزة في أول صف وكلامها بالخط العريض؛ جداول GitHub لا تقبل الألوان فالتمييز بالرمز والخط
         mark = t.get("master_mark" if echo_role == "primary" else "opposing_mark", "⭐ **الإجابة الأم**") + "<br>"
         quote = f"**{quote}**"
-    elif echo_role == "echo":
-        mark = t.get("echo_mark", "↩️ يكرر «{idea}»").format(idea=a.get("echo_idea") or "") + "<br>"
     view = ""
     if a.get("view"):
         n_view = int(a.get("view_count") or 1)
@@ -945,7 +988,8 @@ def _bite_row(k: int, b: dict, a: dict, t: dict, full_bites: list | None, n: int
     if b.get("original_of"):
         relay = t.get("original_found", "🔎 الفيديو الأصلي بدل المنقول في {channel}").format(
             channel=(b["original_of"] or {}).get("channel") or "?")
-    row = (f"| {k} | {_cell(mark + view + quote + link)} | {_cell(who)}{'<br><sub>' + _cell(role) + '</sub>' if role else ''} | "
+    tail = "".join("<br>" + x for x in extra or [])
+    row = (f"| {k} | {_cell(mark + view + quote + link + tail)} | {_cell(who)}{'<br><sub>' + _cell(role) + '</sub>' if role else ''} | "
            f"{_cell(b.get('channel') or '')}{'<br><sub>' + _cell(orient) + '</sub>' if orient else ''}"
            f"{'<br><sub>' + _cell(relay) + '</sub>' if relay else ''} |")
     return row, who
@@ -998,7 +1042,8 @@ def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: d
         # الأسئلة حُفظت وتعذّر فتح قضيتها (عطل GitHub): تُفتح من الملف المحفوظ بلا استخراج ثانٍ (نداءات Gemini مدفوعة)
         try:
             priv = json.loads(private_path(topic["id"]).read_text(encoding="utf-8"))
-            if meta_topics.ensure_topic_issue(topic, data, cfg, issue_body(topic, data, qa, cfg, full_bites=priv.get("bites") or [])):
+            if meta_topics.ensure_topic_issue(topic, data, cfg, issue_body(topic, data, qa, cfg, full_bites=priv.get("bites") or [],
+                                                                 private_questions=priv.get("questions"))):
                 notify.say("questions_ready", cfg, topic["topic_issue"], title=topic["title"])
         except Exception as exc:  # noqa: BLE001
             log.warning("تعذّر فتح قضية الموضوع %s: %s", topic.get("id"), str(exc)[:150])
@@ -1121,8 +1166,8 @@ def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: d
         try:
             # القضية تُفتح هنا والأسئلة فيها (طلب صاحب المشروع 16/11)؛ قضية مفتوحة من قبل (إعادة طلب) يُكتب جسمها. إشعار
             # «جاهزة للاختيار» في الصندوق لا تعليقًا في القضية (تعليقها يرسل بريدًا لكل مشترك فيها، ولا شيء فيه لا يقوله الجسم)
-            if not meta_topics.ensure_topic_issue(topic, data, cfg, issue_body(topic, data, qa, cfg, full_bites=kept)):
-                review.update_issue_body(topic["topic_issue"], issue_body(topic, data, qa, cfg, full_bites=kept))
+            if not meta_topics.ensure_topic_issue(topic, data, cfg, issue_body(topic, data, qa, cfg, full_bites=kept, private_questions=questions)):
+                review.update_issue_body(topic["topic_issue"], issue_body(topic, data, qa, cfg, full_bites=kept, private_questions=questions))
             notify.say("questions_ready", cfg, topic["topic_issue"], title=topic["title"])
         except Exception as exc:  # noqa: BLE001 — الأسئلة محفوظة؛ عطل GitHub لا يعيد استخراجها (pending_topics يعيد فتح القضية)
             if topic.get("topic_issue"):

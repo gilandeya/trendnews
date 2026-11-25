@@ -10319,8 +10319,11 @@ def test_meta_echo_2311() -> None:
     body = meta_qa.issue_body(topic, {"date": "2026-11-23"}, qa, cfg, full_bites=bites)
     row1 = next((ln for ln in body.splitlines() if ln.startswith("| 1 |")), "")
     row2 = next((ln for ln in body.splitlines() if ln.startswith("| 2 |")), "")
-    check("2311c: الأم في الصف الأول بعلامتها، والصدى بفكرته",
-          "الإجابة الأم" in row1 and "محلل 1" in row1 and "يكرر «الفكرة الأولى»" in row2, (row1, row2))
+    # الأم وصداها في صف واحد (25/11): جملة كل صدى بقائله وقناته تحت مقولة الأم، والصدى لا يُعرض صفًّا وحده
+    check("2311c: الأم في الصف الأول بعلامتها، وصداها في خليتها بقائله وقناته",
+          "الإجابة الأم" in row1 and "محلل 1" in row1 and "صدى1: «الفكرة الأولى» — محلل 2 (قناة 2)" in row1
+          and "صدى2: «الفكرة الثانية» — محلل 3 (قناة 3)" in row1 and "الأم المعاكسة" in row2
+          and not any(ln.startswith("| 3 |") for ln in body.splitlines()), (row1, row2))
     check("2311c: القراءة كما كانت", meta_qa.read_marks(body)["answers"].get(1) == [f"v{k}:{k}" for k in (1, 2, 3, 5, 4)],
           meta_qa.read_marks(body))
 
@@ -10373,9 +10376,9 @@ def test_meta_echo_2311() -> None:
           [(x["i"], x["role"]) for x in seq or []])
     if seq:
         colors = real.path("reel.render.echo.colors")
-        check("2311f: الأم ذهبية والصدى أخضر ثم أزرق بعمق 1",
+        check("2311f: الأم ذهبية وأول صدى كل فكرة أخضر بعمق 1 من 1",
               seq[0]["color"] == colors["primary"] and seq[1]["color"] == colors["echo"][0]
-              and seq[3]["color"] == colors["echo"][1] and seq[1]["depth"] == 1, seq)
+              and seq[3]["color"] == colors["echo"][0] and seq[1]["depth"] == 1 and seq[1]["of_n"] == 1, seq)
         check("2311f: الفكرة الأولى تنتهي حيث تبدأ الثانية، وإطار الصدى يبقى حتى تعود الأم",
               abs(seq[0]["src1"] - seq[2]["src0"]) < 1e-6 and abs(seq[1]["until"] - seq[2]["start"]) < 1e-6
               and abs(seq[0]["until"] - seq[2]["start"]) < 1e-6, seq)
@@ -10426,18 +10429,18 @@ def test_meta_echo_2311() -> None:
         dur = reel_render._echo_scene(seq, members, clips, out, rcfg, deps, tmpd, {}, notes)
         W, H = int(rcfg.path("reel.render.width")), int(rcfg.path("reel.render.height"))
         fx, fy, fw, fh = reel_render.panel_layout(1, rcfg)["frame"]
-        dx = int(rcfg.path("reel.render.echo.offset.dx"))
+        ex, ey, ew, eh = reel_render.echo_geometry((fx, fy, fw, fh), 1, 1, rcfg)
 
         def px(t, x, y):
             raw = subprocess.run([exe, "-v", "error", "-ss", f"{t:.3f}", "-i", str(out), "-frames:v", "1", "-f", "rawvideo",
                                   "-pix_fmt", "rgb24", "-"], capture_output=True, check=True).stdout
             return np.frombuffer(raw, np.uint8).reshape(H, W, 3).astype(int)[y, x]
-        x, y = fx - dx + 12, fy + fh // 2
+        x, y = ex + ew // 2, ey + eh // 2
         during = px((seq[1]["start"] + seq[1]["until"]) / 2, x, y)
         after = px(seq[2]["start"] + 0.3, x, y)
         mid = px(seq[2]["start"] + 0.3, fx + fw // 2, fy + fh // 2)
         check("2311g: مدة المشهد مجموع القطع", abs(reel_render.probe_duration(out) - dur) < 0.4, dur)
-        check("2311g: أثناء الصدى إطاره الأزرق أسفل الأم ويسارها", during[2] > 150 and during[0] < 100, during.tolist())
+        check("2311g: أثناء الصدى نافذته الزرقاء فوق الأم", during[2] > 150 and during[0] < 100, during.tolist())
         check("2311g: حين تعود الأم يختفي الصدى وتبقى الأم حمراء", after[2] < 120 and mid[0] > 150, (after.tolist(), mid.tolist()))
         check("2311g: سطر التعليق", any("الأم" in n for n in notes), notes)
     finally:
@@ -11064,6 +11067,102 @@ def test_llm_default_client_2511() -> None:
     from src import reel_cartoon, reel_quote
     check("2511: نقطتا نداء الكاريكاتير والاقتباس تمرّان بـllm.create",
           "llm.create(client" in inspect.getsource(reel_cartoon) and "llm.create(client" in inspect.getsource(reel_quote))
+
+
+def test_meta_echo_masters_2511() -> None:
+    """طلب صاحب المشروع 25/11: أمهات عدة في السؤال ما دام لكل منها صدى، مرتّبة بعدد صداها؛ الصدى جملته وحدها؛ في قضية الأسئلة الأم
+    وصداها في صف واحد (جملة كل صدى بقائله وقناته) ولا يُعرض الصدى صفًّا وحده؛ وفي الريل نوافذ الصدى أصغر من الأم بـ5% لكل صدى
+    ومزاحة 5% أسفل ويسارًا فتلتقي زاوية آخرها السفلى اليسرى بزاوية الأم."""
+    import copy
+    from types import SimpleNamespace as NS
+
+    from src import meta_echo, meta_qa, reel_render
+    from src.config import load_config as real_load
+    real = real_load()
+    check("2511m: config.yaml يسمح بأمهات عدة ويصغّر الصدى 5% لكل نافذة",
+          real.path("youtube.meta_topics.qa.echo.max_masters") >= 3
+          and real.path("reel.render.echo.shrink_step") == 0.05 and real.path("reel.render.version") >= 91)
+    cfg = copy.deepcopy(load_config())
+    cfg["youtube"]["meta_topics"]["qa"]["echo"] = copy.deepcopy(real.path("youtube.meta_topics.qa.echo"))
+    cfg["youtube"]["meta_topics"]["qa"]["texts"] = copy.deepcopy(real.path("youtube.meta_topics.qa.texts"))
+
+    def bite(n, words):
+        return {"bite_id": f"v{n}:{n}", "video_id": f"v{n}", "channel": f"قناة {n}", "bloc": "arabic", "orientation": "عام",
+                "speaker": f"محلل {n}", "type": "opinion", "start": 0, "end": 10, "language": "ar",
+                "text_original": words, "text_ar": words}
+    bites = [bite(1, "ألف باء جيم دال هاء"), bite(2, "سين ألف باء صاد"), bite(3, "كاف لام ميم نون"),
+             bite(4, "عين كاف لام"), bite(5, "لام ميم فاء"), bite(6, "قاف راء")]
+
+    def sp(idea, first, last):
+        return {"idea": idea, "first_words": first, "last_words": last}
+    reply = {"questions": [{"q": 1, "ideas": [{"id": 1, "label": "فكرة أولى", "side": "a"},
+                                              {"id": 2, "label": "فكرة ثانية", "side": "a"},
+                                              {"id": 3, "label": "فكرة وحيدة", "side": "a"}],
+                            "answers": [{"n": 1, "side": "a", "spans": [sp(1, "ألف", "جيم")]},
+                                        {"n": 2, "side": "a", "spans": [sp(1, "ألف", "باء")]},
+                                        {"n": 3, "side": "a", "spans": [sp(2, "كاف", "نون")]},
+                                        {"n": 4, "side": "a", "spans": [sp(2, "كاف", "لام")]},
+                                        {"n": 5, "side": "a", "spans": [sp(2, "لام", "ميم")]},
+                                        {"n": 6, "side": "a", "spans": [sp(3, "قاف", "راء")]}]}]}
+    old = meta_echo._create
+    meta_echo._create = lambda client, **kw: NS(stop_reason="tool_use",
+                                                content=[NS(type="tool_use", name="plan_echoes", input=reply)])
+    try:
+        qs = [{"text": "س؟", "answers": [{"n": k, "fit": "direct"} for k in range(1, 7)]}]
+        meta_echo.apply(qs, bites, cfg, None, {})
+        st = qs[0]["echo"]
+        check("2511m: أمّان لكلٍّ منهما صدى، الأكثر صدى أولًا",
+              [m["n"] for m in st["masters"]] == [3, 1] and [m["echo_count"] for m in st["masters"]] == [2, 1], st["masters"])
+        check("2511m: الصدى جملته وحدها لا إجابته كلها",
+              {e["n"]: e["sub_original"] for e in st["echoes"]} == {4: "كاف لام", 5: "لام ميم", 2: "ألف باء"}, st["echoes"])
+        check("2511m: الترتيب كل أم ثم صداها ثم العادية",
+              [a["n"] for a in qs[0]["answers"]] == [3, 4, 5, 1, 2, 6], [a["n"] for a in qs[0]["answers"]])
+        one = copy.deepcopy(cfg)
+        one["youtube"]["meta_topics"]["qa"]["echo"]["max_masters"] = 1
+        q1 = [{"text": "س؟", "answers": [{"n": k, "fit": "direct"} for k in range(1, 7)]}]
+        meta_echo.apply(q1, bites, one, None, {})
+        check("2511m: max_masters يقصر عدد الأمهات", [m["n"] for m in q1[0]["echo"]["masters"]] == [3])
+    finally:
+        meta_echo._create = old
+
+    # القضية: الأم وصداها في صف واحد، الأمهات أولًا، والصدى بلا صف؛ مربعه تحت مربع أمه
+    meta_qa.auto_select(qs, bites, cfg)
+    qa = {"titles": ["ع؟"], "questions": [meta_echo.public_question(q) for q in qs],
+          "bites": [meta_qa.public_bite(b) for b in bites], "selected_seconds": 60}
+    topic = {"id": "t25", "title": "حدث", "blocs": ["arabic"], "orientations": 1, "minutes": 5, "channels": [], "videos": []}
+    body = meta_qa.issue_body(topic, {"date": "2026-11-25"}, qa, cfg, full_bites=bites, private_questions=qs)
+    rows = [ln for ln in body.splitlines() if ln.startswith("| ") and ln[2].isdigit()]
+    check("2511n: ثلاثة صفوف: أمّان ثم العادية",
+          len(rows) == 3 and "محلل 3" in rows[0] and "محلل 1" in rows[1] and "محلل 6" in rows[2], rows)
+    check("2511n: جملة كل صدى بقائله وقناته في خلية أمه",
+          "صدى1: «كاف لام» — محلل 4 (قناة 4)" in rows[0] and "صدى2: «لام ميم» — محلل 5 (قناة 5)" in rows[0]
+          and "صدى1: «ألف باء» — محلل 2 (قناة 2)" in rows[1], rows[:2])
+    lines = body.splitlines()
+    i3 = next(k for k, ln in enumerate(lines) if "ma:1:v3:3" in ln)
+    check("2511n: مربعا الصدى تحت مربع أمه مزاحين",
+          lines[i3 + 1].startswith("  - [") and "ma:1:v4:4" in lines[i3 + 1] and "صدى1" in lines[i3 + 1]
+          and "ma:1:v5:5" in lines[i3 + 2], lines[i3:i3 + 3])
+    marks = meta_qa.read_marks(body.replace("- [ ]", "- [x]"))
+    check("2511n: القراءة تعرف كل إجابة بما فيها الصدى",
+          sorted(marks["answers"].get(1) or []) == sorted(f"v{k}:{k}" for k in range(1, 7)), marks)
+    check("2511o: الاختيار الآلي يعلّم صدى الأم كله",
+          all(a["selected"] for a in qs[0]["answers"] if a["n"] in (3, 4, 5)), [(a["n"], a["selected"]) for a in qs[0]["answers"]])
+
+    # الريل: هندسة نوافذ الصدى
+    rcfg = copy.deepcopy(cfg)
+    rcfg["reel"]["render"]["echo"] = copy.deepcopy(real.path("reel.render.echo"))
+    fr = (100, 200, 800, 1000)
+    g = reel_render.echo_geometry
+    check("2511p: الأم في إطارها كاملًا", g(fr, 0, 2, rcfg) == fr)
+    x, y, w, h = g(fr, 1, 1, rcfg)
+    check("2511p: صدى واحد أصغر 5% وزاويته السفلى اليسرى على زاوية الأم",
+          (w, h) == (760, 950) and x == 100 and y + h == 1200, (x, y, w, h))
+    x1, y1, w1, h1 = g(fr, 1, 2, rcfg)
+    x2, y2, w2, h2 = g(fr, 2, 2, rcfg)
+    check("2511p: صديان أصغر 10%، الأول مزاح 5% أسفل ويسارًا والثاني على زاوية الأم",
+          (w1, h1) == (720, 900) and x1 + w1 == 860 and y1 == 250 and (x2, y2 + h2) == (100, 1200), ((x1, y1), (x2, y2)))
+    x3, y3, w3, h3 = g(fr, 1, 3, rcfg)
+    check("2511p: ثلاثة أصداء أصغر 15%", (w3, h3) == (680, 850) and x3 + w3 == 860, (x3, y3, w3, h3))
 
 
 def test_meta_echo_pair_2511() -> None:

@@ -520,7 +520,8 @@ def reopen_after_render(path, draft: dict, dropped: list, cfg) -> dict | None:
     store.update_draft(path, status="superseded", superseded_reason="render_failed_reselect",
                        superseded_at=datetime.now(timezone.utc).isoformat())
     number = int(topic["topic_issue"])
-    review.update_issue_body(number, meta_qa.issue_body(topic, data, qa, cfg, full_bites=priv.get("bites") or []))
+    review.update_issue_body(number, meta_qa.issue_body(topic, data, qa, cfg, full_bites=priv.get("bites") or [],
+                                                         private_questions=priv.get("questions")))
     try:
         if review.issue_state(number) == "closed":
             review.reopen_issue(number)
