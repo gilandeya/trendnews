@@ -259,7 +259,719 @@
     }
    ],
    "qa_requested_at": "2026-11-25T07:02:37.840391+00:00",
-   "selected_from": 2000
+   "selected_from": 2000,
+   "topic_issue": 2005,
+   "qa": {
+    "attempts": 1,
+    "at": "2026-11-25T07:04:35.465112+00:00",
+    "videos": [
+     {
+      "video_id": "dWkVNzSg8VE",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "minutes": 48.7,
+      "bites": 14,
+      "rejected": 0
+     },
+     {
+      "video_id": "wQvzYQJXPLQ",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "minutes": 10.5,
+      "bites": 6,
+      "rejected": 0
+     },
+     {
+      "video_id": "aSPQjV6tFio",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "minutes": 10.4,
+      "bites": 13,
+      "rejected": 0
+     },
+     {
+      "video_id": "tDd9FHrUqzQ",
+      "channel": "DW News",
+      "bloc": "english",
+      "minutes": 8.8,
+      "bites": 6,
+      "rejected": 0
+     },
+     {
+      "video_id": "LJu77ZNulXc",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "minutes": 10.3,
+      "bites": 4,
+      "rejected": 0
+     },
+     {
+      "video_id": "essOr1CrZ4U",
+      "channel": "TVBS新聞",
+      "bloc": "chinese",
+      "minutes": 22.8,
+      "bites": 2,
+      "rejected": 0
+     },
+     {
+      "video_id": "9VXR_bmJ1PQ",
+      "channel": "BBC Persian",
+      "bloc": "persian",
+      "minutes": 6.7,
+      "bites": 6,
+      "rejected": 0
+     }
+    ],
+    "video_scores": {
+     "wPCnTXo4gAk": 2,
+     "9VXR_bmJ1PQ": 1,
+     "UenfPwO_8_Y": 1,
+     "wQvzYQJXPLQ": 3,
+     "tDd9FHrUqzQ": 3,
+     "aSPQjV6tFio": 3,
+     "dD-qtR9wLHw": 2,
+     "xz8svAOUPKk": 1,
+     "LJu77ZNulXc": 2,
+     "essOr1CrZ4U": 1,
+     "IqhAvjuBwqY": 1,
+     "tPsvWpfTIwg": 1,
+     "U307j_p1Qcs": 1,
+     "pS6nJzmFEZU": 3,
+     "N8bQDGukSYs": 3,
+     "kUfRnEqNLGI": 3,
+     "w4AKe6qyIPo": 3,
+     "-6jE0LVuavo": 2,
+     "vD-FOtOXnf0": 3,
+     "jNJu1OpJCKA": 2,
+     "dWkVNzSg8VE": 3,
+     "gNK3fR72L_M": 2,
+     "LoCfbDAjg30": 2,
+     "LNFWdDznSqk": 3,
+     "0M78iLRG-hA": 3,
+     "vzWw0ezWaNo": 2,
+     "LB5aH7kEfCY": 2,
+     "wxwjUI6FD4g": 3,
+     "JaIuH0JGjcI": 3,
+     "eFYuRi_LmPY": 3,
+     "LypzxcwcPyc": 3,
+     "iO6O9HDSXNw": 1
+    },
+    "gemini_cost": 0.6677,
+    "gemini_rejected": 0,
+    "channels": 7,
+    "answer_channels": 7,
+    "originals": [
+     {
+      "bite_id": "aSPQjV6tFio:g32",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "Володимир Зеленський заява атака морські дрони фрегат Меркурій",
+       "Zelensky naval drones Russian frigate Mercury sunk Libya",
+       "Зеленський звернення морські дрони Ангара Меркурій",
+       "Volodymyr Zelensky"
+      ],
+      "candidate": "r-JzzcG6zII",
+      "candidates": [
+       "XYzeI4xtyzc",
+       "MbZqWp6IOOo",
+       "r-JzzcG6zII"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "essOr1CrZ4U:g890",
+      "source_channel": "Bloomberg",
+      "found": false,
+      "queries": [
+       "Jill Dougherty Georgetown Ukraine attack Russian ships Libya",
+       "Jill Dougherty interview Ukraine Russia ships Libya Georgetown",
+       "Jill Dougherty Bloomberg",
+       "Jill Dougherty"
+      ],
+      "reason": "لا مرشّح من قناة المصدر"
+     },
+     {
+      "bite_id": "dWkVNzSg8VE:g382",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "Володимир Зеленський відповідь Росії Лівія судна виступ",
+       "Zelensky Libya Russian ships sunk speech",
+       "Зеленський звернення удар по російських кораблях Лівія",
+       "Volodymyr Zelenskyy"
+      ],
+      "candidate": "9cZRfewu1AY",
+      "candidates": [
+       "XFdO9JOluL0",
+       "DlpAOJL7xec",
+       "9cZRfewu1AY"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     }
+    ],
+    "originals_found": 0,
+    "read_dropped": 1,
+    "read_dropped_speakers": [
+     "فلاديمير زيلينسكي"
+    ],
+    "source": "gemini",
+    "failures": [],
+    "plan": {
+     "attempts": [
+      {
+       "model": "claude-sonnet-5",
+       "stop_reason": "tool_use",
+       "bites": 48,
+       "rows": 5,
+       "raw_type": "list",
+       "answers": 24,
+       "bad_n": 0,
+       "error": ""
+      }
+     ]
+    },
+    "verify": {
+     "checked": 26,
+     "ok": 18,
+     "no_match": 0,
+     "failed": 8,
+     "no_text": 0,
+     "left": 0,
+     "audio_seconds": 1022,
+     "skipped": "",
+     "cut_off": 2,
+     "seconds": 241
+    },
+    "capped": 9,
+    "echo": {
+     "stop_reason": "tool_use",
+     "rows": 3,
+     "questions": 0,
+     "per_question": [
+      {
+       "q": 1,
+       "rejected": {
+        "not_verbatim": 6
+       },
+       "spans": 0,
+       "answers": 0,
+       "reason": "no_spans"
+      },
+      {
+       "q": 3,
+       "rejected": {
+        "not_verbatim": 4
+       },
+       "spans": 0,
+       "answers": 0,
+       "reason": "no_spans"
+      },
+      {
+       "q": 4,
+       "rejected": {
+        "not_verbatim": 4
+       },
+       "spans": 0,
+       "answers": 0,
+       "reason": "no_spans"
+      }
+     ]
+    },
+    "selected_seconds": 114.4,
+    "status": "ready",
+    "titles": [
+     "لماذا اختارت أوكرانيا ميناء بنغازي الليبي لضرب السفن الروسية؟",
+     "هل يحمل هجوم بنغازي اليونان مسؤولية قانونية أمام روسيا؟",
+     "كيف يعيد هجوم المسيرات البحرية في ليبيا رسم قواعد الحرب؟"
+    ],
+    "questions": [
+     {
+      "text": "لماذا اختارت أوكرانيا استهداف السفن الروسية في ميناء بنغازي تحديدًا؟",
+      "answers": [
+       {
+        "n": 12,
+        "fit": "direct",
+        "view": "قطع إمداد المرتزقة في إفريقيا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "tDd9FHrUqzQ:g246"
+       },
+       {
+        "n": 9,
+        "fit": "direct",
+        "view": "استهداف منصة دعم الساحل الإفريقي",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "aSPQjV6tFio:g254"
+       },
+       {
+        "n": 15,
+        "fit": "direct",
+        "view": "ليبيا بديل سوريا لروسيا",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "9VXR_bmJ1PQ:g1343"
+       },
+       {
+        "n": 1,
+        "fit": "direct",
+        "view": "بنغازي بديل طرطوس للروس",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "dWkVNzSg8VE:g572"
+       },
+       {
+        "n": 2,
+        "fit": "direct",
+        "view": "ضرب قاعدة النفوذ الروسي الإفريقي",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "dWkVNzSg8VE:g906"
+       }
+      ]
+     },
+     {
+      "text": "هل تورطت اليونان في الهجوم وما تبعات ذلك قانونيًا على روسيا؟",
+      "answers": [
+       {
+        "n": 6,
+        "fit": "direct",
+        "view": "تورط اليونان يمنح روسيا حق الرد",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "wQvzYQJXPLQ:g127"
+       },
+       {
+        "n": 7,
+        "fit": "direct",
+        "view": "روسيا قد تعاقب اليونان بقسوة",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "wQvzYQJXPLQ:g613"
+       }
+      ]
+     },
+     {
+      "text": "من أين انطلقت الزوارق المسيرة التي ضربت السفن الروسية؟",
+      "answers": [
+       {
+        "n": 11,
+        "fit": "direct",
+        "view": "قاعدتا مصراتة والزاوية الليبيتان",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "aSPQjV6tFio:g332"
+       },
+       {
+        "n": 4,
+        "fit": "direct",
+        "view": "سفينة أم بالمياه الدولية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "dWkVNzSg8VE:g1426"
+       },
+       {
+        "n": 3,
+        "fit": "weak",
+        "view": "توجيه استخباراتي محلي وستارلينك",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "dWkVNzSg8VE:g1202"
+       }
+      ]
+     },
+     {
+      "text": "هل يمثل هجوم بنغازي تصعيدًا ينقل الحرب الأوكرانية الروسية إلى ليبيا؟",
+      "answers": [
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "ليبيا قد تصبح ساحة حرب بالوكالة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "aSPQjV6tFio:g118"
+       },
+       {
+        "n": 14,
+        "fit": "direct",
+        "view": "اتساع جغرافي هائل للصراع",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "essOr1CrZ4U:g890"
+       },
+       {
+        "n": 13,
+        "fit": "weak",
+        "view": "حوادث منفردة لا توسع شامل",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "tDd9FHrUqzQ:g584"
+       },
+       {
+        "n": 5,
+        "fit": "direct",
+        "view": "اتساع رقعة الحرب عالميًا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "dWkVNzSg8VE:g2884"
+       }
+      ]
+     },
+     {
+      "text": "لماذا تحالفت حكومة طرابلس مع أوكرانيا ضد النفوذ الروسي؟",
+      "answers": [
+       {
+        "n": 10,
+        "fit": "direct",
+        "view": "تحالف مصالح لإضعاف حفتر",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "aSPQjV6tFio:g281"
+       }
+      ]
+     }
+    ],
+    "context": [
+     {
+      "n": 16,
+      "selected": true,
+      "bite_id": "essOr1CrZ4U:g852"
+     }
+    ],
+    "bites": [
+     {
+      "bite_id": "dWkVNzSg8VE:g572",
+      "video_id": "dWkVNzSg8VE",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "رياض قهوجي",
+      "speaker_original": "Riad Kahwaji",
+      "speaker_role": "مستشار العربية للشؤون العسكرية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 572.0,
+      "end": 605.0,
+      "summary_ar": "رياض قهوجي يوضح أن ميناء بنغازي بات من الملاذات النادرة المتبقية للسفن الحربية الروسية في المتوسط بعد تراجع وجودها في طرطوس السورية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "dWkVNzSg8VE:g906",
+      "video_id": "dWkVNzSg8VE",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "عقيل عباس",
+      "speaker_original": "Aqeel Abbas",
+      "speaker_role": "باحث وخبير سياسي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 906.0,
+      "end": 937.0,
+      "summary_ar": "عقيل عباس يرى أن ضرب ميناء بنغازي يمثل استهدافاً لقاعدة النفوذ الروسي في إفريقيا وخدمة غير مباشرة للمصالح الأمريكية والفرنسية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "dWkVNzSg8VE:g1202",
+      "video_id": "dWkVNzSg8VE",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "عبد الجليل مسعي",
+      "speaker_original": "Abdeljalil Messaai",
+      "speaker_role": "صحفي في شبكة العربية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1202.0,
+      "end": 1225.0,
+      "summary_ar": "عبد الجليل مسعي يؤكد استحالة تنفيذ الهجوم البحري الأوكراني عن بُعد في المتوسط دون دعم أقمار صناعية كستارلينك وتوجيه استخباراتي محلي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "dWkVNzSg8VE:g1426",
+      "video_id": "dWkVNzSg8VE",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "رياض قهوجي",
+      "speaker_original": "Riad Kahwaji",
+      "speaker_role": "مستشار العربية للشؤون العسكرية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1426.0,
+      "end": 1454.0,
+      "summary_ar": "رياض قهوجي يرجح إطلاق الزوارق المسيرة من سفينة أم في المياه الدولية بالتعاون بين جهات غربية والاستخبارات الأوكرانية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "dWkVNzSg8VE:g2884",
+      "video_id": "dWkVNzSg8VE",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "رياض قهوجي",
+      "speaker_original": "Riad Kahwaji",
+      "speaker_role": "مستشار العربية للشؤون العسكرية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2884.0,
+      "end": 2905.0,
+      "summary_ar": "رياض قهوجي يؤكد أن الهجوم يثبت اتساع رقعة الحرب، ويسجل سابقة خسارة دولة كبرى سفناً حربية أمام طرف يفتقر لأسطول بحري.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "wQvzYQJXPLQ:g127",
+      "video_id": "wQvzYQJXPLQ",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "أوفوق نجات تاشتشي",
+      "speaker_original": "Ufuk Necat Taşçı",
+      "speaker_role": "أكاديمي تركي بجامعة 18 مارت تشاناق قلعة",
+      "is_host": false,
+      "type": "forecast",
+      "start": 127.34,
+      "end": 162.84,
+      "summary_ar": "يرجح أن انطلاق الهجوم على بنغازي عبر المياه اليونانية يمنح روسيا حق الدفاع الشرعي ويوسع الصراع إلى ليبيا وشرق المتوسط.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "wQvzYQJXPLQ:g613",
+      "video_id": "wQvzYQJXPLQ",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "محمد بردي بيك",
+      "speaker_original": "Muhammed Berdibek",
+      "speaker_role": "خبير تركي في العلاقات الدولية",
+      "is_host": false,
+      "type": "forecast",
+      "start": 611.88,
+      "end": 630.24,
+      "summary_ar": "يتوقع أن تلجأ روسيا إلى معاقبة اليونان بقسوة بدعوى الدفاع عن النفس إذا ثبت تورطها متجاهلة القانون الدولي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "aSPQjV6tFio:g118",
+      "video_id": "aSPQjV6tFio",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "orientation": "فرنسي حكومي",
+      "speaker": "عماد الدين بادي",
+      "speaker_original": "Emadeddin Badi",
+      "speaker_role": "محلل نزاعات وباحث مشارك في تشاتام هاوس",
+      "is_host": false,
+      "type": "opinion",
+      "start": 118.02,
+      "end": 151.06,
+      "summary_ar": "عماد الدين بادي يرى أن الهجوم الأوكراني على ميناء بنغازي يشكل تصعيدًا جديدًا قد يحول ليبيا إلى ساحة حرب بالوكالة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "aSPQjV6tFio:g254",
+      "video_id": "aSPQjV6tFio",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "orientation": "فرنسي حكومي",
+      "speaker": "عماد الدين بادي",
+      "speaker_original": "Emadeddin Badi",
+      "speaker_role": "محلل نزاعات وباحث مشارك في تشاتام هاوس",
+      "is_host": false,
+      "type": "opinion",
+      "start": 253.84,
+      "end": 280.22,
+      "summary_ar": "عماد الدين بادي يرى أن ليبيا تمثل نقطة انطلاق مثالية لأوكرانيا لاستهداف خطوط الإمداد الروسية نحو منطقة الساحل الإفريقي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "aSPQjV6tFio:g281",
+      "video_id": "aSPQjV6tFio",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "orientation": "فرنسي حكومي",
+      "speaker": "عماد الدين بادي",
+      "speaker_original": "Emadeddin Badi",
+      "speaker_role": "محلل نزاعات وباحث مشارك في تشاتام هاوس",
+      "is_host": false,
+      "type": "opinion",
+      "start": 279.58,
+      "end": 320.0,
+      "summary_ar": "عماد الدين بادي يوضح الدوافع المشتركة للتعاون العسكري بين حكومة غرب ليبيا وأوكرانيا ضد النفوذ الروسي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "aSPQjV6tFio:g332",
+      "video_id": "aSPQjV6tFio",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "orientation": "فرنسي حكومي",
+      "speaker": "عماد الدين بادي",
+      "speaker_original": "Emadeddin Badi",
+      "speaker_role": "محلل نزاعات وباحث مشارك في تشاتام هاوس",
+      "is_host": false,
+      "type": "fact",
+      "start": 331.88,
+      "end": 368.92,
+      "summary_ar": "عماد الدين بادي يتحدث عن الفرضيات المتداولة حول القواعد التي انطلقت منها المسيرات الأوكرانية لضرب بنغازي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "tDd9FHrUqzQ:g246",
+      "video_id": "tDd9FHrUqzQ",
+      "channel": "DW News",
+      "bloc": "english",
+      "orientation": "ألماني حكومي",
+      "speaker": "رومان غونتشارينكو",
+      "speaker_original": "Roman Goncharenko",
+      "speaker_role": "محلل شؤون أوروبا الشرقية في دويتشه فيله",
+      "is_host": false,
+      "type": "fact",
+      "start": 247.34,
+      "end": 271.66,
+      "summary_ar": "يبين أن أوكرانيا تستهدف تعطيل مسار إمداد روسيا لمرتزقتها وقواتها في إفريقيا عبر ميناء بنغازي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "tDd9FHrUqzQ:g584",
+      "video_id": "tDd9FHrUqzQ",
+      "channel": "DW News",
+      "bloc": "english",
+      "orientation": "ألماني حكومي",
+      "speaker": "إليزابيث براو",
+      "speaker_original": "Elisabeth Braw",
+      "speaker_role": "زميلة أقدم في المجلس الأطلسي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 584.36,
+      "end": 613.34,
+      "summary_ar": "ترى أن الهجمات البحرية الأخيرة في ليبيا وفنلندا حوادث منفردة تستهدف سفنًا حاسمة للمجهود الحربي الروسي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "essOr1CrZ4U:g890",
+      "video_id": "essOr1CrZ4U",
+      "channel": "TVBS新聞",
+      "bloc": "chinese",
+      "orientation": "تايواني",
+      "speaker": "جيل دوغرتي",
+      "speaker_original": "Jill Dougherty",
+      "speaker_role": "باحثة مشاركة في جامعة جورجتاون الأمريكية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 890.0,
+      "end": 920.0,
+      "summary_ar": "أكدت الباحثة في جامعة جورجتاون الأمريكية جيل دوغرتي أن استهداف السفن الروسية في بنغازي يعكس اتساعًا جغرافيًا هائلًا لرقعة الصراع.",
+      "setting": "other_channel",
+      "source_channel": "Bloomberg",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "9VXR_bmJ1PQ:g1343",
+      "video_id": "9VXR_bmJ1PQ",
+      "channel": "BBC Persian",
+      "bloc": "persian",
+      "orientation": "بريطاني عام",
+      "speaker": "عرفان نوربخش",
+      "speaker_original": "عرفان نوربخش",
+      "speaker_role": "محلل في الشؤون الروسية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1343.08,
+      "end": 1377.2,
+      "summary_ar": "يرى المحلل السياسي عرفان نوربخش أن ليبيا باتت بديلاً استراتيجياً لسوريا وقاعدة لانطلاق عمليات روسيا ومجموعة فاغنر في إفريقيا.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "essOr1CrZ4U:g852",
+      "video_id": "essOr1CrZ4U",
+      "channel": "TVBS新聞",
+      "bloc": "chinese",
+      "orientation": "تايواني",
+      "speaker": "فولوديمير زيلينسكي",
+      "speaker_original": "Volodymyr Zelensky",
+      "speaker_role": "الرئيس الأوكراني",
+      "is_host": false,
+      "type": "fact",
+      "start": 852.0,
+      "end": 866.0,
+      "summary_ar": "أعلن الرئيس الأوكراني فولوديمير زيلينسكي أن روسيا بدأت تشعر بالرد الأوكراني الممتد من سيبيريا حتى سواحل ليبيا حيث تغرق سفنها الحربية.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     }
+    ],
+    "error": "",
+    "extracted": 48,
+    "cost": {
+     "claude": {
+      "claude-haiku-5-5": 0.00185,
+      "claude-sonnet-5": 0.10226
+     },
+     "gemini": 0.6677,
+     "proxy_bytes": 24523219
+    }
+   }
   },
   {
    "id": "8e9616b558f4",
