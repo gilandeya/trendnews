@@ -11011,3 +11011,48 @@ def test_meta_echo_pair_2511() -> None:
         meta_script._create = saved
     check("2511d: تنبيه الأم بلا صدى يسمّيها", any(w.startswith("⭐") and "كسرى" in w for w in info.get("warnings", [])),
           info.get("warnings"))
+
+
+def test_reel_map_tour_2511() -> None:
+    """ريل 5d767581bd5e (25/11): «فرضت الولايات المتحدة حصارًا بحريًا على إيران» — دولتان لا يسعهما إطار عمودي واحد فوقعت اللقطة
+    على الأطلسي وظهر طرف الولايات المتحدة وحده. ما لا يسعه إطار تزوره الكاميرا بترتيب ذكره، والولايات المتحدة في وسط الشاشة أولًا."""
+    import inspect
+    import math
+    import tempfile
+    from pathlib import Path
+    from src import reel_map, reel_render
+    cfg = load_config()
+    sent = "فرضت الولايات المتحدة حصارًا بحريًا على إيران أوقف تصدير النفط واستيراد القمح منذ أشهر."
+    res, why = reel_map.resolve({"countries": ["إيران", "الولايات المتحدة"]}, sent, cfg)
+    check("2511m-a: الدولتان محلولتان", res is not None and set(res["countries"]) == {"USA", "IRN"}, (res, why))
+    tr = reel_map.tour(res, 6.0, cfg, sent)
+    check("2511m-b: جولة بمجموعتين بترتيب الذكر لا بترتيب الخطة",
+          tr is not None and [g["countries"] for g in tr["groups"]] == [["USA"], ["IRN"]], tr and tr["groups"])
+    a, b = tr["moves"][0]
+    at_iran = tr["groups"][1]["at"] * 6.0 * 0.9
+    check("2511m-c: الانتقال قرب لحظة نطق إيران وبعد بقاء الأولى", 0.8 <= a < at_iran < b + 0.6 and b <= 6.0, (a, b, at_iran))
+    W = int(cfg.path("reel.render.width"))
+    g = reel_map.gazetteer(cfg)
+
+    def on_screen(code, t):
+        x, _ = reel_map._project(*reel_map.merc(*g.countries[code]["label"]), reel_map.tour_cam(tr, t), 1.0)
+        return 0 < x < W
+    check("2511m-d: الولايات المتحدة في الشاشة أولًا وإيران في آخر الجملة",
+          on_screen("USA", 0.5) and not on_screen("IRN", 0.5) and on_screen("IRN", 5.8))
+    mid = reel_map.tour_cam(tr, (a + b) / 2)
+    check("2511m-e: تبتعد في منتصف الانتقال", mid["s"] < 0.9 * math.sqrt(tr["cams"][0]["s"] * tr["cams"][1]["s"]), mid["s"])
+    near, _ = reel_map.resolve({"places": ["طهران"], "countries": ["إيران"]}, "وفي طهران عاصمة إيران قرار جديد", cfg)
+    check("2511m-f: ما يسعه إطار واحد بلا جولة", reel_map.tour(near, 5.0, cfg, "وفي طهران عاصمة إيران قرار جديد") is None)
+    off = load_config()
+    off["reel"]["maps"]["tour"] = {**off["reel"]["maps"]["tour"], "enabled": False}
+    check("2511m-g: tour مطفأة ← إطار واحد كما كان", reel_map.tour(res, 6.0, off, sent) is None)
+    small = load_config()
+    small["reel"]["maps"]["fps"] = 2
+    small["reel"]["maps"]["tour"] = {**small["reel"]["maps"]["tour"], "max_base_px": 1_500_000}
+    with tempfile.TemporaryDirectory() as d:
+        fr = reel_map.render(res, 4.0, small, Path(d), "t", sentence=sent)
+        check("2511m-h: الرسم يعمل بالجولة وإطاراته بمقاس الشاشة",
+              len(fr) >= 8 and all(p.exists() for p, _ in fr), len(fr))
+    check("2511m-i: التركيب يمرّر نص الجملة", "sentence=texts[k]" in inspect.getsource(reel_render._prepare_maps))
+    check("2511m-j: render_version 87 فأكثر", cfg.path("reel.render.version") >= 87 or
+          __import__("src.config", fromlist=["load_config"]).load_config().path("reel.render.version") >= 87)
