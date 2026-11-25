@@ -6840,7 +6840,7 @@ def _prepare_maps(script: dict, nar_idx: list[int], speech_cache: dict, plan: li
                 results.append(rec)
                 continue
             try:
-                frames = reel_map.render(resolved, b - a, cfg, tmp, f"{i}_{k}")
+                frames = reel_map.render(resolved, b - a, cfg, tmp, f"{i}_{k}", sentence=texts[k])
                 lst = tmp / f"map_{i}_{k}_frames.txt"
                 lst.write_text("".join(f"file '{f}'\nduration {_fmt(d)}\n" for f, d in frames) + f"file '{frames[-1][0]}'\n",
                                encoding="utf-8")

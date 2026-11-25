@@ -47,16 +47,27 @@ def _bare(name: str) -> str:
     return name[2:] if name.startswith("ال") and len(name) > 3 else name
 
 
-def mentioned(name: str, sentence: str) -> bool:
-    """يرد الاسم في الجملة كلمةً (أو كلمات) كاملة، بسابقة ملتصقة واحدة أو بلا سابقة."""
+def _mention(name: str, sentence: str):
     n, s = norm(name), norm(sentence)
     if not n:
-        return False
+        return None
     forms = {n, _bare(n)}
     # المسافة داخل الاسم اختيارية في الاتجاهين: «أبوظبي» في الجملة و«أبو ظبي» في المعجم (ريل مفاوضات أبوظبي 12/11 بلا خريطة)
     alt = "|".join(r"\s?".join(re.escape(ch) for ch in compact(f)) for f in sorted(forms, key=len, reverse=True))
     pre = "|".join(_PREFIXES)
-    return re.search(rf"(?<!{_LETTER})(?:{pre})?(?:{alt})(?!{_LETTER})", s) is not None
+    return re.search(rf"(?<!{_LETTER})(?:{pre})?(?:{alt})(?!{_LETTER})", s)
+
+
+def mentioned(name: str, sentence: str) -> bool:
+    """يرد الاسم في الجملة كلمةً (أو كلمات) كاملة، بسابقة ملتصقة واحدة أو بلا سابقة."""
+    return _mention(name, sentence) is not None
+
+
+def mention_at(names: list[str], sentence: str) -> float | None:
+    """موضع أول ذكر لأي اسم من الأسماء نسبةً إلى طول الجملة المطبَّعة (0..1)، أو None. تقدير لزمن نطق الاسم في صوت الراوي."""
+    s = norm(sentence)
+    hits = [m.start() for m in (_mention(n, sentence) for n in names) if m is not None]
+    return (min(hits) / max(len(s), 1)) if hits else None
 
 
 # ───────────────────────────── المعجم ─────────────────────────────
@@ -507,6 +518,15 @@ def base_layers(resolved: dict, cam: dict, cfg) -> tuple[Image.Image, Image.Imag
     # حدود الرؤية بالدرجات تقريبًا لتخطّي الدول البعيدة (رسم العالم كله لكل جملة هدر)
     span_x = (BW / 2) / cam["s"]
     lon_lo, lon_hi = math.degrees(cam["cx"] - span_x * 1.2), math.degrees(cam["cx"] + span_x * 1.2)
+    return _draw_layers(resolved, cfg, big, (BW, BH), to_base, lon_lo, lon_hi, ss)
+
+
+def _draw_layers(resolved: dict, cfg, big: tuple, size: tuple, to_base, lon_lo: float, lon_hi: float,
+                 ss: int) -> tuple[Image.Image, Image.Image]:
+    """رسم حدود العالم في نافذة الطول [lon_lo، lon_hi] بمقاس big ثم تصغيره إلى size؛ مشترك بين اللقطة الواحدة والجولة."""
+    m = cfg.path("reel.maps")
+    sea, land, border, hl = _hex(cfg, "sea"), _hex(cfg, "land"), _hex(cfg, "border"), _hex(cfg, "highlight")
+    g = gazetteer(cfg)
     img = Image.new("RGB", big, sea)
     hi = Image.new("RGBA", big, (0, 0, 0, 0))
     d, dh = ImageDraw.Draw(img), ImageDraw.Draw(hi)
@@ -523,9 +543,10 @@ def base_layers(resolved: dict, cam: dict, cfg) -> tuple[Image.Image, Image.Imag
             if code in (resolved.get("countries") or []):
                 dh.polygon(pts, fill=hl + (alpha,))
                 dh.line(pts + [pts[0]], fill=hl + (255,), width=bw * 2)
-    base = img.resize((BW, BH), Image.LANCZOS)
-    lit = Image.alpha_composite(img.convert("RGBA"), hi).convert("RGB").resize((BW, BH), Image.LANCZOS)
-    return base, lit
+    lit = Image.alpha_composite(img.convert("RGBA"), hi).convert("RGB")
+    if tuple(big) == tuple(size):
+        return img, lit
+    return img.resize(size, Image.LANCZOS), lit.resize(size, Image.LANCZOS)
 
 
 def text_shade(cfg) -> Image.Image:
@@ -576,9 +597,16 @@ def frame(resolved: dict, cam: dict, layers: tuple, shade: Image.Image, t: float
     W, H = int(r["width"]), int(r["height"])
     z0 = float(m["zoom_from"])
     z = zoom_at(t, tl, cfg)
-    base, lit = layers
-    box = (cam["fx"] * z0 - cam["fx"] * z, cam["fy"] * z0 - cam["fy"] * z,
-           cam["fx"] * z0 + (W - cam["fx"]) * z, cam["fy"] * z0 + (H - cam["fy"]) * z)
+    if isinstance(layers, dict):
+        # الجولة (tour): أساس واحد يغطي مسار الكاميرا كله بوحدات مركاتور، فالإطار قصّ منه حول موضع الكاميرا الآن
+        base, lit = layers["base"], layers["lit"]
+        S, X0, Y1, k_ = layers["S"], layers["X0"], layers["Y1"], z / cam["s"]
+        box = ((cam["cx"] - cam["fx"] * k_ - X0) * S, (Y1 - (cam["cy"] + cam["fy"] * k_)) * S,
+               (cam["cx"] + (W - cam["fx"]) * k_ - X0) * S, (Y1 - (cam["cy"] - (H - cam["fy"]) * k_)) * S)
+    else:
+        base, lit = layers
+        box = (cam["fx"] * z0 - cam["fx"] * z, cam["fy"] * z0 - cam["fy"] * z,
+               cam["fx"] * z0 + (W - cam["fx"]) * z, cam["fy"] * z0 + (H - cam["fy"]) * z)
     k = ease((t - float(m["highlight_start"])) / float(m["highlight_seconds"])) if resolved.get("countries") else 0.0
     src = Image.blend(base, lit, k) if 0 < k < 1 else (lit if k >= 1 else base)
     img = src.resize((W, H), Image.BILINEAR, box=box).convert("RGBA")
@@ -687,13 +715,145 @@ def _place_label(d, name: str, font, x: float, y: float, gap: float, taken: list
     return None
 
 
-def render(resolved: dict, seconds: float, cfg, tmp: Path, tag: str) -> list[tuple[Path, float]]:
-    """إطارات الجملة [(png، مدة)]: إطار لكل 1/fps حتى تستقر الحركة، ثم آخر إطار ثابتًا لبقية المدة (لا هدر في رسم إطارات متطابقة)."""
+# ───────────────────────────── الجولة ─────────────────────────────
+# ريل 5d767581bd5e (25/11): «فرضت الولايات المتحدة حصارًا بحريًا على إيران» — دولتان بينهما 150° فلا يسعهما إطار عمودي واحد
+# (max_span_deg)، فوقعت اللقطة على وسط الأطلسي وظهر طرف الولايات المتحدة وحده ولم تظهر إيران. القاعدة العامة: ما لا يسعه إطار واحد
+# تزوره الكاميرا بترتيب ذكره في الجملة، وتنتقل إلى كل مكان قرب لحظة نطقه.
+
+
+def targets(resolved: dict, sentence: str, cfg) -> list[dict]:
+    """أهداف الخريطة (كل مكان وكل دولة) بإطارها بالدرجات وموضع ذكرها في الجملة، مرتّبة بالذكر (ما لا يُعرف موضعه بترتيبه)."""
+    g = gazetteer(cfg)
+    span = float(cfg.path("reel.maps.max_span_deg"))
+    aliases = cfg.path("reel.maps.country_aliases", {}) or {}
+    out: list[dict] = []
+    for p in resolved.get("places") or []:
+        out.append({"places": [p], "countries": [], "box": [p["lon"], p["lat"], p["lon"], p["lat"]],
+                    "at": mention_at([p["ar"]], sentence)})
+    for code in resolved.get("countries") or []:
+        c = g.countries.get(code)
+        if not c:
+            continue
+        names = [c.get("ar", "")] + list(aliases.get(code) or [])
+        out.append({"places": [], "countries": [code], "box": main_box(c, span), "at": mention_at(names, sentence)})
+    n = len(out)
+    return sorted(out, key=lambda t: (t["at"] if t["at"] is not None else 1.0 + out.index(t) / max(n, 1)))
+
+
+def groups(tgts: list[dict], cfg) -> list[dict]:
+    """أهداف متتالية يسعها إطار واحد تُجمع (طهران مع إيران)، وما لا يسعه يبدأ مجموعة جديدة تزورها الكاميرا بعدها."""
+    m = cfg.path("reel.maps")
+    lim = float(m["max_span_deg"]) / (1 + float(m["pad"]))
+    out: list[dict] = []
+    for t in tgts:
+        if out:
+            b = out[-1]["box"]
+            nb = [min(b[0], t["box"][0]), min(b[1], t["box"][1]), max(b[2], t["box"][2]), max(b[3], t["box"][3])]
+            if nb[2] - nb[0] <= lim and nb[3] - nb[1] <= lim:
+                out[-1] = {"places": out[-1]["places"] + t["places"], "countries": out[-1]["countries"] + t["countries"],
+                           "box": nb, "at": out[-1]["at"]}
+                continue
+        out.append(dict(t))
+    return out
+
+
+def tour(resolved: dict, seconds: float, cfg, sentence: str = "") -> dict | None:
+    """خطة الجولة أو None (يسع الكل إطارًا واحدًا، أو مطفأة): كاميرا لكل مجموعة، وانتقال إلى كل مجموعة يبدأ قبل لحظة نطقها
+    بنصف مدة الانتقال، ولا ينتقل قبل أن تبقى السابقة min_hold، ويُضغط الجدول كله إن لم تتسع الجملة."""
+    m = cfg.path("reel.maps")
+    tc = m.get("tour") or {}
+    if not tc.get("enabled"):
+        return None
+    gs = groups(targets(resolved, sentence, cfg), cfg)
+    if len(gs) < 2:
+        return None
+    cams = [camera({"places": g["places"], "countries": g["countries"]}, cfg) for g in gs]
+    move, hold = float(tc.get("move_seconds", 1.2)), float(tc.get("min_hold", 0.8))
+    speak = seconds * float(tc.get("speech_share", 0.9))
+    moves, prev = [], 0.0
+    for k, g in enumerate(gs[1:], 1):
+        f = g["at"] if g["at"] is not None else k / len(gs)
+        a = max(prev + hold, f * speak - move / 2)
+        moves.append([a, a + move])
+        prev = a + move
+    end = max(seconds - float(m["tail_seconds"]), 0.5)
+    if prev > end:
+        r = end / prev
+        moves = [[a * r, b * r] for a, b in moves]
+    return {"cams": cams, "moves": moves, "groups": gs, "lift": float(tc.get("lift", 0.3))}
+
+
+def tour_cam(tr: dict, t: float) -> dict:
+    """الكاميرا عند الثانية t (دالة خالصة): ثابتة على مجموعتها، وبين مجموعتين تنتقل مركزًا ومقياسًا بانسياب وتبتعد في منتصف
+    الطريق بقدر lift فيُرى ما بين المكانين (الطريق من واشنطن إلى طهران) لا قفزة."""
+    cams, moves = tr["cams"], tr["moves"]
+    k = 0
+    for j, (a, b) in enumerate(moves, 1):
+        if t >= b:
+            k = j
+        elif t > a:
+            p = ease((t - a) / max(b - a, 1e-6))
+            c0, c1 = cams[j - 1], cams[j]
+            s = math.exp(math.log(c0["s"]) + (math.log(c1["s"]) - math.log(c0["s"])) * p)
+            s /= 1 + tr["lift"] * math.sin(math.pi * p)
+            return {**c1, "cx": c0["cx"] + (c1["cx"] - c0["cx"]) * p, "cy": c0["cy"] + (c1["cy"] - c0["cy"]) * p, "s": s}
+        else:
+            break
+    return dict(cams[k])
+
+
+def tour_marks(resolved: dict, tr: dict, cfg) -> list[float]:
+    """زمن انبثاق علامة كل مكان (بترتيب resolved["places"]): حين تصل الكاميرا إلى مجموعته، لا في أول الجملة وهو خارج الإطار."""
+    m = cfg.path("reel.maps")
+    arrive = [0.0] + [b for _, b in tr["moves"]]
+    out = []
+    for p in resolved.get("places") or []:
+        gi = next((i for i, g in enumerate(tr["groups"]) if any(q["key"] == p["key"] for q in g["places"])), 0)
+        out.append(arrive[gi] + float(m["marker_start"]))
+    return out
+
+
+def tour_layers(resolved: dict, tr: dict, tl: dict, seconds: float, cfg) -> dict:
+    """أساس واحد بوحدات مركاتور يغطي ما تراه الكاميرا طوال الجولة، بمقياس أدق مجموعة (وبسقف max_base_px للذاكرة)."""
+    r, m = cfg.path("reel.render"), cfg.path("reel.maps")
+    W, H = int(r["width"]), int(r["height"])
+    xs, ys = [], []
+    for i in range(81):
+        t = seconds * i / 80
+        c, z = tour_cam(tr, t), zoom_at(t, tl, cfg)
+        k = z / c["s"]
+        xs += [c["cx"] - c["fx"] * k, c["cx"] + (W - c["fx"]) * k]
+        ys += [c["cy"] - (H - c["fy"]) * k, c["cy"] + c["fy"] * k]
+    X0, X1, Y0, Y1 = min(xs), max(xs), min(ys), max(ys)
+    S = max(c["s"] for c in tr["cams"])
+    cap = float((m.get("tour") or {}).get("max_base_px", 24_000_000))
+    if (X1 - X0) * (Y1 - Y0) * S * S > cap:
+        S *= math.sqrt(cap / ((X1 - X0) * (Y1 - Y0) * S * S))
+    size = (max(int(math.ceil((X1 - X0) * S)), 1), max(int(math.ceil((Y1 - Y0) * S)), 1))
+
+    def to_base(lon, lat):
+        x, y = merc(lon, lat)
+        return ((x - X0) * S, (Y1 - y) * S)
+
+    base, lit = _draw_layers(resolved, cfg, size, size, to_base, math.degrees(X0) - 5, math.degrees(X1) + 5, 1)
+    return {"base": base, "lit": lit, "X0": X0, "Y1": Y1, "S": S}
+
+
+def render(resolved: dict, seconds: float, cfg, tmp: Path, tag: str, sentence: str = "") -> list[tuple[Path, float]]:
+    """إطارات الجملة [(png، مدة)]: إطار لكل 1/fps حتى تستقر الحركة، ثم آخر إطار ثابتًا لبقية المدة (لا هدر في رسم إطارات متطابقة).
+    أماكن لا يسعها إطار واحد ← جولة (tour) تزورها بترتيب ذكرها في sentence."""
     m = cfg.path("reel.maps")
     fps = float(m["fps"])
-    cam = camera(resolved, cfg)
     tl = timeline(len(resolved.get("places") or []), len(resolved.get("arrows") or []), seconds, cfg)
-    layers = base_layers(resolved, cam, cfg)
+    tr = tour(resolved, seconds, cfg, sentence)
+    if tr:
+        cam = None
+        tl["marks"] = tour_marks(resolved, tr, cfg)
+        tl["settle"] = seconds
+        layers = tour_layers(resolved, tr, tl, seconds, cfg)
+    else:
+        cam = camera(resolved, cfg)
+        layers = base_layers(resolved, cam, cfg)
     shade = text_shade(cfg)
     n = max(1, int(math.ceil(tl["settle"] * fps)))
     out: list[tuple[Path, float]] = []
@@ -701,7 +861,7 @@ def render(resolved: dict, seconds: float, cfg, tmp: Path, tag: str) -> list[tup
     for k in range(n + 1):
         t = min(k * step, tl["settle"])
         p = tmp / f"map_{tag}_{k:04d}.png"
-        frame(resolved, cam, layers, shade, t, tl, cfg).save(p, compress_level=1)
+        frame(resolved, tour_cam(tr, t) if tr else cam, layers, shade, t, tl, cfg).save(p, compress_level=1)
         out.append((p, step))
     used = step * n
     out[-1] = (out[-1][0], max(seconds - used, step))
