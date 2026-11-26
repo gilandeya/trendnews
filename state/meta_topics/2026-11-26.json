@@ -763,7 +763,1222 @@
     }
    ],
    "qa_requested_at": "2026-11-26T06:27:04.061990+00:00",
-   "selected_from": 2016
+   "selected_from": 2016,
+   "topic_issue": 2018,
+   "qa": {
+    "attempts": 1,
+    "at": "2026-11-26T06:28:53.759768+00:00",
+    "videos": [
+     {
+      "video_id": "qxm4XIK_wFQ",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "minutes": 52.3,
+      "bites": 8,
+      "rejected": 0
+     },
+     {
+      "video_id": "WIJZK7DmbRQ",
+      "channel": "Haaretz",
+      "bloc": "israeli",
+      "minutes": 36.2,
+      "bites": 5,
+      "rejected": 0
+     },
+     {
+      "video_id": "Cm9WFdVn_XA",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "minutes": 23.9,
+      "bites": 3,
+      "rejected": 0
+     },
+     {
+      "video_id": "wKfi5l4pLXk",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "minutes": 19.9,
+      "bites": 11,
+      "rejected": 0
+     },
+     {
+      "video_id": "Ag8kJNfGRLc",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "minutes": 28.2,
+      "bites": 16,
+      "rejected": 0
+     },
+     {
+      "video_id": "TPU2GBfTOgk",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "minutes": 3.7,
+      "bites": 6,
+      "rejected": 0
+     },
+     {
+      "video_id": "LYZZU6f1xm0",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "minutes": 14.0,
+      "bites": 16,
+      "rejected": 0
+     }
+    ],
+    "video_scores": {
+     "eIsTMwMwnfo": 1,
+     "OGx1F1nbpwE": 2,
+     "wKfi5l4pLXk": 2,
+     "WIJZK7DmbRQ": 3,
+     "y17HtBPZhJU": 0,
+     "7CLxAxOJTM8": 0,
+     "ezaZ4x42MHU": 0,
+     "s8dWDe8Zx88": 2,
+     "TPU2GBfTOgk": 3,
+     "LLBro025a04": 2,
+     "q4xz3UDtigw": 2,
+     "vGjQAlIfBpo": 2,
+     "RmE3xmu771o": 2,
+     "C_poIpg1BTU": 3,
+     "Cm9WFdVn_XA": 3,
+     "-KIlRyZ0SYw": 2,
+     "gk4wVR6W_5o": 2,
+     "DaqMWVYsYto": 2,
+     "vBtuEnpAI74": 2,
+     "XVxIujuZVno": 0,
+     "4_zBuBXWN-U": 2,
+     "CSIDYFLyy9Q": 2,
+     "yEWwhbVpnnI": 2,
+     "wzFu2CuVAMw": 2,
+     "LYZZU6f1xm0": 3,
+     "vXhFfFh58FE": 3,
+     "qxm4XIK_wFQ": 3,
+     "a3gplKUk4as": 2,
+     "l0pjA8juLzE": 3,
+     "Ag8kJNfGRLc": 3,
+     "V9NCRt_YfFI": 0,
+     "lj-LAG3_ZbE": 3,
+     "ocVF-5cFOhU": 0
+    },
+    "gemini_cost": 0.5135,
+    "gemini_rejected": 0,
+    "channels": 7,
+    "answer_channels": 6,
+    "originals": [
+     {
+      "bite_id": "qxm4XIK_wFQ:g589",
+      "source_channel": "IRIBNEWS",
+      "found": false,
+      "queries": [
+       "احمد وحیدی سپاه پاسداران صمود مردم",
+       "Ahmad Vahidi IRGC commander speech Israel US threats",
+       "احمد وحیدی فرمانده کل سپاه سخنرانی",
+       "احمد وحیدی IRIBNEWS",
+       "احمد وحیدی"
+      ],
+      "reason": "لا مرشّح من قناة المصدر"
+     },
+     {
+      "bite_id": "Ag8kJNfGRLc:g431",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "ישראל כץ איראן יכולות כימיות לא נאפשר",
+       "ישראל כץ מסיבת עיתונאים איראן משטר",
+       "ישראל כץ"
+      ],
+      "candidate": "0uKf36VCc68",
+      "candidates": [
+       "RgYZyRYWBlg",
+       "yaHGakRTxM8",
+       "0uKf36VCc68"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "LYZZU6f1xm0:g46",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "אביגדור ליברמן איראן נשק כימי נתניהו כ״ץ",
+       "ליברמן ראיון איראן אין הצדקה מודיעינית לתקוף",
+       "Avigdor Lieberman"
+      ],
+      "candidate": "oNNwP2-sm9c",
+      "candidates": [
+       "sC4N6LJM-2M",
+       "GAuBGOxonLw",
+       "oNNwP2-sm9c"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "Cm9WFdVn_XA:g359",
+      "source_channel": "الميادين",
+      "found": false,
+      "queries": [
+       "محسن رضایی هشدار حمله آمریکا پایگاه‌ها",
+       "Mohsen Rezaei warns US bases Iran attack",
+       "محسن رضایی خطاب هشدار پایگاه‌های آمریکایی",
+       "محسن رضایی الميادين",
+       "محسن رضایی"
+      ],
+      "reason": "لا مرشّح من قناة المصدر"
+     }
+    ],
+    "originals_found": 0,
+    "read_dropped": 2,
+    "read_dropped_speakers": [
+     "أفيغدور ليبرمان",
+     "يسرائيل كاتس"
+    ],
+    "source": "gemini",
+    "failures": [],
+    "plan": {
+     "attempts": [
+      {
+       "model": "claude-sonnet-5",
+       "stop_reason": "tool_use",
+       "bites": 58,
+       "rows": 0,
+       "raw_type": "str",
+       "answers": 0,
+       "bad_n": 0,
+       "error": "لم يقترح النموذج سؤالًا له إجابات"
+      },
+      {
+       "model": "claude-opus-5",
+       "stop_reason": "tool_use",
+       "bites": 58,
+       "rows": 5,
+       "raw_type": "list",
+       "answers": 41,
+       "bad_n": 0,
+       "error": ""
+      }
+     ]
+    },
+    "verify": {
+     "checked": 24,
+     "ok": 14,
+     "no_match": 1,
+     "failed": 9,
+     "no_text": 0,
+     "left": 20,
+     "audio_seconds": 840,
+     "skipped": "",
+     "cut_off": 6,
+     "seconds": 480
+    },
+    "capped": 18,
+    "echo": {
+     "stop_reason": "tool_use",
+     "rows": 5,
+     "questions": 4,
+     "per_question": [
+      {
+       "q": 1,
+       "rejected": {
+        "overlap": 1
+       },
+       "spans": 5,
+       "answers": 5,
+       "shared": 2,
+       "reason": ""
+      },
+      {
+       "q": 2,
+       "rejected": {},
+       "spans": 4,
+       "answers": 3,
+       "shared": 1,
+       "reason": ""
+      },
+      {
+       "q": 3,
+       "rejected": {},
+       "spans": 5,
+       "answers": 5,
+       "shared": 1,
+       "reason": ""
+      },
+      {
+       "q": 4,
+       "rejected": {},
+       "spans": 3,
+       "answers": 3,
+       "shared": 0,
+       "reason": "no_shared"
+      },
+      {
+       "q": 5,
+       "rejected": {},
+       "spans": 5,
+       "answers": 5,
+       "shared": 2,
+       "reason": ""
+      }
+     ]
+    },
+    "selected_seconds": 117.0,
+    "status": "ready",
+    "titles": [
+     "هل يغيّر اغتيال قادة إيران شيئًا أم يأتي بمن هو أشد تطرفًا؟",
+     "لماذا يستعجل نتنياهو ضرب إيران قبل الثامن من ديسمبر؟",
+     "هل تمنح واشنطن إسرائيل الضوء الأخضر لضرب إيران؟"
+    ],
+    "questions": [
+     {
+      "text": "هل يؤدي اغتيال قادة إيران إلى انهيار النظام أم إلى قيادة أشد تطرفًا؟",
+      "answers": [
+       {
+        "n": 15,
+        "fit": "direct",
+        "view": "الاغتيالات أنتجت قيادة أكثر تطرفًا",
+        "view_count": 3,
+        "echo_role": "primary",
+        "echo_rank": 0,
+        "echo_count": 2,
+        "selected": true,
+        "bite_id": "TPU2GBfTOgk:g568"
+       },
+       {
+        "n": 21,
+        "fit": "direct",
+        "view": "الاغتيالات أنتجت قيادة أكثر تطرفًا",
+        "view_count": 3,
+        "echo_role": "echo",
+        "echo_of": "TPU2GBfTOgk:g568",
+        "echo_idea": "اغتيال القادة أفرز قيادة أشد تطرفًا",
+        "selected": true,
+        "bite_id": "LYZZU6f1xm0:g737"
+       },
+       {
+        "n": 20,
+        "fit": "direct",
+        "view": "الاغتيالات أنتجت قيادة أكثر تطرفًا",
+        "view_count": 3,
+        "echo_role": "echo",
+        "echo_of": "TPU2GBfTOgk:g568",
+        "echo_idea": "اغتيال القادة أفرز قيادة أشد تطرفًا",
+        "selected": true,
+        "bite_id": "LYZZU6f1xm0:g679"
+       },
+       {
+        "n": 6,
+        "fit": "direct",
+        "view": "مؤسسات الدولة تبقى رغم الاغتيالات",
+        "view_count": 1,
+        "echo_role": "opposing",
+        "echo_rank": 1,
+        "echo_count": 1,
+        "selected": false,
+        "bite_id": "wKfi5l4pLXk:g501"
+       },
+       {
+        "n": 3,
+        "fit": "direct",
+        "view": "لإيران خطط بديلة جاهزة",
+        "view_count": 1,
+        "echo_role": "echo",
+        "echo_of": "wKfi5l4pLXk:g501",
+        "echo_idea": "اغتيال القادة لا يغير بنية النظام",
+        "selected": false,
+        "bite_id": "wKfi5l4pLXk:g170"
+       }
+      ],
+      "echo": {
+       "masters": [
+        {
+         "n": 15,
+         "side": "a",
+         "rank": "primary",
+         "echo_count": 2,
+         "bite_id": "TPU2GBfTOgk:g568",
+         "segments": [
+          {
+           "idea": 1,
+           "label": "اغتيال القادة أفرز قيادة أشد تطرفًا"
+          }
+         ]
+        },
+        {
+         "n": 6,
+         "side": "b",
+         "rank": "opposing",
+         "echo_count": 1,
+         "bite_id": "wKfi5l4pLXk:g501",
+         "segments": [
+          {
+           "idea": 2,
+           "label": "اغتيال القادة لا يغير بنية النظام"
+          }
+         ]
+        }
+       ],
+       "echoes": [
+        {
+         "n": 21,
+         "of": 15,
+         "idea": 1,
+         "label": "اغتيال القادة أفرز قيادة أشد تطرفًا",
+         "bite_id": "LYZZU6f1xm0:g737",
+         "of_bite": "TPU2GBfTOgk:g568"
+        },
+        {
+         "n": 20,
+         "of": 15,
+         "idea": 1,
+         "label": "اغتيال القادة أفرز قيادة أشد تطرفًا",
+         "bite_id": "LYZZU6f1xm0:g679",
+         "of_bite": "TPU2GBfTOgk:g568"
+        },
+        {
+         "n": 3,
+         "of": 6,
+         "idea": 2,
+         "label": "اغتيال القادة لا يغير بنية النظام",
+         "bite_id": "wKfi5l4pLXk:g170",
+         "of_bite": "wKfi5l4pLXk:g501"
+        }
+       ]
+      }
+     },
+     {
+      "text": "لماذا يستعجل رئيس الوزراء الإسرائيلي بنيامين نتنياهو ضرب إيران الآن؟",
+      "answers": [
+       {
+        "n": 9,
+        "fit": "direct",
+        "view": "حسابات نتنياهو السياسية الشخصية",
+        "view_count": 2,
+        "echo_role": "primary",
+        "echo_rank": 0,
+        "echo_count": 1,
+        "selected": false,
+        "bite_id": "Ag8kJNfGRLc:g576"
+       },
+       {
+        "n": 13,
+        "fit": "direct",
+        "view": "حسابات نتنياهو السياسية الشخصية",
+        "view_count": 2,
+        "echo_role": "echo",
+        "echo_of": "Ag8kJNfGRLc:g576",
+        "echo_idea": "استغلال الظرف لإنقاذ وضعه السياسي",
+        "selected": false,
+        "bite_id": "TPU2GBfTOgk:g404"
+       },
+       {
+        "n": 7,
+        "fit": "direct",
+        "view": "فرض حكومة وحدة قبل ديسمبر",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "Ag8kJNfGRLc:g225"
+       }
+      ],
+      "echo": {
+       "masters": [
+        {
+         "n": 9,
+         "side": "a",
+         "rank": "primary",
+         "echo_count": 1,
+         "bite_id": "Ag8kJNfGRLc:g576",
+         "segments": [
+          {
+           "idea": 2,
+           "label": "لا تهديد إيراني وشيك حقيقي"
+          },
+          {
+           "idea": 1,
+           "label": "استغلال الظرف لإنقاذ وضعه السياسي"
+          }
+         ]
+        }
+       ],
+       "echoes": [
+        {
+         "n": 13,
+         "of": 9,
+         "idea": 1,
+         "label": "استغلال الظرف لإنقاذ وضعه السياسي",
+         "bite_id": "TPU2GBfTOgk:g404",
+         "of_bite": "Ag8kJNfGRLc:g576"
+        }
+       ]
+      }
+     },
+     {
+      "text": "هل تمنح واشنطن إسرائيل ضوءًا أخضر لضرب إيران؟",
+      "answers": [
+       {
+        "n": 2,
+        "fit": "direct",
+        "view": "واشنطن لن تمنح الضوء الأخضر",
+        "view_count": 2,
+        "echo_role": "primary",
+        "echo_rank": 0,
+        "echo_count": 1,
+        "selected": true,
+        "bite_id": "WIJZK7DmbRQ:g1498"
+       },
+       {
+        "n": 11,
+        "fit": "direct",
+        "view": "واشنطن لن تمنح الضوء الأخضر",
+        "view_count": 2,
+        "echo_role": "echo",
+        "echo_of": "WIJZK7DmbRQ:g1498",
+        "echo_idea": "واشنطن لن تمنح ضوءًا أخضر ولن تشارك",
+        "selected": false,
+        "bite_id": "Ag8kJNfGRLc:g2453"
+       },
+       {
+        "n": 14,
+        "fit": "weak",
+        "view": "إسرائيل ستشارك إن قرر ترامب",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "TPU2GBfTOgk:g540"
+       },
+       {
+        "n": 18,
+        "fit": "direct",
+        "view": "الضربة مستبعدة بسبب المفاوضات الائتلافية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "LYZZU6f1xm0:g360"
+       },
+       {
+        "n": 10,
+        "fit": "direct",
+        "view": "إسرائيل قد تنفرد بقرار الكابينت",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "Ag8kJNfGRLc:g624"
+       }
+      ],
+      "echo": {
+       "masters": [
+        {
+         "n": 2,
+         "side": "a",
+         "rank": "primary",
+         "echo_count": 1,
+         "bite_id": "WIJZK7DmbRQ:g1498",
+         "segments": [
+          {
+           "idea": 1,
+           "label": "واشنطن لن تمنح ضوءًا أخضر ولن تشارك"
+          }
+         ]
+        }
+       ],
+       "echoes": [
+        {
+         "n": 11,
+         "of": 2,
+         "idea": 1,
+         "label": "واشنطن لن تمنح ضوءًا أخضر ولن تشارك",
+         "bite_id": "Ag8kJNfGRLc:g2453",
+         "of_bite": "WIJZK7DmbRQ:g1498"
+        }
+       ]
+      }
+     },
+     {
+      "text": "لماذا يُثار ملف السلاح الكيميائي الإيراني الآن؟",
+      "answers": [
+       {
+        "n": 13,
+        "fit": "direct",
+        "view": "أمامنا عامان فلا مبرر الآن",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "TPU2GBfTOgk:g404"
+       },
+       {
+        "n": 1,
+        "fit": "direct",
+        "view": "كذبة إسرائيلية لجر واشنطن للحرب",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "qxm4XIK_wFQ:g1820"
+       },
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "ورقة إسرائيلية لإسقاط النظام دوليًا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "Ag8kJNfGRLc:g447"
+       }
+      ]
+     },
+     {
+      "text": "ما الخيار الذي يحقق لواشنطن مخرجًا من المواجهة مع طهران؟",
+      "answers": [
+       {
+        "n": 16,
+        "fit": "direct",
+        "view": "الحصار الاقتصادي الخيار الأجدى",
+        "view_count": 1,
+        "echo_role": "primary",
+        "echo_rank": 0,
+        "echo_count": 2,
+        "selected": false,
+        "bite_id": "TPU2GBfTOgk:g824"
+       },
+       {
+        "n": 19,
+        "fit": "direct",
+        "view": "الحصار البحري يحقق أهداف واشنطن",
+        "view_count": 1,
+        "echo_role": "echo",
+        "echo_of": "TPU2GBfTOgk:g824",
+        "echo_idea": "تشديد الحصار الاقتصادي خيار واشنطن",
+        "selected": false,
+        "bite_id": "LYZZU6f1xm0:g543"
+       },
+       {
+        "n": 17,
+        "fit": "direct",
+        "view": "واشنطن تفضل الحصار وإسرائيل العسكرة",
+        "view_count": 1,
+        "echo_role": "echo",
+        "echo_of": "TPU2GBfTOgk:g824",
+        "echo_idea": "تشديد الحصار الاقتصادي خيار واشنطن",
+        "selected": false,
+        "bite_id": "LYZZU6f1xm0:g268"
+       },
+       {
+        "n": 5,
+        "fit": "direct",
+        "view": "الاغتيالات لا تقدم أي حل",
+        "view_count": 1,
+        "echo_role": "opposing",
+        "echo_rank": 1,
+        "echo_count": 1,
+        "selected": false,
+        "bite_id": "wKfi5l4pLXk:g431"
+       },
+       {
+        "n": 4,
+        "fit": "direct",
+        "view": "سلام أو تصعيد يعطل القرار الإيراني",
+        "view_count": 1,
+        "echo_role": "echo",
+        "echo_of": "wKfi5l4pLXk:g431",
+        "echo_idea": "الاغتيالات/التصعيد لا تمنح مخرجًا مشرفًا",
+        "selected": false,
+        "bite_id": "wKfi5l4pLXk:g240"
+       },
+       {
+        "n": 12,
+        "fit": "weak",
+        "view": "التعنت الإيراني أنهى فرص الاتفاق",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "Ag8kJNfGRLc:g2535"
+       }
+      ],
+      "echo": {
+       "masters": [
+        {
+         "n": 16,
+         "side": "a",
+         "rank": "primary",
+         "echo_count": 2,
+         "bite_id": "TPU2GBfTOgk:g824",
+         "segments": [
+          {
+           "idea": 1,
+           "label": "تشديد الحصار الاقتصادي خيار واشنطن"
+          }
+         ]
+        },
+        {
+         "n": 5,
+         "side": "b",
+         "rank": "opposing",
+         "echo_count": 1,
+         "bite_id": "wKfi5l4pLXk:g431",
+         "segments": [
+          {
+           "idea": 2,
+           "label": "الاغتيالات/التصعيد لا تمنح مخرجًا مشرفًا"
+          }
+         ]
+        }
+       ],
+       "echoes": [
+        {
+         "n": 19,
+         "of": 16,
+         "idea": 1,
+         "label": "تشديد الحصار الاقتصادي خيار واشنطن",
+         "bite_id": "LYZZU6f1xm0:g543",
+         "of_bite": "TPU2GBfTOgk:g824"
+        },
+        {
+         "n": 17,
+         "of": 16,
+         "idea": 1,
+         "label": "تشديد الحصار الاقتصادي خيار واشنطن",
+         "bite_id": "LYZZU6f1xm0:g268",
+         "of_bite": "TPU2GBfTOgk:g824"
+        },
+        {
+         "n": 4,
+         "of": 5,
+         "idea": 2,
+         "label": "الاغتيالات/التصعيد لا تمنح مخرجًا مشرفًا",
+         "bite_id": "wKfi5l4pLXk:g240",
+         "of_bite": "wKfi5l4pLXk:g431"
+        }
+       ]
+      }
+     }
+    ],
+    "context": [
+     {
+      "n": 22,
+      "selected": true,
+      "bite_id": "TPU2GBfTOgk:g46"
+     },
+     {
+      "n": 23,
+      "selected": true,
+      "bite_id": "Cm9WFdVn_XA:g400"
+     },
+     {
+      "n": 24,
+      "selected": false,
+      "bite_id": "Cm9WFdVn_XA:g1160"
+     },
+     {
+      "n": 25,
+      "selected": false,
+      "bite_id": "qxm4XIK_wFQ:g589"
+     }
+    ],
+    "bites": [
+     {
+      "bite_id": "qxm4XIK_wFQ:g1820",
+      "video_id": "qxm4XIK_wFQ",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "علي أبي رعد",
+      "speaker_original": "علي أبي رعد",
+      "speaker_role": "عميد لبناني متقاعد وخبير عسكري استراتيجي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1820.0,
+      "end": 1848.0,
+      "summary_ar": "علي أبي رعد يرى أن مزاعم الأسلحة الكيميائية كذبة أطلقها بنيامين نتنياهو لجر واشنطن إلى الحرب مجدداً.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "WIJZK7DmbRQ:g1498",
+      "video_id": "WIJZK7DmbRQ",
+      "channel": "Haaretz",
+      "bloc": "israeli",
+      "orientation": "يسار",
+      "speaker": "عاموس هارئيل",
+      "speaker_original": "Amos Harel",
+      "speaker_role": "محلل الشؤون العسكرية في صحيفة هآرتس",
+      "is_host": false,
+      "type": "forecast",
+      "start": 1497.7,
+      "end": 1518.74,
+      "summary_ar": "يستبعد منح واشنطن ضوءًا أخضر لنتنياهو لشن ضربة عسكرية على إيران.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "wKfi5l4pLXk:g170",
+      "video_id": "wKfi5l4pLXk",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "فاطمة يشيلكوش",
+      "speaker_original": "Fatma Yeşilkuş",
+      "speaker_role": "أكاديمية وباحثة تركية في العلاقات الدولية بجامعة عثمانية كوركوت أتا",
+      "is_host": false,
+      "type": "opinion",
+      "start": 169.58,
+      "end": 190.3,
+      "summary_ar": "تؤكد أن إيران تمتلك خططًا بديلة جاهزة في حال استهداف مجتبى خامنئي أو قيادات أخرى، وأن الاغتيالات لا تغير الواقع الجيوسياسي لإيران.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "wKfi5l4pLXk:g240",
+      "video_id": "wKfi5l4pLXk",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "فاطمة يشيلكوش",
+      "speaker_original": "Fatma Yeşilkuş",
+      "speaker_role": "أكاديمية وباحثة تركية في العلاقات الدولية بجامعة عثمانية كوركوت أتا",
+      "is_host": false,
+      "type": "opinion",
+      "start": 240.0,
+      "end": 260.0,
+      "summary_ar": "تتساءل عما إذا كانت الولايات المتحدة تسعى إلى خروج مشرف وتحقيق إنجاز عبر السلام أم من خلال تصعيد وتأجيل قرارات القيادة الإيرانية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "wKfi5l4pLXk:g431",
+      "video_id": "wKfi5l4pLXk",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "تونتش دميرطاش",
+      "speaker_original": "Tunç Demirtaş",
+      "speaker_role": "باحث تركي في السياسة الخارجية بمؤسسة سيتا للأبحاث",
+      "is_host": false,
+      "type": "opinion",
+      "start": 431.0,
+      "end": 460.0,
+      "summary_ar": "يعتبر أن تنفيذ الاغتيالات متوقع إذا أرادت واشنطن قطع قنوات الحوار مع إيران، مؤكدًا أنها لن توفر مخرجًا مشرفًا أو حلًا للأزمة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "wKfi5l4pLXk:g501",
+      "video_id": "wKfi5l4pLXk",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "تونتش دميرطاش",
+      "speaker_original": "Tunç Demirtaş",
+      "speaker_role": "باحث تركي في السياسة الخارجية بمؤسسة سيتا للأبحاث",
+      "is_host": false,
+      "type": "opinion",
+      "start": 501.0,
+      "end": 524.0,
+      "summary_ar": "يشكك في قدرة أي اغتيال يستهدف القيادات الإيرانية على تقويض المؤسسات أو استمرارية النظام الإيراني.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "Ag8kJNfGRLc:g225",
+      "video_id": "Ag8kJNfGRLc",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "أمجد طه",
+      "speaker_original": "أمجد طه",
+      "speaker_role": "باحث في الشؤون الأمنية والاستراتيجية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 224.58,
+      "end": 255.12,
+      "summary_ar": "يبين أن نتنياهو يريد توجيه ضربة لإيران قبل ديسمبر لفرض حكومة وحدة وتحييد خطر وشيك.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "Ag8kJNfGRLc:g447",
+      "video_id": "Ag8kJNfGRLc",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "إيلي الهندي",
+      "speaker_original": "إيلي الهندي",
+      "speaker_role": "باحث في العلاقات الدولية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 447.1,
+      "end": 466.7,
+      "summary_ar": "يوضح أن الحديث عن الكيميائي ورقة ضغط إسرائيلية لدغدغة مشاعر المجتمع الدولي وإسقاط النظام الإيراني.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "Ag8kJNfGRLc:g576",
+      "video_id": "Ag8kJNfGRLc",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "فراس ياغي",
+      "speaker_original": "فراس ياغي",
+      "speaker_role": "خبير في الشؤون الإسرائيلية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 576.0,
+      "end": 606.0,
+      "summary_ar": "يرى أن نتنياهو يستغل الوجود الأمريكي لشن حرب على إيران خدمة لأهدافه السياسية الداخلية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "Ag8kJNfGRLc:g624",
+      "video_id": "Ag8kJNfGRLc",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "فراس ياغي",
+      "speaker_original": "فراس ياغي",
+      "speaker_role": "خبير في الشؤون الإسرائيلية",
+      "is_host": false,
+      "type": "forecast",
+      "start": 624.0,
+      "end": 637.0,
+      "summary_ar": "يتوقع إمكانية انفراد إسرائيل بشن ضربة على إيران إذا أصدر الكابينت قرارا ملزما للجيش.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "Ag8kJNfGRLc:g2453",
+      "video_id": "Ag8kJNfGRLc",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "حكم أمهز",
+      "speaker_original": "حكم أمهز",
+      "speaker_role": "باحث في الشؤون الإقليمية والدولية",
+      "is_host": false,
+      "type": "forecast",
+      "start": 2453.0,
+      "end": 2479.0,
+      "summary_ar": "يستبعد تورط واشنطن في حرب جديدة أو سماحها لإسرائيل بضربة ستجلب ردا إيرانيا على تل أبيب.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "Ag8kJNfGRLc:g2535",
+      "video_id": "Ag8kJNfGRLc",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "إيلي الهندي",
+      "speaker_original": "إيلي الهندي",
+      "speaker_role": "باحث في العلاقات الدولية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2535.0,
+      "end": 2563.0,
+      "summary_ar": "يرى أن التعنت الإيراني أفشل رهانات التوصل إلى اتفاق ودفع إسرائيل والولايات المتحدة نحو الحسم العسكري.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "TPU2GBfTOgk:g404",
+      "video_id": "TPU2GBfTOgk",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "تشاك فرايليخ",
+      "speaker_original": "Chuck Freilich",
+      "speaker_role": "نائب مستشار الأمن القومي الإسرائيلي سابقًا",
+      "is_host": false,
+      "type": "opinion",
+      "start": 404.46,
+      "end": 424.52,
+      "summary_ar": "تشاك فرايليخ يعتبر أن الاعتبارات السياسية لرئيس الوزراء الإسرائيلي بنيامين نتنياهو هي الدافع الفعلي الوحيد لشن ضربة على إيران حاليًا.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "TPU2GBfTOgk:g540",
+      "video_id": "TPU2GBfTOgk",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "تشاك فرايليخ",
+      "speaker_original": "Chuck Freilich",
+      "speaker_role": "نائب مستشار الأمن القومي الإسرائيلي سابقًا",
+      "is_host": false,
+      "type": "forecast",
+      "start": 540.0,
+      "end": 567.0,
+      "summary_ar": "تشاك فرايليخ يرجح أن تجدد الضربات سيعزز دافع إيران لتطوير أسلحتها، ويرى أن إسرائيل ستضطر للمشاركة إذا قرر ترامب الهجوم.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "TPU2GBfTOgk:g568",
+      "video_id": "TPU2GBfTOgk",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "تشاك فرايليخ",
+      "speaker_original": "Chuck Freilich",
+      "speaker_role": "نائب مستشار الأمن القومي الإسرائيلي سابقًا",
+      "is_host": false,
+      "type": "opinion",
+      "start": 568.0,
+      "end": 595.0,
+      "summary_ar": "تشاك فرايليخ يحذر من خيار اغتيال قادة إيرانيين مؤكدًا أن تصفيتهم في السابق أدت إلى ظهور قيادة إيرانية أشد تطرفًا.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "TPU2GBfTOgk:g824",
+      "video_id": "TPU2GBfTOgk",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "تشاك فرايليخ",
+      "speaker_original": "Chuck Freilich",
+      "speaker_role": "نائب مستشار الأمن القومي الإسرائيلي سابقًا",
+      "is_host": false,
+      "type": "opinion",
+      "start": 824.0,
+      "end": 854.0,
+      "summary_ar": "تشاك فرايليخ يصف خيار اغتيال القيادات الإيرانية بأنه الأقل فاعلية ويعكس خضوع ترامب للردع الإيراني.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "LYZZU6f1xm0:g268",
+      "video_id": "LYZZU6f1xm0",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "مجدي الحلبي",
+      "speaker_original": "مجدي الحلبي",
+      "speaker_role": "مستشار العربية للشؤون الإسرائيلية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 268.0,
+      "end": 294.0,
+      "summary_ar": "مجدي الحلبي يوضح أن واشنطن تركز على الحصار الاقتصادي للتفاوض بينما ترى إسرائيل أن إخضاع إيران يتطلب عملًا عسكريًا.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "LYZZU6f1xm0:g360",
+      "video_id": "LYZZU6f1xm0",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "مجدي الحلبي",
+      "speaker_original": "مجدي الحلبي",
+      "speaker_role": "مستشار العربية للشؤون الإسرائيلية",
+      "is_host": false,
+      "type": "forecast",
+      "start": 359.54,
+      "end": 380.06,
+      "summary_ar": "مجدي الحلبي يرى أن توجيه ضربة لإيران غير وارد حاليًا بسبب تقدم المفاوضات الائتلافية التي تسحب البساط من نتنياهو.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "LYZZU6f1xm0:g543",
+      "video_id": "LYZZU6f1xm0",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "مسعود الفك",
+      "speaker_original": "مسعود الفك",
+      "speaker_role": "مختص في شؤون إيران وآسيا الوسطى في شبكة العربية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 543.48,
+      "end": 564.1,
+      "summary_ar": "مسعود الفك يرى أن استمرار حالة اللاحرب واللاسلم يجعل الحصار البحري الأمريكي يؤتي ثماره على الموانئ الإيرانية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "LYZZU6f1xm0:g679",
+      "video_id": "LYZZU6f1xm0",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "مجدي الحلبي",
+      "speaker_original": "مجدي الحلبي",
+      "speaker_role": "مستشار العربية للشؤون الإسرائيلية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 679.0,
+      "end": 705.0,
+      "summary_ar": "مجدي الحلبي يحذر من أن تكرار استهداف قادة إيران المتشددين قد يؤدي لبروز قيادات أشد تطرفًا مما سبق.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "LYZZU6f1xm0:g737",
+      "video_id": "LYZZU6f1xm0",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "مسعود الفك",
+      "speaker_original": "مسعود الفك",
+      "speaker_role": "مختص في شؤون إيران وآسيا الوسطى في شبكة العربية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 737.0,
+      "end": 767.0,
+      "summary_ar": "مسعود الفك يشير إلى أن تصفية القادة الإيرانيين بالجملة سابقًا لم تميز بين التيارات وأفرزت حكامًا أكثر تشددًا بطهران.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "TPU2GBfTOgk:g46",
+      "video_id": "TPU2GBfTOgk",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "دونالد ترامب",
+      "speaker_original": "Donald Trump",
+      "speaker_role": "الرئيس الأمريكي",
+      "is_host": false,
+      "type": "fact",
+      "start": 46.24,
+      "end": 60.4,
+      "summary_ar": "الرئيس الأمريكي دونالد ترامب يؤكد أن القدرات العسكرية لإيران دُمرت إلى حد كبير باستثناء إمكانات محدودة لإطلاق الصواريخ.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "Cm9WFdVn_XA:g400",
+      "video_id": "Cm9WFdVn_XA",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "محسن رضائي",
+      "speaker_original": "محسن رضایی",
+      "speaker_role": "أمين المجلس الأعلى للأمن القومي الإيراني",
+      "is_host": false,
+      "type": "forecast",
+      "start": 400.04,
+      "end": 415.98,
+      "summary_ar": "محسن رضائي يهدد باستهداف القواعد العسكرية الأمريكية في أوروبا إذا انطلقت منها طائرات لقصف إيران.",
+      "setting": "other_channel",
+      "source_channel": "الميادين",
+      "voice": "actor",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "Cm9WFdVn_XA:g1160",
+      "video_id": "Cm9WFdVn_XA",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "محمد باقر قاليباف",
+      "speaker_original": "محمدباقر قالیباف",
+      "speaker_role": "رئيس مجلس الشورى الإيراني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1160.0,
+      "end": 1185.0,
+      "summary_ar": "محمد باقر قاليباف يرى أن السبيل الوحيد لإبعاد شبح الحرب والتهديد عن إيران هو تحقيق الردع المستدام.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "qxm4XIK_wFQ:g589",
+      "video_id": "qxm4XIK_wFQ",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "أحمد وحيدي",
+      "speaker_original": "احمد وحیدی",
+      "speaker_role": "القائد العام لحرس الثورة الإسلامية في إيران",
+      "is_host": false,
+      "type": "fact",
+      "start": 584.86,
+      "end": 609.52,
+      "summary_ar": "القائد العام لحرس الثورة الإيراني يؤكد جاهزية قواته لدحر العدو إلى عمق أكبر.",
+      "setting": "external",
+      "source_channel": "IRIBNEWS",
+      "voice": "actor",
+      "original_of": null,
+      "heard": true
+     }
+    ],
+    "error": "",
+    "extracted": 58,
+    "cost": {
+     "claude": {
+      "claude-haiku-5-5": 0.0019,
+      "claude-sonnet-5": 0.1068,
+      "claude-opus-5": 0.4961
+     },
+     "gemini": 0.5135,
+     "proxy_bytes": 29590493
+    }
+   }
   },
   {
    "id": "4945f0c78a42",
