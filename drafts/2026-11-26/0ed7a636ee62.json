@@ -1,7 +1,7 @@
 {
   "id": "0ed7a636ee62",
   "created_at": "2026-11-26T06:56:12.124637+00:00",
-  "status": "pending",
+  "status": "approved_script",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -757,7 +757,8 @@
         "enter": "right",
         "path": "drafts/2026-11-26/0ed7a636ee62-cartoon-2.png"
       }
-    ]
+    ],
+    "approved": true
   },
   "reel_bg": {
     "url": "https://mwlana.com/files/2026/11/3-سفن-في-مرمى-ألغام-هرمز-تصعيد-ميداني-ور-0Cgd-2.webp",
@@ -781,7 +782,8 @@
       "views": 19620,
       "duration": 310,
       "published": "2026-11-23T16:00:30Z",
-      "views_per_hour": 311.5
+      "views_per_hour": 311.5,
+      "picked": true
     },
     {
       "video_id": "SERhjR8PyDw",
@@ -978,5 +980,17 @@
     "gemini": 0.1254
   },
   "review_issue": 2019,
-  "stage2_issue": 2019
+  "stage2_issue": 2019,
+  "render_status": "queued",
+  "approved_script_at": "2026-11-26T07:03:22.694781+00:00",
+  "editor_override": {
+    "at": "2026-11-26T07:03:22.694756+00:00",
+    "reasons": [
+      "اسم متحدث لم يُحسم: مسعود الفك",
+      "اسم متحدث لم يُحسم: مجدي الحلبي",
+      "اسم متحدث لم يُحسم: فراس ياغي",
+      "اسم متحدث لم يُحسم: أحمد وحيدي"
+    ]
+  },
+  "hook_picked": 0
 }
