@@ -138,6 +138,24 @@ def load_config(path=None):
             tcrop["fallback_whole"] = False
         if isinstance(rcfg.get("sizes"), dict):
             rcfg["sizes"]["hook"] = [110, 70]
+        # ملاحظات قضية 2020 (26/11): توحيد حجم النص، وأوامر قطع الكاريكاتير، وتسكين آخر اسم الشخص وحده، وفحص قائل السياق،
+        # وقطع الأم بعد فكرتها ولون شريطها؛ تغيّر أوامر ومخرجات تثبّتها اختبارات قديمة. test_reel_notes_2020 يطلبها
+        if isinstance(rcfg.get("uniform_text"), dict):
+            rcfg["uniform_text"]["enabled"] = False
+        if isinstance(recho, dict):
+            recho["cut_after_idea"] = False
+            recho["band_matches_frame"] = False
+        fw = ((cfg.get("reel") or {}).get("tts") or {}).get("foreign_waqf")
+        if isinstance(fw, dict):
+            fw["person_bare"] = False
+        if isinstance(rcart, dict) and isinstance(rcart.get("cast"), dict):
+            for key in ("same_height", "hook_boxes", "enter_on_name", "edge_sides"):
+                rcart["cast"][key] = False
+        mscr = ((cfg.get("youtube") or {}).get("meta_topics") or {}).get("script")
+        if isinstance(mscr, dict):
+            mscr["check_clip_speakers"] = False
+        if isinstance(echo_c, dict):
+            echo_c["echo_max_words"] = 0
         tfb = ((cfg.get("reel") or {}).get("hook_search") or {}).get("topic_fallback")
         if isinstance(tfb, dict):
             tfb["min_candidates"] = 1

@@ -38,8 +38,10 @@ CONCEPT_TOOL = {
                 "x": {"type": "number", "description": "مركز القطعة أفقيًا في منطقة الرسم: 0 يسار، 1 يمين"},
                 "y": {"type": "number", "description": "مركزها رأسيًا في منطقة الرسم: 0 أعلى، 1 أسفل"},
                 "width": {"type": "number", "description": "عرضها نسبةً من عرض منطقة الرسم (0.15–0.9)"},
-                "enter": {"type": "string", "enum": ["left", "right", "top", "bottom"],
-                          "description": "من أين تدخل الشاشة"}},
+                "enter": {"type": "string", "enum": ["left", "right", "bottom"],
+                          "description": "من أين تدخل الشاشة (لا من الأعلى أبدًا)"},
+                "cue_ar": {"type": "string", "description": "كلمة أو عبارة قصيرة من عنوان الريل تدخل القطعة عند نطقها: اسم صاحبها أو "
+                                                            "موضوعه (إيران لقائد إيراني)، حرفيًا كما في العنوان؛ فارغ إن لم يرد"}},
             "required": ["name_ar", "person_ar", "person_en", "prompt_en", "enter"]}}},
         "required": ["feasible", "idea_ar", "basis_ar", "prompt_en", "pieces"]},
 }
@@ -135,9 +137,11 @@ def clean_pieces(raw: list, cfg) -> list[dict]:
             continue
         out.append({"name_ar": " ".join(str(p.get("name_ar") or "").split()), "prompt_en": prompt, "person_ar": person_ar,
                     "person_en": " ".join(str(p.get("person_en") or "").split()),
+                    "cue_ar": " ".join(str(p.get("cue_ar") or "").split()),
                     "x": min(max(_num(p.get("x"), 0.5), 0.0), 1.0), "y": min(max(_num(p.get("y"), 0.5), 0.0), 1.0),
                     "width": min(max(_num(p.get("width"), 0.4), lo_w), hi_w),
-                    "enter": enter if enter in ("left", "right", "top", "bottom") else "bottom"})
+                    # قضية 2020: دخول من الأعلى مرفوض (طلب صاحب المشروع)، فالأعلى وما لا يُعرف من الأسفل
+                    "enter": enter if enter in ("left", "right", "bottom") else "bottom"})
     return out
 
 
@@ -179,7 +183,14 @@ def row_layout(sizes: list[tuple[int, int]], band: tuple[int, int], cfg, w: int)
     bh = max(min(bottom - top, int(k.get("max_height", 520))), 2)
     slot = max((w - 2 * side - gap * (n - 1)) / n, 2.0)
     dims = []
-    for sw, sh in sizes:
+    if k.get("same_height", False):
+        # قضية 2020: الشخص الثالث رُسم نصف جسد عريضًا فبدا أكبر من صاحبيه بعد تصغير كل قطعة لخانتها وحدها؛ ارتفاع واحد للصف كله
+        # (أعلى ما تسعه كل القطع في خاناتها) فيتناسب الأشخاص
+        ph = min([bh] + [slot * max(int(sh), 1) / max(int(sw), 1) for sw, sh in sizes])
+        for sw, sh in sizes:
+            sw, sh = max(int(sw), 1), max(int(sh), 1)
+            dims.append((max(int(round(sw * ph / sh)), 2), max(int(round(ph)), 2)))
+    for sw, sh in ([] if dims else sizes):
         sw, sh = max(int(sw), 1), max(int(sh), 1)
         sc = min(slot / sw, bh / sh)
         dims.append((max(int(round(sw * sc)), 2), max(int(round(sh * sc)), 2)))
@@ -193,9 +204,21 @@ def row_layout(sizes: list[tuple[int, int]], band: tuple[int, int], cfg, w: int)
 
 
 def start_pos(enter: str, box: tuple[int, int, int, int], w: int, h: int) -> tuple[int, int]:
-    """موضع القطعة قبل دخولها: خارج الشاشة تمامًا من جهة enter وعلى خط موضعها النهائي (دالة خالصة)."""
+    """موضع القطعة قبل دخولها: خارج الشاشة تمامًا من جهة enter وعلى خط موضعها النهائي (دالة خالصة). لا دخول من الأعلى (قضية
+    2020): «top» يُعامل كالأسفل."""
     x, y, pw, ph = box
-    return {"left": (-pw, y), "right": (w, y), "top": (x, -ph)}.get(enter, (x, h))
+    return {"left": (-pw, y), "right": (w, y)}.get(enter, (x, h))
+
+
+def row_enter(k: int, n: int, cfg) -> str:
+    """جهة دخول القطعة k من n في الصف (قضية 2020، طلب صاحب المشروع): الوسط من الأسفل، والطرفان من جهتيهما إن كانت في الصف
+    ثلاث فأكثر (cast.edge_sides)، وإلا من الأسفل. دالة خالصة."""
+    if bool((ccfg(cfg).get("cast") or {}).get("edge_sides", True)) and n >= 3:
+        if k == 0:
+            return "left"
+        if k == n - 1:
+            return "right"
+    return "bottom"
 
 
 def cutout(img, cfg):
@@ -218,6 +241,15 @@ def cutout(img, cfg):
     cover = float((alpha > 0.5).mean())
     if not float(c.get("min_cover", 0.03)) <= cover <= float(c.get("max_cover", 0.95)):
         return None
+    if cropped(alpha > 0.5, cfg):
+        return None
+    # قضية 2020: هالة وردية بقيت حول القطع؛ ما قرب الخلفية (despill_px) ولونه يميل إلى لون المفتاح يُزال أيضًا
+    dpx = int(c.get("despill_px", 3))
+    if dpx > 0:
+        near_bg = cv2.dilate(bg.astype(np.uint8), np.ones((2 * dpx + 1, 2 * dpx + 1), np.uint8)) > 0
+        dist = np.sqrt(((rgb - key) ** 2).sum(axis=2))
+        spill = near_bg & (dist <= float(c.get("despill_tolerance", 200)))
+        alpha = np.where(spill, 0.0, alpha).astype(np.float32)
     out = rgb.astype(np.float32)
     # أثر اللون على الحافة: حيث الشفافية جزئية تُخفَّض كل قناة يبرزها لون المفتاح إلى أعلى القنوات الأخرى، فلا تبقى هالة بلونه
     soft = (alpha > 0) & (alpha < 1)
@@ -233,6 +265,17 @@ def cutout(img, cfg):
     y0, y1 = max(int(ys.min()) - pad, 0), min(int(ys.max()) + pad + 1, rgba.shape[0])
     x0, x1 = max(int(xs.min()) - pad, 0), min(int(xs.max()) + pad + 1, rgba.shape[1])
     return Image.fromarray(rgba[y0:y1, x0:x1], "RGBA")
+
+
+def cropped(mask, cfg) -> bool:
+    """هل قصّ إطارُ الصورة القطعةَ؟ (قضية 2020: قائد إيراني رُسم مبتورًا عند ساقيه) جانب من الصورة يغطّي الرسم أكثر من
+    edge_max من طوله ← مقصوصة (القدمان على الحافة السفلى تمسّان قليلًا ولا تُرفضان). دالة خالصة."""
+    import numpy as np
+    m = np.asarray(mask, bool)
+    if not m.size:
+        return False
+    lim = float(ccfg(cfg).get("edge_max", 0.15))
+    return any(float(side.mean()) > lim for side in (m[0], m[-1], m[:, 0], m[:, -1]))
 
 
 def image_prompt(piece: dict, con: dict, cfg) -> str:
@@ -267,18 +310,22 @@ def _draw_piece(piece: dict, con: dict, cfg, key: str) -> tuple[Any, float, str]
     body = {"contents": [{"parts": [{"text": image_prompt(piece, con, cfg)}]}],
             "generationConfig": {"responseModalities": ["IMAGE"],
                                  "imageConfig": {"aspectRatio": str(c.get("piece_aspect", "1:1"))}}}
-    code, resp, _ = _generate(body, model, key, int(c.get("timeout", 180)))
-    if code != 200 or not isinstance(resp, dict):
-        return None, 0.0, f"HTTP {code}: {str(resp)[:150]}"
-    img, finish, usage = read_image(resp)
-    usd = round(int(usage.get("candidatesTokenCount") or 0) * float(c.get("usd_per_mtok_output", 30)) / 1e6
-                + float(c.get("usd_per_image", 0)), 4)
-    if not img:
-        return None, usd, f"بلا صورة: {finish}"
-    cut = cutout(Image.open(BytesIO(img)), cfg)
-    if cut is None:
-        return None, usd, "لم تُفصل القطعة عن خلفيتها"
-    return cut, usd, ""
+    usd, why = 0.0, ""
+    # قطعة مقصوصة أو لم تنفصل عن خلفيتها تُرسم ثانيةً حتى piece_tries (قضية 2020)، وكل محاولة مدفوعة
+    for _ in range(max(int(c.get("piece_tries", 2)), 1)):
+        code, resp, _ = _generate(body, model, key, int(c.get("timeout", 180)))
+        if code != 200 or not isinstance(resp, dict):
+            return None, usd, f"HTTP {code}: {str(resp)[:150]}"
+        img, finish, usage = read_image(resp)
+        usd = round(usd + int(usage.get("candidatesTokenCount") or 0) * float(c.get("usd_per_mtok_output", 30)) / 1e6
+                    + float(c.get("usd_per_image", 0)), 4)
+        if not img:
+            return None, usd, f"بلا صورة: {finish}"
+        cut = cutout(Image.open(BytesIO(img)), cfg)
+        if cut is not None:
+            return cut, usd, ""
+        why = "لم تُفصل القطعة عن خلفيتها أو قصّها إطار الصورة"
+    return None, usd, why
 
 
 def row_mode(cfg) -> bool:

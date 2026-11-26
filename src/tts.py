@@ -348,7 +348,7 @@ def foreign_every_word(cfg, provider) -> bool:
     return provider in (cfg.path("reel.tts.foreign_waqf.every_word_providers") or ["google"])
 
 
-def apply_proper_nouns(text: str, nouns: list, every_word: bool = True) -> str:
+def apply_proper_nouns(text: str, nouns: list, every_word: bool = True, person_bare: bool = False) -> str:
     """وقف على أعلام النص (Issue #1423): الأجنبي المنقول على آخر حرف من كل كلماته (سيْ إنْ إنْ تركْ) والعربي على كلمته
     الأخيرة وحدها (مطارِ الملكِ خالدْ). every_word=False ← الأجنبي يُسكَّن آخر كلمة منه وحدها، وكلماته
     الأخرى تُحذف حركة حرفها الأخير بلا سكون (محمد باقر قاليبافْ): لا إعراب على اسم أجنبي ولا وقفة داخله (foreign_every_word). العَلَم يُطابَق بـstrip_tashkeel كلمةً كلمة؛ غير الموجود يُتجاهل بسطر log.
@@ -360,7 +360,9 @@ def apply_proper_nouns(text: str, nouns: list, every_word: bool = True) -> str:
         if (n or {}).get("kind") == "number":
             continue
         toks = strip_tashkeel(str((n or {}).get("text") or "")).split()
-        is_foreign = bool((n or {}).get("foreign"))
+        # قضية 2020: «حسينُ سلامي» — اسم الشخص العربي كان يأخذ إعرابه في كلماته الأولى. مع person_bare يُعامل اسم الشخص
+        # (kind: person) كالأجنبي في كلماته كلها: لا حركة إعراب على أواخر الأعلام في نطق الراوي
+        is_foreign = bool((n or {}).get("foreign")) or (person_bare and (n or {}).get("kind") == "person")
         foreign = is_foreign and every_word
         hit = False
         for i in range(len(words) - len(toks) + 1):
