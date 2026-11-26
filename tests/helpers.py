@@ -133,6 +133,8 @@ def load_config(path=None):
         gsc = rcfg.get("gemini_speaker")
         if isinstance(gsc, dict):
             gsc["off_screen_photo"] = False
+            # ريل 0ed7a636ee62: ردّ حكم «لا يُرى» بشاهد يخالفه؛ test_reel_offscreen_witness_2020 يطلبه
+            gsc["off_screen_needs_agreement"] = False
         tcrop = (rcfg.get("background") or {}).get("text_crop")
         if isinstance(tcrop, dict):
             tcrop["fallback_whole"] = False

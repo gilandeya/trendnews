@@ -11755,3 +11755,47 @@ def test_reel_notes_2020() -> None:
     check("2020: الشريط بلون إطار الصدى، وبلاه ذهبي",
           reel_render.band_bar_color(pen, {"band_color": "#2FA36B"}) == (0x2F, 0xA3, 0x6B)
           and reel_render.band_bar_color(pen, {}) == pen.gold)
+
+
+def test_reel_offscreen_witness_2020() -> None:
+    """ريل 0ed7a636ee62 (القضية 2020): حُذف مقطع مجدي الحلبي ووجهه ظاهر يتكلم بحكم «none» من نداء Gemini في التركيب وحده، ونداء الاستخراج
+    على الفيديو نفسه قال partly وقرأ اسمه من الشريط. الشاهد المخالف يردّ الحكم ويبقى المقطع."""
+    import copy
+
+    from src import gemini_speakers, reel_render, youtube_bites
+    from src.config import load_config as real_load
+    real = real_load()
+    check("2020w: الشاهد المخالف مفعّل في config.yaml",
+          real.path("reel.render.gemini_speaker.off_screen_needs_agreement") is True and real.path("reel.render.version") >= 93)
+    cfg = copy.deepcopy(real)
+    cfg["reel"]["render"]["gemini_speaker"]["off_screen_photo"] = False
+    data = {"speakers": [{"name_ar": "مجدي الحلبي", "is_host": False, "name_source": "chyron"},
+                         {"name_ar": "شي", "is_host": False, "name_source": "unknown"}],
+            "windows": [{"id": "p1", "speaker": "مجدي الحلبي", "one_speaker": True, "speaker_on_screen": "none", "evidence": "صوته"},
+                        {"id": "p2", "speaker": "شي", "one_speaker": True, "speaker_on_screen": "none"}]}
+    got = gemini_speakers.verdicts(data, cfg)
+    check("2020w: حكم none يحمل مصدر اسم المتكلم من الرد نفسه",
+          got["p1"].get("name_source") == "chyron" and got["p2"].get("name_source") == "unknown", got)
+    check("2020w: الشاهدان والغياب",
+          reel_render.off_screen_contradicted(got["p2"], "partly", cfg) == "extract"
+          and reel_render.off_screen_contradicted(got["p1"], "", cfg) == "chyron"
+          and reel_render.off_screen_contradicted(got["p2"], "none", cfg) == ""
+          and reel_render.off_screen_contradicted(got["p2"], "", cfg) == "")
+    check("2020w: on_screen المحفوظ يصل النقطة",
+          youtube_bites.bites_as_points([{"bite_id": "v:g1", "video_id": "v", "on_screen": "partly", "start": 1, "end": 9,
+                                           "text_ar": "ق", "text_original": "q"}], load_transcript=lambda v: None)[0]
+          .get("on_screen") == "partly")
+    script = {"scenes": [{"kind": "clip", "point_id": "p2", "speaker_name": "شي", "speaker_verified": True, "channel_display": "العربية"}]}
+    meta = {"gemini_speakers": [{"point_id": "p2"}], "_clip_on_screen": {0: "partly"}}
+    notes: list = []
+    decided, drop = reel_render._apply_gemini(0, script, [0], {0: {}}, {}, got["p2"], cfg, notes, meta)
+    check("2020w: حكم الاستخراج يردّ الحذف ويُكتب السبب",
+          not decided and drop is None and meta["gemini_speakers"][0].get("off_screen_overruled") == "extract"
+          and any("بقي المقطع" in n for n in notes), (decided, drop, meta, notes))
+    meta2 = {"gemini_speakers": [{"point_id": "p2"}], "_clip_on_screen": {0: ""}}
+    decided, drop = reel_render._apply_gemini(0, script, [0], {0: {}}, {}, got["p2"], cfg, [], meta2)
+    check("2020w: بلا شاهد مخالف يُحذف كما كان", decided and drop and drop["reason_key"] == "drop_off_screen", drop)
+    off = copy.deepcopy(cfg)
+    off["reel"]["render"]["gemini_speaker"]["off_screen_needs_agreement"] = False
+    decided, drop = reel_render._apply_gemini(0, script, [0], {0: {}}, {}, got["p2"], off, [], dict(meta))
+    check("2020w: مطفأً ← الحذف بالحكم وحده", decided and drop is not None)
