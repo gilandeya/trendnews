@@ -1,0 +1,982 @@
+{
+  "id": "0ed7a636ee62",
+  "created_at": "2026-11-26T06:56:12.124637+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "التصعيد الأمريكي الإسرائيلي ضد إيران واحتمال استهداف قادتها",
+  "event": "التصعيد الأمريكي الإسرائيلي ضد إيران واحتمال استهداف قادتها",
+  "tier": 4,
+  "blocs": [
+    "arabic",
+    "israeli",
+    "persian",
+    "turkish"
+  ],
+  "channels": [
+    "CNN Türk",
+    "Haaretz",
+    "ILTV",
+    "Iran International",
+    "الجزيرة",
+    "العربية",
+    "الميادين",
+    "سكاي نيوز عربية"
+  ],
+  "agreement": "",
+  "score": 0,
+  "warnings": [
+    "اسم لم يُحسم: مسعود الفك (بلا أصل لاتيني) — لا رسم مرشّح ظهر في 2 نطاقات عربية مستقلة (أقصى ما وُجد: 0)",
+    "اسم لم يُحسم: مجدي الحلبي (بلا أصل لاتيني) — الرسم الحالي موثَّق في نطاقات عربية بالقدر نفسه",
+    "اسم لم يُحسم: فراس ياغي (بلا أصل لاتيني) — لا رسم مرشّح من الكاشف",
+    "اسم لم يُحسم: أحمد وحيدي (بلا أصل لاتيني) — لا رسم مرشّح من الكاشف",
+    "⭐ الإجابة الأم (عاموس هارئيل) تُعرض إجابة عادية لأن صداها لم يُعلَّم أو سقط بعد فحص المقاطع — في سؤال: هل تمنح واشنطن إسرائيل ضوءًا أخضر لضرب إيران؟",
+    "🔧 تُرك مقطع سياق بعد فحص قائلي المقاطع: محسن رضائي",
+    "⏱️ السياق 69 كلمة (الحد 61) فقُبل كما هو لأن المادة من اختيارك — راجعه",
+    "✏️ صيغ السؤال 1 ليتصل بالسياق: كان «هل يؤدي اغتيال قادة إيران إلى انهيار النظام أم إلى قيادة أشد تطرفًا؟» صار «هل يفرز اغتيال القادة الإيرانيين قيادة أشد تطرفًا؟»"
+  ],
+  "run_date": "2026-11-26",
+  "topic_date": "2026-11-26",
+  "arabic": {
+    "post_title": "لماذا يستعجل نتنياهو ضرب إيران قبل الثامن من ديسمبر؟",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "CNN Türk",
+      "Haaretz",
+      "ILTV",
+      "Iran International",
+      "الجزيرة",
+      "العربية",
+      "الميادين",
+      "سكاي نيوز عربية"
+    ]
+  },
+  "source_videos": [],
+  "meta_topic_id": "9fee0a83a7c8",
+  "meta_issue": 2018,
+  "hook_pick": 3,
+  "cost_qa": {
+    "claude": {
+      "claude-haiku-5-5": 0.0019,
+      "claude-sonnet-5": 0.1068,
+      "claude-opus-5": 0.4961
+    },
+    "gemini": 0.5135,
+    "proxy_bytes": 29590493
+  },
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "1662cf2b809d",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "ILTV"
+      },
+      {
+        "point_id": "b49d31e24459",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "العربية"
+      },
+      {
+        "point_id": "199f5960a1d5",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "يقولون إن اغتيال القادة المتشددين أمر يجب أن يكون، ولكنه يمكن أن يفرز قادة متشددين أكثر، لذلك على الولايات المتحدة وإسرائيل أن تبحثا هذا الأمر أكثر بعمق وليس بشكل سريع كما كان في السابق وكما حدث في السابق، اغتيال المرشد واغتيال كل القادة من الصف الأول والثاني أدى إلى بروز قادة أكثر تشددا من الذين كانوا",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "العربية"
+      },
+      {
+        "point_id": "dd5b897f19cc",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "هآرتس"
+      },
+      {
+        "point_id": "c5eecabc6aca",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سكاي نيوز عربية"
+      },
+      {
+        "point_id": "d43184877aa2",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "ILTV"
+      },
+      {
+        "point_id": "ec4aa1100f9e",
+        "speaker_said_it": "no",
+        "other_name": "مقدّم البرنامج",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "4232679d3485",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "يا أصدقاء، هناك احتمال واحد فقط، وهو أن نصل إلى ردع مستدام. فإذا وصلنا إلى الردع، أبعدنا التهديد عن أنفسنا، ونفّذنا أمر القائد المعظم للقوات المسلحة.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "069bec17b211",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الميادين"
+      }
+    ]
+  },
+  "quote_retranslated": [
+    "199f5960a1d5",
+    "4232679d3485"
+  ],
+  "clip_dropped": [
+    {
+      "point_id": "ec4aa1100f9e",
+      "channel": "إيران إنترناشيونال",
+      "reason": "ملخّص النقطة ينسبها إلى شخص آخر: مقدّم البرنامج"
+    }
+  ],
+  "name_unresolved": [
+    {
+      "arabic": "مسعود الفك",
+      "latin": "",
+      "reason": "لا رسم مرشّح ظهر في 2 نطاقات عربية مستقلة (أقصى ما وُجد: 0)"
+    },
+    {
+      "arabic": "مجدي الحلبي",
+      "latin": "",
+      "reason": "الرسم الحالي موثَّق في نطاقات عربية بالقدر نفسه"
+    },
+    {
+      "arabic": "فراس ياغي",
+      "latin": "",
+      "reason": "لا رسم مرشّح من الكاشف"
+    },
+    {
+      "arabic": "أحمد وحيدي",
+      "latin": "",
+      "reason": "لا رسم مرشّح من الكاشف"
+    }
+  ],
+  "names_audit": [
+    {
+      "arabic": "تشاك فرايليخ",
+      "latin": "Chuck Freilich"
+    },
+    {
+      "arabic": "مسعود الفك",
+      "latin": ""
+    },
+    {
+      "arabic": "مجدي الحلبي",
+      "latin": ""
+    },
+    {
+      "arabic": "عاموس هارئيل",
+      "latin": "Amos Harel"
+    },
+    {
+      "arabic": "فراس ياغي",
+      "latin": ""
+    },
+    {
+      "arabic": "دونالد ترامب",
+      "latin": "Donald Trump"
+    },
+    {
+      "arabic": "محمد باقر قاليباف",
+      "latin": "Mohammad Bagher Ghalibaf"
+    },
+    {
+      "arabic": "أحمد وحيدي",
+      "latin": ""
+    },
+    {
+      "arabic": "أحمد وحيدي",
+      "latin": "Ahmad Vahidi"
+    },
+    {
+      "arabic": "نتنياهو",
+      "latin": "Netanyahu"
+    }
+  ],
+  "script_attempts": [
+    {
+      "attempt": 1,
+      "reasons": [
+        "السياق أطول من 61 كلمة (69)"
+      ]
+    }
+  ],
+  "headlines": [
+    "لماذا يستعجل نتنياهو ضرب إيران قبل الثامن من ديسمبر؟",
+    "هل يغيّر اغتيال قادة إيران شيئًا أم يأتي بمن هو أشد تطرفًا؟",
+    "هل تمنح واشنطن إسرائيل الضوء الأخضر لضرب إيران؟"
+  ],
+  "headline_selected": 0,
+  "script": {
+    "version": 2,
+    "narrator": "female",
+    "title": "هل يستعجل نتنياهو ضرب إيران قبل الثامن من ديسمبر؟",
+    "question": "هل تملك إيران فعلًا ما يكفي لردع ضربة جديدة؟",
+    "event": "",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "هل يستعجل نتنياهو ضرب إيران قبل الثامن من ديسمبر؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "تصاعد الحديث في واشنطن وتل أبيب عن ضربة جديدة لإيران قبل الثامن من ديسمبر. الرئيس الأمريكي دونالد ترامب قلّل من شأن ما تبقى لطهران من قدرات عسكرية."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "d43184877aa2",
+        "q": "c0",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=TPU2GBfTOgk",
+        "start": 45.2,
+        "end": 60.4,
+        "speaker_name": "دونالد ترامب",
+        "speaker_role": "الرئيس الأمريكي",
+        "speaker_verified": true,
+        "speaker_verified_from": "title",
+        "speaker_name_latin": "Trump",
+        "channel_display": "ILTV",
+        "channel_original": "ILTV",
+        "quote_arabic": "وفي إيران ليس لديهم جيش، ولا بحرية، ولا سلاح جو؛ لقد تم القضاء عليهم إلى حد كبير. لديهم قدرة ضئيلة على إطلاق الصواريخ. ونحن ننقل الآن نفطًا عبر مضيق هرمز أكثر مما كنا نفعله قبل بدء الحرب.",
+        "quote_original": "And in Iran they have no army, they have no navy, they have no air force, they've been pretty well wiped out. They have a little capacity to fire missiles. We're taking more oil through the Hormuz Strait right now than we did before the war started.",
+        "language": "en",
+        "video_published": "2026-11-25T15:27:49Z",
+        "relay": "external",
+        "relay_source": "",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "من طهران، رد القائد العام لحرس الثورة الإسلامية في إيران حسين سلامي بالحديث عن جاهزية قواته."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "069bec17b211",
+        "q": "c1",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=qxm4XIK_wFQ",
+        "start": 583.9,
+        "end": 609.5,
+        "speaker_name": "أحمد وحيدي",
+        "speaker_role": "القائد العام لحرس الثورة الإسلامية في إيران",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "احمد وحیدی",
+        "channel_display": "الميادين",
+        "channel_original": "الميادين",
+        "quote_arabic": "ما حققناه هو نتيجة لصمود شعبنا وقوة قواتنا المسلحة واستعدادها للدفاع عن البلاد. حرس الثورة بكل قواته الجوفضائية والبحرية والبرية والبسيج وقوات قدس اليوم أقوى مما سبق، ونحن على أهبة الاستعداد لدحر العدو إلى عمق أكبر.",
+        "quote_original": "ما حققناه هو نتيجة لصمود شعبنا وقوة قواتنا المسلحة واستعدادها للدفاع عن البلاد. حرس الثورة بكل قواته الجوفضائية والبحرية والبرية والبسيج وقوات قدس اليوم أقوى مما سبق، ونحن على أهبة الاستعداد لدحر العدو إلى عمق أكبر.",
+        "language": "ar",
+        "video_published": "2026-11-25T19:42:34Z",
+        "relay": "external",
+        "relay_source": "IRIBNEWS",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "وفي البرلمان الإيراني، تحدث رئيس مجلس الشورى محمد باقر قاليباف عن السبيل الوحيد لإبعاد شبح الحرب."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "4232679d3485",
+        "q": "c2",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=Cm9WFdVn_XA",
+        "start": 1159.0,
+        "end": 1185.0,
+        "speaker_name": "محمد باقر قاليباف",
+        "speaker_role": "رئيس مجلس الشورى الإيراني",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "محمدباقر قالیباف",
+        "channel_display": "إيران إنترناشيونال",
+        "channel_original": "Iran International",
+        "quote_arabic": "يا أصدقاء، هناك احتمال واحد فقط، وهو أن نصل إلى ردع مستدام. فإذا وصلنا إلى الردع، أبعدنا التهديد عن أنفسنا، ونفّذنا أمر القائد المعظم للقوات المسلحة.",
+        "quote_original": "دوستان، فقط یک جور امکان داره و اون اینکه ما به بازدارندگی پایدار برسیم. اگر به بازدارندگی رسیدیم، تهدید رو از خودمون دور کردیم، امر فرماندهی معظم کل قوا رو اجرایی‌ش کردیم.",
+        "language": "fa",
+        "video_published": "2026-11-24T21:51:32Z",
+        "relay": "external",
+        "relay_source": "",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "القائد العام لحرس الثورة الإسلامية أكد جاهزية قواته لدحر العدو إلى عمق أكبر، فيما أكد ترامب أن قدرات إيران العسكرية دُمرت إلى حد كبير باستثناء إمكانات محدودة لإطلاق الصواريخ."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 0,
+        "text": "هل يفرز اغتيال القادة الإيرانيين قيادة أشد تطرفًا؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "1662cf2b809d",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=TPU2GBfTOgk",
+        "start": 567.0,
+        "end": 595.0,
+        "speaker_name": "تشاك فرايليخ",
+        "speaker_role": "نائب مستشار الأمن القومي الإسرائيلي الأسبق",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "Chuck Freilich",
+        "channel_display": "ILTV",
+        "channel_original": "ILTV",
+        "quote_arabic": "بشأن ما ذكرتموه سابقًا من أنه يفكر في خيار الهجوم واغتيال قادة إيرانيين، فقد خضنا هذه التجربة في فبراير الماضي؛ حيث قضينا على معظم قيادتهم، والنتيجة كانت وصول قيادة أشد تطرفًا. لذا أقول إنه لو كان هذا هو الخيار الذي يدرسه الرئيس الأمريكي فعلًا، فإنني سأكون قلقًا للغاية.",
+        "quote_original": "The fact that you reported earlier and mentioned that he's thinking about an option of attacking, killing Iranian leaders, you know, been there, done that last February. And we took out most of their leadership, and what we got was a leadership which is even more extreme. So I must say, if that's really the option that the president is weighing, I would be very, very concerned.",
+        "language": "en",
+        "video_published": "2026-11-25T15:27:49Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true,
+        "echo": {
+          "role": "primary",
+          "order": 0,
+          "segments": [
+            {
+              "idea": 1,
+              "label": "اغتيال القادة أفرز قيادة أشد تطرفًا",
+              "sub_original": "The fact that you reported earlier and mentioned that he's thinking about an option of attacking, killing Iranian leaders, you know, been there, done that last February. And we took out most of their leadership, and what we got was a leadership which is even more extreme.",
+              "text_ar": "بشأن ما ذكرتموه سابقًا من أنه يفكر في خيار الهجوم واغتيال قادة إيرانيين، فقد خضنا هذه التجربة في فبراير الماضي؛ حيث قضينا على معظم قيادتهم، والنتيجة كانت وصول قيادة أشد تطرفًا."
+            }
+          ]
+        }
+      },
+      {
+        "kind": "clip",
+        "point_id": "b49d31e24459",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=LYZZU6f1xm0",
+        "start": 736.0,
+        "end": 767.0,
+        "speaker_name": "مسعود الفك",
+        "speaker_role": "مختص في شؤون إيران وآسيا الوسطى في شبكة العربية",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "مسعود الفك",
+        "channel_display": "العربية",
+        "channel_original": "العربية",
+        "quote_arabic": "اغتالت الولايات المتحدة الأمريكية وإسرائيل قادة إيرانيين بالجملة من دون تمييز بين المتشدد والبراغماتي، والنتيجة أن من يمسكون بزمام السلطة في إيران اليوم باتوا أكثر تشددًا ممن سبقوهم.",
+        "quote_original": "في الحرب السابقة والحرب الأخيرة في واقع الأمر الولايات المتحدة الأمريكية وإسرائيل اغتالوا القادة الإيرانيين بالجملة، هذا الاغتيال بالجملة لم يفرق بين متشدد براغماتي، أنا أفضل البراغماتي وليس المعتدل، ولكن يبدو بأن من هم الآن في الحكم أكثر تشددا مما كانوا في السابق",
+        "language": "ar",
+        "video_published": "2026-11-25T14:29:06Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true,
+        "echo": {
+          "role": "echo",
+          "of": "1662cf2b809d",
+          "idea": 1,
+          "label": "اغتيال القادة أفرز قيادة أشد تطرفًا",
+          "sub_original": "في الحرب السابقة والحرب الأخيرة في واقع الأمر الولايات المتحدة الأمريكية وإسرائيل اغتالوا القادة الإيرانيين بالجملة، هذا الاغتيال بالجملة لم يفرق بين متشدد براغماتي، أنا أفضل البراغماتي وليس المعتدل، ولكن يبدو بأن من هم الآن في الحكم أكثر تشددا مما كانوا في السابق",
+          "text_ar": "في الحرب السابقة والحرب الأخيرة في واقع الأمر الولايات المتحدة الأمريكية وإسرائيل اغتالوا القادة الإيرانيين بالجملة، هذا الاغتيال بالجملة لم يفرق بين متشدد براغماتي، أنا أفضل البراغماتي وليس المعتدل، ولكن يبدو بأن من هم الآن في الحكم أكثر تشددا مما كانوا في السابق"
+        }
+      },
+      {
+        "kind": "clip",
+        "point_id": "199f5960a1d5",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=LYZZU6f1xm0",
+        "start": 678.0,
+        "end": 705.0,
+        "speaker_name": "مجدي الحلبي",
+        "speaker_role": "مستشار العربية للشؤون الإسرائيلية",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "مجدي الحلبي",
+        "channel_display": "العربية",
+        "channel_original": "العربية",
+        "quote_arabic": "يقولون إن اغتيال القادة المتشددين أمر يجب أن يكون، ولكنه يمكن أن يفرز قادة متشددين أكثر، لذلك على الولايات المتحدة وإسرائيل أن تبحثا هذا الأمر أكثر بعمق وليس بشكل سريع كما كان في السابق وكما حدث في السابق، اغتيال المرشد واغتيال كل القادة من الصف الأول والثاني أدى إلى بروز قادة أكثر تشددا من الذين كانوا",
+        "quote_original": "يقولون إن اغتيال القادة المتشددين هو أمر يجب أن يكون ولكن يمكن أن يفرز قادة متشددين أكثر، لذلك على الولايات المتحدة وإسرائيل أن تبحث هذا الأمر أكثر بعمق وليس بشكل سريع كما كان في السابق وكما حدث في السابق، اغتيال المرشد واغتيال كل القادة من الصف الأول والثاني أدى إلى بروز قادة أكثر تشددا من الذين كانوا",
+        "language": "ar",
+        "video_published": "2026-11-25T14:29:06Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true,
+        "echo": {
+          "role": "echo",
+          "of": "1662cf2b809d",
+          "idea": 1,
+          "label": "اغتيال القادة أفرز قيادة أشد تطرفًا",
+          "sub_original": "يقولون إن اغتيال القادة المتشددين هو أمر يجب أن يكون ولكن يمكن أن يفرز قادة متشددين أكثر،",
+          "text_ar": "يقولون إن اغتيال القادة المتشددين هو أمر يجب أن يكون ولكن يمكن أن يفرز قادة متشددين أكثر،"
+        }
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 1,
+        "text": "هل تمنح واشنطن إسرائيل ضوءًا أخضر لضرب إيران؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "dd5b897f19cc",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=WIJZK7DmbRQ",
+        "start": 1496.7,
+        "end": 1518.7,
+        "speaker_name": "عاموس هارئيل",
+        "speaker_role": "المحلل العسكري الأول في هآرتس",
+        "speaker_verified": true,
+        "speaker_verified_from": "title",
+        "speaker_name_latin": "Amos Harel",
+        "channel_display": "هآرتس",
+        "channel_original": "Haaretz",
+        "quote_arabic": "الخطة البديلة لا تزال قائمة، إذ يناقش نتنياهو اختلاق ذريعة لضربة إسرائيلية أحادية أو هجوم مشترك، لكنني لا أرى أن احتمالات حدوث ذلك مرتفعة حاليًا، وأشك في أن يجاريه دونالد ترامب أو تمنحه واشنطن الضوء الأخضر.",
+        "quote_original": "First of all, Plan B is still in the cards. He is discussing the possibility of some kind of an excuse for an Israeli unilateral strike, or perhaps a joint strike. I don't think that the odds for this are very high currently. I doubt whether Trump would go along with this, whether there'll be a green light from Washington.",
+        "language": "en",
+        "video_published": "2026-11-24T20:04:20Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "c5eecabc6aca",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=Ag8kJNfGRLc",
+        "start": 623.0,
+        "end": 637.0,
+        "speaker_name": "فراس ياغي",
+        "speaker_role": "خبير في الشؤون الإسرائيلية",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "فراس ياغي",
+        "channel_display": "سكاي نيوز عربية",
+        "channel_original": "سكاي نيوز عربية",
+        "quote_arabic": "ثمة إشارة واضحة إلى احتمال انفراد إسرائيل بتوجيه ضربة لإيران، لاسيما إذا اجتمع المجلس الوزاري الأمني المصغر واتخذ قرارا بذلك، وحينها لن يملك الجيش إلا التنفيذ.",
+        "quote_original": "هذه إشارة واضحة بأن الإسرائيلي قد ينفرد بالذهاب إلى ضربة لإيران، خاصة بأنه إذا الكابينت الإسرائيلي اجتمع واتخذ قرار بهذا الخصوص لا يستطيع الجيش الإسرائيلي إلا أن ينفذ.",
+        "language": "ar",
+        "video_published": "2026-11-24T23:00:01Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "question",
+        "text": "هل تملك إيران فعلًا ما يكفي لردع ضربة جديدة؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": [],
+    "narrator_voices": [
+      {
+        "id": "s7VusoUfleDWGRQNqsF6",
+        "name": "Woman2",
+        "gender": "female"
+      },
+      {
+        "id": "imSStoespHEDicyPMZ3i",
+        "name": "Man2",
+        "gender": "male"
+      }
+    ]
+  },
+  "editor_revision": {
+    "at": "2026-11-26T06:56:36.858552+00:00",
+    "applied": true,
+    "error": null,
+    "before": [
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "القائد العام لحرس الثورة الإسلامية في إيران أحمد وحيدي",
+        "fix": "",
+        "note": "اسم القائد العام لحرس الثورة الإسلامية الإيراني الحالي هو حسين سلامي، وليس أحمد وحيدي (الذي هو وزير داخلية إيراني سابق). هذا شك في هوية المتحدث يستوجب التحقق قبل النشر.",
+        "sources": [],
+        "video": ""
+      },
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "[8] وبين هذا وذاك، يتردد اسم خيار استهداف القادة الإيرانيين أنفسهم.",
+        "fix": "",
+        "note": "جملة السياق تصف النقاش حول خيار الاغتيال بدل سرد واقعة محددة، وتتجاهل وقائع الحدث المرفقة (تصريحات ترامب وقائد حرس الثورة). كما أن هذا السطر لا يرتبط بوقائع محددة بل يلخّص جدلاً.",
+        "sources": []
+      },
+      {
+        "category": "vague_attribution",
+        "severity": "low",
+        "location": "body",
+        "original": "يتردد اسم خيار استهداف القادة الإيرانيين أنفسهم.",
+        "fix": "",
+        "note": "نسبة مبهمة دون تحديد من يتداول هذا الخيار (أي جهة أو مسؤول).",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "[2] تصاعد الحديث في واشنطن وتل أبيب عن ضربة جديدة لإيران قبل الثامن من ديسمبر.",
+        "fix": "",
+        "note": "السياق هنا طويل نسبيًا (أشير في تنبيهات المسودة إلى 69 كلمة تتجاوز الحد 61)، ويحتاج تدقيقًا بشريًا رغم قبوله آليًا.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "h1",
+        "original": "لماذا يستعجل نتنياهو ضرب إيران قبل الثامن من ديسمبر؟",
+        "fix": "",
+        "note": "العنوان يجزم بوجود استعجال من نتنياهو لضرب إيران قبل موعد محدد، بينما المتن لا يقدم أي تصريح مباشر من نتنياهو أو مصدر إسرائيلي رسمي يؤكد هذا الاستعجال أو الموعد تحديدًا؛ أقصى ما ورد هو تحليلات محللين (هآرتس) تشكك في حدوث ضربة أصلاً.",
+        "sources": []
+      }
+    ],
+    "unresolved": [
+      {
+        "n": 3,
+        "reason": "نسبة مبهمة (من يتداول خيار اغتيال القادة) لا يمكن تحديدها من المصادر المرفقة دون إضافة واقعة غير موثقة؛ أُعيدت صياغة السطر [8] وفق قاعدة السياق بدل إصلاح النسبة المبهمة تحديدًا."
+      },
+      {
+        "n": 4,
+        "reason": "طول السياق [2] (69 كلمة حسب تنبيه المسودة) يتجاوز حد 25 كلمة لمشهد السياق في سيناريو v2، لكن إصلاحه يتطلب حذف وقائع لم تحددها الملاحظة بدقة؛ ترك كما هو لأن أي تقصير قد يحذف معلومة لم تُشر الملاحظة إلى حذفها تحديدًا، ويحتاج قرارًا بشريًا كما ذكرت المسودة."
+      },
+      {
+        "n": 5,
+        "reason": "العنوان h1 يعتمد على افتراض صحفي واسع (الاستعجال والموعد) لا يوجد بديل محايد صريح في المصادر المرفقة يحافظ على حدود h1 دون افتراض جواب؛ أبقيت الصياغة الاستفهامية الأقرب لكن لم أجد في المصادر ما يوثق دافع 'الاستعجال' نفسه ليُستبدل بجملة وقائعية كاملة."
+      }
+    ]
+  },
+  "editor_review": {
+    "at": "2026-11-26T06:56:36.858552+00:00",
+    "applied": [],
+    "notes": [
+      {
+        "category": "vague_attribution",
+        "severity": "low",
+        "location": "body",
+        "original": "يتردد اسم خيار استهداف القادة الإيرانيين أنفسهم.",
+        "fix": "",
+        "note": "نسبة مبهمة دون تحديد من يتداول هذا الخيار (أي جهة أو مسؤول).",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "[2] تصاعد الحديث في واشنطن وتل أبيب عن ضربة جديدة لإيران قبل الثامن من ديسمبر.",
+        "fix": "",
+        "note": "السياق هنا طويل نسبيًا (أشير في تنبيهات المسودة إلى 69 كلمة تتجاوز الحد 61)، ويحتاج تدقيقًا بشريًا رغم قبوله آليًا.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "h1",
+        "original": "لماذا يستعجل نتنياهو ضرب إيران قبل الثامن من ديسمبر؟",
+        "fix": "",
+        "note": "العنوان يجزم بوجود استعجال من نتنياهو لضرب إيران قبل موعد محدد، بينما المتن لا يقدم أي تصريح مباشر من نتنياهو أو مصدر إسرائيلي رسمي يؤكد هذا الاستعجال أو الموعد تحديدًا؛ أقصى ما ورد هو تحليلات محللين (هآرتس) تشكك في حدوث ضربة أصلاً.",
+        "sources": []
+      }
+    ],
+    "error": null,
+    "searches": 0,
+    "search_skipped": null,
+    "speaker_unresolved": [
+      "مسعود الفك",
+      "مجدي الحلبي",
+      "فراس ياغي",
+      "أحمد وحيدي"
+    ]
+  },
+  "reel_quote": {
+    "status": "none",
+    "tried": [
+      {
+        "name": "توماس شيلينغ",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "توماس شيلينغ",
+        "lang": "en",
+        "reason": "طول الاقتباس 50 كلمة خارج الحد"
+      },
+      {
+        "name": "جون ميرشايمر",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "جون ميرشايمر",
+        "lang": "en",
+        "reason": "لم يجد النموذج جملة تناسب"
+      },
+      {
+        "name": "هنري كيسنجر",
+        "lang": "en",
+        "reason": "طول الاقتباس 31 كلمة خارج الحد"
+      },
+      {
+        "name": "كارل فون كلاوزفيتز",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "كارل فون كلاوزفيتز",
+        "lang": "en",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "روبرت جيرفيس",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "روبرت جيرفيس",
+        "lang": "en",
+        "reason": "لا صفحة"
+      }
+    ],
+    "candidates": 1,
+    "error": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'tool_choice: type \"tool\" and \"any\" are not supported for th"
+  },
+  "hook_cartoon": {
+    "status": "ready",
+    "idea_ar": "نتنياهو يمسك مصباحًا أخضر (إشارة مرور) بيده ممدودة نحو ترامب الذي يقف بذراعين مكتوفتين متردّدًا ولا يضغط على الزر الذي يشغّله، بينما سلامي يقف في الجهة المقابلة واقفًا بثبات وقبضته مرفوعة تحديًا، معبرًا عن أن الضوء الأخضر الأمريكي لم يُمنح بعد وأن طهران تستعرض الجاهزية.",
+    "basis_ar": "يقوم الرسم على [4] الذي يقول إن نتنياهو يناقش اختلاق ذريعة لضربة لكن عاموس هارئيل يشك في أن تمنحه واشنطن الضوء الأخضر أو يجاريه ترامب، وعلى [5] الذي يشير إلى احتمال انفراد إسرائيل بالضربة عبر المجلس الوزاري المصغر، مقابل ما ورد في السياق عن تصريح حسين سلامي بجاهزية قواته لدحر العدو.",
+    "prompt_en": "Political satire cartoon style, bold outlines, flat colors, exaggerated caricature features, no text, no numbers, no flags with words, dramatic lighting, three separate figures each isolated with no background or ground.",
+    "cost_usd": 0.1254,
+    "path": "drafts/2026-11-26/0ed7a636ee62-cartoon.png",
+    "model": "gemini-3.1-flash-image",
+    "pieces": [
+      {
+        "name_ar": "نتنياهو يمد مصباحًا أخضر",
+        "prompt_en": "Caricature of Benjamin Netanyahu, white hair, dark formal suit, stretching one arm forward holding a glowing green traffic-light lamp toward the viewer, expectant eager expression",
+        "person_ar": "نتنياهو",
+        "person_en": "Netanyahu",
+        "x": 0.2,
+        "y": 0.5,
+        "width": 0.35,
+        "enter": "left",
+        "path": "drafts/2026-11-26/0ed7a636ee62-cartoon-0.png"
+      },
+      {
+        "name_ar": "ترامب متردد مكتوف الذراعين",
+        "prompt_en": "Caricature of Donald Trump, exaggerated blond hairstyle, long red tie, navy suit, arms crossed over chest, hesitant skeptical facial expression, standing firmly without reaching for anything",
+        "person_ar": "ترامب",
+        "person_en": "Trump",
+        "x": 0.5,
+        "y": 0.45,
+        "width": 0.4,
+        "enter": "top",
+        "path": "drafts/2026-11-26/0ed7a636ee62-cartoon-1.png"
+      },
+      {
+        "name_ar": "سلامي بقبضة مرفوعة",
+        "prompt_en": "Caricature of a stern Iranian military commander in dark green Revolutionary Guard uniform with insignia, beard, raising a clenched fist defiantly, confident unwavering stance",
+        "person_ar": "حسين سلامي",
+        "person_en": "Hossein Salami",
+        "x": 0.8,
+        "y": 0.5,
+        "width": 0.35,
+        "enter": "right",
+        "path": "drafts/2026-11-26/0ed7a636ee62-cartoon-2.png"
+      }
+    ]
+  },
+  "reel_bg": {
+    "url": "https://mwlana.com/files/2026/11/3-سفن-في-مرمى-ألغام-هرمز-تصعيد-ميداني-ور-0Cgd-2.webp",
+    "kind": "news_photo",
+    "publisher": "بوابة مولانا",
+    "shows": "سفن وقوارب صيد تبحر في مياه البحر قرب جبال ساحلية، ويظهر في الخلفية ضباب وجبال، وهي مشاهد لمضيق هرمز.",
+    "crop": [
+      0.0,
+      0.0,
+      1.0,
+      0.8
+    ],
+    "text_checked": true,
+    "judged": true
+  },
+  "hook_candidates": [
+    {
+      "video_id": "76YxEsw8mdU",
+      "title": "الخامسة | إسرائيل تضغط لضرب إيران.. وطهران: سنرد دون حدود",
+      "channel": "AlArabiya العربية",
+      "views": 19620,
+      "duration": 310,
+      "published": "2026-11-23T16:00:30Z",
+      "views_per_hour": 311.5
+    },
+    {
+      "video_id": "SERhjR8PyDw",
+      "title": "صراع استخباراتي داخل إسرائيل حول ضرب إيران ومفاوضات آيزنكوت والحريديم تهدد بإسقاط نتنياهو قبل أي حرب",
+      "channel": "Alghad TV - قناة الغد",
+      "views": 9556,
+      "duration": 527,
+      "published": "2026-11-24T18:42:39Z",
+      "views_per_hour": 263.4
+    },
+    {
+      "video_id": "stnGLBXGrao",
+      "title": "رهان نتنياهو الأخير.. هل ينفد صبر ترمب إزاء إيران؟",
+      "channel": "AlHadath الحدث",
+      "views": 8960,
+      "duration": 855,
+      "published": "2026-11-24T10:15:42Z",
+      "views_per_hour": 200.3
+    },
+    {
+      "video_id": "SXKT3DfQ0Ro",
+      "title": "اشتباك سياسي حاد في إسرائيل.. نتنياهو يحذّر من تهديد إيراني خطير وآيزنكوت يردّ",
+      "channel": "العربي - أخبار ",
+      "views": 6340,
+      "duration": 35,
+      "published": "2026-11-24T04:37:14Z",
+      "views_per_hour": 125.9
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-11-24T00:00:00Z",
+          "2026-11-28T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "نتنياهو يتحدث للصحافة في القدس",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "عناصر من الحرس الثوري في طهران",
+            "raw": 2,
+            "channel_ok": 0
+          },
+          {
+            "query": "مبنى البرلمان الإيراني في طهران",
+            "raw": 2,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 0,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "Beirut Politics",
+          "Mounis Firwana",
+          "قراءة المشهد",
+          "Juba Global News Network"
+        ]
+      },
+      {
+        "broad": true,
+        "window": [
+          "2026-11-22T00:00:00Z",
+          "2026-11-29T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "ضربة إيران نتنياهو",
+            "raw": 30,
+            "channel_ok": 10
+          },
+          {
+            "query": "Netanyahu Iran strike December",
+            "raw": 30,
+            "channel_ok": 3
+          },
+          {
+            "query": "İsrail İran saldırı Netanyahu",
+            "raw": 14,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 13,
+        "judged_ok": 11,
+        "rejected_channels": [
+          "GNS ملخص الأخبار العالمية",
+          "Al Mashhad المشهد",
+          "العين الإخبارية",
+          "AlQahera News -  القاهرة الإخبارية",
+          "blinxnews",
+          "BBN CHANNEL",
+          "Cross World News",
+          "youlyou - يوليو"
+        ]
+      }
+    ],
+    "picked": [
+      "76YxEsw8mdU",
+      "SERhjR8PyDw",
+      "stnGLBXGrao",
+      "SXKT3DfQ0Ro"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "تصاعد الحديث في واشنطن وتل أبيب عن ضربة جديدة لإيران قبل الثامن من ديسمبر.",
+      "visual": "تصاعد الحديث عن ضربة جديدة لإيران",
+      "map": {
+        "countries": [
+          "إيران"
+        ]
+      }
+    },
+    {
+      "scene": 1,
+      "sentence": 1,
+      "text": "الرئيس الأمريكي دونالد ترامب قلّل من شأن ما تبقى لطهران من قدرات عسكرية.",
+      "visual": "",
+      "person": {
+        "name_ar": "دونالد ترامب",
+        "name_en": "Donald Trump"
+      }
+    },
+    {
+      "scene": 3,
+      "sentence": 0,
+      "text": "من طهران، رد القائد العام لحرس الثورة الإسلامية في إيران حسين سلامي بالحديث عن جاهزية قواته.",
+      "visual": "عرض عسكري لحرس الثورة الإيراني في طهران",
+      "map": {
+        "places": [
+          "طهران"
+        ],
+        "countries": [
+          "إيران"
+        ]
+      },
+      "person": {
+        "name_ar": "حسين سلامي",
+        "name_en": "Hossein Salami"
+      }
+    },
+    {
+      "scene": 5,
+      "sentence": 0,
+      "text": "وفي البرلمان الإيراني، تحدث رئيس مجلس الشورى محمد باقر قاليباف عن السبيل الوحيد لإبعاد شبح الحرب.",
+      "visual": "",
+      "person": {
+        "name_ar": "محمد باقر قاليباف",
+        "name_en": "Mohammad Bagher Ghalibaf"
+      }
+    },
+    {
+      "scene": 7,
+      "sentence": 0,
+      "text": "القائد العام لحرس الثورة الإسلامية أكد جاهزية قواته لدحر العدو إلى عمق أكبر، فيما أكد ترامب أن قدرات إيران العسكرية دُمرت إلى حد كبير باستثناء إمكانات محدودة لإطلاق الصواريخ.",
+      "visual": "عرض عسكري لجاهزية قوات الحرس الثوري",
+      "person": {
+        "name_ar": "حسين سلامي",
+        "name_en": "Hossein Salami"
+      }
+    },
+    {
+      "scene": 8,
+      "sentence": 0,
+      "text": "هل يفرز اغتيال القادة الإيرانيين قيادة أشد تطرفًا؟",
+      "visual": ""
+    },
+    {
+      "scene": 12,
+      "sentence": 0,
+      "text": "هل تمنح واشنطن إسرائيل ضوءًا أخضر لضرب إيران؟",
+      "visual": "",
+      "map": {
+        "countries": [
+          "الولايات المتحدة",
+          "إسرائيل",
+          "إيران"
+        ]
+      }
+    }
+  ],
+  "cost_script": {
+    "claude": {
+      "claude-haiku-5-5": 0.00435,
+      "claude-sonnet-5": 0.25701,
+      "claude-opus-5": 0.14544
+    },
+    "gemini": 0.1254
+  },
+  "review_issue": 2019,
+  "stage2_issue": 2019
+}
