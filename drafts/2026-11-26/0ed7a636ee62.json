@@ -772,7 +772,8 @@
       0.8
     ],
     "text_checked": true,
-    "judged": true
+    "judged": true,
+    "layout": "A"
   },
   "hook_candidates": [
     {
@@ -885,10 +886,14 @@
       }
     ],
     "picked": [
-      "76YxEsw8mdU",
-      "SERhjR8PyDw",
-      "stnGLBXGrao",
-      "SXKT3DfQ0Ro"
+      "76YxEsw8mdU"
+    ],
+    "compared": [
+      {
+        "video_id": "76YxEsw8mdU",
+        "impact": 3,
+        "footage_ratio": 0.062
+      }
     ]
   },
   "broll_plan": [
@@ -981,7 +986,7 @@
   },
   "review_issue": 2019,
   "stage2_issue": 2019,
-  "render_status": "queued",
+  "render_status": "rendered",
   "approved_script_at": "2026-11-26T07:03:22.694781+00:00",
   "editor_override": {
     "at": "2026-11-26T07:03:22.694756+00:00",
@@ -992,5 +997,1897 @@
       "اسم متحدث لم يُحسم: أحمد وحيدي"
     ]
   },
-  "hook_picked": 0
+  "hook_picked": 0,
+  "hook_video": {
+    "video_id": "76YxEsw8mdU",
+    "start": 14,
+    "end": 23,
+    "channel": "AlArabiya العربية",
+    "title": "الخامسة | إسرائيل تضغط لضرب إيران.. وطهران: سنرد دون حدود",
+    "source": "auto",
+    "views": 19620,
+    "impact": 3,
+    "pre_ok": true,
+    "strong_start": 14,
+    "reason": "أقوى 3 ث (قوة 3)",
+    "render_version": 91
+  },
+  "reel_file": "reels/2026-11-26/0ed7a636ee62.mp4",
+  "reel_gif": "reels/2026-11-26/0ed7a636ee62.gif",
+  "duration_seconds": 222.4,
+  "render_version": 91,
+  "render_attempts": 0,
+  "reel_music": "sigmamusicart-breaking-news-551355.mp3",
+  "render_sources": "ILTV، الميادين، إيران إنترناشيونال، العربية، هآرتس، سكاي نيوز عربية، AlArabiya العربية",
+  "render_crops": {
+    "2": {
+      "x": 450,
+      "source": "speaker",
+      "speaker_score": 1.58,
+      "tracks": 1,
+      "gate": {
+        "start": 0.88,
+        "end": 15.18,
+        "source": "silence"
+      },
+      "exact": {
+        "t0": 46.24,
+        "t1": 60.4,
+        "ratio": 0.936,
+        "source": "words",
+        "saved": true
+      },
+      "faces": {
+        "samples": [
+          [
+            1.227,
+            645
+          ],
+          [
+            2.16,
+            672
+          ],
+          [
+            3.093,
+            657
+          ],
+          [
+            4.027,
+            660
+          ],
+          [
+            4.96,
+            664
+          ],
+          [
+            5.893,
+            662
+          ],
+          [
+            6.827,
+            656
+          ],
+          [
+            7.76,
+            650
+          ],
+          [
+            8.693,
+            655
+          ],
+          [
+            9.627,
+            660
+          ],
+          [
+            10.56,
+            644
+          ],
+          [
+            11.493,
+            658
+          ],
+          [
+            12.427,
+            655
+          ],
+          [
+            13.36,
+            644
+          ],
+          [
+            14.293,
+            662
+          ]
+        ],
+        "cuts": [],
+        "identity": {
+          "ref": 37,
+          "matched": 37,
+          "path": 1,
+          "single": 0
+        }
+      },
+      "panel_q": "c0",
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 430,
+        "y": 0,
+        "w": 446,
+        "h": 518,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.72,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.74,
+          0.74,
+          0.74
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "line",
+      "frame_check": {
+        "samples": 32,
+        "lost": []
+      }
+    },
+    "4": {
+      "x": 414,
+      "source": "speaker_vision",
+      "speaker_score": 1.06,
+      "tracks": 4,
+      "vision": {
+        "pick": 4,
+        "agree": 3,
+        "archive": [
+          1,
+          2,
+          3
+        ]
+      },
+      "gate": {
+        "start": 0.74,
+        "end": 25.64,
+        "source": "transcript"
+      },
+      "exact": {
+        "t0": 584.86,
+        "t1": 609.52,
+        "ratio": 0.917,
+        "source": "words",
+        "saved": true
+      },
+      "faces": {
+        "samples": [
+          [
+            1.133,
+            652
+          ],
+          [
+            1.7,
+            655
+          ],
+          [
+            2.267,
+            657
+          ],
+          [
+            2.833,
+            635
+          ],
+          [
+            3.4,
+            618
+          ],
+          [
+            3.967,
+            615
+          ],
+          [
+            4.533,
+            616
+          ],
+          [
+            5.1,
+            616
+          ],
+          [
+            5.667,
+            613
+          ],
+          [
+            6.233,
+            614
+          ],
+          [
+            6.8,
+            615
+          ],
+          [
+            7.367,
+            616
+          ],
+          [
+            7.933,
+            615
+          ],
+          [
+            8.5,
+            617
+          ],
+          [
+            9.067,
+            617
+          ],
+          [
+            9.633,
+            615
+          ],
+          [
+            10.2,
+            614
+          ],
+          [
+            10.767,
+            614
+          ],
+          [
+            11.333,
+            615
+          ],
+          [
+            11.9,
+            614
+          ],
+          [
+            12.467,
+            613
+          ],
+          [
+            13.033,
+            615
+          ],
+          [
+            13.6,
+            615
+          ],
+          [
+            14.167,
+            612
+          ],
+          [
+            14.733,
+            613
+          ],
+          [
+            15.3,
+            614
+          ],
+          [
+            15.867,
+            614
+          ],
+          [
+            16.433,
+            613
+          ],
+          [
+            17.0,
+            613
+          ],
+          [
+            17.567,
+            619
+          ],
+          [
+            18.133,
+            612
+          ],
+          [
+            18.7,
+            606
+          ],
+          [
+            19.267,
+            607
+          ],
+          [
+            19.833,
+            621
+          ],
+          [
+            20.4,
+            638
+          ],
+          [
+            20.967,
+            619
+          ],
+          [
+            21.533,
+            605
+          ],
+          [
+            22.1,
+            605
+          ],
+          [
+            22.667,
+            616
+          ],
+          [
+            23.233,
+            618
+          ],
+          [
+            23.8,
+            616
+          ],
+          [
+            24.367,
+            614
+          ],
+          [
+            24.933,
+            613
+          ],
+          [
+            25.5,
+            617
+          ]
+        ],
+        "cuts": [],
+        "identity": {
+          "ref": 59,
+          "matched": 59,
+          "path": 1,
+          "single": 0
+        }
+      },
+      "panel_q": "c1",
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 382,
+        "y": 0,
+        "w": 470,
+        "h": 546,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.76,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.78,
+          0.78,
+          0.78
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "word",
+      "frame_check": {
+        "samples": 53,
+        "lost": []
+      }
+    },
+    "6": {
+      "x": 491,
+      "source": "speaker",
+      "speaker_score": 1.21,
+      "tracks": 1,
+      "gate": {
+        "start": 0.88,
+        "end": 25.06,
+        "source": "transcript"
+      },
+      "exact": {
+        "t0": 1159.8,
+        "t1": 1183.74,
+        "ratio": 0.781,
+        "source": "words"
+      },
+      "faces": {
+        "samples": [
+          [
+            1.167,
+            670
+          ],
+          [
+            1.733,
+            672
+          ],
+          [
+            2.3,
+            688
+          ],
+          [
+            2.867,
+            670
+          ],
+          [
+            3.433,
+            640
+          ],
+          [
+            4.0,
+            661
+          ],
+          [
+            4.567,
+            702
+          ],
+          [
+            6.267,
+            695
+          ],
+          [
+            6.833,
+            739
+          ],
+          [
+            7.4,
+            737
+          ],
+          [
+            7.967,
+            691
+          ],
+          [
+            8.533,
+            747
+          ],
+          [
+            9.1,
+            757
+          ],
+          [
+            9.667,
+            730
+          ],
+          [
+            10.233,
+            719
+          ],
+          [
+            10.8,
+            713
+          ],
+          [
+            11.933,
+            707
+          ],
+          [
+            12.5,
+            718
+          ],
+          [
+            13.067,
+            726
+          ],
+          [
+            13.633,
+            721
+          ],
+          [
+            14.2,
+            697
+          ],
+          [
+            14.767,
+            595
+          ],
+          [
+            15.333,
+            613
+          ],
+          [
+            15.9,
+            602
+          ],
+          [
+            16.467,
+            590
+          ],
+          [
+            17.033,
+            672
+          ],
+          [
+            17.6,
+            681
+          ],
+          [
+            18.167,
+            726
+          ],
+          [
+            18.733,
+            751
+          ],
+          [
+            19.3,
+            736
+          ],
+          [
+            19.867,
+            719
+          ],
+          [
+            20.433,
+            657
+          ],
+          [
+            21.0,
+            698
+          ],
+          [
+            21.567,
+            709
+          ],
+          [
+            22.133,
+            714
+          ],
+          [
+            22.7,
+            713
+          ],
+          [
+            23.267,
+            707
+          ],
+          [
+            23.833,
+            719
+          ],
+          [
+            24.4,
+            687
+          ],
+          [
+            24.967,
+            683
+          ]
+        ],
+        "cuts": [],
+        "identity": {
+          "ref": 49,
+          "matched": 45,
+          "path": 11,
+          "single": 0
+        }
+      },
+      "panel_q": "c2",
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 434,
+        "y": 0,
+        "w": 476,
+        "h": 554,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": false,
+      "lower_graphics": {
+        "top": 0.77,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.79,
+          0.79,
+          0.79
+        ]
+      },
+      "follow": {
+        "keys": [
+          [
+            0.0,
+            434
+          ],
+          [
+            8.533,
+            434
+          ],
+          [
+            9.333,
+            508
+          ],
+          [
+            14.767,
+            508
+          ],
+          [
+            15.567,
+            376
+          ],
+          [
+            18.167,
+            376
+          ],
+          [
+            18.967,
+            498
+          ]
+        ],
+        "moves": 3
+      },
+      "quote_sync": "words",
+      "quote_mode": "line",
+      "frame_check": {
+        "samples": 52,
+        "lost": []
+      }
+    },
+    "9": {
+      "x": 747,
+      "source": "speaker_vision",
+      "speaker_score": 0.62,
+      "tracks": 2,
+      "vision": {
+        "pick": 1,
+        "agree": 3,
+        "archive": [
+          1,
+          2
+        ]
+      },
+      "gate": {
+        "start": 0.75,
+        "end": 27.38,
+        "source": "silence"
+      },
+      "exact": {
+        "t0": 567.98,
+        "t1": 594.24,
+        "ratio": 0.94,
+        "source": "words"
+      },
+      "faces": {
+        "samples": [
+          [
+            1.553,
+            949
+          ],
+          [
+            2.687,
+            949
+          ],
+          [
+            3.82,
+            952
+          ],
+          [
+            4.953,
+            954
+          ],
+          [
+            6.087,
+            949
+          ],
+          [
+            7.22,
+            249
+          ],
+          [
+            8.353,
+            233
+          ],
+          [
+            9.487,
+            233
+          ],
+          [
+            10.62,
+            235
+          ],
+          [
+            11.753,
+            238
+          ],
+          [
+            12.887,
+            221
+          ],
+          [
+            14.02,
+            230
+          ],
+          [
+            15.153,
+            235
+          ],
+          [
+            16.287,
+            231
+          ],
+          [
+            17.42,
+            232
+          ],
+          [
+            18.553,
+            228
+          ],
+          [
+            19.687,
+            231
+          ],
+          [
+            20.82,
+            233
+          ],
+          [
+            21.953,
+            235
+          ],
+          [
+            23.087,
+            233
+          ],
+          [
+            24.22,
+            229
+          ],
+          [
+            25.353,
+            230
+          ],
+          [
+            26.487,
+            228
+          ]
+        ],
+        "cuts": [
+          7.42
+        ],
+        "identity": {
+          "ref": 38,
+          "matched": 60,
+          "path": 0,
+          "single": 0
+        }
+      },
+      "panel_q": 0,
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 726,
+        "y": 0,
+        "w": 446,
+        "h": 518,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        68,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.72,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.74,
+          0.74,
+          0.74
+        ]
+      },
+      "follow": {
+        "keys": [
+          [
+            0.0,
+            726
+          ],
+          [
+            7.22,
+            726
+          ],
+          [
+            8.02,
+            26
+          ]
+        ],
+        "moves": 1
+      },
+      "echo": [
+        {
+          "role": "primary",
+          "src0": 20.5,
+          "src1": 41.46,
+          "depth": 0
+        }
+      ]
+    },
+    "10": {
+      "x": 49,
+      "source": "speaker",
+      "speaker_score": 0.51,
+      "tracks": 1,
+      "gate": {
+        "start": 0.88,
+        "end": 29.66,
+        "source": "transcript"
+      },
+      "exact": {
+        "t0": 736.2,
+        "t1": 764.74,
+        "ratio": 0.907,
+        "source": "words"
+      },
+      "faces": {
+        "samples": [
+          [
+            2.1,
+            242
+          ],
+          [
+            3.283,
+            242
+          ],
+          [
+            4.467,
+            664
+          ],
+          [
+            5.65,
+            668
+          ],
+          [
+            6.833,
+            693
+          ],
+          [
+            8.017,
+            649
+          ],
+          [
+            9.2,
+            264
+          ],
+          [
+            10.383,
+            269
+          ],
+          [
+            11.567,
+            276
+          ],
+          [
+            12.75,
+            232
+          ],
+          [
+            13.933,
+            262
+          ],
+          [
+            15.117,
+            209
+          ],
+          [
+            16.3,
+            243
+          ],
+          [
+            17.483,
+            302
+          ],
+          [
+            18.667,
+            225
+          ],
+          [
+            19.85,
+            297
+          ],
+          [
+            21.033,
+            215
+          ],
+          [
+            22.217,
+            250
+          ],
+          [
+            23.4,
+            232
+          ],
+          [
+            24.583,
+            254
+          ],
+          [
+            25.767,
+            245
+          ],
+          [
+            26.95,
+            251
+          ],
+          [
+            28.133,
+            238
+          ],
+          [
+            29.317,
+            213
+          ]
+        ],
+        "cuts": [
+          1.68,
+          4.4,
+          9.16,
+          26.4,
+          29.52
+        ],
+        "identity": {
+          "ref": 48,
+          "matched": 43,
+          "path": 0,
+          "single": 0
+        }
+      },
+      "panel_q": 0,
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 0,
+        "y": 0,
+        "w": 484,
+        "h": 562,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.78,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.82,
+          0.8,
+          0.8
+        ]
+      },
+      "follow": {
+        "keys": [
+          [
+            0.0,
+            0
+          ],
+          [
+            4.399,
+            0
+          ],
+          [
+            4.4,
+            426
+          ],
+          [
+            9.159,
+            426
+          ],
+          [
+            9.16,
+            28
+          ]
+        ],
+        "moves": 2
+      },
+      "echo": [
+        {
+          "role": "echo",
+          "src0": 20.05,
+          "src1": 48.94,
+          "depth": 1
+        }
+      ]
+    },
+    "13": {
+      "x": 416,
+      "source": "speaker",
+      "speaker_score": 0.81,
+      "tracks": 1,
+      "gate": {
+        "start": 0.86,
+        "end": 22.16,
+        "source": "silence"
+      },
+      "exact": {
+        "t0": 1497.7,
+        "t1": 1518.74,
+        "ratio": 1.0,
+        "source": "words",
+        "saved": true
+      },
+      "faces": {
+        "samples": [
+          [
+            1.361,
+            593
+          ],
+          [
+            2.411,
+            616
+          ],
+          [
+            3.462,
+            618
+          ],
+          [
+            4.512,
+            619
+          ],
+          [
+            5.563,
+            616
+          ],
+          [
+            6.613,
+            616
+          ],
+          [
+            7.664,
+            617
+          ],
+          [
+            8.714,
+            613
+          ],
+          [
+            9.765,
+            613
+          ],
+          [
+            10.815,
+            589
+          ],
+          [
+            11.866,
+            604
+          ],
+          [
+            12.916,
+            609
+          ],
+          [
+            13.966,
+            611
+          ],
+          [
+            15.017,
+            611
+          ],
+          [
+            16.067,
+            612
+          ],
+          [
+            17.118,
+            717
+          ],
+          [
+            18.169,
+            704
+          ],
+          [
+            19.219,
+            707
+          ],
+          [
+            20.27,
+            696
+          ],
+          [
+            21.32,
+            696
+          ]
+        ],
+        "cuts": [
+          16.804
+        ],
+        "identity": {
+          "ref": 60,
+          "matched": 60,
+          "path": 0,
+          "single": 0
+        }
+      },
+      "panel_q": 1,
+      "tile_crop": {
+        "x": 214,
+        "y": 0,
+        "w": 810,
+        "h": 720,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 308,
+        "y": 0,
+        "w": 620,
+        "h": 720,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": false,
+      "lower_graphics": {
+        "top": 1,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "line",
+      "frame_check": {
+        "samples": 44,
+        "lost": []
+      }
+    },
+    "14": {
+      "x": 298,
+      "source": "speaker",
+      "speaker_score": 0.79,
+      "tracks": 1,
+      "gate": {
+        "start": 0.88,
+        "end": 13.52,
+        "source": "transcript"
+      },
+      "exact": {
+        "t0": 624.26,
+        "t1": 636.66,
+        "ratio": 0.786,
+        "source": "words"
+      },
+      "faces": {
+        "samples": [
+          [
+            0.973,
+            432
+          ],
+          [
+            1.34,
+            432
+          ],
+          [
+            1.707,
+            432
+          ],
+          [
+            2.073,
+            435
+          ],
+          [
+            2.44,
+            430
+          ],
+          [
+            2.807,
+            428
+          ],
+          [
+            3.173,
+            434
+          ],
+          [
+            3.54,
+            432
+          ],
+          [
+            3.907,
+            433
+          ],
+          [
+            4.273,
+            434
+          ],
+          [
+            4.64,
+            433
+          ],
+          [
+            5.007,
+            430
+          ],
+          [
+            5.373,
+            434
+          ],
+          [
+            5.74,
+            436
+          ],
+          [
+            6.107,
+            435
+          ],
+          [
+            6.473,
+            434
+          ],
+          [
+            6.84,
+            433
+          ],
+          [
+            7.207,
+            434
+          ],
+          [
+            7.573,
+            437
+          ],
+          [
+            7.94,
+            431
+          ],
+          [
+            8.307,
+            431
+          ],
+          [
+            8.673,
+            433
+          ],
+          [
+            9.04,
+            433
+          ],
+          [
+            9.407,
+            436
+          ],
+          [
+            9.773,
+            435
+          ],
+          [
+            10.14,
+            434
+          ],
+          [
+            10.507,
+            436
+          ],
+          [
+            10.873,
+            434
+          ],
+          [
+            11.24,
+            434
+          ],
+          [
+            11.607,
+            433
+          ],
+          [
+            11.973,
+            433
+          ],
+          [
+            12.34,
+            432
+          ],
+          [
+            12.707,
+            432
+          ],
+          [
+            13.073,
+            432
+          ],
+          [
+            13.44,
+            433
+          ]
+        ],
+        "cuts": [],
+        "identity": {
+          "ref": 60,
+          "matched": 60,
+          "path": 0,
+          "single": 0
+        }
+      },
+      "panel_q": 1,
+      "tile_crop": {
+        "x": 224,
+        "y": 0,
+        "w": 420,
+        "h": 374,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 272,
+        "y": 0,
+        "w": 322,
+        "h": 374,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": false,
+      "lower_graphics": {
+        "top": 0.78,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.8,
+          0.8,
+          0.8
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "word",
+      "frame_check": {
+        "samples": 27,
+        "lost": []
+      }
+    },
+    "closing": {
+      "source": "continuous"
+    }
+  },
+  "render_speakers": {
+    "2": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "4": {
+      "name_original": "",
+      "name_arabic": "",
+      "role_arabic": "",
+      "is_presenter": false,
+      "frames_agreeing": 0,
+      "rejected": "",
+      "accepted": false,
+      "headline_frames": 1
+    },
+    "6": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "9": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "10": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "11": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "13": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "14": {
+      "name_original": "",
+      "name_arabic": "",
+      "role_arabic": "",
+      "is_presenter": false,
+      "frames_agreeing": 0,
+      "rejected": "",
+      "accepted": false
+    }
+  },
+  "render_roster": {
+    "qxm4XIK_wFQ": [
+      {
+        "name_arabic": "عماد أبشناز",
+        "name_original": "السيد عماد ابشناز",
+        "role_arabic": "الكاتب والمحلل السياسي، من طهران",
+        "is_host": false
+      },
+      {
+        "name_arabic": "علي أبي رعد",
+        "name_original": "General Ali abi Raad / العميد علي ابي رعد",
+        "role_arabic": "العميد المتقاعد والخبير العسكري والاستراتيجي، من بيروت",
+        "is_host": false
+      },
+      {
+        "name_arabic": "المقدّم (مذيع الحلقة)",
+        "name_original": "<UNKNOWN>",
+        "role_arabic": "مقدّم الحلقة، يظهر في الاستوديو ويدير النقاش مع الضيفين",
+        "is_host": true
+      }
+    ],
+    "Ag8kJNfGRLc": [
+      {
+        "name_arabic": "إيلي الهندي",
+        "name_original": "إيلي الهندي",
+        "role_arabic": "باحث في العلاقات الدولية",
+        "is_host": true
+      },
+      {
+        "name_arabic": "أمجد طه",
+        "name_original": "أمجد طه",
+        "role_arabic": "باحث في الشؤون الأمنية والاستراتيجية",
+        "is_host": false
+      },
+      {
+        "name_arabic": "حكم أمهز",
+        "name_original": "حكم أمهز",
+        "role_arabic": "باحث في الشؤون الإقليمية والدولية (من طهران)",
+        "is_host": false
+      },
+      {
+        "name_arabic": "فراس ياغي",
+        "name_original": "فراس ياغي",
+        "role_arabic": "خبير في الشؤون الإسرائيلية (من القدس)",
+        "is_host": false
+      }
+    ]
+  },
+  "render_roster_source": {
+    "qxm4XIK_wFQ": "built",
+    "Ag8kJNfGRLc": "built"
+  },
+  "render_attribution": [
+    {
+      "point_id": "069bec17b211",
+      "speaker": "",
+      "evidence": "",
+      "accepted": false,
+      "reason": "القائل ليس في القائمة"
+    },
+    {
+      "point_id": "c5eecabc6aca",
+      "speaker": "فراس ياغي",
+      "evidence": "[533] >> تحياتي شانتال وتحياتي لضيوفك الكرام",
+      "accepted": false,
+      "reason": "evidence بلا كلمة من اسم القائل"
+    }
+  ],
+  "render_map_errors": {
+    "qxm4XIK_wFQ": "نفد وقت التشغيلة",
+    "Ag8kJNfGRLc": "budget"
+  },
+  "render_gemini_speakers": [
+    {
+      "point_id": "d43184877aa2",
+      "video_id": "TPU2GBfTOgk",
+      "start": 46.2,
+      "end": 60.4,
+      "name": "دونالد ترامب",
+      "source": "introduced",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "1662cf2b809d",
+      "video_id": "TPU2GBfTOgk",
+      "start": 568.0,
+      "end": 594.2,
+      "name": "تشاك فرايليخ",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "069bec17b211",
+      "video_id": "qxm4XIK_wFQ",
+      "start": 584.9,
+      "end": 609.5,
+      "name": "",
+      "applied": false
+    },
+    {
+      "point_id": "4232679d3485",
+      "video_id": "Cm9WFdVn_XA",
+      "start": 1159.8,
+      "end": 1183.7,
+      "name": "محمد باقر قاليباف",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "b49d31e24459",
+      "video_id": "LYZZU6f1xm0",
+      "start": 736.2,
+      "end": 764.7,
+      "name": "مسعود الفك",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "199f5960a1d5",
+      "video_id": "LYZZU6f1xm0",
+      "start": 679.7,
+      "end": 706.0,
+      "name": "مجدي الحلبي",
+      "source": "",
+      "is_host": false,
+      "applied": true,
+      "off_screen": true
+    },
+    {
+      "point_id": "dd5b897f19cc",
+      "video_id": "WIJZK7DmbRQ",
+      "start": 1497.7,
+      "end": 1518.7,
+      "name": "عاموس هاريل",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "c5eecabc6aca",
+      "video_id": "Ag8kJNfGRLc",
+      "start": 624.3,
+      "end": 636.7,
+      "name": "",
+      "applied": false
+    }
+  ],
+  "render_gemini_cost": 0.1712,
+  "render_exact_selfcheck": {
+    "ok": true,
+    "reason": ""
+  },
+  "render_budget": {
+    "minutes": 50.2,
+    "skipped": [
+      "speakers",
+      "maps",
+      "figures"
+    ]
+  },
+  "render_broll": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "photo": "لم يجد الفحص لقطات ميدانية"
+    },
+    {
+      "scene": 1,
+      "sentence": 1,
+      "photo": "جملة مجرّدة"
+    },
+    {
+      "scene": 3,
+      "sentence": 0,
+      "photo": "لم يجد الفحص لقطات ميدانية"
+    },
+    {
+      "scene": 5,
+      "sentence": 0,
+      "photo": "جملة مجرّدة"
+    },
+    {
+      "scene": 7,
+      "sentence": 0,
+      "photo": "لم يجد الفحص لقطات ميدانية"
+    },
+    {
+      "scene": 8,
+      "sentence": 0,
+      "photo": "جملة مجرّدة"
+    },
+    {
+      "scene": 12,
+      "sentence": 0,
+      "photo": "جملة مجرّدة"
+    }
+  ],
+  "broll_scan": {
+    "videos": {
+      "76YxEsw8mdU": {
+        "downloaded": 309,
+        "classified": 216,
+        "sheets": 15,
+        "kinds": {
+          "anchor": 134,
+          "studio": 13,
+          "text_heavy": 42,
+          "event_footage": 9,
+          "graphic": 17,
+          "other": 1
+        },
+        "footage_relevant": 9,
+        "footage_other": 0,
+        "chains": 0,
+        "longest": 0
+      },
+      "SERhjR8PyDw": {
+        "downloaded": 526,
+        "classified": 360,
+        "sheets": 15,
+        "kinds": {
+          "anchor": 360
+        },
+        "footage_relevant": 0,
+        "footage_other": 0,
+        "chains": 0,
+        "longest": 0
+      }
+    },
+    "sheets_used": 30,
+    "chains": [],
+    "assign": []
+  },
+  "render_timing": {
+    "minutes": 52.6,
+    "stages": [
+      [
+        "clips",
+        0.0
+      ],
+      [
+        "clip 2 ILTV",
+        0.3
+      ],
+      [
+        "clip 4 الميادين",
+        1.6
+      ],
+      [
+        "clip 6 إيران إنترناشيونال",
+        2.6
+      ],
+      [
+        "clip 9 ILTV",
+        3.6
+      ],
+      [
+        "clip 10 العربية",
+        5.7
+      ],
+      [
+        "clip 11 العربية",
+        7.1
+      ],
+      [
+        "clip 13 هآرتس",
+        8.3
+      ],
+      [
+        "clip 14 سكاي نيوز عربية",
+        14.4
+      ],
+      [
+        "background",
+        16.2
+      ],
+      [
+        "hook_scan",
+        16.2
+      ],
+      [
+        "broll",
+        17.4
+      ],
+      [
+        "assemble",
+        20.4
+      ],
+      [
+        "speakers",
+        20.4
+      ],
+      [
+        "maps",
+        41.4
+      ],
+      [
+        "figures",
+        41.4
+      ],
+      [
+        "scene 0 title_card",
+        41.4
+      ],
+      [
+        "scene 1 narration",
+        41.6
+      ],
+      [
+        "scene 2 clip",
+        41.9
+      ],
+      [
+        "scene 3 narration",
+        42.7
+      ],
+      [
+        "scene 4 clip",
+        42.9
+      ],
+      [
+        "scene 5 narration",
+        43.9
+      ],
+      [
+        "scene 6 clip",
+        44.0
+      ],
+      [
+        "scene 7 narration",
+        45.1
+      ],
+      [
+        "scene 8 narration",
+        45.5
+      ],
+      [
+        "scene 9 clip",
+        45.6
+      ],
+      [
+        "scene 10 clip",
+        47.8
+      ],
+      [
+        "scene 11 clip",
+        47.8
+      ],
+      [
+        "scene 12 narration",
+        47.8
+      ],
+      [
+        "scene 13 clip",
+        47.9
+      ],
+      [
+        "scene 14 clip",
+        49.8
+      ],
+      [
+        "scene 15 question",
+        49.8
+      ],
+      [
+        "join",
+        50.2
+      ],
+      [
+        "final",
+        51.5
+      ]
+    ],
+    "left_minutes": 1.1
+  },
+  "render_dropped": [
+    {
+      "point_id": "199f5960a1d5",
+      "kind": "clip",
+      "reason": "مجدي الحلبي لا يظهر على الشاشة وهو يتكلم في مقطع العربية ولم توجد له صورة صالحة — حُذف المقطع"
+    }
+  ],
+  "render_approx": [
+    {
+      "point_id": "d43184877aa2",
+      "kind": "clip",
+      "start": 45,
+      "end": 61,
+      "reason": "الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة",
+      "aligned": true
+    },
+    {
+      "point_id": "1662cf2b809d",
+      "kind": "clip",
+      "start": 567,
+      "end": 595,
+      "reason": "الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة",
+      "aligned": true
+    },
+    {
+      "point_id": "b49d31e24459",
+      "kind": "clip",
+      "start": 736,
+      "end": 767,
+      "reason": "الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة",
+      "aligned": true
+    },
+    {
+      "point_id": "dd5b897f19cc",
+      "kind": "clip",
+      "start": 1496,
+      "end": 1519,
+      "reason": "الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة",
+      "aligned": true
+    }
+  ],
+  "rendered_at": "2026-11-26T07:58:02.316921+00:00",
+  "cost_renders": [
+    {
+      "claude": {
+        "claude-haiku-5-5": 0.02577,
+        "claude-sonnet-5": 0.05901
+      },
+      "gemini": 0.1712,
+      "tts": 0.08106,
+      "proxy_bytes": 99143440,
+      "at": "2026-11-26T07:58:02.316971+00:00"
+    }
+  ],
+  "render_notes": [
+    "### 🎬 تركيب الريل",
+    "- ⏱️ المدة: 222.4 ث",
+    "- 🎞️ [الملف](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-11-26/0ed7a636ee62.mp4) · [المعاينة](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-11-26/0ed7a636ee62.gif)",
+    "- ✂️ حُذف 1: clip (مجدي الحلبي لا يظهر على الشاشة وهو يتكلم في مقطع العربية ولم توجد له صورة صالحة — حُذف المقطع)",
+    "- ⏱️ نافذة مقطع الميادين مُدّت إلى مدته المعروفة (26 ث) — موضع الاقتباس في النص تقديري",
+    "- ⏱️ نافذة مقطع إيران إنترناشيونال مُدّت إلى مدته المعروفة (26 ث) — موضع الاقتباس في النص تقديري",
+    "- ⏱️ نافذة مقطع سكاي نيوز عربية مُدّت إلى مدته المعروفة (14 ث) — موضع الاقتباس في النص تقديري",
+    "- 🎞️ لقطة الهوك: AlArabiya العربية — [الخامسة | إسرائيل تضغط لضرب إيران.. وطهران: سنرد دون حدود](https://www.youtube.com/watch?v=76YxEsw8mdU&t=14) (14–23 ث) · 19,620 مشاهدة",
+    "- 👥 ضيوف الميادين: عماد أبشناز، علي أبي رعد",
+    "- 👥 ضيوف سكاي نيوز عربية: أمجد طه، حكم أمهز، فراس ياغي",
+    "- ⚠️ تعذّر بناء خريطة متكلمي الميادين: نفد وقت التشغيلة",
+    "- ⏱️ تُخطّيت مرحلة قائمة الضيوف وخريطة المتكلمين بعد 41 دقيقة من التركيب (ميزانية الوقت)",
+    "- ✅ Gemini يؤكد المتكلم: دونالد ترامب (ILTV)",
+    "- 📰 أسفل الشاشة في الميادين عنوان خبر لا اسم المتكلم — لم يُعتمد اسمًا له",
+    "- ✅ Gemini يؤكد المتكلم: محمد باقر قاليباف (إيران إنترناشيونال)",
+    "- ✅ Gemini يؤكد المتكلم: تشاك فرايليخ (ILTV)",
+    "- ✅ Gemini يؤكد المتكلم: مسعود الفك (العربية)",
+    "- ✅ Gemini يؤكد المتكلم: عاموس هارئيل (هآرتس)",
+    "- ⏱️ تُخطّيت مرحلة خرائط السياق بعد 41 دقيقة من التركيب (ميزانية الوقت)",
+    "- 🎨 أشخاص الكاريكاتير يتبعون الراوي في 3 جمل: ترامب، حسين سلامي",
+    "- ⏱️ تُخطّيت مرحلة صور الأشخاص بعد 41 دقيقة من التركيب (ميزانية الوقت)",
+    "- 🎞️ فحصت 576 ث من 2 فيديو: لقطات ميدانية 9 ث — لا سلسلة ≥ 3 ث",
+    "- 🎞️ لقطات الحدث: 0 من 7 جمل — 7 بالصورة",
+    "- 🖼️ خلفية واحدة متصلة: الصورة تتحرك ذهابًا وإيابًا طوال الريل (لا لقطات حدث تكفي فيديو)",
+    "- 🎨 قطع الكاريكاتير المعتمد تتجمّع في الهوك (3)",
+    "- ✂️ أُخفي شريط القناة في ILTV: قُصّ أسفل 28%",
+    "- 🎯 مقطع الميادين: 4 وجوه — المتكلم بالرؤية",
+    "- ✂️ أُخفي شريط القناة في الميادين: قُصّ أسفل 24%",
+    "- ✂️ أُخفي شريط القناة في إيران إنترناشيونال: قُصّ أسفل 23%",
+    "- 🎥 نافذة مقطع إيران إنترناشيونال تتبع المتحدث: 3 حركة",
+    "- 🎯 مقطع ILTV: 2 وجوه — المتكلم بالرؤية",
+    "- ▭ مقطع ILTV: أُزيلت أشرطة سوداء",
+    "- 🎥 نافذة مقطع ILTV تتبع المتحدث: 1 حركة",
+    "- ✂️ أُخفي شريط القناة في العربية: قُصّ أسفل 22%",
+    "- 🎥 نافذة مقطع العربية تتبع المتحدث: 2 حركة",
+    "- ⭐ إجابة ILTV الأم في 1 أفكار وبعدها 1 صدى من إجابات تكررها",
+    "- ✂️ أُخفي شريط القناة في سكاي نيوز عربية: قُصّ أسفل 22%",
+    "- 🎙️ الصوت: ElevenLabs (باقي الرصيد نحو ? حرف)",
+    "- 🔤 نُطقت أسماء أجنبية برسمها الأصلي: دونالد ترامب ← Donald Trump، محمد باقر قاليباف ← Mohammad Bagher Ghalibaf، ترامب ← Trump، نتنياهو ← Netanyahu",
+    "- 💵 كلفة الريل: 1.99$ — المقاطع والأسئلة 1.12$ · السيناريو 0.53$ · التركيب 0.34$ (Opus 0.64$ · Sonnet 0.42$ · Haiku 0.03$ · Gemini 0.81$ · صوت 0.08$ · بروكسي 129 MB) · البروكسي خارج المجموع"
+  ],
+  "reel_review_issue": 2020
 }
