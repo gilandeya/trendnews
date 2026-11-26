@@ -149,12 +149,18 @@ def _create(client, **kwargs):
     return llm.create(client, **kwargs)
 
 
+def _speaker_of(b: dict) -> str:
+    """اسم قائل المقطع بالعربية كما يظهر في بطاقة تعريفه (فارغ لمقطع بلا اسم)."""
+    return " ".join(str(b.get("speaker") or "").split())
+
+
 def frame_message(title: str, topic: dict, questions: list[dict], by_bite: dict, facts: list[str],
                   context_ids: list[str] | None = None) -> str:
     lines = [f"الموضوع: {topic.get('title', '')}", f"السؤال الرئيس (عنوان الريل): {title}", ""]
     if context_ids:
         # مقاطع أطراف الحدث مرقّمة: الكاتب يوزّعها بين أجزاء السياق (beats) ويمهّد لكل منها قبله، ولا يكرر كلامها (13/11)
-        lines.append("مقاطع السياق التي اخترتُها (وزّعها بين أجزاء السياق في beats بأرقامها؛ مهّد لكل مقطع قبله ولا تكرر كلامه):")
+        lines.append("مقاطع السياق التي اخترتُها (وزّعها بين أجزاء السياق في beats بأرقامها؛ مهّد لكل مقطع قبله ولا تكرر كلامه، "
+                     "وسمِّ قائله في تمهيده باسمه المكتوب هنا حرفيًا: لا تسمِّ أحدًا من معرفتك، فالاسم يظهر تحت وجهه):")
         for k, bid in enumerate(context_ids, 1):
             b = by_bite.get(bid) or {}
             lines.append(f"   {k}. {b.get('speaker') or b.get('speaker_original') or 'متحدث'}"
@@ -201,6 +207,31 @@ def beats_problems(data: dict, n_clips: int) -> list[str]:
     return out
 
 
+SPEAKER_PREFIX = "تمهيد المقطع"
+
+
+def speaker_problems(data: dict, speakers: list[str], cfg) -> list[str]:
+    """تمهيد كل مقطع سياق يسمّي قائله كما يظهر في بطاقة تعريفه (قضية 2020): كتب الكاتب «القائد العام لحرس الثورة حسين سلامي»
+    من معرفته والمقطع لأحمد وحيدي، فسمع المشاهد اسمًا ورأى غيره تحته. الجزء الذي يسبق المقطع k (beats) يجب أن يرد فيه اسم قائله
+    (reel_figures.name_in_sentence: كلمة من الاسم غير الألقاب، وبرسم قريب). مقطع بلا اسم قائل لا يُفحص."""
+    from . import reel_figures, reel_script
+    if not speakers:
+        return []
+    out = []
+    for b in reel_script._listish(data.get("beats")) or []:
+        if not isinstance(b, dict):
+            continue
+        try:
+            k = int(b.get("clip") or 0)
+        except (TypeError, ValueError):
+            continue
+        name = speakers[k - 1] if 1 <= k <= len(speakers) else ""
+        text = " ".join(str(b.get("text") or "").split())
+        if name and text and not reel_figures.name_in_sentence(name, text, cfg):
+            out.append(f"{SPEAKER_PREFIX} {k} لا يسمّي قائله «{name}» — سمِّه باسمه هذا حرفيًا ولا تسمِّ غيره")
+    return out
+
+
 def beats_text(data: dict) -> list[str]:
     from . import reel_script
     return [" ".join(str(b.get("text") or "").split()) for b in reel_script._listish(data.get("beats")) or []
@@ -219,10 +250,11 @@ def compound_question(text: str) -> bool:
 
 def _soft(reason: str) -> bool:
     """مخالفة لا تُسقط السيناريو بعد المحاولتين: طول السياق (قرار 1862/1885) والسؤال المركّب (يُقبل بتنبيه)."""
-    return reason.startswith(LEN_PREFIX) or reason.startswith(COMPOUND_PREFIX)
+    return reason.startswith(LEN_PREFIX) or reason.startswith(COMPOUND_PREFIX) or reason.startswith(SPEAKER_PREFIX)
 
 
-def frame_problems(data: dict, cfg, limit: int | None = None, n_clips: int = 0) -> list[str]:
+def frame_problems(data: dict, cfg, limit: int | None = None, n_clips: int = 0,
+                   speakers: list[str] | None = None) -> list[str]:
     """ما يرفض الكود من نداء السياق: سياق فارغ أو أطول من الحد، وختام فارغ أو يبدأ بـ«برأيك» (التركيب يضيفها هو)، وتوزيع
     السياق على مقاطعه حين أُرفقت (beats_problems). بمقاطع السياق يُعدّ كلام beats نفسه لا حقل context."""
     from . import reel_script
@@ -246,7 +278,7 @@ def frame_problems(data: dict, cfg, limit: int | None = None, n_clips: int = 0) 
     for q in [data.get("hook_question")] + list(_rs._listish(data.get("questions")) or []):
         if isinstance(q, str) and compound_question(q):
             out.append(f"{COMPOUND_PREFIX}: «{' '.join(q.split())}» — اجعله سؤالًا واحدًا")
-    return out + beats_problems(data, n_clips)
+    return out + beats_problems(data, n_clips) + speaker_problems(data, speakers or [], cfg)
 
 
 def write_frame(title: str, topic: dict, questions: list[dict], by_bite: dict, facts: list[str], cfg, client=None,
@@ -286,7 +318,9 @@ def write_frame(title: str, topic: dict, questions: list[dict], by_bite: dict, f
         if block is None:
             return None, "لم يُرجع النموذج السياق"
         data = dict(block.input or {})
-        reasons = frame_problems(data, cfg, limit, n_clips=len(context_ids or []))
+        reasons = frame_problems(data, cfg, limit, n_clips=len(context_ids or []),
+                                 speakers=[_speaker_of(by_bite.get(b) or {}) for b in context_ids or []]
+                                 if s.get("check_clip_speakers", True) else None)
         if info is not None and reasons:
             info.setdefault("attempts", []).append({"attempt": attempt, "reasons": reasons})
         if not reasons:
@@ -319,6 +353,13 @@ def write_frame(title: str, topic: dict, questions: list[dict], by_bite: dict, f
                 q = r.split("«", 1)[-1].rsplit("»", 1)[0]
                 info.setdefault("warnings", []).append(_texts(cfg).get(
                     "compound_kept", "⚠️ سؤال مركّب بقي كما هو بعد محاولتين: «{q}» — راجعه").format(q=q))
+        # قائل بقي غير مسمّى في تمهيد مقطعه بعد المحاولتين: لا يُسقط السيناريو، لكنه يُنبَّه بارزًا لأنه يضلّل المشاهد
+        spk = [r for r in reasons if r.startswith(SPEAKER_PREFIX)]
+        if spk and info is not None:
+            for r in spk:
+                info.setdefault("warnings", []).append(_texts(cfg).get(
+                    "speaker_kept", "⛔ {why} — راجع السطر قبل الاعتماد").format(why=r.split(" — ")[0]))
+        bad += spk
         reasons = [r for r in reasons if r not in bad]
         if not reasons:
             return data, ""

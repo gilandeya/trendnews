@@ -289,6 +289,9 @@ def echo_structure(qu: dict, row: dict, bites: list[dict], cfg, diag: dict | Non
     min_e = max(int(c.get("min_shared", 1)), 1)
     side_size = {sd: sum(1 for v in side_of.values() if v == sd) for sd in ("a", "b")}
 
+    # الصدى جملة قصيرة تؤكد ما قالته الأم (قضية 2020، طلب صاحب المشروع)، فقطعة أطول من echo_max_words لا تكون صدى (تبقى فكرة لأم)
+    emax = int(c.get("echo_max_words", 0) or 0)
+
     def echoes_of(m: int, pool: list[int]) -> list[tuple[int, dict]]:
         """(n الصدى، فكرة الأم التي يكررها) لكل إجابة في pool تحمل فكرة من أفكار m، مرة لكل إجابة وحتى cap لكل فكرة."""
         per_idea: dict[int, int] = {}
@@ -296,7 +299,7 @@ def echo_structure(qu: dict, row: dict, bites: list[dict], cfg, diag: dict | Non
         for n in pool:
             if n == m:
                 continue
-            mine = {g["idea"] for g in spans[n]}
+            mine = {g["idea"] for g in spans[n] if not emax or g["words"] <= emax}
             for seg in spans[m]:
                 if seg["idea"] in mine and per_idea.get(seg["idea"], 0) < cap:
                     per_idea[seg["idea"]] = per_idea.get(seg["idea"], 0) + 1
@@ -333,7 +336,7 @@ def echo_structure(qu: dict, row: dict, bites: list[dict], cfg, diag: dict | Non
         out_masters.append({"n": m["n"], "side": m["side"], "rank": "primary" if m["side"] == main_side else "opposing",
                             "segments": segs, "echo_count": len(m["echoes"])})
         for n, seg in m["echoes"]:
-            g = next(x for x in spans[n] if x["idea"] == seg["idea"])
+            g = next(x for x in spans[n] if x["idea"] == seg["idea"] and (not emax or x["words"] <= emax))
             echoes.append({"n": n, "of": m["n"], "idea": seg["idea"], "label": labels[seg["idea"]],
                            "sub_original": g["sub_original"], "text_ar": g["text_ar"]})
     return {"masters": out_masters, "echoes": echoes}

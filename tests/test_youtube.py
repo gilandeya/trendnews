@@ -11646,3 +11646,110 @@ def test_reel_notes_2013() -> None:
     finally:
         reel_quote._create, reel_quote._http_get = oldq
     check("2013: عطل حكم الصلة ← بلا اقتباس", reel_quote.choose([{"quote": "x"}], None, cfg)[0] is None)
+
+
+def test_reel_notes_2020() -> None:
+    """ملاحظات صاحب المشروع على ريل القضية 2020: (1) لا حركة إعراب على أواخر أسماء الأشخاص في نطق الراوي، (2) تمهيد مقطع السياق
+    يسمّي قائله كما في بطاقته، (3) قطع الكاريكاتير بارتفاع واحد ولا دخول من الأعلى، والوسطى من الأسفل، والمقصوصة تُرفض، (4) دخول
+    الرسم عند ذكر اسم صاحبه، (5) حجم نص واحد في الريل كله، (6) الصدى جملة قصيرة، والأم تُقطع بعد الجملة التي يؤكدها صداها أينما
+    وقعت، (7) الشريط الذهبي بلون إطار نافذة الصدى."""
+    import copy
+
+    import numpy as np
+
+    from src import meta_script, reel_cartoon, reel_figures, reel_render, tts
+    from src.config import load_config as real_load
+    real = real_load()
+    check("2020: config.yaml على الإعدادات الجديدة",
+          real.path("reel.tts.foreign_waqf.person_bare") is True
+          and real.path("youtube.meta_topics.script.check_clip_speakers") is True
+          and real.path("reel.render.uniform_text.enabled") is True
+          and real.path("reel.render.echo.cut_after_idea") is True
+          and real.path("reel.render.echo.band_matches_frame") is True
+          and int(real.path("youtube.meta_topics.qa.echo.echo_max_words")) > 0
+          and real.path("reel.cartoon.cast.same_height") is True
+          and real.path("reel.cartoon.cast.enter_on_name") is True
+          and real.path("reel.render.version") >= 92)
+
+    # (1) «حسينُ سلامي» ← بلا ضمة؛ والسكون على آخر كلمة وحدها كما للأجنبي
+    nouns = [{"text": "حسين سلامي", "kind": "person"}]
+    bare = tts.apply_proper_nouns("قال حُسَيْنُ سَلَامِيُّ إن", nouns, every_word=False, person_bare=True)
+    check("2020: لا إعراب على أول اسم الشخص", "حُسَيْن " in bare and "حُسَيْنُ" not in bare, bare)
+    old = tts.apply_proper_nouns("قال حُسَيْنُ سَلَامِيُّ إن", nouns, every_word=False, person_bare=False)
+    check("2020: person_bare مطفأ ← كما كان", "حُسَيْنُ" in old, old)
+
+    # (2) قائل مقطع السياق
+    cfg = copy.deepcopy(real)
+    data = {"beats": [{"text": "وقال القائد العام لحرس الثورة حسين سلامي", "clip": 1},
+                      {"text": "وأكد وزير الخارجية عباس عراقجي", "clip": 2}]}
+    probs = meta_script.speaker_problems(data, ["أحمد وحيدي", "عباس عراقجي"], cfg)
+    check("2020: تمهيد يسمّي غير قائل المقطع ← مخالفة واحدة للمقطع 1", len(probs) == 1 and "أحمد وحيدي" in probs[0], probs)
+
+    # (3) القطع
+    check("2020: لا دخول من الأعلى", reel_cartoon.start_pos("top", (100, 900, 200, 300), 1080, 1920) == (100, 1920))
+    check("2020: الوسطى من الأسفل والطرفان من جهتيهما",
+          [reel_cartoon.row_enter(k, 3, cfg) for k in range(3)] == ["left", "bottom", "right"]
+          and reel_cartoon.row_enter(0, 2, cfg) == "bottom")
+    boxes = reel_cartoon.row_layout([(400, 800), (400, 800), (700, 700)], (900, 1500), cfg, 1080)
+    check("2020: القطع بارتفاع واحد", len({b[3] for b in boxes}) == 1, boxes)
+    m = np.zeros((100, 60), bool)
+    m[20:100, 10:50] = True                 # الساقان على الحافة السفلى بعرض كامل تقريبًا ← مقصوصة
+    ok = np.zeros((100, 60), bool)
+    ok[10:95, 10:50] = True
+    ok[99, 28:32] = True                    # قدم تمسّ الحافة قليلًا
+    check("2020: رسم مقصوص يُرفض ورسم كامل يُقبل", reel_cartoon.cropped(m, cfg) and not reel_cartoon.cropped(ok, cfg))
+
+    # (4) الدخول عند ذكر الاسم
+    title = "هل يفرض الرئيس ترامب حصارا على إيران"
+    check("2020: موضع اسم ترامب في العنوان", reel_figures.mention_index("دونالد ترمب", title, cfg) == 3)
+    cues = reel_render._cartoon_cues([{"person_ar": "دونالد ترمب"}, {"person_ar": "أحد", "cue_ar": "إيران"}, {"person_ar": "س"}],
+                                     title, [0.1 * k for k in range(len(title.split()))], cfg)
+    check("2020: كل قطعة تدخل عند ذكر صاحبها أو موضوعه، والغائب بلا موعد",
+          abs(cues[0] - 0.3) < 1e-9 and abs(cues[1] - 0.6) < 1e-9 and cues[2] is None, cues)
+
+    # (5) حجم نص واحد
+    script = {"title": title, "scenes": [
+        {"kind": "narration", "role": "question", "text": "ما الذي يدفع الطرفين إلى التصعيد الآن في هذا التوقيت بالذات رغم كل شيء؟"},
+        {"kind": "question", "text": "هل ينجح الحصار؟"}]}
+    ucfg = reel_render.uniform_text_cfg(script, cfg, [])
+    sz = ucfg.path("reel.render.sizes")
+    check("2020: الهوك والسؤال والراوي بحجم واحد",
+          sz["hook"][0] == sz["question"][0] == sz["narration"][0] and sz["hook"][0] == sz["hook"][1], sz)
+    off = copy.deepcopy(cfg)
+    off["reel"]["render"]["uniform_text"]["enabled"] = False
+    check("2020: مطفأ ← الإعداد كما هو", reel_render.uniform_text_cfg(script, off, []) is off)
+
+    # (6) الأم تُقطع بعد الفكرة التي لها صدى وحدها
+    def heard(words, t=0.5, step=0.6):
+        return [(round(t + k * step, 3), round(t + k * step + 0.5, 3), w) for k, w in enumerate(words.split())]
+    mseg = [{"idea": 1, "sub_original": "alpha beta gamma delta", "text_ar": "أ ب ج"},
+            {"idea": 2, "sub_original": "epsilon zeta eta theta", "text_ar": "د هـ و"},
+            {"idea": 3, "sub_original": "iota kappa lambda mu", "text_ar": "ز ح ط"}]
+    members = [(1, {"kind": "clip", "q": 0, "point_id": "p1", "language": "en", "quote_arabic": "أ ب ج د هـ و ز ح ط",
+                    "echo": {"role": "primary", "segments": mseg}}),
+               (2, {"kind": "clip", "q": 0, "point_id": "p2", "language": "en",
+                    "echo": {"role": "echo", "of": "p1", "idea": 2, "sub_original": "one epsilon zeta eta theta",
+                             "text_ar": "واحد د هـ و"}})]
+    clips = {1: {"seconds": 8.0, "file_seconds": 8.0, "heard": heard("alpha beta gamma delta epsilon zeta eta theta iota kappa lambda mu")},
+             2: {"seconds": 5.0, "file_seconds": 5.0, "heard": heard("one epsilon zeta eta theta two")}}
+    seq = reel_render.echo_sequence(members, clips, cfg)
+    check("2020: الأم ← الصدى بعد الجملة الثانية ← بقية الأم",
+          seq is not None and [(x["i"], x["role"]) for x in seq] == [(1, "primary"), (2, "echo"), (1, "primary")],
+          [(x["i"], x["role"]) for x in seq or []])
+    if seq:
+        check("2020: القطع بعد الجملة الثانية لا عند بداية الثالثة وحدها، ونص كل قطعة ما يُسمع فيها",
+              seq[0]["src1"] <= 5.2 + 0.3 + 1e-6 and seq[0]["src1"] > 4.6 and seq[0]["text"] == "أ ب ج د هـ و"
+              and seq[2]["text"] == "ز ح ط" and abs(seq[0]["src1"] - seq[2]["src0"]) < 1e-6, seq)
+        check("2020: الأم تبدأ من أول كلامها", seq[0]["src0"] <= 0.5, seq[0])
+    oldc = copy.deepcopy(cfg)
+    oldc["reel"]["render"]["echo"]["cut_after_idea"] = False
+    oseq = reel_render.echo_sequence(members, clips, oldc)
+    check("2020: cut_after_idea مطفأ ← قطعة لكل فكرة كما كان",
+          oseq is not None and [x["role"] for x in oseq] == ["primary", "primary", "echo", "primary"],
+          [x["role"] for x in oseq or []])
+
+    # (7) لون الشريط
+    pen = reel_render._Pen(cfg, None, transparent=True)
+    check("2020: الشريط بلون إطار الصدى، وبلاه ذهبي",
+          reel_render.band_bar_color(pen, {"band_color": "#2FA36B"}) == (0x2F, 0xA3, 0x6B)
+          and reel_render.band_bar_color(pen, {}) == pen.gold)

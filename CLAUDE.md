@@ -4044,3 +4044,20 @@ tool_use, questions: 0}` بلا ما يفسّره. محاكاة رد صحيح ع
   ويكي الاقتباس كله (`search_pages`)، جملة حرفية من كل صفحة (صفحة موضوع: قائلها كما تنسبه الصفحة، `attributed`)، ثم حكم صلة واحد (`rank`،
   `rank_model`) والكود يختار الأعلى ولا يقبل ما دون `min_fit` (`choose`)؛ عطل الحكم ← بلا اقتباس.
 - `render_version` = 90 (للقادم فقط، S11). `tests.helpers.load_config` يطفئ الصوت وحده والاحتياطين ويعيد حجم الهوك؛ اختبار 2311 يثبّت قطع 2007 بمواضع النموذج.
+
+## ملاحظات ريل القضية 2020 (26/11) — `tests/test_youtube.py:test_reel_notes_2020`
+
+المسودة `drafts/2026-11-26/0ed7a636ee62.json`. `render_version` = 92 (للقادم فقط، S11). `tests.helpers.load_config` يطفئ كل ما يلي.
+- **أواخر الأعلام:** `tts.apply_proper_nouns(person_bare=)` (`reel.tts.foreign_waqf.person_bare`): اسم الشخص (`kind: person`) يُعامل
+  كالأجنبي فلا إعراب على كلماته («حسين سلامي» لا «حسينُ»)، وآخره ساكن.
+- **قائل مقطع السياق:** `meta_script.speaker_problems` (`script.check_clip_speakers`): جزء beats الذي يسبق مقطعًا يجب أن يسمّي قائله
+  (`reel_figures.name_in_sentence`)؛ كتب Opus «حسين سلامي» والمقطع لأحمد وحيدي. إعادة في المحادثة، وبقاؤها يُقبل بتنبيه `speaker_kept`.
+- **قطع الكاريكاتير:** `cast.same_height` (ارتفاع واحد للصف)، `cropped` يرفض قطعة يقصّها إطارها (`edge_max`) فتُرسم ثانية حتى
+  `piece_tries`، وإزالة أثر اللون (`despill_*`)؛ لا دخول من الأعلى (`start_pos`)، و`row_enter`: الوسطى من الأسفل والطرفان من جهتيهما
+  (`edge_sides`). `cast.enter_on_name`: القطعة تدخل عند نطق اسم صاحبها (`reel_figures.mention_index`؛ الهوك بـ`_cartoon_cues` و`cue_ar`
+  لموضوعه)، و`cast.hook_boxes`: رسم الشخص في السياق بموضع الهوك وحجمه نفسيهما ومن الأسفل. جملة لا تذكره لا تُظهره.
+- **حجم نص واحد:** `reel_render.uniform_text_cfg` (`reel.render.uniform_text`) أصغر ما يسعه عنوان الهوك وبطاقات الأسئلة والختام يُفرض على
+  `sizes.hook/question/narration`.
+- **الصدى:** جملة قصيرة (`qa.echo.echo_max_words`، والوحدات `units.max_words` 12). في التركيب (`echo.cut_after_idea`) الأم تُعرض من أول كلامها
+  إلى آخره (حدّا البوابة) وتُقطع بعد الفكرة التي يليها صداها وحدها، ونص كل قطعة من ترجمتها الكاملة مقسومة بعد ترجمة الفكرة (`_master_texts`).
+  `echo.band_matches_frame`: الشريط الذهبي بلون إطار النافذة (`band_bar_color`).

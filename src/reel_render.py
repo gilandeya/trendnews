@@ -2318,6 +2318,13 @@ def foreign_name(scene: dict, cfg: Any = None) -> str:
     return latin
 
 
+def band_bar_color(p, scene: dict) -> tuple:
+    """لون الشريط الذهبي في شريط المتحدث: لون إطار نافذته إن مُرِّر (قضية 2020: صدى بإطار أخضر شريطه أخضر، والأم المعاكسة فضي)،
+    وإلا لون العلامة. الرسم الأجنبي يبقى ذهبيًا: الطلب عن الشريط وحده."""
+    c = scene.get("band_color")
+    return imaging.hex_rgb(c) if c else p.gold
+
+
 def _draw_band_inline(p, cfg, scene: dict, top: int, height: int, verified: bool) -> None:
     """شريط المتحدث بثلاثة أسطر (قرار صاحب المشروع 7/11): الاسم وبجانبه رسمه الأجنبي بين قوسين · الصفة بالعربية وحدها · «قناة …»
     وبجانبها رسمها الأجنبي؛ متمركزة رأسيًا، تنتهي يمينًا عند band_text_right، وقبلها الشريط الذهبي. غير الموثَّق: سطر القناة وحده."""
@@ -2327,7 +2334,7 @@ def _draw_band_inline(p, cfg, scene: dict, top: int, height: int, verified: bool
     right = band_text_right(cfg)
     like_left = int(b["like_button"]["x"]) - int(b["like_button"]["r"])
     pad = int(b.get("bar_pad", 26))
-    p.d.rectangle((like_left, top + pad, like_left + int(b["edge"]), top + height - pad), fill=p.gold + (255,))
+    p.d.rectangle((like_left, top + pad, like_left + int(b["edge"]), top + height - pad), fill=band_bar_color(p, scene) + (255,))
     ch_ar, ch_lat = band_channel_parts(scene, cfg)
     ch_or = band_orientation(scene, cfg)
     # القوسان للتوجّه وحده (قرار صاحب المشروع 7/11): «قناة المشهد Almashhad (يمينية محافظة)» و«مراد يتكين Murat Yetkin»؛ اللون يفصل
@@ -2429,7 +2436,7 @@ def frame_clip_layers(cfg, scene: dict, boxes=None, cover: bool | None = None,
     bd.d.rectangle((0, top, bd.w, top + height), fill=navy_a)
     inline = band.get("style") == "inline"
     if not inline:
-        bd.d.rectangle((bd.w - edge, top, bd.w, top + height), fill=bd.gold + (255,))
+        bd.d.rectangle((bd.w - edge, top, bd.w, top + height), fill=band_bar_color(bd, scene) + (255,))
     quote = (scene.get("quote_arabic") or "").strip()
     if quote and draw_quote:
         # الشكل الثابت الكامل (بلا حالات): كل أسطر الاقتباس معًا كما كان قبل R5h، لمن لا يمرّر تيار الحالات
@@ -3481,7 +3488,8 @@ def _speech(text: str, voice: str, cfg, deps: Deps, tmp: Path, tag: str) -> tupl
     if session is not None and hasattr(session, "multilingual"):
         session.multilingual()
         provider = getattr(session, "provider", None)
-    shown = tts.apply_proper_nouns(shown, nouns, every_word=tts.foreign_every_word(cfg, provider))
+    shown = tts.apply_proper_nouns(shown, nouns, every_word=tts.foreign_every_word(cfg, provider),
+                                   person_bare=bool(cfg.path("reel.tts.foreign_waqf.person_bare")))
     sentences = tts.split_sentences(shown)
     if not sentences:
         raise RuntimeError(f"مشهد {tag} بلا جمل")
@@ -4014,48 +4022,127 @@ def _narration_frames(parts: list[tuple[str, float]], i: int, cfg, tmp: Path, le
     """إطارات مشهد الراوي، ومع cast ({رقم الجملة: [قطع]}) يُرسم أشخاص الكاريكاتير صفًّا تحت نص جملتهم (قضية 2013)."""
     if not cast:
         return _narration_frames_plain(parts, i, cfg, tmp, lead, bg, map_sentences)
+    from . import reel_cartoon, reel_figures
+    on_name = bool((reel_cartoon.ccfg(cfg).get("cast") or {}).get("enter_on_name", False))
     frames: list[tuple[Path, float]] = []
     for k, part in enumerate(parts):
         sub = _narration_frames_plain([part], i, cfg, tmp, lead if k == 0 else 0.0, bg, map_sentences and
                                       ({0} if k in map_sentences else set()), tag=f"{i}_{k}")
         if cast.get(k):
-            sub = _overlay_cast(sub, cast[k], cfg, tmp, f"{i}_{k}")
+            enters: dict = {}
+            if on_name:
+                # قضية 2020: الشخص يدخل عند نطق اسمه لا أول الجملة؛ من ظهر في الجملة السابقة يبقى بلا دخول جديد
+                prev = {str(p["file"]) for p in cast.get(k - 1) or []}
+                times = narration_word_times([part], lead if k == 0 else 0.0, cfg)
+                for p in cast[k]:
+                    if str(p["file"]) in prev:
+                        continue
+                    j = reel_figures.mention_index(p.get("person_ar", ""), part[0], cfg)
+                    enters[str(p["file"])] = times[j] if j is not None and j < len(times) else (lead if k == 0 else 0.0)
+            sub = _overlay_cast(sub, cast[k], cfg, tmp, f"{i}_{k}", enters)
         frames += sub
     return frames
 
 
-def _overlay_cast(frames: list[tuple[Path, float]], pieces: list[dict], cfg, tmp: Path, tag: str) -> list[tuple[Path, float]]:
-    """يضيف أشخاص الكاريكاتير إلى إطارات جملة: صفًّا في الحزام من أسفل نصها (حدّ حبر آخر إطار، فيه الجملة كاملة) إلى
-    cast.bottom، بلا تداخل (reel_cartoon.row_layout). حزام أقصر من cast.min_height أو عطل ← الإطارات كما هي."""
+def _overlay_cast(frames: list[tuple[Path, float]], pieces: list[dict], cfg, tmp: Path, tag: str,
+                  enters: dict | None = None) -> list[tuple[Path, float]]:
+    """يضيف أشخاص الكاريكاتير إلى إطارات جملة: من له box (موضعه في الهوك، قضية 2020) فيه، والباقي صفًّا في الحزام من أسفل نصها
+    (حدّ حبر آخر إطار، فيه الجملة كاملة) إلى cast.bottom بلا تداخل (reel_cartoon.row_layout). enters {ملف القطعة: ثانية} يُدخل الشخص
+    من أسفل الشاشة عند تلك الثانية من الجملة بانزلاق enter_pos (قبلها لا يُرى)، ومن ليس فيها ثابت من أولها. الرسم تحت النص حين
+    تكون الإطارات شفافة. حزام أقصر من cast.min_height (لمن لا box له) أو عطل ← الإطارات كما هي."""
+    import math
+
     from PIL import Image, ImageChops
 
     from . import reel_cartoon
+    enters = enters or {}
     try:
         k = reel_cartoon.ccfg(cfg).get("cast") or {}
         w, h = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
-        last = Image.open(frames[-1][0])
-        if last.mode == "RGBA":
-            box = last.getchannel("A").getbbox()
-        else:
-            navy = Image.new("RGB", last.size, imaging.hex_rgb(cfg.path("brand.primary_color")))
-            box = ImageChops.difference(last.convert("RGB"), navy).getbbox()
-        top = (box[3] if box else int(h * 0.5)) + int(k.get("text_gap", 40))
-        bottom = int(float(k.get("bottom", 0.8)) * h)
-        if bottom - top < int(k.get("min_height", 200)):
+        loose = [p for p in pieces if not p.get("box")]
+        boxes: dict = {str(p["file"]): tuple(p["box"]) for p in pieces if p.get("box")}
+        if loose:
+            last = Image.open(frames[-1][0])
+            if last.mode == "RGBA":
+                box = last.getchannel("A").getbbox()
+            else:
+                navy = Image.new("RGB", last.size, imaging.hex_rgb(cfg.path("brand.primary_color")))
+                box = ImageChops.difference(last.convert("RGB"), navy).getbbox()
+            top = (box[3] if box else int(h * 0.5)) + int(k.get("text_gap", 40))
+            bottom = int(float(k.get("bottom", 0.8)) * h)
+            if bottom - top < int(k.get("min_height", 200)):
+                loose = []
+            else:
+                imgs0 = [Image.open(p["file"]).size for p in loose]
+                for p, bx in zip(loose, reel_cartoon.row_layout(imgs0, (top, bottom), cfg, w)):
+                    boxes[str(p["file"])] = bx
+        drawn = [p for p in pieces if str(p["file"]) in boxes]
+        if not drawn:
             return frames
-        imgs = [Image.open(p["file"]).convert("RGBA") for p in pieces]
-        layer = Image.new("RGBA", (w, h), (0, 0, 0, 0))
-        for img, (x, y, pw, ph) in zip(imgs, reel_cartoon.row_layout([im.size for im in imgs], (top, bottom), cfg, w)):
-            layer.alpha_composite(img.resize((pw, ph), Image.LANCZOS), (x, y))
+        tiles = {str(p["file"]): Image.open(p["file"]).convert("RGBA").resize(
+            (int(boxes[str(p["file"])][2]), int(boxes[str(p["file"])][3])), Image.LANCZOS) for p in drawn}
+        fps = max(int(k.get("anim_fps", 15)), 1)
+        dur = max(float(reel_cartoon.ccfg(cfg).get("enter_seconds", 0.7)), 0.01)
+        total = sum(d for _, d in frames)
+        cuts = {0.0}
+        acc = 0.0
+        for _, d in frames:
+            acc += d
+            cuts.add(round(acc, 4))
+        for te in enters.values():
+            for j in range(int(math.ceil(dur * fps)) + 1):
+                t = round(float(te) + j / fps, 4)
+                if 0 <= t < total:
+                    cuts.add(t)
+        cuts = sorted(c for c in cuts if c <= total + 1e-6)
+
+        def frame_at(t: float) -> Path:
+            acc = 0.0
+            for f, d in frames:
+                if t < acc + d - 1e-6:
+                    return f
+                acc += d
+            return frames[-1][0]
+
+        def ys_at(t: float) -> tuple:
+            out = []
+            for p in drawn:
+                f = str(p["file"])
+                x, y = int(boxes[f][0]), int(boxes[f][1])
+                if f in enters:
+                    te = float(enters[f])
+                    if t < te:
+                        out.append(None)
+                        continue
+                    y = int(round(enter_pos(t, h, y, te, cfg)))
+                out.append((x, y))
+            return tuple(out)
         done: dict = {}
-        out = []
-        for n, (f, d) in enumerate(frames):
-            if f not in done:
+        out: list[tuple[Path, float]] = []
+        for a, b in zip(cuts, cuts[1:]):
+            if b - a <= 1e-6:
+                continue
+            f, pos = frame_at(a), ys_at(a)
+            key = (str(f), pos)
+            if key not in done:
                 im = Image.open(f)
-                comp = Image.alpha_composite(im.convert("RGBA"), layer)
-                done[f] = _save(comp if im.mode == "RGBA" else comp.convert("RGB"), tmp / f"cast_{tag}_{len(done)}.png")
-            out.append((done[f], d))
-        return out
+                layer = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+                for p, xy in zip(drawn, pos):
+                    if xy is not None:
+                        if xy[1] < h:
+                            # paste لا alpha_composite: القطعة الداخلة من أسفل الشاشة تقع خارج الطبقة جزئيًا فتُقصّ
+                            layer.paste(tiles[str(p["file"])], xy, tiles[str(p["file"])])
+                if im.mode == "RGBA":
+                    # الرسم تحت النص: الإطار الشفاف (نص الراوي فوق تيار الخلفية) يُركَّب فوق طبقة الأشخاص
+                    comp = Image.alpha_composite(layer, im)
+                else:
+                    comp = Image.alpha_composite(im.convert("RGBA"), layer).convert("RGB")
+                done[key] = _save(comp, tmp / f"cast_{tag}_{len(done)}.png")
+            if out and out[-1][0] == done[key]:
+                out[-1] = (out[-1][0], out[-1][1] + (b - a))
+            else:
+                out.append((done[key], b - a))
+        return out or frames
     except Exception as exc:  # noqa: BLE001 -- الرسم إضافة: الجملة تبقى بنصها
         log.warning("تعذّر رسم أشخاص الكاريكاتير تحت الجملة: %s", str(exc)[:150])
         return frames
@@ -4985,8 +5072,7 @@ def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None,
     if clip is not None:
         cexpr = _hook_crop(clip, cfg, deps, crops, video_id=hv.get("video_id"), channel=hv.get("channel", ""), notes=notes)
     # العنوان تحت الشعار الكبير مباشرة: أسفل الشعار + text_gap
-    oc, ratio = cfg.path("reel.render.outro"), _logo_ratio(cfg)
-    text_top = int(oc["logo_top"]) + (round(int(oc["logo_width"]) * ratio) if ratio is not None else 0) + int(hk["text_gap"])
+    text_top = _hook_text_top(cfg)
     times = narration_word_times(parts, voice_at, cfg)
     if len(times) != len(title.split()):
         # التشكيل/الأسماء قد تغيّر عدد الكلمات: يوزَّع الزمن على كلمات العنوان المعروض بالحروف على مدة الكلام كله
@@ -5006,12 +5092,12 @@ def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None,
     piece_in, piece_f, top = [], "", "bf"
     if cartoon:
         # الحزام تحت آخر سطر من العنوان (قضية 2013): القطع لا تنزل على كلماته
-        lay = word_layout(cfg, title, text_top)
-        text_bottom = max((int(wd["box"][3]) for wd in lay.get("words") or []), default=text_top)
-        band = (text_bottom + int((reel_cartoon.ccfg(cfg).get("cast") or {}).get("text_gap", 40)),
-                reel_cartoon.area_px(cfg, w, h)[3])
+        band = _hook_band(cfg, title)
+        stagger = float(reel_cartoon.ccfg(cfg).get("stagger", 0.35))
+        cues = _cartoon_cues(cartoon, title, times, cfg)
         for k, (png, sx, sy, x, y) in enumerate(_cartoon_pieces(cartoon, cfg, tmp, i, band)):
-            t0 = voice_at + k * float(reel_cartoon.ccfg(cfg).get("stagger", 0.35))
+            # قضية 2020: الشخص يدخل عند نطق اسمه أو موضوعه في العنوان (cue)، وما لم يرد يدخل بعد السؤال بفارق stagger كما كان
+            t0 = cues[k] if cues[k] is not None else voice_at + k * stagger
             piece_in += [*loop_args(fps), "-i", str(png)]
             piece_f += (f";[{4 + k}:v]format=rgba[pc{k}];[{top}][pc{k}]overlay="
                         f"x='{_enter_expr(sx, x, t0, cfg)}':y='{_enter_expr(sy, y, t0, cfg)}':shortest=1[pp{k}]")
@@ -5059,6 +5145,55 @@ def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None,
     return seconds
 
 
+def _hook_text_top(cfg) -> int:
+    """أعلى عنوان الهوك: أسفل الشعار الكبير + hook.text_gap (مشترك بين الهوك وحساب مواضع أشخاص الرسم في السياق)."""
+    oc, ratio = cfg.path("reel.render.outro"), _logo_ratio(cfg)
+    return int(oc["logo_top"]) + (round(int(oc["logo_width"]) * ratio) if ratio is not None else 0) + int(
+        cfg.path("reel.render.hook.text_gap"))
+
+
+def _hook_band(cfg, title: str) -> tuple[int, int]:
+    """حزام قطع الكاريكاتير في الهوك: من تحت آخر سطر من العنوان بـcast.text_gap إلى أسفل منطقة الرسم."""
+    from . import reel_cartoon
+    w, h = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
+    top = _hook_text_top(cfg)
+    lay = word_layout(cfg, title, top)
+    text_bottom = max((int(wd["box"][3]) for wd in lay.get("words") or []), default=top)
+    return (text_bottom + int((reel_cartoon.ccfg(cfg).get("cast") or {}).get("text_gap", 40)),
+            reel_cartoon.area_px(cfg, w, h)[3])
+
+
+def hook_cast_boxes(cfg, title: str, pieces: list[dict]) -> dict:
+    """{ملف القطعة: (x، y، عرض، ارتفاع)} مواضع أشخاص الرسم كما تقف في الهوك (قضية 2020: «حين ذُكر ترامب كان ينبغي أن يكون حجمه
+    ومكانه تمامًا كما في الهوك»). صفّ القطع كلها في حزام الهوك نفسه (row_layout)؛ بلا وضع الصف أو بلا قطع ← {}."""
+    from PIL import Image
+
+    from . import reel_cartoon
+    if not pieces or not reel_cartoon.row_mode(cfg):
+        return {}
+    w = int(cfg.path("reel.render.width"))
+    sizes = [Image.open(p["file"]).size for p in pieces]
+    return {str(p["file"]): box for p, box in zip(pieces, reel_cartoon.row_layout(sizes, _hook_band(cfg, title), cfg, w))}
+
+
+def _cartoon_cues(pieces: list[dict], title: str, times: list[float], cfg) -> list[float | None]:
+    """زمن دخول كل قطعة في الهوك: زمن أول كلمة من العنوان تذكر صاحبها (person_ar) أو موضوعه (cue_ar)، أو None إن لم يرد
+    (قضية 2020). times أزمنة كلمات العنوان المعروض بترتيبها."""
+    from . import reel_figures
+    words = str(title or "").split()
+    out: list[float | None] = []
+    for p in pieces:
+        t = None
+        if len(times) == len(words):
+            for name in (p.get("person_ar"), p.get("cue_ar")):
+                j = reel_figures.mention_index(str(name or ""), title, cfg)
+                if j is not None:
+                    t = times[j]
+                    break
+        out.append(t)
+    return out
+
+
 def loop_args(fps) -> list[str]:
     return ["-loop", "1", "-framerate", str(fps)]
 
@@ -5078,7 +5213,9 @@ def _cartoon_pieces(pieces: list[dict], cfg, tmp: Path, i: int,
     for k, p in enumerate(pieces):
         img = imgs[k]
         box = rows[k] if rows else reel_cartoon.place(img.size, p, cfg, w, h)
-        sx, sy = reel_cartoon.start_pos(p.get("enter", "bottom"), box, w, h)
+        # في الصف الكود يحدد الجهة (قضية 2020): الوسط من الأسفل والطرفان من جهتيهما، ولا من الأعلى أبدًا
+        enter = reel_cartoon.row_enter(k, len(pieces), cfg) if rows else p.get("enter", "bottom")
+        sx, sy = reel_cartoon.start_pos(enter, box, w, h)
         png = tmp / f"hook_piece_{i}_{k}.png"
         img.resize((box[2], box[3]), Image.LANCZOS).save(png, "PNG")
         out.append((png, sx, sy, box[0], box[1]))
@@ -5783,6 +5920,38 @@ def _panel_scene(members: list[tuple[int, dict]], clips: dict, out: Path, cfg, d
 
 # ───────────────────── الإجابة الأم وصداها (طلب صاحب المشروع 23/11، meta_echo) ─────────────────────
 
+def _master_texts(sc: dict, clip: dict, spans: list, cuts: list, bounds: list, heard: list) -> list[str]:
+    """نص كل قطعة من الأم (قضية 2020): ترجمتها المعتمدة كاملة تُقسم بعد ترجمة الفكرة التي يليها صداها، فيُقرأ تحت القطعة ما يُسمع
+    فيها وحده. موضع القسمة آخر كلمات ترجمة الفكرة في الترجمة الكاملة (بعد موضع القسمة السابقة)، وإلا بنسبة زمن القسمة من مدة الأم.
+    بلا ترجمة كاملة ← ترجمات الأفكار التي تقع في كل قطعة متصلة."""
+    full = (clip.get("display_text") or sc.get("quote_arabic") or "").split()
+    n = len(bounds) - 1
+    if not full:
+        out = [[] for _ in range(n)]
+        for t0, t1, words, seg in spans:
+            m = next((k for k in range(n) if bounds[k] - 1e-6 <= t0 < bounds[k + 1]), n - 1)
+            out[m].append(seg.get("text_ar", ""))
+        return [" ".join(x).strip() for x in out]
+    idx, prev = [], 0
+    span_len = max(bounds[-1] - bounds[0], 1e-6)
+    for m in range(n - 1):
+        c, j = cuts[m]
+        tail = (spans[j][3].get("text_ar") or "").split()[-3:]
+        k = None
+        if tail:
+            for q in range(prev, len(full) - len(tail) + 1):
+                if full[q:q + len(tail)] == tail:
+                    k = q + len(tail)
+                    break
+        if k is None:
+            k = round(len(full) * (c - bounds[0]) / span_len)
+        k = min(max(k, prev), len(full))
+        idx.append(k)
+        prev = k
+    edges = [0] + idx + [len(full)]
+    return [" ".join(full[edges[m]:edges[m + 1]]) for m in range(n)]
+
+
 def echo_sequence(members: list[tuple[int, dict]], clips: dict, cfg) -> list[dict] | None:
     """تتابع لوحة سؤال فيها أم وصدى، أو None فتُركَّب اللوحة كما كانت. الأم تُقسم أفكارًا بحدودها المسموعة (reel_clash.span_times على
     كلمات الملف المسموعة، ضبط Q13)، وبعد كل فكرة صداها: القطعة التي تكررها من إجابة أخرى، بحدودها المسموعة كذلك. ثم الأم المعاكسة
@@ -5817,13 +5986,11 @@ def echo_sequence(members: list[tuple[int, dict]], clips: dict, cfg) -> list[dic
         # التداخل بالكلمات المسموعة لا بالحدود: هامشا فكرتين متجاورتين يتلامسان دائمًا
         if not spans or any(spans[k + 1][2][0][0] < spans[k][2][-1][1] - 1e-6 for k in range(len(spans) - 1)):
             return None
-        bounds = [max(spans[0][0] - max(pre, lead), 0.0)] + [sp[0] for sp in spans[1:]] + [min(spans[-1][1] + post, fsec)]
         used.add(i)
         color = colors.get("opposing") if e["role"] == "opposing" else colors.get("primary")
-        for j, (t0, t1, words, seg) in enumerate(spans):
-            seq.append({"i": i, "role": e["role"], "src0": round(bounds[j], 3), "src1": round(bounds[j + 1], 3),
-                        "depth": 0, "color": color, "text": seg.get("text_ar", ""), "words": words, "idea": seg.get("idea")})
-            # صدى الفكرة كله أولًا: عددها يحدد حجم نوافذها ومواضعها (echo_geometry)، فلا تُرصّ قبل أن يُعرف آخرها
+        # صدى كل فكرة أولًا: عددها يحدد حجم نوافذها ومواضعها (echo_geometry)، ووجوده يحدد أين تُقطع الأم
+        found_per: list[list] = []
+        for t0, t1, words, seg in spans:
             found = []
             for ie, esc in members:
                 ee = esc.get("echo") or {}
@@ -5838,14 +6005,60 @@ def echo_sequence(members: list[tuple[int, dict]], clips: dict, cfg) -> list[dic
                 if b - a < min_echo:
                     continue
                 found.append((ie, ee, a, b, got[2]))
+                used.add(ie)
                 if len(found) >= max_depth:
                     break
-            for k, (ie, ee, a, b, words) in enumerate(found, 1):
-                used.add(ie)
+            found_per.append(found)
+        # قضية 2020 (طلب صاحب المشروع): الأم تُعرض كلها من أول كلامها إلى آخره، وتُقطع بعد الجملة التي يؤكدها صداها مباشرة أينما
+        # وقعت في الفقرة (نهاية الفكرة + post)، لا عند بداية الفكرة التالية؛ ولا قطع عند فكرة بلا صدى
+        if not ec.get("cut_after_idea"):
+            # السلوك قبل قضية 2020: قطعة لكل فكرة من بدايتها إلى بداية التالية، وصداها بعدها
+            bounds = ([max(spans[0][0] - max(pre, lead), 0.0)] + [sp[0] for sp in spans[1:]]
+                      + [min(spans[-1][1] + post, fsec)])
+            for j, (t0, t1, words, seg) in enumerate(spans):
+                seq.append({"i": i, "role": e["role"], "src0": round(bounds[j], 3), "src1": round(bounds[j + 1], 3),
+                            "depth": 0, "color": color, "text": seg.get("text_ar", ""), "words": words,
+                            "idea": seg.get("idea")})
+                for k, (ie, ee, ea, eb, ewords) in enumerate(found_per[j], 1):
+                    seq.append({"i": ie, "role": "echo", "src0": round(ea, 3), "src1": round(eb, 3), "depth": k,
+                                "of_n": len(found_per[j]), "color": echo_colors[(k - 1) % len(echo_colors)],
+                                "text": ee.get("text_ar", ""), "words": ewords, "idea": seg.get("idea")})
+            continue
+        # حدّا الكلام المسموع (البوابة، Q6/Q13) لا حدّا الاقتطاع: صوت القطعة غير مبوَّب، فما قبل الكلام قد يكون كلام غيره
+        fz = clip.get("freeze") or {}
+        tr = clip.get("trim")
+        if fz.get("src1"):
+            start, end = float(fz["src0"]), min(float(fz["src1"]), fsec)
+        elif tr:
+            start, end = float(tr[0]), min(float(tr[1]), fsec)
+        else:
+            start, end = max(spans[0][0] - max(pre, lead), 0.0), min(spans[-1][1] + post, fsec)
+        start, end = min(start, spans[0][0]), max(end, spans[-1][1])
+        cuts: list[tuple[float, int]] = []
+        for j, (t0, t1, words, seg) in enumerate(spans):
+            if not found_per[j]:
+                continue
+            nxt = spans[j + 1][0] if j + 1 < len(spans) else end
+            cut = min(t1 + post, max(nxt, t1), end)
+            if cut <= start + 0.05 or (cuts and cut <= cuts[-1][0] + 0.05):
+                continue
+            cuts.append((round(cut, 3), j))
+        bounds = [round(start, 3)] + [c for c, _ in cuts] + [round(end, 3)]
+        if bounds[-1] - bounds[-2] < 0.05 and len(bounds) > 2:
+            bounds.pop()
+        heard = [wd for wd in (clip.get("heard") or []) if start - 1e-6 <= float(wd[0]) <= end + 1e-6]
+        texts = _master_texts(sc, clip, spans, cuts, bounds, heard)
+        for m in range(len(bounds) - 1):
+            a, b = bounds[m], bounds[m + 1]
+            j = cuts[m][1] if m < len(cuts) else None
+            seq.append({"i": i, "role": e["role"], "src0": a, "src1": b, "depth": 0, "color": color,
+                        "text": texts[m], "words": [wd for wd in heard if a - 1e-6 <= float(wd[0]) < b],
+                        "idea": spans[j][3].get("idea") if j is not None else None})
+            for k, (ie, ee, ea, eb, words) in enumerate(found_per[j] if j is not None else [], 1):
                 # الأخضر ثم الأزرق بالتناوب في كل فكرة (طلب صاحب المشروع)
-                seq.append({"i": ie, "role": "echo", "src0": round(a, 3), "src1": round(b, 3), "depth": k,
-                            "of_n": len(found), "color": echo_colors[(k - 1) % len(echo_colors)],
-                            "text": ee.get("text_ar", ""), "words": words, "idea": seg.get("idea")})
+                seq.append({"i": ie, "role": "echo", "src0": round(ea, 3), "src1": round(eb, 3), "depth": k,
+                            "of_n": len(found_per[j]), "color": echo_colors[(k - 1) % len(echo_colors)],
+                            "text": ee.get("text_ar", ""), "words": words, "idea": spans[j][3].get("idea")})
     if not any(x["role"] == "echo" for x in seq):
         return None
     for i, _ in members:
@@ -5971,7 +6184,10 @@ def _echo_scene(seq: list[dict], members: list[tuple[int, dict]], clips: dict, o
             (static_png, band_png), qframes = _clip_layers(i, scene, clip, cfg, deps, tmp, speakers, notes, cover=False)
         else:
             _apply_chyron(scene, clip, cfg, deps, speakers, notes, i)
-            static, band = frame_clip_layers(cfg, scene, cover=False, quote=False)
+            bscene = scene
+            if (rcfg.get("echo") or {}).get("band_matches_frame") and x.get("color"):
+                bscene = dict(scene, band_color=x["color"])
+            static, band = frame_clip_layers(cfg, bscene, cover=False, quote=False)
             static_png = _save(static, tmp / f"echo_{k}_static.png")
             band_png = _save(band, tmp / f"echo_{k}_band.png")
             qframes = None
@@ -7728,11 +7944,44 @@ def _band_notes(script: dict, clips: dict, cfg, notes: list) -> None:
             notes.append(line)
 
 
+def uniform_text_cfg(script: dict, cfg, notes: list | None = None):
+    """نسخة من الإعداد بحجم خط واحد لنصوص الريل الكبيرة كلها (قضية 2020، طلب صاحب المشروع: «حجم النص بنفس الحجم على كامل الفيديو
+    في الهوك والسياق والتحليل والختام»). الحجم = أصغر ما يسعه كلٌّ من عنوان الهوك وبطاقات الأسئلة وسؤال الختام بقاعدة word_layout
+    نفسها، ويُفرض على sizes.hook وquestion وnarration بداية وأدنى؛ الراوي يُقسَّم مقاطع إن لم يسعه كما كان. مطفأ أو لا نص ← الإعداد
+    كما هو."""
+    import copy
+    if not (cfg.path("reel.render.uniform_text") or {}).get("enabled", False):
+        return cfg
+    sizes: list[int] = []
+    try:
+        title = " ".join(str(script.get("title") or "").split())
+        if title:
+            sizes.append(int(word_layout(cfg, title, _hook_text_top(cfg))["font"].size))
+        for sc in script.get("scenes") or []:
+            if sc.get("kind") == "narration" and sc.get("role") == "question" and (sc.get("text") or "").strip():
+                sizes.append(int(word_layout(cfg, " ".join(sc["text"].split()), int(cfg.path("reel.render.qcard.text_top")),
+                                             "question")["font"].size))
+            elif sc.get("kind") == "question" and (sc.get("text") or "").strip():
+                q = closing_question_text(" ".join(sc["text"].split()), cfg)
+                sizes.append(int(word_layout(cfg, q, int(cfg.path("reel.render.closing.text_top")), "question")["font"].size))
+    except Exception as exc:  # noqa: BLE001 -- توحيد الحجم تحسين: كل نص بحجمه كما كان
+        log.warning("تعذّر توحيد حجم نصوص الريل: %s", str(exc)[:150])
+        return cfg
+    if not sizes:
+        return cfg
+    size = min(sizes)
+    out = copy.deepcopy(cfg)
+    for key in (out["reel"]["render"].get("uniform_text") or {}).get("keys") or ["hook", "question", "narration"]:
+        out["reel"]["render"]["sizes"][key] = [size, size]
+    return out
+
+
 def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str, bg: dict | None = None,
               credit: str = "", speakers: dict | None = None, notes: list | None = None, draft: dict | None = None,
               crops: dict | None = None, broll: dict | None = None,
               sources_out: list | None = None, dropped: list | None = None,
               pre_entries: list | None = None, meta: dict | None = None) -> tuple[list[Path], list[str], list[float]]:
+    cfg = uniform_text_cfg(script, cfg, notes)
     rcfg = cfg.path("reel.render")
     lead = transition_seconds(cfg)
     stage_mark("speakers")
@@ -7803,6 +8052,15 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
     # أشخاص الكاريكاتير يتبعون الراوي (قضية 2013): جملة يظهر فيها رسم الشخص لا تأخذ صورته من الويب أيضًا
     from . import reel_cartoon
     cast_plan = _cast_plan(script, nar_idx, reel_cartoon.cast_pieces(draft or {}, cfg), cfg)
+    if cast_plan and (reel_cartoon.ccfg(cfg).get("cast") or {}).get("hook_boxes", False):
+        # الشخص في السياق بحجمه وموضعه في الهوك (قضية 2020)؛ قائل الاقتباس ليس في الهوك فيبقى صفًّا تحت نصه
+        try:
+            boxes = hook_cast_boxes(cfg, script.get("title") or "", reel_cartoon.usable(draft or {}, cfg) or [])
+        except Exception as exc:  # noqa: BLE001 -- المواضع تحسين: الصف تحت النص كما كان
+            log.warning("تعذّر حساب مواضع أشخاص الهوك: %s", str(exc)[:150])
+            boxes = {}
+        cast_plan = {key: [dict(p, box=boxes[str(p["file"])]) if str(p["file"]) in boxes else p for p in lst]
+                     for key, lst in cast_plan.items()}
     if cast_plan and notes is not None:
         names_cast = list(dict.fromkeys(p["person_ar"] for lst in cast_plan.values() for p in lst))
         notes.append(cfg.path("reel.render.texts.comment_cast").format(n=len(cast_plan), people="، ".join(names_cast)))

@@ -156,3 +156,14 @@ def web_urls(person: dict, cfg) -> list[tuple[str, str]]:
     except Exception as exc:  # noqa: BLE001 -- الصورة تحسين: الجملة تبقى بخلفيتها
         log.warning("تعذّر البحث عن صورة %s: %s", person.get("name_ar"), str(exc)[:120])
     return out
+
+
+def mention_index(name: str, text: str, cfg) -> int | None:
+    """رقم أول كلمة من text (بتقسيم المسافات، كما تُوقَّت كلمات الراوي) يرد فيها اسم الشخص بقاعدة name_in_sentence، أو None. لتوقيت
+    دخول رسم الشخص عند نطق اسمه لا عند أول الجملة (قضية 2020). دالة خالصة."""
+    if not name:
+        return None
+    for j, word in enumerate(str(text or "").split()):
+        if name_in_sentence(name, word, cfg):
+            return j
+    return None
