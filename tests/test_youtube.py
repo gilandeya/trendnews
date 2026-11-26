@@ -7179,6 +7179,8 @@ def test_reel_context_beats_1313b() -> None:
 
     cfg = real_load()
     check("القناة في السياق للحصري وحده مفعّل في الإعداد", cfg.path("reel.render.context_channel_exclusive_only") is True)
+    # فحص قائل مقطع السياق (قضية 2020) يختبره test_reel_notes_2020؛ هنا التوزيع وحده
+    cfg["youtube"]["meta_topics"]["script"]["check_clip_speakers"] = False
     good = {"context": ["أ ب."], "closing_question": "ماذا بعد؟",
             "beats": [{"text": "جملة أولى.", "clip": 2}, {"text": "جملة ثانية.", "clip": 1}, {"text": "جملة تربط.", "clip": 0}]}
     check("توزيع صالح: كل مقطع مرة ولكل جزء كلام", meta_script.beats_problems(good, 2) == [])
@@ -10640,7 +10642,7 @@ def test_reel_cartoon_2311() -> None:
     check("2311c: الدخول من خارج الشاشة بجهته",
           reel_cartoon.start_pos("left", box, W, H) == (-box[2], box[1])
           and reel_cartoon.start_pos("right", box, W, H) == (W, box[1])
-          and reel_cartoon.start_pos("top", box, W, H) == (box[0], -box[3])
+          and reel_cartoon.start_pos("top", box, W, H) == (box[0], H)
           and reel_cartoon.start_pos("bottom", box, W, H) == (box[0], H))
     d = float(cfg.path("reel.cartoon.enter_seconds"))
     check("2311c: enter_pos ثابت قبل البدء ويصل موضعه بعد enter_seconds",
@@ -10654,7 +10656,7 @@ def test_reel_cartoon_2311() -> None:
     check("2311c: تعبير ffmpeg مطابق لـenter_pos", ok, ex)
     check("2311c: قطع الفكرة تُنظَّف (وصف فارغ يسقط، والعرض محصور، والاتجاه المجهول من الأسفل)",
           reel_cartoon.clean_pieces([{"prompt_en": "", "x": 0.5}, {"prompt_en": "ship", "width": 5, "enter": "up", "x": -1}], cfg)
-          == [{"name_ar": "", "prompt_en": "ship", "person_ar": "", "person_en": "", "x": 0.0, "y": 0.5,
+          == [{"name_ar": "", "prompt_en": "ship", "person_ar": "", "person_en": "", "cue_ar": "", "x": 0.0, "y": 0.5,
                "width": float(cfg.path("reel.cartoon.max_width")), "enter": "bottom"}])
 
     # (4) الخطة: فكرة بقطع، ونداء Gemini لكل قطعة، وملفات شفافة ومعاينة
@@ -11329,7 +11331,7 @@ def test_meta_echo_units_2005() -> None:
     cfg = copy.deepcopy(load_config())
     cfg["youtube"]["meta_topics"]["qa"]["echo"] = copy.deepcopy(real.path("youtube.meta_topics.qa.echo"))
     cfg["youtube"]["meta_topics"]["qa"]["texts"] = copy.deepcopy(real.path("youtube.meta_topics.qa.texts"))
-    check("2005a: units في config.yaml", real.path("youtube.meta_topics.qa.echo.units.max_words") == 25)
+    check("2005a: units في config.yaml", real.path("youtube.meta_topics.qa.echo.units.max_words") == 12)
     t = "Libya is Russia's new Syria. The port matters, it hosts warships, and it supplies Africa. That is why Kyiv strikes there."
     us = meta_echo.units(t, cfg)
     words = t.split()

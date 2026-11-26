@@ -4096,13 +4096,13 @@ def _overlay_cast(frames: list[tuple[Path, float]], pieces: list[dict], cfg, tmp
                     cuts.add(t)
         cuts = sorted(c for c in cuts if c <= total + 1e-6)
 
-        def frame_at(t: float) -> Path:
+        def frame_at(t: float) -> tuple[int, Path]:
             acc = 0.0
-            for f, d in frames:
+            for n, (f, d) in enumerate(frames):
                 if t < acc + d - 1e-6:
-                    return f
+                    return n, f
                 acc += d
-            return frames[-1][0]
+            return len(frames) - 1, frames[-1][0]
 
         def ys_at(t: float) -> tuple:
             out = []
@@ -4119,10 +4119,11 @@ def _overlay_cast(frames: list[tuple[Path, float]], pieces: list[dict], cfg, tmp
             return tuple(out)
         done: dict = {}
         out: list[tuple[Path, float]] = []
+        last_src = -1
         for a, b in zip(cuts, cuts[1:]):
             if b - a <= 1e-6:
                 continue
-            f, pos = frame_at(a), ys_at(a)
+            (src_n, f), pos = frame_at(a), ys_at(a)
             key = (str(f), pos)
             if key not in done:
                 im = Image.open(f)
@@ -4138,10 +4139,12 @@ def _overlay_cast(frames: list[tuple[Path, float]], pieces: list[dict], cfg, tmp
                 else:
                     comp = Image.alpha_composite(im.convert("RGBA"), layer).convert("RGB")
                 done[key] = _save(comp, tmp / f"cast_{tag}_{len(done)}.png")
-            if out and out[-1][0] == done[key]:
+            # إطار لكل إطار مُدخل كما كان (المستدعي يعدّها)، وأجزاء الحركة داخل الإطار الواحد تُضمّ إن تطابقت
+            if out and out[-1][0] == done[key] and last_src == src_n:
                 out[-1] = (out[-1][0], out[-1][1] + (b - a))
             else:
                 out.append((done[key], b - a))
+            last_src = src_n
         return out or frames
     except Exception as exc:  # noqa: BLE001 -- الرسم إضافة: الجملة تبقى بنصها
         log.warning("تعذّر رسم أشخاص الكاريكاتير تحت الجملة: %s", str(exc)[:150])
