@@ -80,8 +80,11 @@ def verdicts(data: dict, cfg) -> dict[str, dict]:
         # المتكلم لا يُرى في نافذته (الكاميرا على غيره): حكم بصري لا يحتاج اسمًا مقبولًا، فيُعاد وحده ولو لم يُعرف القائل؛
         # الاسم تحت وجه رجل آخر نسبةُ كلام إلى غير قائله أيًّا كان القائل
         if w.get("speaker_on_screen") == "none":
-            out[str(w.get("id"))] = {"off_screen": True, "name": " ".join(str(w.get("speaker") or "").split()),
-                                     "evidence": " ".join(str(w.get("evidence") or "").split()), "source": "", "is_host": False}
+            spk = " ".join(str(w.get("speaker") or "").split())
+            # مصدر اسمه في الرد نفسه: شريط تحت وجهه وهو يتكلم يناقض «لا يُرى» (ريل 0ed7a636ee62، reel_render.off_screen_contradicted)
+            out[str(w.get("id"))] = {"off_screen": True, "name": spk,
+                                     "evidence": " ".join(str(w.get("evidence") or "").split()), "source": "", "is_host": False,
+                                     "name_source": str((people.get(spk) or {}).get("name_source") or "")}
             continue
         if not w.get("one_speaker"):
             continue

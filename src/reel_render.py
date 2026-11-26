@@ -3405,7 +3405,8 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
             secs = deps.probe(out) or float(dend - dstart)
             # dstart: ثانية الفيديو لأول الملف (S4). file_seconds: مدة الملف المنزَّل كلها (seconds تصير مدة المشهد بعد الاقتطاع)،
             # وبها يُحوَّل فهرس لقطة كشف الوجوه إلى ثانية في القصّ المتحرك (ريل 1913)
-            clips[i] = {"file": out, "seconds": float(secs), "file_seconds": float(secs), "video_id": vid, "dstart": float(dstart)}
+            clips[i] = {"file": out, "seconds": float(secs), "file_seconds": float(secs), "video_id": vid, "dstart": float(dstart),
+                        "on_screen": str(point.get("on_screen") or "")}
             if k:
                 retried = True
             if not (scene_exact and margin_k is not None):
@@ -7042,6 +7043,21 @@ def _gemini_check(script: dict, order: list, clips: dict, cfg, deps: Deps, notes
     return out
 
 
+def off_screen_contradicted(verdict: dict, extract_on_screen: str, cfg) -> str:
+    """سبب ردّ حكم «المتكلم لا يُرى» من Gemini في التركيب، أو "" إن بقي الحكم (دالة خالصة). ريل 0ed7a636ee62 (القضية 2020): حُذف مقطع
+    مجدي الحلبي ووجهه ظاهر وهو يتكلم، لأن نداء التركيب (دقة منخفضة، الحلقة من أولها) قال none، ونداء الاستخراج على الفيديو نفسه قال
+    partly وقرأ اسمه من الشريط تحت وجهه. شاهدان يخالفانه: (1) حكم الاستخراج most/partly للمقطع نفسه؛ (2) Gemini نفسه يقول في الرد إنه قرأ
+    اسم المتكلم من شريط تحت وجهه وهو يتكلم (name_source chyron)."""
+    g = cfg.path("reel.render.gemini_speaker", {}) or {}
+    if not g.get("off_screen_needs_agreement", False):
+        return ""
+    if extract_on_screen in (g.get("off_screen_overrule_on") or ["most", "partly"]):
+        return "extract"
+    if verdict.get("name_source") == "chyron":
+        return "chyron"
+    return ""
+
+
 def _apply_gemini(i: int, script: dict, run: list, live: dict, speakers: dict, verdict: dict, cfg, notes: list,
                   meta: dict) -> tuple[bool, dict | None]:
     """حكم Gemini لمقطع: (حُسم؟، قاموس الحذف أو None). يطابق قائل السيناريو ← تأكيد؛ يخالف قائلًا مسمّى ← حذف (نسبة الكلام إلى غير صاحبه
@@ -7056,6 +7072,15 @@ def _apply_gemini(i: int, script: dict, run: list, live: dict, speakers: dict, v
         # ريل 8f6a0649b60c: قصّ الوجه المتكلم يختار وجهًا في الصورة، والمتكلم ليس فيها، فظهر بوتين تحت اسم شي جين بينغ
         gsc = cfg.path("reel.render.gemini_speaker", {}) or {}
         if not gsc.get("drop_off_screen", True):
+            return False, None
+        row["evidence"] = verdict.get("evidence", "")[:200]
+        seen = off_screen_contradicted(verdict, meta.get("_clip_on_screen", {}).get(i, ""), cfg)
+        if seen:
+            # ريل 0ed7a636ee62: حذف مقطع مجدي الحلبي ووجهه ظاهر يتكلم؛ حكم «none» وحده بدقة منخفضة لا يكفي للحذف إن خالفه شاهد آخر
+            row.update(applied=False, off_screen=True, off_screen_overruled=seen)
+            notes.append(t["comment_off_screen_overruled"].format(
+                speaker=scene.get("speaker_text") or scene.get("speaker_name") or "", channel=channel,
+                why=t["off_screen_witness"].get(seen, seen)))
             return False, None
         row.update(applied=True, off_screen=True)
         speakers[str(i)] = {"accepted": False, "source": "gemini"}
@@ -7116,6 +7141,8 @@ def _prune_mismatched(script: dict, clips: dict, cfg, deps: Deps, speakers: dict
     meta = meta if meta is not None else {}
     # Gemini أولًا (6/11): ما حكم فيه لا تُبنى له قائمة ولا خريطة (تنزيلهما عبر البروكسي) ولا يُقرأ شريطه
     gem = _gemini_check(script, order, clips, cfg, deps, notes, meta)
+    # حكم الاستخراج لكل مقطع شاهدٌ على حكم «لا يُرى» في التركيب (off_screen_contradicted)
+    meta["_clip_on_screen"] = {k: (c or {}).get("on_screen", "") for k, c in clips.items()}
     rest = {i: c for i, c in clips.items() if i not in gem}
     # القائمة قبل الخريطة: مقدّم الحلقة كما يعرّفه أولها يسمّي مجموعة المقدّم في الخريطة (ريل هرمز 1/11)
     rosters, verdicts = _speaker_check(script, order, rest, cfg, deps, notes, meta)

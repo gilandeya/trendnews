@@ -336,6 +336,8 @@ def bites_as_points(bites: list[dict], load_transcript=None) -> list[dict]:
             "audio_status": (b.get("audio") or {}).get("status", ""),
             # مصدر المقطع: Gemini سمع الصوت نفسه فلغته لغة المتكلم، فلا تغلبها لغة مسار نص قد يكون ترجمة (القضية 1997)
             "bite_source": b.get("source", ""),
+            # ريل 0ed7a636ee62: حكم Gemini وقت الاستخراج على ظهور المتكلم (most/partly/none)، شاهد ثانٍ على حكم التركيب
+            "on_screen": b.get("on_screen", ""),
         })
     return out
 

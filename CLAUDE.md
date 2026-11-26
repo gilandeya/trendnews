@@ -4061,3 +4061,13 @@ tool_use, questions: 0}` بلا ما يفسّره. محاكاة رد صحيح ع
 - **الصدى:** جملة قصيرة (`qa.echo.echo_max_words`، والوحدات `units.max_words` 12). في التركيب (`echo.cut_after_idea`) الأم تُعرض من أول كلامها
   إلى آخره (حدّا البوابة) وتُقطع بعد الفكرة التي يليها صداها وحدها، ونص كل قطعة من ترجمتها الكاملة مقسومة بعد ترجمة الفكرة (`_master_texts`).
   `echo.band_matches_frame`: الشريط الذهبي بلون إطار النافذة (`band_bar_color`).
+
+## حكم «المتكلم لا يُرى» يحتاج ألا يخالفه شاهد (ريل 0ed7a636ee62، القضية 2020) — `reel_render.off_screen_contradicted`
+
+الحادثة: حُذف مقطع مجدي الحلبي (العربية، 679–706 ث) ووجهه ظاهر يتكلم، بحكم `speaker_on_screen: none` من نداء Gemini في التركيب وحده
+(دقة منخفضة، الحلقة من أولها إلى 824 ث)، ونداء الاستخراج على الفيديو نفسه قال `partly` وقرأ اسمه من الشريط (`name_source: chyron`). ولم تُوجد
+له صورة لأن مرحلة الصور تُخطّيت لنفاد الوقت. الآن (`reel.render.gemini_speaker.off_screen_needs_agreement`): `bites_as_points` تحمل `on_screen`
+وتصل `clips[i]`، و`verdicts` تضع `name_source` من الرد في حكم none، و`off_screen_contradicted` (خالصة) تردّه إن كان حكم الاستخراج ضمن
+`off_screen_overrule_on` (most/partly) أو اسمه من الشريط؛ فيبقى المقطع بحرّاس سلسلتنا وسطر `comment_off_screen_overruled`، و`render_gemini_speakers`
+يحفظ `evidence` و`off_screen_overruled`. بلا شاهد ← الحذف (أو الصورة) كما كان. `render_version` = 93 (للقادم فقط، S11). الاختبار
+`tests/test_youtube.py:test_reel_offscreen_witness_2020`؛ `tests.helpers.load_config` يطفئه.
