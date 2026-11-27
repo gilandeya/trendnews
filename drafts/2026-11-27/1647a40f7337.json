@@ -1,7 +1,7 @@
 {
   "id": "1647a40f7337",
   "created_at": "2026-11-27T18:56:18.070792+00:00",
-  "status": "pending",
+  "status": "approved_script",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -511,7 +511,8 @@
         "enter": "bottom",
         "path": "drafts/2026-11-27/1647a40f7337-cartoon-2.png"
       }
-    ]
+    ],
+    "approved": true
   },
   "reel_bg": {
     "url": "https://static.srpcdigital.com/styles/1200x600/public/2026-08/1736422.jpeg.webp?VersionId=T1o7pZCxdQGjzxrrGPPkfcY76eb3t2Rd",
@@ -542,7 +543,8 @@
         "end": 108,
         "impact": 1,
         "desc": "شخص يقوم بعدّ وتداول رزم من العملة الورقية الإيرانية على طاولة في الشارع وسط تدهور قيمة الريال"
-      }
+      },
+      "picked": true
     },
     {
       "video_id": "zsNQzI3m0qs",
@@ -712,5 +714,8 @@
     "gemini": 0.2028
   },
   "review_issue": 2045,
-  "stage2_issue": 2045
+  "stage2_issue": 2045,
+  "render_status": "queued",
+  "approved_script_at": "2026-11-27T19:04:31.768815+00:00",
+  "hook_picked": 0
 }
