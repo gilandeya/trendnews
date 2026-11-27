@@ -1,0 +1,684 @@
+{
+  "id": "79b17606127d",
+  "created_at": "2026-11-27T16:31:52.600059+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "محاكمة نتنياهو وتداعي قضية الرشوة",
+  "event": "محاكمة نتنياهو وتداعي قضية الرشوة",
+  "tier": 3,
+  "blocs": [
+    "arabic",
+    "israeli",
+    "turkish"
+  ],
+  "channels": [
+    "CNN Türk",
+    "ILTV",
+    "ערוץ 14",
+    "الميادين",
+    "سكاي نيوز عربية"
+  ],
+  "agreement": "",
+  "score": 0,
+  "warnings": [
+    "🔧 تُرك مقطع سياق بعد فحص قائلي المقاطع: ليمور سون هار ميليخ",
+    "⏱️ السياق 47 كلمة (الحد 37) فقُبل كما هو لأن المادة من اختيارك — راجعه",
+    "✏️ صيغ السؤال 1 ليتصل بالسياق: كان «ما الذي كشفته المحكمة عن إذن التحقيق في تهمة الرشوة ضد نتنياهو؟» صار «ما الذي كشفته المحكمة عن إذن التحقيق في تهمة الرشوة؟»",
+    "✏️ صيغ سؤال الهوك: كان «هل تسقط تهمة الرشوة عن نتنياهو فعلًا؟» صار «هل تسقط تهمة الرشوة فعلًا عن رئيس الوزراء الإسرائيلي نتنياهو؟»"
+  ],
+  "run_date": "2026-11-27",
+  "topic_date": "2026-11-27",
+  "arabic": {
+    "post_title": "هل تسقط تهمة الرشوة عن نتنياهو فعلًا؟",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "CNN Türk",
+      "ILTV",
+      "ערוץ 14",
+      "الميادين",
+      "سكاي نيوز عربية"
+    ]
+  },
+  "source_videos": [],
+  "meta_topic_id": "7abb2d01e0ea",
+  "meta_issue": 2041,
+  "hook_pick": 3,
+  "cost_qa": {
+    "claude": {
+      "claude-haiku-5-5": 0.00124,
+      "claude-sonnet-5": 0.08534
+    },
+    "gemini": 0.5855,
+    "proxy_bytes": 55851575
+  },
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "91e47a6e117b",
+        "speaker_said_it": "no",
+        "other_name": "عميت حداد",
+        "faithful": false,
+        "quote_arabic_fixed": "ما يحدث في الساعات الأخيرة: أعود وأواجه ماندلبليت، وأحاول أن أفهم منه أين كان الإذن بالتحقيق مع رئيس الوزراء في بند الرشوة، وفي الساعة الأخيرة كُشف في المحكمة عن وثيقة داخلية، تُنقل إلى الدفاع مؤخرًا، يُرى فيها أن موظفة في طاقم المستشار القضائي للحكومة تُحذّر في الوقت الفعلي أفيحاي ماندلبليت من وجود مشكلة في نص التحذيرات التي تُوجَّه إلى رئيس الوزراء نتنياهو عند استجوابه، إذ ليس فيها شوهٌ ولا خيانة أمانة.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "القناة 14"
+      },
+      {
+        "point_id": "54074cf39801",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "وهناك محضر صريح يقول فيه للادعاء: لن تكون في هذه القضية إدانة في ملف 4000. ثم لم تستخدم المحكمة الصلاحية التي يمنحها القانون صراحة؛ فالمادة 158 من قانون الإجراءات الجنائية تنص على أنه إذا لم تُثبت النيابة، في رأي المحكمة، ولو ظاهريًا التهمة، فللمحكمة، بمبادرة منها، أن تبرّئ المتهم.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "القناة 14"
+      },
+      {
+        "point_id": "52916512376e",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "قد يكون أستبق الأمور قليلًا، لكن في الجوهر، ومما نسمعه من كل المصادر، يقول القضاة إن القضية 4000، وهي الرشوة، والقضية 2000، سيكون من الصعب جدًا إدانته فيهما. ربما ينبغي أن ينظروا في القضية 1000، المتعلقة بالسيجار والشمبانيا، وربما يتوصلون إلى نوع من صفقة الإقرار بشأنها. وقد يكون ذلك شائكًا، لأن السؤال هو: هل سيصنّفونها بوصف أكبر من الطريقة التي يصفها بها رئيس الوزراء؟",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "ILTV"
+      },
+      {
+        "point_id": "9fef3b4a81f3",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "القناة 14"
+      },
+      {
+        "point_id": "5aebc09f7655",
+        "speaker_said_it": "no",
+        "other_name": "عضو الكنيست ليمور سون هار ميليخ",
+        "faithful": false,
+        "quote_arabic_fixed": "أعتقد أن هذه مرحلة أخرى من الكشف وإسقاط الأقنعة، لكن من يفهم التوجهات ويعرفها، مثل المحامي شفتل الذي يتحدث عنها، فلدينا وضوح تام في هذا الأمر. أي أن النتائج الآن ليست سوى جزء آخر من مسار كشف تلك المنظومة نفسها التابعة لمحكمة العدل العليا.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "القناة 14"
+      }
+    ]
+  },
+  "quote_retranslated": [
+    "54074cf39801",
+    "52916512376e"
+  ],
+  "clip_dropped": [
+    {
+      "point_id": "91e47a6e117b",
+      "channel": "القناة 14",
+      "reason": "ملخّص النقطة ينسبها إلى شخص آخر: عميت حداد"
+    },
+    {
+      "point_id": "5aebc09f7655",
+      "channel": "القناة 14",
+      "reason": "ملخّص النقطة ينسبها إلى شخص آخر: عضو الكنيست ليمور سون هار ميليخ"
+    }
+  ],
+  "names_audit": [
+    {
+      "arabic": "يورام شيفتل",
+      "latin": "Yoram Shiftel"
+    },
+    {
+      "arabic": "دوف ليبمان",
+      "latin": "Dov Lieberman"
+    },
+    {
+      "arabic": "روني ألشيخ",
+      "latin": "Ronny Alsheich"
+    },
+    {
+      "arabic": "بنيامين نتنياهو",
+      "latin": "Benjamin Netanyahu"
+    },
+    {
+      "arabic": "أفيحاي ماندلبليت",
+      "latin": "Avichai Mendelblit"
+    }
+  ],
+  "script_attempts": [
+    {
+      "attempt": 1,
+      "reasons": [
+        "السياق أطول من 37 كلمة (47)"
+      ]
+    }
+  ],
+  "headlines": [
+    "هل تسقط تهمة الرشوة فعلًا عن رئيس الوزراء الإسرائيلي نتنياهو؟",
+    "هل تسقط تهمة الرشوة عن نتنياهو فعلًا؟",
+    "لماذا يتهم مؤيدو نتنياهو القضاء بتلفيق قضيته؟"
+  ],
+  "headline_selected": 0,
+  "script": {
+    "version": 2,
+    "narrator": "female",
+    "title": "هل تسقط تهمة الرشوة فعلًا عن رئيس الوزراء الإسرائيلي نتنياهو؟",
+    "question": "هل تنتهي محاكمة نتنياهو بصفقة إقرار بالذنب في القضية 1000؟",
+    "event": "",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "هل تسقط تهمة الرشوة فعلًا عن رئيس الوزراء الإسرائيلي نتنياهو؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "في محاكمة رئيس الوزراء الإسرائيلي بنيامين نتنياهو، واجه محامي الدفاع المدعي العام السابق أفيحاي ماندلبليت بعدم وجود إذن للتحقيق في بند الرشوة."
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "وفي إسرائيل، تحدث المفتش العام السابق للشرطة الإسرائيلية روني ألشيخ عن خيار نتنياهو بعد فتح الملفات."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "9fef3b4a81f3",
+        "q": "c0",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=echysm-LXrY",
+        "start": 670.0,
+        "end": 693.0,
+        "speaker_name": "روني ألشيخ",
+        "speaker_role": "المفتش العام السابق للشرطة الإسرائيلية",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "רוני אלשיך",
+        "channel_display": "القناة 14",
+        "channel_original": "ערוץ 14",
+        "quote_arabic": "في نهاية المطاف، لم يكن لأحد أن يتوقع أن يختار رئيس الوزراء عدم الاستقالة وأن يقاتل من داخل النظام. أتعلم، أنا في الواقع أوجه كلامي هذا في المقام الأول ليس لرئيس الوزراء، بل للحزب؛ أعتقد أن هذا يمثل المبادئ الأخلاقية الأساسية.",
+        "quote_original": "אחרי הכל, איש לא יכול היה לנחש שבסופו של דבר ראש הממשלה יבחר לא להתפטר, יילחם מתוך המערכת. אתה יודע מה, אני בכלל מכוון את זה קודם כל לא לראש הממשלה, אלא למפלגה. אני חושב שזה מוסר בסיסי.",
+        "language": "he",
+        "video_published": "2026-11-26T08:48:48Z",
+        "relay": "other_channel",
+        "relay_source": "רדיו גלי צה\"ל",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "ثم جاء ما كشفته المحكمة في جلسات القضية 4000."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 0,
+        "text": "ما الذي كشفته المحكمة عن إذن التحقيق في تهمة الرشوة؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "54074cf39801",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=echysm-LXrY",
+        "start": 38.9,
+        "end": 73.4,
+        "speaker_name": "يورام شيفتل",
+        "speaker_role": "محامٍ وخبير في القانون الجنائي والدستوري",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "יורם שפטל",
+        "channel_display": "القناة 14",
+        "channel_original": "ערוץ 14",
+        "quote_arabic": "وهناك محضر صريح يقول فيه للادعاء: لن تكون في هذه القضية إدانة في ملف 4000. ثم لم تستخدم المحكمة الصلاحية التي يمنحها القانون صراحة؛ فالمادة 158 من قانون الإجراءات الجنائية تنص على أنه إذا لم تُثبت النيابة، في رأي المحكمة، ولو ظاهريًا التهمة، فللمحكمة، بمبادرة منها، أن تبرّئ المتهم.",
+        "quote_original": "ויש פרוטוקול מפורש שבו הוא אומר לתביעה: לא תהיה בתיק הזה הרשעה בתיק 4000. ואז בית משפט לא לקח את הסמכות שהחוק נותן לו במפורש, כתוב בחוק, סעיף 158 לחוק סדר הדין הפלילי: התביעה, לדעת בית המשפט, לא הוכיחה ולו לכאורה את האישום, ביוזמתו, כתוב בחוק, ביוזמתו, הוא יכול לזכות את הנאשם.",
+        "language": "he",
+        "video_published": "2026-11-26T08:48:48Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "52916512376e",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=6Vyk8sOp-dw",
+        "start": 597.0,
+        "end": 625.0,
+        "speaker_name": "دوف ليبمان",
+        "speaker_role": "حاخام وعضو كنيست سابق ومؤسس ورئيس تنفيذي لمنظمة Yad L'Olim",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "Dov Lipman",
+        "channel_display": "ILTV",
+        "channel_original": "ILTV",
+        "quote_arabic": "قد يكون أستبق الأمور قليلًا، لكن في الجوهر، ومما نسمعه من كل المصادر، يقول القضاة إن القضية 4000، وهي الرشوة، والقضية 2000، سيكون من الصعب جدًا إدانته فيهما. ربما ينبغي أن ينظروا في القضية 1000، المتعلقة بالسيجار والشمبانيا، وربما يتوصلون إلى نوع من صفقة الإقرار بشأنها. وقد يكون ذلك شائكًا، لأن السؤال هو: هل سيصنّفونها بوصف أكبر من الطريقة التي يصفها بها رئيس الوزراء؟",
+        "quote_original": "He might be jumping a little bit ahead of himself, but essentially, from what we're hearing from all the sources, the judges are saying that 4,000, which was the bribery, and 2,000, is going to be very difficult to convict him. Maybe they should look at the 1,000, which is about the cigars and the champagne, and maybe come to some kind of a plea deal regarding that. That might be sticky because the question is, will they label it, you know, something which was more than the way the prime minister is describing it?",
+        "language": "en",
+        "video_published": "2026-11-26T15:34:46Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "question",
+        "text": "هل تنتهي محاكمة نتنياهو بصفقة إقرار بالذنب في القضية 1000؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": [],
+    "narrator_voices": [
+      {
+        "id": "s7VusoUfleDWGRQNqsF6",
+        "name": "Woman2",
+        "gender": "female"
+      },
+      {
+        "id": "imSStoespHEDicyPMZ3i",
+        "name": "Man2",
+        "gender": "male"
+      }
+    ]
+  },
+  "editor_revision": {
+    "at": "2026-11-27T16:32:09.609574+00:00",
+    "applied": true,
+    "error": null,
+    "before": [
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "وفي إسرائيل، تحدث المفتش العام السابق للشرطة الإسرائيلية روني ألشيخ عن خيار نتنياهو بعد فتح الملفات.",
+        "fix": "لم يتسنّ إصلاحه ضمن حدود الكلمات والجمل المسموحة.",
+        "note": "سطر السياق [3] يصف أن متحدثاً «تحدث عن» موضوع بدل سرد واقعة حدثت فعلاً (من فعل ماذا ومتى)، كما لا يرتبط بوقائع الحدث المرفقة (مواجهة محامي الدفاع لماندلبليت). هذا وصف لمضمون حديث لا لحدث.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "ثم جاء ما كشفته المحكمة في جلسات القضية 4000.",
+        "fix": "لم يتسنّ إصلاحه ضمن حدود الكلمات والجمل المسموحة.",
+        "note": "سطر السياق [5] غامض ولا يصف واقعة محددة (من فعل ماذا ومتى)؛ فقط يشير لوجود كشف دون تفصيله، ولا يرتبط بالواقعة المرفقة عن مواجهة محامي الدفاع لماندلبليت بشأن إذن التحقيق.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "في محاكمة رئيس الوزراء الإسرائيلي بنيامين نتنياهو، واجه محامي الدفاع المدعي العام السابق أفيحاي ماندلبليت بعدم وجود إذن للتحقيق في بند الرشوة.",
+        "fix": "",
+        "note": "هذا السطر يطابق الواقعة المرفقة بشكل جيد، لكن تجاوز حد 37 كلمة للسياق الإجمالي (47 كلمة) كما ذكرت تنبيهات المسودة يستدعي مراجعة توزيع الجمل الثلاث.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "[8] دوف ليبمان · حاخام وعضو كنيست سابق ومؤسس ورئيس تنفيذي لمنظمة Yad L'Olim · ILTV",
+        "fix": "",
+        "note": "دوف ليبمان عضو كنيست إسرائيلي سابق؛ الصفة لا تذكر دولة الكنيست لكنها مرتبطة بإسرائيل ضمنيًا عبر السياق العام للمقال (نتنياهو/إسرائيل)، يستحسن التأكد أن القناة ILTV إسرائيلية موضحة في موضع آخر، لا عيب حاسم هنا بل ملاحظة تحقق فقط.",
+        "sources": []
+      }
+    ],
+    "unresolved": [
+      {
+        "n": 1,
+        "reason": "لم يتسنّ إصلاح سطر السياق [3] ليصف واقعة محددة (من فعل ماذا ومتى) ضمن حدود الكلمات/الجمل المسموحة؛ وقائع الحدث المرفقة تتعلق فقط بمواجهة محامي الدفاع لماندلبليت، ولا تتضمن تفاصيل عن 'خيار نتنياهو بعد فتح الملفات' حسب ألشيخ لبناء جملة سياق بديلة منها حصرًا."
+      },
+      {
+        "n": 2,
+        "reason": "لم يتسنّ إصلاح سطر السياق [5] ليصف واقعة محددة لأن وقائع الحدث المرفقة الوحيدة هي مواجهة محامي الدفاع لماندلبليت بشأن إذن التحقيق، وهي مستخدمة بالفعل في السطر [2]؛ لا تتوفر في المصادر المرفقة تفاصيل عن 'ما كشفته المحكمة' بشكل منفصل يمكن صياغته كواقعة مستقلة دون تكرار أو تجاوز حدود الجمل/الكلمات."
+      },
+      {
+        "n": 3,
+        "reason": "تقليص السياق إلى 37 كلمة يتطلب حذف أو دمج أحد السطور [2]/[3]/[5]، لكن القواعد تمنع حذف أو إضافة سطر؛ ولا يمكن إصلاح سطري [3] و[5] (الملاحظتان 1 و2) ضمن حدود الكلمات لعدم توفر وقائع بديلة كافية في المصادر المرفقة، فتعذّر خفض العدد الإجمالي دون مخالفة بنية السطور."
+      }
+    ]
+  },
+  "editor_review": {
+    "at": "2026-11-27T16:32:09.609574+00:00",
+    "applied": [],
+    "notes": [
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "وفي إسرائيل، تحدث المفتش العام السابق للشرطة الإسرائيلية روني ألشيخ عن خيار نتنياهو بعد فتح الملفات.",
+        "fix": "لم يتسنّ إصلاحه ضمن حدود الكلمات والجمل المسموحة.",
+        "note": "سطر السياق [3] يصف أن متحدثاً «تحدث عن» موضوع بدل سرد واقعة حدثت فعلاً (من فعل ماذا ومتى)، كما لا يرتبط بوقائع الحدث المرفقة (مواجهة محامي الدفاع لماندلبليت). هذا وصف لمضمون حديث لا لحدث.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "ثم جاء ما كشفته المحكمة في جلسات القضية 4000.",
+        "fix": "لم يتسنّ إصلاحه ضمن حدود الكلمات والجمل المسموحة.",
+        "note": "سطر السياق [5] غامض ولا يصف واقعة محددة (من فعل ماذا ومتى)؛ فقط يشير لوجود كشف دون تفصيله، ولا يرتبط بالواقعة المرفقة عن مواجهة محامي الدفاع لماندلبليت بشأن إذن التحقيق.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "في محاكمة رئيس الوزراء الإسرائيلي بنيامين نتنياهو، واجه محامي الدفاع المدعي العام السابق أفيحاي ماندلبليت بعدم وجود إذن للتحقيق في بند الرشوة.",
+        "fix": "",
+        "note": "هذا السطر يطابق الواقعة المرفقة بشكل جيد، لكن تجاوز حد 37 كلمة للسياق الإجمالي (47 كلمة) كما ذكرت تنبيهات المسودة يستدعي مراجعة توزيع الجمل الثلاث.",
+        "sources": []
+      }
+    ],
+    "error": null,
+    "searches": 0,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "reel_quote": {
+    "status": "none",
+    "tried": [
+      {
+        "name": "ألان ديرشوفيتز",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "ألان ديرشوفيتز",
+        "lang": "en",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "مونتيسكيو",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "مونتيسكيو",
+        "lang": "en",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "شيشرون",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "شيشرون",
+        "lang": "en",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "ماكس فيبر",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "ماكس فيبر",
+        "lang": "en",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "—",
+        "lang": "",
+        "reason": "لا اقتباس حرفي صالح"
+      }
+    ],
+    "candidates": 0
+  },
+  "hook_cartoon": {
+    "status": "ready",
+    "idea_ar": "المحكمة تمسك بميزان القضاء وهي تزيل تهمة الرشوة (القضية 4000) عن كاهل نتنياهو، بينما يقف محاميه مشيرًا إلى الملف الذي يسقط، في إشارة إلى ضعف أدلة الادعاء وتوقع تبرئته من هذه التهمة تحديدًا مع احتمال بقاء قضية أخرى أصغر (السيجار والشمبانيا)",
+    "basis_ar": "الإجابتان 1 و2: [1] يذكر محضرًا صريحًا للادعاء بأن لن تكون إدانة في ملف 4000 (الرشوة) وأن المحكمة قد تبرّئ المتهم بمبادرتها استنادًا للمادة 158. [2] يؤكد أن القضاة يرون صعوبة كبيرة في إدانته بقضيتي 4000 و2000، وربما يتجهون فقط لقضية 1000 الأصغر (السيجار والشمبانيا)",
+    "prompt_en": "Editorial political cartoon style, exaggerated caricature, clean vector-like illustration, bold outlines, no background, no text, no numbers, no flags with words",
+    "cost_usd": 0.1712,
+    "path": "drafts/2026-11-27/79b17606127d-cartoon.png",
+    "model": "gemini-3.1-flash-image",
+    "pieces": [
+      {
+        "name_ar": "نتنياهو",
+        "prompt_en": "Caricature of Benjamin Netanyahu, an older Israeli politician with silver-gray hair, heavy eyebrows, and a stern face, wearing a formal dark suit and blue tie, standing full body with a relieved expression as a heavy chain labeled with a bribery folder falls off his shoulders, arms slightly raised in relief, no background",
+        "person_ar": "نتنياهو",
+        "person_en": "Netanyahu",
+        "cue_ar": "نتنياهو",
+        "x": 0.5,
+        "y": 0.5,
+        "width": 0.4,
+        "enter": "left",
+        "path": "drafts/2026-11-27/79b17606127d-cartoon-0.png"
+      },
+      {
+        "name_ar": "القاضي",
+        "prompt_en": "Caricature of a solemn Israeli judge wearing a black judicial robe, holding a large golden scale of justice in one hand, the other hand gesturing as if dismissing a falling folder, full body standing figure, dignified and neutral expression, no background",
+        "person_ar": "المحكمة",
+        "person_en": "The Court (Judge)",
+        "cue_ar": "المحكمة",
+        "x": 0.5,
+        "y": 0.5,
+        "width": 0.4,
+        "enter": "bottom",
+        "path": "drafts/2026-11-27/79b17606127d-cartoon-1.png"
+      },
+      {
+        "name_ar": "محامي الدفاع",
+        "prompt_en": "Caricature of a sharp-suited Israeli defense lawyer, confident posture, pointing triumphantly at a falling folder labeled with a bribery symbol, full body standing figure, wearing formal black suit and glasses, no background",
+        "person_ar": "محامي الدفاع",
+        "person_en": "Defense Lawyer",
+        "cue_ar": "محامي الدفاع",
+        "x": 0.5,
+        "y": 0.5,
+        "width": 0.4,
+        "enter": "right",
+        "path": "drafts/2026-11-27/79b17606127d-cartoon-2.png"
+      }
+    ]
+  },
+  "reel_bg": {
+    "url": "https://imgs.search.brave.com/Px1K90KIA_0_uWd5QS41ijTwEr-AWAcVesEcemFt1TY/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pY2hl/Zi5iYmNpLmNvLnVr/L2FjZS93cy82NDAv/Y3BzcHJvZHBiLzk1/NmMvbGl2ZS85NjJk/MTRlMC1iNmZlLTEx/ZWYtYTcwYS0wNWZj/M2I5MzE0NDcuanBn/LndlYnA",
+    "kind": "web_search",
+    "publisher": "www.bbc.com",
+    "shows": "نتنياهو يسير في قاعة محكمة بين محامين ومساعدين، وخلفه قضاة على المنصة",
+    "text_checked": true,
+    "judged": true
+  },
+  "hook_candidates": [
+    {
+      "video_id": "Iaa1aNiyRoE",
+      "title": "In boost for Netanyahu, judges question corruption trial charges • FRANCE 24 English",
+      "channel": "FRANCE 24 English",
+      "views": 18412,
+      "duration": 158,
+      "published": "2026-11-25T19:28:12Z",
+      "views_per_hour": 408.2
+    },
+    {
+      "video_id": "086ieu_lY6A",
+      "title": "Netanyahu Trial Twist: Judges Urge Dropping Bribery Charge #Shorts",
+      "channel": "Rapid Spark",
+      "views": 2,
+      "duration": 28,
+      "published": "2026-11-26T19:00:08Z",
+      "views_per_hour": 0.1
+    },
+    {
+      "video_id": "NCW0zlGHuFM",
+      "title": "אל תעירו אותם: מוטי קסטל על צביעות השמאל לאחר קריסת תיקי נתניהו",
+      "channel": "ערוץ 14",
+      "views": 23772,
+      "duration": 716,
+      "published": "2026-11-26T11:30:32Z",
+      "source": "topic"
+    },
+    {
+      "video_id": "fUMyfno2n0k",
+      "title": "\"אל תהיו מופתעים\": לימור סון הר מלך במסר לימין לאחר הדרמה בתיקי נתניהו",
+      "channel": "ערוץ 14",
+      "views": 13537,
+      "duration": 761,
+      "published": "2026-11-26T09:51:44Z",
+      "source": "topic"
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-11-25T00:00:00Z",
+          "2026-11-29T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "قاعة محكمة في تل أبيب أثناء محاكمة نتنياهو",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "Netanyahu trial court Tel Aviv corridor reporters",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "Israeli courthouse Jerusalem Netanyahu supporters outside trial",
+            "raw": 0,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 0,
+        "judged_ok": 0,
+        "rejected_channels": []
+      },
+      {
+        "broad": true,
+        "window": [
+          "2026-11-23T00:00:00Z",
+          "2026-11-30T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "محاكمة نتنياهو الرشوة",
+            "raw": 23,
+            "channel_ok": 2
+          },
+          {
+            "query": "Netanyahu bribery trial",
+            "raw": 30,
+            "channel_ok": 2
+          },
+          {
+            "query": "Netanyahu Prozess Korruption",
+            "raw": 9,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 2,
+        "judged_ok": 2,
+        "rejected_channels": [
+          "تبرگيگة سخونة",
+          "The Jerusalem Post",
+          "Última Hora Global",
+          "Al Mashhad المشهد",
+          "GNS ملخص الأخبار العالمية",
+          "World News in 60 Seconds",
+          "Simple News",
+          "Cross World News"
+        ]
+      }
+    ],
+    "topic_fallback": [
+      "NCW0zlGHuFM",
+      "fUMyfno2n0k",
+      "6Vyk8sOp-dw",
+      "TPU2GBfTOgk"
+    ],
+    "gemini_vet": {
+      "checked": 4,
+      "ok": 0,
+      "rejected": [
+        {
+          "video_id": "Iaa1aNiyRoE",
+          "reason": "الفيديو عبارة عن تقديم استوديو ومداخلة مراسلة بشاشة منقسمة ومؤتمرات وكلمات سياسية داخلية دون لقطات ميدانية كاملة الإطار."
+        },
+        {
+          "video_id": "086ieu_lY6A",
+          "reason": "الفيديو عبارة عن تصميمات حاسوبية وخلفيات تجريدية وتوليدية مع نصوص ضخمة، ولا يحتوي على أي لقطات ميدانية حقيقية."
+        },
+        {
+          "video_id": "NCW0zlGHuFM",
+          "reason": "الفيديو بالكامل مقتصر على أستوديو الأخبار وشاشات منقسمة تظهر المراسل والضيوف إلى جانب مشاهد المحكمة داخل نافذة فرعية دون أي لقطة ميدانية تملأ كامل الإطار لمدة 3"
+        },
+        {
+          "video_id": "fUMyfno2n0k",
+          "reason": "الفيديو عبارة عن مقابلة داخل الأستوديو، ولقطات محاكمة نتنياهو ظهرت في شاشة مقسومة بالتزامن مع ظهور الضيفة والحديث، دون توفر لقطة ميدانية كاملة الإطار لمدة 3 ثوا"
+        }
+      ],
+      "errors": 0,
+      "cost": 0.0525
+    },
+    "picked": [
+      "Iaa1aNiyRoE",
+      "086ieu_lY6A",
+      "NCW0zlGHuFM",
+      "fUMyfno2n0k"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "في محاكمة رئيس الوزراء الإسرائيلي بنيامين نتنياهو، واجه محامي الدفاع المدعي العام السابق أفيحاي ماندلبليت بعدم وجود إذن للتحقيق في بند الرشوة.",
+      "visual": "",
+      "person": {
+        "name_ar": "بنيامين نتنياهو",
+        "name_en": "Benjamin Netanyahu"
+      }
+    },
+    {
+      "scene": 2,
+      "sentence": 0,
+      "text": "وفي إسرائيل، تحدث المفتش العام السابق للشرطة الإسرائيلية روني ألشيخ عن خيار نتنياهو بعد فتح الملفات.",
+      "visual": "",
+      "person": {
+        "name_ar": "روني ألشيخ",
+        "name_en": "Ronen Alsheich"
+      }
+    },
+    {
+      "scene": 4,
+      "sentence": 0,
+      "text": "ثم جاء ما كشفته المحكمة في جلسات القضية 4000.",
+      "visual": "قاعة محكمة في جلسة قضائية"
+    },
+    {
+      "scene": 5,
+      "sentence": 0,
+      "text": "ما الذي كشفته المحكمة عن إذن التحقيق في تهمة الرشوة؟",
+      "visual": ""
+    }
+  ],
+  "cost_script": {
+    "claude": {
+      "claude-haiku-5-5": 0.00327,
+      "claude-sonnet-5": 0.1551,
+      "claude-opus-5": 0.11714
+    },
+    "gemini": 0.2237
+  },
+  "review_issue": 2043,
+  "stage2_issue": 2043
+}
