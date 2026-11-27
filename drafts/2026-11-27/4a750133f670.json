@@ -1,0 +1,691 @@
+{
+  "id": "4a750133f670",
+  "created_at": "2026-11-27T15:42:03.685753+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "احتمال ضربة أمريكية/إسرائيلية جديدة على إيران",
+  "event": "احتمال ضربة أمريكية/إسرائيلية جديدة على إيران",
+  "tier": 4,
+  "blocs": [
+    "arabic",
+    "israeli",
+    "persian",
+    "turkish"
+  ],
+  "channels": [
+    "CNN Türk",
+    "ILTV",
+    "Iran International",
+    "الجزيرة",
+    "العربية",
+    "الميادين",
+    "سكاي نيوز عربية"
+  ],
+  "agreement": "",
+  "score": 0,
+  "warnings": [
+    "⏱️ السياق 38 كلمة (الحد 37) فقُبل كما هو لأن المادة من اختيارك — راجعه",
+    "✏️ صيغ سؤال الهوك: كان «هل تشن أمريكا وإسرائيل ضربة جديدة على إيران؟» صار «هل تشن الولايات المتحدة وإسرائيل ضربة جديدة على إيران؟»"
+  ],
+  "run_date": "2026-11-27",
+  "topic_date": "2026-11-27",
+  "arabic": {
+    "post_title": "هل تشن أمريكا وإسرائيل ضربة جديدة على إيران؟",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "CNN Türk",
+      "ILTV",
+      "Iran International",
+      "الجزيرة",
+      "العربية",
+      "الميادين",
+      "سكاي نيوز عربية"
+    ]
+  },
+  "source_videos": [],
+  "meta_topic_id": "43c3ee0c3829",
+  "meta_issue": 2035,
+  "hook_pick": 3,
+  "cost_qa": {
+    "claude": {
+      "claude-haiku-5-5": 0.00298,
+      "claude-sonnet-5": 0.10349
+    },
+    "gemini": 0.7429,
+    "proxy_bytes": 25435603
+  },
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "68ff1fb03c66",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "بصراحة، المعادلة لم تتغير منذ ما بعد الانتخابات، وهناك عدة خيارات: الأول، أن نعود إلى الحرب من جديد ونكون نحن الطرف الذي يبدأها. والثاني، هل نفعل شيئًا من نوع الضربة الخاطفة لمرة واحدة، ثم ننسحب، للقضاء على أمثال هؤلاء الصقور؟",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن ترك"
+      },
+      {
+        "point_id": "a9c0bdcb91a6",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "أعتقد أن هذا يعكس حقيقة أن ترامب بات مردوعًا من إيران، بدلًا من أن يردعها، ولذلك يبحث عن الخيار الأقل عدوانية. ولديه خيار جيد موضوع حاليًا، وهو الحصار الاقتصادي. وينبغي أن يُمنح هذا الخيار بعض الوقت ليعمل، ثم إن اضطررنا إلى عمل عسكري، فليكن عملًا عسكريًا.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "ILTV"
+      },
+      {
+        "point_id": "f3f9d8f6081b",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "لكن هذه الكذبة انطلقت من نتنياهو نفسه، الذي يحاول الضغط على الإدارة الأمريكية لجرّها من جديد إلى الحرب، بأي معنى؟ عندما أرسل هوفمان، رئيس الموساد، إلى الولايات المتحدة الأمريكية، وقابل رئيس السي آي إيه، وملاحظة بين قوسين: قابل ستيف ويتكوف، الذي هو رجل سياسي أو وسيط بالمعنى الآخر، يعني لا عمل أمني معه لستيف ويتكوف، وهذه ملاحظة غريبة ستظهر الأيام القادمة.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الميادين"
+      },
+      {
+        "point_id": "98728fc883a4",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سكاي نيوز عربية"
+      },
+      {
+        "point_id": "53c8b4e8dc47",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "العربية"
+      }
+    ]
+  },
+  "quote_retranslated": [
+    "68ff1fb03c66",
+    "a9c0bdcb91a6",
+    "f3f9d8f6081b"
+  ],
+  "names_audit": [
+    {
+      "arabic": "يونس باكسوي",
+      "latin": "Yunus Paksoy"
+    },
+    {
+      "arabic": "تشاك فرايليخ",
+      "latin": "Chuck Freilich"
+    },
+    {
+      "arabic": "علي أبي رعد",
+      "latin": ""
+    },
+    {
+      "arabic": "سمير التقي",
+      "latin": ""
+    },
+    {
+      "arabic": "دونالد ترامب",
+      "latin": "Donald Trump"
+    },
+    {
+      "arabic": "بنيامين نتنياهو",
+      "latin": "Netanyahu"
+    }
+  ],
+  "script_attempts": [
+    {
+      "attempt": 1,
+      "reasons": [
+        "السياق أطول من 37 كلمة (38)"
+      ]
+    }
+  ],
+  "headlines": [
+    "هل تشن الولايات المتحدة وإسرائيل ضربة جديدة على إيران؟",
+    "هل تشن أمريكا وإسرائيل ضربة جديدة على إيران؟",
+    "من يدفع واشنطن نحو حرب جديدة مع إيران؟"
+  ],
+  "headline_selected": 0,
+  "script": {
+    "version": 2,
+    "narrator": "female",
+    "title": "هل تشن الولايات المتحدة وإسرائيل ضربة جديدة على إيران؟",
+    "question": "هل يصمد الحصار الاقتصادي بديلًا عن الحرب، أم تفرض إسرائيل خيارها العسكري؟",
+    "event": "",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "هل تشن الولايات المتحدة وإسرائيل ضربة جديدة على إيران؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "تفرض الولايات المتحدة حصارًا بحريًا على إيران، وقد تحدث الرئيس الأمريكي دونالد ترامب عن نتائجه."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "53c8b4e8dc47",
+        "q": "c0",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=dj0kN4eWxBE",
+        "start": 366.2,
+        "end": 379.2,
+        "speaker_name": "دونالد ترامب",
+        "speaker_role": "الرئيس الأمريكي",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Donald Trump",
+        "channel_display": "العربية",
+        "channel_original": "العربية",
+        "quote_arabic": "منذ أن أقمنا ذلك الحصار البحري، باستثناء أننا فرضنا وقفًا مؤقتًا قصيرًا، وتعلمنا أنه لا يمكن الوثوق بهم، لكن لم تتمكن أي سفينة إيرانية واحدة من اختراق حصارنا البحري.",
+        "quote_original": "Since we established it, other than we had a little moratorium and we learned that you can't trust them, but not one ship from Iran has gotten through our naval blockade.",
+        "language": "en",
+        "video_published": "2026-11-26T18:40:09Z",
+        "relay": "external",
+        "relay_source": "",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "يؤكد ترامب أن الحصار البحري على إيران محكم، ولم تتمكن أي سفينة إيرانية من اختراقه."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 0,
+        "text": "ما الخيارات المطروحة أمام واشنطن تجاه إيران؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "68ff1fb03c66",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=OGx1F1nbpwE",
+        "start": 45.0,
+        "end": 71.6,
+        "speaker_name": "يونس باكسوي",
+        "speaker_role": "ممثل قناة سي إن إن تورك في الولايات المتحدة",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Yunus Paksoy",
+        "channel_display": "سي إن إن ترك",
+        "channel_original": "CNN Türk",
+        "quote_arabic": "بصراحة، المعادلة لم تتغير منذ ما بعد الانتخابات، وهناك عدة خيارات: الأول، أن نعود إلى الحرب من جديد ونكون نحن الطرف الذي يبدأها. والثاني، هل نفعل شيئًا من نوع الضربة الخاطفة لمرة واحدة، ثم ننسحب، للقضاء على أمثال هؤلاء الصقور؟",
+        "quote_original": "Açıkçası denklem seçim sonrasından bu yana hala değişmiş değil Ahmet Bey. Denklem şu, birkaç seçenek var. Bir, savaşa yeniden başla, savaşı başlatan taraf ol. İki, işte bu tür şahinleri ortadan kaldırmak için acaba kısa, tek seferlik vur-çık tarzı bir şey mi yapsak?",
+        "language": "tr",
+        "video_published": "2026-11-25T21:30:19Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "a9c0bdcb91a6",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=TPU2GBfTOgk",
+        "start": 833.0,
+        "end": 864.0,
+        "speaker_name": "تشاك فرايليخ",
+        "speaker_role": "نائب مستشار الأمن القومي الإسرائيلي الأسبق",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "Chuck Freilich",
+        "channel_display": "ILTV",
+        "channel_original": "ILTV",
+        "quote_arabic": "أعتقد أن هذا يعكس حقيقة أن ترامب بات مردوعًا من إيران، بدلًا من أن يردعها، ولذلك يبحث عن الخيار الأقل عدوانية. ولديه خيار جيد موضوع حاليًا، وهو الحصار الاقتصادي. وينبغي أن يُمنح هذا الخيار بعض الوقت ليعمل، ثم إن اضطررنا إلى عمل عسكري، فليكن عملًا عسكريًا.",
+        "quote_original": "I think it's a reflection of the fact that Mr. Trump has become deterred by Iran, instead of deterring Iran, and so he's looking for the least aggressive option. He's got a pretty good option in place at the moment, which is the economic blockade. That should be given some time to work, and then if we have to take military action, military action.",
+        "language": "en",
+        "video_published": "2026-11-25T15:27:49Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 1,
+        "text": "لماذا يسعى رئيس الوزراء الإسرائيلي بنيامين نتنياهو لجر أمريكا إلى حرب جديدة؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "f3f9d8f6081b",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=qxm4XIK_wFQ",
+        "start": 1818.6,
+        "end": 1848.4,
+        "speaker_name": "علي أبي رعد",
+        "speaker_role": "عميد متقاعد وخبير عسكري استراتيجي لبناني",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "علي أبي رعد",
+        "channel_display": "الميادين",
+        "channel_original": "الميادين",
+        "quote_arabic": "لكن هذه الكذبة انطلقت من نتنياهو نفسه، الذي يحاول الضغط على الإدارة الأمريكية لجرّها من جديد إلى الحرب، بأي معنى؟ عندما أرسل هوفمان، رئيس الموساد، إلى الولايات المتحدة الأمريكية، وقابل رئيس السي آي إيه، وملاحظة بين قوسين: قابل ستيف ويتكوف، الذي هو رجل سياسي أو وسيط بالمعنى الآخر، يعني لا عمل أمني معه لستيف ويتكوف، وهذه ملاحظة غريبة ستظهر الأيام القادمة.",
+        "quote_original": "لكن هذه الكذبة انطلقت من نتنياهو نفسه الذي يحاول الضغط على الإدارة الأمريكية لمحاولة جلبها من جديد إلى الحرب، بأي معنى؟ عندما أرسل هوفمان رئيس الموساد إلى الولايات المتحدة الأمريكية وقابل رئيس السي آي إيه، وملاحظة بين قوسين: قابل ستيف ويتكوف الذي هو رجل سياسي أو وسيط بالمعنى الآخر، يعني لا عمل أمني معه لستيف ويتكوف، وهذه ملاحظة غريبة ستظهر الأيام القادمة.",
+        "language": "ar",
+        "video_published": "2026-11-25T19:42:34Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "98728fc883a4",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=k0Dyj5QwDsw",
+        "start": 394.5,
+        "end": 425.5,
+        "speaker_name": "سمير التقي",
+        "speaker_role": "خبير الشؤون الأمريكية والدولية في سكاي نيوز عربية",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "",
+        "channel_display": "سكاي نيوز عربية",
+        "channel_original": "سكاي نيوز عربية",
+        "quote_arabic": "ومن الواضح بأن الحكومة الراحلة، حكومة نتنياهو تبحث عن سبب، مهما كلف الأمر، للعودة للانخراط في الحرب. فكرة ضرب القيادات هي فكرة إسرائيلية في الأصل، متعلقة ويجري الحديث فيها وينقلها إلى الإدارة الأمريكية. وأشار الرئيس ترامب في كلامه، قال: بإمكاننا إسقاط النظام، ولكن هذه مهمة ستنجزها إسرائيل. وهذا يؤكد كلامي.",
+        "quote_original": "ومن الواضح بأن الحكومة الراحلة، حكومة نتنياهو تبحث عن سبب، مهما كلف الأمر، للعودة للانخراط في الحرب. فكرة ضرب القيادات هي فكرة إسرائيلية في الأصل، متعلقة ويجري الحديث فيها وينقلها إلى الإدارة الأمريكية. وأشار الرئيس ترامب في كلامه، قال: بإمكاننا إسقاط النظام، ولكن هذه مهمة ستنجزها إسرائيل. وهذا يؤكد كلامي.",
+        "language": "ar",
+        "video_published": "2026-11-26T09:00:11Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "question",
+        "text": "هل يصمد الحصار الاقتصادي بديلًا عن الحرب، أم تفرض إسرائيل خيارها العسكري؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": [],
+    "narrator_voices": [
+      {
+        "id": "s7VusoUfleDWGRQNqsF6",
+        "name": "Woman2",
+        "gender": "female"
+      },
+      {
+        "id": "imSStoespHEDicyPMZ3i",
+        "name": "Man2",
+        "gender": "male"
+      }
+    ]
+  },
+  "editor_revision": {
+    "at": "2026-11-27T15:42:21.899848+00:00",
+    "applied": true,
+    "error": null,
+    "before": [
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "وفي إسرائيل، يرى رئيس الأركان أنه لا حاجة ملحة لضربة عسكرية الآن، بينما يُنقل عن ترامب أن إسقاط النظام الإيراني مهمة ستنجزها إسرائيل.",
+        "fix": "يؤكد ترامب أن الحصار البحري على إيران محكم ولم تتمكن أي سفينة إيرانية من اختراقه.",
+        "note": "هذا السطر سياق (role=context) ويجب أن يصف واقعة الحدث المحددة (تأكيد ترامب إحكام الحصار البحري ومنع أي سفينة إيرانية من اختراقه)، لكنه بدلاً من ذلك ينقل آراء/تصريحات متفرقة (رئيس الأركان الإسرائيلي، ونقل غير موثق عن ترامب) ولا يصف الواقعة المرفقة كحدث مباشر. كما يحتوي نسبة غامضة 'يُنقل عن' بلا توثيق.",
+        "sources": []
+      },
+      {
+        "category": "vague_attribution",
+        "severity": "low",
+        "location": "body",
+        "original": "بينما يُنقل عن ترامب أن إسقاط النظام الإيراني مهمة ستنجزها إسرائيل.",
+        "fix": "",
+        "note": "نسبة غامضة 'يُنقل عن' دون تحديد المصدر، مع أن المقطع 98728fc883a4 ينقل هذا القول عن سمير التقي لا كخبر مباشر موثق.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "تفرض الولايات المتحدة حصارًا بحريًا على إيران، وقد تحدث الرئيس الأمريكي دونالد ترامب عن نتائجه.",
+        "fix": "",
+        "note": "جملة السياق الأولى تتجاوز حد 25 كلمة/3 جمل عند جمعها مع السطر التالي كما نبهت المسودة (38 كلمة)، ويُفضل اختصارها لتقتصر على وصف الواقعة المرفقة فقط.",
+        "sources": []
+      }
+    ],
+    "unresolved": [
+      {
+        "n": 3,
+        "reason": "تقليص جملة السياق [2] إلى أقل من المجموع المطلوب يتطلب حذف جزء من الواقعة أو دمجها مع [4]، لكن القيد الهيكلي يمنع حذف سطر أو دمجه؛ وتعديل [4] وحده (كما في الملاحظة 1) يُبقي [2] كما هي ضمن حد الجملة الواحدة لكل سطر، وأي اختصار إضافي لـ[2] بمفرده (14 كلمة) غير ضروري لأنه ضمن الحد عند فصله عن [4]."
+      }
+    ]
+  },
+  "editor_review": {
+    "at": "2026-11-27T15:42:21.899848+00:00",
+    "applied": [],
+    "notes": [
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "تفرض الولايات المتحدة حصارًا بحريًا على إيران، وقد تحدث الرئيس الأمريكي دونالد ترامب عن نتائجه.",
+        "fix": "",
+        "note": "جملة السياق الأولى تتجاوز حد 25 كلمة/3 جمل عند جمعها مع السطر التالي كما نبهت المسودة (38 كلمة)، ويُفضل اختصارها لتقتصر على وصف الواقعة المرفقة فقط.",
+        "sources": []
+      }
+    ],
+    "error": null,
+    "searches": 0,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "script_pauses": [
+    {
+      "scene": 3,
+      "before": "يؤكد ترامب أن الحصار البحري على إيران محكم ولم تتمكن أي سفينة إيرانية من اختراقه.",
+      "after": "يؤكد ترامب أن الحصار البحري على إيران محكم، ولم تتمكن أي سفينة إيرانية من اختراقه."
+    }
+  ],
+  "reel_quote": {
+    "status": "none",
+    "tried": [
+      {
+        "name": "ألفريد ثاير ماهان",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "ألفريد ثاير ماهان",
+        "lang": "en",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "توماس شيلينغ",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "توماس شيلينغ",
+        "lang": "en",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "صن تزو",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "صن تزو",
+        "lang": "en",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "كارل فون كلاوزفيتز",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "كارل فون كلاوزفيتز",
+        "lang": "en",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "هنري كيسنجر",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "هنري كيسنجر",
+        "lang": "en",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "—",
+        "lang": "",
+        "reason": "لا اقتباس حرفي صالح"
+      }
+    ],
+    "candidates": 0
+  },
+  "hook_cartoon": {
+    "status": "ready",
+    "idea_ar": "نتنياهو يهمس في أذن ترامب محاولًا دفعه نحو حرب جديدة على إيران، بينما ترامب يرفع يده مترددًا وخلفه صورة ذهنية لقائد إيراني متوتر محاصَر اقتصاديًا، في إشارة إلى أن نتنياهو يضغط لجر واشنطن للحرب بينما ترامب يميل للخيار الأقل عدوانية (الحصار الاقتصادي) كما تقول الإجابات 2، 3، 4",
+    "basis_ar": "الإجابة 2: ترامب مردوع ويفضل الحصار الاقتصادي بدل التصعيد العسكري. الإجابة 3: نتنياهو يحاول الضغط على الإدارة الأمريكية لجرّها إلى الحرب عبر قنوات مثل رئيس الموساد. الإجابة 4: حكومة نتنياهو تبحث عن سبب للانخراط في الحرب وتدفع فكرة ضرب القيادات للإدارة الأمريكية، وترامب يقول إسرائيل ستنجز المهمة",
+    "prompt_en": "A satirical political cartoon in exaggerated caricature style, bold ink outlines, bright flat colors, dramatic lighting, no background, no text, no numbers, no flags with words. Two figures positioned as described, full body from head to toe, gesturing expressively.",
+    "cost_usd": 0.124,
+    "path": "drafts/2026-11-27/4a750133f670-cartoon.png",
+    "model": "gemini-3.1-flash-image",
+    "pieces": [
+      {
+        "name_ar": "نتنياهو",
+        "prompt_en": "Caricature of Benjamin Netanyahu, silver hair, stern eyebrows, dark formal suit, leaning forward whispering urgently with one hand cupped near his mouth and the other hand pointing insistently forward, full body from head to toe, no background",
+        "person_ar": "نتنياهو",
+        "person_en": "Netanyahu",
+        "cue_ar": "نتنياهو",
+        "x": 0.68,
+        "y": 0.5,
+        "width": 0.35,
+        "enter": "right",
+        "path": "drafts/2026-11-27/4a750133f670-cartoon-0.png"
+      },
+      {
+        "name_ar": "ترامب",
+        "prompt_en": "Caricature of Donald Trump, distinctive blond swept hair, red long tie, navy suit, standing with one hand raised in a hesitant stop gesture while his head is tilted thoughtfully away from the whispering figure beside him, full body from head to toe, no background",
+        "person_ar": "ترامب",
+        "person_en": "Trump",
+        "cue_ar": "ترامب",
+        "x": 0.3,
+        "y": 0.5,
+        "width": 0.4,
+        "enter": "left",
+        "path": "drafts/2026-11-27/4a750133f670-cartoon-1.png"
+      }
+    ]
+  },
+  "reel_bg": {
+    "url": "https://www.okaz.com.sa/okaz/uploads/images/2026/11/25/2799566.webp",
+    "kind": "news_photo",
+    "publisher": "عكاظ",
+    "shows": "طائرات مقاتلة من طراز F-16 مصطفة على مدرج في قاعدة جوية صحراوية، مع طيارين في قمرات القيادة وشعارات على الذيول",
+    "text_checked": true,
+    "judged": true
+  },
+  "hook_candidates": [
+    {
+      "video_id": "9Nz5AqYktkw",
+      "title": "ساعة حوار | إيران ترفض شروط ترمب.. هل تعود أميركا للحرب؟",
+      "channel": "العربية",
+      "views": 4913,
+      "duration": 638,
+      "published": "2026-11-26T23:00:19Z",
+      "source": "topic",
+      "gemini": {
+        "start": 40,
+        "end": 44,
+        "impact": 3,
+        "desc": "اشتعال نيران هائلة وتصاعد سحب دخان كثيفة من سفينة تحترق في عرض البحر"
+      }
+    },
+    {
+      "video_id": "iamwFtcDNdg",
+      "title": "Iran Mined a US Warship. This Is What the Navy Did Next",
+      "channel": "The Bigger Map",
+      "views": 64,
+      "duration": 503,
+      "published": "2026-11-26T16:12:45Z",
+      "views_per_hour": 2.7
+    },
+    {
+      "video_id": "ca35D8MnPBM",
+      "title": "Iran's Hormuz Crackdown Widens to Tugboats",
+      "channel": "Frontline Maps",
+      "views": 3,
+      "duration": 442,
+      "published": "2026-11-25T01:38:56Z",
+      "views_per_hour": 0.0
+    },
+    {
+      "video_id": "cR2Ob3VbfAU",
+      "title": "ساعة حوار | خامنئي يستنفر الإيرانيين.. هل يخشى انتفاضة تطيح بالنظام؟",
+      "channel": "العربية",
+      "views": 24281,
+      "duration": 651,
+      "published": "2026-11-26T19:00:17Z",
+      "source": "topic"
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-11-25T00:00:00Z",
+          "2026-11-29T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "سفن حربية أمريكية في الخليج",
+            "raw": 30,
+            "channel_ok": 1
+          },
+          {
+            "query": "US Navy warships Gulf Iran blockade",
+            "raw": 30,
+            "channel_ok": 1
+          },
+          {
+            "query": "Strait of Hormuz naval blockade ships tankers",
+            "raw": 30,
+            "channel_ok": 2
+          }
+        ],
+        "duration_ok": 3,
+        "judged_ok": 2,
+        "rejected_channels": [
+          "Intereconomía News",
+          "العالم الخفي",
+          "Firstpost",
+          "India Global Review",
+          "Cross World News",
+          "India Today Global",
+          "Mounis Firwana",
+          "akdnguyen"
+        ]
+      }
+    ],
+    "topic_fallback": [
+      "9Nz5AqYktkw",
+      "cR2Ob3VbfAU",
+      "OGx1F1nbpwE",
+      "gk4wVR6W_5o"
+    ],
+    "gemini_vet": {
+      "checked": 4,
+      "ok": 1,
+      "rejected": [
+        {
+          "video_id": "iamwFtcDNdg",
+          "reason": "الفيديو يعتمد بالكامل تقريباً على الخرائط التوضيحية والرسوم ثلاثية الأبعاد، واللقطات الأرشيفية الحقيقية القليلة تظهر كنافذة مقتطعة فوق الخريطة أو لا تدوم 3 ثوان"
+        },
+        {
+          "video_id": "ca35D8MnPBM",
+          "reason": "الفيديو بالكامل عبارة عن خرائط ورسوم بيانية توضيحية ولا يتضمن أي لقطات ميدانية حقيقية."
+        },
+        {
+          "video_id": "cR2Ob3VbfAU",
+          "reason": "الفيديو بالكامل عبارة عن برنامج حواري داخل الأستوديو بين المذيعة والضيوف ولا يحتوي على أي لقطات ميدانية."
+        }
+      ],
+      "errors": 0,
+      "cost": 0.0697
+    },
+    "picked": [
+      "9Nz5AqYktkw",
+      "iamwFtcDNdg",
+      "ca35D8MnPBM",
+      "cR2Ob3VbfAU"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "تفرض الولايات المتحدة حصارًا بحريًا على إيران، وقد تحدث الرئيس الأمريكي دونالد ترامب عن نتائجه.",
+      "visual": "سفن حربية أمريكية في البحر",
+      "map": {
+        "countries": [
+          "إيران"
+        ],
+        "places": [],
+        "arrows": []
+      }
+    },
+    {
+      "scene": 3,
+      "sentence": 0,
+      "text": "يؤكد ترامب أن الحصار البحري على إيران محكم، ولم تتمكن أي سفينة إيرانية من اختراقه.",
+      "visual": "سفن حربية أمريكية تقف قرب الساحل",
+      "map": {
+        "countries": [
+          "إيران"
+        ],
+        "places": [],
+        "arrows": []
+      },
+      "person": {
+        "name_ar": "ترامب",
+        "name_en": "Donald Trump"
+      }
+    },
+    {
+      "scene": 4,
+      "sentence": 0,
+      "text": "ما الخيارات المطروحة أمام واشنطن تجاه إيران؟",
+      "visual": ""
+    },
+    {
+      "scene": 7,
+      "sentence": 0,
+      "text": "لماذا يسعى رئيس الوزراء الإسرائيلي بنيامين نتنياهو لجر أمريكا إلى حرب جديدة؟",
+      "visual": "",
+      "person": {
+        "name_ar": "بنيامين نتنياهو",
+        "name_en": "Benjamin Netanyahu"
+      }
+    }
+  ],
+  "cost_script": {
+    "claude": {
+      "claude-haiku-5-5": 0.00326,
+      "claude-sonnet-5": 0.16017,
+      "claude-opus-5": 0.12675
+    },
+    "gemini": 0.1937
+  },
+  "review_issue": 2039,
+  "stage2_issue": 2039
+}
