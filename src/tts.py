@@ -416,6 +416,8 @@ def apply_proper_nouns(text: str, nouns: list, every_word: bool = True, person_b
             log.info("علم غير موجود في النص المشكول فتُجوهل: %r", str((n or {}).get("text"))[:40])
     out, pos = [], 0
     for i, (st, en, _) in enumerate(words):
+        if i in wanted and _taa_mid(text, st, en):
+            continue   # تاء مربوطة لا يليها وقف: تُنطق تاءً بحركتها (السُّعُودِيَّةِ)؛ سكونها يجعلها «تْ» (ملاحظة صاحب المشروع 27/11)
         if i in wanted:
             out.append(text[pos:st])
             out.append(_waqf_word(text[st:en], taa=False))
@@ -428,6 +430,21 @@ def apply_proper_nouns(text: str, nouns: list, every_word: bool = True, person_b
     return "".join(out)
 
 
+def _taa_mid(text: str, st: int, en: int) -> bool:
+    """كلمة text[st:en] آخرها تاء مربوطة ولا يليها وقف (دالة خالصة). تُستثنى من السكون: التاء المربوطة الساكنة تُنطق «تْ» وهو
+    خطأ — عند الوقف تُنطق هاءً (apply_waqf) وفي الوصل تاءً بحركتها."""
+    return strip_tashkeel(text[st:en]).endswith("ة") and not _PAUSE_AFTER.match(text, en)
+
+
+_TAA_SUKUN = re.compile(f"ة({_SHADDA}?){_SUKUN}(?![ء-ي])")
+
+
+def taa_sukun_to_ha(text: str) -> str:
+    """كل تاء مربوطة ساكنة في نص النطق تصير «هْ» (دالة خالصة؛ ملاحظة صاحب المشروع 27/11: «الإيرانيةْ» و«السعوديةْ» نُطقتا
+    «إيرانيّات» و«سعوديّات»). التاء المربوطة الساكنة وقفٌ، والوقف عليها هاء؛ أما في الوصل فلا تُسكَّن أصلًا (_taa_mid والتشكيل)."""
+    return _TAA_SUKUN.sub("ه" + _SUKUN, text or "")
+
+
 def _bare_end(word: str) -> str:
     """الحرف الأخير بلا حركة ولا تنوين ولا سكون (الشدة تبقى): «مُحَمَّدُ» ← «مُحَمَّد». الإعراب على اسم أجنبي غريب في السمع،
     والسكون يقرؤه ElevenLabs وقفة؛ الحرف العاري يصله بما بعده (ريل 5d767581bd5e)."""
@@ -435,6 +452,8 @@ def _bare_end(word: str) -> str:
     if not m:
         return word
     head, tail = m.groups()
+    if head.endswith("ة"):
+        return word   # التاء المربوطة بلا حركة تُقرأ «تْ»؛ في الوصل تبقى بحركتها (ملاحظة صاحب المشروع 27/11)
     return head + (_SHADDA if _SHADDA in tail else "")
 
 
@@ -648,6 +667,8 @@ def spoken_line(sentence: str, nouns: list, cfg, latin: bool = False) -> tuple[s
     """نص النطق لجملة واحدة كما يرسله التركيب وأداة القياس: الوقف ← الأسماء الأجنبية برسمها (latin) ← الأرقام بالكلمات.
     يعيد (النص، الأسماء المستبدلة). الأرقام بعد الوقف كي لا يُسكَّن آخر رقم بالقاعدة: نطقه من نداء التشكيل بحركته."""
     spoken, used = apply_waqf(sentence), []
+    if cfg is None or cfg.path("reel.tts.taa_marbuta_ha", True):
+        spoken = taa_sukun_to_ha(spoken)
     if latin:
         spoken, used = latin_names(spoken, nouns, cfg)
     if cfg is None or cfg.path("reel.tts.numbers.enabled", True):
