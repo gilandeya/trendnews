@@ -1087,8 +1087,8 @@
    "selected_from": 2029,
    "topic_issue": 2035,
    "qa": {
-    "attempts": 1,
-    "at": "2026-11-27T11:53:34.871795+00:00",
+    "attempts": 2,
+    "at": "2026-11-27T13:49:04.996508+00:00",
     "videos": [
      {
       "video_id": "qxm4XIK_wFQ",
@@ -1109,19 +1109,19 @@
       "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
      },
      {
-      "video_id": "OGx1F1nbpwE",
-      "channel": "CNN Türk",
-      "bloc": "turkish",
-      "minutes": 11.6,
+      "video_id": "TPU2GBfTOgk",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "minutes": 7.4,
       "bites": 0,
       "rejected": 0,
       "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
      },
      {
-      "video_id": "TPU2GBfTOgk",
-      "channel": "ILTV",
-      "bloc": "israeli",
-      "minutes": 7.4,
+      "video_id": "OGx1F1nbpwE",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "minutes": 11.6,
       "bites": 0,
       "rejected": 0,
       "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
@@ -1198,7 +1198,7 @@
      "OGx1F1nbpwE": 2,
      "fc-39637-qo": 0,
      "CZ2WubUYw70": 0,
-     "TPU2GBfTOgk": 2,
+     "TPU2GBfTOgk": 3,
      "gk4wVR6W_5o": 3,
      "DaqMWVYsYto": 3,
      "vBtuEnpAI74": 3,
@@ -1233,13 +1233,13 @@
       "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
      },
      {
-      "video_id": "OGx1F1nbpwE",
-      "channel": "CNN Türk",
+      "video_id": "TPU2GBfTOgk",
+      "channel": "ILTV",
       "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
      },
      {
-      "video_id": "TPU2GBfTOgk",
-      "channel": "ILTV",
+      "video_id": "OGx1F1nbpwE",
+      "channel": "CNN Türk",
       "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
      },
      {
@@ -1282,7 +1282,7 @@
     "error": "RuntimeError: مقاطع قليلة عن الموضوع: 0",
     "cost": {
      "claude": {
-      "claude-haiku-5-5": 0.00072
+      "claude-haiku-5-5": 0.00144
      }
     }
    }
@@ -2635,7 +2635,169 @@
     }
    ],
    "qa_requested_at": "2026-11-27T13:47:02.441455+00:00",
-   "selected_from": 2034
+   "selected_from": 2034,
+   "topic_issue": 2037,
+   "qa": {
+    "attempts": 1,
+    "at": "2026-11-27T13:49:04.996508+00:00",
+    "videos": [
+     {
+      "video_id": "Zkg1SJy_qo8",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "minutes": 29.8,
+      "bites": 0,
+      "rejected": 0,
+      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "z78QcAhQGpY",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "minutes": 14.7,
+      "bites": 0,
+      "rejected": 0,
+      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "2p3ZdNhpesk",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "minutes": 24.7,
+      "bites": 0,
+      "rejected": 0,
+      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "PAWWljp2yJg",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "minutes": 53.7,
+      "bites": 0,
+      "rejected": 0,
+      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "QLkuUNn-n80",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "minutes": 11.5,
+      "bites": 0,
+      "rejected": 0,
+      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "McIO1KbC8f0",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "minutes": 10.1,
+      "bites": 0,
+      "rejected": 0,
+      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "Ee3W8dbzgv8",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "minutes": 15.5,
+      "bites": 0,
+      "rejected": 0,
+      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "iAqfaWrv8iM",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "minutes": 50.7,
+      "bites": 0,
+      "rejected": 0,
+      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S",
+      "extra": true
+     },
+     {
+      "video_id": "UoomWcbi3Bw",
+      "channel": "CNN",
+      "bloc": "english",
+      "minutes": 5.5,
+      "bites": 0,
+      "rejected": 0,
+      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S",
+      "extra": true
+     }
+    ],
+    "video_scores": {
+     "UoomWcbi3Bw": 0,
+     "z78QcAhQGpY": 1,
+     "Zkg1SJy_qo8": 3,
+     "Ee3W8dbzgv8": 1,
+     "QLkuUNn-n80": 3,
+     "2p3ZdNhpesk": 3,
+     "McIO1KbC8f0": 2,
+     "PAWWljp2yJg": 2,
+     "iAqfaWrv8iM": 1
+    },
+    "gemini_cost": 0.0,
+    "gemini_rejected": 0,
+    "channels": 0,
+    "answer_channels": 0,
+    "originals": [],
+    "originals_found": 0,
+    "source": "gemini",
+    "failures": [
+     {
+      "video_id": "Zkg1SJy_qo8",
+      "channel": "الجزيرة",
+      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "z78QcAhQGpY",
+      "channel": "Iran International",
+      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "2p3ZdNhpesk",
+      "channel": "العربية",
+      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "PAWWljp2yJg",
+      "channel": "الميادين",
+      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "QLkuUNn-n80",
+      "channel": "العربية",
+      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "McIO1KbC8f0",
+      "channel": "الميادين",
+      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "Ee3W8dbzgv8",
+      "channel": "العربية",
+      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "iAqfaWrv8iM",
+      "channel": "الميادين",
+      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "UoomWcbi3Bw",
+      "channel": "CNN",
+      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     }
+    ],
+    "status": "failed",
+    "error": "RuntimeError: مقاطع قليلة عن الموضوع: 0",
+    "cost": {
+     "claude": {
+      "claude-haiku-5-5": 0.00044
+     }
+    }
+   }
   },
   {
    "id": "2964ae54b2ff",
