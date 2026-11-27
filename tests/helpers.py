@@ -163,6 +163,20 @@ def load_config(path=None):
             recho["drop_unheard_ideas"] = False
         if isinstance(rcfg.get("budget"), dict):
             rcfg["budget"]["download_reserve"] = {}
+        # ملاحظات قضية 2031 (27/11): مربع الكاريكاتير معلَّم، وحارس المناداة، وحارسا التشكيل، وتوازن الأطراف والقنوات في الاختيار
+        # الآلي؛ تغيّر مخرجات تثبّتها اختبارات قديمة. test_reel_notes_2031 يطلبها ويثبّت أن config.yaml عليها
+        if isinstance(rcart, dict):
+            rcart["default_checked"] = False
+        caud = (((cfg.get("reel") or {}).get("script") or {}).get("clip_audit"))
+        if isinstance(caud, dict):
+            caud["vocative_words"] = 0
+        dia = (((cfg.get("reel") or {}).get("tts") or {}).get("diacritize"))
+        if isinstance(dia, dict):
+            dia["keep_source_marks"] = False
+            dia["definite_tanween"] = False
+        mqa = ((((cfg.get("youtube") or {}).get("meta_topics") or {}).get("qa")) or {})
+        if isinstance(mqa.get("balance"), dict):
+            mqa["balance"] = {"sides": False, "channels": False}
         gvet = ((cfg.get("reel") or {}).get("hook_search") or {}).get("gemini_vet")
         if isinstance(gvet, dict):
             gvet["enabled"] = False

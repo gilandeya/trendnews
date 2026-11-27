@@ -1852,6 +1852,25 @@ def recheck_incomplete(clip: dict, point: dict, reason: str, valid: list[dict], 
         return None
 
 
+def addressed_name(other: str, quote: str, cfg: Any) -> bool:
+    """هل اسم «الشخص الآخر» الذي ذكره فحص القائلين مناداةٌ في أول كلام المقطع؟ (دالة خالصة، قضية 2031) المناداة أول الكلام: أول
+    كلمة منه كلمةٌ من الاسم (≥ 3 أحرف بعد التطبيع وطيّ الحروف الفارسية)، أو تسبقها كلمة من clip_audit.vocative_lead («يا»، «شكرًا»)،
+    ضمن أول clip_audit.vocative_words كلمات. «رأى الدكتور العريمي…» نسبة لا مناداة. 0 ← لا حارس."""
+    from .youtube_bites import fold_name
+    from .youtube_extract import _normalize_for_anchor
+    acfg = cfg.path("reel.script.clip_audit") or {}
+    n = int(acfg.get("vocative_words", 0) or 0)
+    if n <= 0 or not other or not quote:
+        return False
+    name = {w for w in _normalize_for_anchor(fold_name(re.sub(r"[()]", " ", other))).split() if len(w) >= 3}
+    lead = {_normalize_for_anchor(fold_name(w)) for w in acfg.get("vocative_lead") or []}
+    words = _normalize_for_anchor(fold_name(quote)).split()[:n]
+    k = 0
+    while k < len(words) - 1 and words[k] in lead:
+        k += 1
+    return bool(words) and words[k] in name
+
+
 def apply_audit(valid: list[dict], rows: list[dict], cfg: Any, points_by_id: dict | None = None, client=None,
                 rechecked: list | None = None) -> tuple[list[dict], list[str], list[dict]]:
     """ينفّذ حكم الفحص: no ← استبعاد باسم الآخر؛ faithful=false ← الترجمة الأمينة الجديدة محل القديمة في نسخة المقطع (ملف النقاط لا يُمسّ)
@@ -1866,6 +1885,11 @@ def apply_audit(valid: list[dict], rows: list[dict], cfg: Any, points_by_id: dic
     recheck = points_by_id is not None and bool(cfg.path("reel.script.clip_audit.recheck_incomplete", False))
     for c in valid:
         r = by.get(c["point_id"])
+        if r is not None and r.get("speaker_said_it") == "no" and addressed_name(r.get("other_name") or "",
+                                                                            c.get("quote_original") or "", cfg):
+            # قضية 2031: «کامیلا درسته…» مراسلة تنادي المقدّمة باسمها أول كلامها، فحكم الفحص بأن الكلام لكاميلا. الاسم «الآخر» في
+            # أول كلمات المقطع مناداة لا نسبة: لا يُستبعد ويُعرض ❓ للمراجع، وبقية الحكم (الترجمة والاكتمال) يمضي كما هو
+            r["speaker_said_it"], r["addressed"] = "unsure", True
         if r is None:
             out.append(c)
         elif r.get("speaker_said_it") == "no":

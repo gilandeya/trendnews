@@ -276,11 +276,51 @@ def diacritize_full(text: str, cfg, client=None) -> tuple[str, str | None, list]
         for _ in range(2):
             out, nouns = _diacritize_once(text, dcfg, client, reason)
             if strip_tashkeel(out) == want:
-                return out, None, nouns
+                return fix_tashkeel(text, out, dcfg), None, nouns
             reason = "الناتج بعد حذف الحركات لا يطابق الأصل حرفيًا (حرف مغيَّر أو كلمة مضافة/محذوفة)"
     except Exception as exc:  # noqa: BLE001 -- عطل التشكيل لا يوقف القياس
         log.warning("تشكيل: %s", str(exc)[:200])
     return text, DIACRITIZE_WARNING, []
+
+
+_TANWEEN = "ًٌٍ"
+_MARK_RE = re.compile("[ً-ْٰ]")
+_DEF_PREFIX = re.compile("^[وف]?[بكل]?(?:ال|لل)")
+
+
+def _letters(word: str) -> list[list[str]]:
+    """الكلمة حروفًا، وكل حرف بعلاماته: [[حرف، علامة، …]]."""
+    out: list[list[str]] = []
+    for ch in word:
+        if _MARK_RE.match(ch) and out:
+            out[-1].append(ch)
+        elif not _MARK_RE.match(ch):
+            out.append([ch])
+    return out
+
+
+def fix_tashkeel(src: str, out: str, dcfg: dict) -> str:
+    """حارسان في الكود على ما يعيده نموذج التشكيل (دالة خالصة، قضية 2031):
+    (1) keep_source_marks: علامة كتبها الكاتب نفسه (شدّة «تصدّر») تحسم قراءة الكلمة؛ تشكيل أسقطها قرأ «تَصْدُر النفطُ» بدل
+        «تُصَدِّر النفطَ». كلمة فقدت علامة من علامات الأصل تعود كما كتبها الكاتب (ترقيع حرف واحد يترك بقية الكلمة على القراءة
+        الخاطئة)، فيقرؤها مولّد الصوت من شكلها.
+    (2) definite_tanween: لا تنوين على معرَّف بـ«ال» أبدًا («السعوديةً»)؛ يُحذف التنوين فيُقرأ الحرف بلا حركة إعراب خاطئة.
+    عدد الكلمات المختلف (لا ينبغي بعد الحارس الحرفي) ← الناتج كما هو."""
+    sw, ow = (src or "").split(" "), (out or "").split(" ")
+    if len(sw) != len(ow):
+        return out
+    res = []
+    for a, b in zip(sw, ow):
+        la, lb = _letters(a), _letters(b)
+        if dcfg.get("keep_source_marks", True) and len(la) == len(lb) and any(
+                len(x) > 1 and not set(x[1:]) <= set(y[1:]) for x, y in zip(la, lb)):
+            lb = [list(x) for x in la]
+        if dcfg.get("definite_tanween", True) and lb and _DEF_PREFIX.match("".join(c[0] for c in lb)):
+            k = max((i for i, c in enumerate(lb) if _ARABIC_RE.match(c[0])), default=None)
+            if k is not None:
+                lb[k] = [c for c in lb[k] if c not in _TANWEEN]
+        res.append("".join("".join(c) for c in lb))
+    return " ".join(res)
 
 
 def diacritize(text: str, cfg, client=None) -> tuple[str, str | None]:

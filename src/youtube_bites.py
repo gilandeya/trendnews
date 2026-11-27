@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 from pathlib import Path
 from typing import Any
 
@@ -280,6 +281,30 @@ def original_between(segments: list[dict], s: int, e: int, first: str, last: str
     return " ".join(w for _, w in raw[i0:i1 + 1]).lstrip(">").strip()
 
 
+_SENT_END = re.compile(r"[.!?؟؛]")
+
+
+def strip_signoff(text: str, speaker: str, cfg: Any = None) -> str:
+    """الكلام بلا توقيع المراسل في آخره (دالة خالصة، قضية 2031): «… كلفة استمرار الحرب. أحمد عبد الرحمن، صنعاء، الميادين» —
+    التوقيع ليس من الفكرة، فحكم فحص القائلين بالمقطع «مبتورًا» واستُبعد، ولو بقي لظهر الاسم في الترجمة وسُمع في المقطع. التوقيع
+    = آخر جزء بعد آخر علامة نهاية جملة، قصير (signoff.max_words) وفيه كلمة من اسم المتحدث نفسه. غير ذلك ← النص كما هو."""
+    from .youtube_extract import _normalize_for_anchor
+    sc = (_bcfg(cfg, "signoff", None) if cfg is not None else None) or {}
+    if sc.get("enabled", True) is False or not text or not speaker:
+        return text
+    ends = list(_SENT_END.finditer(text))
+    if not ends:
+        return text
+    cut = ends[-1].end()
+    tail = text[cut:].strip(" ،,-–—")
+    if not tail or len(tail.split()) > int(sc.get("max_words", 6)):
+        return text
+    name = {w for w in _normalize_for_anchor(fold_name(speaker)).split() if len(w) >= 3}
+    if not name & set(_normalize_for_anchor(fold_name(tail)).split()):
+        return text
+    return text[:cut].rstrip()
+
+
 def bites_as_points(bites: list[dict], load_transcript=None) -> list[dict]:
     """المقاطع بشكل «النقطة» الذي تقرؤه العنقدة والترشيح والسيناريو (V3): فلا تُعاد كتابة تلك المراحل دفعة واحدة، وتبقى فهارس
     point_ids على قائمة واحدة متسقة. الملخص يصير statement، والترجمة quote_arabic، والكلام بلغته quote_original (من الأسطر المحفوظة
@@ -304,6 +329,9 @@ def bites_as_points(bites: list[dict], load_transcript=None) -> list[dict]:
                 original = ""
         # مقاطع حُفظت قبل الطيّ (أول جمع 31/10–1/11) تُطوى أسماؤها هنا عند القراءة، فلا تُعاد كتابة ملفاتها
         speaker = fold_name(b.get("speaker") or "")
+        # قضية 2031: توقيع المراسل في آخر كلامه ليس من الفكرة؛ يُحذف من الكلام وترجمته عند القراءة فلا تُعاد كتابة الملفات
+        original = strip_signoff(original, speaker)
+        text_ar = strip_signoff(b.get("text_ar", ""), speaker)
         if not speaker and b.get("is_host"):
             speaker = "مقدّم البرنامج"
         out.append({
@@ -312,7 +340,7 @@ def bites_as_points(bites: list[dict], load_transcript=None) -> list[dict]:
             "video_description": b.get("video_description", ""), "video_url": b.get("video_url", ""),
             "video_published": b.get("video_published", ""), "duration_seconds": b.get("duration_seconds"),
             "statement": b.get("summary_ar", ""), "speaker": speaker,
-            "quote_original": original, "quote_arabic": b.get("text_ar", ""),
+            "quote_original": original, "quote_arabic": text_ar,
             "timestamp": int(float(b["start"])) if b.get("start") is not None else None,
             "start": b.get("start"), "end": b.get("end"), "timestamp_method": "bite",
             "type": b.get("type", ""), "topic_hint": b.get("event_hint", ""),

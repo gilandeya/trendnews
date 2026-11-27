@@ -488,7 +488,7 @@ def parse_ok(body: str) -> set[str]:
 
 
 def review_lines(d: dict, cfg, image_url: str = "") -> list[str]:
-    """سطور الكاريكاتير في قضية السيناريو: الفكرة وأساسها والصورة ومربع غير معلَّم، أو سبب غيابه."""
+    """سطور الكاريكاتير في قضية السيناريو: الفكرة وأساسها والصورة ومربعه (معلَّم مع default_checked)، أو سبب غيابه."""
     rec = d.get("hook_cartoon")
     if not isinstance(rec, dict) or not enabled(cfg):
         return []
@@ -503,5 +503,7 @@ def review_lines(d: dict, cfg, image_url: str = "") -> list[str]:
     out.append("")
     if image_url:
         out += [f'  <img src="{image_url}" width="270">', ""]
-    out += [f"  - [ ] {t.get('approve', 'استعمله خلفيةً للهوك')} <!-- cartoonok:{d['id']} -->", ""]
+    # قضية 2031 (طلب صاحب المشروع): المربع معلَّم من البداية فيدخل الرسم ما لم يُلغِ المراجع تعليمه
+    mark = "x" if ccfg(cfg).get("default_checked", True) else " "
+    out += [f"  - [{mark}] {t.get('approve', 'استعمله خلفيةً للهوك')} <!-- cartoonok:{d['id']} -->", ""]
     return out

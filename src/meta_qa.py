@@ -17,6 +17,7 @@ import logging
 import random
 import re
 import time
+from collections import Counter
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from types import SimpleNamespace
@@ -40,10 +41,13 @@ PLAN_TOOL = {
                         "type": "object",
                         "properties": {"n": {"type": "integer"},
                                        "fit": {"type": "string", "enum": ["direct", "weak"]},
-                                       "view": {"type": "string"}},
+                                       "view": {"type": "string"},
+                                       # قضية 2031: الطرف الذي تحمل الإجابة روايته (من parties)، به يعرض الاختيار الآلي الطرفين
+                                       "side": {"type": "string"}},
                         "required": ["n", "fit"]}},
                 },
                 "required": ["text", "answers"]}},
+            "parties": {"type": "array", "items": {"type": "string"}},
         },
         "required": ["titles", "questions"],
     },
@@ -464,6 +468,7 @@ def _plan_once(topic: dict, bites: list[dict], cfg, client, model: str, diag: di
     rows = _rows(data, "questions")
     # أرقام الشكل وحدها (لا كلام): بها يُعرف أأعاد النموذج لا شيء أم أعاد ما لم يقبله الكود
     diag.update(bites=len(bites), rows=len(rows), raw_type=type(data.get("questions")).__name__, answers=0, bad_n=0)
+    parties = [" ".join(str(p).split()) for p in (llm.tool_json(data.get("parties"), list) or []) if str(p).strip()]
     for row in rows[: int(q.get("max_questions", 5))]:
         text = str(row.get("text") or "").strip()
         answers, seen = [], set()
@@ -477,6 +482,9 @@ def _plan_once(topic: dict, bites: list[dict], cfg, client, model: str, diag: di
             view = " ".join(str(a.get("view") or "").split())
             if view:
                 ans["view"] = view
+            side = " ".join(str(a.get("side") or "").split())
+            if side and side in parties:
+                ans["side"] = side
             answers.append(ans)
         diag["answers"] += len(answers)
         if text and answers:
@@ -725,6 +733,15 @@ def _rank(b: dict, fit: str) -> tuple:
     return (not b.get("heard"), fit != "direct", b.get("type") not in ("opinion", "forecast"), bool(b.get("is_host")))
 
 
+def side_rank(a: dict, qsides: set, gsides: Counter) -> tuple[int, int]:
+    """ترتيب الإجابة بطرفها (دالة خالصة، قضية 2031): طرف لم يُعرض في السؤال أولًا، ثم المحايدة، ثم طرف عُرض فيه؛ وبين المتساوية
+    الطرف الأقل حضورًا في الريل كله."""
+    side = a.get("side") or ""
+    if not side:
+        return 1, 0
+    return (0 if side not in qsides else 2), gsides.get(side, 0)
+
+
 def auto_select(questions: list[dict], bites: list[dict], cfg) -> float:
     """يعلّم `selected` على إجابات الأسئلة ضمن `max_seconds`. جولات على الأسئلة بترتيبها: كل جولة تضيف لكل سؤال إجابة واحدة
     من متحدث لم يجب السؤال، بتوجّه لم يجبه إن وُجد، ولا مقطع في سؤالين. سؤال بقي بأقل من `min_answers` يُترك كله ويُعاد
@@ -743,54 +760,71 @@ def auto_select(questions: list[dict], bites: list[dict], cfg) -> float:
         # المتحدث المسمّى يجيب سؤالًا واحدًا في الريل (ريل 1850: وايتمن أجاب السؤالين فبدا الريل حوارًا معه)
         once = bool(q.get("speaker_once", True))
         spoke: set[str] = set()
-        progress = True
+        bal = q.get("balance") or {}
+        by_sides, by_chans = bool(bal.get("sides")), bool(bal.get("channels"))
+        first_pass = max(1, int(bal.get("first_pass", 1) or 1)) if (by_sides or by_chans) else 1
+        progress, round_no = True, -1
         while progress:
             progress = False
+            round_no += 1
             for qi, qu in enumerate(questions):
                 if qi in dropped:
                     continue
-                chosen = [a for a in qu["answers"] if a["selected"]]
-                if len(chosen) >= per_q:
-                    continue
-                speakers = {_speaker_key(bites[a["n"] - 1]) for a in chosen}
-                orients = {(bites[a["n"] - 1].get("bloc"), bites[a["n"] - 1].get("orientation")) for a in chosen}
-                cands = [a for a in qu["answers"] if not a["selected"] and a["n"] not in used
-                         and _speaker_key(bites[a["n"] - 1]) not in speakers
-                         and not (once and _speaker_key(bites[a["n"] - 1]) in spoke)
-                         and total + _sec(bites[a["n"] - 1]) <= budget]
-                if not cands:
-                    continue
-                # التوجّه الجديد أولًا، ثم القنوات غير العربية (قرار صاحب المشروع 11/11)، ثم الصلة ونوع الكلام
-                # الأم (23/11) أولًا: صداها لا يُعرض بلاها، فاختيار غيرها قبلها يفرّط في السؤال كله
-                cands.sort(key=lambda a: (a.get("echo_role") not in ("primary", "opposing"), a.get("echo_rank", 0),
-                                          (bites[a["n"] - 1].get("bloc"), bites[a["n"] - 1].get("orientation")) in orients,
-                                          _low_priority(bites[a["n"] - 1], cfg),
-                                          *_rank(bites[a["n"] - 1], a["fit"])))
-                picks = [cands[0]]
-                # الأم وصداها معًا (ريل 5d767581bd5e، 25/11): الصدى لا يُعرض صدًى إلا مع أمه، وكان يأتي بعد التوجّه الجديد
-                # فيأكل غيرُه السقف قبله وتُعرض الأم إجابة عادية؛ فإن اتسع السقف لصدى من متحدث آخر يُعلَّم معها في الجولة نفسها
-                if pair and cands[0].get("echo_role") in ("primary", "opposing") and len(chosen) + 2 <= per_q:
-                    mid = bites[cands[0]["n"] - 1].get("bite_id")
-                    room = budget - total - _sec(bites[cands[0]["n"] - 1])
-                    mkey = _speaker_key(bites[cands[0]["n"] - 1])
-                    # كل صدى يتسع له السقف لا الأول وحده (25/11: الأم تُعرض بصداها كله، صدى1 وصدى2…)
-                    seen_spk = {mkey}
-                    for a in cands[1:]:
-                        if len(chosen) + len(picks) >= per_q:
-                            break
-                        spk = _speaker_key(bites[a["n"] - 1])
-                        if (a.get("echo_role") == "echo" and a.get("echo_of") == mid and spk not in seen_spk
-                                and _sec(bites[a["n"] - 1]) <= room):
-                            picks.append(a)
-                            seen_spk.add(spk)
-                            room -= _sec(bites[a["n"] - 1])
-                for pick in picks:
-                    pick["selected"] = True
-                    used.add(pick["n"])
-                    if _speaker_key(bites[pick["n"] - 1]) != bites[pick["n"] - 1]["bite_id"]:
-                        spoke.add(_speaker_key(bites[pick["n"] - 1]))
-                    total += _sec(bites[pick["n"] - 1])
-                progress = True
+                # قضية 2031: في الجولة الأولى يُكمل كل سؤال أول first_pass إجابات (الطرفان) قبل أن ينتقل الاختيار إلى السؤال
+                # التالي، فيأخذ الأول الميادين والعربية والثاني ما لم يُعلَّم؛ الجولات بعدها إجابة لكل سؤال كما كانت
+                for _rep in range(first_pass if round_no == 0 else 1):
+                    chosen = [a for a in qu["answers"] if a["selected"]]
+                    if len(chosen) >= per_q:
+                        break
+                    speakers = {_speaker_key(bites[a["n"] - 1]) for a in chosen}
+                    orients = {(bites[a["n"] - 1].get("bloc"), bites[a["n"] - 1].get("orientation")) for a in chosen}
+                    cands = [a for a in qu["answers"] if not a["selected"] and a["n"] not in used
+                             and _speaker_key(bites[a["n"] - 1]) not in speakers
+                             and not (once and _speaker_key(bites[a["n"] - 1]) in spoke)
+                             and total + _sec(bites[a["n"] - 1]) <= budget]
+                    if not cands:
+                        break
+                    # التوجّه الجديد أولًا، ثم القنوات غير العربية (قرار صاحب المشروع 11/11)، ثم الصلة ونوع الكلام
+                    # الأم (23/11) أولًا: صداها لا يُعرض بلاها، فاختيار غيرها قبلها يفرّط في السؤال كله
+                    # قضية 2031: القناة التي لم تُعلَّم في سؤال آخر أولًا (الميادين والعربية في الأول ← سي إن إن والجزيرة في الثاني)،
+                    # ثم الطرف الذي لم يُعرض في هذا السؤال، ثم الأقل حضورًا في الريل
+                    # الصدى خارج القاعدتين: يكفيه أن يؤكد جملة من أمه، فلا يُحسب طرفه ولا قناته
+                    qsides = {a.get("side") for a in chosen if a.get("side") and a.get("echo_role") != "echo"}
+                    gsides = Counter(a.get("side") for qq in questions for a in qq["answers"]
+                                     if a["selected"] and a.get("side") and a.get("echo_role") != "echo")
+                    other_chans = {bites[a["n"] - 1].get("channel") for qj, qq in enumerate(questions) if qj != qi
+                                   for a in qq["answers"] if a["selected"] and a.get("echo_role") != "echo"}
+                    cands.sort(key=lambda a: (a.get("echo_role") not in ("primary", "opposing"), a.get("echo_rank", 0),
+                                              by_chans and bites[a["n"] - 1].get("channel") in other_chans,
+                                              side_rank(a, qsides, gsides) if by_sides else (0, 0),
+                                              (bites[a["n"] - 1].get("bloc"), bites[a["n"] - 1].get("orientation")) in orients,
+                                              _low_priority(bites[a["n"] - 1], cfg),
+                                              *_rank(bites[a["n"] - 1], a["fit"])))
+                    picks = [cands[0]]
+                    # الأم وصداها معًا (ريل 5d767581bd5e، 25/11): الصدى لا يُعرض صدًى إلا مع أمه، وكان يأتي بعد التوجّه الجديد
+                    # فيأكل غيرُه السقف قبله وتُعرض الأم إجابة عادية؛ فإن اتسع السقف لصدى من متحدث آخر يُعلَّم معها في الجولة نفسها
+                    if pair and cands[0].get("echo_role") in ("primary", "opposing") and len(chosen) + 2 <= per_q:
+                        mid = bites[cands[0]["n"] - 1].get("bite_id")
+                        room = budget - total - _sec(bites[cands[0]["n"] - 1])
+                        mkey = _speaker_key(bites[cands[0]["n"] - 1])
+                        # كل صدى يتسع له السقف لا الأول وحده (25/11: الأم تُعرض بصداها كله، صدى1 وصدى2…)
+                        seen_spk = {mkey}
+                        for a in cands[1:]:
+                            if len(chosen) + len(picks) >= per_q:
+                                break
+                            spk = _speaker_key(bites[a["n"] - 1])
+                            if (a.get("echo_role") == "echo" and a.get("echo_of") == mid and spk not in seen_spk
+                                    and _sec(bites[a["n"] - 1]) <= room):
+                                picks.append(a)
+                                seen_spk.add(spk)
+                                room -= _sec(bites[a["n"] - 1])
+                    for pick in picks:
+                        pick["selected"] = True
+                        used.add(pick["n"])
+                        if _speaker_key(bites[pick["n"] - 1]) != bites[pick["n"] - 1]["bite_id"]:
+                            spoke.add(_speaker_key(bites[pick["n"] - 1]))
+                        total += _sec(bites[pick["n"] - 1])
+                    progress = True
         thin = {qi for qi, qu in enumerate(questions) if qi not in dropped
                 and 0 < sum(a["selected"] for a in qu["answers"]) < min_a}
         if not thin:
