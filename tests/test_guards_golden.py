@@ -20271,7 +20271,9 @@ def test_reel_exact_q13_guards() -> None:
                                      "snap": 0.3, "require": False, "word_similarity": 0.7, "word_min_len": 3,
                                      "drop_approx_reasons": ["low_ratio", "no_words"], "relaxed_ratio": 0.6,
                                      # القضيتان 1991 و1997: نافذة أوسع قبل الحذف، ولغة الكلام من حروفه
-                                     "approx_retry_margin": 60, "language_from_text": True, "gemini_language": True}, xc)
+                                     "approx_retry_margin": 60, "language_from_text": True, "gemini_language": True,
+                                     # القضية 2044: مدّ آخر المقطع (يطفئه load_config للاختبارات)
+                                     "tail": {"enabled": False, "min_words": 2, "max_gap": 0.6, "max_seconds": 4.0}}, xc)
         # S7 أضاف المفتاحين، وريلا 13/11 relaxed_ratio
         check("g608: نصوص الإعداد", all(cfg.path(f"reel.texts.{k}") for k in ("clip_drop_incomplete", "scene_heard", "scene_written"))
               and all(cfg.path(f"reel.render.texts.{k}") for k in ("comment_exact_failed", "drop_exact_failed")), None)
