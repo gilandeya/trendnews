@@ -92,6 +92,9 @@ def load_config(path=None):
         # قضية 2044: مدّ آخر المقطع إلى ما سُمع بعد آخر كلمة طوبقت يغيّر حدود المقاطع المضبوطة المثبّتة؛ test_reel_notes_2044 يطلبه
         if isinstance(rcfg.get("exact"), dict) and isinstance(rcfg["exact"].get("tail"), dict):
             rcfg["exact"]["tail"] = {**rcfg["exact"]["tail"], "enabled": False}
+        # إعادة بناء السياق (28/11) نداء نموذج حين يسقط مقطع سياق؛ test_reel_context_rebuild_2811 يطلبه
+        if isinstance(rcfg.get("context_rebuild"), dict):
+            rcfg["context_rebuild"]["enabled"] = False
         # شريط الخلفية الواحد (خ1، 8/11) يغيّر أوامر مشاهد الراوي التي تثبّتها مراجع R5d2 وما بعدها؛ bg_track_cfg يعيده
         if isinstance(rcfg.get("bg_track"), dict):
             rcfg["bg_track"]["enabled"] = False
