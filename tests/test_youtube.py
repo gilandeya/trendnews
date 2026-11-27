@@ -10744,7 +10744,10 @@ def test_reel_cartoon_2311() -> None:
             os.environ["GEMINI_API_KEY"] = old[2]
 
     # (5) القضية: المعاينة وأسماء القطع ومربع غير معلَّم، وقراءته
-    lines = reel_cartoon.review_lines(draft, cfg, "https://raw/x.png")
+    # مربع غير معلَّم: سلوك ما قبل قضية 2031؛ المعلَّم من البداية في test_reel_notes_2031
+    cfg_unchecked = copy.deepcopy(cfg)
+    cfg_unchecked["reel"]["cartoon"]["default_checked"] = False
+    lines = reel_cartoon.review_lines(draft, cfg_unchecked, "https://raw/x.png")
     text = "\n".join(lines)
     check("2311c: بند الريل يعرض الفكرة وأساسها وقطعها والمعاينة ومربعًا غير معلَّم",
           "يقتسمون كعكة" in text and "الإجابة 1" in text and "الكعكة · القائد" in text and 'src="https://raw/x.png"' in text
@@ -11995,3 +11998,84 @@ def test_reel_notes_2027() -> None:
     cands2 = [dict(cands[0]), dict(cands[1], gemini={"start": 5, "end": 9, "impact": 1, "desc": "د"}, picked=True)]
     check("2027g: المعلَّم يغلب ما دام Gemini قبله", reel_hook_search.gemini_hook(cands2, cfg)["start"] == 5)
     check("2027g: بلا مفتاح ← بلا نداء", reel_hook_search.gemini_vet([], {}, cfg, key="") == {"skipped": "no_key"})
+
+
+def test_reel_notes_2031() -> None:
+    """ملاحظات القضية 2031 (المسودة 4bf354685abf): مقاطع استُبعدت ظلمًا (توقيع المراسل في آخر كلامه، ومراسلة تنادي المقدّمة
+    باسمها)، ومربع الكاريكاتير معلَّم، وخطأ التشكيل («تصدّر» قُرئت «تَصْدُر»، «السعوديةً»)، وتوازن الأطراف والقنوات في الاختيار."""
+    import copy
+
+    from src import meta_qa, reel_cartoon, reel_script, tts, youtube_bites
+    from src.config import load_config as real_load
+    real = real_load()
+    check("2031: الإعداد الحقيقي على السلوك الجديد",
+          real.path("reel.cartoon.default_checked") is True and real.path("reel.script.clip_audit.vocative_words") >= 1
+          and real.path("reel.tts.diacritize.keep_source_marks") is True and real.path("reel.tts.diacritize.definite_tanween") is True
+          and real.path("youtube.meta_topics.qa.balance.sides") is True and real.path("youtube.meta_topics.qa.balance.channels") is True
+          and real.path("youtube.meta_topics.qa.balance.first_pass") == 2 and real.path("reel.render.version") >= 95)
+    cfg = copy.deepcopy(real)
+
+    # (1) توقيع المراسل يُحذف من كلامه
+    text = ("بهذه المواجهة ترسم صنعاء ملامح مرحلة جديدة من الحرب المفتوحة في قلب المملكة، بما يفرض معادلة ردع جديدة. "
+            "أحمد عبد الرحمن، صنعاء، الميادين")
+    check("2031a: توقيع المراسل في آخر كلامه يُحذف",
+          youtube_bites.strip_signoff(text, "أحمد عبد الرحمن").endswith("معادلة ردع جديدة."))
+    check("2031a: جملة أخيرة بلا اسمه تبقى", youtube_bites.strip_signoff("قال ذلك. وهذا خطير جدًا", "أحمد عبد الرحمن")
+          == "قال ذلك. وهذا خطير جدًا")
+    pts = youtube_bites.bites_as_points([{"speaker": "أحمد عبد الرحمن", "text_original": text, "text_ar": text, "start": 1, "end": 20}],
+                                        load_transcript=lambda v: None)
+    check("2031a: النقطة تُقرأ بلا التوقيع", "الميادين" not in pts[0]["quote_original"] and "الميادين" not in pts[0]["quote_arabic"])
+
+    # (1ب) مناداة المقدّمة باسمها ليست نسبة الكلام إليها
+    quote = "کامیلا درسته و به نظر نمی‌رسه که این تنش‌ها فعلا کاهش پیدا بکنه"
+    check("2031b: الاسم في أول الكلام مناداة", reel_script.addressed_name("مقدّم البرنامج (كامیلا درسته)", quote, cfg)
+          and not reel_script.addressed_name("محمد العريمي", quote, cfg))
+    valid = [{"point_id": "p1", "channel_display": "إيران إنترناشيونال", "quote_original": quote, "quote_arabic": "هذا صحيح"},
+             {"point_id": "p2", "channel_display": "الجزيرة", "quote_original": "رأى الدكتور العريمي أن الأمر خطير",
+              "quote_arabic": "الأمر خطير"}]
+    rows = [{"point_id": "p1", "speaker_said_it": "no", "other_name": "مقدّم البرنامج (كامیلا درسته)", "faithful": True,
+             "quote_arabic_fixed": "", "complete": "yes"},
+            {"point_id": "p2", "speaker_said_it": "no", "other_name": "محمد العريمي", "faithful": True,
+             "quote_arabic_fixed": "", "complete": "yes"}]
+    kept, _redone, dropped = reel_script.apply_audit(valid, rows, cfg)
+    check("2031b: المناداة تُبقي المقطع ❓، والنسبة إلى غيره تستبعد",
+          [c["point_id"] for c in kept] == ["p1"] and [d["point_id"] for d in dropped] == ["p2"]
+          and rows[0]["speaker_said_it"] == "unsure", (kept, dropped))
+
+    # (2) مربع الكاريكاتير معلَّم
+    d = {"id": "abc123", "hook_cartoon": {"status": "ready", "idea_ar": "فكرة", "basis_ar": "أساس"}}
+    lines = "\n".join(reel_cartoon.review_lines(d, cfg))
+    check("2031c: مربع الكاريكاتير معلَّم ويُقرأ معتمدًا", "- [x]" in lines and "abc123" in reel_cartoon.parse_ok(lines))
+    off = copy.deepcopy(cfg)
+    off["reel"]["cartoon"]["default_checked"] = False
+    check("2031c: default_checked مطفأ ← غير معلَّم", "- [ ]" in "\n".join(reel_cartoon.review_lines(d, off)))
+
+    # (3) حارسا التشكيل
+    src = "إذ تصدّر النفط لصادرات النفط السعودية، وبالسعودية كتاب"
+    out = "إِذْ تَصْدُرُ النَّفْطُ لِصَادِرَاتِ النَّفْطِ السُّعُودِيَّةً، وَبِالسُّعُودِيَّةٍ كِتَابٌ"
+    fixed = tts.fix_tashkeel(src, out, cfg.path("reel.tts.diacritize"))
+    check("2031d: كلمة أسقط التشكيل شدّتها تعود كما كتبها الكاتب، ولا تنوين على معرَّف",
+          fixed.split()[1] == "تصدّر" and "ً" not in fixed.split()[5] and "ٍ" not in fixed.split()[6]
+          and fixed.split()[7] == "كِتَابٌ", fixed)
+    check("2031d: الحارسان مطفآن ← كما أعاده النموذج",
+          tts.fix_tashkeel(src, out, {"keep_source_marks": False, "definite_tanween": False}) == out)
+
+    # (4) الطرفان في السؤال الأول وقنوات أخرى في الثاني
+    def bite(n, ch, bloc, orient):
+        return {"bite_id": f"b{n}", "speaker": f"متحدث {n}", "channel": ch, "bloc": bloc, "orientation": orient,
+                "start": 0, "end": 10, "type": "opinion"}
+    bites = [bite(1, "الميادين", "arabic", "o1"), bite(2, "العربية", "arabic", "o2"), bite(3, "الجزيرة", "arabic", "o3"),
+             bite(4, "سي إن إن", "english", "o4"), bite(5, "سي إن إن", "english", "o4"), bite(6, "الجزيرة", "arabic", "o3"),
+             bite(7, "العربية", "arabic", "o2"), bite(8, "الميادين", "arabic", "o1")]
+    questions = [{"text": "س1", "answers": [{"n": 1, "fit": "direct", "side": "الحوثيون"}, {"n": 2, "fit": "direct", "side": "السعودية"},
+                                            {"n": 3, "fit": "direct"}, {"n": 4, "fit": "direct"}]},
+                 {"text": "س2", "answers": [{"n": 5, "fit": "direct"}, {"n": 6, "fit": "direct"},
+                                            {"n": 7, "fit": "direct", "side": "السعودية"}, {"n": 8, "fit": "direct", "side": "الحوثيون"}]}]
+    qcfg = copy.deepcopy(cfg)
+    qcfg["youtube"]["meta_topics"]["qa"].update(answers_per_question=2, max_seconds=400)
+    meta_qa.auto_select(questions, bites, qcfg)
+    picked = [[bites[a["n"] - 1]["channel"] for a in qu["answers"] if a["selected"]] for qu in questions]
+    check("2031e: الأول الميادين والعربية (الطرفان)، والثاني سي إن إن والجزيرة",
+          picked == [["الميادين", "العربية"], ["سي إن إن", "الجزيرة"]], picked)
+    check("2031e: side_rank: طرف جديد ثم محايد ثم طرف مكرر",
+          meta_qa.side_rank({"side": "أ"}, {"ب"}, {}) < meta_qa.side_rank({}, {"ب"}, {}) < meta_qa.side_rank({"side": "ب"}, {"ب"}, {}))
