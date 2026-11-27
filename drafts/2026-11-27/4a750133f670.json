@@ -1,7 +1,7 @@
 {
   "id": "4a750133f670",
   "created_at": "2026-11-27T15:42:03.685753+00:00",
-  "status": "approved_script",
+  "status": "published",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -2091,5 +2091,12 @@
     "- 🔤 نُطقت أسماء أجنبية برسمها الأصلي: دونالد ترامب ← Donald Trump، ترامب ← Trump، بنيامين نتنياهو ← Benjamin Netanyahu",
     "- 💵 كلفة الريل: 1.56$ — المقاطع والأسئلة 0.85$ · السيناريو 0.48$ · التركيب (2 محاولات) 0.23$ (Sonnet 0.30$ · Opus 0.13$ · Haiku 0.03$ · Gemini 1.05$ · صوت 0.05$ · بروكسي 99 MB) · البروكسي خارج المجموع"
   ],
-  "reel_review_issue": 2044
+  "reel_review_issue": 2044,
+  "published_at": "2026-11-27T17:28:48.055196+00:00",
+  "facebook": {
+    "post_id": "1169384775996882",
+    "kind": "reel",
+    "url": "https://www.facebook.com/reel/1169384775996882"
+  },
+  "reel_seconds": 177
 }
