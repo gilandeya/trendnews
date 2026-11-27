@@ -4131,7 +4131,12 @@
     }
    ],
    "qa_requested_at": "2026-11-27T13:47:02.441478+00:00",
-   "selected_from": 2034
+   "selected_from": 2034,
+   "qa": {
+    "attempts": 0,
+    "notified_proxy": false,
+    "requeued_at": "2026-11-27T16:16:15.763710+00:00"
+   }
   },
   {
    "id": "d54e3546eb4b",
