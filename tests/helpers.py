@@ -151,8 +151,24 @@ def load_config(path=None):
         if isinstance(fw, dict):
             fw["person_bare"] = False
         if isinstance(rcart, dict) and isinstance(rcart.get("cast"), dict):
-            for key in ("same_height", "hook_boxes", "enter_on_name", "edge_sides"):
+            for key in ("same_height", "hook_boxes", "enter_on_name", "edge_sides", "context_from_hook"):
                 rcart["cast"][key] = False
+        # ملاحظات قضية 2027 (27/11): «برأيك» في نداء السؤال، وألوان الصدى وأحجامه وإسقاط الفكرة غير المسموعة، وحجز وقت للخرائط،
+        # وأسهم التحقق؛ تغيّر أوامر ومخرجات تثبّتها اختبارات قديمة. test_reel_notes_2027 يطلبها ويثبّت أن config.yaml عليها
+        if isinstance(rcfg.get("closing"), dict):
+            rcfg["closing"]["label_joined"] = False
+        if isinstance(recho, dict):
+            recho["color_by"] = "depth"
+            recho["geometry"] = "stagger"
+            recho["drop_unheard_ideas"] = False
+        if isinstance(rcfg.get("budget"), dict):
+            rcfg["budget"]["download_reserve"] = {}
+        gvet = ((cfg.get("reel") or {}).get("hook_search") or {}).get("gemini_vet")
+        if isinstance(gvet, dict):
+            gvet["enabled"] = False
+        vfy = (((cfg.get("reel") or {}).get("maps") or {}).get("auto_detect") or {}).get("verify")
+        if isinstance(vfy, dict):
+            vfy["arrows"] = False
         mscr = ((cfg.get("youtube") or {}).get("meta_topics") or {}).get("script")
         if isinstance(mscr, dict):
             mscr["check_clip_speakers"] = False

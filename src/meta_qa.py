@@ -897,7 +897,13 @@ def issue_body(topic: dict, data: dict, qa: dict, cfg, full_bites: list | None =
                 extra.append(t.get("echo_line", "↩️ صدى{j}: «{text}» — {who} ({channel})").format(
                     j=j, text=" ".join(str(e.get("text_ar") or e.get("label") or "").split()), who=ewho,
                     channel=eb.get("channel") or ""))
-            row, who = _bite_row(k, b, dict(a, echo_role=role or None), t, full_bites, a["n"], extra)
+            marked = None
+            if role and full_bites and a["n"] <= len(full_bites):
+                # قضية 2027: موضع كل صدى داخل نص الأم بعد الجملة التي يكررها («… خليج عمان <الصدى1 و2> لمنع …»)
+                seg_of = next((m.get("segments") for m in echo.get("masters") or [] if m.get("bite_id") == bid), None)
+                marked = master_marked((full_bites[a["n"] - 1].get("text_ar") or "").strip(), seg_of or [],
+                                       mine.get(bid, []), t)
+            row, who = _bite_row(k, b, dict(a, echo_role=role or None), t, full_bites, a["n"], extra, quote_text=marked)
             lines.append(row)
             boxes.append(_answer_box(k, qi, b, a, who, role, t, qa))
             for j, e in enumerate(mine.get(bid, []) if role else [], 1):
@@ -963,12 +969,48 @@ def _answer_box(k, qi: int, b: dict, a: dict, who: str, role: str, t: dict, qa: 
     return f"- [{'x' if a.get('selected') else ' '}] {label} <!-- ma:{qi}:{b['bite_id']} -->"
 
 
+def master_marked(tr: str, segments: list, echoes: list, t: dict) -> str | None:
+    """نص الأم وفيه موضع كل صدى بعد الفكرة التي يكررها (دالة خالصة، قضية 2027): echoes بترتيب أرقامها (صدى1، صدى2…)، وكل فكرة
+    تُعرف بآخر كلمات ترجمتها (segments[].text_ar) في الترجمة الكاملة بعد موضع الفكرة السابقة. فكرة لا يوجد موضعها لا علامة لها،
+    ولا علامة إطلاقًا ← None (يبقى النص كما هو وجمل الصدى تحته)."""
+    words = str(tr or "").split()
+    if not words or not echoes:
+        return None
+    by_idea: dict = {}
+    for j, e in enumerate(echoes, 1):
+        by_idea.setdefault(e.get("idea"), []).append(j)
+    marks: dict[int, list[int]] = {}
+    prev = 0
+    for seg in segments or []:
+        tail = str(seg.get("text_ar") or "").split()[-3:]
+        if not tail:
+            continue
+        pos = next((q + len(tail) for q in range(prev, len(words) - len(tail) + 1) if words[q:q + len(tail)] == tail), None)
+        if pos is None:
+            continue
+        prev = pos
+        if by_idea.get(seg.get("idea")):
+            marks.setdefault(pos, []).extend(by_idea[seg["idea"]])
+    if not marks:
+        return None
+    fmt = t.get("echo_marker", "&lt;الصدى{js}&gt;")
+    out: list[str] = []
+    for q, w in enumerate(words, 1):
+        out.append(w)
+        if q in marks:
+            out.append(fmt.format(js=" و".join(str(j) for j in marks[q])))
+    return " ".join(out)
+
+
 def _bite_row(k: int, b: dict, a: dict, t: dict, full_bites: list | None, n: int,
-              extra: list | None = None) -> tuple[str, str]:
-    """صف جدول مقطع واحد (للإجابات ولمقاطع السياق) واسم قائله. extra: سطور تُلحق بخلية المقولة (جمل صدى الأم)."""
+              extra: list | None = None, quote_text: str | None = None) -> tuple[str, str]:
+    """صف جدول مقطع واحد (للإجابات ولمقاطع السياق) واسم قائله. extra: سطور تُلحق بخلية المقولة (جمل صدى الأم)، وquote_text نص
+    المقولة بعلامات الصدى إن وُجد."""
     who = b.get("speaker") or b.get("speaker_original") or t.get("unnamed", "متحدث غير مسمّى")
     role = t.get("host_label", "مقدّم") if b.get("is_host") else (b.get("speaker_role") or "")
     tr = ((full_bites or [])[n - 1].get("text_ar") or "").strip() if full_bites and n <= len(full_bites) else ""
+    if quote_text:
+        tr = quote_text
     quote = f"«{tr}»" if tr else (b.get("summary_ar") or "")
     mark = ""
     echo_role = a.get("echo_role")

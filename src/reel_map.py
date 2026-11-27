@@ -205,8 +205,9 @@ def resolve(spec: Any, sentence: str, cfg) -> tuple[dict | None, str]:
             out_c.append(code)
     # دول الجملة كلها (لا ما سمّاه النموذج وحده) تحسم المدينة المتعددة: «طرابلس اللبنانية» أو «طرابلس» مع «لبنان»
     near = set(out_c) | {code for w, code in g.country_names.items() if mentioned(w, sentence)}
+    ends = {norm(str(a.get(k) or "")) for a in arrows for k in ("from", "to")}
     out_p: list[dict] = []
-    for n in names:
+    for n in names + [c for c in cnames if norm(c) in ends and norm(c) not in {norm(x) for x in names}]:
         if not mentioned(n, sentence):
             skipped.append(f"not_in_sentence:{n}")
             continue
@@ -216,8 +217,15 @@ def resolve(spec: Any, sentence: str, cfg) -> tuple[dict | None, str]:
             code = g.country(n)
             if code is None:
                 skipped.append(f"{why}:{n}")
-            elif code not in out_c:
+                continue
+            if code not in out_c:
                 out_c.append(code)
+            # قضية 2027: «نقل وارداتها برًا عبر باكستان» حركة بين دولتين؛ طرف سهم هو دولة يُرسم من نقطة تسميتها (والدولة ملوَّنة)
+            # فيبقى السهم، وكان يسقط bad_arrow لأن طرفه ليس مدينة
+            c = g.countries.get(code) or {}
+            if norm(n) in ends and c.get("label") and all(q["key"] != norm(n) for q in out_p):
+                out_p.append({"key": norm(n), "ar": n, "lon": float(c["label"][0]), "lat": float(c["label"][1]),
+                              "country": code, "country_point": True})
             continue
         if all(q["key"] != norm(n) for q in out_p):
             out_p.append({"key": norm(n), "ar": n, "lon": float(p["lon"]), "lat": float(p["lat"]), "country": p.get("country", "")})
@@ -294,7 +302,10 @@ VERIFY_TOOL = {
     "name": "judge_places",
     "description": "لكل اسم: هل هو في هذه الجملة اسم مكان جغرافي.",
     "input_schema": {"type": "object", "properties": {"items": {"type": "array", "items": {"type": "object", "properties": {
-        "name": {"type": "string"}, "is_place": {"type": "boolean"}}, "required": ["name", "is_place"]}}},
+        "name": {"type": "string"}, "is_place": {"type": "boolean"}}, "required": ["name", "is_place"]}},
+        # قضية 2027: حركة تذكرها الجملة صراحة من مكان إلى مكان بين هذه الأسماء (نقل، عبور، هروب، قصف…) ← سهم في الخريطة
+        "arrows": {"type": "array", "items": {"type": "object", "properties": {
+            "from": {"type": "string"}, "to": {"type": "string"}}, "required": ["from", "to"]}}},
         "required": ["items"]},
 }
 
@@ -321,8 +332,14 @@ def judge_places(names: list[str], sentence: str, cfg, client=None) -> dict[str,
     for block in getattr(resp, "content", None) or []:
         if getattr(block, "type", "") == "tool_use":
             items = llm.tool_json((block.input or {}).get("items"), list) or []
-            return {" ".join(str(it.get("name") or "").split()): bool(it.get("is_place"))
-                    for it in items if isinstance(it, dict)}
+            out = {" ".join(str(it.get("name") or "").split()): bool(it.get("is_place"))
+                   for it in items if isinstance(it, dict)}
+            arrows = llm.tool_json((block.input or {}).get("arrows"), list) or []
+            arrows = [{"from": " ".join(str(a.get("from") or "").split()), "to": " ".join(str(a.get("to") or "").split())}
+                      for a in arrows if isinstance(a, dict)]
+            if arrows:
+                out["__arrows__"] = arrows
+            return out
     raise RuntimeError("رد بلا أداة")
 
 
@@ -346,6 +363,7 @@ def verify_auto(spec: dict | None, sentence: str, cfg) -> dict | None:
 
     def ok(name: str, country: bool) -> bool:
         v = got.get(" ".join(name.split()))
+        v = v if isinstance(v, bool) else None
         return v if v is not None else (country and keep_unknown_countries)
     places = [p for p in spec.get("places") or [] if ok(p, False)]
     countries = [c for c in spec.get("countries") or [] if ok(c, True)]
@@ -353,6 +371,12 @@ def verify_auto(spec: dict | None, sentence: str, cfg) -> dict | None:
     if not places and not countries:
         return None
     out = dict(spec, places=places, countries=countries)
+    # السهم من حكم النموذج نفسه، وطرفاه من الأسماء الباقية (لا اسم من خارج الجملة)؛ resolve يتحقق منه بعدُ كسهم الخطة
+    kept = {" ".join(n.split()) for n in places + countries}
+    arrows = [a for a in got.get("__arrows__") or [] if isinstance(a, dict) and a.get("from") in kept and a.get("to") in kept
+              and a.get("from") != a.get("to")]
+    if arrows and vcfg.get("arrows", True):
+        out["arrows"] = arrows[:int(cfg.path("reel.maps.max_arrows", 2))]
     if dropped:
         out["not_place"] = dropped
     return out

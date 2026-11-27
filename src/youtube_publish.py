@@ -765,6 +765,14 @@ def _reel_clash_lines(d: dict, cfg) -> list[str]:
     return [f"  {x}" if not x.startswith(" ") else x for x in reel_clash.review_lines(d, cfg)]
 
 
+def _mmss(v) -> str:
+    try:
+        sec = int(float(v))
+    except (TypeError, ValueError):
+        return "?"
+    return f"{sec // 60:02d}:{sec % 60:02d}"
+
+
 def _reel_hook_lines(d: dict, texts: dict) -> list[str]:
     """سطر لقطة الهوك المختارة آليًا في السيناريو مع صورتها المصغّرة وبدائلها (Issue #1445، R5c3). مسودة بلا hook_search
     (كُتبت قبل المهمة) لا تعرض شيئًا."""
@@ -802,6 +810,17 @@ def _reel_hook_lines(d: dict, texts: dict) -> list[str]:
                 title=title_of(c), id=c["video_id"], channel=c.get("channel", ""), rate=rate_of(c),
                 views=f"{int(c.get('views') or 0):,}", duration=f"{sec // 60:02d}:{sec % 60:02d}")
             out.append(f"  - [{'x' if k == 0 else ' '}] {line} <!-- hookpick:{d['id']}:{k} -->")
+            # قضية 2027: ما رآه Gemini في المرشّح قبل عرضه (اللقطة ووقتها، أو أنه بلا لقطة صالحة)
+            gw = c.get("gemini")
+            if isinstance(gw, dict):
+                out.append("    " + texts.get("hook_gemini_ok", "🔎 Gemini: {desc} ({start}–{end})").format(
+                    desc=gw.get("desc", ""), start=_mmss(gw.get("start")), end=_mmss(gw.get("end"))))
+            else:
+                rej = next((r for r in ((hs.get("gemini_vet") or {}).get("rejected") or []) if r.get("video_id") == c["video_id"]),
+                           None)
+                if rej is not None:
+                    out.append("    " + texts.get("hook_gemini_no", "🔎 Gemini: بلا لقطة صالحة — {reason}").format(
+                        reason=rej.get("reason") or "—"))
         return [*out, "", f"  {texts.get('hook_pick_note', '')}", ""]
     top = cands[0]
     sec = int(top.get("duration") or 0)
