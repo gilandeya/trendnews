@@ -1084,7 +1084,208 @@
     }
    ],
    "qa_requested_at": "2026-11-27T11:51:28.721800+00:00",
-   "selected_from": 2029
+   "selected_from": 2029,
+   "topic_issue": 2035,
+   "qa": {
+    "attempts": 1,
+    "at": "2026-11-27T11:53:34.871795+00:00",
+    "videos": [
+     {
+      "video_id": "qxm4XIK_wFQ",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "minutes": 52.3,
+      "bites": 0,
+      "rejected": 0,
+      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "z78QcAhQGpY",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "minutes": 14.7,
+      "bites": 0,
+      "rejected": 0,
+      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "OGx1F1nbpwE",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "minutes": 11.6,
+      "bites": 0,
+      "rejected": 0,
+      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "TPU2GBfTOgk",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "minutes": 7.4,
+      "bites": 0,
+      "rejected": 0,
+      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "CSIDYFLyy9Q",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "minutes": 30.0,
+      "bites": 0,
+      "rejected": 0,
+      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "k0Dyj5QwDsw",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "minutes": 27.7,
+      "bites": 0,
+      "rejected": 0,
+      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "dj0kN4eWxBE",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "minutes": 23.5,
+      "bites": 0,
+      "rejected": 0,
+      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "LYZZU6f1xm0",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "minutes": 14.0,
+      "bites": 0,
+      "rejected": 0,
+      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S",
+      "extra": true
+     },
+     {
+      "video_id": "vBtuEnpAI74",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "minutes": 11.0,
+      "bites": 0,
+      "rejected": 0,
+      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S",
+      "extra": true
+     },
+     {
+      "video_id": "lj-LAG3_ZbE",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "minutes": 11.3,
+      "bites": 0,
+      "rejected": 0,
+      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S",
+      "extra": true
+     },
+     {
+      "video_id": "sCVuyy_MP5Y",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "minutes": 51.2,
+      "bites": 0,
+      "rejected": 0,
+      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S",
+      "extra": true
+     }
+    ],
+    "video_scores": {
+     "OGx1F1nbpwE": 2,
+     "fc-39637-qo": 0,
+     "CZ2WubUYw70": 0,
+     "TPU2GBfTOgk": 2,
+     "gk4wVR6W_5o": 3,
+     "DaqMWVYsYto": 3,
+     "vBtuEnpAI74": 3,
+     "z78QcAhQGpY": 3,
+     "CSIDYFLyy9Q": 3,
+     "LYZZU6f1xm0": 3,
+     "dj0kN4eWxBE": 3,
+     "cR2Ob3VbfAU": 2,
+     "F_hTBSStLpk": 1,
+     "9Nz5AqYktkw": 3,
+     "sCVuyy_MP5Y": 1,
+     "qxm4XIK_wFQ": 3,
+     "lj-LAG3_ZbE": 3,
+     "k0Dyj5QwDsw": 3
+    },
+    "gemini_cost": 0.0,
+    "gemini_rejected": 0,
+    "channels": 0,
+    "answer_channels": 0,
+    "originals": [],
+    "originals_found": 0,
+    "source": "gemini",
+    "failures": [
+     {
+      "video_id": "qxm4XIK_wFQ",
+      "channel": "الميادين",
+      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "z78QcAhQGpY",
+      "channel": "Iran International",
+      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "OGx1F1nbpwE",
+      "channel": "CNN Türk",
+      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "TPU2GBfTOgk",
+      "channel": "ILTV",
+      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "CSIDYFLyy9Q",
+      "channel": "الجزيرة",
+      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "k0Dyj5QwDsw",
+      "channel": "سكاي نيوز عربية",
+      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "dj0kN4eWxBE",
+      "channel": "العربية",
+      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "LYZZU6f1xm0",
+      "channel": "العربية",
+      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "vBtuEnpAI74",
+      "channel": "Iran International",
+      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "lj-LAG3_ZbE",
+      "channel": "سكاي نيوز عربية",
+      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     },
+     {
+      "video_id": "sCVuyy_MP5Y",
+      "channel": "الميادين",
+      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+     }
+    ],
+    "status": "failed",
+    "error": "RuntimeError: مقاطع قليلة عن الموضوع: 0",
+    "cost": {
+     "claude": {
+      "claude-haiku-5-5": 0.00072
+     }
+    }
+   }
   },
   {
    "id": "00fd2719e055",
