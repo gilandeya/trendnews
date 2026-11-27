@@ -584,7 +584,8 @@
         "shows": "مدينة يمنية قديمة ذات عمارة طينية وأبراج ومآذن (على الأرجح صنعاء القديمة)",
         "reason": "الصورة لمدينة يمنية وليست لموضوع السؤال عن الحرب على الاقتصاد السعودي أو منشآت الرياض وموانئ جدة وينبع، وهي ليست صورة لأحد أطراف الخبر بشكل مباشر، لذلك لا تصلح كخلفية لهذا الريل."
       }
-    ]
+    ],
+    "layout": "A"
   },
   "hook_candidates": [
     {
@@ -693,10 +694,7 @@
       "cost": 0.0143
     },
     "picked": [
-      "kbcwKcX28CY",
-      "VJDQNGDMgQo",
-      "U3z07KzqgPE",
-      "QoNh0MY5gac"
+      "kbcwKcX28CY"
     ]
   },
   "broll_plan": [
@@ -741,7 +739,7 @@
   },
   "review_issue": 2031,
   "stage2_issue": 2031,
-  "render_status": "queued",
+  "render_status": "rendered",
   "approved_script_at": "2026-11-27T09:40:22.668051+00:00",
   "editor_override": {
     "at": "2026-11-27T09:40:22.668030+00:00",
@@ -750,5 +748,1439 @@
       "اسم متحدث لم يُحسم: جوشكون باشبوغ"
     ]
   },
-  "hook_picked": 0
+  "hook_picked": 0,
+  "hook_video": {
+    "video_id": "kbcwKcX28CY",
+    "start": 59,
+    "end": 63,
+    "channel": "Alghad TV - قناة الغد",
+    "title": "السعودية تصف الهجوم بـ«الإرهابي».. الحوثيون يستهدفون المركز المالي في الرياض",
+    "source": "auto",
+    "views": 5668,
+    "impact": 3,
+    "pre_ok": false,
+    "strong_start": 59,
+    "reason": "لقطة وجدها Gemini: دمار وركام مع نيران مشتعلة وأدخنة متصاعدة إثر قصف طال منشآت في الحديدة",
+    "gemini": true,
+    "render_version": 94
+  },
+  "reel_file": "reels/2026-11-27/4bf354685abf.mp4",
+  "reel_gif": "reels/2026-11-27/4bf354685abf.gif",
+  "duration_seconds": 149.5,
+  "render_version": 94,
+  "render_attempts": 0,
+  "reel_music": "nastelbom-news-501715.mp3",
+  "render_sources": "الميادين، سي إن إن ترك، Alghad TV - قناة الغد",
+  "render_crops": {
+    "3": {
+      "x": 276,
+      "source": "speaker",
+      "speaker_score": 0.69,
+      "tracks": 1,
+      "gate": {
+        "start": 0.88,
+        "end": 23.28,
+        "source": "silence"
+      },
+      "exact": {
+        "t0": 1217.86,
+        "t1": 1240.14,
+        "ratio": 0.902,
+        "source": "words"
+      },
+      "faces": {
+        "samples": [
+          [
+            2.147,
+            545
+          ],
+          [
+            2.647,
+            535
+          ],
+          [
+            3.148,
+            526
+          ],
+          [
+            3.649,
+            518
+          ],
+          [
+            4.149,
+            513
+          ],
+          [
+            4.65,
+            514
+          ],
+          [
+            5.151,
+            512
+          ],
+          [
+            5.651,
+            512
+          ],
+          [
+            6.152,
+            515
+          ],
+          [
+            6.653,
+            513
+          ],
+          [
+            7.153,
+            507
+          ],
+          [
+            7.654,
+            505
+          ],
+          [
+            8.155,
+            500
+          ],
+          [
+            8.655,
+            498
+          ],
+          [
+            9.156,
+            498
+          ],
+          [
+            9.657,
+            490
+          ],
+          [
+            10.157,
+            485
+          ],
+          [
+            10.658,
+            468
+          ],
+          [
+            11.159,
+            476
+          ],
+          [
+            11.659,
+            475
+          ],
+          [
+            12.16,
+            474
+          ],
+          [
+            12.661,
+            474
+          ],
+          [
+            13.161,
+            468
+          ],
+          [
+            13.662,
+            468
+          ],
+          [
+            14.163,
+            464
+          ],
+          [
+            14.663,
+            469
+          ],
+          [
+            15.164,
+            471
+          ],
+          [
+            15.665,
+            470
+          ],
+          [
+            16.165,
+            472
+          ],
+          [
+            16.666,
+            468
+          ],
+          [
+            17.167,
+            463
+          ],
+          [
+            17.667,
+            470
+          ],
+          [
+            18.168,
+            465
+          ],
+          [
+            18.669,
+            478
+          ],
+          [
+            19.169,
+            485
+          ],
+          [
+            19.67,
+            489
+          ],
+          [
+            20.171,
+            486
+          ],
+          [
+            20.671,
+            475
+          ],
+          [
+            21.172,
+            469
+          ],
+          [
+            21.673,
+            464
+          ],
+          [
+            22.173,
+            461
+          ],
+          [
+            22.674,
+            455
+          ]
+        ],
+        "cuts": [
+          2.186
+        ],
+        "identity": {
+          "ref": 42,
+          "matched": 42,
+          "path": 5,
+          "single": 0
+        }
+      },
+      "panel_q": "c0",
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 168,
+        "y": 0,
+        "w": 620,
+        "h": 720,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": false,
+      "lower_graphics": {
+        "top": 1,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.58,
+          1.0,
+          1.0
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "word",
+      "frame_check": {
+        "samples": 49,
+        "lost": [
+          [
+            0.0,
+            1.0
+          ]
+        ]
+      }
+    },
+    "5": {
+      "x": 875,
+      "source": "speaker_vision",
+      "speaker_score": 0.48,
+      "tracks": 4,
+      "vision": {
+        "pick": 1,
+        "agree": 2,
+        "archive": []
+      },
+      "gate": {
+        "start": 1.14,
+        "end": 11.98,
+        "source": "silence"
+      },
+      "exact": {
+        "t0": 483.74,
+        "t1": 494.6,
+        "ratio": 1.0,
+        "source": "words",
+        "saved": true
+      },
+      "faces": {
+        "samples": [
+          [
+            1.343,
+            1117
+          ],
+          [
+            2.227,
+            1105
+          ],
+          [
+            3.11,
+            1105
+          ],
+          [
+            3.993,
+            1104
+          ],
+          [
+            4.877,
+            1103
+          ],
+          [
+            5.76,
+            1107
+          ],
+          [
+            6.643,
+            1105
+          ],
+          [
+            7.527,
+            1102
+          ],
+          [
+            8.41,
+            1099
+          ],
+          [
+            9.293,
+            1103
+          ],
+          [
+            10.177,
+            1098
+          ],
+          [
+            11.06,
+            1097
+          ],
+          [
+            11.943,
+            1116
+          ]
+        ],
+        "cuts": [],
+        "identity": {
+          "ref": 0
+        }
+      },
+      "panel_q": 0,
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 766,
+        "y": 0,
+        "w": 514,
+        "h": 598,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        24,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.83,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.85,
+          0.85,
+          0.85
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "line",
+      "frame_check": {
+        "samples": 26,
+        "lost": [
+          [
+            0.0,
+            12.5
+          ]
+        ]
+      }
+    },
+    "7": {
+      "x": 830,
+      "source": "speaker",
+      "speaker_score": 1.41,
+      "tracks": 1,
+      "gate": {
+        "start": 0.88,
+        "end": 23.66,
+        "source": "silence"
+      },
+      "exact": {
+        "t0": 738.68,
+        "t1": 761.14,
+        "ratio": 0.913,
+        "source": "words",
+        "saved": true
+      },
+      "faces": {
+        "samples": [
+          [
+            1.198,
+            1032
+          ],
+          [
+            1.732,
+            1034
+          ],
+          [
+            2.266,
+            1026
+          ],
+          [
+            2.801,
+            1029
+          ],
+          [
+            3.335,
+            1032
+          ],
+          [
+            3.869,
+            1036
+          ],
+          [
+            4.404,
+            1034
+          ],
+          [
+            4.938,
+            1036
+          ],
+          [
+            5.472,
+            1033
+          ],
+          [
+            6.007,
+            1035
+          ],
+          [
+            6.541,
+            1035
+          ],
+          [
+            7.075,
+            1035
+          ],
+          [
+            7.61,
+            1034
+          ],
+          [
+            8.144,
+            1035
+          ],
+          [
+            8.678,
+            1035
+          ],
+          [
+            9.213,
+            1036
+          ],
+          [
+            9.747,
+            1035
+          ],
+          [
+            10.281,
+            1033
+          ],
+          [
+            10.816,
+            1033
+          ],
+          [
+            11.35,
+            1032
+          ],
+          [
+            11.884,
+            1031
+          ],
+          [
+            12.419,
+            1035
+          ],
+          [
+            12.953,
+            1035
+          ],
+          [
+            13.487,
+            1031
+          ],
+          [
+            14.022,
+            1034
+          ],
+          [
+            14.556,
+            1033
+          ],
+          [
+            15.09,
+            1034
+          ],
+          [
+            15.625,
+            1035
+          ],
+          [
+            16.159,
+            1033
+          ],
+          [
+            16.693,
+            1034
+          ],
+          [
+            17.228,
+            1035
+          ],
+          [
+            17.762,
+            1033
+          ],
+          [
+            18.296,
+            1035
+          ],
+          [
+            18.831,
+            1035
+          ],
+          [
+            19.365,
+            1035
+          ],
+          [
+            19.899,
+            1032
+          ],
+          [
+            20.434,
+            1034
+          ],
+          [
+            20.968,
+            1032
+          ],
+          [
+            21.502,
+            1028
+          ],
+          [
+            22.037,
+            1028
+          ],
+          [
+            22.571,
+            1024
+          ],
+          [
+            23.105,
+            1026
+          ],
+          [
+            23.64,
+            1028
+          ]
+        ],
+        "cuts": [],
+        "identity": {
+          "ref": 60,
+          "matched": 60,
+          "path": 0,
+          "single": 0
+        }
+      },
+      "panel_q": 1,
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 784,
+        "y": 0,
+        "w": 496,
+        "h": 576,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.8,
+        "source": "detector",
+        "clamped": false,
+        "frames": [
+          0.58,
+          1.0,
+          1.0
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "word",
+      "frame_check": {
+        "samples": 49,
+        "lost": []
+      }
+    },
+    "9": {
+      "x": 80,
+      "source": "speaker",
+      "speaker_score": 0.47,
+      "tracks": 1,
+      "gate": {
+        "start": 0.74,
+        "end": 17.02,
+        "source": "silence"
+      },
+      "exact": {
+        "t0": 326.08,
+        "t1": 341.98,
+        "ratio": 0.844,
+        "source": "words"
+      },
+      "faces": {
+        "samples": [
+          [
+            1.537,
+            198
+          ],
+          [
+            2.52,
+            211
+          ],
+          [
+            3.503,
+            223
+          ],
+          [
+            4.487,
+            233
+          ],
+          [
+            5.47,
+            236
+          ],
+          [
+            6.453,
+            248
+          ],
+          [
+            7.437,
+            248
+          ],
+          [
+            8.42,
+            245
+          ],
+          [
+            9.403,
+            224
+          ],
+          [
+            10.387,
+            202
+          ],
+          [
+            11.37,
+            196
+          ],
+          [
+            12.353,
+            200
+          ],
+          [
+            13.337,
+            204
+          ],
+          [
+            14.32,
+            220
+          ],
+          [
+            15.303,
+            370
+          ]
+        ],
+        "cuts": [],
+        "identity": {
+          "ref": 23,
+          "matched": 22,
+          "path": 22,
+          "single": 1
+        }
+      },
+      "panel_q": 2,
+      "tile_crop": {
+        "x": 0,
+        "y": 0,
+        "w": 448,
+        "h": 398,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 44,
+        "y": 0,
+        "w": 342,
+        "h": 398,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        16,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.83,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.85,
+          0.85,
+          0.85
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "line",
+      "frame_check": {
+        "samples": 34,
+        "lost": [
+          [
+            0.45,
+            1.45
+          ]
+        ]
+      }
+    },
+    "10": {
+      "x": 822,
+      "source": "speaker",
+      "speaker_score": 1.47,
+      "tracks": 1,
+      "gate": {
+        "start": 1.09,
+        "end": 21.5,
+        "source": "silence"
+      },
+      "exact": {
+        "t0": 931.76,
+        "t1": 952.14,
+        "ratio": 0.943,
+        "source": "words",
+        "saved": true
+      },
+      "faces": {
+        "samples": [
+          [
+            1.247,
+            1029
+          ],
+          [
+            1.747,
+            1024
+          ],
+          [
+            2.248,
+            1021
+          ],
+          [
+            2.749,
+            1021
+          ],
+          [
+            3.249,
+            1028
+          ],
+          [
+            3.75,
+            1031
+          ],
+          [
+            4.251,
+            1027
+          ],
+          [
+            4.751,
+            1029
+          ],
+          [
+            5.252,
+            1031
+          ],
+          [
+            5.753,
+            1025
+          ],
+          [
+            6.253,
+            1021
+          ],
+          [
+            6.754,
+            1019
+          ],
+          [
+            7.255,
+            1012
+          ],
+          [
+            7.755,
+            1028
+          ],
+          [
+            8.256,
+            1035
+          ],
+          [
+            8.757,
+            1035
+          ],
+          [
+            9.257,
+            1029
+          ],
+          [
+            9.758,
+            1030
+          ],
+          [
+            10.259,
+            1025
+          ],
+          [
+            10.759,
+            1032
+          ],
+          [
+            11.26,
+            1042
+          ],
+          [
+            11.761,
+            1043
+          ],
+          [
+            12.261,
+            1033
+          ],
+          [
+            12.762,
+            1035
+          ],
+          [
+            13.263,
+            1029
+          ],
+          [
+            13.763,
+            1028
+          ],
+          [
+            14.264,
+            1023
+          ],
+          [
+            14.765,
+            1014
+          ],
+          [
+            15.265,
+            1003
+          ],
+          [
+            15.766,
+            1011
+          ],
+          [
+            16.267,
+            1023
+          ],
+          [
+            16.767,
+            1023
+          ],
+          [
+            17.268,
+            1026
+          ],
+          [
+            17.769,
+            1025
+          ],
+          [
+            18.269,
+            1019
+          ],
+          [
+            18.77,
+            1018
+          ],
+          [
+            19.271,
+            1009
+          ],
+          [
+            19.771,
+            1010
+          ],
+          [
+            20.272,
+            1021
+          ],
+          [
+            20.773,
+            1022
+          ],
+          [
+            21.273,
+            1019
+          ]
+        ],
+        "cuts": [],
+        "identity": {
+          "ref": 58,
+          "matched": 58,
+          "path": 0,
+          "single": 0
+        }
+      },
+      "panel_q": 2,
+      "tile_crop": {
+        "x": 470,
+        "y": 0,
+        "w": 810,
+        "h": 720,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 660,
+        "y": 0,
+        "w": 620,
+        "h": 720,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": false,
+      "lower_graphics": {
+        "top": 1,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.58,
+          1.0,
+          1.0
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "word",
+      "frame_check": {
+        "samples": 44,
+        "lost": []
+      }
+    },
+    "closing": {
+      "source": "continuous"
+    }
+  },
+  "render_speakers": {
+    "3": {
+      "name_original": "عبدالله الوشلي",
+      "name_arabic": "عبدالله الوشلي",
+      "role_arabic": "",
+      "is_presenter": false,
+      "frames_agreeing": 1,
+      "rejected": "",
+      "accepted": false
+    },
+    "5": {
+      "name_original": "Mehmet Şimşek",
+      "name_arabic": "محمد شيمشيك",
+      "role_arabic": "محرر الأخبار الخارجية في سي إن إن ترك",
+      "is_presenter": false,
+      "frames_agreeing": 3,
+      "rejected": "host",
+      "accepted": false
+    },
+    "7": {
+      "name_original": "",
+      "name_arabic": "",
+      "role_arabic": "",
+      "is_presenter": false,
+      "frames_agreeing": 0,
+      "rejected": "",
+      "accepted": false
+    },
+    "9": {
+      "name_original": "COŞKUN BAŞBUĞ",
+      "name_arabic": "جوشكون باشبوغ",
+      "role_arabic": "كاتب في صحيفة ستار",
+      "is_presenter": false,
+      "frames_agreeing": 2,
+      "rejected": "",
+      "accepted": true
+    },
+    "10": {
+      "name_original": "العميد علي أبي رعد",
+      "name_arabic": "العميد علي أبي رعد",
+      "role_arabic": "عميد متقاعد وخبير عسكري استراتيجي",
+      "is_presenter": false,
+      "frames_agreeing": 1,
+      "rejected": "",
+      "accepted": false
+    }
+  },
+  "render_roster": {
+    "gtCbSN4EHts": [
+      {
+        "name_arabic": "ياسر الحوري",
+        "name_original": "ياسر الحوري",
+        "role_arabic": "محلل سياسي، من صنعاء",
+        "is_host": true
+      },
+      {
+        "name_arabic": "علي أبو رعد",
+        "name_original": "علي ابي رعد",
+        "role_arabic": "عميد متقاعد وخبير عسكري استراتيجي، من بيروت",
+        "is_host": false
+      },
+      {
+        "name_arabic": "مالك عابد",
+        "name_original": "مالك عابد",
+        "role_arabic": "مراسل الميادين من طهران",
+        "is_host": false
+      }
+    ]
+  },
+  "render_roster_source": {
+    "gtCbSN4EHts": "built"
+  },
+  "render_roster_errors": {
+    "4mpu_oG2MBU": "no_transcript"
+  },
+  "render_attribution": [
+    {
+      "point_id": "8d99ae46eebf",
+      "speaker": "عبدالله الوشلي",
+      "evidence": "",
+      "accepted": false,
+      "reason": "القائل ليس في القائمة"
+    },
+    {
+      "point_id": "e379b9bf8f33",
+      "speaker": "ياسر الحوري",
+      "evidence": "اذا اعيد الترحيب بضيوفي في هذه الساعه من التغطيه وابدا معك سيد ياسر الحوري",
+      "accepted": false,
+      "reason": "القائل هو المقدّم"
+    },
+    {
+      "point_id": "b2556a02b711",
+      "speaker": "علي أبي رعد",
+      "evidence": "اذا عميد علي ابي رعد ما الذي تظهره طبيعة الاهداف التي تستهدفها السعودية اليوم في اليمن",
+      "accepted": false,
+      "reason": "evidence ليس في الأسطر المعطاة"
+    }
+  ],
+  "render_map_errors": {
+    "gtCbSN4EHts": "نفد وقت التشغيلة",
+    "4mpu_oG2MBU": "budget"
+  },
+  "render_gemini_errors": {
+    "gtCbSN4EHts": "RuntimeError: Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI Studio at https:/",
+    "4mpu_oG2MBU": "RuntimeError: Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI Studio at https:/"
+  },
+  "render_exact_selfcheck": {
+    "ok": true,
+    "reason": ""
+  },
+  "render_budget": {
+    "minutes": 42.4,
+    "skipped": [
+      "speakers",
+      "maps",
+      "figures"
+    ]
+  },
+  "render_broll": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "photo": "جملة مجرّدة"
+    },
+    {
+      "scene": 2,
+      "sentence": 0,
+      "photo": "جملة مجرّدة"
+    },
+    {
+      "scene": 4,
+      "sentence": 0,
+      "photo": "تعذّر التنزيل"
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "photo": "تعذّر التنزيل"
+    },
+    {
+      "scene": 8,
+      "sentence": 0,
+      "photo": "تعذّر التنزيل"
+    }
+  ],
+  "broll_scan": {
+    "videos": {
+      "kbcwKcX28CY": {
+        "downloaded": 98,
+        "classified": 98,
+        "sheets": 5,
+        "kinds": {
+          "event_footage": 58,
+          "text_heavy": 32,
+          "other": 8
+        },
+        "footage_relevant": 56,
+        "footage_other": 2,
+        "chains": 3,
+        "longest": 33
+      },
+      "VJDQNGDMgQo": {
+        "downloaded": 91,
+        "classified": 92,
+        "sheets": 4,
+        "kinds": {
+          "event_footage": 70,
+          "other": 4,
+          "anchor": 2,
+          "text_heavy": 14,
+          "graphic": 2
+        },
+        "footage_relevant": 28,
+        "footage_other": 42,
+        "chains": 4,
+        "longest": 26
+      },
+      "U3z07KzqgPE": {
+        "downloaded": 20,
+        "classified": 20,
+        "sheets": 1,
+        "kinds": {
+          "anchor": 12,
+          "text_heavy": 8
+        },
+        "footage_relevant": 0,
+        "footage_other": 0,
+        "chains": 0,
+        "longest": 0
+      },
+      "QoNh0MY5gac": {
+        "downloaded": 43,
+        "classified": 44,
+        "sheets": 2,
+        "kinds": {
+          "anchor": 38,
+          "graphic": 6
+        },
+        "footage_relevant": 0,
+        "footage_other": 0,
+        "chains": 0,
+        "longest": 0
+      }
+    },
+    "sheets_used": 12,
+    "chains": [
+      {
+        "video_id": "kbcwKcX28CY",
+        "start": 0,
+        "end": 18,
+        "desc": "مبنى شاهق وعلم يلوح بين أغصان، لا يظهر الحدث بوضوح، والنص المحروق يغطي أسفل الإطار · مدينة الرياض وحركة مرور على جسر، المشهد الميداني مع نص مكتوب في الأسفل · شارع رئيسي في الرياض مع مركبات متحركة ومبنى شبكي أبيض",
+        "channel": "Alghad TV - قناة الغد",
+        "relevant": false
+      },
+      {
+        "video_id": "kbcwKcX28CY",
+        "start": 56,
+        "end": 59,
+        "desc": "مبنى المركز المالي يظهر من بعيد وسط الضباب والأتربة · مبنى المركز المالي وهياكل المدخل من مسافة بعيدة",
+        "channel": "Alghad TV - قناة الغد",
+        "relevant": true
+      },
+      {
+        "video_id": "kbcwKcX28CY",
+        "start": 63,
+        "end": 96,
+        "desc": "أنقاض ودخان وحريق بين أشجار النخيل في الموقع المستهدف · هيكل منشأة محترقة ومدمرة بالكامل · هيكل معدني منهار لمنشأة محترقة في الموقع",
+        "channel": "Alghad TV - قناة الغد",
+        "relevant": true
+      },
+      {
+        "video_id": "VJDQNGDMgQo",
+        "start": 0,
+        "end": 10,
+        "desc": "مشهد جوي هادئ لمدينة الرياض وبرج المملكة من بعيد · مشهد جوي هادئ لبرج المملكة ووسط الرياض · تحليق جوي قرب برج المملكة ومركز الملك عبد الله المالي",
+        "channel": "فرانس 24 / FRANCE 24 Arabic",
+        "relevant": true
+      },
+      {
+        "video_id": "VJDQNGDMgQo",
+        "start": 14,
+        "end": 24,
+        "desc": "تصوير من الأسفل لبرج المملكة في سماء صافية · تصوير من الأسفل لبرج المملكة",
+        "channel": "فرانس 24 / FRANCE 24 Arabic",
+        "relevant": true
+      },
+      {
+        "video_id": "VJDQNGDMgQo",
+        "start": 40,
+        "end": 64,
+        "desc": "مبنى مدمر وركام في موقع قصف باليمن · مبان متضررة وركام على الأرض · مبنى متضرر وأنقاض، مشهد هادئ",
+        "channel": "فرانس 24 / FRANCE 24 Arabic",
+        "relevant": false
+      },
+      {
+        "video_id": "VJDQNGDMgQo",
+        "start": 66,
+        "end": 92,
+        "desc": "إطلالة على البحر وجزيرة ساحلية من مرتفع · إطلالة بحرية هادئة على الساحل · مسلحون يرفعون أسلحتهم ويهتفون",
+        "channel": "فرانس 24 / FRANCE 24 Arabic",
+        "relevant": false
+      }
+    ],
+    "assign": []
+  },
+  "render_timing": {
+    "minutes": 44.4,
+    "stages": [
+      [
+        "clips",
+        0.0
+      ],
+      [
+        "clip 3 الميادين",
+        0.2
+      ],
+      [
+        "clip 5 سي إن إن ترك",
+        2.1
+      ],
+      [
+        "clip 7 الميادين",
+        3.7
+      ],
+      [
+        "clip 9 سي إن إن ترك",
+        5.0
+      ],
+      [
+        "clip 10 الميادين",
+        9.4
+      ],
+      [
+        "background",
+        10.3
+      ],
+      [
+        "hook_scan",
+        10.4
+      ],
+      [
+        "broll",
+        10.4
+      ],
+      [
+        "assemble",
+        13.3
+      ],
+      [
+        "speakers",
+        13.3
+      ],
+      [
+        "maps",
+        36.6
+      ],
+      [
+        "figures",
+        36.6
+      ],
+      [
+        "scene 0 title_card",
+        36.8
+      ],
+      [
+        "scene 1 narration",
+        36.9
+      ],
+      [
+        "scene 2 narration",
+        37.1
+      ],
+      [
+        "scene 3 clip",
+        37.3
+      ],
+      [
+        "scene 4 narration",
+        38.3
+      ],
+      [
+        "scene 5 clip",
+        38.4
+      ],
+      [
+        "scene 6 narration",
+        39.1
+      ],
+      [
+        "scene 7 clip",
+        39.2
+      ],
+      [
+        "scene 8 narration",
+        40.2
+      ],
+      [
+        "scene 9 clip",
+        40.3
+      ],
+      [
+        "scene 10 clip",
+        42.1
+      ],
+      [
+        "scene 11 question",
+        42.1
+      ],
+      [
+        "join",
+        42.4
+      ],
+      [
+        "final",
+        43.5
+      ]
+    ],
+    "left_minutes": 4.2
+  },
+  "render_dropped": [],
+  "render_approx": [
+    {
+      "point_id": "05f70a62aada",
+      "kind": "clip",
+      "start": 482,
+      "end": 495,
+      "reason": "الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة",
+      "aligned": true
+    },
+    {
+      "point_id": "a16e82e39dad",
+      "kind": "clip",
+      "start": 324,
+      "end": 343,
+      "reason": "الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة",
+      "aligned": true
+    }
+  ],
+  "rendered_at": "2026-11-27T10:26:52.640129+00:00",
+  "cost_renders": [
+    {
+      "claude": {
+        "claude-haiku-5-5": 0.01445,
+        "claude-sonnet-5": 0.04291
+      },
+      "tts": 0.05747,
+      "proxy_bytes": 54421041,
+      "at": "2026-11-27T10:26:52.640174+00:00"
+    }
+  ],
+  "render_notes": [
+    "### 🎬 تركيب الريل",
+    "- ⏱️ المدة: 149.5 ث",
+    "- 🎞️ [الملف](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-11-27/4bf354685abf.mp4) · [المعاينة](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-11-27/4bf354685abf.gif)",
+    "- ⏱️ نافذة مقطع الميادين مُدّت إلى مدته المعروفة (22 ث) — موضع الاقتباس في النص تقديري",
+    "- ⏱️ نافذة مقطع الميادين مُدّت إلى مدته المعروفة (23 ث) — موضع الاقتباس في النص تقديري",
+    "- ⏱️ نافذة مقطع الميادين مُدّت إلى مدته المعروفة (21 ث) — موضع الاقتباس في النص تقديري",
+    "- 🎞️ لقطة الهوك: Alghad TV - قناة الغد — [السعودية تصف الهجوم بـ«الإرهابي».. الحوثيون يستهدفون المركز المالي في الرياض](https://www.youtube.com/watch?v=kbcwKcX28CY&t=59) (59–63 ث) · 5,668 مشاهدة",
+    "- ⚠️ تعذّر سؤال Gemini عن متكلمي الميادين: RuntimeError: Gemini HTTP 402: {",
+    "  \"error\": {",
+    "    \"code\": 402,",
+    "    \"message\": \"Your prepayment credits are depleted. Please go to AI Studio at https:/ — عملت حرّاس الشريط والوجه",
+    "- ⚠️ تعذّر سؤال Gemini عن متكلمي سي إن إن ترك: RuntimeError: Gemini HTTP 402: {",
+    "  \"error\": {",
+    "    \"code\": 402,",
+    "    \"message\": \"Your prepayment credits are depleted. Please go to AI Studio at https:/ — عملت حرّاس الشريط والوجه",
+    "- ⚠️ لم تُبنَ قائمة ضيوف سي إن إن ترك: لا نص مجلوب لمقاطع هذا الفيديو",
+    "- 👥 ضيوف الميادين: علي أبو رعد، مالك عابد",
+    "- ⚠️ تعذّر بناء خريطة متكلمي الميادين: نفد وقت التشغيلة",
+    "- ⏱️ تُخطّيت مرحلة قائمة الضيوف وخريطة المتكلمين بعد 36 دقيقة من التركيب (ميزانية الوقت)",
+    "- ✅ الشريط يؤكد المتكلم: جوشكون باشبوغ (سي إن إن ترك)",
+    "- ⏱️ تُخطّيت مرحلة خرائط السياق بعد 37 دقيقة من التركيب (ميزانية الوقت)",
+    "- ⏱️ تُخطّيت مرحلة صور الأشخاص بعد 37 دقيقة من التركيب (ميزانية الوقت)",
+    "- 🎞️ تعذّر تنزيل لقطة الجملة 3 (Alghad TV - قناة الغد) — بالصورة",
+    "- 🎞️ تعذّر تنزيل لقطة الجملة 4 (فرانس 24 / FRANCE 24 Arabic) — بالصورة",
+    "- 🎞️ تعذّر تنزيل لقطة الجملة 5 (فرانس 24 / FRANCE 24 Arabic) — بالصورة",
+    "- 🎞️ لقطات الحدث: 0 من 5 جمل — 5 بالصورة",
+    "- ⚠️ تعذّر تنزيل قطعة من شريط الخلفية (Alghad TV - قناة الغد) — مكانها الصورة",
+    "- ⚠️ تعذّر تنزيل قطعة من شريط الخلفية (Alghad TV - قناة الغد) — مكانها الصورة",
+    "- ⚠️ تعذّر تنزيل قطعة من شريط الخلفية (Alghad TV - قناة الغد) — مكانها الصورة",
+    "- ⚠️ تعذّر تنزيل قطعة من شريط الخلفية (فرانس 24 / FRANCE 24 Arabic) — مكانها الصورة",
+    "- ⚠️ تعذّر تنزيل قطعة من شريط الخلفية (فرانس 24 / FRANCE 24 Arabic) — مكانها الصورة",
+    "- ⚠️ تعذّر تنزيل قطعة من شريط الخلفية (فرانس 24 / FRANCE 24 Arabic) — مكانها الصورة",
+    "- ⚠️ تعذّر تنزيل قطعة من شريط الخلفية (فرانس 24 / FRANCE 24 Arabic) — مكانها الصورة",
+    "- ⚠️ تعذّر تنزيل قطعة من شريط الخلفية (فرانس 24 / FRANCE 24 Arabic) — مكانها الصورة",
+    "- 🖼️ خلفية واحدة متصلة: الصورة تتحرك ذهابًا وإيابًا طوال الريل (لا لقطات حدث تكفي فيديو)",
+    "- ⚠️ نافذة مقطع الميادين بلا وجه كامل للمتحدث في الثواني 0–1 من مقطعه — راجعها",
+    "- 🎯 مقطع سي إن إن ترك: 4 وجوه — المتكلم بالرؤية",
+    "- ✂️ أُخفي شريط القناة في سي إن إن ترك: قُصّ أسفل 17%",
+    "- ▭ مقطع سي إن إن ترك: أُزيلت أشرطة سوداء",
+    "- ⚠️ نافذة مقطع سي إن إن ترك بلا وجه كامل للمتحدث في الثواني 0–12 من مقطعه — راجعها",
+    "- ▭ مقطع سي إن إن ترك: أُزيلت أشرطة سوداء",
+    "- ⚠️ نافذة مقطع سي إن إن ترك بلا وجه كامل للمتحدث في الثواني 0–1 من مقطعه — راجعها",
+    "- 🎙️ الصوت: ElevenLabs (باقي الرصيد نحو ? حرف)",
+    "- 💵 كلفة الريل: 1.74$ — المقاطع والأسئلة 1.20$ · السيناريو 0.43$ · التركيب 0.11$ (Opus 0.46$ · Sonnet 0.29$ · Haiku 0.02$ · Gemini 0.91$ · صوت 0.06$ · بروكسي 100 MB) · البروكسي خارج المجموع"
+  ],
+  "reel_review_issue": 2032
 }
