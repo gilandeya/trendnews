@@ -692,5 +692,43 @@
   "stage2_issue": 2039,
   "render_status": "queued",
   "approved_script_at": "2026-11-27T15:53:00.202565+00:00",
-  "hook_picked": 0
+  "hook_picked": 0,
+  "render_attempts": 1,
+  "render_error": "بلغ التركيب موعد نهاية التشغيلة في مرحلة تنزيل مقطع بعد 8 دقيقة",
+  "render_timing": {
+    "minutes": 7.8,
+    "stages": [
+      [
+        "clips",
+        0.0
+      ],
+      [
+        "clip 2 العربية",
+        0.2
+      ],
+      [
+        "clip 5 سي إن إن ترك",
+        1.5
+      ],
+      [
+        "clip 6 ILTV",
+        3.0
+      ],
+      [
+        "clip 8 الميادين",
+        4.2
+      ],
+      [
+        "clip 9 سكاي نيوز عربية",
+        5.3
+      ]
+    ],
+    "left_minutes": 12.8
+  },
+  "cost_renders": [
+    {
+      "proxy_bytes": 30658112,
+      "at": "2026-11-27T16:36:06.174252+00:00"
+    }
+  ]
 }
