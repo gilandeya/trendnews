@@ -1,0 +1,716 @@
+{
+  "id": "1647a40f7337",
+  "created_at": "2026-11-27T18:56:18.070792+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "تراجع قيمة الريال الإيراني",
+  "event": "تراجع قيمة الريال الإيراني",
+  "tier": 3,
+  "blocs": [
+    "arabic",
+    "persian",
+    "turkish"
+  ],
+  "channels": [
+    "CNN Türk",
+    "Iran International",
+    "الجزيرة",
+    "الميادين",
+    "سكاي نيوز عربية"
+  ],
+  "agreement": "",
+  "score": 0,
+  "warnings": [
+    "⏱️ السياق 65 كلمة (الحد 61) فقُبل كما هو لأن المادة من اختيارك — راجعه",
+    "✏️ صيغ السؤال 2 ليتصل بالسياق: كان «كيف يؤثر تراجع الريال على معيشة المواطنين الإيرانيين؟» صار «كيف يثقل تراجع الريال كاهل المواطن الإيراني؟»"
+  ],
+  "run_date": "2026-11-27",
+  "topic_date": "2026-11-27",
+  "arabic": {
+    "post_title": "لماذا ينهار الريال الإيراني بهذه السرعة؟",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "CNN Türk",
+      "Iran International",
+      "الجزيرة",
+      "الميادين",
+      "سكاي نيوز عربية"
+    ]
+  },
+  "source_videos": [],
+  "meta_topic_id": "2964ae54b2ff",
+  "meta_issue": 2040,
+  "hook_pick": 3,
+  "cost_qa": {
+    "claude": {
+      "claude-haiku-5-5": 0.00073,
+      "claude-sonnet-5": 0.04238
+    },
+    "gemini": 0.5214,
+    "proxy_bytes": 17403250
+  },
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "81ed611a6a32",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "أما من الناحية النفسية، فما حدث في الأيام الأخيرة ودفع الدولار للتحرك بهذا الشكل، فيمكن أن يكون التفسير أن السوق يرى أن الموانع المالية التي فرضتها الولايات المتحدة تزداد صعوبة يومًا بعد يوم، وأن هذا الحظر على مركز التبادل كان رصاصة الرحمة التي وجهتها أمريكا إلى سعر الدولار في إيران.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "811825c7c77b",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "eae05f564f38",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "f7b1dfdfaf6e",
+        "speaker_said_it": "unsure",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "ba54b296dc02",
+        "speaker_said_it": "unsure",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "e03d31554d9a",
+        "speaker_said_it": "unsure",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "إيران إنترناشيونال"
+      }
+    ]
+  },
+  "quote_retranslated": [
+    "81ed611a6a32"
+  ],
+  "names_audit": [
+    {
+      "arabic": "أشكان بهرامي",
+      "latin": "Ashkan Bahrami"
+    },
+    {
+      "arabic": "عامر لافي",
+      "latin": "Amer Lafi"
+    }
+  ],
+  "script_attempts": [
+    {
+      "attempt": 1,
+      "reasons": [
+        "السياق أطول من 61 كلمة (65)"
+      ]
+    }
+  ],
+  "headlines": [
+    "لماذا ينهار الريال الإيراني بهذه السرعة؟",
+    "هل تعجز طهران عن ضبط سعر صرف الدولار؟",
+    "ما مصير الاقتصاد الإيراني تحت العقوبات الأمريكية؟"
+  ],
+  "headline_selected": 0,
+  "script": {
+    "version": 2,
+    "narrator": "female",
+    "title": "لماذا ينهار الريال الإيراني بهذه السرعة؟",
+    "question": "هل يملك الاقتصاد الإيراني أدوات توقف نزيف العملة دون رفع العقوبات؟",
+    "event": "",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "لماذا ينهار الريال الإيراني بهذه السرعة؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "يواصل الريال الإيراني تراجعه أمام الدولار الأمريكي، وترتفع الأسعار في الأسواق الإيرانية أضعافا. سائق شاحنة إيراني يقارن ما دفعه العام الماضي بما يدفعه اليوم."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "f7b1dfdfaf6e",
+        "q": "c0",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=ISu4rWcQ3zA",
+        "start": 364.0,
+        "end": 383.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "إيران إنترناشيونال",
+        "channel_original": "Iran International",
+        "quote_arabic": "اشتريت الجبن العام الماضي بخمسة وتسعين ألف تومان واليوم بمئتين وخمسة وأربعين ألفا، واشتريت أنبوبا بمئتي ألف تومان والآن بثمانمئة ألف، أي زيادة بنسبة مئتين إلى ثلاثمئة بالمئة، بينما لم ترتفع أجرة النقل سوى ثلاثين بالمئة.",
+        "quote_original": "پنیر پگاه پارسال همین موقع خریدم ۹۵ هزار تومن، امروز خریدم ۲۴۵ هزار تومن. یه شاخه لوله سبز پارسال خریدم ۲۰۰ هزار تومن، الان خریدم ۸۰۰ هزار تومن. این یعنی ۲۰۰ ۳۰۰ درصد افزایش قیمت. بعد کرایه من راننده چقدر افزایش پیدا کرده؟ ۳۰ درصد.",
+        "language": "fa",
+        "video_published": "2026-11-26T19:11:31Z",
+        "relay": "external",
+        "relay_source": "",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "ويشكو سائق شاحنة إيراني آخر من كلفة صيانة شاحنته بين عام ومثله."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "ba54b296dc02",
+        "q": "c1",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=ISu4rWcQ3zA",
+        "start": 344.0,
+        "end": 365.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "إيران إنترناشيونال",
+        "channel_original": "Iran International",
+        "quote_arabic": "بصفتي سائق شاحنة، استبدلت زيت هذه الشاحنة العام الماضي في مثل هذا الوقت بعشرين مليون ريال، والبارحة كلفني سبعة وستين مليونا، واشتريت الإطار العام الماضي بخمسة وسبعين مليونا والبارحة بمئتين وعشرة ملايين، ما يمثل زيادة بنسبة مئتي بالمئة.",
+        "quote_original": "بنده به عنوان یک راننده کامیون، پارسال همین موقع روغن همین ماشین عوض کردم ۲۰ میلیون، امسال دیروز عوض کردم شده ۶۷ میلیون. لاستیک پارسال خریدم ۷۵ میلیون، دیروز خریدم ۲۱۰ میلیون همون لاستیک رو. این یعنی ۲۰۰ درصد افزایش قیمت.",
+        "language": "fa",
+        "video_published": "2026-11-26T19:11:31Z",
+        "relay": "external",
+        "relay_source": "",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "يشكو حرفي إيراني من ارتفاع أسعار قطع الغيار وخسارته بعد كل عملية بيع."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "e03d31554d9a",
+        "q": "c2",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=ISu4rWcQ3zA",
+        "start": 1033.0,
+        "end": 1063.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "إيران إنترناشيونال",
+        "channel_original": "Iran International",
+        "quote_arabic": "ماذا يجب علي أن أفعل الآن؟ أنتج وأسلم الزبون لكن الأمر غير مجد لي. اشتريت هذا البرغي بألف تومان وأبيعه بألف وخمسمئة، وعندما أذهب لشرائه مجددا أجده بألفين، وأضطر لدفع خمسمئة من جيبي لإعادة شرائه. إلى من أشتكي وماذا علي أن أفعل؟",
+        "quote_original": "خب این الان آقای پزشکیان، آقای مسئول، آقای کسی که اون بالا نشستی، خب من الان چیکار باید بکنم؟ میارم تولید می‌کنم می‌دم دست مشتری، برا خودم صرف نمی‌کنه. این پیچ رو برای مثال خریدم ۱۰۰۰ تومن، می‌فروشم ۱۵۰۰. می‌رم بخرم ۲۰۰۰ تومنه. ۵۰۰ تومنم باید بذارم روش تا اینو دوباره بخرم ببرم بذارم سر جاش. خب یعنی چی؟ این الان من خب به کی شکایت بکنم؟ به کی بگم؟ چیکار باید بکنم؟",
+        "language": "fa",
+        "video_published": "2026-11-26T19:11:31Z",
+        "relay": "external",
+        "relay_source": "",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "ومع هذا التراجع، يحول إيرانيون مدخراتهم إلى عملات صعبة ومعادن نفيسة."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 0,
+        "text": "ما الذي تسبب في تراجع الريال الإيراني؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "81ed611a6a32",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=zsNQzI3m0qs",
+        "start": 256.9,
+        "end": 278.0,
+        "speaker_name": "اشكان نظام آبادي",
+        "speaker_role": "صحفي اقتصادي",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "اشکان نظام آبادی",
+        "channel_display": "إيران إنترناشيونال",
+        "channel_original": "Iran International",
+        "quote_arabic": "أما من الناحية النفسية، فما حدث في الأيام الأخيرة ودفع الدولار للتحرك بهذا الشكل، فيمكن أن يكون التفسير أن السوق يرى أن الموانع المالية التي فرضتها الولايات المتحدة تزداد صعوبة يومًا بعد يوم، وأن هذا الحظر على مركز التبادل كان رصاصة الرحمة التي وجهتها أمريكا إلى سعر الدولار في إيران.",
+        "quote_original": "اما اینکه از نظر روانی در روزهای اخیر چه اتفاقی افتاده که دلار این‌طوری داره حرکت می‌کنه، یک برداشت می‌تونه این باشه که بازار داره این رو می‌بینه که موانع مالی که ایالات متحده ایجاد کرد، هر روز داره سخت‌تر می‌شه و دیگه این تحریم مرکز مبادله، تیر خلاصی بود که آمریکا به نرخ دلار در ایران وارد کرد.",
+        "language": "fa",
+        "video_published": "2026-11-25T16:42:29Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "811825c7c77b",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=-xjWYi4EChw",
+        "start": 371.0,
+        "end": 393.0,
+        "speaker_name": "أشكان بهرامي",
+        "speaker_role": "أستاذ الاقتصاد السياسي",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "أشكان بهرامي",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "كانت الحكومة الإيرانية تستفيد من عائدات النفط لدعم استقرار الريال الإيراني، ومع تعذر بيع النفط وتصديره لضخ العملة الصعبة في السوق، فلن يتحسن وضع الاقتصاد.",
+        "quote_original": "الحكومة الإيرانية كانت تستفيد من عوائد النفط وذلك من أجل تحسين وضع الريال، وبالتالي مع عدم قدرة إيران على تصدير أو بيع النفط ودعم الريال بالعملة الصعبة في السوق، فإن الوضع لن يتحسن على صعيد الاقتصاد الإيراني",
+        "language": "ar",
+        "video_published": "2026-11-25T18:50:03Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 1,
+        "text": "كيف يثقل تراجع الريال كاهل المواطن الإيراني؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "eae05f564f38",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=-xjWYi4EChw",
+        "start": 110.1,
+        "end": 134.4,
+        "speaker_name": "عامر لافي",
+        "speaker_role": "مراسل الجزيرة في طهران",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "عامر لافي",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "خلال اليومين الماضيين هناك ارتفاع كبير لسعر صرف الدولار الأمريكي مقابل الريال الإيراني، وهذا التسارع مستمر منذ ما قبل الحرب ويرهن كاهل المواطن الإيراني.",
+        "quote_original": "خلال اليومين الماضيين هناك ارتفاع كبير لسعر العملة الأجنبية الدولار مقابل الريال، هو نعم تسارع لكن اللافت طبعا أنه يعني منذ حتى قبل الحرب، هناك ارتفاع بشكل مستمر للدولار مقابل الريال، وهو ما يرهق كاهل المواطن الإيراني كما يقول كثير من الناس وكما هو المعاش حاليا",
+        "language": "ar",
+        "video_published": "2026-11-25T18:50:03Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "question",
+        "text": "هل يملك الاقتصاد الإيراني أدوات توقف نزيف العملة دون رفع العقوبات؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": [],
+    "narrator_voices": [
+      {
+        "id": "s7VusoUfleDWGRQNqsF6",
+        "name": "Woman2",
+        "gender": "female"
+      },
+      {
+        "id": "imSStoespHEDicyPMZ3i",
+        "name": "Man2",
+        "gender": "male"
+      }
+    ]
+  },
+  "editor_revision": {
+    "at": "2026-11-27T18:56:35.574919+00:00",
+    "applied": true,
+    "error": null,
+    "before": [
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "[6] وفي مدينة زنجان شمال غرب إيران، يروي حرفي ما يحدث لورشته مع كل ارتفاع في أسعار قطع الغيار.",
+        "fix": "يشكو حرفي إيراني من ارتفاع أسعار قطع الغيار وخسارته بعد كل عملية بيع.",
+        "note": "مشهد السياق [6] لا يصف واقعة محددة (من فعل ماذا ومتى) بل يلخص شكوى عامة؛ وقائع الحدث المرفقة لا تذكر حرفيًا في زنجان أصلاً، بل تتحدث عن سائقي شاحنات واسعار. يجب أن يصف السياق واقعة من وقائع الحدث المرفقة حصرًا.",
+        "sources": []
+      },
+      {
+        "category": "vague_attribution",
+        "severity": "low",
+        "location": "body",
+        "original": "[9] ما الذي تسبب في الانهيار الأخير للريال الإيراني؟",
+        "fix": "",
+        "note": "وصف الانهيار بـ'الأخير' دون تحديد زمني واضح، مع أن المصادر تشير إلى تراجع مستمر منذ ما قبل الحرب لا حدثًا مفاجئًا جديدًا فقط.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "[9] ما الذي تسبب في الانهيار الأخير للريال الإيراني؟",
+        "fix": "",
+        "note": "سؤال [9] يفترض أن هناك سببًا واحدًا أو حدثًا منفردًا بينما المصادر (عامر لافي) توضح أن التراجع مستمر ومتواصل منذ ما قبل الحرب، فكلمة 'الأخير' قد تُفهم كحدث جديد منفصل.",
+        "sources": []
+      }
+    ],
+    "unresolved": []
+  },
+  "editor_review": {
+    "at": "2026-11-27T18:56:35.574919+00:00",
+    "applied": [],
+    "notes": [],
+    "error": null,
+    "searches": 0,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "reel_quote": {
+    "status": "none",
+    "tried": [
+      {
+        "name": "ابن خلدون",
+        "lang": "en",
+        "reason": "طول الاقتباس 33 كلمة خارج الحد"
+      },
+      {
+        "name": "ميلتون فريدمان",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "ميلتون فريدمان",
+        "lang": "en",
+        "reason": "طول الاقتباس 32 كلمة خارج الحد"
+      },
+      {
+        "name": "فريدريش هايك",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "فريدريش هايك",
+        "lang": "en",
+        "reason": "طول الاقتباس 68 كلمة خارج الحد"
+      },
+      {
+        "name": "جون ماينارد كينز",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "جون ماينارد كينز",
+        "lang": "en",
+        "reason": "طول الاقتباس 234 كلمة خارج الحد"
+      },
+      {
+        "name": "جيكوب فيينر",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "جيكوب فيينر",
+        "lang": "en",
+        "reason": "لم يجد النموذج جملة تناسب"
+      }
+    ],
+    "candidates": 1,
+    "error": "BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'tool_choice: type \"tool\" and \"any\" are not supported for th"
+  },
+  "hook_cartoon": {
+    "status": "ready",
+    "idea_ar": "الدولار الأمريكي يوجه \"رصاصة الرحمة\" (الحظر المالي) إلى الريال الإيراني المتهاوي، بينما صنبور النفط الإيراني مغلق ولا يضخ عملة صعبة لإنقاذه، والمواطن الإيراني يسقط تحت وطأة الأسعار المرتفعة",
+    "basis_ar": "[1] يصف الحظر الأمريكي على مركز التبادل بأنه \"رصاصة الرحمة\" لسعر الدولار في إيران؛ [2] يوضح أن تعذر بيع النفط وتصديره أوقف ضخ العملة الصعبة فلن يتحسن الاقتصاد؛ [3] يبين أن تسارع ارتفاع الدولار يرهن كاهل المواطن الإيراني",
+    "prompt_en": "Editorial political cartoon style, bold ink linework with exaggerated caricature features, muted sepia and red color palette evoking economic crisis, dramatic lighting, no text or numbers or flags anywhere in the image, figures isolated with no background or ground",
+    "cost_usd": 0.1251,
+    "path": "drafts/2026-11-27/1647a40f7337-cartoon.png",
+    "model": "gemini-3.1-flash-image",
+    "pieces": [
+      {
+        "name_ar": "رمز الدولار الأمريكي الضاغط",
+        "prompt_en": "A towering muscular caricature figure wearing a suit made of green dollar-bill texture patterns, pointing a smoking pistol forward with a smug confident grin, full body standing pose from head to feet, no ground, no background",
+        "person_ar": "الدولار الأمريكي",
+        "person_en": "US Dollar",
+        "cue_ar": "الدولار",
+        "x": 0.78,
+        "y": 0.35,
+        "width": 0.3,
+        "enter": "right",
+        "path": "drafts/2026-11-27/1647a40f7337-cartoon-0.png"
+      },
+      {
+        "name_ar": "رجل نفط إيراني يغلق الصنبور",
+        "prompt_en": "A caricature of a middle-aged Iranian government official in a dark formal suit, exaggerated worried frown, struggling with both hands to turn a large oil pipe valve that is stuck shut, full body standing pose from head to feet, no ground, no background",
+        "person_ar": "الحكومة الإيرانية (عائدات النفط)",
+        "person_en": "Iranian oil official",
+        "cue_ar": "النفط",
+        "x": 0.22,
+        "y": 0.4,
+        "width": 0.3,
+        "enter": "left",
+        "path": "drafts/2026-11-27/1647a40f7337-cartoon-1.png"
+      },
+      {
+        "name_ar": "سائق شاحنة إيراني منهك",
+        "prompt_en": "A caricature of a tired Iranian truck driver in worn work clothes and a flat cap, shoulders slumped, holding an empty wallet turned inside out with a distressed exaggerated expression, full body standing pose from head to feet, no ground, no background",
+        "person_ar": "سائق شاحنة إيراني",
+        "person_en": "Iranian truck driver",
+        "cue_ar": "سائق شاحنة",
+        "x": 0.5,
+        "y": 0.75,
+        "width": 0.3,
+        "enter": "bottom",
+        "path": "drafts/2026-11-27/1647a40f7337-cartoon-2.png"
+      }
+    ]
+  },
+  "reel_bg": {
+    "url": "https://static.srpcdigital.com/styles/1200x600/public/2026-08/1736422.jpeg.webp?VersionId=T1o7pZCxdQGjzxrrGPPkfcY76eb3t2Rd",
+    "kind": "news_photo",
+    "publisher": "الشرق الأوسط",
+    "shows": "رجل يحمل حزم أوراق نقدية إيرانية (فئة 200 ألف ريال تقريباً)، ويرتدي قميصاً أبيض وحقيبة ظهر سوداء، في مشهد في الشارع",
+    "text_checked": true,
+    "judged": true,
+    "rejected": [
+      {
+        "url": "https://www.emaratalyoum.com/resizer/v2/QBHMGEJHIFMC3AWKRBJTSOLP2Y.jpg?auth=8553cf4ad05258dca9a9bdf94681167ce1d9a431140f0eb2c9bb4debae6e35ad&width=800&height=450&focal=924%2C520",
+        "shows": "رافعة نفط (مضخة استخراج) على خلفية غروب برتقالي",
+        "reason": "الصورة تُظهر حقل نفط ولا تتعلق بالريال الإيراني أو بإيران ولا بالأسعار أو الأسواق الإيرانية، وأغلبها غير نصي."
+      }
+    ]
+  },
+  "hook_candidates": [
+    {
+      "video_id": "TshYeJWq0kQ",
+      "title": "من الغذاء إلى الدواء.. أرقام صادمة تكشف حجم المعاناة المعيشية في إيران",
+      "channel": "AlArabiya العربية",
+      "views": 3959,
+      "duration": 619,
+      "published": "2026-11-27T05:50:45Z",
+      "views_per_hour": 301.1,
+      "gemini": {
+        "start": 104,
+        "end": 108,
+        "impact": 1,
+        "desc": "شخص يقوم بعدّ وتداول رزم من العملة الورقية الإيرانية على طاولة في الشارع وسط تدهور قيمة الريال"
+      }
+    },
+    {
+      "video_id": "zsNQzI3m0qs",
+      "title": "اقتصاد و بازار: سقوط ساعتی ارزش پول ملی؛ گرانی و کیفیت پایین اینترنت در ایران",
+      "channel": "Iran International",
+      "views": 12437,
+      "duration": 719,
+      "published": "2026-11-25T16:42:29Z",
+      "source": "topic",
+      "gemini": {
+        "start": 156,
+        "end": 166,
+        "impact": 1,
+        "desc": "رافعة حاويات تنقل وتفرغ حاويات شحن البضائع فوق مقطورة شاحنة في ساحة جمركية لنقل البضائع"
+      }
+    },
+    {
+      "video_id": "j9EO0kmnkfs",
+      "title": "تراجع قياسي للريال الإيراني ورسوم أمريكية جديدة على 14 شريكا تجاريا - قراءة اقتصادية",
+      "channel": "AlJazeera Arabic  قناة الجزيرة",
+      "views": 5299,
+      "duration": 1188,
+      "published": "2026-11-26T13:00:04Z",
+      "views_per_hour": 176.7
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-11-25T00:00:00Z",
+          "2026-11-29T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "سوق طهران أسعار ترتفع الباعة",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "Tehran bazaar currency exchange shops crowds",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "بازار تهران صرافی دلار مردم",
+            "raw": 1,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 0,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "SHAW MEDIA"
+        ]
+      },
+      {
+        "broad": true,
+        "window": [
+          "2026-11-23T00:00:00Z",
+          "2026-11-30T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "تراجع الريال الإيراني",
+            "raw": 7,
+            "channel_ok": 1
+          },
+          {
+            "query": "Iranian rial currency collapse",
+            "raw": 13,
+            "channel_ok": 1
+          },
+          {
+            "query": "ریال ایران سقوط ارز",
+            "raw": 30,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 2,
+        "judged_ok": 2,
+        "rejected_channels": [
+          "تحلیل محدب",
+          "إيران بودكاست",
+          "Shams TV",
+          "Don Stewart",
+          "World News HQ",
+          "CONVEX",
+          "USA vs Iran Showdown",
+          "Cross World News"
+        ]
+      }
+    ],
+    "topic_fallback": [
+      "zsNQzI3m0qs",
+      "j9EO0kmnkfs"
+    ],
+    "gemini_vet": {
+      "checked": 3,
+      "ok": 2,
+      "rejected": [
+        {
+          "video_id": "j9EO0kmnkfs",
+          "reason": "لا توجد لقطة ميدانية كاملة الإطار تخص الموضوع؛ فالفقرة المتعلقة بإيران مقتصرة على المذيعة ومراسلة تتحدث ورسوم بيانية وبطاقات معلوماتية تغطي المشاهد."
+        }
+      ],
+      "errors": 0,
+      "cost": 0.0777
+    },
+    "picked": [
+      "TshYeJWq0kQ",
+      "zsNQzI3m0qs",
+      "j9EO0kmnkfs"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "يواصل الريال الإيراني تراجعه أمام الدولار الأمريكي، وترتفع الأسعار في الأسواق الإيرانية أضعافا.",
+      "visual": "أوراق نقدية إيرانية وعملة الدولار في الأسواق"
+    },
+    {
+      "scene": 1,
+      "sentence": 1,
+      "text": "سائق شاحنة إيراني يقارن ما دفعه العام الماضي بما يدفعه اليوم.",
+      "visual": "سائق شاحنة إيراني يتحدث أمام شاحنته"
+    },
+    {
+      "scene": 3,
+      "sentence": 0,
+      "text": "ويشكو سائق شاحنة إيراني آخر من كلفة صيانة شاحنته بين عام ومثله.",
+      "visual": "ورشة صيانة شاحنة في إيران"
+    },
+    {
+      "scene": 5,
+      "sentence": 0,
+      "text": "يشكو حرفي إيراني من ارتفاع أسعار قطع الغيار وخسارته بعد كل عملية بيع.",
+      "visual": "حرفي إيراني في ورشته مع قطع غيار"
+    },
+    {
+      "scene": 7,
+      "sentence": 0,
+      "text": "ومع هذا التراجع، يحول إيرانيون مدخراتهم إلى عملات صعبة ومعادن نفيسة.",
+      "visual": "سبائك ذهب ومعادن نفيسة في متجر"
+    },
+    {
+      "scene": 8,
+      "sentence": 0,
+      "text": "ما الذي تسبب في تراجع الريال الإيراني؟",
+      "visual": ""
+    },
+    {
+      "scene": 11,
+      "sentence": 0,
+      "text": "كيف يثقل تراجع الريال كاهل المواطن الإيراني؟",
+      "visual": "سوق إيراني مزدحم وأسعار المواد الغذائية"
+    }
+  ],
+  "cost_script": {
+    "claude": {
+      "claude-haiku-5-5": 0.0032,
+      "claude-sonnet-5": 0.29556,
+      "claude-opus-5": 0.14144
+    },
+    "gemini": 0.2028
+  },
+  "review_issue": 2045,
+  "stage2_issue": 2045
+}
