@@ -1,3 +1,8 @@
+# قضيتا 2035 و2037: رصيد Gemini المدفوع مسبقًا نفد فرُفض كل طلب بـ402. أول رفض بـ402 أو بنص من markers يوقف كل نداءات Gemini في
+# العملية (src/gemini.py)؛ 429 RESOURCE_EXHAUSTED تجاوز معدّل عابر فليس منها
+gemini_quota:
+  markers: ["prepayment credits are depleted", "credits are depleted"]
+
 # نقطة التحويل الوحيدة لنموذج Haiku (Issue #1416، src/llm.py): كل مفاتيح النماذج الرخيصة أدناه قيمتها «haiku»
 # وهذا الموضع وحده يعرف المعرّف الحقيقي. التراجع إلى الجيل السابق = سطر واحد: haiku_model: "claude-haiku-4-5-20251001"
 # (فيسقط تلقائيًا thinking/output_config وضرب max_tokens، لأنها لـHaiku 5 وحده).
@@ -1893,6 +1898,10 @@ reel:
     piece_tries: 2
     despill_px: 3
     despill_tolerance: 170
+    # قضية 2039: لون المفتاح بقي فاقعًا بين ساقي نتنياهو (فراغ محاط بالرسم لا يتصل بالحافة). كل مجموعة متصلة قريبة من لون المفتاح
+    # (tolerance) مساحتها ≥ min_px ومتوسط بُعدها عنه ≤ mean_distance تُزال: الخلفية المسطّحة بُعدها صفر تقريبًا، وشيء مرسوم بلون
+    # قريب ومظلَّل يبقى. يُطبَّق عند القصّ وعلى القطع المحفوظة عند التركيب (نسخة مؤقتة)
+    holes: {enabled: true, tolerance: 110, min_px: 6, mean_distance: 80}
     # منطقة القطع بنسب الشاشة: تحت عنوان السؤال وحتى أسفل الصورة (ما تحت caption_top يغطيه نص منشور فيسبوك جزئيًا، والقطع صور لا نص)
     area: {left: 0.04, top: 0.5, right: 0.96, bottom: 0.94}
     # الدخول: كل قطعة تبدأ مع السؤال (hook_voice_at) بفارق stagger عن سابقتها، وتنزلق من خارج الشاشة إلى موضعها خلال enter_seconds
@@ -1972,6 +1981,11 @@ reel:
     rank_model: claude-opus-5-5
     languages: [ar, en]
     api: "https://{lang}.wikiquote.org/w/api.php"
+    # قضية 2039: كل الصفحات العشر كُتب لها «لا صفحة» (كيسنجر وكلاوزفيتز وصن تزو بالإنجليزية)، والسبب الحقيقي لم يُحفظ. ويكيميديا تطلب
+    # وكيلًا وصفيًا فيه وسيلة تواصل وتحجب وكيل المتصفح المقلَّد من الخوادم السحابية؛ والسبب (HTTP 403…) يُكتب الآن بدل «لا صفحة»،
+    # وصفحة موجودة بلا نص من TextExtracts تُقرأ من نص الويكي نفسه (fallback_wikitext)
+    user_agent: "AlmujezReelBot/1.0 (https://github.com/gilandeya/trendnews; reel quotes)"
+    fallback_wikitext: true
     timeout: 20
     page_max_chars: 30000
     min_words: 5
@@ -2146,6 +2160,7 @@ reel:
     scene_clash_hook: "🃏 الهوك: {cards} ← العنوان: {text}"
     scene_context: "📍 السياق: {text}"
     scene_qcard: "❓ {role_label}: {text}"
+    scene_qcard_bare: "❓ {text}"
     scene_stance: "↳ الموقف: {stance}"
     # الإجابة الأم وصداها (23/11، meta_echo)
     scene_master: "⭐ الإجابة الأم، أفكارها"
@@ -3675,6 +3690,7 @@ reel:
       comment_map_confirmed: "✅ خريطة وجوه الحلقة تؤكد المتكلم: {name} ({channel})"
       comment_gemini_confirmed: "✅ Gemini يؤكد المتكلم: {name} ({channel})"
       comment_gemini_named: "🏷️ سمّى Gemini متكلم مقطع {channel}: {name}"
+      comment_gemini_quota: "⛔ رصيد Gemini نفد في هذا التركيب: القائلون فُحصوا بحرّاس الشريط والوجه وحدها، وتُخطّي ما يحتاج Gemini — اشحن الرصيد"
       comment_gemini_failed: "⚠️ تعذّر سؤال Gemini عن متكلمي {channel}: {reason} — عملت حرّاس الشريط والوجه"
       comment_audio_only: "🎙️ مقطع {speaker} ({channel}) بصوته وحده: الكاميرا على غيره فعُرضت صورته ({source})"
       comment_off_screen_overruled: "🎥 قال Gemini إن {speaker} لا يظهر وهو يتكلم في مقطع {channel}، وخالفه {why} — بقي المقطع"
@@ -4540,7 +4556,11 @@ youtube:
         footer: "وسم `approved` = كتابة سيناريو الريل من المعلَّم (العنوان والأسئلة والإجابات)، وفتح قضية السيناريو: فيها السياق قابلًا للتعديل وثلاث لقطات للهوك."
         ready: "✅ استُخرجت {q} أسئلة، واختيرت إجابات مجموعها {seconds} ث. راجع المربعات في جسم القضية."
         waiting_proxy: "⏳ رصيد بروكسي يوتيوب منتهٍ فلم تُجلب نصوص هذه الفيديوهات. أعد وسم `approved` على هذه القضية بعد تجدّد الرصيد فيُعاد الاستخراج."
-        failed: "⚠️ تعذّر استخراج الأسئلة: {error}\n\nأعد وسم `approved` على هذه القضية لإعادة المحاولة (المقاطع المستخرجة محفوظة فلا تُدفع ثانية)."
+        failed: "⚠️ تعذّر استخراج الأسئلة: {error}\n\nأعد وسم `approved` على هذه القضية لإعادة المحاولة."
+        # يُلحق بـfailed فقط إن حُفظت مقاطع فعلًا (قضية 2035: كُتب وليس مقطع واحد، فبدا أن شيئًا نجح)
+        failed_cached: " المقاطع المستخرجة محفوظة فلا تُدفع ثانية."
+        # قضيتا 2035 و2037: رصيد Gemini نفد فلم يُقرأ فيديو واحد؛ انتظار لا فشل، والمحاولة لا تُحسب
+        waiting_gemini: "⛔ رصيد Gemini المدفوع مسبقًا نفد فلم يُقرأ أي فيديو (الفيديوهات نفسها سليمة). اشحن الرصيد في Google AI Studio (Billing ← Prepayment) ثم أعد وسم `approved` على هذه القضية. إعادة الوسم قبل الشحن لا تحسب محاولة."
         few_bites: "مقاطع قليلة عن الموضوع: {n}"
         no_heard: "لم يطابق صوت أي مقطع كلامه المكتوب"
         heard_mark: " · 🎧"
@@ -5868,6 +5888,7 @@ notifications:
     texts:
       questions_ready: "❓ أسئلة «{title}» جاهزة للاختيار"
       questions_waiting_proxy: "⏳ رصيد البروكسي منتهٍ فلم تُستخرج أسئلة «{title}» — أعد وسم `approved` على قضيته بعد التجديد"
+      questions_waiting_gemini: "⛔ رصيد Gemini نفد فلم تُستخرج أسئلة «{title}» — اشحنه ثم أعد وسم `approved` على قضيته"
       questions_failed: "⚠️ تعذّر استخراج أسئلة «{title}» — أعد وسم `approved` على قضيته"
       questions_reopened: "🔁 أُعيد فتح اختيار أسئلة «{title}»"
       qa_start_failed: "⚠️ تعذّر إطلاق استخراج الأسئلة — شغّل «🎬 تركيب الريل» يدويًا"

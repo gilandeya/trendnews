@@ -1673,8 +1673,11 @@ def timeline_lines(script: dict, cfg: Any, hook_clash: dict | None = None) -> li
                 key = "scene_context"
             elif v2 and kind == "narration" and scene.get("role") == "question":
                 key = "scene_qcard"
-            line = t.get(key, "").format(text=scene.get("text", ""),
-                                         role_label=(t.get("qroles") or {}).get(scene.get("qrole"), scene.get("qrole") or ""))
+            role_label = (t.get("qroles") or {}).get(scene.get("qrole"), scene.get("qrole") or "")
+            if key == "scene_qcard" and not role_label:
+                # أسئلة مسار العناوين بلا دور (core/why_now/where_next) فكان السطر «❓ : السؤال» (قضية 2039)
+                key = "scene_qcard_bare"
+            line = t.get(key, "").format(text=scene.get("text", ""), role_label=role_label)
             if kind == "title_card" and clash_line:
                 line = clash_line
             if idx in voices:   # صوت الراوي على هذا المشهد، كما يُنطق في التركيب

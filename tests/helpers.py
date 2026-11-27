@@ -167,6 +167,9 @@ def load_config(path=None):
         # الآلي؛ تغيّر مخرجات تثبّتها اختبارات قديمة. test_reel_notes_2031 يطلبها ويثبّت أن config.yaml عليها
         if isinstance(rcart, dict):
             rcart["default_checked"] = False
+            # قضية 2039: إزالة فراغات لون المفتاح من القطع؛ test_reel_notes_2039 يطلبها
+            if isinstance(rcart.get("holes"), dict):
+                rcart["holes"]["enabled"] = False
         caud = (((cfg.get("reel") or {}).get("script") or {}).get("clip_audit"))
         if isinstance(caud, dict):
             caud["vocative_words"] = 0

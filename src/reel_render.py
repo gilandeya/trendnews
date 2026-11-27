@@ -7101,7 +7101,9 @@ def _gemini_check(script: dict, order: list, clips: dict, cfg, deps: Deps, notes
         except Exception as exc:  # noqa: BLE001 — فيديو واحد لا يُسقط التركيب
             reason = re.sub(r"(?<=://)[^/@\s]*@", "", reel_clips.scrub_text(f"{type(exc).__name__}: {exc}"))[:150]
             meta.setdefault("gemini_errors", {})[vid] = reason
-            notes.append(t["comment_gemini_failed"].format(channel=channel, reason=reason))
+            from . import gemini as _gemini
+            if not _gemini.exhausted():   # نفاد الرصيد يُكتب سطرًا واحدًا للريل كله (_comment_text) لا سطرًا لكل فيديو
+                notes.append(t["comment_gemini_failed"].format(channel=channel, reason=reason))
             continue
         meta["gemini_cost"] = round(float(meta.get("gemini_cost") or 0) + float(res.get("cost") or 0), 4)
         got = res.get("verdicts") or {}
@@ -8913,6 +8915,10 @@ def _comment_text(cfg, draft: dict, result: dict, dropped: list, approx: list | 
             continue       # Q13: نافذة طوبقت كلمة بكلمة لم تعد تقديرية
         text += "\n" + t["comment_approx"].format(
             channel=a.get("channel", ""), window=f"{_mmss(a['start'])}–{_mmss(a['end'])}", reason=a["reason"])
+    from . import gemini
+    if gemini.exhausted() and t.get("comment_gemini_quota"):
+        # قضيتا 2035 و2037: رصيد Gemini نفد في هذه التشغيلة، فكل ما يسأله (القائلون، فحص الهوك، الكاريكاتير) تُخطّي بلا طلب
+        notes = [*(notes or []), t["comment_gemini_quota"]]
     for n in notes or []:
         # بعض نصوص reel.render.texts تبدأ بـ«- » وبعضها لا: يوحَّد الشكل هنا لا في الإعداد (Issue #1670، Q9)
         text += "\n" + (n if n.startswith("- ") else "- " + n)

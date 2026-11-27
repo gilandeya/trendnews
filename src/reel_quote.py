@@ -74,34 +74,78 @@ def _create(client, **kwargs):
 
 
 def _http_get(url: str, params: dict, timeout: int):
-    """نقطة الشبكة (يزيّفها الاختبار): JSON أو None."""
+    """نقطة الشبكة (يزيّفها الاختبار): JSON، أو {"_http_error": السبب} عند الرفض أو العطل (قضية 2039: كل صفحة كُتب لها «لا صفحة»
+    حتى كيسنجر وكلاوزفيتز، والسبب الحقيقي ضاع). الوكيل وصفيّ (`reel.quote.user_agent`) لأن ويكيميديا تحجب وكيل متصفح مقلَّد يأتي
+    من خوادم سحابية كخوادم Actions."""
     import requests
+    from .config import load_config
     from .imagesearch import HEADERS
+    ua = str((load_config().path("reel.quote") or {}).get("user_agent") or "")
+    headers = {**HEADERS, "User-Agent": ua} if ua else HEADERS
     try:
-        resp = requests.get(url, params=params, headers=HEADERS, timeout=timeout)
-        return resp.json() if resp.status_code == 200 else None
+        resp = requests.get(url, params=params, headers=headers, timeout=timeout)
+        if resp.status_code != 200:
+            return {"_http_error": f"HTTP {resp.status_code}"}
+        return resp.json()
     except (requests.RequestException, ValueError) as exc:
         log.info("تعذّر جلب صفحة الاقتباس: %s", str(exc)[:120])
-        return None
+        return {"_http_error": f"{type(exc).__name__}: {str(exc)[:80]}"}
 
 
-def fetch_page(name: str, lang: str, cfg) -> tuple[str, str] | None:
-    """(نص الصفحة، رابطها) من ويكي الاقتباس بلغة lang، أو None. النص صريح بلا وسوم (extracts)، ومقصوص إلى page_max_chars."""
+def plain_wikitext(text: str) -> str:
+    """نص ويكي ← نص صريح تقريبي (احتياط حين لا يعيد TextExtracts نصًا): بلا قوالب ولا مراجع ولا وسوم، والروابط بنصها الظاهر،
+    والعناوين والتنسيق بلا علاماتها. دالة خالصة؛ الجملة المختارة تُطابَق حرفيًا مع هذا النص نفسه (verify)."""
+    t = re.sub(r"<ref[^>]*/>|<ref[^>]*>.*?</ref>", " ", str(text or ""), flags=re.S)
+    t = re.sub(r"<!--.*?-->", " ", t, flags=re.S)
+    for _ in range(4):   # قوالب متداخلة
+        t = re.sub(r"\{\{[^{}]*\}\}", " ", t)
+    t = re.sub(r"\[\[(?:[^\]|]*\|)?([^\]]*)\]\]", r"\1", t)
+    t = re.sub(r"\[https?://\S+\s*([^\]]*)\]", r"\1", t)
+    t = re.sub(r"<[^>]+>", " ", t)
+    t = re.sub(r"'{2,}", "", t)
+    t = re.sub(r"^=+\s*(.*?)\s*=+\s*$", r"\1", t, flags=re.M)
+    t = re.sub(r"^[*#:;]+\s*", "", t, flags=re.M)
+    return "\n".join(" ".join(line.split()) for line in t.splitlines() if line.strip())
+
+
+def fetch_page(name: str, lang: str, cfg, why: list | None = None) -> tuple[str, str] | None:
+    """(نص الصفحة، رابطها) من ويكي الاقتباس بلغة lang، أو None وسببه في why. النص صريح (extracts)، وإن وُجدت الصفحة بلا نص منه
+    فمن نص الويكي نفسه (`fallback_wikitext`)، ومقصوص إلى page_max_chars."""
     c = qcfg(cfg)
     name = " ".join(str(name or "").split())
+    why = why if why is not None else []
     if not name:
+        why.append("لا اسم")
         return None
     api = str(c.get("api", "https://{lang}.wikiquote.org/w/api.php")).format(lang=lang)
+    timeout = int(c.get("timeout", 20))
     data = _http_get(api, {"action": "query", "format": "json", "prop": "extracts", "explaintext": "1", "redirects": "1",
-                           "titles": name}, int(c.get("timeout", 20)))
+                           "titles": name}, timeout)
+    if (data or {}).get("_http_error"):
+        why.append(str(data["_http_error"]))
+        return None
     pages = ((data or {}).get("query") or {}).get("pages") or {}
+    if not pages:
+        why.append("رد بلا صفحات")
+        return None
     for pid, page in pages.items():
-        text = str(page.get("extract") or "")
-        if str(pid) == "-1" or not text.strip():
+        if str(pid) == "-1" or "missing" in page:
             continue
         title = page.get("title") or name
         url = f"https://{lang}.wikiquote.org/wiki/{title.replace(' ', '_')}"
-        return text[: int(c.get("page_max_chars", 30000))], url
+        text = str(page.get("extract") or "")
+        if not text.strip() and c.get("fallback_wikitext", True):
+            raw = _http_get(api, {"action": "query", "format": "json", "formatversion": "2", "prop": "revisions",
+                                  "rvprop": "content", "rvslots": "main", "redirects": "1", "titles": title}, timeout)
+            try:
+                text = plain_wikitext(raw["query"]["pages"][0]["revisions"][0]["slots"]["main"]["content"])
+            except (KeyError, IndexError, TypeError):
+                text = ""
+        if text.strip():
+            return text[: int(c.get("page_max_chars", 30000))], url
+        why.append("صفحة بلا نص")
+        return None
+    why.append("لا صفحة")
     return None
 
 
@@ -114,6 +158,9 @@ def search_pages(term: str, lang: str, cfg) -> list[str]:
     api = str(c.get("api", "https://{lang}.wikiquote.org/w/api.php")).format(lang=lang)
     data = _http_get(api, {"action": "query", "format": "json", "list": "search", "srsearch": term,
                            "srlimit": str(int(c.get("search_limit", 3)))}, int(c.get("timeout", 20)))
+    if (data or {}).get("_http_error"):
+        log.info("بحث ويكي الاقتباس «%s»: %s", term, data["_http_error"])
+        return []
     return [str(r.get("title")) for r in (((data or {}).get("query") or {}).get("search") or []) if r.get("title")]
 
 
@@ -271,9 +318,10 @@ def plan(draft: dict, cfg: Any, client=None) -> dict | None:
                     pages.append((title, "en", title, None))
         cands: list[dict] = []
         for title, lang, label, th in pages[: int(c.get("max_pages", 10))]:
-            page_got = fetch_page(title, lang, cfg)
+            page_why: list = []
+            page_got = fetch_page(title, lang, cfg, page_why)
             if not page_got:
-                rec["tried"].append({"name": label, "lang": lang, "reason": "لا صفحة"})
+                rec["tried"].append({"name": label, "lang": lang, "reason": "، ".join(page_why) or "لا صفحة"})
                 continue
             page, url = page_got
             pick = _pick(subject, label, page, client, cfg)
@@ -368,6 +416,8 @@ def review_lines(d: dict, cfg) -> list[str]:
         return [f"  {t.get('header', '📜 اقتباس مقترح قبل سؤال الختام')}: **{q.get('speaker_ar', '')}** — «{q.get('text_ar', '')}» "
                 f"([{t.get('source', 'المصدر')}]({q.get('url', '')})){orig}",
                 f"  - [ ] {t.get('approve', 'أضفه إلى الريل')} <!-- quoteok:{d['id']} -->", ""]
-    tried = "؛ ".join(f"{x.get('name')} ({x.get('lang')}): {x.get('reason')}" for x in q.get("tried") or [])
+    # بند بلا اسم ولا لغة (سبب الاختيار النهائي) يُكتب سببه وحده لا «— ()» (قضية 2039)
+    tried = "؛ ".join((f"{x.get('name')} ({x.get('lang')}): " if x.get("lang") else "") + str(x.get("reason"))
+                      for x in q.get("tried") or [])
     return [f"  {t.get('none', '📜 لم يُعتمد اقتباس')}{': ' + tried if tried else ''}"
             f"{' — ' + q['error'] if q.get('error') else ''}", ""]

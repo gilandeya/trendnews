@@ -10622,7 +10622,11 @@ def test_reel_cartoon_2311() -> None:
     arr = np.asarray(piece).copy()
     arr[100:300, 120:280] = (200, 40, 40)
     arr[180:220, 180:220] = (255, 0, 255)          # لون المفتاح داخل الرسم غير متصل بالحافة
-    cut = reel_cartoon.cutout(Image.fromarray(arr), cfg)
+    # قاعدة 23/11 قبل قضية 2039 (فراغ مسطّح بلون المفتاح يُزال؛ يختبرها test_reel_notes_2039): هنا تُثبَّت الإزالة من الحافة وحدها
+    from src.config import Config as _Cfg
+    nohole = _Cfg(dict(cfg))
+    nohole["reel"] = {**cfg["reel"], "cartoon": {**cfg["reel"]["cartoon"], "holes": {"enabled": False}}}
+    cut = reel_cartoon.cutout(Image.fromarray(arr), nohole)
     ca = np.asarray(cut)
     check("2311c: القطعة مقصوصة إلى حدودها وخلفيتها شفافة",
           cut.mode == "RGBA" and abs(cut.size[0] - 168) <= 4 and abs(cut.size[1] - 208) <= 4 and ca[0, 0, 3] == 0, cut.size)
@@ -11998,6 +12002,161 @@ def test_reel_notes_2027() -> None:
     cands2 = [dict(cands[0]), dict(cands[1], gemini={"start": 5, "end": 9, "impact": 1, "desc": "د"}, picked=True)]
     check("2027g: المعلَّم يغلب ما دام Gemini قبله", reel_hook_search.gemini_hook(cands2, cfg)["start"] == 5)
     check("2027g: بلا مفتاح ← بلا نداء", reel_hook_search.gemini_vet([], {}, cfg, key="") == {"skipped": "no_key"})
+
+
+def test_reel_notes_2039() -> None:
+    """القضايا 2035 و2037 و2039 (27/11): (1) رصيد Gemini نفد فرُفض كل فيديو بـ402 وكُتب «مقاطع قليلة: 0» واستمرت الطلبات وحُسبت
+    المحاولات؛ (2) لون المفتاح فاقع بين ساقي نتنياهو في قطع الكاريكاتير (فراغ لا يتصل بالحافة)؛ (3) اقتباس المفكر: «لا صفحة» لكل
+    الأسماء بلا سبب؛ (4) سطر «❓ : السؤال» بلا دور."""
+    import json as _json
+    import os as _os
+    import tempfile as _tempfile
+    from types import SimpleNamespace as NS
+
+    import numpy as np
+    from PIL import Image
+
+    from src import gemini, meta_qa, meta_script, reel_cartoon, reel_quote, reel_script, review
+    from src.config import Config, load_config as real_load
+
+    base = real_load()
+    cfg = Config(dict(base))
+
+    # (1أ) التمييز: 402 ونص نفاد الرصيد نفاد، و429 تجاوز معدّل عابر
+    check("2039a: 402 ونص «credits are depleted» نفاد رصيد، و429 ليس منه",
+          gemini.is_quota(402, "") and gemini.is_quota(400, "Your prepayment credits are depleted.")
+          and not gemini.is_quota(429, "RESOURCE_EXHAUSTED: rate limit"))
+
+    class R:
+        def __init__(self, code, text="", payload=None):
+            self.status_code, self.text, self._p = code, text, payload
+
+        def json(self):
+            return self._p
+
+    calls = []
+
+    def post402(url, json=None, timeout=None, headers=None):
+        calls.append(url)
+        return R(402, '{"error": {"code": 402, "message": "Your prepayment credits are depleted."}}')
+
+    gemini.reset_quota()
+    try:
+        c1 = gemini.generate({}, "m", "K", post=post402)[0]
+        c2 = gemini.generate({}, "m", "K", post=post402)[0]
+        check("2039a: أول رفض يوقف كل نداء بعده في العملية بلا طلب", c1 == 402 and c2 == 402 and len(calls) == 1
+              and gemini.exhausted(), (c1, c2, len(calls)))
+    finally:
+        gemini.reset_quota()
+
+    # (1ب) الموضوع ينتظر الشحن: طلب واحد، لا «فشل»، المحاولة لا تُحسب، والقضية تقول السبب
+    vids = [{"video_id": f"v{k}", "channel": f"قناة {k}", "bloc": b, "orientation": o, "minutes": 20}
+            for k, (b, o) in enumerate([("arabic", "قطري"), ("persian", "معارض"), ("turkish", "حكومي"), ("israeli", "يمين")])]
+    topic = {"id": "q2035", "title": "ضربة على إيران", "blocs": ["arabic"], "orientations": 4, "minutes": 80,
+             "channels": [], "videos": vids, "topic_issue": 2035, "qa": {"attempts": 2, "status": "failed"}}
+    data = {"date": "2026-11-27", "topics": [topic]}
+    bodies, notes = [], []
+    saved = {k: getattr(review, k) for k in ("comment", "update_issue_body")}
+    old_key, old_dir = _os.environ.get("GEMINI_API_KEY"), _os.environ.get("TRENDNEWS_YOUTUBE_BITES_DIR")
+    calls.clear()
+    try:
+        review.comment = lambda n, text: notes.append(text)
+        review.update_issue_body = lambda n, b: bodies.append(b)
+        _os.environ["GEMINI_API_KEY"] = "KEY"
+        _os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = _tempfile.mkdtemp()
+        gemini.reset_quota()
+        status = meta_qa.process_topic(topic, data, cfg, client=object(), fetch=None, gemini_post=post402)
+        qa = topic["qa"]
+        check("2039b: نفاد Gemini ← waiting_gemini بطلب واحد، والمحاولات كما كانت، بلا خطأ «مقاطع قليلة»",
+              status == "waiting_gemini" and len(calls) == 1 and qa.get("attempts") == 2 and not qa.get("error")
+              and qa.get("gemini_quota"), (status, len(calls), qa))
+        check("2039b: جسم القضية يقول السبب الحقيقي (اشحن الرصيد) لا «مقاطع قليلة»",
+              bodies and "رصيد Gemini" in bodies[-1] and "قليلة" not in bodies[-1], bodies[-1:] )
+        from datetime import datetime as _dt, timezone as _tz
+        from src import meta_topics
+        saved_mt = (meta_topics._save_public, meta_topics.request_qa_run, review.remove_label)
+        try:
+            meta_topics._save_public = lambda d: None
+            meta_topics.request_qa_run = lambda n, c: True
+            review.remove_label = lambda n, label: None
+            ok = meta_script.requeue_qa(2035, topic, data, cfg, now=_dt(2026, 11, 27, 18, tzinfo=_tz.utc))
+        finally:
+            meta_topics._save_public, meta_topics.request_qa_run, review.remove_label = saved_mt
+        check("2039b: إعادة الوسم بعد الشحن تقبل الموضوع المنتظر وتصفّر علامة الإشعار",
+              ok and topic["qa"]["attempts"] == 0 and topic["qa"]["notified_gemini"] is False, topic["qa"])
+    finally:
+        gemini.reset_quota()
+        for k, v in saved.items():
+            setattr(review, k, v)
+        for name, val in (("GEMINI_API_KEY", old_key), ("TRENDNEWS_YOUTUBE_BITES_DIR", old_dir)):
+            _os.environ.pop(name, None) if val is None else _os.environ.update({name: val})
+    failed_txt = cfg.path("youtube.meta_topics.qa.texts.failed") or ""
+    check("2039b: نص الفشل لا يدّعي حفظ مقاطع، وجملة الحفظ منفصلة تُلحق حين تُحفظ فعلًا",
+          "محفوظة" not in failed_txt and "محفوظة" in (cfg.path("youtube.meta_topics.qa.texts.failed_cached") or ""))
+    check("2039b: سطر نفاد الرصيد في تعليق التركيب في الإعداد", bool(cfg.path("reel.render.texts.comment_gemini_quota")))
+
+    # (2) فراغ بلون المفتاح محاط بالرسم يُزال، والرسم الوردي المظلَّل وما حول الفراغ يبقيان
+    img = np.full((200, 200, 3), (255, 0, 255), np.uint8)
+    img[40:180, 40:160] = (30, 30, 30)            # جسم داكن يلامس الخلفية
+    img[120:170, 90:110] = (255, 0, 255)          # فراغ مسطّح بين الساقين
+    img[60:80, 60:80] = (200, 60, 150)            # رسم وردي (ربطة) بعيد عن لون المفتاح
+    cut = reel_cartoon.cutout(Image.fromarray(img), cfg)
+    a = np.asarray(cut)
+    # إحداثيات القصّ: pad حول الجسم (40..160، 40..180)
+    pad = int(reel_cartoon.ccfg(cfg).get("trim_pad", 4))
+    hole = a[120 - 40 + pad + 5: 170 - 40 + pad - 5, 90 - 40 + pad + 3: 110 - 40 + pad - 3, 3]
+    tie = a[60 - 40 + pad + 3: 80 - 40 + pad - 3, 60 - 40 + pad + 3: 80 - 40 + pad - 3, 3]
+    check("2039c: الفراغ بلون المفتاح داخل الرسم صار شفافًا، والرسم الوردي باقٍ",
+          cut is not None and int(hole.max()) == 0 and int(tie.min()) == 255, (int(hole.max()), int(tie.min())))
+    old = np.dstack([img, np.full((200, 200), 255, np.uint8)])
+    old[:40], old[180:], old[:, :40], old[:, 160:] = 0, 0, 0, 0   # قطعة محفوظة قبل الإصلاح: الفراغ بقي معتمًا
+    fixed = reel_cartoon.clear_key_holes(Image.fromarray(old, "RGBA"), cfg)
+    check("2039c: القطع المحفوظة سلفًا تُنظَّف عند التركيب",
+          fixed is not None and int(np.asarray(fixed)[125:165, 93:107, 3].max()) == 0
+          and int(np.asarray(fixed)[100, 60, 3]) == 255)
+    clean = np.zeros((50, 50, 4), np.uint8)
+    clean[10:40, 10:40] = (30, 30, 30, 255)
+    check("2039c: قطعة بلا فراغ لا تُمسّ", reel_cartoon.clear_key_holes(Image.fromarray(clean, "RGBA"), cfg) is None)
+    off = Config(dict(cfg))
+    off["reel"] = {**cfg["reel"], "cartoon": {**cfg["reel"]["cartoon"], "holes": {"enabled": False}}}
+    check("2039c: holes.enabled: false ← كما كان", reel_cartoon.clear_key_holes(Image.fromarray(old, "RGBA"), off) is None)
+
+    # (3) سبب غياب الصفحة يُحفظ، وصفحة بلا نص TextExtracts تُقرأ من نص الويكي، والوكيل وصفي
+    seen = []
+
+    def fake_http(url, params, timeout):
+        seen.append(params.get("prop"))
+        if params.get("titles") == "Blocked":
+            return {"_http_error": "HTTP 403"}
+        if params.get("prop") == "extracts":
+            return {"query": {"pages": {"12": {"title": params["titles"]}}}}
+        return {"query": {"pages": [{"revisions": [{"slots": {"main": {"content":
+                "== Quotes ==\n* ''The supreme art of war is to subdue the enemy without fighting.''<ref>x</ref>\n{{cite}}"}}}]}]}}
+    old_h = reel_quote._http_get
+    try:
+        reel_quote._http_get = fake_http
+        why: list = []
+        got = reel_quote.fetch_page("Sun Tzu", "en", cfg, why)
+        check("2039d: صفحة بلا نص من TextExtracts ← نص الويكي نفسه بلا وسوم",
+              got is not None and "The supreme art of war is to subdue the enemy without fighting." in got[0]
+              and "{{" not in got[0] and "ref" not in got[0] and seen == ["extracts", "revisions"], (got, seen))
+        why = []
+        check("2039d: الرفض يُحفظ بسببه لا «لا صفحة»",
+              reel_quote.fetch_page("Blocked", "en", cfg, why) is None and why == ["HTTP 403"], why)
+    finally:
+        reel_quote._http_get = old_h
+    check("2039d: وكيل وصفي لويكيميديا في الإعداد", "github.com" in str(cfg.path("reel.quote.user_agent") or ""))
+    lines = reel_quote.review_lines({"reel_quote": {"status": "none", "tried": [
+        {"name": "صن تزو", "lang": "en", "reason": "HTTP 403"}, {"name": "—", "lang": "", "reason": "لا اقتباس حرفي صالح"}]}}, cfg)
+    check("2039d: بند بلا لغة يُكتب سببه وحده لا «— ()»", "— ()" not in " ".join(lines) and "HTTP 403" in " ".join(lines), lines)
+
+    # (4) بطاقة سؤال بلا دور
+    script = {"version": 2, "title": "س", "question": "خ", "scenes": [
+        {"kind": "narration", "role": "question", "text": "ما الخيارات المطروحة؟", "q": 1}]}
+    tl = " ".join(reel_script.timeline_lines(script, cfg))
+    check("2039e: بطاقة سؤال بلا دور ← «❓ السؤال» لا «❓ : السؤال»", "❓ ما الخيارات" in tl and "❓ :" not in tl, tl)
+    check("2039: config.yaml على الإصلاحات", bool((cfg.path("reel.cartoon.holes") or {}).get("enabled"))
+          and cfg.path("reel.quote.fallback_wikitext") and cfg.path("gemini_quota.markers"))
 
 
 def test_reel_notes_2031() -> None:

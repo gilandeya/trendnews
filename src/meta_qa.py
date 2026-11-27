@@ -276,8 +276,15 @@ def gemini_topic_bites(topic: dict, data: dict, cfg, key: str, post=None,
     rows: list[dict] = stats.setdefault("videos", [])
     q = _qcfg(cfg)
     scores = rank_videos(topic, data, cfg, client, stats)
+    from . import gemini
     for v in topic_videos(topic, cfg, scores=scores):
+        if gemini.exhausted():
+            break
         bites += _extract_video(v, topic, data, cfg, key, post, stats, failures, rows)
+    if gemini.exhausted():
+        # قضيتا 2035 و2037: رصيد Gemini نفد. لا جولة تكميلية ولا بحث عن الأصل، و«gemini» تجعل الموضوع ينتظر الشحن لا «فشل»
+        stats["gemini_quota"] = gemini.quota_reason()[:120]
+        return bites, failures, "gemini"
     # جولة تكميلية (قضية 1916): فيديو يعود بلا مقاطع لا أثر له، فخرجت قضية بكل إجاباتها من قناتين. حين تقلّ القنوات التي
     # أعطت مقاطع عن min_channels تُجرَّب فيديوهات أخرى من كتل لم تعطِ شيئًا، واحدًا واحدًا حتى يُبلغ العدد أو ينفد السقف
     extra = int(q.get("max_extra_videos", 0))
@@ -1153,6 +1160,20 @@ def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: d
             bites, failures, exhausted = topic_bites(topic, data, cfg, client, fetch, now)
             qa["source"] = "transcript"
         qa["failures"] = failures
+        if exhausted == "gemini" and len(bites) < int(q.get("min_bites", 4)):
+            # رصيد Gemini نفد (قضيتا 2035 و2037): انتظار لا فشل، والمحاولة لا تُحسب (إعادة الوسم قبل الشحن كانت تحرق المحاولات
+            # حتى الفشل النهائي)، وإشعار واحد يقول السبب الحقيقي بدل «مقاطع قليلة: 0»
+            qa["status"] = "waiting_gemini"
+            qa["attempts"] = int((topic.get("qa") or {}).get("attempts") or 0)
+            qa.pop("error", None)
+            if not qa.get("notified_gemini"):
+                note = t.get("waiting_gemini", "")
+                if not meta_topics.ensure_topic_issue(topic, data, cfg, meta_topics.topic_body(topic, data, cfg, note=note)):
+                    review.update_issue_body(topic["topic_issue"], meta_topics.topic_body(topic, data, cfg, note=note))
+                notify.say("questions_waiting_gemini", cfg, topic["topic_issue"], title=topic["title"])
+                qa["notified_gemini"] = True
+            topic["qa"] = qa
+            return qa["status"]
         if exhausted and len(bites) < int(q.get("min_bites", 4)):
             qa["status"] = "waiting_proxy"
             if not qa.get("notified_proxy"):
@@ -1257,6 +1278,9 @@ def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: d
         if qa["attempts"] >= int(q.get("notify_failed_after", q.get("max_attempts", 3))):
             try:
                 note = t.get("failed", "").format(error=qa["error"])
+                # «المقاطع محفوظة فلا تُدفع ثانية» صادقة فقط إن حُفظت فعلًا (قضية 2035: كُتبت وليس مقطع واحد)
+                if _bites_cache_path(topic["id"]).exists():
+                    note += t.get("failed_cached", "")
                 if not meta_topics.ensure_topic_issue(topic, data, cfg, meta_topics.topic_body(topic, data, cfg, note=note)):
                     review.comment(topic["topic_issue"], note)
                 notify.say("questions_failed", cfg, topic["topic_issue"], title=topic["title"])
@@ -1300,7 +1324,7 @@ def process_pending(cfg, client=None, fetch=None, now: datetime | None = None) -
         _save_public(data)
         print(f"أسئلة الموضوع «{topic['title']}»: {status} {(topic.get('qa') or {}).get('error', '')}")
         done += 1
-        if status == "waiting_proxy":
+        if status in ("waiting_proxy", "waiting_gemini"):
             break
     return done
 
