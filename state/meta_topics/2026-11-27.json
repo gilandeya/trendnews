@@ -4132,10 +4132,581 @@
    ],
    "qa_requested_at": "2026-11-27T13:47:02.441478+00:00",
    "selected_from": 2034,
+   "topic_issue": 2040,
    "qa": {
-    "attempts": 0,
-    "notified_proxy": false,
-    "requeued_at": "2026-11-27T16:16:15.763710+00:00"
+    "attempts": 1,
+    "at": "2026-11-27T15:55:04.184512+00:00",
+    "videos": [
+     {
+      "video_id": "-xjWYi4EChw",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "minutes": 10.0,
+      "bites": 4,
+      "rejected": 0
+     },
+     {
+      "video_id": "ISu4rWcQ3zA",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "minutes": 25.5,
+      "bites": 4,
+      "rejected": 0
+     },
+     {
+      "video_id": "AN1ZUJOlFhQ",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "minutes": 50.1,
+      "bites": 0,
+      "rejected": 0
+     },
+     {
+      "video_id": "k0Dyj5QwDsw",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "minutes": 27.7,
+      "bites": 0,
+      "rejected": 0
+     },
+     {
+      "video_id": "j9EO0kmnkfs",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "minutes": 9.9,
+      "bites": 5,
+      "rejected": 0
+     },
+     {
+      "video_id": "zsNQzI3m0qs",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "minutes": 12.0,
+      "bites": 7,
+      "rejected": 0
+     },
+     {
+      "video_id": "vBtuEnpAI74",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "minutes": 11.0,
+      "bites": 6,
+      "rejected": 0
+     },
+     {
+      "video_id": "aq9_kbqH_yA",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "minutes": 17.2,
+      "bites": 0,
+      "rejected": 0,
+      "extra": true
+     }
+    ],
+    "video_scores": {
+     "aq9_kbqH_yA": 0,
+     "zsNQzI3m0qs": 2,
+     "vBtuEnpAI74": 1,
+     "ISu4rWcQ3zA": 2,
+     "-xjWYi4EChw": 3,
+     "j9EO0kmnkfs": 3,
+     "AN1ZUJOlFhQ": 2,
+     "k0Dyj5QwDsw": 1
+    },
+    "gemini_cost": 0.5214,
+    "gemini_rejected": 0,
+    "channels": 2,
+    "answer_channels": 2,
+    "originals": [
+     {
+      "bite_id": "-xjWYi4EChw:g372",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "اشکان بهرامی ریال نفت تحریم اقتصاد",
+       "Ashkan Bahrami Iran rial oil exports economy",
+       "اشکان بهرامی استاد اقتصاد سیاسی سخنرانی",
+       "أشكان بهرامي"
+      ],
+      "reason": "لا مرشّح"
+     },
+     {
+      "bite_id": "ISu4rWcQ3zA:g177",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "Scott Bessent Iran rial sinking ship",
+       "Bessent Iran currency collapse ship sinking remarks",
+       "Scott Bessent"
+      ],
+      "candidate": "zM3Y9ookapI",
+      "candidates": [
+       "o4eQGel12nQ",
+       "7BIfGjKyBIg",
+       "zM3Y9ookapI"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     }
+    ],
+    "originals_found": 0,
+    "read_dropped": 4,
+    "read_dropped_speakers": [
+     "سكوت بيسنت"
+    ],
+    "source": "gemini",
+    "failures": [],
+    "not_analysts": {
+     "kind": 1
+    },
+    "plan": {
+     "attempts": [
+      {
+       "model": "claude-sonnet-5",
+       "stop_reason": "tool_use",
+       "bites": 18,
+       "rows": 5,
+       "raw_type": "list",
+       "answers": 20,
+       "bad_n": 0,
+       "error": ""
+      }
+     ]
+    },
+    "verify": {
+     "checked": 21,
+     "ok": 11,
+     "no_match": 3,
+     "failed": 7,
+     "no_text": 0,
+     "left": 0,
+     "audio_seconds": 679,
+     "skipped": "",
+     "cut_off": 3,
+     "seconds": 351
+    },
+    "capped": 6,
+    "echo": {
+     "stop_reason": "tool_use",
+     "rows": 1,
+     "questions": 0,
+     "per_question": [
+      {
+       "q": 5,
+       "rejected": {},
+       "spans": 5,
+       "answers": 3,
+       "shared": 0,
+       "reason": "no_shared"
+      }
+     ]
+    },
+    "selected_seconds": 98.7,
+    "status": "ready",
+    "titles": [
+     "لماذا ينهار الريال الإيراني بهذه السرعة؟",
+     "هل تعجز طهران عن ضبط سعر صرف الدولار؟",
+     "ما مصير الاقتصاد الإيراني تحت العقوبات الأمريكية؟"
+    ],
+    "questions": [
+     {
+      "text": "ما الذي تسبب في الانهيار الأخير للريال الإيراني؟",
+      "answers": [
+       {
+        "n": 5,
+        "fit": "direct",
+        "view": "عقوبات مركز التبادل ضربة حاسمة",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "zsNQzI3m0qs:g258"
+       },
+       {
+        "n": 2,
+        "fit": "direct",
+        "view": "توقف تصدير النفط يمنع الدعم",
+        "side": "إيران",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "-xjWYi4EChw:g372"
+       }
+      ]
+     },
+     {
+      "text": "كيف يؤثر تراجع الريال على معيشة المواطنين الإيرانيين؟",
+      "answers": [
+       {
+        "n": 1,
+        "fit": "direct",
+        "view": "تضخم وغلاء يرهق المواطنين",
+        "side": "إيران",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "-xjWYi4EChw:g111"
+       },
+       {
+        "n": 4,
+        "fit": "direct",
+        "view": "المواطنون يحمون مدخراتهم بالذهب والعملات",
+        "side": "إيران",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "j9EO0kmnkfs:g192"
+       }
+      ]
+     },
+     {
+      "text": "لماذا تعجز الحكومة الإيرانية عن ضبط سعر الصرف؟",
+      "answers": [
+       {
+        "n": 10,
+        "fit": "direct",
+        "view": "نفاد احتياطيات النقد الأجنبي",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "vBtuEnpAI74:g1544"
+       },
+       {
+        "n": 7,
+        "fit": "direct",
+        "view": "الحكومة لا تملك أموالا فعلية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "zsNQzI3m0qs:g346"
+       }
+      ]
+     },
+     {
+      "text": "كيف أثرت العقوبات الأمريكية على قنوات تحويل العملة إلى إيران؟",
+      "answers": [
+       {
+        "n": 6,
+        "fit": "direct",
+        "view": "انهيار شبكات التحويل المالي تدريجيا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "zsNQzI3m0qs:g313"
+       }
+      ]
+     },
+     {
+      "text": "ما تداعيات انهيار الريال على مستقبل الحكومة الإيرانية ونظامها؟",
+      "answers": [
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "الأزمة تمس شرعية النظام نفسه",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "zsNQzI3m0qs:g374"
+       },
+       {
+        "n": 9,
+        "fit": "direct",
+        "view": "ضغط هائل على القيادة الإيرانية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "vBtuEnpAI74:g1035"
+       },
+       {
+        "n": 3,
+        "fit": "weak",
+        "view": "ركود وتضميد للنفقات العامة",
+        "side": "إيران",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "-xjWYi4EChw:g1116"
+       }
+      ]
+     }
+    ],
+    "context": [
+     {
+      "n": 11,
+      "selected": true,
+      "bite_id": "ISu4rWcQ3zA:g365"
+     },
+     {
+      "n": 12,
+      "selected": true,
+      "bite_id": "ISu4rWcQ3zA:g345"
+     },
+     {
+      "n": 13,
+      "selected": false,
+      "bite_id": "ISu4rWcQ3zA:g1034"
+     }
+    ],
+    "bites": [
+     {
+      "bite_id": "-xjWYi4EChw:g111",
+      "video_id": "-xjWYi4EChw",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "عامر لافي",
+      "speaker_original": "عامر لافي",
+      "speaker_role": "مراسل الجزيرة في طهران",
+      "is_host": false,
+      "type": "fact",
+      "start": 111.14,
+      "end": 134.38,
+      "summary_ar": "عامر لافي يوضح أن الارتفاع المتواصل لسعر الدولار الأمريكي أمام الريال الإيراني بدأ قبل الحرب ويثقل كاهل المواطنين.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "-xjWYi4EChw:g372",
+      "video_id": "-xjWYi4EChw",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "أشكان بهرامي",
+      "speaker_original": "أشكان بهرامي",
+      "speaker_role": "أستاذ الاقتصاد السياسي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 372.0,
+      "end": 393.0,
+      "summary_ar": "أشكان بهرامي يرى أن عجز الحكومة الإيرانية عن تصدير النفط وحرمانها من العملة الصعبة يمنعان تحسن وضع الريال.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "-xjWYi4EChw:g1116",
+      "video_id": "-xjWYi4EChw",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "أشكان بهرامي",
+      "speaker_original": "أشكان بهرامي",
+      "speaker_role": "أستاذ الاقتصاد السياسي",
+      "is_host": false,
+      "type": "forecast",
+      "start": 1116.0,
+      "end": 1146.0,
+      "summary_ar": "أشكان بهرامي يتوقع خفض الحكومة الإيرانية للإنفاق وتجميد المشاريع ما سيتسبب في ركود وتضخم متزامنين.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "j9EO0kmnkfs:g192",
+      "video_id": "j9EO0kmnkfs",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "رانيا قاسمي",
+      "speaker_original": "رانيا قاسمي",
+      "speaker_role": "مراسلة الجزيرة في طهران",
+      "is_host": false,
+      "type": "fact",
+      "start": 190.8,
+      "end": 225.18,
+      "summary_ar": "رانيا قاسمي ترصد توجه المواطنين الإيرانيين لتحويل مدخراتهم من العملة الوطنية إلى عملات صعبة ومعادن نفيسة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "zsNQzI3m0qs:g258",
+      "video_id": "zsNQzI3m0qs",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "اشكان نظام آبادي",
+      "speaker_original": "اشکان نظام آبادی",
+      "speaker_role": "صحفي اقتصادي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 257.9,
+      "end": 278.04,
+      "summary_ar": "يرى الصحفي الاقتصادي أن العقوبات الأمريكية على مركز تبادل العملات والذهب وجهت ضربة حاسمة لسعر الصرف في إيران.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "zsNQzI3m0qs:g313",
+      "video_id": "zsNQzI3m0qs",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "اشكان نظام آبادي",
+      "speaker_original": "اشکان نظام آبادی",
+      "speaker_role": "صحفي اقتصادي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 313.08,
+      "end": 339.4,
+      "summary_ar": "يشير الصحفي الاقتصادي إلى إغلاق قنوات تحويل العملات تدريجيًا وعودة التجارة الإيرانية لنقل الأموال نقدًا.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "zsNQzI3m0qs:g346",
+      "video_id": "zsNQzI3m0qs",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "اشكان نظام آبادي",
+      "speaker_original": "اشکان نظام آبادی",
+      "speaker_role": "صحفي اقتصادي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 345.64,
+      "end": 373.44,
+      "summary_ar": "يؤكد الصحفي الاقتصادي عجز الحكومة الإيرانية عن سداد ديونها للمستوردين وفقدانها التام للمصداقية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "zsNQzI3m0qs:g374",
+      "video_id": "zsNQzI3m0qs",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "اشكان نظام آبادي",
+      "speaker_original": "اشکان نظام آبادی",
+      "speaker_role": "صحفي اقتصادي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 376.1,
+      "end": 397.44,
+      "summary_ar": "يبين الصحفي الاقتصادي إحجام المستثمرين عن شراء السندات الإيرانية رغم وصول فائدتها إلى 40%.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "vBtuEnpAI74:g1035",
+      "video_id": "vBtuEnpAI74",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "جمشيد برزغر",
+      "speaker_original": "جمشید برزگر",
+      "speaker_role": "صحفي ومحلل سياسي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1034.8,
+      "end": 1050.32,
+      "summary_ar": "يؤكد أن الريال الإيراني يمر بحالة سقوط حر مقتربًا من عتبة 300 ألف تومان مما يشكل ضغطًا هائلًا على القيادة الإيرانية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "vBtuEnpAI74:g1544",
+      "video_id": "vBtuEnpAI74",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "محمد ماشين جيان",
+      "speaker_original": "محمد ماشین‌چیان",
+      "speaker_role": "محلل وباحث اقتصادي في إيران إنترناشيونال",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1545.84,
+      "end": 1561.16,
+      "summary_ar": "يوضح أن نفاد احتياطيات العملة الأجنبية يقلص قدرة الحكومة الإيرانية على التدخل لتثبيت سعر الدولار.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "ISu4rWcQ3zA:g365",
+      "video_id": "ISu4rWcQ3zA",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "",
+      "speaker_original": "",
+      "speaker_role": "",
+      "is_host": false,
+      "type": "fact",
+      "start": 365.0,
+      "end": 383.0,
+      "summary_ar": "سائق شاحنة إيراني يشير إلى تضاعف أسعار السلع عدة أضعاف في مقابل زيادة طفيفة لا تتعدى ثلاثين بالمئة في أجور النقل.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "ISu4rWcQ3zA:g345",
+      "video_id": "ISu4rWcQ3zA",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "",
+      "speaker_original": "",
+      "speaker_role": "",
+      "is_host": false,
+      "type": "fact",
+      "start": 345.0,
+      "end": 365.0,
+      "summary_ar": "سائق شاحنة إيراني يوضح ارتفاع تكاليف تغيير الزيوت والإطارات بنسبة مئتي بالمئة مقارنة بالعام الماضي.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "ISu4rWcQ3zA:g1034",
+      "video_id": "ISu4rWcQ3zA",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "",
+      "speaker_original": "",
+      "speaker_role": "",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1034.0,
+      "end": 1063.0,
+      "summary_ar": "حرفي إيراني في زنجان يعبر عن استيائه من خسارة أصحاب الورش بسبب الارتفاع المستمر لأسعار قطع الغيار بعد بيعها.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     }
+    ],
+    "error": "",
+    "extracted": 18,
+    "cost": {
+     "claude": {
+      "claude-haiku-5-5": 0.00073,
+      "claude-sonnet-5": 0.04238
+     },
+     "gemini": 0.5214,
+     "proxy_bytes": 17403250
+    }
    }
   },
   {
@@ -4394,7 +4965,727 @@
     }
    ],
    "qa_requested_at": "2026-11-27T14:53:45.181642+00:00",
-   "selected_from": 2036
+   "selected_from": 2036,
+   "topic_issue": 2041,
+   "qa": {
+    "attempts": 1,
+    "at": "2026-11-27T15:55:04.184512+00:00",
+    "videos": [
+     {
+      "video_id": "echysm-LXrY",
+      "channel": "ערוץ 14",
+      "bloc": "israeli",
+      "minutes": 16.8,
+      "bites": 12,
+      "rejected": 0
+     },
+     {
+      "video_id": "ocVF-5cFOhU",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "minutes": 11.7,
+      "bites": 3,
+      "rejected": 0
+     },
+     {
+      "video_id": "fUMyfno2n0k",
+      "channel": "ערוץ 14",
+      "bloc": "israeli",
+      "minutes": 12.7,
+      "bites": 4,
+      "rejected": 0
+     },
+     {
+      "video_id": "NCW0zlGHuFM",
+      "channel": "ערוץ 14",
+      "bloc": "israeli",
+      "minutes": 11.9,
+      "bites": 11,
+      "rejected": 0
+     },
+     {
+      "video_id": "6Vyk8sOp-dw",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "minutes": 3.7,
+      "bites": 6,
+      "rejected": 0
+     },
+     {
+      "video_id": "wbmIy0tZ0_k",
+      "channel": "ערוץ 14",
+      "bloc": "israeli",
+      "minutes": 77.4,
+      "bites": 11,
+      "rejected": 0
+     },
+     {
+      "video_id": "TPU2GBfTOgk",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "minutes": 7.4,
+      "bites": 2,
+      "rejected": 0
+     },
+     {
+      "video_id": "0SVjbdEcQEY",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "minutes": 51.1,
+      "bites": 2,
+      "rejected": 0,
+      "extra": true
+     }
+    ],
+    "video_scores": {
+     "gqFsnQkjX2M": 0,
+     "TPU2GBfTOgk": 1,
+     "2lErBc5KRlg": 0,
+     "6Vyk8sOp-dw": 2,
+     "wbmIy0tZ0_k": 1,
+     "XHZdmQrTI5A": 0,
+     "echysm-LXrY": 3,
+     "fUMyfno2n0k": 2,
+     "NCW0zlGHuFM": 2,
+     "0SVjbdEcQEY": 0,
+     "ocVF-5cFOhU": 3
+    },
+    "gemini_cost": 0.5855,
+    "gemini_rejected": 0,
+    "channels": 4,
+    "answer_channels": 4,
+    "originals": [
+     {
+      "bite_id": "TPU2GBfTOgk:g128",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "ريفكا فريدمان فيلدمان القضية 4000 نتنياهو",
+       "Rivka Friedman-Feldman Netanyahu case 4000 hearing Baharav-Miara",
+       "ריבקה פריבמן-פלדמן משפט נתניהו תיק 4000 דיון",
+       "Rivka Friedman-Feldman"
+      ],
+      "candidate": "-4OWNwcH74Q",
+      "candidates": [
+       "qafFQm3NIQ4",
+       "uD2t3h-fsAA",
+       "-4OWNwcH74Q"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "TPU2GBfTOgk:g152",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "גלי בהרב מיארה נתניהו משפט תשובה לקראת הכרעה",
+       "Gali Baharav-Miara Netanyahu trial plea deal statement",
+       "Gali Baharav-Miara press statement Netanyahu trial",
+       "Gali Baharav-Miara"
+      ],
+      "candidate": "-4OWNwcH74Q",
+      "candidates": [
+       "vzhX-72ZAPc",
+       "y5GCkl6O03U",
+       "-4OWNwcH74Q"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "echysm-LXrY:g671",
+      "source_channel": "רדיו גלי צה\"ל",
+      "found": false,
+      "queries": [
+       "רוני אלשיך ראיון על משפט נתניהו",
+       "רוני אלשיך רדיו גלי צה\"ל",
+       "רוני אלשיך"
+      ],
+      "reason": "لا مرشّح من قناة المصدر"
+     },
+     {
+      "bite_id": "echysm-LXrY:g139",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "נתניהו נאום משפט שוחד הסתה חקירות מדומות",
+       "בנימין נתניהו"
+      ],
+      "candidate": "clb4CjU-eQQ",
+      "candidates": [
+       "afa4huozOkU",
+       "ggPBPfHI8UQ",
+       "clb4CjU-eQQ"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     }
+    ],
+    "originals_found": 0,
+    "read_dropped": 2,
+    "read_dropped_speakers": [
+     "ريفكا فريدمان فيلدمان",
+     "غالي باهاراف ميارا"
+    ],
+    "source": "gemini",
+    "failures": [],
+    "plan": {
+     "attempts": [
+      {
+       "model": "claude-sonnet-5",
+       "stop_reason": "tool_use",
+       "bites": 39,
+       "rows": 5,
+       "raw_type": "list",
+       "answers": 30,
+       "bad_n": 0,
+       "error": ""
+      }
+     ]
+    },
+    "verify": {
+     "checked": 16,
+     "ok": 15,
+     "no_match": 0,
+     "failed": 1,
+     "no_text": 0,
+     "left": 24,
+     "audio_seconds": 1317,
+     "skipped": "",
+     "cut_off": 3,
+     "seconds": 484
+    },
+    "capped": 17,
+    "echo": {
+     "stop_reason": "tool_use",
+     "rows": 3,
+     "questions": 0,
+     "per_question": [
+      {
+       "q": 1,
+       "rejected": {},
+       "spans": 4,
+       "answers": 3,
+       "shared": 0,
+       "reason": "no_shared"
+      },
+      {
+       "q": 2,
+       "rejected": {},
+       "spans": 4,
+       "answers": 3,
+       "shared": 0,
+       "reason": "no_shared"
+      },
+      {
+       "q": 3,
+       "rejected": {},
+       "spans": 4,
+       "answers": 3,
+       "shared": 0,
+       "reason": "no_shared"
+      }
+     ]
+    },
+    "selected_seconds": 92.2,
+    "status": "ready",
+    "titles": [
+     "هل تسقط تهمة الرشوة عن نتنياهو فعلًا؟",
+     "لماذا يتهم مؤيدو نتنياهو القضاء بتلفيق قضيته؟",
+     "كيف يغير تراجع تهم نتنياهو خريطة الحكم في إسرائيل؟"
+    ],
+    "questions": [
+     {
+      "text": "ما الذي كشفته المحكمة عن إذن التحقيق في تهمة الرشوة ضد نتنياهو؟",
+      "answers": [
+       {
+        "n": 7,
+        "fit": "direct",
+        "view": "الإذن لم يشمل تهمة الرشوة",
+        "side": "نتنياهو",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "NCW0zlGHuFM:g50"
+       },
+       {
+        "n": 1,
+        "fit": "direct",
+        "view": "القانون يتيح تبرئة مبكرة لغياب الدليل",
+        "side": "نتنياهو",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "echysm-LXrY:g40"
+       },
+       {
+        "n": 11,
+        "fit": "weak",
+        "view": "يصعب إثبات تهمتي الرشوة والقضية 2000",
+        "side": "نتنياهو",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "6Vyk8sOp-dw:g598"
+       }
+      ]
+     },
+     {
+      "text": "هل كانت محاكمة نتنياهو ملاحقة سياسية مدبرة أم تطبيقًا للقانون؟",
+      "answers": [
+       {
+        "n": 2,
+        "fit": "direct",
+        "view": "استُغلت منظومة القضاء لإسقاطه سياسيًا",
+        "side": "نتنياهو",
+        "view_count": 2,
+        "selected": false,
+        "bite_id": "echysm-LXrY:g375"
+       },
+       {
+        "n": 3,
+        "fit": "direct",
+        "view": "استُغلت منظومة القضاء لإسقاطه سياسيًا",
+        "side": "نتنياهو",
+        "view_count": 2,
+        "selected": false,
+        "bite_id": "echysm-LXrY:g425"
+       },
+       {
+        "n": 13,
+        "fit": "weak",
+        "view": "إسقاط التهم قد يكون صفقة لا براءة حقيقية",
+        "side": "المعارضة الإسرائيلية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "0SVjbdEcQEY:g2943"
+       }
+      ]
+     },
+     {
+      "text": "كيف يؤثر تراجع تهم الفساد على مسار تشكيل الحكومة الإسرائيلية؟",
+      "answers": [
+       {
+        "n": 10,
+        "fit": "direct",
+        "view": "يسقط حجة مركزية لدى المعارضة",
+        "side": "نتنياهو",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "6Vyk8sOp-dw:g557"
+       },
+       {
+        "n": 5,
+        "fit": "direct",
+        "view": "سيؤثر على مسار تشكيل الحكومة حتمًا",
+        "side": "نتنياهو",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "ocVF-5cFOhU:g120"
+       },
+       {
+        "n": 6,
+        "fit": "direct",
+        "view": "مجرد توصية لن تسعفه في تشكيل الحكومة",
+        "side": "المعارضة الإسرائيلية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "ocVF-5cFOhU:g216"
+       }
+      ]
+     },
+     {
+      "text": "كيف تصرفت المعارضة الإسرائيلية والإعلام بعد تعثر تهم نتنياهو؟",
+      "answers": [
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "صمت المعارضة يعكس نفاقها",
+        "side": "نتنياهو",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "NCW0zlGHuFM:g418"
+       },
+       {
+        "n": 12,
+        "fit": "direct",
+        "view": "تواصل تقييده رغم انهيار المحاكمة",
+        "side": "المعارضة الإسرائيلية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "wbmIy0tZ0_k:g1356"
+       }
+      ]
+     },
+     {
+      "text": "ما الذي يجب فعله بمن تسببوا في محاكمة نتنياهو برأي مؤيديه؟",
+      "answers": [
+       {
+        "n": 4,
+        "fit": "direct",
+        "view": "محاكمة جنائية للمسؤولين عن الملاحقة",
+        "side": "نتنياهو",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "echysm-LXrY:g450"
+       },
+       {
+        "n": 9,
+        "fit": "direct",
+        "view": "تشكيل لجنة تحقيق رسمية للمحاسبة",
+        "side": "نتنياهو",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "NCW0zlGHuFM:g538"
+       }
+      ]
+     }
+    ],
+    "context": [
+     {
+      "n": 14,
+      "selected": true,
+      "bite_id": "echysm-LXrY:g671"
+     },
+     {
+      "n": 15,
+      "selected": true,
+      "bite_id": "fUMyfno2n0k:g121"
+     },
+     {
+      "n": 16,
+      "selected": false,
+      "bite_id": "wbmIy0tZ0_k:g882"
+     }
+    ],
+    "bites": [
+     {
+      "bite_id": "echysm-LXrY:g40",
+      "video_id": "echysm-LXrY",
+      "channel": "ערוץ 14",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "يورام شيفتل",
+      "speaker_original": "יורם שפטל",
+      "speaker_role": "محامٍ وخبير في القانون الجنائي والدستوري",
+      "is_host": false,
+      "type": "opinion",
+      "start": 39.86,
+      "end": 73.36,
+      "summary_ar": "شيفتل يرى أن المحكمة كان بإمكانها تبرئة نتنياهو بموجب القانون الجنائي لعدم إثبات الادعاء للتهمة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "echysm-LXrY:g375",
+      "video_id": "echysm-LXrY",
+      "channel": "ערוץ 14",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "شاي غليلي",
+      "speaker_original": "שי גלילי",
+      "speaker_role": "محام ومراقب داخلي لحزب الليكود",
+      "is_host": false,
+      "type": "opinion",
+      "start": 378.9,
+      "end": 407.24,
+      "summary_ar": "غليلي يعتبر أن منظومة إنفاذ القانون استُغلت لتوجيه الاتهامات ومحاولة إسقاط نتنياهو سياسياً.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "echysm-LXrY:g425",
+      "video_id": "echysm-LXrY",
+      "channel": "ערוץ 14",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "دانييل كوهين",
+      "speaker_original": "דניאל כהן",
+      "speaker_role": "محام والمستشار القضائي السابق لحزب العمل",
+      "is_host": false,
+      "type": "opinion",
+      "start": 425.0,
+      "end": 450.0,
+      "summary_ar": "كوهين يصف محاكمة نتنياهو بأنها تمرد استخدم منظومة القضاء كسلاح لإسقاط رئيس الوزراء.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "echysm-LXrY:g450",
+      "video_id": "echysm-LXrY",
+      "channel": "ערוץ 14",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "دانييل كوهين",
+      "speaker_original": "דניאל כהן",
+      "speaker_role": "محام والمستشار القضائي السابق لحزب العمل",
+      "is_host": false,
+      "type": "opinion",
+      "start": 451.54,
+      "end": 466.42,
+      "summary_ar": "كوهين يطالب بتطبيق قانون مكافحة الجريمة المنظمة والتحقيق جنائياً مع المسؤولين عن محاكمة نتنياهو.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "ocVF-5cFOhU:g120",
+      "video_id": "ocVF-5cFOhU",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "نائل الزعبي",
+      "speaker_original": "نائل الزعبي",
+      "speaker_role": "مدير معهد جسور للعلاقات الإسرائيلي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 119.34,
+      "end": 154.44,
+      "summary_ar": "يرى أن توصية القضاء الإسرائيلي بإسقاط تهم في ملفات نتنياهو قد تعيد ترتيب المشهد والتحالفات الحكومية بالكامل.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "ocVF-5cFOhU:g216",
+      "video_id": "ocVF-5cFOhU",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "مفيد مرعي",
+      "speaker_original": "مفيد مرعي",
+      "speaker_role": "عضو الكنيست الإسرائيلي السابق",
+      "is_host": false,
+      "type": "opinion",
+      "start": 216.0,
+      "end": 248.0,
+      "summary_ar": "يوضح أن ما صدر عن القضاة هو توصية غير نهائية ولن يمكّن نتنياهو من حسم تشكيل الحكومة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "NCW0zlGHuFM:g50",
+      "video_id": "NCW0zlGHuFM",
+      "channel": "ערוץ 14",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "موتي كاستل",
+      "speaker_original": "Moti Kastel",
+      "speaker_role": "رئيس المكتب السياسي للقناة 14",
+      "is_host": false,
+      "type": "fact",
+      "start": 50.5,
+      "end": 82.22,
+      "summary_ar": "محامي الدفاع يواجه ماندلبليت بشأن عدم وجود إذن للتحقيق في بند الرشوة ضد نتنياهو.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "NCW0zlGHuFM:g418",
+      "video_id": "NCW0zlGHuFM",
+      "channel": "ערוץ 14",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "موتي كاستل",
+      "speaker_original": "Moti Kastel",
+      "speaker_role": "رئيس المكتب السياسي للقناة 14",
+      "is_host": false,
+      "type": "opinion",
+      "start": 417.7,
+      "end": 441.72,
+      "summary_ar": "صمت اليسار بعد مطالبة المحكمة بإعادة النظر في الاتهامات يعكس نفاقهم بعد سنوات من الهجوم.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "NCW0zlGHuFM:g538",
+      "video_id": "NCW0zlGHuFM",
+      "channel": "ערוץ 14",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "شاي مالكا",
+      "speaker_original": "Shai Malka",
+      "speaker_role": "مستشار استراتيجي وإعلامي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 538.0,
+      "end": 564.0,
+      "summary_ar": "المطالبة بتشكيل لجنة تحقيق رسمية لمحاسبة المسؤولين عن فبركة ملفات نتنياهو.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "6Vyk8sOp-dw:g557",
+      "video_id": "6Vyk8sOp-dw",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "دوف ليبمان",
+      "speaker_original": "Dov Lipman",
+      "speaker_role": "عضو سابق في الكنيست الإسرائيلي ومؤسس ورئيس منظمة يد لعوليم",
+      "is_host": false,
+      "type": "opinion",
+      "start": 557.0,
+      "end": 586.0,
+      "summary_ar": "دوف ليبمان يستبعد أثرًا سياسيًا مباشرًا لشكوك القضاة لكنه يؤكد إسقاطها حجة مركزية للمعارضة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "6Vyk8sOp-dw:g598",
+      "video_id": "6Vyk8sOp-dw",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "دوف ليبمان",
+      "speaker_original": "Dov Lipman",
+      "speaker_role": "عضو سابق في الكنيست الإسرائيلي ومؤسس ورئيس منظمة يد لعوليم",
+      "is_host": false,
+      "type": "opinion",
+      "start": 598.0,
+      "end": 625.0,
+      "summary_ar": "دوف ليبمان يوضح أن تهم الرشوة في القضيتين 4000 و2000 أصبحت صعبة الإثبات، مما قد يدفع نحو صفقة في القضية 1000.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "wbmIy0tZ0_k:g1356",
+      "video_id": "wbmIy0tZ0_k",
+      "channel": "ערוץ 14",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "ليتال شيمش",
+      "speaker_original": "ליטל שמש",
+      "speaker_role": "إعلامية ومحللة سياسية إسرائيلية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1356.0,
+      "end": 1380.0,
+      "summary_ar": "تنتقد ليتال شيمش استمرار قوى اليسار في محاولة تقييد نتنياهو ومحاصرة وعي الناخبين رغم انهيار أسس المحاكمة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "0SVjbdEcQEY:g2943",
+      "video_id": "0SVjbdEcQEY",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "ناصر اللحام",
+      "speaker_original": "ناصر اللحام",
+      "speaker_role": "محلل الشؤون السياسية والإقليمية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2943.0,
+      "end": 2982.0,
+      "summary_ar": "يرى اللحام أن إسقاط تهم الفساد عن نتنياهو يمثل صفقة تمهد لخروجه الآمن من المشهد السياسي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "echysm-LXrY:g671",
+      "video_id": "echysm-LXrY",
+      "channel": "ערוץ 14",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "روني ألشيخ",
+      "speaker_original": "רוני אלשיך",
+      "speaker_role": "المفتش العام السابق للشرطة الإسرائيلية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 671.0,
+      "end": 693.0,
+      "summary_ar": "ألشيخ يوضح أنه لم يكن متوقعاً أن يرفض نتنياهو الاستقالة ويختار خوض المعركة من داخل النظام.",
+      "setting": "other_channel",
+      "source_channel": "רדיו גלי צה\"ל",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "fUMyfno2n0k:g121",
+      "video_id": "fUMyfno2n0k",
+      "channel": "ערוץ 14",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "ليمور سون هار ميليخ",
+      "speaker_original": "לימור סון הר מלך",
+      "speaker_role": "عضو الكنيست الإسرائيلي عن حزب عوتسما يهودית",
+      "is_host": false,
+      "type": "opinion",
+      "start": 121.08,
+      "end": 145.14,
+      "summary_ar": "عضو الكنيست ليمور سون هار ميليخ ترى أن انهيار القضية يمثل مرحلة جديدة لكشف حقيقة المحكمة العليا.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "wbmIy0tZ0_k:g882",
+      "video_id": "wbmIy0tZ0_k",
+      "channel": "ערוץ 14",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "بنيامين نتنياهو",
+      "speaker_original": "בנימין נתניהו",
+      "speaker_role": "رئيس الوزراء الإسرائيلي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 882.0,
+      "end": 907.0,
+      "summary_ar": "يطالب رئيس الوزراء الإسرائيلي بنيامين نتنياهو بإنهاء محاكمته فورًا بعدما مزقت الشعب الإسرائيلي وأدخلته في دوامة انتخابات متكررة.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     }
+    ],
+    "error": "",
+    "extracted": 39,
+    "cost": {
+     "claude": {
+      "claude-haiku-5-5": 0.00124,
+      "claude-sonnet-5": 0.08534
+     },
+     "gemini": 0.5855,
+     "proxy_bytes": 55851575
+    }
+   }
   }
  ],
  "selection_issue": 2038
