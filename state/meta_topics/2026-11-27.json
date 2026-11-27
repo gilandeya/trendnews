@@ -2633,7 +2633,9 @@
      "orientation": "مقربة من النظام الإيراني",
      "minutes": 50.733333333333334
     }
-   ]
+   ],
+   "qa_requested_at": "2026-11-27T13:47:02.441455+00:00",
+   "selected_from": 2034
   },
   {
    "id": "2964ae54b2ff",
@@ -2709,7 +2711,9 @@
      "orientation": "إماراتي",
      "minutes": 27.691666666666666
     }
-   ]
+   ],
+   "qa_requested_at": "2026-11-27T13:47:02.441478+00:00",
+   "selected_from": 2034
   },
   {
    "id": "d54e3546eb4b",
@@ -2968,5 +2972,5 @@
    ]
   }
  ],
- "selection_issue": 2034
+ "selection_issue": 2036
 }
