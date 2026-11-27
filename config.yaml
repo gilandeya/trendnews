@@ -1951,6 +1951,12 @@ reel:
       Draw exactly one isolated element, whole and uncropped, centered with a small margin, on a perfectly flat solid pure magenta
       background (#FF00FF) that fills everything around it: no ground, no sky, no scenery, no shadow on the background, no gradient,
       no other objects. Do not use magenta anywhere inside the element itself.
+    # جهة الشخص في الصف (قضية 2044): كل قطعة تُرسم وحدها، فيُقال لها أين يقف صاحبها كي يتجه نحو وسط المشهد حيث الآخرون (رُسم نتنياهو
+    # يهمس ويشير إلى يمين الصورة وهو في يمين الصف فأشار إلى الفراغ). left/right للطرفين وmiddle لما بينهما؛ فارغ ← بلا جهة
+    facing:
+      left: "In the final scene this figure stands at the LEFT end of the row; if it looks, points, whispers or gestures at the others, it must face and turn toward the RIGHT side of the image."
+      right: "In the final scene this figure stands at the RIGHT end of the row; if it looks, points, whispers or gestures at the others, it must face and turn toward the LEFT side of the image."
+      middle: "In the final scene this figure stands in the middle of the row; face the viewer or toward the figure it addresses."
     texts:
       header: "🎨 **كاريكاتير مقترح للهوك**"
       basis: "يقوم على"
@@ -2886,7 +2892,7 @@ reel:
     # فلا يتحرك. قيمة ≥ min(lead_seconds, clip_tail_seconds) تُخفَّض إلى ذلك الحد − 0.1 كي لا يقع كلام المقطع في التلاشي
     transition: {type: slideleft, outro_type: fade, seconds: 0.35}
     # نسخة التركيب: رفعها تعيد --pending تركيب كل ريل معتمد مُركَّب بنسخة أقدم (المنشور والمرفوض لا يُمسّان)
-    version: 95
+    version: 96
     # أسطر بالجمل (قرار صاحب المشروع 7/11): في كل نص على الشاشة (الراوي والترجمة وكلام المتكلم والعنوان والسؤال) تبدأ كل جملة سطرًا
     # جديدًا، وما لا يسعه سطر يُكمل تحته قبل أن تبدأ التالية. marks: العلامات التي تنهي الجملة إن تلتها مسافة. false ← التقسيم بالعرض وحده
     clause_lines: {enabled: true, marks: "،,؛;.!?؟"}
@@ -2992,6 +2998,10 @@ reel:
     exact:
       enabled: true
       model: small
+      # قضية 2044: وقف صوت مقطع إنجليزي عند «and then if we have» والترجمة تكمل الجملة، لأن آخر كلمات الاقتباس لم تطابق التفريغ فوقف
+      # الحد عند آخر كلمة طوبقت. tail: آخر min_words كلمة فأكثر لم تطابق ← يُمدّ الحد بالكلمات المسموعة التالية بعددها ما دام الفاصل ≤ max_gap
+      # والإضافة ≤ max_seconds؛ لا كلمة بعده ← تنبيه للمراجع. enabled: false ← الحد عند آخر كلمة طوبقت كما كان
+      tail: {enabled: true, min_words: 2, max_gap: 0.6, max_seconds: 4.0}
       margin: 4
       approx_margin: 20
       min_ratio: 0.7
@@ -3150,7 +3160,12 @@ reel:
     context_channel_exclusive_only: true
     # ظهور الراوي: lines ← سطرًا فسطرًا بتلاشٍ من الشفافية (fade ثانية) وصعود rise بكسل إلى موضعه؛ typewriter ← حرفًا حرفًا
     # words ← كلمةً كلمة بحركة العنوان والسؤال نفسها (words.drop/drop_px؛ قرار صاحب المشروع 7/11)، والسطر لا يتحرك بعد ظهوره
-    reveal: {mode: words, fade: 0.25, rise: 18}
+    reveal: {mode: words, fade: 0.25, rise: 18,
+             # قضية 2044: نص الراوي تأخر عن صوته فظهرت «نتائجه» تنزل والمشهد يتلاشى. settle ثوانٍ تكتمل قبلها آخر كلمة في كل مقطع
+             # قبل تبدّله (وفي آخر المشهد قبل الانتقال أيضًا)؛ pauses تضبط تبدّل المقاطع على وقفات صوت الجملة (silencedetect بـnoise_db
+             # وmin_silence، أقرب وقفة إلى تقدير الحروف ضمن snap ثانية). enabled: false ← نسبة الحروف كما كانت
+             settle: 0.15,
+             pauses: {enabled: true, noise_db: -35, min_silence: 0.12, snap: 1.2}}
     # صورة خلفية واحدة لكل مشاهد الراوي (Issue #1411، R3b-2b). تُختار عند كتابة السيناريو وتُحفظ رابطًا وحده على المسودة
     # (reel_bg)، والتركيب ينزّلها ويظلّلها بالكحلي shade_a والنص في الوسط (التخطيط الوحيد منذ Issue #1423). مرشّح فيه وجه
     # بمساحة ≥ image.face_min_ratio أو رابطه يدل على تاريخ قديم يُرفض فيُنتقل إلى التالي (الصورة اليدوية لا تُرفض أبدًا)؛
@@ -3766,6 +3781,8 @@ reel:
       drop_exact_failed: "تعذّر ضبط المقطع كلمة بكلمة: {reason}"
       comment_span_extended: "📏 امتد مقطع {channel} إلى فكرة كاملة ({n} ث)"
       # ريل 1913: موضع الاقتباس في النص لم يُحسم إلا بأوائل كلماته، فنهايته تقدير بالمعدل لا حدّ حقيقي
+      comment_tail_extended: "📏 آخر اقتباس مقطع {channel} لم يطابق التفريغ فمُدّ المقطع {n} كلمات مسموعة بعده كي لا يُقطع الكلام"
+      comment_tail_unheard: "⚠️ آخر {n} كلمات من اقتباس مقطع {channel} لا تُسمع في المقطع والترجمة تكملها — راجعه"
       comment_window_known: "⏱️ نافذة مقطع {channel} مُدّت إلى مدته المعروفة ({n} ث) — موضع الاقتباس في النص تقديري"
       comment_latin_names: "🔤 نُطقت أسماء أجنبية برسمها الأصلي: {names}"
       comment_span_text: "📝 نص مقطع {channel} كما نُطق"

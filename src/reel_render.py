@@ -1030,6 +1030,9 @@ class Deps:
     pick_span: Callable[..., dict] | None = None
     # (ملف المقطع، cfg) ← [(بداية، نهاية)] لفترات الصمت بثواني الملف (silencedetect)؛ None ← لا ضبط على الصمت فيبقى التقدير
     detect_silence: Callable[[Any, Any], list] | None = None
+    # (ملف صوت جملة الراوي، cfg) ← [(بداية، نهاية)] لوقفاته الداخلية (قضية 2044): تضبط تبدّل مقاطع النص على وقفات الصوت.
+    # None ← القسمة بنسبة الحروف كما كانت
+    speech_pauses: Callable[[Any, Any], list] | None = None
     # رمز لغة النص المجلوب لفيديو (language_code)؛ None ← الحكم من حروف النص (Issue #1670، Q9)
     transcript_lang: Callable[[str], str | None] | None = None
     # (أسطر أول الحلقة، لقطاتها JPEG، cfg) ← [{name_arabic, name_original, role_arabic, is_host}] (Issue #1679، Q12)؛ يرفع عند العطل
@@ -1134,6 +1137,7 @@ class Deps:
                 _real_read_lower_graphics if self.download_clip is None and self.faces is None else None),
             pick_span=self.pick_span or ((lambda segs, a, b, q, c: reel_clips.thought_span(segs, a, b, q, c)) if real else None),
             detect_silence=self.detect_silence or (_real_detect_silence if real else None),
+            speech_pauses=self.speech_pauses or (_real_speech_pauses if real else None),
             transcribe_words=self.transcribe_words or ((lambda f, lang, c: reel_clips.transcribe_words(f, lang, c)) if real else None),
             transcriber_selfcheck=self.transcriber_selfcheck or (
                 (lambda c: reel_clips.transcriber_selfcheck(c)) if real and self.transcribe_words is None else None),
@@ -3004,6 +3008,28 @@ def _real_detect_silence(clip, cfg) -> list[tuple[float, float]]:
     return out
 
 
+def _real_speech_pauses(wav, cfg) -> list[tuple[float, float]]:
+    """وقفات صوت جملة الراوي (silencedetect بإعداد reel.render.reveal.pauses، أقصر من صمت المقاطع لأن وقفة الفاصلة قصيرة)؛
+    الصمت الممتد إلى آخر الملف لا يُذكر (لا silence_end له). أي عطل ← []."""
+    pc = cfg.path("reel.render.reveal.pauses") or {}
+    cmd = ["ffmpeg", "-hide_banner", "-nostats", "-i", str(wav), "-vn", "-af",
+           f"silencedetect=noise={pc.get('noise_db', -35)}dB:d={pc.get('min_silence', 0.12)}", "-f", "null", "-"]
+    try:
+        proc = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
+    except Exception:  # noqa: BLE001
+        return []
+    out, begin = [], None
+    for ln in (proc.stderr or "").splitlines():
+        m = re.search(r"silence_start:\s*(-?[\d.]+)", ln)
+        if m:
+            begin = max(float(m.group(1)), 0.0)
+        m = re.search(r"silence_end:\s*(-?[\d.]+)", ln)
+        if m and begin is not None:
+            out.append((begin, float(m.group(1))))
+            begin = None
+    return out
+
+
 def _video_prefix(clip: dict) -> str:
     """بداية سلسلة فلتر صورة المقطع حين ضُبط كلمة بكلمة (Issue #1681، Q13): خارج [أول الكلام، آخره] تُجمَّد الصورة على أول إطار منه وآخر
     إطار منه (trim ثم tpad بالمدد نفسها) فلا يُرى الفم يقول كلامًا آخر ولا تتغير مدة المشهد. بلا trim على المقطع ← فارغ فيبقى الأمر حرفًا."""
@@ -3070,7 +3096,7 @@ def _exact_align(file: Path, lang: str | None, point: dict, cfg, deps: Deps, dia
         return None, text
     # هوك المواجهة (8/11) يقتطع جملة من داخل الاقتباس فيحتاج كل الكلمات المسموعة بجوارها لا كلمات الاقتباس وحدها
     res["heard"] = [(float(w[0]), float(w[1]), str(w[2])) for w in words]
-    return res, ""
+    return reel_clips.extend_tail(res, res["heard"], cfg), ""
 
 
 def _exact_apply(clip: dict, scene: dict, point: dict, dstart: int, wstart: int, wend: int, is_approx: bool, cfg, deps: Deps,
@@ -3152,6 +3178,9 @@ def _exact_apply(clip: dict, scene: dict, point: dict, dstart: int, wstart: int,
     clip["approx"] = False
     clip["exact"] = {"t0": round(a0, 2), "t1": round(a1, 2), "ratio": res["ratio"], "source": "words",
                      **({"saved": True} if kept is not None else {}), **({"relaxed": True} if res.get("relaxed") else {})}
+    for key in ("tail_extended", "tail_unheard"):
+        if res.get(key):
+            clip["exact"][key] = int(res[key])
     # نسبة دون الحد قُبلت بالتفرّد (relaxed_ratio): يُحفظ للمراجعة في render_crops بلا سطر تعليق لكل مقطع
     if is_approx and approx:
         approx[-1]["aligned"] = True
@@ -3453,6 +3482,14 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
             # كان يُتخطّى فبدا فيديو مقطعه مضبوط «بلا نص» فلا قائمة ضيوف له (ريل هرمز 1/11، الجزيرة) والنص محفوظ
             clips[i].update(transcript=transcripts[vid], quote_start=float(loc_found["start"]), quote_end=float(loc_found["end"]))
         if aligned == "words":
+            # قضية 2044: آخر الاقتباس لم يطابق التفريغ ← مُدّ الحد إلى ما سُمع بعده، أو يُنبَّه المراجع أن آخر الترجمة لا يُسمع
+            ex = clips[i].get("exact") or {}
+            if notes is not None and ex.get("tail_extended"):
+                notes.append(cfg.path("reel.render.texts.comment_tail_extended").format(
+                    channel=scene.get("channel_display", ""), n=ex["tail_extended"]))
+            if notes is not None and ex.get("tail_unheard"):
+                notes.append(cfg.path("reel.render.texts.comment_tail_unheard").format(
+                    channel=scene.get("channel_display", ""), n=ex["tail_unheard"]))
             continue       # ضُبط كلمة بكلمة: النافذة والبوابة والنص والترجمة محسوبة كلها من الكلمات
         if transcripts[vid] and not is_approx_win:
             # نافذة محسوبة من النص نفسه: مقاطعه تعطي منحنى تقدّم الكلام لتوقيت الترجمة؛ التقريبية بلا مقاطع فتوزَّع بالتساوي
@@ -3532,12 +3569,74 @@ def _speech(text: str, voice: str, cfg, deps: Deps, tmp: Path, tag: str) -> tupl
                        str(wav)))
         dur = deps.probe(wav)
         parts.append((tts.strip_tashkeel(sentence), float(dur or 0)))
+        _record_pauses(parts[-1], wav, silence, cfg, deps)
         wavs.append(wav)
     lst = tmp / f"{tag}_audio.txt"
     lst.write_text("".join(f"file '{w}'\n" for w in wavs), encoding="utf-8")
     audio = tmp / f"{tag}_audio.wav"
     deps.run(_base("-f", "concat", "-safe", "0", "-i", str(lst), "-c", "copy", str(audio)))
     return audio, parts
+
+
+# وقفات كل جملة راوٍ بثواني ملفها {(نص الجملة المعروض، مدتها مقرّبة): [(بداية، نهاية)]} (قضية 2044). حالة عامة لا معامل لأن parts
+# أزواج (نص، مدة) تمرّ بمواضع كثيرة، والمفتاح بالنص والمدة معًا فلا تختلط جملتان
+_PAUSES: dict = {}
+
+
+def _record_pauses(part: tuple[str, float], wav: Path, silence: float, cfg, deps) -> None:
+    """يحفظ وقفات الجملة الداخلية (لا صمت أولها ولا ذيلها) في _PAUSES. معطّل أو بلا كاشف أو عطل ← لا شيء فتبقى نسبة الحروف."""
+    fn = getattr(deps, "speech_pauses", None)
+    if fn is None or not cfg.path("reel.render.reveal.pauses.enabled", False):
+        return
+    text, dur = part
+    speech = max(float(dur) - silence, 0.0)
+    try:
+        found = [(float(b), float(e)) for b, e in (fn(wav, cfg) or [])]
+    except Exception:  # noqa: BLE001 -- الضبط تحسين لا شرط
+        return
+    _PAUSES[(text, round(float(dur), 3))] = [(b, e) for b, e in found if b > 0.05 and e < speech - 0.05 and e > b]
+
+
+def segment_spans(counts: list[int], speech: float, pauses: list[tuple[float, float]], cfg) -> list[tuple[float, float]]:
+    """[(بداية المقطع، نهاية كلامه)] لمقاطع جملة الراوي (دالة خالصة، قضية 2044). كان كل مقطع يأخذ من مدة الكلام بنسبة حروفه،
+    والصوت لا يتوزع هكذا: «دونالد ترامب» تُنطق Donald Trump سريعًا، والفاصلة وقفة، فتأخر نص المقطع الثاني نحو 0.6 ث عن صوته
+    وظهر آخره في التلاشي إلى المشهد التالي. الحد بين مقطعين يُضبط على أقرب وقفة في الصوت إلى تقدير الحروف ضمن pauses.snap
+    ثانية: المقطع السابق ينتهي كلامه عند بدء الوقفة والتالي يبدأ عند نهايتها. لا وقفة قريبة ← تقدير الحروف كما كان."""
+    n = len(counts)
+    total = sum(counts) or 1
+    snap = float(cfg.path("reel.render.reveal.pauses.snap", 0) or 0)
+    cand = sorted(pauses or [])
+    cuts: list[tuple[float, float]] = []
+    used, prev = -1, 0.0
+    for j in range(1, n):
+        est = speech * sum(counts[:j]) / total
+        best = None
+        for m, (b, e) in enumerate(cand):
+            if m <= used or b < prev:
+                continue
+            gap = abs((b + e) / 2 - est)
+            if gap <= snap and (best is None or gap < abs(sum(cand[best]) / 2 - est)):
+                best = m
+        if best is not None:
+            used = best
+            b, e = cand[best]
+        else:
+            b = e = max(est, prev)
+        cuts.append((b, e))
+        prev = e
+    starts = [0.0] + [e for _, e in cuts]
+    ends = [b for b, _ in cuts] + [max(speech, prev)]
+    return [(a, max(z, a)) for a, z in zip(starts, ends)]
+
+
+def settle_word_times(times: list[float], seconds: float, drop: float, reserve: float) -> list[float]:
+    """أزمنة الكلمات بحيث يكتمل نزول آخرها قبل reserve ثانية من نهاية عرضها (دالة خالصة، قضية 2044: نزلت «نتائجه» والمشهد يتلاشى
+    إلى ما بعده فلم تُرَ كاملة). الأزمنة تُضغط بنسبة واحدة نحو الصفر فيبقى ترتيبها وتباعدها النسبي؛ ما يكتمل في وقته لا يُمسّ."""
+    limit = max(float(seconds) - float(drop) - max(float(reserve), 0.0), 0.0)
+    last = max(times) if times else 0.0
+    if last <= limit or last <= 0:
+        return list(times)
+    return [t * limit / last for t in times]
 
 
 def _tempo(cfg) -> str:
@@ -4033,16 +4132,18 @@ def quote_word_times(n_words: int, clip_seconds: float, segments: list, start_of
 
 def _narration_frames(parts: list[tuple[str, float]], i: int, cfg, tmp: Path, lead: float,
                       bg: dict | None = None, map_sentences: set | None = None,
-                      cast: dict | None = None) -> list[tuple[Path, float]]:
-    """إطارات مشهد الراوي، ومع cast ({رقم الجملة: [قطع]}) يُرسم أشخاص الكاريكاتير صفًّا تحت نص جملتهم (قضية 2013)."""
+                      cast: dict | None = None, end_reserve: float = 0.0) -> list[tuple[Path, float]]:
+    """إطارات مشهد الراوي، ومع cast ({رقم الجملة: [قطع]}) يُرسم أشخاص الكاريكاتير صفًّا تحت نص جملتهم (قضية 2013).
+    end_reserve: ثواني آخر المشهد التي يأكلها الانتقال إلى ما بعده، فيكتمل فيها نزول آخر كلمة قبلها (قضية 2044)."""
     if not cast:
-        return _narration_frames_plain(parts, i, cfg, tmp, lead, bg, map_sentences)
+        return _narration_frames_plain(parts, i, cfg, tmp, lead, bg, map_sentences, end_reserve=end_reserve)
     from . import reel_cartoon, reel_figures
     on_name = bool((reel_cartoon.ccfg(cfg).get("cast") or {}).get("enter_on_name", False))
     frames: list[tuple[Path, float]] = []
     for k, part in enumerate(parts):
         sub = _narration_frames_plain([part], i, cfg, tmp, lead if k == 0 else 0.0, bg, map_sentences and
-                                      ({0} if k in map_sentences else set()), tag=f"{i}_{k}")
+                                      ({0} if k in map_sentences else set()), tag=f"{i}_{k}",
+                                      end_reserve=end_reserve if k == len(parts) - 1 else 0.0)
         if cast.get(k):
             enters: dict = {}
             if on_name:
@@ -4168,7 +4269,7 @@ def _overlay_cast(frames: list[tuple[Path, float]], pieces: list[dict], cfg, tmp
 
 def _narration_frames_plain(parts: list[tuple[str, float]], i: int, cfg, tmp: Path, lead: float,
                             bg: dict | None = None, map_sentences: set | None = None,
-                            tag: str | None = None) -> list[tuple[Path, float]]:
+                            tag: str | None = None, end_reserve: float = 0.0) -> list[tuple[Path, float]]:
     """إطارات مشهد الراوي. مع typewriter: خطوة لكل حرف (typewriter_steps) بمدة كلام الجملة = مدة صوتها − الصمت بعدها،
     ويبقى النص كاملًا خلال الصمت. بدونه: إطار كامل لكل جملة كما كان. أول إطار فارغ كي يقع صمت الانتقال بلا نص.
     tag يميّز أسماء الملفات حين تُبنى الجمل واحدة واحدة (cast)."""
@@ -4183,19 +4284,29 @@ def _narration_frames_plain(parts: list[tuple[str, float]], i: int, cfg, tmp: Pa
     frames: list[tuple[Path, float]] = []
     mode = cfg.path("reel.render.reveal.mode", "lines")
     if mode == "words":
-        # كلمةً كلمة بحركة العنوان والسؤال نفسها (words.drop/drop_px)؛ القسمة إلى مقاطع ومدة كل مقطع كوضع الأسطر تمامًا
+        # كلمةً كلمة بحركة العنوان والسؤال نفسها (words.drop/drop_px). قضية 2044: حدود المقاطع على وقفات الصوت (segment_spans)،
+        # وآخر كلمة في كل مقطع يكتمل نزولها قبل تبدّله بـreveal.settle، وفي آخر مقطع من المشهد قبل التلاشي أيضًا (end_reserve)
+        drop = float(cfg.path("reel.render.words.drop", 0.28))
+        settle = float(cfg.path("reel.render.reveal.settle", 0) or 0)
         for k, (text, dur) in enumerate(parts):
             hold = min(silence, dur)
             bgk = bg_of(k)
             segs = narration_segments(cfg, text, bgk)
             counts = [_nonspace(s) for s in segs]
+            spans = segment_spans(counts, dur - hold, _PAUSES.get((text, round(float(dur), 3)), []), cfg)
             for j, seg in enumerate(segs):
-                span = (dur - hold) * counts[j] / (sum(counts) or 1)
-                seconds = span + (hold if j == len(segs) - 1 else 0.0)
+                start, speech_end = spans[j]
+                span = speech_end - start
+                seconds = (spans[j + 1][0] if j + 1 < len(segs) else dur) - start
+                reserve = settle
+                if k == len(parts) - 1 and j == len(segs) - 1:
+                    reserve += end_reserve
+                times = narration_seg_word_times(seg, span)
+                if settle or end_reserve:
+                    times = settle_word_times(times, seconds, drop, reserve)
                 tiles = narration_word_layout(cfg, seg, bgk)
                 base = None if bgk is not None else _Pen(cfg, None).img
-                frames += _drop_frames(cfg, tiles, narration_seg_word_times(seg, span)[:len(tiles)], seconds, tmp,
-                                       f"nar_{i}_{k}_{j}", base=base)
+                frames += _drop_frames(cfg, tiles, times[:len(tiles)], seconds, tmp, f"nar_{i}_{k}_{j}", base=base)
         return frames
     if mode == "lines":
         fade = float(cfg.path("reel.render.reveal.fade", 0.25))
@@ -8328,7 +8439,8 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
                 frames = _narration_frames(parts, i, cfg, tmp, lead, bg,
                                            {e["sentence"] for e in scene_maps.get(i, [])},
                                            cast={k: v for (ii, k), v in cast_plan.items() if ii == i}
-                                           if len(parts) == len(tts.split_sentences(scene.get("text", ""))) else None)
+                                           if len(parts) == len(tts.split_sentences(scene.get("text", ""))) else None,
+                                           end_reserve=transition_seconds(cfg))
                 tail = 0.0
                 if bg is not None and nar_plan is not None:
                     dur = _timed_scene(frames, audio, out, cfg, deps, tmp, tail, lead, bg_png=nar_bg, bg_start=nar_t,

@@ -362,11 +362,36 @@ def cropped(mask, cfg) -> bool:
     return any(float(side.mean()) > lim for side in (m[0], m[-1], m[:, 0], m[:, -1]))
 
 
-def image_prompt(piece: dict, con: dict, cfg) -> str:
-    """وصف القطعة وحدها مع المشهد كله (ليتّسق أسلوب القطع) وقواعد الشكل الثابتة (قطعة واحدة على لون مفتاح مسطّح، بلا كتابة)."""
+def piece_x(p: dict) -> float:
+    try:
+        return float(p.get("x", 0.5))
+    except (TypeError, ValueError):
+        return 0.5
+
+
+def row_order(pieces: list[dict]) -> list[dict]:
+    """ترتيب القطع في الصف من يسار المشهد إلى يمينه بموضعها x الذي تخيّله النموذج (قضية 2027)، ترتيبًا ثابتًا (التساوي يُبقي ترتيب
+    الكتابة). يُحسم مرة واحدة في plan قبل الرسم والمعاينة ويُحفظ بهذا الترتيب، فالمعاينة التي يعتمدها المراجع والريل صفٌّ واحد."""
+    return sorted(pieces, key=piece_x)
+
+
+def facing_side(k: int, n: int) -> str:
+    """جهة القطعة k من n في الصف (دالة خالصة): left/right للطرفين وmiddle لما بينهما ولقطعة وحيدة."""
+    if n >= 2 and k == 0:
+        return "left"
+    if n >= 2 and k == n - 1:
+        return "right"
+    return "middle"
+
+
+def image_prompt(piece: dict, con: dict, cfg, side: str = "") -> str:
+    """وصف القطعة وحدها مع المشهد كله (ليتّسق أسلوب القطع) وقواعد الشكل الثابتة (قطعة واحدة على لون مفتاح مسطّح، بلا كتابة).
+    side موضعها في الصف (facing_side): قضية 2044 — رُسم نتنياهو يهمس ويشير إلى يمين الصورة وهو في يمين الصف فبدا يشير إلى الفراغ؛
+    كل قطعة تُرسم وحدها فلا تعرف أين يقف صاحبها، فيُقال لها أن تتجه نحو وسط المشهد (reel.cartoon.facing)."""
     c = ccfg(cfg)
+    face = str((c.get("facing") or {}).get(side) or "")
     return (f"{piece['prompt_en']}\n\nThis is one cut-out element of a larger cartoon scene: {con['prompt_en']}\n"
-            f"Draw ONLY this element.\n\n{c.get('style', '')}\n{c.get('piece_style', '')}").strip()
+            f"Draw ONLY this element.\n{face}\n\n{c.get('style', '')}\n{c.get('piece_style', '')}").strip()
 
 
 def read_image(resp: dict) -> tuple[bytes | None, str, dict]:
@@ -384,14 +409,14 @@ def read_image(resp: dict) -> tuple[bytes | None, str, dict]:
     return None, finish, usage
 
 
-def _draw_piece(piece: dict, con: dict, cfg, key: str) -> tuple[Any, float, str]:
+def _draw_piece(piece: dict, con: dict, cfg, key: str, side: str = "") -> tuple[Any, float, str]:
     """(القطعة RGBA أو None، الكلفة، سبب الفشل): نداء Gemini واحد للقطعة ثم إزالة اللون."""
     from io import BytesIO
 
     from PIL import Image
     c = ccfg(cfg)
     model = str(c.get("model", "gemini-3.1-flash-image"))
-    body = {"contents": [{"parts": [{"text": image_prompt(piece, con, cfg)}]}],
+    body = {"contents": [{"parts": [{"text": image_prompt(piece, con, cfg, side)}]}],
             "generationConfig": {"responseModalities": ["IMAGE"],
                                  "imageConfig": {"aspectRatio": str(c.get("piece_aspect", "1:1"))}}}
     usd, why = 0.0, ""
@@ -486,8 +511,11 @@ def plan(draft: dict, cfg: Any, client=None) -> dict | None:
         out_dir = store.draft_dir()
         out_dir.mkdir(parents=True, exist_ok=True)
         done, failed, usd = [], [], 0.0
-        for k, piece in enumerate(con["pieces"]):
-            img, cost, err = _draw_piece(piece, con, cfg, key)
+        # قضية 2044: الترتيب يُحسم قبل الرسم (كل قطعة تُرسم متجهة نحو وسط الصف) ويُحفظ، فالمعاينة والريل بترتيب واحد
+        ordered = row_order(con["pieces"]) if row_mode(cfg) else list(con["pieces"])
+        for k, piece in enumerate(ordered):
+            side = facing_side(k, len(ordered)) if row_mode(cfg) else ""
+            img, cost, err = _draw_piece(piece, con, cfg, key, side)
             usd += cost
             if img is None:
                 failed.append(f"{piece.get('name_ar') or k + 1}: {err}")
@@ -537,15 +565,8 @@ def usable(draft: dict, cfg) -> list[dict] | None:
         f = local_path(p.get("path")) if isinstance(p, dict) else None
         if f is not None:
             out.append({**p, "file": clean_file(f, cfg)})
-    if row_mode(cfg):
-        # قضية 2027: الصف يضع القطع بترتيبها (الأولى يسارًا) وجهة الدخول من موضعها في الصف، فتُرتَّب بموضعها الذي رسمها النموذج فيه
-        # (x) كي يقف ويدخل من يمين المشهد يمينًا ومن يساره يسارًا كما تخيّله
-        def _x(p: dict) -> float:
-            try:
-                return float(p.get("x", 0.5))
-            except (TypeError, ValueError):
-                return 0.5
-        out.sort(key=_x)
+    # قضية 2044: لا يُعاد ترتيب القطع هنا. كانت تُرتَّب بـx (قضية 2027) والمعاينة التي اعتمدها المراجع بترتيب الكتابة، فظهر ترامب
+    # ونتنياهو في الريل متعاكسين عمّا اعتُمد. الترتيب يُحسم في plan قبل الرسم والمعاينة ويُحفظ؛ ما حُفظ هو ما عُرض
     return out if len(out) >= int(ccfg(cfg).get("min_pieces", 2)) else None
 
 
