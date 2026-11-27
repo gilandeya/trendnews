@@ -599,7 +599,8 @@
         "shows": "خريطة ملاحية لخليج عمان وبحر العرب تظهر مسارات سفن وأسماءها، مع شعار موقع marinetraffic",
         "reason": "الخريطة تعرض مسارات سفن ملاحية وليست مشهدًا لموضوع الريل (الحصار البحري وإيران)، كما أنها تحمل شعار موقع ونصوصًا مركبة فوقها."
       }
-    ]
+    ],
+    "layout": "A"
   },
   "hook_candidates": [
     {
@@ -713,10 +714,7 @@
       }
     ],
     "picked": [
-      "JO-rxaBlbOk",
-      "F_iRhDQ_jPE",
-      "lydBIBDoTjQ",
-      "S_FWDJKaBKA"
+      "JO-rxaBlbOk"
     ]
   },
   "broll_plan": [
@@ -761,7 +759,1755 @@
   },
   "review_issue": 2026,
   "stage2_issue": 2026,
-  "render_status": "queued",
+  "render_status": "rendered",
   "approved_script_at": "2026-11-27T06:02:13.579939+00:00",
-  "hook_picked": 0
+  "hook_picked": 0,
+  "hook_video": {
+    "video_id": "JO-rxaBlbOk",
+    "start": 210,
+    "end": 214,
+    "channel": "Al Jazeera English",
+    "title": "Iran says three oil tankers hit by naval mines in Strait of Hormuz",
+    "source": "auto_topic",
+    "views": 180683,
+    "reason": "لقطات ميدانية عن الموضوع بلا لقطة للحدث نفسه"
+  },
+  "reel_file": "reels/2026-11-27/b27480661676.mp4",
+  "reel_gif": "reels/2026-11-27/b27480661676.gif",
+  "duration_seconds": 198.1,
+  "render_version": 93,
+  "render_attempts": 0,
+  "reel_music": "kulakovka-financial-news-614884.mp3",
+  "render_sources": "الميادين، سي إن إن ترك، الجزيرة، ILTV، Al Jazeera English",
+  "render_crops": {
+    "3": {
+      "x": 435,
+      "source": "speaker",
+      "speaker_score": 0.98,
+      "tracks": 1,
+      "gate": {
+        "start": 0.88,
+        "end": 30.08,
+        "source": "transcript"
+      },
+      "exact": {
+        "t0": 227.0,
+        "t1": 255.96,
+        "ratio": 0.934,
+        "source": "words",
+        "saved": true
+      },
+      "faces": {
+        "samples": [
+          [
+            1.433,
+            630
+          ],
+          [
+            2.067,
+            640
+          ],
+          [
+            2.7,
+            638
+          ],
+          [
+            3.333,
+            632
+          ],
+          [
+            3.967,
+            640
+          ],
+          [
+            4.6,
+            646
+          ],
+          [
+            5.233,
+            631
+          ],
+          [
+            5.867,
+            632
+          ],
+          [
+            6.5,
+            634
+          ],
+          [
+            7.133,
+            635
+          ],
+          [
+            7.767,
+            641
+          ],
+          [
+            8.4,
+            637
+          ],
+          [
+            9.033,
+            643
+          ],
+          [
+            9.667,
+            643
+          ],
+          [
+            10.3,
+            640
+          ],
+          [
+            10.933,
+            634
+          ],
+          [
+            11.567,
+            638
+          ],
+          [
+            12.2,
+            642
+          ],
+          [
+            12.833,
+            644
+          ],
+          [
+            13.467,
+            643
+          ],
+          [
+            14.1,
+            640
+          ],
+          [
+            14.733,
+            641
+          ],
+          [
+            15.367,
+            636
+          ],
+          [
+            16.0,
+            632
+          ],
+          [
+            16.633,
+            633
+          ],
+          [
+            17.267,
+            634
+          ],
+          [
+            17.9,
+            639
+          ],
+          [
+            18.533,
+            642
+          ],
+          [
+            19.167,
+            640
+          ],
+          [
+            19.8,
+            640
+          ],
+          [
+            20.433,
+            638
+          ],
+          [
+            21.067,
+            640
+          ],
+          [
+            21.7,
+            643
+          ],
+          [
+            22.333,
+            647
+          ],
+          [
+            22.967,
+            638
+          ],
+          [
+            23.6,
+            629
+          ],
+          [
+            24.233,
+            635
+          ],
+          [
+            24.867,
+            637
+          ],
+          [
+            25.5,
+            636
+          ],
+          [
+            26.133,
+            626
+          ],
+          [
+            26.767,
+            626
+          ],
+          [
+            27.4,
+            633
+          ],
+          [
+            28.033,
+            631
+          ],
+          [
+            28.667,
+            626
+          ],
+          [
+            29.3,
+            626
+          ],
+          [
+            29.933,
+            623
+          ]
+        ],
+        "cuts": [],
+        "identity": {
+          "ref": 48,
+          "matched": 48,
+          "path": 0,
+          "single": 0
+        }
+      },
+      "panel_q": "c0",
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 426,
+        "y": 0,
+        "w": 422,
+        "h": 490,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.68,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.7,
+          1.0,
+          0.85
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "word",
+      "frame_check": {
+        "samples": 62,
+        "lost": []
+      }
+    },
+    "6": {
+      "x": 0,
+      "source": "speaker_vision",
+      "speaker_score": 0.65,
+      "tracks": 3,
+      "vision": {
+        "pick": 3,
+        "agree": 3,
+        "archive": [
+          1,
+          2
+        ]
+      },
+      "gate": {
+        "start": 0.88,
+        "end": 18.37,
+        "source": "silence"
+      },
+      "exact": {
+        "t0": 5621.34,
+        "t1": 5638.74,
+        "ratio": 0.816,
+        "source": "words"
+      },
+      "faces": {
+        "samples": [
+          [
+            1.593,
+            125
+          ],
+          [
+            2.727,
+            125
+          ],
+          [
+            3.86,
+            123
+          ],
+          [
+            4.993,
+            126
+          ],
+          [
+            6.127,
+            131
+          ],
+          [
+            7.26,
+            91
+          ],
+          [
+            8.393,
+            100
+          ],
+          [
+            9.527,
+            108
+          ],
+          [
+            10.66,
+            106
+          ],
+          [
+            11.793,
+            107
+          ],
+          [
+            12.927,
+            106
+          ],
+          [
+            14.06,
+            114
+          ],
+          [
+            15.193,
+            109
+          ],
+          [
+            16.327,
+            96
+          ],
+          [
+            17.46,
+            97
+          ]
+        ],
+        "cuts": [],
+        "identity": {
+          "ref": 0
+        }
+      },
+      "panel_q": 0,
+      "tile_crop": {
+        "x": 0,
+        "y": 48,
+        "w": 632,
+        "h": 374,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 0,
+        "y": 48,
+        "w": 322,
+        "h": 374,
+        "mode": "full_height"
+      },
+      "bars": [
+        47,
+        16,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.88,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.9,
+          0.9,
+          0.9
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "line",
+      "frame_check": {
+        "samples": 37,
+        "lost": [
+          [
+            4.95,
+            6.95
+          ],
+          [
+            12.45,
+            13.95
+          ],
+          [
+            17.45,
+            18.45
+          ]
+        ]
+      }
+    },
+    "7": {
+      "x": 544,
+      "source": "speaker_vision",
+      "speaker_score": 1.62,
+      "tracks": 2,
+      "vision": {
+        "pick": 1,
+        "agree": 3,
+        "archive": [
+          2
+        ]
+      },
+      "gate": {
+        "start": 1.1,
+        "end": 32.44,
+        "source": "silence"
+      },
+      "exact": {
+        "t0": 682.18,
+        "t1": 713.5,
+        "ratio": 0.94,
+        "source": "words"
+      },
+      "faces": {
+        "samples": [
+          [
+            1.32,
+            678
+          ],
+          [
+            1.97,
+            681
+          ],
+          [
+            2.62,
+            680
+          ],
+          [
+            3.27,
+            679
+          ],
+          [
+            3.92,
+            679
+          ],
+          [
+            4.57,
+            680
+          ],
+          [
+            5.22,
+            680
+          ],
+          [
+            5.87,
+            680
+          ],
+          [
+            6.52,
+            680
+          ],
+          [
+            7.17,
+            679
+          ],
+          [
+            7.82,
+            679
+          ],
+          [
+            8.47,
+            680
+          ],
+          [
+            9.12,
+            681
+          ],
+          [
+            9.77,
+            681
+          ],
+          [
+            10.42,
+            681
+          ],
+          [
+            11.07,
+            679
+          ],
+          [
+            11.72,
+            679
+          ],
+          [
+            12.37,
+            679
+          ],
+          [
+            13.02,
+            679
+          ],
+          [
+            13.67,
+            680
+          ],
+          [
+            14.32,
+            677
+          ],
+          [
+            14.97,
+            676
+          ],
+          [
+            15.62,
+            677
+          ],
+          [
+            16.27,
+            678
+          ],
+          [
+            16.92,
+            679
+          ],
+          [
+            17.57,
+            678
+          ],
+          [
+            18.22,
+            677
+          ],
+          [
+            18.87,
+            678
+          ],
+          [
+            19.52,
+            679
+          ],
+          [
+            20.17,
+            679
+          ],
+          [
+            20.82,
+            678
+          ],
+          [
+            21.47,
+            679
+          ],
+          [
+            22.12,
+            678
+          ],
+          [
+            22.77,
+            678
+          ],
+          [
+            23.42,
+            678
+          ],
+          [
+            24.07,
+            679
+          ],
+          [
+            24.72,
+            679
+          ],
+          [
+            25.37,
+            679
+          ],
+          [
+            26.02,
+            679
+          ],
+          [
+            26.67,
+            677
+          ],
+          [
+            27.32,
+            678
+          ],
+          [
+            27.97,
+            680
+          ],
+          [
+            28.62,
+            680
+          ],
+          [
+            29.27,
+            680
+          ],
+          [
+            29.92,
+            680
+          ],
+          [
+            30.57,
+            678
+          ],
+          [
+            31.22,
+            679
+          ],
+          [
+            31.87,
+            678
+          ]
+        ],
+        "cuts": [
+          7.54,
+          17.22
+        ],
+        "identity": {
+          "ref": 60,
+          "matched": 60,
+          "path": 0,
+          "single": 0
+        }
+      },
+      "panel_q": 0,
+      "tile_crop": {
+        "x": 304,
+        "y": 0,
+        "w": 550,
+        "h": 326,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 540,
+        "y": 0,
+        "w": 280,
+        "h": 326,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.68,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.7,
+          1.0,
+          0.85
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "word",
+      "frame_check": {
+        "samples": 65,
+        "lost": []
+      }
+    },
+    "8": {
+      "x": 319,
+      "source": "speaker_vision",
+      "speaker_score": 0.89,
+      "tracks": 2,
+      "vision": {
+        "pick": 1,
+        "agree": 3,
+        "archive": [
+          2
+        ]
+      },
+      "gate": {
+        "start": 0.88,
+        "end": 18.52,
+        "source": "transcript"
+      },
+      "exact": {
+        "t0": 357.2,
+        "t1": 374.6,
+        "ratio": 0.872,
+        "source": "words"
+      },
+      "faces": {
+        "samples": [
+          [
+            1.0,
+            456
+          ],
+          [
+            1.433,
+            455
+          ],
+          [
+            1.867,
+            454
+          ],
+          [
+            2.3,
+            461
+          ],
+          [
+            2.733,
+            458
+          ],
+          [
+            3.167,
+            454
+          ],
+          [
+            3.6,
+            455
+          ],
+          [
+            4.033,
+            455
+          ],
+          [
+            4.467,
+            455
+          ],
+          [
+            4.9,
+            448
+          ],
+          [
+            5.333,
+            449
+          ],
+          [
+            5.767,
+            449
+          ],
+          [
+            6.2,
+            449
+          ],
+          [
+            6.633,
+            450
+          ],
+          [
+            7.067,
+            452
+          ],
+          [
+            7.5,
+            451
+          ],
+          [
+            7.933,
+            449
+          ],
+          [
+            8.367,
+            449
+          ],
+          [
+            8.8,
+            449
+          ],
+          [
+            9.233,
+            450
+          ],
+          [
+            9.667,
+            449
+          ],
+          [
+            10.1,
+            449
+          ],
+          [
+            10.533,
+            450
+          ],
+          [
+            10.967,
+            453
+          ],
+          [
+            11.4,
+            454
+          ],
+          [
+            11.833,
+            454
+          ],
+          [
+            12.267,
+            452
+          ],
+          [
+            12.7,
+            450
+          ],
+          [
+            13.133,
+            452
+          ],
+          [
+            13.567,
+            449
+          ],
+          [
+            14.0,
+            452
+          ],
+          [
+            14.433,
+            453
+          ],
+          [
+            14.867,
+            455
+          ],
+          [
+            15.3,
+            454
+          ],
+          [
+            15.733,
+            455
+          ],
+          [
+            16.167,
+            448
+          ],
+          [
+            16.6,
+            451
+          ],
+          [
+            17.033,
+            450
+          ],
+          [
+            17.467,
+            451
+          ],
+          [
+            17.9,
+            453
+          ],
+          [
+            18.333,
+            454
+          ]
+        ],
+        "cuts": [
+          4.92,
+          10.76
+        ],
+        "identity": {
+          "ref": 39,
+          "matched": 39,
+          "path": 14,
+          "single": 0
+        }
+      },
+      "panel_q": 0,
+      "tile_crop": {
+        "x": 148,
+        "y": 0,
+        "w": 614,
+        "h": 364,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 296,
+        "y": 0,
+        "w": 314,
+        "h": 364,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": false,
+      "lower_graphics": {
+        "top": 0.76,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.78,
+          1.0,
+          0.78
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "word",
+      "frame_check": {
+        "samples": 37,
+        "lost": [
+          [
+            4.23,
+            9.73
+          ]
+        ]
+      }
+    },
+    "10": {
+      "x": 875,
+      "source": "speaker_vision",
+      "speaker_score": 2.18,
+      "tracks": 3,
+      "vision": {
+        "pick": 1,
+        "agree": 3,
+        "archive": []
+      },
+      "gate": {
+        "start": 1.0,
+        "end": 19.46,
+        "source": "silence"
+      },
+      "exact": {
+        "t0": 4874.02,
+        "t1": 4892.36,
+        "ratio": 0.947,
+        "source": "words"
+      },
+      "faces": {
+        "samples": [
+          [
+            1.113,
+            1110
+          ],
+          [
+            1.58,
+            1111
+          ],
+          [
+            2.047,
+            1112
+          ],
+          [
+            2.513,
+            1110
+          ],
+          [
+            2.98,
+            1111
+          ],
+          [
+            3.447,
+            1112
+          ],
+          [
+            3.913,
+            1112
+          ],
+          [
+            4.38,
+            1112
+          ],
+          [
+            4.847,
+            1114
+          ],
+          [
+            5.313,
+            1116
+          ],
+          [
+            5.78,
+            1120
+          ],
+          [
+            6.247,
+            1124
+          ],
+          [
+            7.18,
+            1125
+          ],
+          [
+            7.647,
+            1128
+          ],
+          [
+            8.113,
+            1127
+          ],
+          [
+            8.58,
+            1127
+          ],
+          [
+            9.047,
+            1127
+          ],
+          [
+            9.513,
+            1123
+          ],
+          [
+            9.98,
+            1121
+          ],
+          [
+            10.447,
+            1117
+          ],
+          [
+            10.913,
+            1111
+          ],
+          [
+            11.38,
+            1110
+          ],
+          [
+            11.847,
+            1111
+          ],
+          [
+            12.313,
+            1111
+          ],
+          [
+            12.78,
+            1111
+          ],
+          [
+            13.247,
+            1113
+          ],
+          [
+            13.713,
+            1116
+          ],
+          [
+            14.18,
+            1111
+          ],
+          [
+            14.647,
+            1110
+          ],
+          [
+            15.113,
+            1111
+          ],
+          [
+            15.58,
+            1112
+          ],
+          [
+            16.047,
+            1113
+          ],
+          [
+            16.513,
+            1113
+          ],
+          [
+            16.98,
+            1112
+          ],
+          [
+            17.447,
+            1112
+          ],
+          [
+            17.913,
+            1115
+          ],
+          [
+            18.38,
+            1118
+          ],
+          [
+            18.847,
+            1117
+          ],
+          [
+            19.313,
+            1122
+          ]
+        ],
+        "cuts": [],
+        "identity": {
+          "ref": 59,
+          "matched": 59,
+          "path": 0,
+          "single": 0
+        }
+      },
+      "panel_q": 1,
+      "tile_crop": {
+        "x": 648,
+        "y": 72,
+        "w": 632,
+        "h": 562,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 796,
+        "y": 72,
+        "w": 484,
+        "h": 562,
+        "mode": "full_height"
+      },
+      "bars": [
+        71,
+        24,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.88,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.9,
+          0.9,
+          0.9
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "line",
+      "frame_check": {
+        "samples": 39,
+        "lost": []
+      }
+    },
+    "11": {
+      "x": 290,
+      "source": "speaker",
+      "speaker_score": 0.88,
+      "tracks": 1,
+      "gate": {
+        "start": 0.88,
+        "end": 22.56,
+        "source": "transcript"
+      },
+      "exact": {
+        "t0": 404.52,
+        "t1": 425.96,
+        "ratio": 1.0,
+        "source": "words",
+        "saved": true
+      },
+      "faces": {
+        "samples": [
+          [
+            1.53,
+            426
+          ],
+          [
+            2.58,
+            423
+          ],
+          [
+            3.63,
+            424
+          ],
+          [
+            4.68,
+            432
+          ],
+          [
+            5.73,
+            425
+          ],
+          [
+            6.78,
+            421
+          ],
+          [
+            7.83,
+            421
+          ],
+          [
+            8.88,
+            422
+          ],
+          [
+            9.93,
+            423
+          ],
+          [
+            10.98,
+            425
+          ],
+          [
+            12.03,
+            422
+          ],
+          [
+            13.08,
+            421
+          ],
+          [
+            14.13,
+            431
+          ],
+          [
+            15.18,
+            436
+          ],
+          [
+            16.23,
+            436
+          ],
+          [
+            17.28,
+            433
+          ],
+          [
+            18.33,
+            429
+          ],
+          [
+            19.38,
+            429
+          ],
+          [
+            20.43,
+            414
+          ],
+          [
+            21.48,
+            417
+          ],
+          [
+            22.53,
+            435
+          ]
+        ],
+        "cuts": [],
+        "identity": {
+          "ref": 55,
+          "matched": 57,
+          "path": 0,
+          "single": 0
+        }
+      },
+      "panel_q": 1,
+      "tile_crop": {
+        "x": 234,
+        "y": 0,
+        "w": 382,
+        "h": 340,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 280,
+        "y": 0,
+        "w": 292,
+        "h": 340,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.71,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.73,
+          0.73,
+          0.73
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "line",
+      "frame_check": {
+        "samples": 46,
+        "lost": []
+      }
+    },
+    "closing": {
+      "source": "continuous"
+    }
+  },
+  "render_speakers": {
+    "3": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "6": {
+      "name_original": "GÖKSU ÖNGÖREN ÖZGÜR",
+      "name_arabic": "غوكسو أونغورين أوزغور",
+      "role_arabic": "",
+      "is_presenter": false,
+      "frames_agreeing": 1,
+      "rejected": "host",
+      "accepted": false
+    },
+    "7": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "8": {
+      "name_original": "",
+      "name_arabic": "",
+      "role_arabic": "",
+      "is_presenter": false,
+      "frames_agreeing": 0,
+      "rejected": "",
+      "accepted": false
+    },
+    "10": {
+      "name_original": "GÖKSU ÖNGÖREN ÖZGÜR",
+      "name_arabic": "غوكسو أونغورن أوزغور",
+      "role_arabic": "",
+      "is_presenter": true,
+      "frames_agreeing": 3,
+      "rejected": "host",
+      "accepted": false,
+      "roster_override": "host"
+    },
+    "11": {
+      "accepted": false,
+      "source": "gemini"
+    }
+  },
+  "render_roster": {
+    "CSIDYFLyy9Q": [
+      {
+        "name_arabic": "ضيفة الاستوديو/المقدّمة",
+        "name_original": "<UNKNOWN>",
+        "role_arabic": "مقدّمة نشرة الأخبار والبرنامج، تظهر في اللقطات بالزي الداكن",
+        "is_host": true
+      },
+      {
+        "name_arabic": "إبراهيم فريحات",
+        "name_original": "<UNKNOWN>",
+        "role_arabic": "أستاذ الصراعات الدولية بمعهد الدوحة للدراسات العليا",
+        "is_host": false
+      },
+      {
+        "name_arabic": "لقاء مكي",
+        "name_original": "<UNKNOWN>",
+        "role_arabic": "الباحث الأول بمركز الجزيرة للدراسات",
+        "is_host": false
+      },
+      {
+        "name_arabic": "عباس أصلاني",
+        "name_original": "<UNKNOWN>",
+        "role_arabic": "الباحث بمركز الشرق الأوسط للدراسات الاستراتيجية",
+        "is_host": false
+      }
+    ],
+    "MlxPThAg4Ag": [
+      {
+        "name_arabic": "گوكسو أونغورن أوزور",
+        "name_original": "Göksu Öngören Özgür",
+        "role_arabic": "مقدّمة البرنامج",
+        "is_host": true
+      },
+      {
+        "name_arabic": "كاديريه غوتشلو ساكاريا",
+        "name_original": "Kadriye Güçlü Sakarya",
+        "role_arabic": "كاتبة صحفية",
+        "is_host": false
+      },
+      {
+        "name_arabic": "ميليك يغيتيل",
+        "name_original": "Melik Yiğitel",
+        "role_arabic": "صحفي",
+        "is_host": false
+      },
+      {
+        "name_arabic": "أردا إردوغان",
+        "name_original": "Arda Erdoğan",
+        "role_arabic": "مراسل قناة CNN Türk في أنقرة",
+        "is_host": false
+      }
+    ]
+  },
+  "render_roster_source": {
+    "CSIDYFLyy9Q": "built",
+    "MlxPThAg4Ag": "built"
+  },
+  "render_attribution": [
+    {
+      "point_id": "52d09ea5fbb8",
+      "speaker": "سيرجيو دي لا بينيا",
+      "evidence": "",
+      "accepted": false,
+      "reason": "القائل ليس في القائمة"
+    },
+    {
+      "point_id": "e5a7d2e38504",
+      "speaker": "معصوم توركر",
+      "evidence": "",
+      "accepted": false,
+      "reason": "القائل ليس في القائمة"
+    }
+  ],
+  "render_map_errors": {
+    "MlxPThAg4Ag": "نفد وقت التشغيلة",
+    "CSIDYFLyy9Q": "budget"
+  },
+  "render_gemini_speakers": [
+    {
+      "point_id": "70e0a457964c",
+      "video_id": "zwuu-HrL2Pg",
+      "start": 227.0,
+      "end": 256.0,
+      "name": "حسين محبي",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "a2f64924cb7b",
+      "video_id": "zwuu-HrL2Pg",
+      "start": 682.2,
+      "end": 713.5,
+      "name": "عريب الرنتاوي",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "e5a7d2e38504",
+      "video_id": "MlxPThAg4Ag",
+      "start": 4874.0,
+      "end": 4892.4,
+      "name": "",
+      "applied": false
+    },
+    {
+      "point_id": "52d09ea5fbb8",
+      "video_id": "CSIDYFLyy9Q",
+      "start": 357.2,
+      "end": 374.6,
+      "name": "",
+      "applied": false
+    },
+    {
+      "point_id": "dab90cd00447",
+      "video_id": "q4xz3UDtigw",
+      "start": 404.5,
+      "end": 426.0,
+      "name": "جوناثان كونريكوس",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    }
+  ],
+  "render_gemini_cost": 0.1942,
+  "render_exact_selfcheck": {
+    "ok": true,
+    "reason": ""
+  },
+  "render_budget": {
+    "minutes": 45.2,
+    "skipped": [
+      "speakers",
+      "maps",
+      "figures"
+    ]
+  },
+  "render_broll": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "photo": "جملة مجرّدة"
+    },
+    {
+      "scene": 2,
+      "sentence": 0,
+      "photo": "جملة مجرّدة"
+    },
+    {
+      "scene": 4,
+      "sentence": 0,
+      "photo": "جملة مجرّدة"
+    },
+    {
+      "scene": 5,
+      "sentence": 0,
+      "photo": "جملة مجرّدة"
+    },
+    {
+      "scene": 9,
+      "sentence": 0,
+      "photo": "جملة مجرّدة"
+    }
+  ],
+  "broll_scan": {
+    "videos": {
+      "JO-rxaBlbOk": {
+        "downloaded": 276,
+        "classified": 216,
+        "sheets": 15,
+        "kinds": {
+          "anchor": 183,
+          "graphic": 11,
+          "text_heavy": 6,
+          "studio": 12,
+          "event_footage": 4
+        },
+        "footage_relevant": 4,
+        "footage_other": 0,
+        "chains": 1,
+        "longest": 4
+      },
+      "F_iRhDQ_jPE": {
+        "downloaded": 428,
+        "classified": 360,
+        "sheets": 15,
+        "kinds": {
+          "anchor": 308,
+          "studio": 38,
+          "text_heavy": 12,
+          "event_footage": 2
+        },
+        "footage_relevant": 2,
+        "footage_other": 0,
+        "chains": 0,
+        "longest": 0
+      }
+    },
+    "sheets_used": 30,
+    "chains": [],
+    "assign": [],
+    "hook_assign": [
+      {
+        "n": 0,
+        "chain": 1
+      }
+    ]
+  },
+  "render_timing": {
+    "minutes": 47.2,
+    "stages": [
+      [
+        "clips",
+        0.0
+      ],
+      [
+        "clip 3 الميادين",
+        0.2
+      ],
+      [
+        "clip 6 سي إن إن ترك",
+        1.3
+      ],
+      [
+        "clip 7 الميادين",
+        6.3
+      ],
+      [
+        "clip 8 الجزيرة",
+        11.1
+      ],
+      [
+        "clip 10 سي إن إن ترك",
+        12.9
+      ],
+      [
+        "clip 11 ILTV",
+        14.1
+      ],
+      [
+        "background",
+        21.8
+      ],
+      [
+        "hook_scan",
+        21.8
+      ],
+      [
+        "broll",
+        23.0
+      ],
+      [
+        "assemble",
+        24.6
+      ],
+      [
+        "speakers",
+        24.6
+      ],
+      [
+        "maps",
+        37.4
+      ],
+      [
+        "figures",
+        37.4
+      ],
+      [
+        "scene 0 title_card",
+        37.4
+      ],
+      [
+        "scene 1 narration",
+        37.6
+      ],
+      [
+        "scene 2 narration",
+        37.8
+      ],
+      [
+        "scene 3 clip",
+        38.0
+      ],
+      [
+        "scene 4 narration",
+        39.2
+      ],
+      [
+        "scene 5 narration",
+        39.4
+      ],
+      [
+        "scene 6 clip",
+        39.5
+      ],
+      [
+        "scene 7 clip",
+        42.9
+      ],
+      [
+        "scene 8 clip",
+        42.9
+      ],
+      [
+        "scene 9 narration",
+        42.9
+      ],
+      [
+        "scene 10 clip",
+        43.0
+      ],
+      [
+        "scene 11 clip",
+        44.9
+      ],
+      [
+        "scene 12 question",
+        44.9
+      ],
+      [
+        "join",
+        45.2
+      ],
+      [
+        "final",
+        46.3
+      ]
+    ],
+    "left_minutes": 3.5
+  },
+  "render_dropped": [],
+  "render_approx": [
+    {
+      "point_id": "1feb6e581974",
+      "kind": "clip",
+      "start": 5617,
+      "end": 5645,
+      "reason": "الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة",
+      "aligned": true
+    },
+    {
+      "point_id": "dab90cd00447",
+      "kind": "clip",
+      "start": 403,
+      "end": 426,
+      "reason": "الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة",
+      "aligned": true
+    }
+  ],
+  "rendered_at": "2026-11-27T06:51:31.735601+00:00",
+  "cost_renders": [
+    {
+      "claude": {
+        "claude-haiku-5-5": 0.02565,
+        "claude-sonnet-5": 0.04798
+      },
+      "gemini": 0.1942,
+      "tts": 0.05971,
+      "proxy_bytes": 57201228,
+      "at": "2026-11-27T06:51:31.735650+00:00"
+    }
+  ],
+  "render_notes": [
+    "### 🎬 تركيب الريل",
+    "- ⏱️ المدة: 198.1 ث",
+    "- 🎞️ [الملف](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-11-27/b27480661676.mp4) · [المعاينة](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-11-27/b27480661676.gif)",
+    "- ⏱️ نافذة مقطع الميادين مُدّت إلى مدته المعروفة (30 ث) — موضع الاقتباس في النص تقديري",
+    "- ⏱️ نافذة مقطع الميادين مُدّت إلى مدته المعروفة (31 ث) — موضع الاقتباس في النص تقديري",
+    "- ⏱️ نافذة مقطع سي إن إن ترك مُدّت إلى مدته المعروفة (20 ث) — موضع الاقتباس في النص تقديري",
+    "- 🟦 لا صورة صالحة لخلفية الراوي — خلفية كحلية تُركَّب فوقها الخرائط ولقطات الحدث",
+    "- 🎞️ المرشّحون لم يحوِ أيٌّ منهم لقطات صالحة من الحدث — الهوك بصورة الخبر",
+    "- 🎞️ الهوك من لقطات الموضوع (لا لقطة للحدث نفسه): Al Jazeera English — Iran says three oil tankers hit by naval mines in Strait of Hormuz (210–214)",
+    "- 👥 ضيوف الجزيرة: إبراهيم فريحات، لقاء مكي، عباس أصلاني",
+    "- 👥 ضيوف سي إن إن ترك: كاديريه غوتشلو ساكاريا، ميليك يغيتيل، أردا إردوغان",
+    "- ⚠️ تعذّر بناء خريطة متكلمي سي إن إن ترك: نفد وقت التشغيلة",
+    "- ⏱️ تُخطّيت مرحلة قائمة الضيوف وخريطة المتكلمين بعد 37 دقيقة من التركيب (ميزانية الوقت)",
+    "- ✅ Gemini يؤكد المتكلم: حسين محبي (الميادين)",
+    "- ✅ Gemini يؤكد المتكلم: عريب الرنتاوي (الميادين)",
+    "- ✅ Gemini يؤكد المتكلم: جوناثان كونريكوس (ILTV)",
+    "- ⏱️ تُخطّيت مرحلة خرائط السياق بعد 37 دقيقة من التركيب (ميزانية الوقت)",
+    "- 🎨 أشخاص الكاريكاتير يتبعون الراوي في 3 جمل: الولايات المتحدة الأمريكية، إيران",
+    "- ⏱️ تُخطّيت مرحلة صور الأشخاص بعد 37 دقيقة من التركيب (ميزانية الوقت)",
+    "- 🎞️ فحصت 576 ث من 2 فيديو: لقطات ميدانية 6 ث — لا سلسلة ≥ 3 ث",
+    "- 🎞️ لقطات الحدث: 0 من 5 جمل — 5 بالصورة",
+    "- 🖼️ خلفية واحدة متصلة: الصورة تتحرك ذهابًا وإيابًا طوال الريل (لا لقطات حدث تكفي فيديو)",
+    "- 🎨 قطع الكاريكاتير المعتمد تتجمّع في الهوك (2)",
+    "- ✂️ أُخفي شريط القناة في الميادين: قُصّ أسفل 32%",
+    "- 🎯 مقطع سي إن إن ترك: 3 وجوه — المتكلم بالرؤية",
+    "- ✂️ أُخفي شريط القناة في سي إن إن ترك: قُصّ أسفل 12%",
+    "- ▭ مقطع سي إن إن ترك: أُزيلت أشرطة سوداء",
+    "- 🎯 مقطع الميادين: 2 وجوه — المتكلم بالرؤية",
+    "- 🎯 مقطع الجزيرة: 2 وجوه — المتكلم بالرؤية",
+    "- ✂️ أُخفي شريط القناة في الجزيرة: قُصّ أسفل 24%",
+    "- ⚠️ نافذة مقطع سي إن إن ترك بلا وجه كامل للمتحدث في الثواني 5–7، 12–14، 17–18 من مقطعه — راجعها",
+    "- ⚠️ نافذة مقطع الجزيرة بلا وجه كامل للمتحدث في الثواني 4–10 من مقطعه — راجعها",
+    "- 🎯 مقطع سي إن إن ترك: 3 وجوه — المتكلم بالرؤية",
+    "- ▭ مقطع سي إن إن ترك: أُزيلت أشرطة سوداء",
+    "- ✂️ أُخفي شريط القناة في ILTV: قُصّ أسفل 29%",
+    "- 🎙️ الصوت: ElevenLabs (باقي الرصيد نحو ? حرف)",
+    "- 💵 كلفة الريل: 1.64$ — المقاطع والأسئلة 0.94$ · السيناريو 0.38$ · التركيب 0.33$ (Sonnet 0.28$ · Opus 0.12$ · Haiku 0.03$ · Gemini 1.15$ · صوت 0.06$ · بروكسي 66 MB) · البروكسي خارج المجموع"
+  ],
+  "reel_review_issue": 2027
 }
