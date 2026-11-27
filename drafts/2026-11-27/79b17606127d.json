@@ -1,7 +1,7 @@
 {
   "id": "79b17606127d",
   "created_at": "2026-11-27T16:31:52.600059+00:00",
-  "status": "pending",
+  "status": "approved_script",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -486,7 +486,8 @@
         "enter": "right",
         "path": "drafts/2026-11-27/79b17606127d-cartoon-2.png"
       }
-    ]
+    ],
+    "approved": true
   },
   "reel_bg": {
     "url": "https://imgs.search.brave.com/Px1K90KIA_0_uWd5QS41ijTwEr-AWAcVesEcemFt1TY/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pY2hl/Zi5iYmNpLmNvLnVr/L2FjZS93cy82NDAv/Y3BzcHJvZHBiLzk1/NmMvbGl2ZS85NjJk/MTRlMC1iNmZlLTEx/ZWYtYTcwYS0wNWZj/M2I5MzE0NDcuanBn/LndlYnA",
@@ -504,7 +505,8 @@
       "views": 18412,
       "duration": 158,
       "published": "2026-11-25T19:28:12Z",
-      "views_per_hour": 408.2
+      "views_per_hour": 408.2,
+      "picked": true
     },
     {
       "video_id": "086ieu_lY6A",
@@ -680,5 +682,15 @@
     "gemini": 0.2237
   },
   "review_issue": 2043,
-  "stage2_issue": 2043
+  "stage2_issue": 2043,
+  "render_status": "queued",
+  "approved_script_at": "2026-11-27T16:54:22.740265+00:00",
+  "editor_override": {
+    "at": "2026-11-27T16:54:22.740238+00:00",
+    "reasons": [
+      "سطر السياق [3] يصف أن متحدثاً «تحدث عن» موضوع بدل سرد واقعة حدثت فعلاً (من فعل ماذا ومتى)، كما لا يرتبط بوقائع الحدث المرفقة (مواجهة محامي الدفاع لماندلبليت). هذا وصف لمضمون حديث لا لحدث.",
+      "سطر السياق [5] غامض ولا يصف واقعة محددة (من فعل ماذا ومتى)؛ فقط يشير لوجود كشف دون تفصيله، ولا يرتبط بالواقعة المرفقة عن مواجهة محامي الدفاع لماندلبليت بشأن إذن التحقيق."
+    ]
+  },
+  "hook_picked": 0
 }
