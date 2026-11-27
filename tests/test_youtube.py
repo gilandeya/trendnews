@@ -11852,8 +11852,11 @@ def test_reel_notes_2027() -> None:
         got = reel_cartoon.usable(draft, cfg) or []
     finally:
         reel_cartoon.local_path = old_local
+    # قضية 2044: الترتيب بموضع النموذج يُحسم في plan قبل الرسم والمعاينة (row_order)، وusable يُبقي ما حُفظ (ما اعتمده المراجع)
     check("2027a: الصف بترتيب موضع النموذج (إيران يسارًا والولايات المتحدة يمينًا)",
-          [p["person_ar"] for p in got] == ["إيران", "الولايات المتحدة"], got)
+          [p["person_ar"] for p in reel_cartoon.row_order(draft["hook_cartoon"]["pieces"])] == ["إيران", "الولايات المتحدة"])
+    check("2044a: usable يُبقي ترتيب القطع المحفوظ كما في المعاينة",
+          [p["person_ar"] for p in got] == ["الولايات المتحدة", "إيران"], got)
 
     # مواصلة السياق: أول جملة عنهم ← يواصلون بلا دخول، وإلا لا يظهرون
     people = [{"person_ar": "إيران", "file": "b"}, {"person_ar": "باكستان", "file": "c"}]
@@ -12238,3 +12241,112 @@ def test_reel_notes_2031() -> None:
           picked == [["الميادين", "العربية"], ["سي إن إن", "الجزيرة"]], picked)
     check("2031e: side_rank: طرف جديد ثم محايد ثم طرف مكرر",
           meta_qa.side_rank({"side": "أ"}, {"ب"}, {}) < meta_qa.side_rank({}, {"ب"}, {}) < meta_qa.side_rank({"side": "ب"}, {"ب"}, {}))
+
+
+def test_reel_notes_2044() -> None:
+    """القضية 2044 (27/11، المسودة 4a750133f670): (1) ترامب ونتنياهو في الريل متعاكسان عمّا في المعاينة المعتمدة (المعاينة بترتيب
+    الكتابة والتركيب يرتّب بـx)؛ (2) «نتائجه» تنزل والمشهد يتلاشى إلى ما بعده: نص الراوي متأخر عن صوته (قسمة المقاطع بنسبة الحروف)
+    ولا شيء يضمن اكتمال آخر كلمة قبل الانتقال؛ (3) صوت مقطع إنجليزي وقف عند «and then if we have» والترجمة تكمل الجملة."""
+    import tempfile as _tempfile
+
+    from src import reel_cartoon, reel_clips, reel_render
+    from src.config import Config, load_config as real_load
+
+    real = real_load()
+    cfg = Config(dict(real))
+
+    # (1) الترتيب يُحسم قبل الرسم ويُحفظ، وكل قطعة تُرسم متجهة نحو وسط الصف
+    pieces = [{"name_ar": "نتنياهو", "x": 0.68}, {"name_ar": "ترامب", "x": 0.3}, {"name_ar": "ثالث"}]
+    check("2044a: row_order بموضع النموذج، وبلا x في الوسط، وثابت عند التساوي",
+          [p["name_ar"] for p in reel_cartoon.row_order(pieces)] == ["ترامب", "ثالث", "نتنياهو"]
+          and [p["name_ar"] for p in reel_cartoon.row_order([{"name_ar": "أ"}, {"name_ar": "ب"}])] == ["أ", "ب"])
+    check("2044a: جهة القطعة في الصف",
+          [reel_cartoon.facing_side(k, 3) for k in range(3)] == ["left", "middle", "right"]
+          and reel_cartoon.facing_side(0, 1) == "middle")
+    con = {"prompt_en": "scene"}
+    pr = reel_cartoon.image_prompt({"prompt_en": "Netanyahu whispering"}, con, real, "right")
+    check("2044a: وصف قطعة الطرف الأيمن يطلب الاتجاه نحو اليسار، وبلا جهة لا جملة جهة",
+          "toward the LEFT" in pr and "toward the" not in reel_cartoon.image_prompt({"prompt_en": "x"}, con, real, ""), pr)
+    # plan يرسم بالترتيب ويحفظه: المعاينة والريل صفٌّ واحد
+    tmpd = Path(_tempfile.mkdtemp())
+    drawn: list = []
+
+    def fake_draw(piece, con_, cfg_, key, side=""):
+        drawn.append((piece["name_ar"], side))
+        im = Image.new("RGBA", (40, 80), (0, 0, 0, 0))
+        im.paste((200, 50, 50, 255), (5, 5, 35, 75))
+        return im, 0.01, ""
+    old = (reel_cartoon._draw_piece, reel_cartoon.concept, reel_cartoon.draw_thinker, os.environ.get("GEMINI_API_KEY"))
+    from src import store as _store
+    old_dir = _store.draft_dir
+    try:
+        reel_cartoon._draw_piece = fake_draw
+        reel_cartoon.concept = lambda script, c, client=None: ({"prompt_en": "s", "idea_ar": "i", "pieces": [
+            {"name_ar": "نتنياهو", "x": 0.68, "prompt_en": "n"}, {"name_ar": "ترامب", "x": 0.3, "prompt_en": "t"}]}, "")
+        reel_cartoon.draw_thinker = lambda *a, **k: None
+        os.environ["GEMINI_API_KEY"] = "k"
+        _store.draft_dir = lambda *a, **k: tmpd
+        pcfg = Config(dict(real))
+        rec = reel_cartoon.plan({"id": "d2044", "script": {"scenes": []}}, pcfg) or {}
+    finally:
+        reel_cartoon._draw_piece, reel_cartoon.concept, reel_cartoon.draw_thinker = old[:3]
+        _store.draft_dir = old_dir
+        if old[3] is None:
+            os.environ.pop("GEMINI_API_KEY", None)
+        else:
+            os.environ["GEMINI_API_KEY"] = old[3]
+    check("2044a: plan يرسم ويحفظ بترتيب الصف، اليسرى متجهة يمينًا واليمنى يسارًا",
+          drawn == [("ترامب", "left"), ("نتنياهو", "right")]
+          and [p["name_ar"] for p in rec.get("pieces") or []] == ["ترامب", "نتنياهو"], (drawn, rec.get("error")))
+
+    # (2) حدود المقاطع على وقفات الصوت
+    rcfg = Config(dict(real))
+    spans = reel_render.segment_spans([39, 38], 6.4, [(3.9, 4.05), (1.0, 1.1)], rcfg)
+    check("2044b: الحد بين المقطعين على الوقفة القريبة لا تقدير الحروف",
+          spans == [(0.0, 3.9), (4.05, 6.4)], spans)
+    plain = reel_render.segment_spans([39, 38], 6.4, [], rcfg)
+    check("2044b: بلا وقفة ← نسبة الحروف كما كانت",
+          abs(plain[0][1] - 6.4 * 39 / 77) < 1e-9 and abs(plain[1][0] - plain[0][1]) < 1e-9, plain)
+    far = reel_render.segment_spans([10, 10], 6.0, [(0.3, 0.4)], rcfg)
+    check("2044b: وقفة أبعد من snap لا تُعتمد", abs(far[0][1] - 3.0) < 1e-9, far)
+    check("2044b: settle_word_times يضغط ما يتأخر ويُبقي ما يكتمل",
+          [round(t, 6) for t in reel_render.settle_word_times([0.0, 1.0, 2.0], 2.5, 0.28, 0.5)] == [0.0, 0.86, 1.72]
+          and reel_render.settle_word_times([0.0, 1.0], 3.0, 0.28, 0.5) == [0.0, 1.0])
+    # آخر كلمة في المشهد يكتمل نزولها قبل الانتقال
+    wcfg = Config(dict(real))
+    calls: list = []
+    old_drop = reel_render._drop_frames
+    reel_render._drop_frames = lambda c, tiles, times, seconds, tmp, tag, **k: calls.append((list(times), seconds)) or [(Path("x"), seconds)]
+    try:
+        reel_render._narration_frames_plain([("تفرض الولايات المتحدة حصارا بحريا على إيران، وقد تحدث الرئيس الأمريكي دونالد ترامب عن نتائجه.",
+                                              6.8)], 1, wcfg, tmpd, 0.0, None, end_reserve=0.35)
+    finally:
+        reel_render._drop_frames = old_drop
+    drop = float(real.path("reel.render.words.drop"))
+    settle = float(real.path("reel.render.reveal.settle"))
+    times, seconds = calls[-1]
+    check("2044b: آخر كلمة في المشهد يكتمل نزولها قبل التلاشي بـsettle",
+          bool(calls) and max(times) + drop <= seconds - 0.35 - settle + 1e-6, calls)
+    check("2044b: الإعداد الحقيقي يضبط الوقفات ويحجز الاكتمال، والنسخة 96 فأكثر",
+          real.path("reel.render.reveal.pauses.enabled") is True and settle > 0
+          and int(real.path("reel.render.version")) >= 96)
+
+    # (3) آخر الاقتباس لم يطابق ← يُمدّ إلى المسموع بعده
+    heard = [(0.0, 0.4, "and"), (0.4, 0.7, "then"), (0.7, 0.9, "if"), (0.9, 1.0, "we"), (1.0, 1.2, "have"),
+             (1.3, 1.5, "to"), (1.5, 1.8, "take"), (1.8, 2.3, "military"), (2.3, 2.8, "action"), (4.5, 4.9, "next")]
+    tcfg = Config(dict(real))
+    res = {"t0": 0.0, "t1": 1.2, "words": heard[:5], "tail_missing": 4}
+    out = reel_clips.extend_tail(res, heard, tcfg)
+    check("2044c: آخر أربع كلمات لم تطابق ← يُمدّ إلى «action» ولا يدخل ما بعد الوقفة",
+          out["t1"] == 2.8 and out.get("tail_extended") == 4 and not out.get("tail_unheard"), out)
+    gap = reel_clips.extend_tail({**res, "tail_missing": 6}, heard, tcfg)
+    check("2044c: ما بعد وقفة أطول من max_gap لا يُضاف ويُنبَّه بالباقي",
+          gap["t1"] == 2.8 and gap.get("tail_unheard") == 2, gap)
+    none = reel_clips.extend_tail({**res, "t1": 4.9}, heard, tcfg)
+    check("2044c: لا مسموع بعده ← الحد كما هو وتنبيه", none["t1"] == 4.9 and none.get("tail_unheard") == 4, none)
+    check("2044c: كلمة واحدة ناقصة دون min_words لا تُمسّ",
+          reel_clips.extend_tail({**res, "tail_missing": 1}, heard, tcfg) == {**res, "tail_missing": 1})
+    words = [(k * 0.3, k * 0.3 + 0.25, w) for k, w in enumerate(
+        "we need time for the blockade to work and then if we have shown".split())]
+    al = reel_clips.align_quote("we need time for the blockade to work and then if we have to take action", words, tcfg) or {}
+    check("2044c: align_quote يعيد عدد كلمات آخر الاقتباس غير المسموعة", al.get("tail_missing") == 2, al)

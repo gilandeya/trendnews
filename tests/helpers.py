@@ -86,6 +86,12 @@ def load_config(path=None):
         # السياق كلمةً كلمة (7/11) يغيّر إطارات الراوي التي تعدّها مراجع الأوامر المحفوظة؛ context_words_cfg يعيده
         if isinstance(rcfg.get("reveal"), dict):
             rcfg["reveal"]["mode"] = "lines"
+            # قضية 2044: ضبط المقاطع على وقفات الصوت وهامش اكتمال آخر كلمة يغيّران أزمنة الكلمات المثبّتة؛ test_reel_notes_2044 يطلبهما
+            rcfg["reveal"]["settle"] = 0
+            rcfg["reveal"]["pauses"] = {"enabled": False}
+        # قضية 2044: مدّ آخر المقطع إلى ما سُمع بعد آخر كلمة طوبقت يغيّر حدود المقاطع المضبوطة المثبّتة؛ test_reel_notes_2044 يطلبه
+        if isinstance(rcfg.get("exact"), dict) and isinstance(rcfg["exact"].get("tail"), dict):
+            rcfg["exact"]["tail"] = {**rcfg["exact"]["tail"], "enabled": False}
         # شريط الخلفية الواحد (خ1، 8/11) يغيّر أوامر مشاهد الراوي التي تثبّتها مراجع R5d2 وما بعدها؛ bg_track_cfg يعيده
         if isinstance(rcfg.get("bg_track"), dict):
             rcfg["bg_track"]["enabled"] = False
@@ -271,7 +277,8 @@ def context_words_cfg(cfg):
     """نسخة بظهور الراوي كما في config.yaml (كلمةً كلمة، 7/11)."""
     import copy
     c = copy.deepcopy(cfg)
-    c["reel"]["render"]["reveal"] = dict(_real_load_config().path("reel.render.reveal"))
+    c["reel"]["render"]["reveal"] = {**dict(_real_load_config().path("reel.render.reveal")), "settle": 0,
+                                     "pauses": {"enabled": False}}
     return c
 
 

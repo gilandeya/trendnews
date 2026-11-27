@@ -1842,6 +1842,25 @@ step (`article.wide_days`).
   TextExtracts تُقرأ من نص الويكي (`plain_wikitext`، `fallback_wikitext`). بند بلا لغة يُكتب سببه وحده.
 - **بطاقة سؤال بلا دور:** `scene_qcard_bare` («❓ السؤال») بدل «❓ : السؤال».
 
+## ترتيب قطع الكاريكاتير، ونص الراوي على صوته، وآخر الاقتباس المسموع (القضية 2044، 27/11) — `tests/test_youtube.py:test_reel_notes_2044`
+
+المسودة `drafts/2026-11-27/4a750133f670.json`. `render_version` = 96 (للقادم فقط، S11). `tests.helpers.load_config` يطفئ (2) و(3).
+- **ترتيب القطع واحد:** المعاينة رُسمت بترتيب الكتابة والتركيب رتّبها بـx (قضية 2027)، فظهر ترامب ونتنياهو متعاكسين عمّا اعتُمد.
+  `reel_cartoon.plan` يحسم الترتيب قبل الرسم (`row_order`) ويرسم ويحفظ به، و`usable` لا يعيد الترتيب (ما حُفظ هو ما عُرض؛ المسودات
+  القديمة معاينتها بترتيب الكتابة أيضًا). وكل قطعة تُرسم وحدها فلا تعرف أين يقف صاحبها (رُسم نتنياهو يشير إلى يمين الصورة وهو في
+  يمين الصف): `image_prompt(side=)` يُلحق `reel.cartoon.facing` (left/right/middle من `facing_side`) فتتجه نحو وسط المشهد.
+  (اللون الوردي بين ساقيه في هذا الريل: رُكّب قبل دمج #2042 بدقائق؛ إعادة التركيب تزيله.)
+- **نص الراوي على صوته:** كل مقطع من جملة الراوي كان يأخذ من مدة الكلام بنسبة حروفه، والصوت لا يتوزع هكذا (اسم أجنبي يُنطق بحروفه
+  سريعًا، والفاصلة وقفة) فتأخر نص المقطع الثاني ~0.6 ث ونزلت «نتائجه» في التلاشي. `_speech` يحفظ وقفات كل جملة
+  (`_record_pauses` ← `Deps.speech_pauses` = `_real_speech_pauses`، silencedetect بـ`reel.render.reveal.pauses`) في `_PAUSES`، و`segment_spans`
+  (خالصة) تضع الحد بين مقطعين على أقرب وقفة إلى تقدير الحروف ضمن `pauses.snap`. و`settle_word_times` (خالصة) تضغط أزمنة كلمات المقطع
+  فيكتمل نزول آخرها قبل `reveal.settle` من تبدّله، وفي آخر مقطع من المشهد قبل الانتقال أيضًا (`_narration_frames(end_reserve=transition_seconds)`).
+  وضع الكلمات وحده (`reveal.mode: words`).
+- **آخر الاقتباس المسموع:** وقف صوت مقطع ILTV عند «and then if we have» والترجمة تكمل الجملة: آخر كلمات الاقتباس لم تطابق التفريغ فوقف
+  الحد عند آخر كلمة طوبقت. `align_quote` يعيد `tail_missing`، و`reel_clips.extend_tail` (خالصة، من `_exact_align`) يمدّ الحد بالكلمات المسموعة
+  التالية بعددها ما دام الفاصل ≤ `exact.tail.max_gap` والإضافة ≤ `max_seconds`؛ يُحفظ `render_crops[i].exact.tail_extended`/`tail_unheard`
+  وسطرا `comment_tail_extended`/`comment_tail_unheard`.
+
 ## Retired paths
 
 - **«مقال» (`src/article.py`, label `مقال`, `.github/workflows/article.yml`) and «طلب» (`src/request.py`, label `طلب`

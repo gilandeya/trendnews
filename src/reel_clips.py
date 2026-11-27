@@ -250,11 +250,43 @@ def align_quote(quote_original: str, words: list, cfg=None, diag: dict | None = 
     first_tok, last_tok = best + pairs[0][1], best + pairs[-1][1]
     if pairs[0][0] > 0 and first_tok > 0:      # أول كلمة في الاقتباس لم تُطابق: الكلمة المفرَّغة المجاورة
         first_tok -= 1
+    tail = n - 1 - pairs[-1][0]
     if pairs[-1][0] < n - 1 and last_tok < len(toks) - 1:
         last_tok += 1
+        tail -= 1
     a, b = toks[first_tok][1], toks[last_tok][1]
+    # قضية 2044: tail_missing عدد كلمات آخر الاقتباس التي لم تُسمع بعد آخر كلمة طوبقت؛ extend_tail يمدّ الحد إليها
     return {"t0": float(words[a][0]), "t1": float(words[b][1]), "ratio": round(best_score / n, 3), "matched": best_score,
-            "words": [(float(w[0]), float(w[1]), str(w[2])) for w in words[a:b + 1]]}
+            "words": [(float(w[0]), float(w[1]), str(w[2])) for w in words[a:b + 1]], "tail_missing": max(tail, 0)}
+
+
+def extend_tail(res: dict, heard: list, cfg) -> dict:
+    """يمدّ نهاية المقطع المضبوط إلى كلمات آخر الاقتباس التي لم تطابق (دالة خالصة، قضية 2044). مقطع تشاك فرايليخ وقف صوته عند
+    «and then if we have» والترجمة على الشاشة تكمل الجملة: آخر ست كلمات لم يطابقها التفريغ (المفرِّغ أو نص Gemini كتبها بغير ما
+    قيل) فوقف الحد عند آخر كلمة طوبقت. تُضاف الكلمات المسموعة التالية بالعدد نفسه ما دام الفاصل بين كل كلمتين ≤ tail.max_gap
+    (وقفة أطول = انتهى الكلام) والإضافة ≤ tail.max_seconds؛ لا كلمة مسموعة بعده ← tail_unheard ليعرف المراجع أن آخر الترجمة لا يُسمع."""
+    tc = (cfg.path("reel.render.exact.tail") if cfg is not None else None) or {}
+    missing = int(res.get("tail_missing") or 0)
+    if not tc.get("enabled") or missing < int(tc.get("min_words", 2)):
+        return res
+    t1 = float(res["t1"])
+    after = [w for w in heard if float(w[0]) >= t1 - 1e-3]
+    gap, cap = float(tc.get("max_gap", 0.6)), float(tc.get("max_seconds", 4.0))
+    added, end = [], t1
+    for w in after[:missing]:
+        s, e = float(w[0]), float(w[1])
+        if s - end > gap or e - t1 > cap:
+            break
+        added.append((s, e, str(w[2])))
+        end = e
+    out = dict(res)
+    if added:
+        out["t1"] = end
+        out["words"] = list(res.get("words") or []) + added
+        out["tail_extended"] = len(added)
+    if len(added) < missing:
+        out["tail_unheard"] = missing - len(added)
+    return out
 
 
 _WHISPER_MODELS: dict = {}
