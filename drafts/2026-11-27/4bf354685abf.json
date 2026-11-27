@@ -1,7 +1,7 @@
 {
   "id": "4bf354685abf",
   "created_at": "2026-11-27T09:06:33.557473+00:00",
-  "status": "pending",
+  "status": "approved_script",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -600,7 +600,8 @@
         "end": 63,
         "impact": 3,
         "desc": "دمار وركام مع نيران مشتعلة وأدخنة متصاعدة إثر قصف طال منشآت في الحديدة"
-      }
+      },
+      "picked": true
     },
     {
       "video_id": "VJDQNGDMgQo",
@@ -739,5 +740,15 @@
     "gemini": 0.1409
   },
   "review_issue": 2031,
-  "stage2_issue": 2031
+  "stage2_issue": 2031,
+  "render_status": "queued",
+  "approved_script_at": "2026-11-27T09:40:22.668051+00:00",
+  "editor_override": {
+    "at": "2026-11-27T09:40:22.668030+00:00",
+    "reasons": [
+      "الاسم Cuşkun Başboğ لم يُحسم رسمه العربي ولم يظهر مرشح موثوق في نطاقات عربية مستقلة، وهذا يستوجب إعادة الريل للمرحلة 2 للتحقق من الاسم ورسمه قبل النشر.",
+      "اسم متحدث لم يُحسم: جوشكون باشبوغ"
+    ]
+  },
+  "hook_picked": 0
 }
