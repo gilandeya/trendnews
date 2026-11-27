@@ -683,7 +683,7 @@
   },
   "review_issue": 2043,
   "stage2_issue": 2043,
-  "render_status": "queued",
+  "render_status": "waiting_proxy",
   "approved_script_at": "2026-11-27T16:54:22.740265+00:00",
   "editor_override": {
     "at": "2026-11-27T16:54:22.740238+00:00",
@@ -692,5 +692,6 @@
       "سطر السياق [5] غامض ولا يصف واقعة محددة (من فعل ماذا ومتى)؛ فقط يشير لوجود كشف دون تفصيله، ولا يرتبط بالواقعة المرفقة عن مواجهة محامي الدفاع لماندلبليت بشأن إذن التحقيق."
     ]
   },
-  "hook_picked": 0
+  "hook_picked": 0,
+  "render_error": "فشل تنزيل المقطع: فشلت كل الدرجات: ERROR: [youtube] echysm-LXrY: Unable to download API page: ('Unable to connect to proxy', OSError('Tunn"
 }
