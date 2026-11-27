@@ -330,6 +330,14 @@ def pick_hook_candidates(draft: dict, cfg, deps: HookDeps | None = None) -> None
         have = {c["video_id"] for c in cands}
         extra = [c for c in topic_video_candidates(draft, cfg, deps, search) if c["video_id"] not in have]
         cands = cands + extra[:max(int(fb.get("max_candidates", 4)) - len(cands), 0)] if cands else extra
+    if cands:
+        # قضية 2027: Gemini يرى كل مرشّح قبل عرضه على المراجع، فيتقدّم ما فيه لقطة صالحة ويُعرف وقتها
+        try:
+            vet = gemini_vet(cands, draft, cfg)
+        except Exception as exc:  # noqa: BLE001 -- الفحص تحسين
+            vet = {"error": str(exc)[:150]}
+        if vet.get("skipped") != "disabled":
+            search["gemini_vet"] = vet
     search["picked"] = [c["video_id"] for c in cands]
     draft["hook_candidates"] = cands
     draft["hook_search"] = search
@@ -828,3 +836,120 @@ def real_scan_frames(path, seconds: int, cfg) -> list:
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(path), "-vf", f"fps=1,scale={CELL_W}:{CELL_H}",
                     "-frames:v", str(seconds), str(folder / "%04d.jpg")], capture_output=True, timeout=300, check=True)
     return [Image.open(p).convert("RGB") for p in sorted(folder.glob("*.jpg"))]
+
+
+# ───────────────────────────── فحص Gemini للمرشّحين (قضية 2027) ─────────────────────────────
+# طلب صاحب المشروع: قبل أن تُعرض عليه مرشّحات خلفية الهوك يُسأل Gemini عن كل منها هل فيه لقطة ميدانية جيدة تصلح خلفية (بمواصفات
+# الهوك)، وأين هي؛ وفي التركيب يُعتمد المرشّح المعلَّم بنافذة Gemini، فإن لم تكن فيه لقطة صالحة فالبقية. كان الفحص البصري يرى أول
+# scan_seconds ثانية وحدها، فمرشّح الجزيرة المعلَّم في الريل b27480661676 قيل إنه بلا لقطة ميدانية ولقطاته بعدها.
+
+VET_SCHEMA = {
+    "type": "OBJECT",
+    "properties": {
+        "has_footage": {"type": "BOOLEAN"},
+        "start": {"type": "STRING"},
+        "end": {"type": "STRING"},
+        "impact": {"type": "INTEGER"},
+        "describe_ar": {"type": "STRING"},
+        "reason_ar": {"type": "STRING"},
+    },
+    "required": ["has_footage", "start", "end", "impact", "describe_ar", "reason_ar"],
+}
+
+
+def vet_window(data: dict, duration: float | None, cfg) -> dict | None:
+    """نافذة Gemini المقبولة (دالة خالصة) أو None: لقطة يقول إنها موجودة، حدّاها زمنان مقروءان داخل الفيديو، ومدتها ≥ min_seconds؛
+    تُقصّ إلى hook.max_seconds من أولها (أقوى ثوانيها كما وصفها)."""
+    from . import gemini
+    if not isinstance(data, dict) or not data.get("has_footage"):
+        return None
+    a = gemini.parse_clock(data.get("start"), duration)
+    b = gemini.parse_clock(data.get("end"), duration)
+    if a is None or b is None or b <= a or (duration and b > float(duration) + 1):
+        return None
+    vc = cfg.path("reel.hook_search.gemini_vet") or {}
+    if b - a < float(vc.get("min_seconds", 3)):
+        return None
+    cap = float(cfg.path("reel.render.hook.max_seconds", 7))
+    try:
+        impact = max(0, min(3, int(data.get("impact") or 0)))
+    except (TypeError, ValueError):
+        impact = 0
+    return {"start": int(a), "end": int(min(b, a + cap)) if b - a > cap else int(round(b)), "impact": impact,
+            "desc": " ".join(str(data.get("describe_ar") or "").split())[:160]}
+
+
+def _vet_request(c: dict, subject: str, cfg) -> dict:
+    from . import gemini
+    vc = cfg.path("reel.hook_search.gemini_vet") or {}
+    part = gemini.video_part(c["video_id"], float(vc.get("max_minutes", 20) or 0), float(c.get("duration") or 0) or None)
+    text = f"موضوع الريل: {subject}\nعنوان الفيديو: {clean_title(c.get('title', ''))}\nالقناة: {c.get('channel', '')}"
+    return {"system_instruction": {"parts": [{"text": str(vc.get("system", ""))}]},
+            "contents": [{"role": "user", "parts": [part, {"text": text}]}],
+            "generationConfig": {"responseMimeType": "application/json", "responseSchema": VET_SCHEMA,
+                                 "mediaResolution": vc.get("media_resolution", "MEDIA_RESOLUTION_LOW"),
+                                 "maxOutputTokens": int(vc.get("max_output_tokens") or 4096)}}
+
+
+def gemini_vet(cands: list[dict], draft: dict, cfg, post=None, key: str | None = None) -> dict:
+    """يسأل Gemini عن كل مرشّح (حتى gemini_vet.max_videos) ويضع على المقبول c["gemini"] = {start, end, impact, desc}. يعيد
+    {"checked", "ok", "rejected": [{video_id, reason}], "errors", "cost"}؛ المرشّحون يُرتَّبون: المقبول أولًا بدرجته، والمرفوض بعده
+    (لا يُحذف: الفحص البصري في التركيب قد يجد ما فات). بلا مفتاح أو مطفأ ← {"skipped": السبب} بلا نداء. لا يرفع أبدًا."""
+    from . import costs, gemini
+    vc = cfg.path("reel.hook_search.gemini_vet") or {}
+    if not vc.get("enabled"):
+        return {"skipped": "disabled"}
+    key = key if key is not None else os.environ.get("GEMINI_API_KEY", "")
+    if not key:
+        return {"skipped": "no_key"}
+    subject = reel_event(draft.get("script") or {}, draft)
+    out: dict = {"checked": 0, "ok": 0, "rejected": [], "errors": 0, "cost": 0.0}
+    for c in cands[:int(vc.get("max_videos", 5))]:
+        out["checked"] += 1
+        try:
+            code, resp, _s = gemini.generate(_vet_request(c, subject, cfg), vc.get("model", "gemini-3.8-flash"), key, post=post,
+                                             timeout=int(vc.get("timeout", 300)))
+            if code != 200:
+                raise RuntimeError(f"HTTP {code}")
+            cands_r = resp.get("candidates") or []
+            finish = (cands_r[0].get("finishReason") if cands_r else "") or ""
+            usage = resp.get("usageMetadata") or {}
+            cost = gemini.cost_usd(usage, vc.get("price_per_mtok") or {})
+            costs.add("gemini", cost)
+            out["cost"] = round(out["cost"] + cost, 4)
+            if not cands_r or finish == "MAX_TOKENS":
+                raise RuntimeError(f"رد مقطوع ({finish})")
+            import json as _json
+            text = "".join(p.get("text", "") for p in (cands_r[0].get("content") or {}).get("parts") or [] if not p.get("thought"))
+            data = _json.loads(text)
+        except Exception as exc:  # noqa: BLE001 -- مرشّح بلا حكم يبقى للفحص البصري
+            log.warning("تعذّر فحص Gemini لمرشّح الهوك %s: %s", c.get("video_id"), str(exc)[:150])
+            out["errors"] += 1
+            continue
+        win = vet_window(data, float(c.get("duration") or 0) or None, cfg)
+        if win is None:
+            c.pop("gemini", None)
+            out["rejected"].append({"video_id": c["video_id"],
+                                    "reason": " ".join(str((data or {}).get("reason_ar") or "").split())[:160]})
+            continue
+        c["gemini"] = win
+        out["ok"] += 1
+    order = {id(c): k for k, c in enumerate(cands)}
+    cands.sort(key=lambda c: (not c.get("gemini"), -int((c.get("gemini") or {}).get("impact", 0)), order[id(c)]))
+    return out
+
+
+def gemini_hook(cands: list[dict], cfg) -> dict | None:
+    """hook_video من نافذة Gemini (قضية 2027): المرشّح المعلَّم إن قبل Gemini نافذة فيه، وإلا أول مرشّح مقبول بترتيبه. None ← الفحص
+    البصري كما كان."""
+    ok = [c for c in cands if isinstance(c.get("gemini"), dict)]
+    if not ok or not (cfg.path("reel.hook_search.gemini_vet") or {}).get("use_in_render", True):
+        return None
+    c = next((x for x in ok if x.get("picked")), ok[0])
+    w = c["gemini"]
+    reason = cfg.path("reel.render.texts.hook_reason_gemini") or "{desc}"
+    return {"video_id": c["video_id"], "start": int(w["start"]), "end": int(w["end"]), "channel": c.get("channel", ""),
+            "title": re.sub(r"[\[\]]", "", clean_title(c.get("title", ""))).strip(), "source": "auto",
+            "views": int(c.get("views") or 0), "impact": int(w.get("impact", 0)), "pre_ok": False,
+            "strong_start": int(w["start"]), "reason": reason.format(desc=w.get("desc", "")), "gemini": True,
+            "render_version": int(cfg.path("reel.render.version", 0) or 0)}

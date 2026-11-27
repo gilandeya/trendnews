@@ -137,6 +137,20 @@ def budget_over(cfg, stage: str, notes: list | None = None) -> bool:
     return True
 
 
+def reserve_downloads(cfg, stage: str):
+    """يقدّم موعد نهاية التنزيل (reel_clips.DEADLINE) أثناء مرحلة اختيارية بقدر budget.download_reserve[stage] دقيقة قبل موعد
+    التوقف، ويعيد دالة ترجعه كما كان. السبب (قضية 2027): تنزيل أقسام حلقة لخريطة المتكلمين استمر حتى موعد التنزيل العام فلم يبقَ
+    لخرائط السياق (رسم محلي يستغرق دقيقة) ما تحتاجه فتُخطّيت، وخريطة إيران ← باكستان غابت. بلا موعد أو بلا حجز ← لا تغيير."""
+    left = time_left()
+    mins = float(((cfg.path("reel.render.budget") or {}).get("download_reserve") or {}).get(stage, 0) or 0)
+    prev = reel_clips.DEADLINE["at"]
+    if left is None or mins <= 0:
+        return lambda: None
+    at = float(_BUDGET["deadline"]) - mins * 60.0
+    reel_clips.set_deadline(at if prev is None else min(float(prev), at))
+    return lambda: reel_clips.set_deadline(prev)
+
+
 def _arm_watchdog(deadline: float | None):
     """منبّه عند موعد التوقف يرفع RenderTimeout في الخيط الرئيس أينما كان التركيب (تنزيل، ffmpeg، نداء نموذج). يعيد دالة
     إبطاله. بلا موعد أو خارج الخيط الرئيس أو بلا SIGALRM ← لا منبّه."""
@@ -4036,8 +4050,8 @@ def _narration_frames(parts: list[tuple[str, float]], i: int, cfg, tmp: Path, le
                 prev = {str(p["file"]) for p in cast.get(k - 1) or []}
                 times = narration_word_times([part], lead if k == 0 else 0.0, cfg)
                 for p in cast[k]:
-                    if str(p["file"]) in prev:
-                        continue
+                    if str(p["file"]) in prev or (k == 0 and p.get("from_hook")):
+                        continue   # قضية 2027: من يواصل من الهوك على الشاشة أصلًا فلا دخول له
                     j = reel_figures.mention_index(p.get("person_ar", ""), part[0], cfg)
                     enters[str(p["file"])] = times[j] if j is not None and j < len(times) else (lead if k == 0 else 0.0)
             sub = _overlay_cast(sub, cast[k], cfg, tmp, f"{i}_{k}", enters)
@@ -5284,10 +5298,16 @@ def _closing_scene(i: int, scene: dict, channels: str, credit: str, hook_info: d
     # Q5: «برأيك» تُقرأ أولًا ثم وقفة label_pause ثم السؤال؛ صوتاهما يُوصلان بصمت الوقفة في ملف واحد يبدأ عند plan[voice]
     label_text = str(cfg.path("reel.texts.closing_label") or "").strip(" .…")
     label_audio, lab_s = None, 0.0
-    if label_text:
+    # قضية 2027: «برأيك» نداءً وحدها كلمة واحدة بلا جارة ولا علامة، فقطع مولّد الصوت نصفها الثاني («برأ…»). مع closing.label_joined
+    # تُقرأ في نداء السؤال نفسه («برأيك، السؤال؟») فتأخذ نبرة الجملة ووقفتها الطبيعية عند الفاصلة، وزمن ظهورها أول كلمة من الجملة
+    joined_label = bool(label_text) and bool(cl.get("label_joined"))
+    if label_text and not joined_label:
         label_audio, lparts = _speech(label_text, voice, cfg, deps, tmp, f"s{i:02d}l")
         lab_s = sum(d for _, d in lparts)
-    audio, parts = _speech(text, voice, cfg, deps, tmp, f"s{i:02d}")
+    if joined_label:
+        audio, parts = _speech(f"{label_text}، {text}", voice, cfg, deps, tmp, f"s{i:02d}")
+    else:
+        audio, parts = _speech(text, voice, cfg, deps, tmp, f"s{i:02d}")
     q = sum(d for _, d in parts)
     plan = closing_plan(q, cfg, lead, label_seconds=lab_s)
     if label_audio is not None:
@@ -5298,7 +5318,13 @@ def _closing_scene(i: int, scene: dict, channels: str, credit: str, hook_info: d
         audio = joined
     total = plan["total"]
     times = narration_word_times(parts, plan["question"], cfg)
-    if len(times) != len(text.split()):
+    if joined_label:
+        # الكلمة الأولى «برأيك» وما بعدها كلمات السؤال؛ عدد مختلف (التشكيل) ← التوزيع بالحروف على الجملة كما تُعرض
+        n_label = len(label_text.split())
+        if len(times) != n_label + len(text.split()):
+            times = narration_word_times([(f"{label_text} {text}", q)], plan["question"], cfg)
+        times = times[n_label:]
+    elif len(times) != len(text.split()):
         # التشكيل قد يغيّر عدد الكلمات: يوزَّع الزمن على كلمات السؤال المعروض بالحروف على مدة الكلام كله
         times = narration_word_times([(text, q)], plan["question"], cfg)
     qframes = closing_text_frames(cfg, text, times, total, tmp, f"cq{i}", label_at=plan["voice"] if label_text else None)
@@ -5956,13 +5982,37 @@ def _master_texts(sc: dict, clip: dict, spans: list, cuts: list, bounds: list, h
     return [" ".join(full[edges[m]:edges[m + 1]]) for m in range(n)]
 
 
-def echo_sequence(members: list[tuple[int, dict]], clips: dict, cfg) -> list[dict] | None:
+def _master_spans(sc: dict, clip: dict, segments: list, cfg, diag: dict) -> list:
+    """حدود أفكار الأم المسموعة [(t0، t1، كلمات، الفكرة)] بترتيبها. قضية 2027: فكرة لم تبلغ مطابقتها الحد (مفرِّغ يسمع التركية برسم
+    آخر) أسقطت الصدى كله فعُرض السؤال لوحةً عادية بانبثاقها والصدى بكلامه كله. الآن تُعاد مطابقتها بالحد الأرخى (exact.relaxed_ratio)
+    داخل كلمات الاقتباس كله المسموع وحدها (لا الملف كله، فلا تقع في كلام بعيد)، وما لم يُسمع بعدها يُسقط وحده ويُسجَّل سببه."""
+    out = []
+    relaxed = cfg.path("reel.render.echo.relaxed_ratio")
+    whole = None
+    for seg in segments or []:
+        got = reel_clash.span_times(clip, {"sub_original": seg.get("sub_original", "")}, cfg)
+        if not got and relaxed:
+            if whole is None:
+                whole = reel_clash.span_times(clip, {"sub_original": sc.get("quote_original", "")}, cfg,
+                                              min_ratio=float(relaxed)) or ()
+            if whole:
+                got = reel_clash.span_times({"heard": whole[2]}, {"sub_original": seg.get("sub_original", "")}, cfg,
+                                            min_ratio=float(relaxed))
+        if not got:
+            diag.setdefault("unheard_ideas", []).append(seg.get("idea"))
+            continue
+        out.append((got[0], got[1], got[2], seg))
+    return out
+
+
+def echo_sequence(members: list[tuple[int, dict]], clips: dict, cfg, diag: dict | None = None) -> list[dict] | None:
     """تتابع لوحة سؤال فيها أم وصدى، أو None فتُركَّب اللوحة كما كانت. الأم تُقسم أفكارًا بحدودها المسموعة (reel_clash.span_times على
     كلمات الملف المسموعة، ضبط Q13)، وبعد كل فكرة صداها: القطعة التي تكررها من إجابة أخرى، بحدودها المسموعة كذلك. ثم الأم المعاكسة
     وصداها، ثم ما بقي من الإجابات كاملًا. فكرة للأم لا تُسمع حدودها ← None (لا تقسيم بتخمين)؛ صدى لا يُسمع أو أقصر من min_seconds ←
     يُعرض إجابةً كاملة بعد الصدى. كل عنصر: {i, role (primary|opposing|echo|plain), src0, src1 (ثواني الملف؛ plain بلاهما)، seconds،
     depth، color، text، words}، ثم start وuntil بثواني المشهد (until: حتى تعود الأم أو ينتهي دورها فتختفي إطارات الصدى)."""
     ec = cfg.path("reel.render.echo") or {}
+    diag = diag if diag is not None else {}
     if not ec.get("enabled") or len(members) < 2:
         return None
     by_pid = {sc.get("point_id"): (i, sc) for i, sc in members}
@@ -5981,17 +6031,29 @@ def echo_sequence(members: list[tuple[int, dict]], clips: dict, cfg) -> list[dic
     for i, sc in masters:
         clip, e = clips[i], sc["echo"]
         fsec = float(clip.get("file_seconds") or clip.get("seconds") or 0)
-        spans = []
-        for seg in e.get("segments") or []:
-            got = reel_clash.span_times(clip, {"sub_original": seg.get("sub_original", "")}, cfg)
-            if not got:
-                return None
-            spans.append((got[0], got[1], got[2], seg))
+        if ec.get("drop_unheard_ideas"):
+            spans = _master_spans(sc, clip, e.get("segments") or [], cfg, diag)
+        else:
+            spans = []
+            for seg in e.get("segments") or []:
+                got = reel_clash.span_times(clip, {"sub_original": seg.get("sub_original", "")}, cfg)
+                if not got:
+                    diag["reason"] = "unheard"
+                    return None
+                spans.append((got[0], got[1], got[2], seg))
         # التداخل بالكلمات المسموعة لا بالحدود: هامشا فكرتين متجاورتين يتلامسان دائمًا
-        if not spans or any(spans[k + 1][2][0][0] < spans[k][2][-1][1] - 1e-6 for k in range(len(spans) - 1)):
+        if not spans:
+            diag["reason"] = "unheard"
+            return None
+        if any(spans[k + 1][2][0][0] < spans[k][2][-1][1] - 1e-6 for k in range(len(spans) - 1)):
+            diag["reason"] = "overlap"
             return None
         used.add(i)
         color = colors.get("opposing") if e["role"] == "opposing" else colors.get("primary")
+        # قضية 2027: ألوان الصدى بالتناوب على رقمه في الأم كلها (صدى1 أحمر، صدى2 أخضر، صدى3 أحمر…) كما تُرقَّم في قضية الأسئلة،
+        # لا بعمقه في الفكرة الواحدة (echo.color_by: number)
+        by_number = ec.get("color_by") == "number"
+        n_echo = 0
         # صدى كل فكرة أولًا: عددها يحدد حجم نوافذها ومواضعها (echo_geometry)، ووجوده يحدد أين تُقطع الأم
         found_per: list[list] = []
         for t0, t1, words, seg in spans:
@@ -6024,8 +6086,10 @@ def echo_sequence(members: list[tuple[int, dict]], clips: dict, cfg) -> list[dic
                             "depth": 0, "color": color, "text": seg.get("text_ar", ""), "words": words,
                             "idea": seg.get("idea")})
                 for k, (ie, ee, ea, eb, ewords) in enumerate(found_per[j], 1):
+                    n_echo += 1
                     seq.append({"i": ie, "role": "echo", "src0": round(ea, 3), "src1": round(eb, 3), "depth": k,
-                                "of_n": len(found_per[j]), "color": echo_colors[(k - 1) % len(echo_colors)],
+                                "of_n": len(found_per[j]),
+                                "color": echo_colors[((n_echo if by_number else k) - 1) % len(echo_colors)],
                                 "text": ee.get("text_ar", ""), "words": ewords, "idea": seg.get("idea")})
             continue
         # حدّا الكلام المسموع (البوابة، Q6/Q13) لا حدّا الاقتطاع: صوت القطعة غير مبوَّب، فما قبل الكلام قد يكون كلام غيره
@@ -6059,11 +6123,13 @@ def echo_sequence(members: list[tuple[int, dict]], clips: dict, cfg) -> list[dic
                         "text": texts[m], "words": [wd for wd in heard if a - 1e-6 <= float(wd[0]) < b],
                         "idea": spans[j][3].get("idea") if j is not None else None})
             for k, (ie, ee, ea, eb, words) in enumerate(found_per[j] if j is not None else [], 1):
-                # الأخضر ثم الأزرق بالتناوب في كل فكرة (طلب صاحب المشروع)
+                n_echo += 1
                 seq.append({"i": ie, "role": "echo", "src0": round(ea, 3), "src1": round(eb, 3), "depth": k,
-                            "of_n": len(found_per[j]), "color": echo_colors[(k - 1) % len(echo_colors)],
+                            "of_n": len(found_per[j]),
+                            "color": echo_colors[((n_echo if by_number else k) - 1) % len(echo_colors)],
                             "text": ee.get("text_ar", ""), "words": words, "idea": spans[j][3].get("idea")})
     if not any(x["role"] == "echo" for x in seq):
+        diag.setdefault("reason", "no_echo_heard")
         return None
     for i, _ in members:
         if i in clips and i not in used:
@@ -6089,6 +6155,12 @@ def echo_geometry(frame: tuple, depth: int, count: int, cfg) -> tuple[int, int, 
         return fx, fy, fw, fh
     ec = cfg.path("reel.render.echo") or {}
     step = float(ec.get("shrink_step", 0.05))
+    if ec.get("geometry") == "nested":
+        # قضية 2027 (طلب صاحب المشروع): الصدى الأول أصغر من الأم 5%، وكل صدى بعده أصغر 5% من الذي قبله (تصغير متراكم)، وكلها
+        # على زاوية الأم السفلى اليسرى فيبقى من كل نافذة تحت التي فوقها شريط على حافتيها العليا واليمنى
+        s = max((1.0 - step) ** depth, float(ec.get("min_scale", 0.55)))
+        ew, eh = max(int(fw * s) // 2 * 2, 2), max(int(fh * s) // 2 * 2, 2)
+        return fx, fy + fh - eh, ew, eh
     step = min(step, (1.0 - float(ec.get("min_scale", 0.55))) / count)
     s = 1.0 - step * count
     ew, eh = max(int(fw * s) // 2 * 2, 2), max(int(fh * s) // 2 * 2, 2)
@@ -7145,8 +7217,12 @@ def _prune_mismatched(script: dict, clips: dict, cfg, deps: Deps, speakers: dict
     meta["_clip_on_screen"] = {k: (c or {}).get("on_screen", "") for k, c in clips.items()}
     rest = {i: c for i, c in clips.items() if i not in gem}
     # القائمة قبل الخريطة: مقدّم الحلقة كما يعرّفه أولها يسمّي مجموعة المقدّم في الخريطة (ريل هرمز 1/11)
-    rosters, verdicts = _speaker_check(script, order, rest, cfg, deps, notes, meta)
-    maps = _map_check(script, rest, cfg, deps, notes, meta, rosters)
+    restore = reserve_downloads(cfg, "speakers")
+    try:
+        rosters, verdicts = _speaker_check(script, order, rest, cfg, deps, notes, meta)
+        maps = _map_check(script, rest, cfg, deps, notes, meta, rosters)
+    finally:
+        restore()
     # المرحلة 1: حكم الشريط والنص لكل مقطع (live ينقص تدريجيًا كما كان clips ينقص، فحارس التكرار في _relabel يرى الباقي فقط)؛
     # الحذف نفسه يُسجَّل في المرحلة 2 بعد مقارنة الوجه (Q14) التي تحتاج مقاطع من أسئلة مختلفة معًا
     live = dict(clips)
@@ -7405,19 +7481,33 @@ def _cast_plan(script: dict, nar_idx: list[int], people: list[dict], cfg) -> dic
     تسمّيهم (reel_figures.name_in_sentence، فـ«ترمب»/«ترامب» واحد)، وجملة لا تسمّي أحدًا تُبقي من سمّتهم الجملة قبلها في المشهد نفسه
     (الحديث ما زال عنه)، وأول جملة في مشهد لا تسمّي أحدًا بلا رسم. رسم قائل الاقتباس لمشهد الاقتباس وحده. دالة خالصة."""
     from . import reel_cartoon
-    roles = set((reel_cartoon.ccfg(cfg).get("cast") or {}).get("roles") or [])
+    kc = reel_cartoon.ccfg(cfg).get("cast") or {}
+    roles = set(kc.get("roles") or [])
+    # قضية 2027 (طلب صاحب المشروع): أشخاص الهوك يواصلون في السياق بلا انقطاع إن كان أول نص فيه عنهم، وإلا لا يظهرون مرة أخرى؛
+    # فلا دخول جديد عند ذكرهم لاحقًا. from_hook يُعلِّم من يواصل فلا يُعاد دخوله. رسم قائل الاقتباس خارج هذه القاعدة
+    from_hook = bool(kc.get("context_from_hook", False))
     out: dict = {}
     if not people:
         return out
+    first_ctx = next((i for i in nar_idx if script["scenes"][i].get("role") == "context"), None)
     for i in nar_idx:
         scene = script["scenes"][i]
         role = scene.get("role")
         if role not in roles:
             continue
         pool = [p for p in people if bool(p.get("quote")) == (role == "quote")]
+        if from_hook and role != "quote" and i != first_ctx:
+            continue
         prev: list = []
         for k, sent in enumerate(tts.split_sentences(scene.get("text", ""))):
             named = [p for p in pool if reel_figures.name_in_sentence(p["person_ar"], sent, cfg)]
+            if from_hook and role != "quote":
+                if k == 0:
+                    named = [dict(p, from_hook=True) for p in named]
+                    if not named:
+                        break      # أول نص في السياق ليس عنهم: لا يظهرون في السياق أبدًا
+                else:
+                    named = prev   # من يواصل يبقى حتى آخر المشهد، ولا يدخل من لم يواصل
             cur = named or (prev if k else [])
             if cur:
                 out[(i, k)] = cur
@@ -8183,10 +8273,21 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
             members = [(j, script["scenes"][j]) for j in groups[i]]
             # الإجابة الأم وصداها (23/11): تتابعها يُحسب من الكلمات المسموعة، وما لا يُحسب يُركَّب لوحةً كما كان
             seq = None
+            ediag: dict = {}
             try:
-                seq = echo_sequence(members, clips, cfg)
+                seq = echo_sequence(members, clips, cfg, ediag)
             except Exception as exc:  # noqa: BLE001 -- الصدى تحسين: بلاه اللوحة كما كانت
                 log.warning("تعذّر حساب تتابع الأم وصداها: %s", str(exc)[:150])
+                ediag["reason"] = "error"
+            # قضية 2027: صدى أُعدّ في السيناريو ولم يُعرض كان يمرّ بلا أثر فبدا للمراجع لوحةً عادية بلا سبب
+            ttx = cfg.path("reel.render.texts")
+            if notes is not None and any((sc.get("echo") or {}).get("role") in ("primary", "opposing") for _, sc in members):
+                if not seq and ediag.get("reason"):
+                    notes.append(ttx.get("comment_echo_failed", "⚠️ لم يُعرض الصدى: {reason}").format(
+                        reason=(ttx.get("echo_fail_reasons") or {}).get(ediag["reason"], ediag["reason"])))
+                elif seq and ediag.get("unheard_ideas"):
+                    notes.append(ttx.get("comment_echo_unheard", "⚠️ فكرة للأم لم تُسمع حدودها فعُرضت بلا صداها: {n}").format(
+                        n=len(ediag["unheard_ideas"])))
             if seq:
                 on_bg = bg is not None and nar_plan is not None
                 dur = _echo_scene(seq, members, clips, out, cfg, deps, tmp, speakers if speakers is not None else {},
@@ -8436,6 +8537,15 @@ def _auto_hook(path: Path, draft: dict, script: dict, cfg, deps: Deps, tmp: Path
     if not cands:
         if not (draft.get("hook_search") or {}).get("skipped"):
             notes.append(t["comment_hook_none"])
+        return
+    gem = reel_hook_search.gemini_hook(cands, cfg)
+    if gem is not None:
+        # قضية 2027: المرشّح المعلَّم بنافذة رآها Gemini فيه (وإلا أول مرشّح قبله Gemini)، بلا فحص أول scan_seconds ثانية وحدها
+        draft["hook_video"] = gem
+        search = dict(draft.get("hook_search") or {})
+        search["picked"] = [gem["video_id"]]
+        store.update_draft(path, hook_video=gem, hook_search=search)
+        notes.append(_hook_note(cfg, gem))
         return
     if budget_over(cfg, "hook_scan", notes):
         return   # #1922: الفحص البصري ينزّل من كل مرشّح نافذة ويصنّفها؛ الهوك يبقى بصورة الخبر والريل يُركَّب

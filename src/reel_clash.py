@@ -430,7 +430,7 @@ def poses(t: float, tl: dict, cfg) -> list[tuple[str, float, float, float, float
     return [(n, ps[n][0][0], ps[n][0][1] + rise + drop, ps[n][0][2], scale, ps[n][1]) for n in order]
 
 
-def span_times(clip: dict, line: dict, cfg) -> tuple[float, float, list] | None:
+def span_times(clip: dict, line: dict, cfg, min_ratio: float | None = None) -> tuple[float, float, list] | None:
     """(بداية، نهاية، كلمات الجملة [(بداية، نهاية، كلمة)]) بثواني ملف المقطع المنزَّل، أو None. الحدّان من كلمات الملف المسموعة
     (clip["heard"]، يملؤها ضبط Q13): الصوت يبدأ قبل أول كلمة بـpad[0] ويقف بعد آخرها بـpad[1]، ولا يدخل الهامش في كلمة مجاورة
     (يقف قبلها بـneighbor_gap) — فلا تُسمع كلمة لا تُكتب (قرار صاحب المشروع 8/11). بلا كلمات مسموعة أو لم تطابق الجملة ← None: لا
@@ -440,7 +440,7 @@ def span_times(clip: dict, line: dict, cfg) -> tuple[float, float, list] | None:
     heard = [(float(w[0]), float(w[1]), str(w[2])) for w in clip.get("heard") or [] if str(w[2]).strip()]
     if not heard:
         return None
-    res = reel_clips.align_quote(line.get("sub_original", ""), heard, cfg)
+    res = reel_clips.align_quote(line.get("sub_original", ""), heard, cfg, min_ratio=min_ratio)
     if not res or not res.get("words"):
         return None
     span = res["words"]

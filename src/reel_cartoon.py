@@ -211,9 +211,10 @@ def start_pos(enter: str, box: tuple[int, int, int, int], w: int, h: int) -> tup
 
 
 def row_enter(k: int, n: int, cfg) -> str:
-    """جهة دخول القطعة k من n في الصف (قضية 2020، طلب صاحب المشروع): الوسط من الأسفل، والطرفان من جهتيهما إن كانت في الصف
-    ثلاث فأكثر (cast.edge_sides)، وإلا من الأسفل. دالة خالصة."""
-    if bool((ccfg(cfg).get("cast") or {}).get("edge_sides", True)) and n >= 3:
+    """جهة دخول القطعة k من n في الصف (قضية 2020، طلب صاحب المشروع): الطرفان من جهتيهما (الأولى في الصف يسارًا، والأخيرة يمينًا)
+    وما بينهما من الأسفل (cast.edge_sides)، وقطعة واحدة من الأسفل. قضية 2027: كان الطرفان من جهتيهما في ثلاث فأكثر وحدها، فدخلت
+    قطعتان من الأسفل وصاحب المشروع يريد كل واحدة من جهتها. دالة خالصة."""
+    if bool((ccfg(cfg).get("cast") or {}).get("edge_sides", True)) and n >= 2:
         if k == 0:
             return "left"
         if k == n - 1:
@@ -453,6 +454,15 @@ def usable(draft: dict, cfg) -> list[dict] | None:
         f = local_path(p.get("path")) if isinstance(p, dict) else None
         if f is not None:
             out.append({**p, "file": f})
+    if row_mode(cfg):
+        # قضية 2027: الصف يضع القطع بترتيبها (الأولى يسارًا) وجهة الدخول من موضعها في الصف، فتُرتَّب بموضعها الذي رسمها النموذج فيه
+        # (x) كي يقف ويدخل من يمين المشهد يمينًا ومن يساره يسارًا كما تخيّله
+        def _x(p: dict) -> float:
+            try:
+                return float(p.get("x", 0.5))
+            except (TypeError, ValueError):
+                return 0.5
+        out.sort(key=_x)
     return out if len(out) >= int(ccfg(cfg).get("min_pieces", 2)) else None
 
 

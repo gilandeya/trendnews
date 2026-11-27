@@ -10352,6 +10352,8 @@ def test_meta_echo_2311() -> None:
     # التركيب: التتابع من الكلمات المسموعة
     rcfg = copy.deepcopy(cfg)
     rcfg["reel"]["render"]["echo"] = copy.deepcopy(real.path("reel.render.echo"))
+    # سلوك ما قبل قضية 2027 (الألوان بالعمق، الهندسة المزاحة، إسقاط الصدى كله) يثبّته هذا الاختبار؛ الجديد في test_reel_notes_2027
+    rcfg["reel"]["render"]["echo"].update(color_by="depth", geometry="stagger", drop_unheard_ideas=False)
     rcfg["reel"]["render"]["texts"] = copy.deepcopy(real.path("reel.render.texts"))
 
     def heard(words, t=0.5, step=0.6):
@@ -11153,6 +11155,8 @@ def test_meta_echo_masters_2511() -> None:
     # الريل: هندسة نوافذ الصدى
     rcfg = copy.deepcopy(cfg)
     rcfg["reel"]["render"]["echo"] = copy.deepcopy(real.path("reel.render.echo"))
+    # سلوك ما قبل قضية 2027 (الألوان بالعمق، الهندسة المزاحة، إسقاط الصدى كله) يثبّته هذا الاختبار؛ الجديد في test_reel_notes_2027
+    rcfg["reel"]["render"]["echo"].update(color_by="depth", geometry="stagger", drop_unheard_ideas=False)
     fr = (100, 200, 800, 1000)
     g = reel_render.echo_geometry
     check("2511p: الأم في إطارها كاملًا", g(fr, 0, 2, rcfg) == fr)
@@ -11556,7 +11560,10 @@ def test_reel_notes_2013() -> None:
         {"kind": "narration", "role": "context", "text": "واجه جنسن هوانغ شبهات. ثم دعا ترمب لإعادته. وتراجع المجلس."},
         {"kind": "narration", "role": "context", "text": "وبعد أيام عاد إلى منصبه."},
         {"kind": "narration", "role": "quote", "text": "يذكّر هذا بقول ابن خلدون: «العدل أساس الملك»"}]}
-    cp = reel_render._cast_plan(sc, [0, 1, 2], people, cfg)
+    # المواصلة من الهوك (قضية 2027) تُختبر في test_reel_notes_2027؛ هنا قاعدة الجمل قبلها
+    ccp = copy.deepcopy(cfg)
+    ccp["reel"]["cartoon"]["cast"]["context_from_hook"] = False
+    cp = reel_render._cast_plan(sc, [0, 1, 2], people, ccp)
     names_of = {k: [p["person_ar"] for p in v] for k, v in cp.items()}
     check("2013: جنسن ثم ترامب ثم يبقى ترامب، والمشهد التالي بلا رسم، وقائل الاقتباس في مشهده",
           names_of == {(0, 0): ["جنسن هوانغ"], (0, 1): ["دونالد ترامب"], (0, 2): ["دونالد ترامب"], (2, 0): ["ابن خلدون"]},
@@ -11691,7 +11698,7 @@ def test_reel_notes_2020() -> None:
     check("2020: لا دخول من الأعلى", reel_cartoon.start_pos("top", (100, 900, 200, 300), 1080, 1920) == (100, 1920))
     check("2020: الوسطى من الأسفل والطرفان من جهتيهما",
           [reel_cartoon.row_enter(k, 3, cfg) for k in range(3)] == ["left", "bottom", "right"]
-          and reel_cartoon.row_enter(0, 2, cfg) == "bottom")
+          and reel_cartoon.row_enter(0, 1, cfg) == "bottom")
     boxes = reel_cartoon.row_layout([(400, 800), (400, 800), (700, 700)], (900, 1500), cfg, 1080)
     check("2020: القطع بارتفاع واحد", len({b[3] for b in boxes}) == 1, boxes)
     m = np.zeros((100, 60), bool)
@@ -11799,3 +11806,192 @@ def test_reel_offscreen_witness_2020() -> None:
     off["reel"]["render"]["gemini_speaker"]["off_screen_needs_agreement"] = False
     decided, drop = reel_render._apply_gemini(0, script, [0], {0: {}}, {}, got["p2"], off, [], dict(meta))
     check("2020w: مطفأً ← الحذف بالحكم وحده", decided and drop is not None)
+
+
+def test_reel_notes_2027() -> None:
+    """ملاحظات ريل القضية 2027 (المسودة b27480661676): دخول قطعتي الكاريكاتير من جهتيهما ومواصلتهما في السياق، وخريطة إيران ←
+    باكستان التي تُخطّيت لنفاد الوقت وبلا سهم، وموضع الصدى في نص الأم، والصدى الذي لم يُعرض لفكرة لم تُسمع، و«برأيك» المختنقة،
+    وفحص Gemini لمرشّحي خلفية الهوك قبل عرضها."""
+    import copy
+    import time
+
+    from src import meta_qa, reel_cartoon, reel_clips, reel_hook_search, reel_map, reel_render
+    from src.config import load_config as real_load
+    real = real_load()
+    check("2027: الإعداد الحقيقي على السلوك الجديد",
+          real.path("reel.cartoon.cast.context_from_hook") is True and real.path("reel.render.closing.label_joined") is True
+          and real.path("reel.render.echo.color_by") == "number" and real.path("reel.render.echo.geometry") == "nested"
+          and real.path("reel.render.echo.drop_unheard_ideas") is True
+          and real.path("reel.render.budget.download_reserve.speakers") >= real.path("reel.render.budget.leave_minutes.maps")
+          and real.path("reel.maps.auto_detect.verify.arrows") is True and real.path("reel.hook_search.gemini_vet.enabled") is True
+          and real.path("reel.render.version") >= 94)
+    cfg = copy.deepcopy(real)
+
+    # (1) جهة الدخول: قطعتان من جهتيهما، والوسط من الأسفل
+    check("2027a: قطعتان: اليسرى من اليسار واليمنى من اليمين",
+          [reel_cartoon.row_enter(k, 2, cfg) for k in range(2)] == ["left", "right"])
+    check("2027a: ثلاث: الوسطى من الأسفل، وواحدة من الأسفل",
+          [reel_cartoon.row_enter(k, 3, cfg) for k in range(3)] == ["left", "bottom", "right"]
+          and reel_cartoon.row_enter(0, 1, cfg) == "bottom")
+    tmpd = Path(tempfile.mkdtemp())
+    for name in ("a.png", "b.png"):
+        (tmpd / name).write_bytes(b"x")
+    draft = {"hook_cartoon": {"status": "ready", "approved": True, "pieces": [
+        {"person_ar": "الولايات المتحدة", "x": 0.75, "path": str(tmpd / "a.png")},
+        {"person_ar": "إيران", "x": 0.25, "path": str(tmpd / "b.png")}]}}
+    old_local = reel_cartoon.local_path
+    reel_cartoon.local_path = lambda p: Path(p) if p else None
+    try:
+        got = reel_cartoon.usable(draft, cfg) or []
+    finally:
+        reel_cartoon.local_path = old_local
+    check("2027a: الصف بترتيب موضع النموذج (إيران يسارًا والولايات المتحدة يمينًا)",
+          [p["person_ar"] for p in got] == ["إيران", "الولايات المتحدة"], got)
+
+    # مواصلة السياق: أول جملة عنهم ← يواصلون بلا دخول، وإلا لا يظهرون
+    people = [{"person_ar": "إيران", "file": "b"}, {"person_ar": "باكستان", "file": "c"}]
+    script = {"scenes": [{"kind": "title_card"},
+                         {"kind": "narration", "role": "context", "text": "فرضت واشنطن حصارا على إيران. وردت طهران بالتهديد."},
+                         {"kind": "narration", "role": "context", "text": "ثم نقلت باكستان البضائع."}]}
+    plan = reel_render._cast_plan(script, [1, 2], people, cfg)
+    check("2027b: أول جملة في السياق عنهم ← يواصلون إلى آخر المشهد بلا دخول، ولا يعودون بعده",
+          [p["file"] for p in plan.get((1, 0), [])] == ["b"] and plan[(1, 0)][0].get("from_hook")
+          and [p["file"] for p in plan.get((1, 1), [])] == ["b"] and (2, 0) not in plan, plan)
+    script2 = {"scenes": [{"kind": "title_card"},
+                          {"kind": "narration", "role": "context", "text": "ارتفعت أسعار النفط. ثم تحدثت إيران عن الرد."}]}
+    check("2027b: أول نص في السياق ليس عنهم ← لا يظهرون في السياق أبدًا", reel_render._cast_plan(script2, [1], people, cfg) == {})
+
+    # (2) الخريطة: سهم من حكم التحقق وطرفاه دولتان، وحجز وقت التنزيل
+    sent = "وبحسب تقديرات، دفع الحصار إيران إلى نقل وارداتها برا عبر باكستان بتكلفة مضاعفة."
+    raw = reel_map.detect(sent, cfg)
+    names = list(raw.get("places") or []) + list(raw.get("countries") or [])
+    reel_map._VERIFY_CACHE[(sent, tuple(names))] = {**{n: True for n in names},
+                                                    "__arrows__": [{"from": "إيران", "to": "باكستان"}]}
+    spec = reel_map.verify_auto(raw, sent, cfg)
+    resolved, why = reel_map.resolve(spec, sent, cfg)
+    check("2027c: إيران ← باكستان سهم بين نقطتي تسمية الدولتين، والدولتان ملوَّنتان",
+          resolved is not None and len(resolved["arrows"]) == 1 and {"IRN", "PAK"} <= set(resolved["countries"])
+          and all(p.get("country_point") for p in resolved["places"]), (spec, resolved, why))
+    off = copy.deepcopy(cfg)
+    off["reel"]["maps"]["auto_detect"]["verify"]["arrows"] = False
+    check("2027c: arrows مطفأ ← خريطة بلا أسهم", not (reel_map.verify_auto(raw, sent, off) or {}).get("arrows"))
+    old_b = dict(reel_render._BUDGET)
+    old_dl = reel_clips.DEADLINE["at"]
+    try:
+        now = time.time()
+        reel_render._BUDGET["deadline"] = now + 30 * 60
+        reel_clips.set_deadline(now + 20 * 60)
+        restore = reel_render.reserve_downloads(cfg, "speakers")
+        moved = reel_clips.DEADLINE["at"]
+        restore()
+        check("2027c: تنزيل مرحلة القائلين يقف قبل الموعد بدقائق الخرائط ثم يعود الموعد كما كان",
+              abs(moved - (now + 30 * 60 - 16 * 60)) < 2 and abs(reel_clips.DEADLINE["at"] - (now + 20 * 60)) < 1e-6, moved)
+    finally:
+        reel_render._BUDGET.clear()
+        reel_render._BUDGET.update(old_b)
+        reel_clips.set_deadline(old_dl)
+
+    # (3أ) موضع الصدى في نص الأم
+    tr = "فرضت حصارا في خليج عمان لمنع إيران من بيع نفطها، ما يخنق اقتصاد الحرب في دولة بحاجة لتمويل عملياتها."
+    segs = [{"idea": 1, "text_ar": "فرضت حصارا في خليج عمان لمنع إيران من بيع نفطها،"},
+            {"idea": 2, "text_ar": "ما يخنق اقتصاد الحرب في دولة بحاجة لتمويل عملياتها."}]
+    echoes = [{"idea": 1}, {"idea": 1}, {"idea": 2}]
+    t = real.path("youtube.meta_topics.qa.texts")
+    marked = meta_qa.master_marked(tr, segs, echoes, t)
+    check("2027d: علامة الصدى بعد الفكرة التي يكررها",
+          marked == "فرضت حصارا في خليج عمان لمنع إيران من بيع نفطها، &lt;الصدى1 و2&gt; ما يخنق اقتصاد الحرب في دولة بحاجة "
+                    "لتمويل عملياتها. &lt;الصدى3&gt;", marked)
+    check("2027d: فكرة لا يوجد موضعها ← النص كما هو", meta_qa.master_marked(tr, [{"idea": 1, "text_ar": "غير موجود"}],
+                                                                            echoes, t) is None)
+
+    # (3ب) الصدى: ألوان بالتناوب على رقمه، وأحجام متراكمة، وفكرة لا تُسمع تسقط وحدها
+    rcfg = copy.deepcopy(cfg)
+
+    def heard(words, t0=0.5, step=0.6):
+        return [(round(t0 + k * step, 3), round(t0 + k * step + 0.5, 3), w) for k, w in enumerate(words.split())]
+    mseg = [{"idea": 1, "sub_original": "alpha beta gamma delta", "text_ar": "أ ب ج د"},
+            {"idea": 2, "sub_original": "epsilon zeta eta theta", "text_ar": "هـ و ز ح"}]
+    members = [(1, {"kind": "clip", "q": 0, "point_id": "p1", "language": "en", "quote_original": "alpha beta gamma delta epsilon zeta eta theta",
+                    "echo": {"role": "primary", "segments": mseg}}),
+               (2, {"kind": "clip", "q": 0, "point_id": "p2", "language": "en",
+                    "echo": {"role": "echo", "of": "p1", "idea": 1, "sub_original": "one alpha beta gamma", "text_ar": "واحد أ ب ج"}}),
+               (3, {"kind": "clip", "q": 0, "point_id": "p3", "language": "en",
+                    "echo": {"role": "echo", "of": "p1", "idea": 1, "sub_original": "two alpha beta gamma", "text_ar": "اثنان أ ب ج"}}),
+               (4, {"kind": "clip", "q": 0, "point_id": "p4", "language": "en",
+                    "echo": {"role": "echo", "of": "p1", "idea": 2, "sub_original": "three epsilon zeta eta", "text_ar": "ثلاثة هـ و ز"}})]
+    clips = {1: {"seconds": 6.0, "file_seconds": 6.0, "heard": heard("alpha beta gamma delta epsilon zeta eta theta")},
+             2: {"seconds": 4.0, "file_seconds": 4.0, "heard": heard("one alpha beta gamma x")},
+             3: {"seconds": 4.0, "file_seconds": 4.0, "heard": heard("two alpha beta gamma x")},
+             4: {"seconds": 4.0, "file_seconds": 4.0, "heard": heard("three epsilon zeta eta four")}}
+    seq = reel_render.echo_sequence(members, clips, rcfg) or []
+    cols = real.path("reel.render.echo.colors.echo")
+    ech = [x for x in seq if x["role"] == "echo"]
+    check("2027e: صدى1 أحمر وصدى2 أخضر وصدى3 أحمر",
+          [x["color"] for x in ech] == [cols[0], cols[1], cols[0]] and cols[0].upper() == "#D93B3B", [x["color"] for x in ech])
+    fr = (100, 200, 800, 1000)
+    g1, g2 = reel_render.echo_geometry(fr, 1, 2, rcfg), reel_render.echo_geometry(fr, 2, 2, rcfg)
+    check("2027e: الأول أصغر 5% من الأم والثاني أصغر 5% من الأول، على زاوية الأم السفلى اليسرى",
+          g1 == (100, 250, 760, 950) and g2 == (100, 298, 722, 902), (g1, g2))
+    lost = copy.deepcopy(clips)
+    lost[1]["heard"] = heard("alpha beta gamma delta omega omega omega omega")
+    diag: dict = {}
+    lseq = reel_render.echo_sequence(members, lost, rcfg, diag) or []
+    check("2027e: فكرة للأم لا تُسمع تسقط وحدها ويبقى صدى الفكرة المسموعة",
+          [x["i"] for x in lseq if x["role"] == "echo"] == [2, 3] and diag.get("unheard_ideas") == [2],
+          ([(x["i"], x["role"]) for x in lseq], diag))
+    old = copy.deepcopy(rcfg)
+    old["reel"]["render"]["echo"]["drop_unheard_ideas"] = False
+    d2: dict = {}
+    check("2027e: drop_unheard_ideas مطفأ ← لوحة عادية بسببها", reel_render.echo_sequence(members, lost, old, d2) is None
+          and d2.get("reason") == "unheard")
+
+    # (4) «برأيك» في نداء السؤال نفسه
+    calls: list = []
+
+    class _Stop(Exception):
+        pass
+
+    def fake_speech(text, voice, c, deps, tmp, tag):
+        calls.append(text)
+        raise _Stop
+    old_speech = reel_render._speech
+    reel_render._speech = fake_speech
+    try:
+        try:
+            reel_render._closing_scene(5, {"text": "هل يسقط الحصار إيران؟"}, "", "", {}, {}, "v", cfg, None, tmpd,
+                                       tmpd / "c.mp4", [], None, 0.35)
+        except _Stop:
+            pass
+    finally:
+        reel_render._speech = old_speech
+    label = str(cfg.path("reel.texts.closing_label")).strip(" .…")
+    check("2027f: «برأيك» تُقرأ في نداء السؤال نفسه بفاصلة", calls == [f"{label}، هل يسقط الحصار إيران؟"], calls)
+
+    # (5) Gemini يرى المرشّحين قبل عرضهم، والتركيب يعتمد المعلَّم بنافذته
+    import json as _json
+
+    class R:
+        def __init__(self, data):
+            self.status_code, self._d = 200, data
+
+        def json(self):
+            return self._d
+    answers = {"v1": {"has_footage": False, "start": "0:00", "end": "0:00", "impact": 0, "describe_ar": "", "reason_ar": "مذيع فقط"},
+               "v2": {"has_footage": True, "start": "1:10", "end": "1:20", "impact": 2, "describe_ar": "سفن حربية في البحر",
+                      "reason_ar": ""}}
+
+    def post(url, json=None, timeout=None, headers=None):
+        vid = json["contents"][0]["parts"][0]["file_data"]["file_uri"].rsplit("=", 1)[-1]
+        return R({"candidates": [{"finishReason": "STOP", "content": {"parts": [{"text": _json.dumps(answers[vid])}]}}],
+                  "usageMetadata": {}})
+    cands = [{"video_id": "v1", "title": "a", "channel": "A", "duration": 300},
+             {"video_id": "v2", "title": "b", "channel": "B", "duration": 300}]
+    vet = reel_hook_search.gemini_vet(cands, {"script": {"title": "الحصار"}}, cfg, post=post, key="k")
+    check("2027g: المقبول يتقدّم بنافذته ووصفه، والمرفوض بسببه",
+          [c["video_id"] for c in cands] == ["v2", "v1"] and cands[0]["gemini"]["start"] == 70
+          and cands[0]["gemini"]["end"] == min(80, 70 + int(cfg.path("reel.render.hook.max_seconds"))) and vet["ok"] == 1 and vet["rejected"][0]["reason"] == "مذيع فقط", (cands, vet))
+    hv = reel_hook_search.gemini_hook(cands, cfg)
+    check("2027g: التركيب يعتمد نافذة Gemini", hv and hv["video_id"] == "v2" and hv["start"] == 70 and hv.get("gemini"), hv)
+    cands2 = [dict(cands[0]), dict(cands[1], gemini={"start": 5, "end": 9, "impact": 1, "desc": "د"}, picked=True)]
+    check("2027g: المعلَّم يغلب ما دام Gemini قبله", reel_hook_search.gemini_hook(cands2, cfg)["start"] == 5)
+    check("2027g: بلا مفتاح ← بلا نداء", reel_hook_search.gemini_vet([], {}, cfg, key="") == {"skipped": "no_key"})
