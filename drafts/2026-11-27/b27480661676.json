@@ -1,0 +1,762 @@
+{
+  "id": "b27480661676",
+  "created_at": "2026-11-27T05:55:24.939561+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "الحصار البحري الأمريكي على إيران",
+  "event": "الحصار البحري الأمريكي على إيران",
+  "tier": 5,
+  "blocs": [
+    "arabic",
+    "chinese",
+    "israeli",
+    "persian",
+    "turkish"
+  ],
+  "channels": [
+    "CNN Türk",
+    "ILTV",
+    "Iran International",
+    "الجزيرة",
+    "العربية",
+    "الميادين",
+    "سكاي نيوز عربية",
+    "凤凰卫视"
+  ],
+  "agreement": "",
+  "score": 0,
+  "warnings": [
+    "⏱️ السياق 45 كلمة (الحد 37) فقُبل كما هو لأن المادة من اختيارك — راجعه",
+    "✏️ صيغ السؤال 1 ليتصل بالسياق: كان «ما الهدف الاستراتيجي الأمريكي من فرض الحصار البحري على إيران؟» صار «ما الهدف الاستراتيجي الأمريكي من هذا الحصار البحري على إيران؟»",
+    "✏️ صيغ السؤال 2 ليتصل بالسياق: كان «هل تستطيع إيران كسر الحصار الأمريكي في ظل أزمتها الاقتصادية؟» صار «هل تستطيع إيران كسر الحصار في ظل أزمتها الاقتصادية؟»",
+    "✏️ صيغ سؤال الهوك: كان «لماذا يرفض ترامب التعجل في الحرب على إيران؟» صار «لماذا يرفض الرئيس الأمريكي ترامب التعجل في شن حرب على إيران؟»"
+  ],
+  "run_date": "2026-11-27",
+  "topic_date": "2026-11-27",
+  "arabic": {
+    "post_title": "لماذا يرفض ترامب التعجل في الحرب على إيران؟",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "CNN Türk",
+      "ILTV",
+      "Iran International",
+      "الجزيرة",
+      "العربية",
+      "الميادين",
+      "سكاي نيوز عربية",
+      "凤凰卫视"
+    ]
+  },
+  "source_videos": [],
+  "meta_topic_id": "d21af497d6a7",
+  "meta_issue": 2025,
+  "hook_pick": 3,
+  "cost_qa": {
+    "claude": {
+      "claude-haiku-5-5": 0.00152,
+      "claude-sonnet-5": 0.06189
+    },
+    "gemini": 0.8725,
+    "proxy_bytes": 8485106
+  },
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "1feb6e581974",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن ترك"
+      },
+      {
+        "point_id": "a2f64924cb7b",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الميادين"
+      },
+      {
+        "point_id": "52d09ea5fbb8",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "e5a7d2e38504",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "هذا البيان يثبت بوضوح أن إيران واقعة فعلياً تحت الحصار؛ فهم يقولون إنهم قادرون على كسره ولم يقولوا إنهم كسروه، وهو تهديد عسكري في مواجهة الطرف الآخر ويؤكد خضوع طهران للحصار.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن ترك"
+      },
+      {
+        "point_id": "dab90cd00447",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "ILTV"
+      },
+      {
+        "point_id": "70e0a457964c",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الميادين"
+      }
+    ]
+  },
+  "quote_retranslated": [
+    "e5a7d2e38504"
+  ],
+  "name_corrections": [
+    {
+      "from": "غونغور يافوزأصلان",
+      "to": "غونغور يافوز أصلان",
+      "latin": "Gökhan Yavuzaslan",
+      "sources": [
+        "aajeg.com",
+        "aajsa.com",
+        "citynews27.com",
+        "aajqa.com",
+        "aajae.co",
+        "alaraby.co.uk"
+      ],
+      "kind": "بحث"
+    }
+  ],
+  "names_audit": [
+    {
+      "arabic": "غونغور يافوز أصلان",
+      "latin": "Gökhan Yavuzaslan"
+    },
+    {
+      "arabic": "عريب الرنتاوي",
+      "latin": ""
+    },
+    {
+      "arabic": "سيرجيو دي لا بينيا",
+      "latin": ""
+    },
+    {
+      "arabic": "معصوم توركر",
+      "latin": ""
+    },
+    {
+      "arabic": "جوناثان كونريكوس",
+      "latin": "Jonathan Conricus"
+    },
+    {
+      "arabic": "حسين محبي",
+      "latin": ""
+    },
+    {
+      "arabic": "ترامب",
+      "latin": "Trump"
+    }
+  ],
+  "script_attempts": [
+    {
+      "attempt": 1,
+      "reasons": [
+        "السياق أطول من 37 كلمة (45)"
+      ]
+    }
+  ],
+  "headlines": [
+    "لماذا يفرض الحصار البحري الأمريكي خناقا اقتصاديا على إيران؟",
+    "هل تستطيع إيران كسر الحصار البحري الأمريكي؟"
+  ],
+  "headline_selected": 0,
+  "script": {
+    "version": 2,
+    "narrator": "female",
+    "title": "لماذا يفرض الحصار البحري الأمريكي خناقا اقتصاديا على إيران؟",
+    "question": "هل يسقط الحصار البحري إيران اقتصاديا قبل أي حرب؟",
+    "event": "",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "لماذا يفرض الحصار البحري الأمريكي خناقا اقتصاديا على إيران؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "فرضت الولايات المتحدة حصارا بحريا على إيران في خليج عمان ردا على إغلاق طهران مضيق هرمز."
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "وفي طهران، أوضح المتحدث باسم حرس الثورة الإيراني حسين محبي تصدي القوات الإيرانية لمحاولات العدو والمهربين في مضيق هرمز."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "70e0a457964c",
+        "q": "c0",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=zwuu-HrL2Pg",
+        "start": 226.0,
+        "end": 256.0,
+        "speaker_name": "حسين محبي",
+        "speaker_role": "المتحدث باسم حرس الثورة الإيراني",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "حسين محبي",
+        "channel_display": "الميادين",
+        "channel_original": "الميادين",
+        "quote_arabic": "قوة نيراننا الرامية إلى إبقاء مضيق هرمز مغلقا والضغط على الاقتصاد الأميركي والدفاع عن مكانة البلاد وشعبها ووحدة أراضيها تمثل دفاعا لا يمكن وصفه، يتعرض يوميا عدد كبير من السفن التي تعرف بأنها تقوم بتهريب الوقود لحوادث، كما تتعرض للإصابة أعداد ملحوظة من طائرات العدو بما فيها الطائرات الحربية وطائرات التزود بالوقود والطائرات المسيرة التي تقوم بدوريات لمرافقة تلك التحركات الفاشلة.",
+        "quote_original": "قوة نيراننا الرامية إلى إبقاء مضيق هرمز مغلقا والضغط على الاقتصاد الأميركي والدفاع عن مكانة البلاد وشعبها ووحدة أراضيها تمثل دفاعا لا يمكن وصفه، يتعرض يوميا عدد كبير من السفن التي تعرف بأنها تقوم بتهريب الوقود لحوادث، كما تتعرض للإصابة أعداد ملحوظة من طائرات العدو بما فيها الطائرات الحربية وطائرات التزود بالوقود والطائرات المسيرة التي تقوم بدوريات لمرافقة تلك التحركات الفاشلة.",
+        "language": "ar",
+        "video_published": "2026-11-26T23:09:30Z",
+        "relay": "external",
+        "relay_source": "IRIBNEWS",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "وبحسب تقديرات، دفع الحصار إيران إلى نقل وارداتها برا عبر باكستان بتكلفة مضاعفة."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 0,
+        "text": "ما الهدف الاستراتيجي الأمريكي من هذا الحصار البحري على إيران؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "1feb6e581974",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=MlxPThAg4Ag",
+        "start": 5617.0,
+        "end": 5645.0,
+        "speaker_name": "غونغور يافوز أصلان",
+        "speaker_role": "صحفي",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "Güngör Yavuzaslan",
+        "channel_display": "سي إن إن ترك",
+        "channel_original": "CNN Türk",
+        "quote_arabic": "الولايات المتحدة الأمريكية فرضت حصاراً في خليج عمان لمنع إيران من بيع نفطها رداً على إغلاق هرمز، ما يخنق اقتصاد الحرب في دولة بحاجة لتمويل عملياتها العسكرية وتأمين احتياجات شعبها.",
+        "quote_original": "ABD, Umman Körfezi'ne attığı ablukayla, sen Hürmüz'ü kapatırsan ben de Umman'ı kapatırım diye İran'a petrol sattırmıyor. Bu içeride ciddi anlamda, bir de savaş ekonomisi, savaşan bir ülke bu, para lazım. Savaş parayla oluyor. Yani İran'ın bu askeri operasyonlarını finanse etmesi için de para lazım, bir de halkın ihtiyaçları var.",
+        "language": "tr",
+        "video_published": "2026-11-25T15:42:57Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true,
+        "echo": {
+          "role": "primary",
+          "order": 0,
+          "segments": [
+            {
+              "idea": 1,
+              "label": "منع إيران من بيع نفطها وخنق اقتصادها",
+              "sub_original": "ABD, Umman Körfezi'ne attığı ablukayla, sen Hürmüz'ü kapatırsan ben de Umman'ı kapatırım diye İran'a petrol sattırmıyor.",
+              "text_ar": "الولايات المتحدة الأمريكية فرضت حصاراً في خليج عمان لمنع إيران من بيع نفطها رداً على إغلاق هرمز،"
+            },
+            {
+              "idea": 2,
+              "label": "تمويل الحرب واحتياجات الشعب الإيراني",
+              "sub_original": "Bu içeride ciddi anlamda, bir de savaş ekonomisi, savaşan bir ülke bu, para lazım. Savaş parayla oluyor. Yani İran'ın bu askeri operasyonlarını finanse etmesi için de para lazım, bir de halkın ihtiyaçları var.",
+              "text_ar": "ما يخنق اقتصاد الحرب في دولة بحاجة لتمويل عملياتها العسكرية وتأمين احتياجات شعبها."
+            }
+          ]
+        }
+      },
+      {
+        "kind": "clip",
+        "point_id": "a2f64924cb7b",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=zwuu-HrL2Pg",
+        "start": 680.0,
+        "end": 711.0,
+        "speaker_name": "عريب الرنتاوي",
+        "speaker_role": "مدير مركز القدس للدراسات السياسية",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "عريب الرنتاوي",
+        "channel_display": "الميادين",
+        "channel_original": "الميادين",
+        "quote_arabic": "فإن سياسة المنبوذ الاقتصادي، الخنق الاقتصادي التي تتبعها الولايات المتحدة بالعقوبات والحصار البحري، إنما تستهدف بالأساس خلق رأي عام إيراني منقلب ضد قيادته، اللعب بورقة الشارع الإيراني ضد القيادة الإيرانية، أو كما قال نتنياهو محاولة تأليب وتثوير الإيرانيين على حكومتهم ونظامهم بهذا المعنى، أي الجبهة الداخلية هنا تلعب دورا حاسما.",
+        "quote_original": "فإن سياسة المنبوذ الاقتصادي، الخنق الاقتصادي التي تتبعها الولايات المتحدة بالعقوبات والحصار البحري، إنما تستهدف بالأساس خلق رأي عام إيراني منقلب ضد قيادته، اللعب بورقة الشارع الإيراني ضد القيادة الإيرانية، أو كما قال نتنياهو محاولة تأليب وتثوير الإيرانيين على حكومتهم ونظامهم بهذا المعنى، أي الجبهة الداخلية هنا تلعب دورا حاسما.",
+        "language": "ar",
+        "video_published": "2026-11-26T23:09:30Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true,
+        "echo": {
+          "role": "echo",
+          "of": "1feb6e581974",
+          "idea": 1,
+          "label": "منع إيران من بيع نفطها وخنق اقتصادها",
+          "sub_original": "فإن سياسة المنبوذ الاقتصادي، الخنق الاقتصادي التي تتبعها الولايات المتحدة بالعقوبات والحصار البحري،",
+          "text_ar": "فإن سياسة المنبوذ الاقتصادي، الخنق الاقتصادي التي تتبعها الولايات المتحدة بالعقوبات والحصار البحري،"
+        }
+      },
+      {
+        "kind": "clip",
+        "point_id": "52d09ea5fbb8",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=CSIDYFLyy9Q",
+        "start": 353.0,
+        "end": 374.0,
+        "speaker_name": "سيرجيو دي لا بينيا",
+        "speaker_role": "نائب مساعد وزير الدفاع الأمريكي السابق",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Sergio de la Peña",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "الضغوط الاقتصادية ستستمر والحصار سيبقى مطبقًا، ونحن نشعر بأن لدينا أصولًا عسكرية كافية في المنطقة تكفل منع إيران من تسيير سفنها المحملة عبر مضيق هرمز إن حاولت كسر الحصار.",
+        "quote_original": "ولكن الضغوطات الاقتصادية ستستمر والحصار سيبقى مطبقا ونحن نشعر بأنه لدينا أصول عسكرية كافية في المنطقة لدرجة أنه إذا حاولوا أن يكسروا الحصار بإمكاننا أن نضمن ألا تتمكن إيران من تمرير سفنها عبر مضيق هرمز وهي محملة بأي شيء.",
+        "language": "ar",
+        "video_published": "2026-11-25T21:00:33Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 1,
+        "text": "هل تستطيع إيران كسر الحصار في ظل أزمتها الاقتصادية؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "e5a7d2e38504",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=MlxPThAg4Ag",
+        "start": 4875.0,
+        "end": 4895.0,
+        "speaker_name": "معصوم توركر",
+        "speaker_role": "وزير دولة سابق مسؤول عن الاقتصاد",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "Masum Türker",
+        "channel_display": "سي إن إن ترك",
+        "channel_original": "CNN Türk",
+        "quote_arabic": "هذا البيان يثبت بوضوح أن إيران واقعة فعلياً تحت الحصار؛ فهم يقولون إنهم قادرون على كسره ولم يقولوا إنهم كسروه، وهو تهديد عسكري في مواجهة الطرف الآخر ويؤكد خضوع طهران للحصار.",
+        "quote_original": "Yani bu açıklama şunu gösteriyor: Şu anda İran abluka altında. Ablukayı kırabiliriz diyor, kırdık demiyor, bakın. Ablukayı kırabiliriz askeri, yani karşı tarafta o da tehdit ediyor. Şimdi bu okuduğunuz bu haber, işte benim söylediğimi, İran'ın abluka altında olduğunu...",
+        "language": "tr",
+        "video_published": "2026-11-25T15:42:57Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "dab90cd00447",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=q4xz3UDtigw",
+        "start": 403.5,
+        "end": 426.0,
+        "speaker_name": "جوناثان كونريكوس",
+        "speaker_role": "زميل أول في مؤسسة الدفاع عن الديمقراطيات",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "Jonathan Conricus",
+        "channel_display": "ILTV",
+        "channel_original": "ILTV",
+        "quote_arabic": "من ناحية يرزح النظام الإيراني تحت وطأة عدم قدرته على تصدير النفط بأي مستوى ملموس، والضغط الأمريكي المتزايد على موانئه من خلال حصار بحري فعال ومستمر، فضلًا عن قيود فعالة متزايدة على حدوده البرية سواء مع أفغانستان أو حتى تركيا.",
+        "quote_original": "On one hand, the Iranian regime is under duress from not being able to export oil at any significant level, from having increasing American pressure on their ports, sustained, effective maritime blockade, and increasing effective limitations on their ground borders, whether it is to Afghanistan and even to Turkey.",
+        "language": "en",
+        "video_published": "2026-11-25T20:00:23Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "question",
+        "text": "هل يسقط الحصار البحري إيران اقتصاديا قبل أي حرب؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": [],
+    "narrator_voices": [
+      {
+        "id": "s7VusoUfleDWGRQNqsF6",
+        "name": "Woman2",
+        "gender": "female"
+      },
+      {
+        "id": "imSStoespHEDicyPMZ3i",
+        "name": "Man2",
+        "gender": "male"
+      }
+    ]
+  },
+  "editor_revision": {
+    "at": "2026-11-27T05:55:46.175805+00:00",
+    "applied": true,
+    "error": null,
+    "before": [
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "وفي طهران، تحدث المتحدث باسم حرس الثورة الإيراني حسين محبي عن مواجهة تحركات العدو في المضيق.",
+        "fix": "وفي طهران، أوضح المتحدث باسم حرس الثورة الإيراني تصدي القوات الإيرانية لمحاولات العدو والمهربين في مضيق هرمز.",
+        "note": "مشهد السياق [3] وصف أن المتحدث 'تحدث عن' الموضوع بدل أن يذكر وقوع الحدث نفسه (تصدي القوات لمحاولات العدو والمهربين)، وهذا أقرب لوصف نقاش لا سرد واقعة، كما تجاوز السياق الحد الأقصى (37 كلمة) مع سطور [2] و[3] و[5] مجتمعة.",
+        "sources": []
+      },
+      {
+        "category": "headline_contradicts",
+        "severity": "high",
+        "location": "h1",
+        "original": "لماذا يرفض الرئيس الأمريكي ترامب التعجل في شن حرب على إيران؟",
+        "fix": "",
+        "note": "العنوان يتحدث عن رفض ترامب للحرب على إيران، لكن متن الريل بالكامل يتناول موضوع الحصار البحري على إيران وتأثيره الاقتصادي، ولا يرد فيه أي ذكر لموقف ترامب من الحرب أو أسباب تردده، فالعنوان لا يطابق موضوع المادة المعروضة.",
+        "sources": []
+      },
+      {
+        "category": "headline_contradicts",
+        "severity": "high",
+        "location": "headline_2",
+        "original": "لماذا يرفض ترامب التعجل في الحرب على إيران؟",
+        "fix": "",
+        "note": "نفس الإشكال: العنوان يفترض موضوعا (تردد ترامب في الحرب) غير مطروق في المتن الذي يقتصر على الحصار البحري وتداعياته الاقتصادية.",
+        "sources": []
+      }
+    ],
+    "unresolved": []
+  },
+  "editor_review": {
+    "at": "2026-11-27T05:55:46.175805+00:00",
+    "applied": [
+      {
+        "category": "headline_contradicts",
+        "severity": "high",
+        "location": "headline_1",
+        "original": "لماذا يرفض الرئيس الأمريكي ترامب التعجل في شن حرب على إيران؟",
+        "fix": "",
+        "note": "نفس إشكال h1: لا علاقة مباشرة بين هذا العنوان ومضمون المقاطع التي تتناول الحصار البحري حصراً دون ذكر موقف ترامب الشخصي من الحرب.",
+        "sources": []
+      }
+    ],
+    "notes": [],
+    "error": null,
+    "searches": 0,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "reel_quote": {
+    "status": "none",
+    "tried": [
+      {
+        "name": "ألفريد ثاير ماهان",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "ألفريد ثاير ماهان",
+        "lang": "en",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "نيكولاس جون سبيكمان",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "نيكولاس جون سبيكمان",
+        "lang": "en",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "توماس شيلينغ",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "توماس شيلينغ",
+        "lang": "en",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "ابن خلدون",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "ابن خلدون",
+        "lang": "en",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "هارولد ماكميلان",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "هارولد ماكميلان",
+        "lang": "en",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "—",
+        "lang": "",
+        "reason": "لا اقتباس حرفي صالح"
+      }
+    ],
+    "candidates": 0
+  },
+  "hook_cartoon": {
+    "status": "ready",
+    "idea_ar": "سفن حربية أمريكية تطوّق سواحل إيران وتمنع ناقلات نفطها من الإبحار، بينما يقف قائد عسكري أمريكي مسيطرًا على البحر، في مقابل مسؤول إيراني محاصر يحاول تصدير النفط ولا يقوى على كسر الطوق",
+    "basis_ar": "[1] يقول إن الحصار يمنع إيران من بيع نفطها ويخنق اقتصاد حربها؛ [3] يقول إن لدى أمريكا أصولًا عسكرية كافية تمنع إيران من تسيير سفنها عبر هرمز إن حاولت كسر الحصار؛ [4] يقول إن إيران واقعة فعليًا تحت الحصار وتهدد بكسره دون أن تفعل؛ [5] يقول إن النظام الإيراني يرزح تحت وطأة عدم قدرته على تصدير النفط بسبب حصار بحري فعال ومستمر وقيود على حدوده البرية",
+    "prompt_en": "Satirical political cartoon style, bold ink linework with digital color, exaggerated caricature features, no text or numbers or flags, muted editorial color palette, dramatic side lighting, high detail on faces and uniforms, no background elements (background will be transparent), full-body standing figures only",
+    "cost_usd": 0.0876,
+    "path": "drafts/2026-11-27/b27480661676-cartoon.png",
+    "model": "gemini-3.1-flash-image",
+    "pieces": [
+      {
+        "name_ar": "ضابط أمريكي يقود الحصار",
+        "prompt_en": "A tall, imposing, exaggerated caricature of a stern US Navy admiral in full dress naval uniform with gold stripes and a peaked cap, arms crossed firmly, standing full body from head to toe, confident and commanding posture, no background, no ship, just the figure alone",
+        "person_ar": "الولايات المتحدة الأمريكية",
+        "person_en": "United States Navy commander",
+        "cue_ar": "الحصار",
+        "x": 0.75,
+        "y": 0.5,
+        "width": 0.35,
+        "enter": "right",
+        "path": "drafts/2026-11-27/b27480661676-cartoon-0.png"
+      },
+      {
+        "name_ar": "ناقلة نفط إيرانية محاصرة",
+        "prompt_en": "An exaggerated caricature of a worried Iranian merchant ship captain in a simple dark uniform jacket, holding a small oil barrel under one arm, looking anxious and trapped, full body standing figure from head to toe, no background, no ship structure, just the figure alone",
+        "person_ar": "إيران",
+        "person_en": "Iranian oil tanker captain",
+        "cue_ar": "إيران",
+        "x": 0.25,
+        "y": 0.55,
+        "width": 0.3,
+        "enter": "left",
+        "path": "drafts/2026-11-27/b27480661676-cartoon-1.png"
+      }
+    ]
+  },
+  "reel_bg": {
+    "url": "",
+    "kind": "none",
+    "publisher": "",
+    "judged": true,
+    "rejected": [
+      {
+        "url": "https://mediaaws-live.almasryalyoum.com/almasryalyoum/uploads/images/2026/11/27/2136450.webp",
+        "shows": "رجلان يصافح أحدهما الآخر أمام علمي الولايات المتحدة وإسرائيل وشعار الرئاسة الأمريكية",
+        "reason": "الصورة لقاء رسمي بين شخصيتين وعلمي أمريكا وإسرائيل، ولا تتعلق بالحصار البحري على إيران أو مضيق هرمز، فهي لا تمثل موضوع السؤال."
+      },
+      {
+        "url": "https://imgs.search.brave.com/CUEJJFYjFHpoyIEQ-sgsY41FnZjiGF-b3-DBHdPiyQc/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/YWxqYXplZXJhLm5l/dC93cC1jb250ZW50/L3VwbG9hZHMvMjAy/Ni8wNi9ocmt0LWFs/Y2FiZmJ3ci0xNzgx/NzA4NzMzLnBuZz93/PTc3MCZyZXNpemU9/NzcwLDQ2NiZxdWFs/aXR5PTgw",
+        "shows": "خريطة ملاحية لخليج عمان وبحر العرب تظهر مسارات سفن وأسماءها، مع شعار موقع marinetraffic",
+        "reason": "الخريطة تعرض مسارات سفن ملاحية وليست مشهدًا لموضوع الريل (الحصار البحري وإيران)، كما أنها تحمل شعار موقع ونصوصًا مركبة فوقها."
+      }
+    ]
+  },
+  "hook_candidates": [
+    {
+      "video_id": "JO-rxaBlbOk",
+      "title": "Iran says three oil tankers hit by naval mines in Strait of Hormuz",
+      "channel": "Al Jazeera English",
+      "views": 180683,
+      "duration": 277,
+      "published": "2026-11-23T23:05:09Z",
+      "views_per_hour": 2290.5
+    },
+    {
+      "video_id": "F_iRhDQ_jPE",
+      "title": "بحرية الحرس الثوري تعلن إسقاط مسيرة أميركية جديدة، وطهران مصرة على كسر الحصار البحري | العربي اليوم",
+      "channel": "العربي - أخبار ",
+      "views": 6711,
+      "duration": 429,
+      "published": "2026-11-23T18:10:11Z",
+      "views_per_hour": 80.1
+    },
+    {
+      "video_id": "lydBIBDoTjQ",
+      "title": "Trump warns Iran against testing US naval blockade",
+      "channel": "LiveNOW from FOX",
+      "views": 408899,
+      "duration": 793,
+      "published": "2026-11-23T15:30:22Z",
+      "views_per_hour": 4729.2
+    },
+    {
+      "video_id": "S_FWDJKaBKA",
+      "title": "'ALL B-------': Trump gives MAJOR update on timeline of Iran strikes",
+      "channel": "Fox News",
+      "views": 419943,
+      "duration": 139,
+      "published": "2026-11-23T12:39:09Z",
+      "views_per_hour": 4701.7
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-11-25T00:00:00Z",
+          "2026-11-29T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "سفن تجارية راسية في ميناء بندر عباس",
+            "raw": 1,
+            "channel_ok": 0
+          },
+          {
+            "query": "Iranian port trucks cargo blockade Strait of Hormuz",
+            "raw": 5,
+            "channel_ok": 0
+          },
+          {
+            "query": "Iran Pakistan border trucks Taftan crossing goods",
+            "raw": 0,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 0,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "ملف سري",
+          "Pinpoint Atlas",
+          "BestPerTV",
+          "Eyes on War",
+          "Thế Giới 24H"
+        ]
+      },
+      {
+        "broad": true,
+        "window": [
+          "2026-11-23T00:00:00Z",
+          "2026-11-30T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "الحصار البحري على إيران",
+            "raw": 30,
+            "channel_ok": 22
+          },
+          {
+            "query": "US naval blockade Iran",
+            "raw": 30,
+            "channel_ok": 5
+          },
+          {
+            "query": "bloqueo naval estadounidense Irán",
+            "raw": 30,
+            "channel_ok": 2
+          }
+        ],
+        "duration_ok": 28,
+        "judged_ok": 28,
+        "rejected_channels": [
+          "R² Reports",
+          "Al Mashhad المشهد",
+          "blinxnews",
+          "AlQahera News -  القاهرة الإخبارية",
+          "Max Afterburner",
+          "MIRROR NOW",
+          "Qnews",
+          "ملف سري"
+        ]
+      }
+    ],
+    "picked": [
+      "JO-rxaBlbOk",
+      "F_iRhDQ_jPE",
+      "lydBIBDoTjQ",
+      "S_FWDJKaBKA"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "فرضت الولايات المتحدة حصارا بحريا على إيران في خليج عمان ردا على إغلاق طهران مضيق هرمز.",
+      "visual": ""
+    },
+    {
+      "scene": 2,
+      "sentence": 0,
+      "text": "وفي طهران، أوضح المتحدث باسم حرس الثورة الإيراني حسين محبي تصدي القوات الإيرانية لمحاولات العدو والمهربين في مضيق هرمز.",
+      "visual": ""
+    },
+    {
+      "scene": 4,
+      "sentence": 0,
+      "text": "وبحسب تقديرات، دفع الحصار إيران إلى نقل وارداتها برا عبر باكستان بتكلفة مضاعفة.",
+      "visual": ""
+    },
+    {
+      "scene": 5,
+      "sentence": 0,
+      "text": "ما الهدف الاستراتيجي الأمريكي من هذا الحصار البحري على إيران؟",
+      "visual": ""
+    },
+    {
+      "scene": 9,
+      "sentence": 0,
+      "text": "هل تستطيع إيران كسر الحصار في ظل أزمتها الاقتصادية؟",
+      "visual": ""
+    }
+  ],
+  "cost_script": {
+    "claude": {
+      "claude-haiku-5-5": 0.0044,
+      "claude-sonnet-5": 0.16604,
+      "claude-opus-5": 0.12308
+    },
+    "gemini": 0.0876
+  },
+  "review_issue": 2026,
+  "stage2_issue": 2026
+}
