@@ -1,0 +1,743 @@
+{
+  "id": "4bf354685abf",
+  "created_at": "2026-11-27T09:06:33.557473+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "الحرب السعودية الحوثية وضرب مركز الرياض المالي",
+  "event": "الحرب السعودية الحوثية وضرب مركز الرياض المالي",
+  "tier": 3,
+  "blocs": [
+    "arabic",
+    "persian",
+    "turkish"
+  ],
+  "channels": [
+    "CNN Türk",
+    "Iran International",
+    "الجزيرة",
+    "العربية",
+    "الميادين"
+  ],
+  "agreement": "",
+  "score": 0,
+  "warnings": [
+    "اسم لم يُحسم: جوشكون باشبوغ (Cuşkun Başboğ) — لا رسم مرشّح ظهر في 2 نطاقات عربية مستقلة (أقصى ما وُجد: 0)",
+    "🔧 تُرك مقطع سياق بعد فحص قائلي المقاطع: عبدالله النعمي",
+    "⏱️ السياق 42 كلمة (الحد 37) فقُبل كما هو لأن المادة من اختيارك — راجعه",
+    "✏️ صيغ السؤال 1 ليتصل بالسياق: كان «ماذا يعني ضرب الحوثيين مركز الملك عبد الله المالي في الرياض؟» صار «ماذا يعني ضرب مركز الملك عبد الله المالي؟»",
+    "✏️ صيغ السؤال 2 ليتصل بالسياق: كان «من يكسب ميدانيا في اليمن اليوم، الحوثيون أم حلفاء السعودية؟» صار «من يكسب ميدانيا في اليمن، الحوثيون أم حلفاء السعودية؟»",
+    "✏️ صيغ السؤال 3 ليتصل بالسياق: كان «لماذا تحوّلت الحرب إلى تبادل قصف الموانئ بين صنعاء والرياض؟» صار «لماذا تحولت الحرب إلى تبادل قصف الموانئ؟»",
+    "✏️ صيغ سؤال الهوك: كان «هل نقل الحوثيون الحرب إلى قلب اقتصاد السعودية؟» صار «هل نقل الحوثيون الحرب إلى قلب الاقتصاد السعودي؟»"
+  ],
+  "run_date": "2026-11-27",
+  "topic_date": "2026-11-27",
+  "arabic": {
+    "post_title": "هل نقل الحوثيون الحرب إلى قلب اقتصاد السعودية؟",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "CNN Türk",
+      "Iran International",
+      "الجزيرة",
+      "العربية",
+      "الميادين"
+    ]
+  },
+  "source_videos": [],
+  "meta_topic_id": "a02a14857028",
+  "meta_issue": 2030,
+  "hook_pick": 3,
+  "cost_qa": {
+    "claude": {
+      "claude-haiku-5-5": 0.0015,
+      "claude-sonnet-5": 0.08762,
+      "claude-opus-5": 0.33831
+    },
+    "gemini": 0.7716,
+    "proxy_bytes": 45131711
+  },
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "05f70a62aada",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن ترك"
+      },
+      {
+        "point_id": "b0f99874aea7",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "no",
+        "incomplete_reason": "الكلام ينتهي بتعريف المراسل (أحمد عبد الرحمن، صنعاء، الميادين) وليس بفكرة تامة من كلام المتحدث",
+        "channel": "الميادين"
+      },
+      {
+        "point_id": "2cab450b0104",
+        "speaker_said_it": "no",
+        "other_name": "مقدّم البرنامج (كامیلا درسته)",
+        "faithful": false,
+        "quote_arabic_fixed": "ولا يبدو أن هذه التوترات ستتراجع حاليا، فكما أشرتِ، بعد اندلاع هذه التوترات داخل اليمن نفسه، نرى الآن أن الحوثيين لا يسيطرون فقط على الشريط الساحلي المطل على مضيق باب المندب بعدما استعادوه مؤخرا، بل يقتربون الآن من مدينة عدن نفسها.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "e379b9bf8f33",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "هذه المعركة منذ بدأت من قبل اثني عشر عاما، وحين استؤنفت مؤخرا لم تحققوا فيها أي انتصارات، حتى هذا الإجرام وهذه الجرائم التي ترتكبونها لم تحققوا فيها سوى أن تخسروا الإنسان اليمني والأرض والجغرافيا، وحلفاؤكم أيضا يتقهقرون في كل المناطق التي كانوا يتواجدون فيها.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الميادين"
+      },
+      {
+        "point_id": "a16e82e39dad",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن ترك"
+      },
+      {
+        "point_id": "b2556a02b711",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الميادين"
+      },
+      {
+        "point_id": "8d99ae46eebf",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الميادين"
+      },
+      {
+        "point_id": "2d8168bdbecf",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "no",
+        "incomplete_reason": "الكلام مبتور من أوله ومن آخره، ويبدأ بـ«هذا الاستهداف إلى حد الآن» وينتهي بجملة لم تكتمل",
+        "channel": "الميادين"
+      }
+    ]
+  },
+  "quote_retranslated": [
+    "e379b9bf8f33"
+  ],
+  "clip_dropped": [
+    {
+      "point_id": "b0f99874aea7",
+      "channel": "الميادين",
+      "reason": "اقتباس مبتور — الكلام ينتهي بتعريف المراسل (أحمد عبد الرحمن، صنعاء، الميادين) وليس بفكرة تامة من كلام المتحدث"
+    },
+    {
+      "point_id": "2cab450b0104",
+      "channel": "إيران إنترناشيونال",
+      "reason": "ملخّص النقطة ينسبها إلى شخص آخر: مقدّم البرنامج (كامیلا درسته)"
+    },
+    {
+      "point_id": "2d8168bdbecf",
+      "channel": "الميادين",
+      "reason": "اقتباس مبتور — الكلام مبتور من أوله ومن آخره، ويبدأ بـ«هذا الاستهداف إلى حد الآن» وينتهي بجملة لم تكتمل"
+    }
+  ],
+  "name_unresolved": [
+    {
+      "arabic": "جوشكون باشبوغ",
+      "latin": "Cuşkun Başboğ",
+      "reason": "لا رسم مرشّح ظهر في 2 نطاقات عربية مستقلة (أقصى ما وُجد: 0)"
+    }
+  ],
+  "names_audit": [
+    {
+      "arabic": "محمد شيمشك",
+      "latin": "Mehmet Şimşek"
+    },
+    {
+      "arabic": "ياسر الحوري",
+      "latin": ""
+    },
+    {
+      "arabic": "جوشكون باشبوغ",
+      "latin": "Cuşkun Başboğ"
+    },
+    {
+      "arabic": "علي أبي رعد",
+      "latin": ""
+    },
+    {
+      "arabic": "عبدالله الوشلي",
+      "latin": ""
+    }
+  ],
+  "script_attempts": [
+    {
+      "attempt": 1,
+      "reasons": [
+        "السياق أطول من 37 كلمة (42)"
+      ]
+    }
+  ],
+  "headlines": [
+    "هل نقل الحوثيون الحرب إلى قلب الاقتصاد السعودي؟",
+    "هل نقل الحوثيون الحرب إلى قلب اقتصاد السعودية؟",
+    "ماذا يعني ضرب مركز الرياض المالي في حرب اليمن؟"
+  ],
+  "headline_selected": 0,
+  "script": {
+    "version": 2,
+    "narrator": "female",
+    "title": "هل نقل الحوثيون الحرب إلى قلب الاقتصاد السعودي؟",
+    "question": "هل تستطيع السعودية حماية اقتصادها من صواريخ الحوثيين؟",
+    "event": "",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "هل نقل الحوثيون الحرب إلى قلب الاقتصاد السعودي؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "استهدف الحوثيون مركز الملك عبد الله المالي في الرياض، وهددوا بضرب موانئ جدة وينبع وجازان السعودية ردا على قصف موانئ يمنية."
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "ويعد ميناء ينبع المنفذ الوحيد لصادرات النفط السعودية عبر خط الأنابيب، إذ تصدّر النفط بحرا عبره باتجاه قناة السويس أو باب المندب."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "8d99ae46eebf",
+        "q": "c0",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=gtCbSN4EHts",
+        "start": 1218.0,
+        "end": 1240.0,
+        "speaker_name": "عبدالله الوشلي",
+        "speaker_role": "نائب وزير الثقافة والسياحة في حكومة صنعاء",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "عبدالله الوشلي",
+        "channel_display": "الميادين",
+        "channel_original": "الميادين",
+        "quote_arabic": "مهما بلغت هذه الجرائم فلن تثني أحدا عن مواصلة الطريق لنيل الحقوق الكاملة، وما ترتكبه السعودية صفحات سوداء تضاف إلى سجلها في الجرائم ضد الإنسانية وضد الشعب اليمني وتؤكد أنه عدوان غاشم لا شرعية له.",
+        "quote_original": "مهما بلغ هذا الإجرام فلن يثني الجميع عن مواصلة الطريق لنيل حقوقها الكاملة وما يرتكبها العدو السعودي صفحات سوداء تضاف إلى سجله الأسود في جرائمه ضد الإنسانية وضد الشعب اليمني وتؤكد حقيقة عدوانه أنه عدوان لا شرعية له وأنه عدوان غاشم.",
+        "language": "ar",
+        "video_published": "2026-11-26T15:58:09Z",
+        "relay": "external",
+        "relay_source": "",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 0,
+        "text": "ماذا يعني ضرب مركز الملك عبد الله المالي؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "05f70a62aada",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=4mpu_oG2MBU",
+        "start": 482.7,
+        "end": 494.6,
+        "speaker_name": "محمد شيمشك",
+        "speaker_role": "محرر الشؤون الخارجية بقناة سي إن إن تورك",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Mehmet Şimşek",
+        "channel_display": "سي إن إن ترك",
+        "channel_original": "CNN Türk",
+        "quote_arabic": "إصابة الصاروخ للمبنى لا تعني بالضرورة انهياره التام، لكن مجرد استهدافه يفرض إخلاءه بالكامل ويمنع المدنيين والموظفين من دخوله وممارسة أعمالهم.",
+        "quote_original": "İsabet ettiği zaman tamamen yıkıldığı anlamına gelmiyor ama buranın isabet alması bütün binanın boşaltılması anlamına geliyor. Artık siviller içine girip çalışamıyorlar.",
+        "language": "tr",
+        "video_published": "2026-11-25T20:00:28Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 1,
+        "text": "من يكسب ميدانيا في اليمن، الحوثيون أم حلفاء السعودية؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "e379b9bf8f33",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=gtCbSN4EHts",
+        "start": 737.7,
+        "end": 761.1,
+        "speaker_name": "ياسر الحوري",
+        "speaker_role": "محلل سياسي يمني",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "ياسر الحوري",
+        "channel_display": "الميادين",
+        "channel_original": "الميادين",
+        "quote_arabic": "هذه المعركة منذ بدأت من قبل اثني عشر عاما، وحين استؤنفت مؤخرا لم تحققوا فيها أي انتصارات، حتى هذا الإجرام وهذه الجرائم التي ترتكبونها لم تحققوا فيها سوى أن تخسروا الإنسان اليمني والأرض والجغرافيا، وحلفاؤكم أيضا يتقهقرون في كل المناطق التي كانوا يتواجدون فيها.",
+        "quote_original": "هذه المعركة منذ بدأت يعني من قبل 12 عاما وحين استؤنفت مؤخرا لم تحقق فيها السعودية أي انتصارات حتى هذا الإجرام وهذه الجرائم التي ترتكبها لم تحقق فيها سوى أن تخسر الإنسان اليمني تخسر الأرض والجغرافيا حلفاؤها أيضا يتقهقرون في كل المناطق التي كانوا يتواجدون فيها.",
+        "language": "ar",
+        "video_published": "2026-11-26T15:58:09Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 2,
+        "text": "لماذا تحولت الحرب إلى تبادل قصف الموانئ؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "a16e82e39dad",
+        "q": 2,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=4mpu_oG2MBU",
+        "start": 324.0,
+        "end": 343.0,
+        "speaker_name": "جوشكون باشبوغ",
+        "speaker_role": "كاتب بصحيفة ستار التركية",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Coşkun Başbuğ",
+        "channel_display": "سي إن إن ترك",
+        "channel_original": "CNN Türk",
+        "quote_arabic": "يعد ينبع الميناء الوحيد الذي يرتبط بخط الأنابيب؛ حيث مدت السعودية خط أنابيب وبدأت تصدير النفط بحرًا عبر ينبع باتجاه قناة السويس أو عبر باب المندب.",
+        "quote_original": "Yanbu, boru hattıyla getirdiği tek limandı. Yani öyle, şöyle göstereyim Ahmet Bey: Suudi Arabistan bir boru hattı döşedi, denizden petrol ihracını Yanbu üzerinden yapmaya başladı, Süveyş Kanalı üzerinden veya işte aşağı Babülmendep'ten.",
+        "language": "tr",
+        "video_published": "2026-11-25T20:00:28Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "b2556a02b711",
+        "q": 2,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=gtCbSN4EHts",
+        "start": 930.8,
+        "end": 952.1,
+        "speaker_name": "علي أبي رعد",
+        "speaker_role": "عميد لبناني متقاعد وخبير عسكري واستراتيجي",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "علي أبي رعد",
+        "channel_display": "الميادين",
+        "channel_original": "الميادين",
+        "quote_arabic": "أصبحت العمليات السعودية في الأيام الأخيرة تحمل طابعا انتقاميا بكل معنى الكلمة عبر استهداف المنشآت المدنية والموانئ، وهو ما يكشف تخبطا وغيابا للرؤية الاستراتيجية لدى السعودية خصوصا بعد الانهيارات المتلاحقة لحلفائها المتعاملين معها.",
+        "quote_original": "في الأيام الأخيرة أصبحت تحمل طبعا انتقامية طبيعة انتقامية بكل معنى الكلمة باستهداف المنشآت المدنية والموانئ وتكشف حالة من التخبط وغياب الرؤية الاستراتيجية لدى السعودية وخصوصا بعد الانهيارات المتسارعة والمتلاحقة من قبل حلفائها المتعاملين معها.",
+        "language": "ar",
+        "video_published": "2026-11-26T15:58:09Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "question",
+        "text": "هل تستطيع السعودية حماية اقتصادها من صواريخ الحوثيين؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": [],
+    "narrator_voices": [
+      {
+        "id": "s7VusoUfleDWGRQNqsF6",
+        "name": "Woman2",
+        "gender": "female"
+      },
+      {
+        "id": "imSStoespHEDicyPMZ3i",
+        "name": "Man2",
+        "gender": "male"
+      }
+    ]
+  },
+  "editor_revision": {
+    "at": "2026-11-27T09:06:51.245259+00:00",
+    "applied": true,
+    "error": null,
+    "before": [
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "جوشكون باشبوغ · كاتب بصحيفة ستار التركية",
+        "fix": "",
+        "note": "الاسم Cuşkun Başboğ لم يُحسم رسمه العربي ولم يظهر مرشح موثوق في نطاقات عربية مستقلة، وهذا يستوجب إعادة الريل للمرحلة 2 للتحقق من الاسم ورسمه قبل النشر.",
+        "sources": [],
+        "video": ""
+      },
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "وردت السعودية بغارات على اليمن، فخرج من صنعاء عبدالله الوشلي، نائب وزير الثقافة والسياحة في حكومة صنعاء، معلقا على هذه الضربات.",
+        "fix": "",
+        "note": "جملة السياق [3] تصف خروج متحدث للتعليق بدل سرد ما حدث فعليا من وقائع الحدث. وقائع الحدث المرفقة تخص أهمية ميناء ينبع كمنفذ نفطي وحيد، وهذا غير مذكور في السياق أصلا رغم إدراجه ضمن بيانات الحدث. كما أن السياق تجاوز حد 3 جمل والعدد الأقصى للكلمات (42 كلمة مقابل حد أقصى 25).",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "استهدف الحوثيون مركز الملك عبد الله المالي في الرياض، وهددوا بضرب موانئ جدة وينبع وجازان السعودية ردا على قصف موانئ يمنية. وردت السعودية بغارات على اليمن، فخرج من صنعاء عبدالله الوشلي، نائب وزير الثقافة والسياحة في حكومة صنعاء، معلقا على هذه الضربات.",
+        "fix": "",
+        "note": "مجموع كلمات السطرين [2]+[3] يتجاوز الحد المسموح به للسياق (42 كلمة مقابل 25) كما أشارت تنبيهات المسودة، وهذا يستدعي تقصير السياق أو حذف تفاصيل غير ضرورية.",
+        "sources": []
+      }
+    ],
+    "unresolved": [
+      {
+        "n": 1,
+        "reason": "الملاحظة تتعلق بتوثيق اسم جوشكون باشبوغ (Cuşkun Başboğ) الظاهر في الشريط عند سطر [10] (مقطع قراءة فقط)، وهو خارج الحقول القابلة للتصحيح (title/body/headlines) ولا يمكن تعديل الشريط من المصادر المرفقة؛ يتطلب إعادة الريل للمرحلة 2 كما ذُكر."
+      }
+    ]
+  },
+  "editor_review": {
+    "at": "2026-11-27T09:06:51.245259+00:00",
+    "applied": [],
+    "notes": [
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "جوشكون باشبوغ · كاتب بصحيفة ستار التركية",
+        "fix": "",
+        "note": "الاسم Cuşkun Başboğ لم يُحسم رسمه العربي ولم يظهر مرشح موثوق في نطاقات عربية مستقلة، وهذا يستوجب إعادة الريل للمرحلة 2 للتحقق من الاسم ورسمه قبل النشر.",
+        "sources": [],
+        "video": ""
+      }
+    ],
+    "error": null,
+    "searches": 0,
+    "search_skipped": null,
+    "speaker_unresolved": [
+      "جوشكون باشبوغ"
+    ]
+  },
+  "reel_quote": {
+    "status": "none",
+    "tried": [
+      {
+        "name": "توماس شيلينغ",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "توماس شيلينغ",
+        "lang": "en",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "ألفريد ماهان",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "ألفريد ماهان",
+        "lang": "en",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "صن تزو",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "صن تزو",
+        "lang": "en",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "إدوارد لوتواك",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "إدوارد لوتواك",
+        "lang": "en",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "نيكولو ميكيافيلي",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "نيكولو ميكيافيلي",
+        "lang": "en",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "—",
+        "lang": "",
+        "reason": "لا اقتباس حرفي صالح"
+      }
+    ],
+    "candidates": 0
+  },
+  "hook_cartoon": {
+    "status": "ready",
+    "idea_ar": "مقاتل حوثي يمد صاروخه من الطرف الأيمن (اليمن) ليصيب برجًا ماليًا في الرياض بينما مسؤول سعودي يرتبك أمام خط أنابيب النفط المتجه إلى ميناء ينبع، في مفارقة أن الحرب انتقلت من جبهات اليمن إلى قلب المنشآت الاقتصادية السعودية",
+    "basis_ar": "[1] ضرب مركز الملك عبدالله المالي يفرض إخلاءه ويعطل أعمال المدنيين والموظفين فيه؛ [3] ينبع هو المنفذ الوحيد لتصدير النفط السعودي بحرا عبر خط الأنابيب نحو قناة السويس أو باب المندب؛ [4] الضربات السعودية الانتقامية على الموانئ والمنشآت المدنية تكشف تخبطا وغياب رؤية استراتيجية سعودية",
+    "prompt_en": "Editorial political cartoon style, bold ink outlines with muted watercolor shading, satirical but dignified, no text or numbers or flags anywhere, figures rendered as exaggerated caricatures standing full body head to toe, no background, transparent/empty backdrop, clean vector-like cartoon illustration",
+    "cost_usd": 0.1266,
+    "path": "drafts/2026-11-27/4bf354685abf-cartoon.png",
+    "model": "gemini-3.1-flash-image",
+    "pieces": [
+      {
+        "name_ar": "مقاتل حوثي",
+        "prompt_en": "A caricatured Houthi fighter, Yemeni traditional dress with checkered red-and-white headscarf (keffiyeh), military vest, holding a large missile tilted forward like a spear ready to launch, determined fierce expression, standing full body head to toe, no background",
+        "person_ar": "الحوثيون",
+        "person_en": "Houthi fighter",
+        "cue_ar": "الحوثيون",
+        "x": 0.15,
+        "y": 0.55,
+        "width": 0.3,
+        "enter": "right",
+        "path": "drafts/2026-11-27/4bf354685abf-cartoon-0.png"
+      },
+      {
+        "name_ar": "مبنى مركز الملك عبدالله المالي متضرر",
+        "prompt_en": "A tall modern glass financial tower building personified with a cracked facade and smoke rising from a hole in its side, slightly leaning as if wounded, cartoonish worried face sketched subtly on its glass front, standing full body from base to rooftop, no background",
+        "person_ar": "مركز الملك عبدالله المالي",
+        "person_en": "King Abdullah Financial District tower",
+        "cue_ar": "المالي",
+        "x": 0.5,
+        "y": 0.45,
+        "width": 0.3,
+        "enter": "bottom",
+        "path": "drafts/2026-11-27/4bf354685abf-cartoon-1.png"
+      },
+      {
+        "name_ar": "مسؤول سعودي قلق مع خط أنابيب النفط",
+        "prompt_en": "A caricatured Saudi official man wearing white thobe and red-white checkered ghutra with black agal, formal dark cloak (bisht), anxious sweating expression, clutching a bent oil pipeline pipe that leads toward a small ship icon, standing full body head to toe, no background",
+        "person_ar": "السعودية",
+        "person_en": "Saudi official",
+        "cue_ar": "ينبع",
+        "x": 0.82,
+        "y": 0.55,
+        "width": 0.3,
+        "enter": "left",
+        "path": "drafts/2026-11-27/4bf354685abf-cartoon-2.png"
+      }
+    ]
+  },
+  "reel_bg": {
+    "url": "https://cdnv.russiatoday.com/media/pics/2026.11/article/6b05c25942360478c52bd74f.jpg",
+    "kind": "web_search",
+    "publisher": "rtarabic.com",
+    "shows": "أفق مدينة الرياض، ويظهر برج المملكة (Kingdom Centre) في الوسط، وأبراج مالية زجاجية في الصورة، وشوارع ومبانٍ كثيفة.",
+    "text_checked": true,
+    "judged": true,
+    "rejected": [
+      {
+        "url": "https://houseofsaud.com/wp-content/uploads/2026/11/sanaa-yemen-old-city-skyline-coalition-strike-nov2026-1024x768.jpg",
+        "shows": "مدينة يمنية قديمة ذات عمارة طينية وأبراج ومآذن (على الأرجح صنعاء القديمة)",
+        "reason": "الصورة لمدينة يمنية وليست لموضوع السؤال عن الحرب على الاقتصاد السعودي أو منشآت الرياض وموانئ جدة وينبع، وهي ليست صورة لأحد أطراف الخبر بشكل مباشر، لذلك لا تصلح كخلفية لهذا الريل."
+      }
+    ]
+  },
+  "hook_candidates": [
+    {
+      "video_id": "kbcwKcX28CY",
+      "title": "السعودية تصف الهجوم بـ«الإرهابي».. الحوثيون يستهدفون المركز المالي في الرياض",
+      "channel": "Alghad TV - قناة الغد",
+      "views": 5668,
+      "duration": 98,
+      "published": "2026-11-25T00:49:22Z",
+      "views_per_hour": 100.6,
+      "gemini": {
+        "start": 59,
+        "end": 63,
+        "impact": 3,
+        "desc": "دمار وركام مع نيران مشتعلة وأدخنة متصاعدة إثر قصف طال منشآت في الحديدة"
+      }
+    },
+    {
+      "video_id": "VJDQNGDMgQo",
+      "title": "11 مصابا في هجوم حوثي على برج في الرياض والتحالف يتوعد بالرد \"بحزم\"",
+      "channel": "فرانس 24 / FRANCE 24 Arabic",
+      "views": 18811,
+      "duration": 92,
+      "published": "2026-11-25T06:59:57Z",
+      "views_per_hour": 375.1,
+      "gemini": {
+        "start": 41,
+        "end": 46,
+        "impact": 2,
+        "desc": "مبنى مدمر وركام واسع في اليمن جراء الغارات الجوية المتبادلة في الحرب"
+      }
+    },
+    {
+      "video_id": "U3z07KzqgPE",
+      "title": "التحالف يتوعد الحوثيين بالرد بعد استهدافهم المركز المالي بالرياض",
+      "channel": "AlJazeera Arabic  قناة الجزيرة",
+      "views": 60713,
+      "duration": 21,
+      "published": "2026-11-25T02:53:31Z",
+      "views_per_hour": 1118.9
+    },
+    {
+      "video_id": "QoNh0MY5gac",
+      "title": "الحوثيون يعلنون استهداف أكبر مصفاة نفط في السعودية والمركز المالي بالرياض",
+      "channel": "Alghad TV - قناة الغد",
+      "views": 14375,
+      "duration": 43,
+      "published": "2026-11-25T15:46:02Z",
+      "views_per_hour": 347.4
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-11-25T00:00:00Z",
+          "2026-11-29T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "استهداف مركز الملك عبد الله المالي الرياض",
+            "raw": 20,
+            "channel_ok": 5
+          },
+          {
+            "query": "Riyadh King Abdullah Financial District attack aftermath",
+            "raw": 3,
+            "channel_ok": 0
+          },
+          {
+            "query": "ميناء جدة ينبع صادرات النفط السعودية",
+            "raw": 2,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 5,
+        "judged_ok": 5,
+        "rejected_channels": [
+          "قناة الجمهورية | ALJOUMHOURIYA TV",
+          "Saylac Media Center",
+          "Retrend",
+          "منصة اليمن الإخباريه",
+          "Muhammed Nawfal",
+          "قناة أبعاد المشهد Abaad Al Mashhad",
+          "Daily 247 News",
+          "Kemo hammam"
+        ]
+      }
+    ],
+    "gemini_vet": {
+      "checked": 4,
+      "ok": 2,
+      "rejected": [
+        {
+          "video_id": "U3z07KzqgPE",
+          "reason": "الفيديو يقتصر فقط على مذيع في الأستوديو ومتحدث عسكري في مؤتمر صحفي دون وجود أي لقطات ميدانية."
+        },
+        {
+          "video_id": "QoNh0MY5gac",
+          "reason": "الفيديو يقتصر بالكامل على بيان متحدث عسكري يلقي تصريحاً أمام منصة وميكروفونات دون أي لقطات ميدانية."
+        }
+      ],
+      "errors": 0,
+      "cost": 0.0143
+    },
+    "picked": [
+      "kbcwKcX28CY",
+      "VJDQNGDMgQo",
+      "U3z07KzqgPE",
+      "QoNh0MY5gac"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "استهدف الحوثيون مركز الملك عبد الله المالي في الرياض، وهددوا بضرب موانئ جدة وينبع وجازان السعودية ردا على قصف موانئ يمنية.",
+      "visual": ""
+    },
+    {
+      "scene": 2,
+      "sentence": 0,
+      "text": "ويعد ميناء ينبع المنفذ الوحيد لصادرات النفط السعودية عبر خط الأنابيب، إذ تصدّر النفط بحرا عبره باتجاه قناة السويس أو باب المندب.",
+      "visual": ""
+    },
+    {
+      "scene": 4,
+      "sentence": 0,
+      "text": "ماذا يعني ضرب مركز الملك عبد الله المالي؟",
+      "visual": ""
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "text": "من يكسب ميدانيا في اليمن، الحوثيون أم حلفاء السعودية؟",
+      "visual": ""
+    },
+    {
+      "scene": 8,
+      "sentence": 0,
+      "text": "لماذا تحولت الحرب إلى تبادل قصف الموانئ؟",
+      "visual": ""
+    }
+  ],
+  "cost_script": {
+    "claude": {
+      "claude-haiku-5-5": 0.00378,
+      "claude-sonnet-5": 0.16204,
+      "claude-opus-5": 0.11904
+    },
+    "gemini": 0.1409
+  },
+  "review_issue": 2031,
+  "stage2_issue": 2031
+}
