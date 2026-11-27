@@ -11,6 +11,43 @@ import time
 
 API = "https://generativelanguage.googleapis.com/v1beta"
 
+# قضيتا 2035 و2037: رصيد Gemini المدفوع مسبقًا نفد فرُفض كل فيديو بـ402، واستمرت الحلقة تطلب الفيديو تلو الآخر، وكُتب في القضية
+# «مقاطع قليلة عن الموضوع: 0» فبدا العطل فقرًا في المادة. أول رفض من هذا النوع يُحفظ للعملية كلها، فكل نداء بعده (الأسئلة،
+# القائلون في التركيب، فحص الهوك، الكاريكاتير، البحث عن الأصل) يعود فورًا بالسبب نفسه بلا طلب، ويقرأ المستدعي exhausted()
+_QUOTA = {"hit": False, "reason": ""}
+_MARKERS: list[str] | None = None
+
+
+def _quota_markers() -> list[str]:
+    """نصوص الرفض الدالة على نفاد الرصيد (`gemini_quota.markers`)؛ 429 (تجاوز المعدّل) عابر فليس منها إلا إن طابق نصه."""
+    global _MARKERS
+    if _MARKERS is None:
+        try:
+            from .config import load_config
+            _MARKERS = [str(m).casefold() for m in (load_config().path("gemini_quota.markers") or [])]
+        except Exception:  # noqa: BLE001 — بلا إعداد يبقى 402 وحده
+            _MARKERS = []
+    return _MARKERS
+
+
+def is_quota(code: int, text: str) -> bool:
+    """402 (الدفع مطلوب) أو نص من `gemini_quota.markers`. دالة خالصة إلا قراءة الإعداد."""
+    low = str(text or "").casefold()
+    return int(code or 0) == 402 or any(m and m in low for m in _quota_markers())
+
+
+def exhausted() -> bool:
+    return bool(_QUOTA["hit"])
+
+
+def quota_reason() -> str:
+    return str(_QUOTA["reason"])
+
+
+def reset_quota() -> None:
+    """للاختبار: علامة الرصيد للعملية كلها، فتُمسح بين الحالات."""
+    _QUOTA.update(hit=False, reason="")
+
 
 def parse_clock(value, duration: float | None = None) -> float | None:
     """«H:MM:SS» أو «MM:SS» أو «SS» (وكسور الثانية) ← ثوانٍ؛ غير ذلك None. Gemini يكتب الزمن نصًا فلا يُوثق بشكل واحد: في أول قياس
@@ -73,10 +110,15 @@ def generate(body: dict, model: str, key: str, post=None, timeout: int = 900) ->
     post يُحقن في الاختبار؛ الحقيقي requests.post."""
     import requests
     post = post or requests.post
+    if _QUOTA["hit"]:
+        return 402, _QUOTA["reason"], 0.0
     t0 = time.monotonic()
     r = post(f"{API}/models/{model}:generateContent", json=body, timeout=timeout,
              headers={"x-goog-api-key": key, "Content-Type": "application/json"})
     seconds = round(time.monotonic() - t0, 1)
     if r.status_code != 200:
-        return r.status_code, (r.text or "")[:300], seconds
+        text = (r.text or "")[:300]
+        if is_quota(r.status_code, text):
+            _QUOTA.update(hit=True, reason=text)
+        return r.status_code, text, seconds
     return 200, r.json(), seconds

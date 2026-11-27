@@ -237,6 +237,8 @@ def cutout(img, cfg):
     n, labels = cv2.connectedComponents(near, connectivity=4)
     edge = set(np.unique(np.concatenate([labels[0], labels[-1], labels[:, 0], labels[:, -1]]))) - {0}
     bg = np.isin(labels, list(edge)) & (near > 0)
+    # قضية 2039: لون المفتاح بقي فاقعًا بين ساقي نتنياهو لأن الفراغ محاط بالرسم لا يتصل بالحافة؛ الفراغ المسطّح بلون المفتاح يُزال
+    bg = bg | key_holes(rgb, ~bg, cfg)
     alpha = np.where(bg, 0.0, 1.0).astype(np.float32)
     alpha = cv2.GaussianBlur(alpha, (3, 3), 0)
     cover = float((alpha > 0.5).mean())
@@ -266,6 +268,87 @@ def cutout(img, cfg):
     y0, y1 = max(int(ys.min()) - pad, 0), min(int(ys.max()) + pad + 1, rgba.shape[0])
     x0, x1 = max(int(xs.min()) - pad, 0), min(int(xs.max()) + pad + 1, rgba.shape[1])
     return Image.fromarray(rgba[y0:y1, x0:x1], "RGBA")
+
+
+def key_holes(rgb, valid, cfg):
+    """فراغات بلون المفتاح محاطة بالرسم (بين الساقين، تحت الذراع) لا تتصل بحافة الصورة فتبقى بعد إزالة الخلفية (قضية 2039).
+    تُعدّ فراغًا كل مجموعة متصلة داخل valid من بكسلات قريبة من لون المفتاح (holes.tolerance) مساحتها ≥ holes.min_px ومتوسط بُعدها
+    عن اللون ≤ holes.mean_distance: الخلفية المسطّحة بعيدها عنه صفر تقريبًا، أما شيء مرسوم بلون قريب (ربطة وردية مظلّلة) فمتوسط
+    بُعده أكبر فيبقى. دالة خالصة؛ holes.enabled: false ← لا شيء."""
+    import cv2
+    import numpy as np
+    from . import imaging
+    c = ccfg(cfg)
+    h = c.get("holes") or {}
+    rgb = np.asarray(rgb).astype(np.int32)
+    empty = np.zeros(rgb.shape[:2], bool)
+    if not h.get("enabled", False):
+        return empty
+    key = np.array(imaging.hex_rgb(str(c.get("key_color", "#FF00FF"))), np.int32)
+    dist = np.sqrt(((rgb - key) ** 2).sum(axis=2))
+    near = ((dist <= float(h.get("tolerance", c.get("key_tolerance", 110)))) & np.asarray(valid, bool)).astype(np.uint8)
+    n, labels = cv2.connectedComponents(near, connectivity=4)
+    out = empty
+    min_px, mean_lim = int(h.get("min_px", 20)), float(h.get("mean_distance", 60))
+    for k in range(1, n):
+        comp = labels == k
+        if int(comp.sum()) >= min_px and float(dist[comp].mean()) <= mean_lim:
+            out = out | comp
+    return out
+
+
+def clear_key_holes(img, cfg):
+    """قطعة محفوظة قبل إصلاح قضية 2039 (RGBA): فراغاتها بلون المفتاح تُجعل شفافة وتُزال هالتها حولها؛ None إن لم يكن فيها فراغ.
+    يُطبَّق عند التركيب فيُصلح القطع المرسومة سلفًا بلا رسم جديد."""
+    import cv2
+    import numpy as np
+    from PIL import Image
+    from . import imaging
+    c = ccfg(cfg)
+    arr = np.asarray(img.convert("RGBA")).astype(np.float32)
+    rgb, alpha = arr[..., :3], arr[..., 3] / 255.0
+    holes = key_holes(rgb, alpha > 0.5, cfg)
+    if not holes.any():
+        return None
+    key = np.array(imaging.hex_rgb(str(c.get("key_color", "#FF00FF"))), np.float32)
+    dpx = int(c.get("despill_px", 3))
+    ring = cv2.dilate(holes.astype(np.uint8), np.ones((2 * dpx + 1, 2 * dpx + 1), np.uint8)) > 0 if dpx > 0 else holes
+    dist = np.sqrt(((rgb - key) ** 2).sum(axis=2))
+    alpha = np.where(holes | (ring & (dist <= float(c.get("despill_tolerance", 200)))), 0.0, alpha)
+    alpha = cv2.GaussianBlur(alpha.astype(np.float32), (3, 3), 0) * (alpha > 0)
+    soft = ring & (alpha > 0)
+    strong = [k for k in range(3) if key[k] >= 200]
+    weak = [k for k in range(3) if key[k] < 200]
+    if strong and weak:
+        cap = np.max(rgb[..., weak], axis=2)
+        for k in strong:
+            rgb[..., k] = np.where(soft, np.minimum(rgb[..., k], cap), rgb[..., k])
+    return Image.fromarray(np.dstack([np.clip(rgb, 0, 255), alpha * 255]).astype(np.uint8), "RGBA")
+
+
+_CLEANED: dict = {}
+
+
+def clean_file(path: Path, cfg) -> Path:
+    """ملف القطعة كما يدخل التركيب: نسخة بلا فراغات بلون المفتاح في مجلد مؤقت إن وُجدت (لا يُكتب فوق ملف المسودة)، وإلا الملف نفسه.
+    أي عطل ← الملف نفسه (القطعة تُركَّب كما كانت)."""
+    try:
+        stamp = (str(path), path.stat().st_mtime)
+        if stamp in _CLEANED:
+            return _CLEANED[stamp]
+        from PIL import Image
+        import tempfile
+        fixed = clear_key_holes(Image.open(path), cfg)
+        out = path
+        if fixed is not None:
+            out = Path(tempfile.mkdtemp(prefix="cartoon_")) / path.name
+            fixed.save(out)
+            log.info("قطعة الكاريكاتير %s: أُزيل لون المفتاح من فراغ داخلها", path.name)
+        _CLEANED[stamp] = out
+        return out
+    except Exception as exc:  # noqa: BLE001
+        log.warning("تعذّر تنظيف قطعة الكاريكاتير %s: %s", path, str(exc)[:120])
+        return path
 
 
 def cropped(mask, cfg) -> bool:
@@ -453,7 +536,7 @@ def usable(draft: dict, cfg) -> list[dict] | None:
     for p in rec.get("pieces") or []:
         f = local_path(p.get("path")) if isinstance(p, dict) else None
         if f is not None:
-            out.append({**p, "file": f})
+            out.append({**p, "file": clean_file(f, cfg)})
     if row_mode(cfg):
         # قضية 2027: الصف يضع القطع بترتيبها (الأولى يسارًا) وجهة الدخول من موضعها في الصف، فتُرتَّب بموضعها الذي رسمها النموذج فيه
         # (x) كي يقف ويدخل من يمين المشهد يمينًا ومن يساره يسارًا كما تخيّله
@@ -479,7 +562,8 @@ def cast_pieces(draft: dict, cfg) -> list[dict]:
     if isinstance(q, dict) and q.get("approved") and isinstance(q.get("cartoon"), dict):
         f = local_path(q["cartoon"].get("path"))
         if f is not None:
-            out.append({"person_ar": q.get("speaker_ar", ""), "person_en": q.get("speaker_en", ""), "file": f, "quote": True})
+            out.append({"person_ar": q.get("speaker_ar", ""), "person_en": q.get("speaker_en", ""), "file": clean_file(f, cfg),
+                        "quote": True})
     return out
 
 

@@ -594,7 +594,7 @@ def requeue_qa(issue_number: int, topic: dict, data: dict, cfg, now: datetime | 
     المحاولات وعلامة تعليق الانتظار. موضوع أقدم من `qa.days` لا يُعاد (أخباره قديمة ولا يعالجه pending_topics). يعيد True إن طُلب."""
     from . import meta_topics, review
     qa = topic.get("qa") or {}
-    if qa.get("status") not in ("waiting_proxy", "failed", None):
+    if qa.get("status") not in ("waiting_proxy", "waiting_gemini", "failed", None):
         return False
     t = _texts(cfg)
     now = now or datetime.now(timezone.utc)
@@ -611,7 +611,7 @@ def requeue_qa(issue_number: int, topic: dict, data: dict, cfg, now: datetime | 
         review.comment(issue_number, t.get("qa_expired", "").format(days=days))
         review.remove_label(issue_number, "approved")
         return True
-    topic["qa"] = {**qa, "attempts": 0, "notified_proxy": False, "requeued_at": now.isoformat()}
+    topic["qa"] = {**qa, "attempts": 0, "notified_proxy": False, "notified_gemini": False, "requeued_at": now.isoformat()}
     meta_topics._save_public(data)
     review.comment(issue_number, t.get("qa_requeued", ""))
     review.remove_label(issue_number, "approved")
