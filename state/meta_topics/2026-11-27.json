@@ -1370,7 +1370,982 @@
     }
    ],
    "qa_requested_at": "2026-11-27T08:42:02.895963+00:00",
-   "selected_from": 2024
+   "selected_from": 2024,
+   "topic_issue": 2030,
+   "qa": {
+    "attempts": 1,
+    "at": "2026-11-27T08:44:04.350855+00:00",
+    "videos": [
+     {
+      "video_id": "gtCbSN4EHts",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "minutes": 25.5,
+      "bites": 8,
+      "rejected": 0
+     },
+     {
+      "video_id": "4mpu_oG2MBU",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "minutes": 7.0,
+      "bites": 12,
+      "rejected": 0
+     },
+     {
+      "video_id": "DaqMWVYsYto",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "minutes": 11.0,
+      "bites": 8,
+      "rejected": 0
+     },
+     {
+      "video_id": "Z-uinCCyWuU",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "minutes": 15.2,
+      "bites": 0,
+      "rejected": 0
+     },
+     {
+      "video_id": "PiPdWSPfe90",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "minutes": 11.2,
+      "bites": 3,
+      "rejected": 0
+     },
+     {
+      "video_id": "ZjZOC-dRR00",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "minutes": 51.3,
+      "bites": 10,
+      "rejected": 0
+     },
+     {
+      "video_id": "MlxPThAg4Ag",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "minutes": 26.6,
+      "bites": 0,
+      "rejected": 0,
+      "error": "Gemini: لا ناتج مقبول (no_candidates)"
+     }
+    ],
+    "video_scores": {
+     "MlxPThAg4Ag": 1,
+     "4mpu_oG2MBU": 2,
+     "NsaYKeAL3Xg": 0,
+     "DaqMWVYsYto": 1,
+     "PiPdWSPfe90": 1,
+     "3-1xoKasYm8": 1,
+     "kBEGQmc2zQI": 1,
+     "tGp6YgwHcys": 1,
+     "oqw4Pxiymos": 0,
+     "QlD4rqGXR0g": 1,
+     "B7ctrpf29Ac": 1,
+     "_Vr3xs4GPMQ": 1,
+     "Z-uinCCyWuU": 1,
+     "yHWZU99FIBg": 2,
+     "ZjZOC-dRR00": 2,
+     "gtCbSN4EHts": 3,
+     "McIO1KbC8f0": 1
+    },
+    "gemini_cost": 0.7716,
+    "gemini_rejected": 0,
+    "channels": 4,
+    "answer_channels": 4,
+    "originals": [
+     {
+      "bite_id": "ZjZOC-dRR00:g1517",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "عبدالله الفرح الميادين اليمن",
+       "Abdullah Al-Farah Al Mayadeen Yemen Saudi Riyadh strike",
+       "عبد الله الفرح"
+      ],
+      "candidate": "EOjUF5ybig8",
+      "candidates": [
+       "zwuu-HrL2Pg",
+       "DCySpaySBVg",
+       "EOjUF5ybig8"
+      ],
+      "reason": "Gemini HTTP 402"
+     },
+     {
+      "bite_id": "gtCbSN4EHts:g1219",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "عبدالله الوشلي نائب وزير الثقافة والسياحة صنعاء",
+       "عبدالله الوشلي العدوان السعودي الرياض",
+       "عبدالله الوشلي"
+      ],
+      "candidate": "AoWQxqrh0v4",
+      "candidates": [
+       "_HyjaLRIKZM",
+       "GxNbXu7RLKk",
+       "AoWQxqrh0v4"
+      ],
+      "reason": "Gemini HTTP 402"
+     },
+     {
+      "bite_id": "gtCbSN4EHts:g1266",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "عبدالله النعمي استهداف المركز المالي رأس تنورة",
+       "عبدالله النعمي تصريح الرياض المركز المالي خطاب",
+       "عبدالله النعمي"
+      ],
+      "candidate": "NKNi61HBU7M",
+      "candidates": [
+       "NKNi61HBU7M"
+      ],
+      "reason": "Gemini HTTP 402"
+     },
+     {
+      "bite_id": "gtCbSN4EHts:g1946",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "يحيى سريع بيان عسكري ميناء الحديدة",
+       "يحيى سريع"
+      ],
+      "candidate": "RCV6Fx09ydc",
+      "candidates": [
+       "jla5FWfmnpw",
+       "vBtuEnpAI74",
+       "RCV6Fx09ydc"
+      ],
+      "reason": "Gemini HTTP 402"
+     }
+    ],
+    "originals_found": 0,
+    "read_dropped": 1,
+    "read_dropped_speakers": [
+     "عبد الله الفرح"
+    ],
+    "source": "gemini",
+    "failures": [
+     {
+      "video_id": "MlxPThAg4Ag",
+      "channel": "CNN Türk",
+      "reason": "Gemini: لا ناتج مقبول (no_candidates)"
+     }
+    ],
+    "not_analysts": {
+     "kind": 1
+    },
+    "plan": {
+     "attempts": [
+      {
+       "model": "claude-sonnet-5",
+       "stop_reason": "tool_use",
+       "bites": 33,
+       "rows": 0,
+       "raw_type": "str",
+       "answers": 0,
+       "bad_n": 0,
+       "error": "لم يقترح النموذج سؤالًا له إجابات"
+      },
+      {
+       "model": "claude-opus-5",
+       "stop_reason": "tool_use",
+       "bites": 33,
+       "rows": 5,
+       "raw_type": "list",
+       "answers": 37,
+       "bad_n": 0,
+       "error": ""
+      }
+     ]
+    },
+    "verify": {
+     "checked": 23,
+     "ok": 21,
+     "no_match": 2,
+     "failed": 0,
+     "no_text": 0,
+     "left": 13,
+     "audio_seconds": 1179,
+     "skipped": "",
+     "cut_off": 2,
+     "seconds": 480
+    },
+    "capped": 11,
+    "echo": {
+     "stop_reason": "tool_use",
+     "rows": 5,
+     "questions": 0,
+     "per_question": [
+      {
+       "q": 1,
+       "rejected": {},
+       "spans": 6,
+       "answers": 6,
+       "shared": 0,
+       "reason": "no_shared"
+      },
+      {
+       "q": 2,
+       "rejected": {},
+       "spans": 5,
+       "answers": 5,
+       "shared": 0,
+       "reason": "no_shared"
+      },
+      {
+       "q": 3,
+       "rejected": {},
+       "spans": 4,
+       "answers": 4,
+       "shared": 0,
+       "reason": "no_shared"
+      },
+      {
+       "q": 4,
+       "rejected": {},
+       "spans": 5,
+       "answers": 5,
+       "shared": 0,
+       "reason": "no_shared"
+      },
+      {
+       "q": 5,
+       "rejected": {},
+       "spans": 2,
+       "answers": 2,
+       "shared": 0,
+       "reason": "no_shared"
+      }
+     ]
+    },
+    "selected_seconds": 117.9,
+    "status": "ready",
+    "titles": [
+     "هل نقل الحوثيون الحرب إلى قلب اقتصاد السعودية؟",
+     "ماذا يعني ضرب مركز الرياض المالي في حرب اليمن؟",
+     "هل تخسر السعودية حربها أمام الحوثيين؟"
+    ],
+    "questions": [
+     {
+      "text": "ماذا يعني ضرب الحوثيين مركز الملك عبد الله المالي في الرياض؟",
+      "answers": [
+       {
+        "n": 9,
+        "fit": "direct",
+        "view": "استهداف رمز رؤية 2030 السعودية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "DaqMWVYsYto:g1921"
+       },
+       {
+        "n": 6,
+        "fit": "direct",
+        "view": "شلل المبنى وإخلاؤه بالكامل",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "4mpu_oG2MBU:g483"
+       },
+       {
+        "n": 16,
+        "fit": "direct",
+        "view": "وضع الاقتصاد السعودي أمام كلفة الحرب",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "ZjZOC-dRR00:g1159"
+       },
+       {
+        "n": 14,
+        "fit": "direct",
+        "view": "التحالف يعده استهدافا للمدنيين ويتوعد",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "PiPdWSPfe90:g313"
+       },
+       {
+        "n": 17,
+        "fit": "direct",
+        "view": "أثره أقل من معركة الممرات المائية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "ZjZOC-dRR00:g1270"
+       },
+       {
+        "n": 15,
+        "fit": "direct",
+        "view": "مجرد خدوش في سمعة المملكة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "PiPdWSPfe90:g438"
+       }
+      ]
+     },
+     {
+      "text": "من يكسب ميدانيا في اليمن اليوم، الحوثيون أم حلفاء السعودية؟",
+      "answers": [
+       {
+        "n": 3,
+        "fit": "direct",
+        "view": "عدن محاصرة وقد تسقط قريبا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "4mpu_oG2MBU:g44"
+       },
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "الحوثيون يسيطرون ويقتربون من عدن",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "DaqMWVYsYto:g1884"
+       },
+       {
+        "n": 13,
+        "fit": "weak",
+        "view": "الرياض تراهن على تطويق الحوثيين",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "DaqMWVYsYto:g2140"
+       },
+       {
+        "n": 1,
+        "fit": "direct",
+        "view": "السعودية تخسر الأرض وحلفاءها",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "gtCbSN4EHts:g738"
+       },
+       {
+        "n": 15,
+        "fit": "direct",
+        "view": "ضربات التحالف موجعة وتستنزف الحوثيين",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "PiPdWSPfe90:g438"
+       }
+      ]
+     },
+     {
+      "text": "لماذا تحوّلت الحرب إلى تبادل قصف الموانئ بين صنعاء والرياض؟",
+      "answers": [
+       {
+        "n": 4,
+        "fit": "direct",
+        "view": "رد على تهديد السعودية للحديدة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "4mpu_oG2MBU:g177"
+       },
+       {
+        "n": 11,
+        "fit": "direct",
+        "view": "تهديد بتكثيف ضرب جدة ردا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "DaqMWVYsYto:g1995"
+       },
+       {
+        "n": 5,
+        "fit": "weak",
+        "view": "ينبع منفذ النفط الوحيد المرتبط بالأنابيب",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "4mpu_oG2MBU:g325"
+       },
+       {
+        "n": 18,
+        "fit": "direct",
+        "view": "معادلة الحصار بالحصار والتصعيد بالتصعيد",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "ZjZOC-dRR00:g1422"
+       },
+       {
+        "n": 2,
+        "fit": "direct",
+        "view": "ضربات انتقامية تكشف غياب الرؤية",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "gtCbSN4EHts:g930"
+       }
+      ]
+     },
+     {
+      "text": "هل تقود الضغوط المتبادلة إلى تفاوض أم إلى حرب طويلة؟",
+      "answers": [
+       {
+        "n": 13,
+        "fit": "direct",
+        "view": "الرياض قادرة على الحرب حتى 2027",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "DaqMWVYsYto:g2140"
+       },
+       {
+        "n": 3,
+        "fit": "direct",
+        "view": "بلا مفاوضات تسقط عدن",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "4mpu_oG2MBU:g44"
+       },
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "التوترات لن تتراجع حاليا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "DaqMWVYsYto:g1884"
+       },
+       {
+        "n": 19,
+        "fit": "direct",
+        "view": "الحل السياسي ضرورة لدول المنطقة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "ZjZOC-dRR00:g1625"
+       },
+       {
+        "n": 15,
+        "fit": "weak",
+        "view": "الاستنزاف يدفع الحوثيين نحو الاستسلام",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "PiPdWSPfe90:g438"
+       }
+      ]
+     },
+     {
+      "text": "كيف طوّر الحوثيون قدرة على ضرب العمق السعودي بدقة؟",
+      "answers": [
+       {
+        "n": 7,
+        "fit": "direct",
+        "view": "تصنيع محلي بأنفاق وخبراء إيرانيين",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "4mpu_oG2MBU:g722"
+       },
+       {
+        "n": 10,
+        "fit": "direct",
+        "view": "تضارب روايتي الاعتراض وإصابة رأس تنورة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "DaqMWVYsYto:g1953"
+       },
+       {
+        "n": 12,
+        "fit": "weak",
+        "view": "تحالف إقليمي دفاعي وهجومي لردعهم",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "DaqMWVYsYto:g2038"
+       }
+      ]
+     }
+    ],
+    "context": [
+     {
+      "n": 20,
+      "selected": true,
+      "bite_id": "gtCbSN4EHts:g1219"
+     },
+     {
+      "n": 21,
+      "selected": true,
+      "bite_id": "gtCbSN4EHts:g1266"
+     },
+     {
+      "n": 22,
+      "selected": false,
+      "bite_id": "ZjZOC-dRR00:g1063"
+     },
+     {
+      "n": 23,
+      "selected": false,
+      "bite_id": "ZjZOC-dRR00:g1111"
+     }
+    ],
+    "bites": [
+     {
+      "bite_id": "gtCbSN4EHts:g738",
+      "video_id": "gtCbSN4EHts",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "ياسر الحوري",
+      "speaker_original": "ياسر الحوري",
+      "speaker_role": "محلل سياسي يمني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 738.68,
+      "end": 761.14,
+      "summary_ar": "ياسر الحوري يرى أن السعودية لم تحقق أي انتصارات في حربها على اليمن وتخسر الأرض وحلفاءها الميدانيين.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "gtCbSN4EHts:g930",
+      "video_id": "gtCbSN4EHts",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "علي أبي رعد",
+      "speaker_original": "علي أبي رعد",
+      "speaker_role": "عميد لبناني متقاعد وخبير عسكري واستراتيجي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 931.76,
+      "end": 952.14,
+      "summary_ar": "علي أبي رعد يرى أن الضربات السعودية الأخيرة في اليمن تتسم بطابع انتقامي ينم عن تخبط وغياب للرؤية الاستراتيجية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "4mpu_oG2MBU:g44",
+      "video_id": "4mpu_oG2MBU",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "محمد شيمشك",
+      "speaker_original": "Mehmet Şimşek",
+      "speaker_role": "محرر الشؤون الخارجية بقناة سي إن إن تورك",
+      "is_host": false,
+      "type": "forecast",
+      "start": 43.62,
+      "end": 62.42,
+      "summary_ar": "يتوقع محمد شيمشك سقوط عدن في يد الحوثيين إذا لم تُعقد محادثات سلام دبلوماسية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "4mpu_oG2MBU:g177",
+      "video_id": "4mpu_oG2MBU",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "محمد شيمشك",
+      "speaker_original": "Mehmet Şimşek",
+      "speaker_role": "محرر الشؤون الخارجية بقناة سي إن إن تورك",
+      "is_host": false,
+      "type": "fact",
+      "start": 177.04,
+      "end": 190.58,
+      "summary_ar": "يوضح محمد شيمشك أن الحوثيين هددوا بضرب موانئ جدة وينبع وجازان السعودية ردًا على تهديد ميناء الحديدة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "4mpu_oG2MBU:g325",
+      "video_id": "4mpu_oG2MBU",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "جوشكون باشبوغ",
+      "speaker_original": "Coşkun Başbuğ",
+      "speaker_role": "كاتب بصحيفة ستار التركية",
+      "is_host": false,
+      "type": "fact",
+      "start": 325.0,
+      "end": 343.0,
+      "summary_ar": "يوضح جوشكون باشبوغ الأهمية الحيوية لميناء ينبع كمنفذ وحيد لصادرات النفط السعودية عبر خط الأنابيب.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "4mpu_oG2MBU:g483",
+      "video_id": "4mpu_oG2MBU",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "محمد شيمشك",
+      "speaker_original": "Mehmet Şimşek",
+      "speaker_role": "محرر الشؤون الخارجية بقناة سي إن إن تورك",
+      "is_host": false,
+      "type": "opinion",
+      "start": 483.74,
+      "end": 494.6,
+      "summary_ar": "يوضح محمد شيمشك أن إصابة المبنى تؤدي إلى شلله وإخلائه من الموظفين دون الحاجة لانهياره الكامل.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "4mpu_oG2MBU:g722",
+      "video_id": "4mpu_oG2MBU",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "محمد شيمشك",
+      "speaker_original": "Mehmet Şimşek",
+      "speaker_role": "محرر الشؤون الخارجية بقناة سي إن إن تورك",
+      "is_host": false,
+      "type": "fact",
+      "start": 722.36,
+      "end": 739.62,
+      "summary_ar": "يوضح محمد شيمشك أن الحوثيين يصنعون صواريخهم داخل أنفاق جبلية في اليمن بإشراف خبراء إيرانيين.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "DaqMWVYsYto:g1884",
+      "video_id": "DaqMWVYsYto",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "تروسكه صادقي",
+      "speaker_original": "تروسکه صادقی",
+      "speaker_role": "صحفية في إيران إنترناشيونال",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1884.48,
+      "end": 1909.44,
+      "summary_ar": "تروسكه صادقي تستبعد تهدئة التوترات في اليمن وتلفت إلى سيطرة الحوثيين على ساحل باب المندب واقترابهم من عدن.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "DaqMWVYsYto:g1921",
+      "video_id": "DaqMWVYsYto",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "تروسكه صادقي",
+      "speaker_original": "تروسکه صادقی",
+      "speaker_role": "صحفية في إيران إنترناشيونال",
+      "is_host": false,
+      "type": "fact",
+      "start": 1927.9,
+      "end": 1950.14,
+      "summary_ar": "تروسكه صادقي توضح أن هجمات الحوثيين باتت تستهدف رؤية السعودية 2030 ومشاريع التحول الاقتصادي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "DaqMWVYsYto:g1953",
+      "video_id": "DaqMWVYsYto",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "تروسكه صادقي",
+      "speaker_original": "تروسکه صادقی",
+      "speaker_role": "صحفية في إيران إنترناشيونال",
+      "is_host": false,
+      "type": "fact",
+      "start": 1953.12,
+      "end": 1980.74,
+      "summary_ar": "تروسكه صادقي تشير إلى وجود تضارب بين إعلان التحالف إسقاط المسيرات وظهور دخان بمصفاة رأس تنورة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "DaqMWVYsYto:g1995",
+      "video_id": "DaqMWVYsYto",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "تروسكه صادقي",
+      "speaker_original": "تروسکه صادقی",
+      "speaker_role": "صحفية في إيران إنترناشيونال",
+      "is_host": false,
+      "type": "fact",
+      "start": 1995.2,
+      "end": 2027.54,
+      "summary_ar": "تروسكه صادقي تنوه بتهديد الحوثيين باستهداف ميناء جدة رداً على قصف موانئ يمنية رغم إحباط السعودية مئات الهجمات.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "DaqMWVYsYto:g2038",
+      "video_id": "DaqMWVYsYto",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "عطا محامد",
+      "speaker_original": "عطا محامد",
+      "speaker_role": "خبير في العلاقات الدولية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2038.0,
+      "end": 2074.0,
+      "summary_ar": "عطا محامد يوضح مساعي السعودية لبناء تحالف إقليمي عريض يشارك دفاعياً وهجومياً لردع الحوثيين.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "DaqMWVYsYto:g2140",
+      "video_id": "DaqMWVYsYto",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "عطا محامد",
+      "speaker_original": "عطا محامد",
+      "speaker_role": "خبير في العلاقات الدولية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2139.84,
+      "end": 2176.08,
+      "summary_ar": "عطا محامد يؤكد قدرة السعودية على مواصلة الحرب حتى عام 2027 ورفض التفاوض بشروط الحوثيين.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "PiPdWSPfe90:g313",
+      "video_id": "PiPdWSPfe90",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "محمود الزيبق",
+      "speaker_original": "محمود الزيبق",
+      "speaker_role": "محرر شؤون عسكرية بالجزيرة",
+      "is_host": false,
+      "type": "fact",
+      "start": 313.0,
+      "end": 341.0,
+      "summary_ar": "محمود الزيبق يوضح استهداف مطار الملك خالد الدولي ومركز الملك عبد الله المالي بالرياض ووعيد التحالف بالرد لحماية المدنيين.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "PiPdWSPfe90:g438",
+      "video_id": "PiPdWSPfe90",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "علي الذهب",
+      "speaker_original": "علي الذهب",
+      "speaker_role": "خبير عسكري واستراتيجي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 438.0,
+      "end": 467.0,
+      "summary_ar": "علي الذهب يرى أن الحرب تجاوزت الردع إلى استنزاف يوجع الحوثيين عسكريًا واقتصاديًا ويخدش صورة السعودية دوليًا.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "ZjZOC-dRR00:g1159",
+      "video_id": "ZjZOC-dRR00",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "أحمد عبد الرحمن",
+      "speaker_original": "أحمد عبد الرحمن",
+      "speaker_role": "مراسل الميادين في صنعاء",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1159.0,
+      "end": 1180.12,
+      "summary_ar": "مراسل الميادين يرى أن صنعاء ترسم مرحلة حرب مفتوحة تضع الاقتصاد السعودي في مواجهة كلفة المعركة.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "ZjZOC-dRR00:g1270",
+      "video_id": "ZjZOC-dRR00",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "حسين الوائلي",
+      "speaker_original": "حسين الوائلي",
+      "speaker_role": "كاتب مختص في الشؤون الأوروبية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1270.0,
+      "end": 1296.0,
+      "summary_ar": "حسين الوائلي يرى أن البعد الجيوسياسي لليمن والممرات المائية أهم بكثير للسعودية من استهداف المصافي والمراكز المالية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "ZjZOC-dRR00:g1422",
+      "video_id": "ZjZOC-dRR00",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "عبد الله الفرح",
+      "speaker_original": "عبد الله الفرح",
+      "speaker_role": "مدير مكتب الميادين في اليمن",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1422.44,
+      "end": 1447.6,
+      "summary_ar": "عبد الله الفرح يؤكد أن استهداف موانئ السعودية يندرج في إطار معادلة الحصار بالحصار والتصعيد بالتصعيد.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "ZjZOC-dRR00:g1625",
+      "video_id": "ZjZOC-dRR00",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "حسين الوائلي",
+      "speaker_original": "حسين الوائلي",
+      "speaker_role": "كاتب مختص في الشؤون الأوروبية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1625.0,
+      "end": 1655.0,
+      "summary_ar": "حسين الوائلي يؤكد أن الحل الدبلوماسي ضرورة لدول المنطقة خصوصاً بعد تضرر قناة السويس بنحو 40%.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "gtCbSN4EHts:g1219",
+      "video_id": "gtCbSN4EHts",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "عبدالله الوشلي",
+      "speaker_original": "عبدالله الوشلي",
+      "speaker_role": "نائب وزير الثقافة والسياحة في حكومة صنعاء",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1219.0,
+      "end": 1240.0,
+      "summary_ar": "عبدالله الوشلي يؤكد أن الغارات السعودية لن تثني اليمنيين عن مواصلة الدفاع ونيل حقوقهم الكاملة.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "gtCbSN4EHts:g1266",
+      "video_id": "gtCbSN4EHts",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "عبدالله النعمي",
+      "speaker_original": "عبدالله النعمي",
+      "speaker_role": "عضو المكتب السياسي لحركة أنصار الله",
+      "is_host": false,
+      "type": "forecast",
+      "start": 1266.0,
+      "end": 1288.0,
+      "summary_ar": "عبدالله النعمي يتوعد السعودية باستهداف بنك أهداف اقتصادي واسع النطاق سيجعلها تعض أصابع الندم.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "ZjZOC-dRR00:g1063",
+      "video_id": "ZjZOC-dRR00",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "عبد الله الوشلي",
+      "speaker_original": "عبد الله الوشلي",
+      "speaker_role": "نائب وزير الثقافة والسياحة في حكومة صنعاء",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1062.38,
+      "end": 1085.08,
+      "summary_ar": "نائب وزير الثقافة في حكومة صنعاء يرى أن الجرائم السعودية لن توقف مسار اليمنيين لنيل حقوقهم.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "ZjZOC-dRR00:g1111",
+      "video_id": "ZjZOC-dRR00",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "عبد الله النعمي",
+      "speaker_original": "عبد الله النعمي",
+      "speaker_role": "عضو المكتب السياسي لحركة أنصار الله اليمنية",
+      "is_host": false,
+      "type": "forecast",
+      "start": 1110.76,
+      "end": 1133.44,
+      "summary_ar": "عضو المكتب السياسي لأنصار الله يحذر من أن ضرب المركز المالي السعودي ورأس تنورة بداية لقائمة أهداف اقتصادية كبرى.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": true
+     }
+    ],
+    "error": "",
+    "extracted": 33,
+    "cost": {
+     "claude": {
+      "claude-haiku-5-5": 0.0015,
+      "claude-sonnet-5": 0.08762,
+      "claude-opus-5": 0.33831
+     },
+     "gemini": 0.7716,
+     "proxy_bytes": 45131711
+    }
+   }
   },
   {
    "id": "dcdf75bb1ce7",
