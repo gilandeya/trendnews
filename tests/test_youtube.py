@@ -12350,3 +12350,30 @@ def test_reel_notes_2044() -> None:
         "we need time for the blockade to work and then if we have shown".split())]
     al = reel_clips.align_quote("we need time for the blockade to work and then if we have to take action", words, tcfg) or {}
     check("2044c: align_quote يعيد عدد كلمات آخر الاقتباس غير المسموعة", al.get("tail_missing") == 2, al)
+
+
+def test_reel_taa_marbuta_2711() -> None:
+    """ملاحظة صاحب المشروع 27/11 (ريل 1647a40f7337 وريل سابق): «الإيرانيةْ» و«السعوديةْ» نُطقتا بتاء ساكنة. التاء المربوطة عند الوقف
+    هاء، وفي الوصل تاء بحركتها؛ لا تُسكَّن أبدًا تاءً."""
+    from src import tts
+    from src.config import load_config as real_load
+
+    cfg = real_load()
+    check("2711a: التاء المربوطة الساكنة وسط الجملة ← هاء ساكنة، والمتحركة كما هي",
+          tts.taa_sukun_to_ha("فِي الأَسْوَاقِ الإِيرَانِيَّةْ أَضْعَافًا") == "فِي الأَسْوَاقِ الإِيرَانِيَّهْ أَضْعَافًا"
+          and tts.taa_sukun_to_ha("الإِيرَانِيَّةِ أَضْعَافًا") == "الإِيرَانِيَّةِ أَضْعَافًا")
+    spoken, _ = tts.spoken_line("تَرْتَفِعُ الأَسْعَارُ فِي الأَسْوَاقِ الإِيرَانِيَّةْ أَضْعَافًا.", [], cfg)
+    check("2711a: نص النطق بلا «ةْ»", "ةْ" not in spoken and "الإِيرَانِيَّهْ" in spoken, spoken)
+    end, _ = tts.spoken_line("زَارَ الوَفْدُ السُّعُودِيَّةَ.", [], cfg)
+    check("2711a: عند الوقف هاء كما كان", end.endswith("السُّعُودِيَّهْ."), end)
+    # وقف الأعلام لا يسكّن تاءً مربوطة في الوصل، ويقفها هاءً قبل الوقف
+    nouns = [{"text": "السعودية", "foreign": False, "kind": "place"}]
+    mid = tts.apply_proper_nouns("صَادِرَاتُ السُّعُودِيَّةِ النَّفْطِيَّةُ", nouns)
+    check("2711b: علم آخره تاء مربوطة في الوصل يبقى بحركته", "السُّعُودِيَّةِ" in mid, mid)
+    fin = tts.spoken_line(tts.apply_proper_nouns("زَارَ الوَفْدُ السُّعُودِيَّةَ.", nouns), nouns, cfg)[0]
+    check("2711b: وقبل الوقف هاء", "السُّعُودِيَّهْ" in fin, fin)
+    person = [{"text": "فاطمة الزهراء", "kind": "person"}]
+    bare = tts.apply_proper_nouns("قَالَتْ فَاطِمَةُ الزَّهْرَاءُ إِنَّ", person, every_word=False, person_bare=True)
+    check("2711b: اسم شخص كلمته الأولى بتاء مربوطة لا تُعرّى", "فَاطِمَةُ" in bare, bare)
+    check("2711c: تعليمة التشكيل تمنع تسكين التاء المربوطة في الوصل، والمفتاح مفعّل",
+          "التاء المربوطة لا تُسكَّن" in cfg.path("reel.tts.diacritize.system") and cfg.path("reel.tts.taa_marbuta_ha") is True)

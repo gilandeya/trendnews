@@ -1861,6 +1861,15 @@ step (`article.wide_days`).
   التالية بعددها ما دام الفاصل ≤ `exact.tail.max_gap` والإضافة ≤ `max_seconds`؛ يُحفظ `render_crops[i].exact.tail_extended`/`tail_unheard`
   وسطرا `comment_tail_extended`/`comment_tail_unheard`.
 
+## التاء المربوطة: هاء عند الوقف وتاء بحركتها في الوصل (ملاحظة صاحب المشروع 27/11) — `tts.taa_sukun_to_ha`، `tts._taa_mid`
+
+الحادثة (ريل 1647a40f7337 وريل سابق): «الأسواق الإيرانيةْ أضعافًا» و«السعوديةْ» نُطقتا بتاء ساكنة («إيرانيّات»). التاء المربوطة الساكنة
+وقف، والوقف عليها هاء؛ وفي الوصل تُنطق تاءً بحركتها. ثلاثة مصادر للسكون أُغلقت: (1) `apply_proper_nouns` كان يسكّن آخر العلم بلا تحويل
+(`taa=False`) أينما وقع، فـ«السعودية» علم مكان وسط الجملة صارت «السُّعُودِيَّةْ»؛ الآن علم آخره تاء مربوطة لا يليه وقف (`_taa_mid`) يبقى بحركته،
+وقبل الوقف يقفه `apply_waqf` هاءً كما كان. (2) `_bare_end` (كلمات الاسم الأجنبي واسم الشخص قبل آخرها) لا يعرّي تاءً مربوطة. (3) `spoken_line`
+يحوّل كل «ةْ» باقية (من التشكيل) إلى «هْ» (`taa_sukun_to_ha`، `reel.tts.taa_marbuta_ha`)، وتعليمة التشكيل تمنع تسكينها في الوصل. نص النطق وحده؛
+المعروض كما هو. `render_version` بلا تغيير. الاختبار `tests/test_youtube.py:test_reel_taa_marbuta_2711`.
+
 ## Retired paths
 
 - **«مقال» (`src/article.py`, label `مقال`, `.github/workflows/article.yml`) and «طلب» (`src/request.py`, label `طلب`
