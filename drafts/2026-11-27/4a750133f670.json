@@ -1,7 +1,7 @@
 {
   "id": "4a750133f670",
   "created_at": "2026-11-27T15:42:03.685753+00:00",
-  "status": "pending",
+  "status": "approved_script",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -504,7 +504,8 @@
         "enter": "left",
         "path": "drafts/2026-11-27/4a750133f670-cartoon-1.png"
       }
-    ]
+    ],
+    "approved": true
   },
   "reel_bg": {
     "url": "https://www.okaz.com.sa/okaz/uploads/images/2026/11/25/2799566.webp",
@@ -528,7 +529,8 @@
         "end": 44,
         "impact": 3,
         "desc": "اشتعال نيران هائلة وتصاعد سحب دخان كثيفة من سفينة تحترق في عرض البحر"
-      }
+      },
+      "picked": true
     },
     {
       "video_id": "iamwFtcDNdg",
@@ -687,5 +689,8 @@
     "gemini": 0.1937
   },
   "review_issue": 2039,
-  "stage2_issue": 2039
+  "stage2_issue": 2039,
+  "render_status": "queued",
+  "approved_script_at": "2026-11-27T15:53:00.202565+00:00",
+  "hook_picked": 0
 }
