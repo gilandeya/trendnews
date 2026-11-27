@@ -1087,118 +1087,71 @@
    "selected_from": 2029,
    "topic_issue": 2035,
    "qa": {
-    "attempts": 2,
-    "at": "2026-11-27T13:49:04.996508+00:00",
+    "attempts": 3,
+    "at": "2026-11-27T14:55:55.511189+00:00",
     "videos": [
      {
       "video_id": "qxm4XIK_wFQ",
       "channel": "الميادين",
       "bloc": "arabic",
       "minutes": 52.3,
-      "bites": 0,
-      "rejected": 0,
-      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+      "bites": 6,
+      "rejected": 0
      },
      {
       "video_id": "z78QcAhQGpY",
       "channel": "Iran International",
       "bloc": "persian",
       "minutes": 14.7,
-      "bites": 0,
-      "rejected": 0,
-      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
-     },
-     {
-      "video_id": "TPU2GBfTOgk",
-      "channel": "ILTV",
-      "bloc": "israeli",
-      "minutes": 7.4,
-      "bites": 0,
-      "rejected": 0,
-      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+      "bites": 3,
+      "rejected": 0
      },
      {
       "video_id": "OGx1F1nbpwE",
       "channel": "CNN Türk",
       "bloc": "turkish",
       "minutes": 11.6,
-      "bites": 0,
-      "rejected": 0,
-      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+      "bites": 4,
+      "rejected": 0
+     },
+     {
+      "video_id": "TPU2GBfTOgk",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "minutes": 7.4,
+      "bites": 20,
+      "rejected": 0
      },
      {
       "video_id": "CSIDYFLyy9Q",
       "channel": "الجزيرة",
       "bloc": "arabic",
       "minutes": 30.0,
-      "bites": 0,
-      "rejected": 0,
-      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+      "bites": 10,
+      "rejected": 0
      },
      {
       "video_id": "k0Dyj5QwDsw",
       "channel": "سكاي نيوز عربية",
       "bloc": "arabic",
       "minutes": 27.7,
-      "bites": 0,
-      "rejected": 0,
-      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+      "bites": 6,
+      "rejected": 0
      },
      {
       "video_id": "dj0kN4eWxBE",
       "channel": "العربية",
       "bloc": "arabic",
       "minutes": 23.5,
-      "bites": 0,
-      "rejected": 0,
-      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
-     },
-     {
-      "video_id": "LYZZU6f1xm0",
-      "channel": "العربية",
-      "bloc": "arabic",
-      "minutes": 14.0,
-      "bites": 0,
-      "rejected": 0,
-      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S",
-      "extra": true
-     },
-     {
-      "video_id": "vBtuEnpAI74",
-      "channel": "Iran International",
-      "bloc": "persian",
-      "minutes": 11.0,
-      "bites": 0,
-      "rejected": 0,
-      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S",
-      "extra": true
-     },
-     {
-      "video_id": "lj-LAG3_ZbE",
-      "channel": "سكاي نيوز عربية",
-      "bloc": "arabic",
-      "minutes": 11.3,
-      "bites": 0,
-      "rejected": 0,
-      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S",
-      "extra": true
-     },
-     {
-      "video_id": "sCVuyy_MP5Y",
-      "channel": "الميادين",
-      "bloc": "arabic",
-      "minutes": 51.2,
-      "bites": 0,
-      "rejected": 0,
-      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S",
-      "extra": true
+      "bites": 13,
+      "rejected": 0
      }
     ],
     "video_scores": {
      "OGx1F1nbpwE": 2,
      "fc-39637-qo": 0,
      "CZ2WubUYw70": 0,
-     "TPU2GBfTOgk": 3,
+     "TPU2GBfTOgk": 2,
      "gk4wVR6W_5o": 3,
      "DaqMWVYsYto": 3,
      "vBtuEnpAI74": 3,
@@ -1214,77 +1167,748 @@
      "lj-LAG3_ZbE": 3,
      "k0Dyj5QwDsw": 3
     },
-    "gemini_cost": 0.0,
+    "gemini_cost": 0.7429,
     "gemini_rejected": 0,
-    "channels": 0,
-    "answer_channels": 0,
-    "originals": [],
-    "originals_found": 0,
-    "source": "gemini",
-    "failures": [
+    "channels": 7,
+    "answer_channels": 7,
+    "originals": [
      {
-      "video_id": "qxm4XIK_wFQ",
-      "channel": "الميادين",
-      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+      "bite_id": "qxm4XIK_wFQ:g1407",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "Donald Trump"
+      ],
+      "candidate": "VrOy8-7IXgc",
+      "candidates": [
+       "DEi9GRn4wQI",
+       "SZtJfBNG7f8",
+       "VrOy8-7IXgc"
+      ],
+      "reason": "لم يُعثر على الكلام"
      },
      {
-      "video_id": "z78QcAhQGpY",
-      "channel": "Iran International",
-      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+      "bite_id": "TPU2GBfTOgk:g72",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "Israel Katz"
+      ],
+      "candidate": "VX4Lie937vs",
+      "candidates": [
+       "msH5eaNyzpI",
+       "XaEUr_bEyrE",
+       "VX4Lie937vs"
+      ],
+      "reason": "لم يُعثر على الكلام"
      },
      {
-      "video_id": "TPU2GBfTOgk",
-      "channel": "ILTV",
-      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+      "bite_id": "CSIDYFLyy9Q:g194",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "عباس أصلاني"
+      ],
+      "candidate": "XE9fXPp00eM",
+      "candidates": [
+       "CxYTu3S6nqs",
+       "fs7sVw6eacs",
+       "XE9fXPp00eM"
+      ],
+      "reason": "لم يُعثر على الكلام"
      },
      {
-      "video_id": "OGx1F1nbpwE",
-      "channel": "CNN Türk",
-      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
-     },
-     {
-      "video_id": "CSIDYFLyy9Q",
-      "channel": "الجزيرة",
-      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
-     },
-     {
-      "video_id": "k0Dyj5QwDsw",
-      "channel": "سكاي نيوز عربية",
-      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
-     },
-     {
-      "video_id": "dj0kN4eWxBE",
-      "channel": "العربية",
-      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
-     },
-     {
-      "video_id": "LYZZU6f1xm0",
-      "channel": "العربية",
-      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
-     },
-     {
-      "video_id": "vBtuEnpAI74",
-      "channel": "Iran International",
-      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
-     },
-     {
-      "video_id": "lj-LAG3_ZbE",
-      "channel": "سكاي نيوز عربية",
-      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
-     },
-     {
-      "video_id": "sCVuyy_MP5Y",
-      "channel": "الميادين",
-      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+      "bite_id": "CSIDYFLyy9Q:g337",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "Sergio de la Peña Iran negotiations Hormuz blockade",
+       "Sergio de la Peña Iran strike diplomacy interview",
+       "Sergio de la Peña"
+      ],
+      "candidate": "nbeyzc-6MdE",
+      "candidates": [
+       "PxdzSCLywPo",
+       "2Vgv3t8aOUM",
+       "nbeyzc-6MdE"
+      ],
+      "reason": "لم يُعثر على الكلام"
      }
     ],
-    "status": "failed",
-    "error": "RuntimeError: مقاطع قليلة عن الموضوع: 0",
+    "originals_found": 0,
+    "source": "gemini",
+    "failures": [],
+    "status": "ready",
+    "error": "",
     "cost": {
      "claude": {
-      "claude-haiku-5-5": 0.00144
+      "claude-haiku-5-5": 0.00298,
+      "claude-sonnet-5": 0.10349
+     },
+     "gemini": 0.7429,
+     "proxy_bytes": 25435603
+    },
+    "read_dropped": 4,
+    "read_dropped_speakers": [
+     "دونالد ترامب",
+     "يسرائيل كاتس"
+    ],
+    "not_analysts": {
+     "kind": 1
+    },
+    "plan": {
+     "attempts": [
+      {
+       "model": "claude-sonnet-5",
+       "stop_reason": "tool_use",
+       "bites": 55,
+       "rows": 5,
+       "raw_type": "list",
+       "answers": 25,
+       "bad_n": 0,
+       "error": ""
+      }
+     ]
+    },
+    "verify": {
+     "checked": 27,
+     "ok": 14,
+     "no_match": 1,
+     "failed": 12,
+     "no_text": 0,
+     "left": 0,
+     "audio_seconds": 938,
+     "skipped": "",
+     "cut_off": 5,
+     "seconds": 488
+    },
+    "capped": 6,
+    "echo": {
+     "stop_reason": "tool_use",
+     "rows": 5,
+     "questions": 0,
+     "per_question": [
+      {
+       "q": 1,
+       "spans": 0,
+       "answers": 0,
+       "reason": "no_spans"
+      },
+      {
+       "q": 2,
+       "rejected": {},
+       "spans": 5,
+       "answers": 4,
+       "shared": 0,
+       "reason": "no_shared"
+      },
+      {
+       "q": 3,
+       "rejected": {},
+       "spans": 4,
+       "answers": 4,
+       "shared": 0,
+       "reason": "no_shared"
+      },
+      {
+       "q": 4,
+       "rejected": {},
+       "spans": 4,
+       "answers": 3,
+       "shared": 0,
+       "reason": "no_shared"
+      },
+      {
+       "q": 5,
+       "rejected": {},
+       "spans": 4,
+       "answers": 4,
+       "shared": 0,
+       "reason": "no_shared"
+      }
+     ]
+    },
+    "selected_seconds": 114.2,
+    "titles": [
+     "هل تشن أمريكا وإسرائيل ضربة جديدة على إيران؟",
+     "من يدفع واشنطن نحو حرب جديدة مع إيران؟",
+     "ما الذي ستغيره الضربة المقبلة على إيران؟"
+    ],
+    "questions": [
+     {
+      "text": "ما الخيارات المطروحة أمام واشنطن تجاه إيران؟",
+      "answers": [
+       {
+        "n": 4,
+        "fit": "direct",
+        "view": "حرب شاملة أو ضربة خاطفة",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "OGx1F1nbpwE:g46"
+       },
+       {
+        "n": 9,
+        "fit": "direct",
+        "view": "الحصار الاقتصادي بديل عن الحرب",
+        "side": "الولايات المتحدة وإسرائيل",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "TPU2GBfTOgk:g834"
+       },
+       {
+        "n": 17,
+        "fit": "weak",
+        "view": "الضربات القديمة لن تحسم الصراع",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "dj0kN4eWxBE:g591"
+       }
+      ]
+     },
+     {
+      "text": "لماذا يسعى رئيس الوزراء الإسرائيلي بنيامين نتنياهو لجر أمريكا إلى حرب جديدة؟",
+      "answers": [
+       {
+        "n": 6,
+        "fit": "direct",
+        "view": "اعتبارات سياسية داخلية له",
+        "side": "الولايات المتحدة وإسرائيل",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "TPU2GBfTOgk:g404"
+       },
+       {
+        "n": 2,
+        "fit": "direct",
+        "view": "الضغط على الإدارة الأمريكية للحرب",
+        "side": "الولايات المتحدة وإسرائيل",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "qxm4XIK_wFQ:g1820"
+       },
+       {
+        "n": 14,
+        "fit": "direct",
+        "view": "استفزاز إيران لضمان بقائه بالسلطة",
+        "side": "الولايات المتحدة وإسرائيل",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "CSIDYFLyy9Q:g2944"
+       },
+       {
+        "n": 15,
+        "fit": "direct",
+        "view": "البحث عن ذريعة لاستئناف الحرب",
+        "side": "الولايات المتحدة وإسرائيل",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "k0Dyj5QwDsw:g396"
+       }
+      ]
+     },
+     {
+      "text": "هل ستنجح ضربة عسكرية جديدة في إسقاط النظام الإيراني أو برنامجه النووي والصاروخي؟",
+      "answers": [
+       {
+        "n": 5,
+        "fit": "direct",
+        "view": "لن تحقق أهدافها كالسابقة",
+        "side": "إيران",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "TPU2GBfTOgk:g317"
+       },
+       {
+        "n": 1,
+        "fit": "direct",
+        "view": "إيران رفعت كلفة أي عدوان",
+        "side": "إيران",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "qxm4XIK_wFQ:g877"
+       },
+       {
+        "n": 3,
+        "fit": "direct",
+        "view": "أمريكا عاجزة عن فعل أكثر",
+        "side": "إيران",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "qxm4XIK_wFQ:g2415"
+       },
+       {
+        "n": 18,
+        "fit": "direct",
+        "view": "إيران عاجزة عن حسم المعركة",
+        "side": "الولايات المتحدة وإسرائيل",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "dj0kN4eWxBE:g2323"
+       }
+      ]
+     },
+     {
+      "text": "ما نتيجة سياسة اغتيال القيادات الإيرانية؟",
+      "answers": [
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "جلبت قيادة أكثر تطرفا",
+        "side": "إيران",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "TPU2GBfTOgk:g581"
+       },
+       {
+        "n": 10,
+        "fit": "direct",
+        "view": "فشلت في إسقاط النظام",
+        "side": "إيران",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "CSIDYFLyy9Q:g552"
+       },
+       {
+        "n": 11,
+        "fit": "direct",
+        "view": "مكنت الحرس الثوري من السيطرة",
+        "side": "إيران",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "CSIDYFLyy9Q:g1050"
+       }
+      ]
+     },
+     {
+      "text": "هل تتحرك إسرائيل منفردة ضد إيران أم بانتظار قرار أمريكي؟",
+      "answers": [
+       {
+        "n": 7,
+        "fit": "weak",
+        "view": "لا حاجة ملحة للضربة حاليا",
+        "side": "الولايات المتحدة وإسرائيل",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "TPU2GBfTOgk:g511"
+       },
+       {
+        "n": 12,
+        "fit": "direct",
+        "view": "ترامب صاحب القرار الحاسم",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "CSIDYFLyy9Q:g1517"
+       },
+       {
+        "n": 16,
+        "fit": "direct",
+        "view": "تقاسم مهام بين واشنطن وتل أبيب",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "k0Dyj5QwDsw:g1570"
+       },
+       {
+        "n": 13,
+        "fit": "direct",
+        "view": "نتنياهو يؤثر يوميا على ترامب",
+        "side": "الولايات المتحدة وإسرائيل",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "CSIDYFLyy9Q:g2547"
+       }
+      ]
      }
-    }
+    ],
+    "context": [
+     {
+      "n": 19,
+      "selected": true,
+      "bite_id": "dj0kN4eWxBE:g367"
+     }
+    ],
+    "bites": [
+     {
+      "bite_id": "qxm4XIK_wFQ:g877",
+      "video_id": "qxm4XIK_wFQ",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "عماد آب شناس",
+      "speaker_original": "عماد آب شناس",
+      "speaker_role": "كاتب ومحلل سياسي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 876.84,
+      "end": 904.42,
+      "summary_ar": "عماد آب شناس يرى أن إيران رفعت التكاليف العسكرية والسياسية بما يردع أي عدوان أمريكي جديد.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "qxm4XIK_wFQ:g1820",
+      "video_id": "qxm4XIK_wFQ",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "علي أبي رعد",
+      "speaker_original": "علي أبي رعد",
+      "speaker_role": "عميد متقاعد وخبير عسكري استراتيجي لبناني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1819.62,
+      "end": 1848.36,
+      "summary_ar": "علي أبي رعد يرى أن نتنياهو يحاول الضغط على الإدارة الأمريكية لإعادتها إلى الحرب مع إيران.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "qxm4XIK_wFQ:g2415",
+      "video_id": "qxm4XIK_wFQ",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "علي أبي رعد",
+      "speaker_original": "علي أبي رعد",
+      "speaker_role": "عميد متقاعد وخبير عسكري استراتيجي لبناني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2415.0,
+      "end": 2426.0,
+      "summary_ar": "علي أبي رعد يرى أن الجانب الأمريكي عاجز عسكريا عن فعل المزيد ضد إيران.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "OGx1F1nbpwE:g46",
+      "video_id": "OGx1F1nbpwE",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "يونس باكسوي",
+      "speaker_original": "Yunus Paksoy",
+      "speaker_role": "ممثل قناة سي إن إن تورك في الولايات المتحدة",
+      "is_host": false,
+      "type": "opinion",
+      "start": 46.02,
+      "end": 71.58,
+      "summary_ar": "مراسل القناة يونس باكسوي يوضح أن الخيارات المطروحة أمام الإدارة الأمريكية تشمل خيار الحرب الشاملة أو توجيه ضربة خاطفة ضد الصقور في إيران.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "TPU2GBfTOgk:g317",
+      "video_id": "TPU2GBfTOgk",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "تشاك فرايليخ",
+      "speaker_original": "Chuck Freilich",
+      "speaker_role": "نائب مستشار الأمن القومي الإسرائيلي السابق",
+      "is_host": false,
+      "type": "opinion",
+      "start": 317.16,
+      "end": 346.6,
+      "summary_ar": "تشاك فرايليخ يشكك في جدوى توجيه ضربة عسكرية جديدة لإيران لعدم تحقيق الحرب السابقة أهدافها.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "TPU2GBfTOgk:g404",
+      "video_id": "TPU2GBfTOgk",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "تشاك فرايليخ",
+      "speaker_original": "Chuck Freilich",
+      "speaker_role": "نائب مستشار الأمن القومي الإسرائيلي السابق",
+      "is_host": false,
+      "type": "opinion",
+      "start": 403.84,
+      "end": 424.54,
+      "summary_ar": "تشاك فرايليخ يرى أن دافع شن ضربة على إيران حاليا يعود لاعتبارات سياسية خاصة بنتنياهو.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "TPU2GBfTOgk:g511",
+      "video_id": "TPU2GBfTOgk",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "تشاك فرايليخ",
+      "speaker_original": "Chuck Freilich",
+      "speaker_role": "نائب مستشار الأمن القومي الإسرائيلي السابق",
+      "is_host": false,
+      "type": "fact",
+      "start": 511.98,
+      "end": 519.12,
+      "summary_ar": "تشاك فرايليخ يؤكد تأييده لموقف رئيس الأركان الإسرائيلي بأنه لا حاجة ملحة لشن ضربة عسكرية حاليا.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "TPU2GBfTOgk:g581",
+      "video_id": "TPU2GBfTOgk",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "تشاك فرايليخ",
+      "speaker_original": "Chuck Freilich",
+      "speaker_role": "نائب مستشار الأمن القومي الإسرائيلي السابق",
+      "is_host": false,
+      "type": "opinion",
+      "start": 581.0,
+      "end": 595.0,
+      "summary_ar": "تشاك فرايليخ يحذر من خيار اغتيال قادة إيران لأنه يأتي بقيادات أكثر تطرفا.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "TPU2GBfTOgk:g834",
+      "video_id": "TPU2GBfTOgk",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "تشاك فرايليخ",
+      "speaker_original": "Chuck Freilich",
+      "speaker_role": "نائب مستشار الأمن القومي الإسرائيلي السابق",
+      "is_host": false,
+      "type": "opinion",
+      "start": 834.0,
+      "end": 864.0,
+      "summary_ar": "تشاك فرايليخ يرى أن ترامب بات مردوعا من إيران ويفضل الحصار الاقتصادي على المواجهة العسكرية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "CSIDYFLyy9Q:g552",
+      "video_id": "CSIDYFLyy9Q",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "محجوب الزويري",
+      "speaker_original": "محجوب الزويري",
+      "speaker_role": "أكاديمي وخبير في القضايا الاستراتيجية وتحليل السياسات",
+      "is_host": false,
+      "type": "opinion",
+      "start": 552.0,
+      "end": 575.0,
+      "summary_ar": "إسرائيل نفذت اغتيال القيادات لإحداث صدمة داخل النظام الإيراني وإسقاطه سريعاً لكنها فشلت في ذلك.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "CSIDYFLyy9Q:g1050",
+      "video_id": "CSIDYFLyy9Q",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "طارق حمود",
+      "speaker_original": "طارق حمود",
+      "speaker_role": "باحث في المركز العربي للأبحاث ودراسة السياسات",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1050.0,
+      "end": 1075.0,
+      "summary_ar": "اغتيال المرشد الإيراني علي خامنئي نقل الصراع إلى سيطرة الحرس الثوري الإيراني على مقاليد الأمور.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "CSIDYFLyy9Q:g1517",
+      "video_id": "CSIDYFLyy9Q",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "مهند مصطفى",
+      "speaker_original": "مهند مصطفى",
+      "speaker_role": "أكاديمي وخبير بالشؤون الإسرائيلية",
+      "is_host": false,
+      "type": "forecast",
+      "start": 1517.0,
+      "end": 1546.0,
+      "summary_ar": "الرئيس الأمريكي دونالد ترامب هو صاحب القرار الحاسم وإسرائيل لن تنفرد بشن حرب جديدة على إيران.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "CSIDYFLyy9Q:g2547",
+      "video_id": "CSIDYFLyy9Q",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "إبراهيم فريحات",
+      "speaker_original": "إبراهيم فريحات",
+      "speaker_role": "أستاذ النزاعات الدولية بمعهد الدوحة للدراسات العليا",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2547.0,
+      "end": 2578.0,
+      "summary_ar": "قرار الحرب في إسرائيل بيد رئيس الوزراء الإسرائيلي بنيامين نتنياهو لقدرته على التأثير في الرئيس الأمريكي دونالد ترامب.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "CSIDYFLyy9Q:g2944",
+      "video_id": "CSIDYFLyy9Q",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "محجوب الزويري",
+      "speaker_original": "محجوب الزويري",
+      "speaker_role": "أكاديمي وخبير في القضايا الاستراتيجية وتحليل السياسات",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2944.0,
+      "end": 2972.0,
+      "summary_ar": "رئيس الوزراء الإسرائيلي بنيامين نتنياهو يسعى لاستفزاز إيران عبر الاغتيالات لجرها إلى تصعيد عسكري يبقيه في السلطة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "k0Dyj5QwDsw:g396",
+      "video_id": "k0Dyj5QwDsw",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "سمير التقي",
+      "speaker_original": "",
+      "speaker_role": "خبير الشؤون الأمريكية والدولية في سكاي نيوز عربية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 395.54,
+      "end": 425.46,
+      "summary_ar": "رأى سمير التقي أن حكومة نتنياهو تبحث عن ذريعة لاستئناف الحرب وضرب القيادات الإيرانية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "k0Dyj5QwDsw:g1570",
+      "video_id": "k0Dyj5QwDsw",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "هلال العبيدي",
+      "speaker_original": "",
+      "speaker_role": "باحث في العلاقات الدولية في المركز الأوروبي",
+      "is_host": false,
+      "type": "forecast",
+      "start": 1568.92,
+      "end": 1595.22,
+      "summary_ar": "توقع هلال العبيدي تقاسم المهام بين إسرائيل التي ستنفذ الاغتيالات وأمريكا التي ستضرب البنية التحتية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "dj0kN4eWxBE:g591",
+      "video_id": "dj0kN4eWxBE",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "سميح المعايطة",
+      "speaker_original": "سميح المعايطة",
+      "speaker_role": "وزير الإعلام الأردني الأسبق",
+      "is_host": false,
+      "type": "opinion",
+      "start": 591.68,
+      "end": 614.68,
+      "summary_ar": "سميح المعايطة يرى أن توجيه واشنطن ضربات على الشاكلة القديمة لن يحسم الصراع ولن يجبر إيران على القبول بالشروط الأمريكية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "dj0kN4eWxBE:g2323",
+      "video_id": "dj0kN4eWxBE",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "سمير صالحة",
+      "speaker_original": "سمير صالحة",
+      "speaker_role": "أستاذ القانون والعلاقات الدولية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2323.0,
+      "end": 2348.0,
+      "summary_ar": "سمير صالحة يرى أن طهران باتت على يقين بأن المعركة المقبلة ستكون مختلفة جذرياً لعجزها عن حسم الصراع عسكرياً أو سياسياً.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "dj0kN4eWxBE:g367",
+      "video_id": "dj0kN4eWxBE",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "دونالد ترامب",
+      "speaker_original": "Donald Trump",
+      "speaker_role": "الرئيس الأمريكي",
+      "is_host": false,
+      "type": "fact",
+      "start": 367.16,
+      "end": 379.16,
+      "summary_ar": "الرئيس الأمريكي دونالد ترامب يؤكد إحكام الحصار البحري على إيران دون أن تتمكن أي سفينة إيرانية من اختراقه.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": true
+     }
+    ],
+    "extracted": 55
    }
   },
   {
@@ -2638,91 +3262,64 @@
    "selected_from": 2034,
    "topic_issue": 2037,
    "qa": {
-    "attempts": 1,
-    "at": "2026-11-27T13:49:04.996508+00:00",
+    "attempts": 2,
+    "at": "2026-11-27T14:55:55.511189+00:00",
     "videos": [
      {
       "video_id": "Zkg1SJy_qo8",
       "channel": "الجزيرة",
       "bloc": "arabic",
       "minutes": 29.8,
-      "bites": 0,
-      "rejected": 0,
-      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+      "bites": 20,
+      "rejected": 0
      },
      {
       "video_id": "z78QcAhQGpY",
       "channel": "Iran International",
       "bloc": "persian",
       "minutes": 14.7,
-      "bites": 0,
-      "rejected": 0,
-      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+      "bites": 3,
+      "rejected": 0
      },
      {
       "video_id": "2p3ZdNhpesk",
       "channel": "العربية",
       "bloc": "arabic",
       "minutes": 24.7,
-      "bites": 0,
-      "rejected": 0,
-      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+      "bites": 1,
+      "rejected": 0
      },
      {
       "video_id": "PAWWljp2yJg",
       "channel": "الميادين",
       "bloc": "arabic",
       "minutes": 53.7,
-      "bites": 0,
-      "rejected": 0,
-      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+      "bites": 8,
+      "rejected": 0
      },
      {
       "video_id": "QLkuUNn-n80",
       "channel": "العربية",
       "bloc": "arabic",
       "minutes": 11.5,
-      "bites": 0,
-      "rejected": 0,
-      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+      "bites": 6,
+      "rejected": 0
      },
      {
       "video_id": "McIO1KbC8f0",
       "channel": "الميادين",
       "bloc": "arabic",
       "minutes": 10.1,
-      "bites": 0,
-      "rejected": 0,
-      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+      "bites": 2,
+      "rejected": 0
      },
      {
       "video_id": "Ee3W8dbzgv8",
       "channel": "العربية",
       "bloc": "arabic",
       "minutes": 15.5,
-      "bites": 0,
-      "rejected": 0,
-      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
-     },
-     {
-      "video_id": "iAqfaWrv8iM",
-      "channel": "الميادين",
-      "bloc": "arabic",
-      "minutes": 50.7,
-      "bites": 0,
-      "rejected": 0,
-      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S",
-      "extra": true
-     },
-     {
-      "video_id": "UoomWcbi3Bw",
-      "channel": "CNN",
-      "bloc": "english",
-      "minutes": 5.5,
-      "bites": 0,
-      "rejected": 0,
-      "error": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S",
-      "extra": true
+      "bites": 1,
+      "rejected": 0
      }
     ],
     "video_scores": {
@@ -2736,67 +3333,724 @@
      "PAWWljp2yJg": 2,
      "iAqfaWrv8iM": 1
     },
-    "gemini_cost": 0.0,
+    "gemini_cost": 0.7691,
     "gemini_rejected": 0,
-    "channels": 0,
-    "answer_channels": 0,
-    "originals": [],
-    "originals_found": 0,
-    "source": "gemini",
-    "failures": [
+    "channels": 4,
+    "answer_channels": 4,
+    "originals": [
      {
-      "video_id": "Zkg1SJy_qo8",
-      "channel": "الجزيرة",
-      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+      "bite_id": "Zkg1SJy_qo8:g332",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "عباس أصلاني إيران تنفي هجوم الكويت مسيرة",
+       "Abbas Aslani"
+      ],
+      "reason": "لا مرشّح"
      },
      {
-      "video_id": "z78QcAhQGpY",
-      "channel": "Iran International",
-      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+      "bite_id": "Zkg1SJy_qo8:g1080",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "Richard Weitz"
+      ],
+      "candidate": "mCV3XoKzUcY",
+      "candidates": [
+       "pHJ0JVpbduU",
+       "N77o0d9CHb0",
+       "mCV3XoKzUcY"
+      ],
+      "reason": "لم يُعثر على الكلام"
      },
      {
-      "video_id": "2p3ZdNhpesk",
-      "channel": "العربية",
-      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+      "bite_id": "Zkg1SJy_qo8:g2948",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "عباس عراقچی حمله پهپاد کویت فنی ایتالیایی",
+       "Araghchi Kuwait drone attack Italian technicians killed statement",
+       "عباس عراقچی کویت ایتالیا خبرنگاران نشست خبری",
+       "عباس عراقچی"
+      ],
+      "candidate": "eqG0Z4yQPdo",
+      "candidates": [
+       "63B0OnsHhso",
+       "cvLC5Xd-NG8",
+       "eqG0Z4yQPdo"
+      ],
+      "reason": "لم يُعثر على الكلام"
      },
      {
-      "video_id": "PAWWljp2yJg",
-      "channel": "الميادين",
-      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
-     },
-     {
-      "video_id": "QLkuUNn-n80",
-      "channel": "العربية",
-      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
-     },
-     {
-      "video_id": "McIO1KbC8f0",
-      "channel": "الميادين",
-      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
-     },
-     {
-      "video_id": "Ee3W8dbzgv8",
-      "channel": "العربية",
-      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
-     },
-     {
-      "video_id": "iAqfaWrv8iM",
-      "channel": "الميادين",
-      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
-     },
-     {
-      "video_id": "UoomWcbi3Bw",
-      "channel": "CNN",
-      "reason": "Gemini HTTP 402: {\n  \"error\": {\n    \"code\": 402,\n    \"message\": \"Your prepayment credits are depleted. Please go to AI S"
+      "bite_id": "PAWWljp2yJg:g124",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "ابوالفضل شکارچی سخنگوی نیروهای مسلح",
+       "ابوالفضل شکارچی خبر نشست مطبوعاتی سخنگوی نیروهای مسلح",
+       "ابوالفضل شکارچی"
+      ],
+      "candidate": "v3tFZtX36so",
+      "candidates": [
+       "T9Z-5GkF7tE",
+       "kgbbvp56j5o",
+       "v3tFZtX36so"
+      ],
+      "reason": "لم يُعثر على الكلام"
      }
     ],
-    "status": "failed",
-    "error": "RuntimeError: مقاطع قليلة عن الموضوع: 0",
+    "originals_found": 0,
+    "source": "gemini",
+    "failures": [],
+    "status": "ready",
+    "error": "",
     "cost": {
      "claude": {
-      "claude-haiku-5-5": 0.00044
+      "claude-haiku-5-5": 0.00168,
+      "claude-sonnet-5": 0.07724
+     },
+     "gemini": 0.7691,
+     "proxy_bytes": 8317023
+    },
+    "read_dropped": 10,
+    "read_dropped_speakers": [
+     "?",
+     "أبو الفضل شكارجي",
+     "أنطونيو تاياني",
+     "الجيش الكويتي",
+     "سعود عبد العزيز العطوان",
+     "عباس عراقجي",
+     "مهدي رحيمي"
+    ],
+    "plan": {
+     "attempts": [
+      {
+       "model": "claude-sonnet-5",
+       "stop_reason": "tool_use",
+       "bites": 31,
+       "rows": 5,
+       "raw_type": "list",
+       "answers": 25,
+       "bad_n": 0,
+       "error": ""
+      }
+     ]
+    },
+    "verify": {
+     "checked": 4,
+     "ok": 4,
+     "no_match": 0,
+     "failed": 0,
+     "no_text": 0,
+     "left": 20,
+     "audio_seconds": 212,
+     "skipped": "",
+     "cut_off": 3,
+     "seconds": 481
+    },
+    "capped": 8,
+    "echo": {
+     "stop_reason": "tool_use",
+     "rows": 4,
+     "questions": 1,
+     "per_question": [
+      {
+       "q": 1,
+       "rejected": {
+        "side": 1
+       },
+       "spans": 4,
+       "answers": 3,
+       "shared": 1,
+       "reason": ""
+      },
+      {
+       "q": 2,
+       "rejected": {
+        "side": 1
+       },
+       "spans": 4,
+       "answers": 4,
+       "shared": 0,
+       "reason": "no_shared"
+      },
+      {
+       "q": 3,
+       "rejected": {},
+       "spans": 3,
+       "answers": 3,
+       "shared": 0,
+       "reason": "no_shared"
+      },
+      {
+       "q": 5,
+       "rejected": {
+        "overlap": 1
+       },
+       "spans": 3,
+       "answers": 3,
+       "shared": 0,
+       "reason": "no_shared"
+      }
+     ]
+    },
+    "selected_seconds": 84.3,
+    "titles": [
+     "من يقف خلف المسيّرة التي قتلت فنيين إيطاليين في الكويت؟",
+     "لماذا سارعت إيران لنفي استهدافها الموقع الكويتي؟",
+     "هل يكشف التحقيق المشترك بين الكويت وإيران مصدر الهجوم؟"
+    ],
+    "questions": [
+     {
+      "text": "من ينفّذ هجمات المسيّرات على الخليج إن لم تكن إيران مباشرة؟",
+      "answers": [
+       {
+        "n": 9,
+        "fit": "direct",
+        "view": "فصائل عراقية موالية لإيران",
+        "view_count": 2,
+        "echo_role": "primary",
+        "echo_rank": 0,
+        "echo_count": 1,
+        "selected": true,
+        "bite_id": "Zkg1SJy_qo8:g1395"
+       },
+       {
+        "n": 6,
+        "fit": "direct",
+        "view": "فصائل عراقية موالية لإيران",
+        "view_count": 2,
+        "echo_role": "echo",
+        "echo_of": "Zkg1SJy_qo8:g1395",
+        "echo_idea": "مجموعات موالية لإيران في العراق",
+        "selected": true,
+        "bite_id": "Zkg1SJy_qo8:g1080"
+       },
+       {
+        "n": 12,
+        "fit": "direct",
+        "view": "ثبوت تنفيذ إيران عبر الرادار والأقمار",
+        "side": "الكويت",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "z78QcAhQGpY:g564"
+       }
+      ],
+      "echo": {
+       "masters": [
+        {
+         "n": 9,
+         "side": "a",
+         "rank": "primary",
+         "echo_count": 1,
+         "bite_id": "Zkg1SJy_qo8:g1395",
+         "segments": [
+          {
+           "idea": 1,
+           "label": "مجموعات موالية لإيران في العراق"
+          }
+         ]
+        }
+       ],
+       "echoes": [
+        {
+         "n": 6,
+         "of": 9,
+         "idea": 1,
+         "label": "مجموعات موالية لإيران في العراق",
+         "bite_id": "Zkg1SJy_qo8:g1080",
+         "of_bite": "Zkg1SJy_qo8:g1395"
+        }
+       ]
+      }
+     },
+     {
+      "text": "لماذا بادرت إيران فورًا إلى نفي مسؤوليتها عن استهداف الكويت؟",
+      "answers": [
+       {
+        "n": 13,
+        "fit": "weak",
+        "view": "إيران تعلن عملياتها عادة فنفيها دليل براءة",
+        "side": "إيران",
+        "view_count": 2,
+        "selected": false,
+        "bite_id": "PAWWljp2yJg:g281"
+       },
+       {
+        "n": 16,
+        "fit": "weak",
+        "view": "إيران تعلن عملياتها عادة فنفيها دليل براءة",
+        "side": "إيران",
+        "view_count": 2,
+        "selected": false,
+        "bite_id": "QLkuUNn-n80:g77"
+       },
+       {
+        "n": 11,
+        "fit": "direct",
+        "view": "خشية تضرر علاقتها بأوروبا",
+        "side": "إيران",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "z78QcAhQGpY:g489"
+       },
+       {
+        "n": 1,
+        "fit": "direct",
+        "view": "تجنب عبء مقتل أوروبيين",
+        "side": "الكويت",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "Zkg1SJy_qo8:g240"
+       },
+       {
+        "n": 5,
+        "fit": "direct",
+        "view": "نفي مشحون غير مسبوق يكشف قلقها",
+        "side": "الكويت",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "Zkg1SJy_qo8:g586"
+       }
+      ]
+     },
+     {
+      "text": "من المستفيد من مقتل الفنيين الإيطاليين في الكويت؟",
+      "answers": [
+       {
+        "n": 3,
+        "fit": "direct",
+        "view": "أمريكا وإسرائيل لضرب مصالح إيران",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "Zkg1SJy_qo8:g434"
+       },
+       {
+        "n": 17,
+        "fit": "direct",
+        "view": "إسرائيل لدفع أمريكا لاستئناف الحرب",
+        "side": "إيران",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "QLkuUNn-n80:g401"
+       },
+       {
+        "n": 7,
+        "fit": "weak",
+        "view": "إسرائيل لا مصلحة لها في قصف الكويت",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "Zkg1SJy_qo8:g1213"
+       }
+      ]
+     },
+     {
+      "text": "هل كان الهجوم يستهدف الإيطاليين أنفسهم أم المنشأة؟",
+      "answers": [
+       {
+        "n": 4,
+        "fit": "direct",
+        "view": "استهداف المنشأة لا العاملين",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "Zkg1SJy_qo8:g565"
+       },
+       {
+        "n": 2,
+        "fit": "direct",
+        "view": "موقع مدني لا صلة له بأمريكا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "Zkg1SJy_qo8:g276"
+       }
+      ]
+     },
+     {
+      "text": "هل تشكيل لجنة تحقيق مشتركة سيكشف الفاعل الحقيقي؟",
+      "answers": [
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "مناورة لتمييع القضية",
+        "side": "الكويت",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "Zkg1SJy_qo8:g1370"
+       },
+       {
+        "n": 10,
+        "fit": "direct",
+        "view": "عروض إيرانية سابقة دون نتائج",
+        "side": "الكويت",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "Zkg1SJy_qo8:g2961"
+       },
+       {
+        "n": 14,
+        "fit": "direct",
+        "view": "يحتاج بيانات عينية وقد تتدخل أطراف",
+        "side": "إيران",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "PAWWljp2yJg:g628"
+       },
+       {
+        "n": 15,
+        "fit": "weak",
+        "view": "إيران تقترح لجنة تحقيق مشتركة",
+        "side": "إيران",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "QLkuUNn-n80:g36"
+       }
+      ]
      }
-    }
+    ],
+    "context": [],
+    "bites": [
+     {
+      "bite_id": "Zkg1SJy_qo8:g240",
+      "video_id": "Zkg1SJy_qo8",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "صالح المطيري",
+      "speaker_original": "صالح المطيري",
+      "speaker_role": "رئيس مركز المدار للدراسات السياسية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 240.0,
+      "end": 258.0,
+      "summary_ar": "يرى صالح المطيري أن الهجوم إن لم تنفذه إيران فمن وكلائها، مفسرًا نفي طهران بوجود قتلى أوروبيين تخشى تداعيات مقتلهم.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "Zkg1SJy_qo8:g276",
+      "video_id": "Zkg1SJy_qo8",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "صالح المطيري",
+      "speaker_original": "صالح المطيري",
+      "speaker_role": "رئيس مركز المدار للدراسات السياسية",
+      "is_host": false,
+      "type": "fact",
+      "start": 276.0,
+      "end": 301.0,
+      "summary_ar": "يوضح صالح المطيري أن الموقع المستهدف في الكويت مدني ولا صلة له بالأمريكيين وأن القتلى فنيون في شركات مدنية تقدم خدمات للكويت.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "Zkg1SJy_qo8:g434",
+      "video_id": "Zkg1SJy_qo8",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "عباس أصلاني",
+      "speaker_original": "Abbas Aslani",
+      "speaker_role": "باحث بمركز الشرق الأوسط للدراسات الإستراتيجية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 434.0,
+      "end": 457.0,
+      "summary_ar": "يرى عباس أصلاني أن الولايات المتحدة وإسرائيل هما المستفيدان من إراقة دم أوروبي لضرب مصالح إيران وتوسيع رقعة النزاع.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "Zkg1SJy_qo8:g565",
+      "video_id": "Zkg1SJy_qo8",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "لقاء مكي",
+      "speaker_original": "لقاء مكي",
+      "speaker_role": "الباحث الأول بمركز الجزيرة للدراسات",
+      "is_host": false,
+      "type": "opinion",
+      "start": 565.0,
+      "end": 584.0,
+      "summary_ar": "يرى لقاء مكي أن القصف كان يستهدف تدمير المنشأة ذاتها لا قتل العاملين أو استهداف الإيطاليين تحديدًا.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "Zkg1SJy_qo8:g586",
+      "video_id": "Zkg1SJy_qo8",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "لقاء مكي",
+      "speaker_original": "لقاء مكي",
+      "speaker_role": "الباحث الأول بمركز الجزيرة للدراسات",
+      "is_host": false,
+      "type": "opinion",
+      "start": 586.0,
+      "end": 607.0,
+      "summary_ar": "يرى لقاء مكي أن مسارعة كبار المسؤولين الإيرانيين إلى نفي الهجوم بطريقة مشحونة يعكس عدم رغبة طهران في هذه النتائج.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "Zkg1SJy_qo8:g1080",
+      "video_id": "Zkg1SJy_qo8",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "ريتشارد وايتس",
+      "speaker_original": "Richard Weitz",
+      "speaker_role": "خبير الأمن والإستراتيجية العسكرية بمؤسسة ويكسترات",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1080.0,
+      "end": 1110.0,
+      "summary_ar": "يرجح ريتشارد وايتس وقوف جماعات عراقية موالية لطهران خلف الهجوم، معتبرًا نفي إيران محاولة للتنصل بعد سقوط ضحايا أوروبيين.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "Zkg1SJy_qo8:g1213",
+      "video_id": "Zkg1SJy_qo8",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "مهند مصطفى",
+      "speaker_original": "مهند مصطفى",
+      "speaker_role": "أكاديمي وخبير بالشؤون الإسرائيلية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1213.0,
+      "end": 1236.0,
+      "summary_ar": "يؤكد مهند مصطفى عدم مصلحة إسرائيل في قصف الكويت، موضحًا أن نفي تورطها يعزز موقفها ويفند اتهامات طهران لها.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "Zkg1SJy_qo8:g1370",
+      "video_id": "Zkg1SJy_qo8",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "طارق حمود",
+      "speaker_original": "طارق حمود",
+      "speaker_role": "باحث بالمركز العربي للأبحاث ودراسة السياسات",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1370.0,
+      "end": 1395.0,
+      "summary_ar": "يعتبر طارق حمود أن الدعوة للتحقيق مناورة سياسية لتمييع القضية، مؤكدًا أن الوسائل التقنية قادرة على تحديد مصدر المسيّرة فورًا.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "Zkg1SJy_qo8:g1395",
+      "video_id": "Zkg1SJy_qo8",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "طارق حمود",
+      "speaker_original": "طارق حمود",
+      "speaker_role": "باحث بالمركز العربي للأبحاث ودراسة السياسات",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1395.0,
+      "end": 1419.0,
+      "summary_ar": "يرجح طارق حمود وقوف حلفاء طهران في العراق أو إيران نفسها خلف الهجوم خلطًا للأوراق، مع حرص طهران على تفادي توسيع شرعية الحرب ضدها.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "Zkg1SJy_qo8:g2961",
+      "video_id": "Zkg1SJy_qo8",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "صالح المطيري",
+      "speaker_original": "صالح المطيري",
+      "speaker_role": "رئيس مركز المدار للدراسات السياسية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2961.0,
+      "end": 2990.0,
+      "summary_ar": "يشكك صالح المطيري في جدية مبادرات التحقيق الإيرانية، لافتًا إلى أن اتصالات عراقجي تكررت سابقًا دون الكشف عن نتائج التحقيقات في حوادث مسقط وتركيا.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "z78QcAhQGpY:g489",
+      "video_id": "z78QcAhQGpY",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "روح الله رحيم بور",
+      "speaker_original": "روح‌الله رحیم‌پور",
+      "speaker_role": "صحفي ومحلل سياسي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 489.74,
+      "end": 526.3,
+      "summary_ar": "يوضح رحيم بور سبب مسارعة إيران إلى نفي هجوم الكويت، مشيرًا إلى خشيتها من تقويض مساعيها لاستغلال الخلافات بين الاتحاد الأوروبي والولايات المتحدة الأمريكية إثر مقتل رعايا أوروبيين.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "z78QcAhQGpY:g564",
+      "video_id": "z78QcAhQGpY",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "روح الله رحيم بور",
+      "speaker_original": "روح‌الله رحیم‌پور",
+      "speaker_role": "صحفي ومحلل سياسي",
+      "is_host": false,
+      "type": "fact",
+      "start": 564.24,
+      "end": 594.54,
+      "summary_ar": "يؤكد رحيم بور ثبوت تنفيذ إيران للهجوم بالمسيّرة على الكويت عبر بيانات الرادار والأقمار الاصطناعية، محذرًا من دوره في تصعيد المواجهة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "PAWWljp2yJg:g281",
+      "video_id": "PAWWljp2yJg",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "مهدي رحيمي",
+      "speaker_original": "مهدی رحیمی",
+      "speaker_role": "رئيس وكالة أنباء البرلمان الإيراني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 281.14,
+      "end": 306.98,
+      "summary_ar": "مهدي رحيمي يؤكد أن إيران تنفي مسؤوليتها عن هجوم الكويت، مشيرًا إلى أنها تعلن دائمًا عن عملياتها لو نفذتها.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "PAWWljp2yJg:g628",
+      "video_id": "PAWWljp2yJg",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "قاسم عز الدين",
+      "speaker_original": "قاسم عز الدين",
+      "speaker_role": "محلل الميادين للشؤون السياسية والدولية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 628.0,
+      "end": 657.0,
+      "summary_ar": "قاسم عز الدين يرى أن التحقيق المشترك يتطلب بيانات عينية، مرجحًا تدخل أطراف خارجية لتوتير الموقف.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "QLkuUNn-n80:g36",
+      "video_id": "QLkuUNn-n80",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "محمد علي الحكيم",
+      "speaker_original": "محمد علي الحكيم",
+      "speaker_role": "كاتب صحفي",
+      "is_host": false,
+      "type": "fact",
+      "start": 36.0,
+      "end": 76.0,
+      "summary_ar": "الحكيم ينقل نفي طهران استهداف الكويت وإبلاغ وزير خارجيتها نظيره الكويتي باقتراح تشكيل لجنة تحقيق مشتركة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "QLkuUNn-n80:g77",
+      "video_id": "QLkuUNn-n80",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "محمد علي الحكيم",
+      "speaker_original": "محمد علي الحكيم",
+      "speaker_role": "كاتب صحفي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 77.0,
+      "end": 97.0,
+      "summary_ar": "الحكيم يرى أن إيران اعتادت إعلان مسؤوليتها فوراً عند تنفيذ أي هجوم عسكري، ما ينفي وقوفها خلف ضرب الكويت.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "QLkuUNn-n80:g401",
+      "video_id": "QLkuUNn-n80",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "محمد علي الحكيم",
+      "speaker_original": "محمد علي الحكيم",
+      "speaker_role": "كاتب صحفي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 401.0,
+      "end": 418.0,
+      "summary_ar": "الحكيم ينقل شكوك مصادر ومسؤولين إيرانيين بوقوف إسرائيل وراء استهداف الكويت لتحريض واشنطن على استئناف الحرب.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     }
+    ],
+    "extracted": 31
    }
   },
   {
