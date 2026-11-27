@@ -160,7 +160,778 @@
     }
    ],
    "qa_requested_at": "2026-11-27T04:07:18.052727+00:00",
-   "selected_from": 2023
+   "selected_from": 2023,
+   "topic_issue": 2025,
+   "qa": {
+    "attempts": 1,
+    "at": "2026-11-27T04:09:34.343123+00:00",
+    "videos": [
+     {
+      "video_id": "CSIDYFLyy9Q",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "minutes": 30.0,
+      "bites": 5,
+      "rejected": 0
+     },
+     {
+      "video_id": "IGXlXoucq1A",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "minutes": 24.0,
+      "bites": 1,
+      "rejected": 0
+     },
+     {
+      "video_id": "q4xz3UDtigw",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "minutes": 12.4,
+      "bites": 2,
+      "rejected": 0
+     },
+     {
+      "video_id": "MlxPThAg4Ag",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "minutes": 26.6,
+      "bites": 7,
+      "rejected": 0
+     },
+     {
+      "video_id": "S5OpEciDjBE",
+      "channel": "凤凰卫视",
+      "bloc": "chinese",
+      "minutes": 8.4,
+      "bites": 1,
+      "rejected": 0
+     },
+     {
+      "video_id": "dj0kN4eWxBE",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "minutes": 23.5,
+      "bites": 4,
+      "rejected": 0
+     },
+     {
+      "video_id": "zwuu-HrL2Pg",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "minutes": 51.4,
+      "bites": 2,
+      "rejected": 0
+     }
+    ],
+    "video_scores": {
+     "MlxPThAg4Ag": 1,
+     "LLBro025a04": 1,
+     "q4xz3UDtigw": 3,
+     "gk4wVR6W_5o": 2,
+     "DaqMWVYsYto": 2,
+     "nXdkmKsrHxI": 2,
+     "MHTKltqp0kI": 2,
+     "IGXlXoucq1A": 3,
+     "-xjWYi4EChw": 2,
+     "CSIDYFLyy9Q": 3,
+     "SL-yEhTDleA": 1,
+     "dj0kN4eWxBE": 3,
+     "7rBfMXmzIVI": 1,
+     "sMkWlGqYfXQ": 3,
+     "yHWZU99FIBg": 1,
+     "zwuu-HrL2Pg": 2,
+     "lj-LAG3_ZbE": 2,
+     "0JN5kJtTE-U": 0,
+     "S5OpEciDjBE": 1
+    },
+    "gemini_cost": 0.8725,
+    "gemini_rejected": 0,
+    "channels": 7,
+    "answer_channels": 5,
+    "originals": [
+     {
+      "bite_id": "CSIDYFLyy9Q:g354",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "Sergio de la Peña Hormuz blockade Iran",
+       "Sergio de la Peña naval blockade Iran interview",
+       "Sergio de la Peña"
+      ],
+      "candidate": "PxdzSCLywPo",
+      "candidates": [
+       "2Vgv3t8aOUM",
+       "nbeyzc-6MdE",
+       "PxdzSCLywPo"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "CSIDYFLyy9Q:g2236",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "عباس اصلانی حصر دریایی آمریکا ایران",
+       "Abbas Aslani US naval blockade Iran",
+       "عباس اصلانی مصاحبه حصر دریایی",
+       "Abbas Aslani"
+      ],
+      "reason": "لا مرشّح"
+     },
+     {
+      "bite_id": "IGXlXoucq1A:g478",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "حسینعلی حاجی‌دلیگانی حصار دریایی ناوگان نفتکش",
+       "Hosseinali Haji Deligani naval blockade oil tankers escort",
+       "حسینعلی حاجی‌دلیگانی خطاب حصار دریایی آمریکا",
+       "حسینعلی حاجی‌دلیگانی"
+      ],
+      "candidate": "rIjiHkjM2D0",
+      "candidates": [
+       "aaW-Pn0snSA",
+       "OpkO0xCSYtI",
+       "rIjiHkjM2D0"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "MlxPThAg4Ag:g4242",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "Trump Iran ships Strait of Hormuz blockade",
+       "Trump Hormuz Iranian tanker blockade statement",
+       "ترامب خطاب الحصار البحري إيران مضيق هرمز",
+       "Donald Trump"
+      ],
+      "candidate": "6ldv_N6tYNs",
+      "candidates": [
+       "mMUth7iJJ08",
+       "XoPAKnomOHY",
+       "6ldv_N6tYNs"
+      ],
+      "reason": "زمن غير صالح"
+     }
+    ],
+    "originals_found": 0,
+    "read_dropped": 5,
+    "read_dropped_speakers": [
+     "?",
+     "حسين علي حاجي دليغاني",
+     "دونالد ترامب",
+     "محسن رضائي",
+     "محمد باقر قاليباف"
+    ],
+    "source": "gemini",
+    "failures": [],
+    "plan": {
+     "attempts": [
+      {
+       "model": "claude-sonnet-5",
+       "stop_reason": "tool_use",
+       "bites": 15,
+       "rows": 5,
+       "raw_type": "list",
+       "answers": 16,
+       "bad_n": 0,
+       "error": ""
+      }
+     ]
+    },
+    "verify": {
+     "checked": 17,
+     "ok": 3,
+     "no_match": 1,
+     "failed": 13,
+     "no_text": 0,
+     "left": 0,
+     "audio_seconds": 250,
+     "skipped": "",
+     "cut_off": 4,
+     "seconds": 433
+    },
+    "echo": {
+     "stop_reason": "tool_use",
+     "rows": 4,
+     "questions": 1,
+     "per_question": [
+      {
+       "q": 1,
+       "rejected": {},
+       "spans": 5,
+       "answers": 3,
+       "shared": 1,
+       "reason": ""
+      },
+      {
+       "q": 2,
+       "rejected": {},
+       "spans": 6,
+       "answers": 4,
+       "shared": 0,
+       "reason": "no_shared"
+      },
+      {
+       "q": 3,
+       "rejected": {
+        "side": 1
+       },
+       "spans": 4,
+       "answers": 4,
+       "shared": 0,
+       "reason": "no_shared"
+      },
+      {
+       "q": 4,
+       "rejected": {},
+       "spans": 3,
+       "answers": 3,
+       "shared": 0,
+       "reason": "no_shared"
+      }
+     ]
+    },
+    "selected_seconds": 117.4,
+    "status": "ready",
+    "titles": [
+     "هل تستطيع إيران كسر الحصار البحري الأمريكي؟",
+     "لماذا يرفض ترامب التعجل في الحرب على إيران؟",
+     "ما الهدف الحقيقي من الحصار البحري على إيران؟"
+    ],
+    "questions": [
+     {
+      "text": "ما الهدف الاستراتيجي الأمريكي من فرض الحصار البحري على إيران؟",
+      "answers": [
+       {
+        "n": 11,
+        "fit": "direct",
+        "view": "منع تمويل إيران لعملياتها العسكرية",
+        "view_count": 1,
+        "echo_role": "primary",
+        "echo_rank": 0,
+        "echo_count": 1,
+        "selected": true,
+        "bite_id": "MlxPThAg4Ag:g5618"
+       },
+       {
+        "n": 15,
+        "fit": "direct",
+        "view": "تأليب الشارع الإيراني على قيادته",
+        "view_count": 1,
+        "echo_role": "echo",
+        "echo_of": "MlxPThAg4Ag:g5618",
+        "echo_idea": "منع إيران من بيع نفطها وخنق اقتصادها",
+        "selected": true,
+        "bite_id": "zwuu-HrL2Pg:g681"
+       },
+       {
+        "n": 1,
+        "fit": "weak",
+        "view": "منع كسر الحصار عسكريًا",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "CSIDYFLyy9Q:g354"
+       }
+      ],
+      "echo": {
+       "masters": [
+        {
+         "n": 11,
+         "side": "a",
+         "rank": "primary",
+         "echo_count": 1,
+         "bite_id": "MlxPThAg4Ag:g5618",
+         "segments": [
+          {
+           "idea": 1,
+           "label": "منع إيران من بيع نفطها وخنق اقتصادها"
+          },
+          {
+           "idea": 2,
+           "label": "تمويل الحرب واحتياجات الشعب الإيراني"
+          }
+         ]
+        }
+       ],
+       "echoes": [
+        {
+         "n": 15,
+         "of": 11,
+         "idea": 1,
+         "label": "منع إيران من بيع نفطها وخنق اقتصادها",
+         "bite_id": "zwuu-HrL2Pg:g681",
+         "of_bite": "MlxPThAg4Ag:g5618"
+        }
+       ]
+      }
+     },
+     {
+      "text": "هل تستطيع إيران كسر الحصار الأمريكي في ظل أزمتها الاقتصادية؟",
+      "answers": [
+       {
+        "n": 9,
+        "fit": "direct",
+        "view": "تصريحاتها تثبت خضوعها للحصار فعلاً",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "MlxPThAg4Ag:g4876"
+       },
+       {
+        "n": 6,
+        "fit": "direct",
+        "view": "الحصار فعال ويخنق تصدير نفطها",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "q4xz3UDtigw:g404"
+       },
+       {
+        "n": 2,
+        "fit": "direct",
+        "view": "اقتصادها المتدهور يمنعها من كسره",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "CSIDYFLyy9Q:g1292"
+       },
+       {
+        "n": 4,
+        "fit": "weak",
+        "view": "الحصار يستنزف واشنطن لا يهزمها",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "CSIDYFLyy9Q:g2236"
+       }
+      ]
+     },
+     {
+      "text": "ما الموقف داخل الإدارة الأمريكية من استمرار الحصار البحري؟",
+      "answers": [
+       {
+        "n": 7,
+        "fit": "weak",
+        "view": "الحصار لا يحتاج تمويلًا إضافيًا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "q4xz3UDtigw:g818"
+       },
+       {
+        "n": 13,
+        "fit": "direct",
+        "view": "فريق الخزانة ينصح بالصبر لا الحرب",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "dj0kN4eWxBE:g874"
+       },
+       {
+        "n": 14,
+        "fit": "direct",
+        "view": "ترامب يمهل الحصار حتى يناير المقبل",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "dj0kN4eWxBE:g891"
+       },
+       {
+        "n": 5,
+        "fit": "direct",
+        "view": "إجماع أمريكي إسرائيلي يدعم استمراره",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "CSIDYFLyy9Q:g3510"
+       }
+      ]
+     },
+     {
+      "text": "كيف يمكن لإيران محاولة كسر الحصار البحري؟",
+      "answers": [
+       {
+        "n": 10,
+        "fit": "weak",
+        "view": "استبعاد استهداف إيران للسفن الأمريكية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "MlxPThAg4Ag:g5267"
+       },
+       {
+        "n": 3,
+        "fit": "direct",
+        "view": "تسيير ناقلات برفقة ناشطين وإعلاميين",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "CSIDYFLyy9Q:g1952"
+       },
+       {
+        "n": 12,
+        "fit": "direct",
+        "view": "العودة للحرب لحسم قضية الحصار",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "dj0kN4eWxBE:g801"
+       }
+      ]
+     },
+     {
+      "text": "كيف أثّر الحصار البحري على التجارة الإيرانية وتكلفتها؟",
+      "answers": [
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "نقل الواردات برًا عبر باكستان مكلف",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "MlxPThAg4Ag:g4743"
+       },
+       {
+        "n": 6,
+        "fit": "weak",
+        "view": "قيود متزايدة على الموانئ والحدود",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "q4xz3UDtigw:g404"
+       }
+      ]
+     }
+    ],
+    "context": [
+     {
+      "n": 16,
+      "selected": true,
+      "bite_id": "zwuu-HrL2Pg:g227"
+     }
+    ],
+    "bites": [
+     {
+      "bite_id": "CSIDYFLyy9Q:g354",
+      "video_id": "CSIDYFLyy9Q",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "سيرجيو دي لا بينيا",
+      "speaker_original": "Sergio de la Peña",
+      "speaker_role": "نائب مساعد وزير الدفاع الأمريكي السابق",
+      "is_host": false,
+      "type": "opinion",
+      "start": 354.0,
+      "end": 374.0,
+      "summary_ar": "يؤكد المسؤول الأمريكي السابق امتلاك واشنطن أصولًا عسكرية كافية لإحكام الحصار ومنع السفن الإيرانية من عبور مضيق هرمز.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "CSIDYFLyy9Q:g1292",
+      "video_id": "CSIDYFLyy9Q",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "صالح المطيري",
+      "speaker_original": "صالح المطيري",
+      "speaker_role": "رئيس مركز المدار للدراسات السياسية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1292.0,
+      "end": 1320.0,
+      "summary_ar": "يشكك المحلل في قدرة طهران على كسر الحصار البحري ومنع العقوبات بينما يعاني اقتصادها الداخلي من التضخم.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "CSIDYFLyy9Q:g1952",
+      "video_id": "CSIDYFLyy9Q",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "لقاء مكي",
+      "speaker_original": "لقاء مكي",
+      "speaker_role": "باحث أول في مركز الجزيرة للدراسات",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1952.0,
+      "end": 1987.0,
+      "summary_ar": "يرى الباحث أن خطة تسيير ناقلات إيرانية يرافقها مدنيون وناشطون تمثل سيناريو لكسر الحصار البحري الأمريكي وإحراج واشنطن.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "CSIDYFLyy9Q:g2236",
+      "video_id": "CSIDYFLyy9Q",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "عباس أصلاني",
+      "speaker_original": "Abbas Aslani",
+      "speaker_role": "باحث بمركز الشرق الأوسط للدراسات الاستراتيجية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2236.0,
+      "end": 2265.0,
+      "summary_ar": "يعتبر الباحث أن استمرار الحصار البحري يكبد واشنطن استنزافًا وإرهاقًا عسكريًا دون أن يمثل انتصارًا حقيقيًا لها.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "CSIDYFLyy9Q:g3510",
+      "video_id": "CSIDYFLyy9Q",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "طارق حمود",
+      "speaker_original": "طارق حمود",
+      "speaker_role": "باحث في المركز العربي للأبحاث ودراسة السياسات",
+      "is_host": false,
+      "type": "forecast",
+      "start": 3510.0,
+      "end": 3539.0,
+      "summary_ar": "يتوقع الباحث تشكل إجماع أمريكي وإسرائيلي على مواصلة الحصار البحري والاقتصادي كبديل عن الحرب المباشرة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "q4xz3UDtigw:g404",
+      "video_id": "q4xz3UDtigw",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "جوناثان كونريكوس",
+      "speaker_original": "Jonathan Conricus",
+      "speaker_role": "زميل أول في مؤسسة الدفاع عن الديمقراطيات والمتحدث العسكري الإسرائيلي السابق",
+      "is_host": false,
+      "type": "opinion",
+      "start": 404.52,
+      "end": 425.96,
+      "summary_ar": "يوضح جوناثان كونريكوس أن النظام الإيراني يرزح تحت وطأة الحصار البحري الأمريكي الفعال الذي يمنعه من تصدير النفط.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "q4xz3UDtigw:g818",
+      "video_id": "q4xz3UDtigw",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "جوناثان كونريكوس",
+      "speaker_original": "Jonathan Conricus",
+      "speaker_role": "زميل أول في مؤسسة الدفاع عن الديمقراطيات والمتحدث العسكري الإسرائيلي السابق",
+      "is_host": false,
+      "type": "opinion",
+      "start": 818.3,
+      "end": 844.46,
+      "summary_ar": "يرى جوناثان كونريكوس أن استمرار الحصار الاقتصادي والبحري الأمريكي على إيران يشكل ضغطًا هائلًا قد يسقط النظام دون حاجة لتمويل إضافي من الكونغرس الأمريكي.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "MlxPThAg4Ag:g4743",
+      "video_id": "MlxPThAg4Ag",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "معصوم توركر",
+      "speaker_original": "Masum Türker",
+      "speaker_role": "وزير دولة تركي أسبق",
+      "is_host": false,
+      "type": "fact",
+      "start": 4743.0,
+      "end": 4773.0,
+      "summary_ar": "أوضح معصوم توركر أن الحصار البحري الأمريكي أجبر إيران على نقل وارداتها براً عبر باكستان بشاحنات بتكلفة مضاعفة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "MlxPThAg4Ag:g4876",
+      "video_id": "MlxPThAg4Ag",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "معصوم توركر",
+      "speaker_original": "Masum Türker",
+      "speaker_role": "وزير دولة تركي أسبق",
+      "is_host": false,
+      "type": "opinion",
+      "start": 4876.0,
+      "end": 4895.0,
+      "summary_ar": "بيّن معصوم توركر أن التصريحات الإيرانية تؤكد وجود الحصار وتهديد طهران بكسره عسكرياً لا يعني أنها تمكنت من إنهائه.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "MlxPThAg4Ag:g5267",
+      "video_id": "MlxPThAg4Ag",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "قادرية غوتشلو ساكاريا",
+      "speaker_original": "Kadriye Güçlü Sakarya",
+      "speaker_role": "حقوقية",
+      "is_host": false,
+      "type": "forecast",
+      "start": 5267.0,
+      "end": 5285.0,
+      "summary_ar": "استبعدت قادرية غوتشلو ساكاريا استهداف إيران للسفن الأمريكية المحاصِرة لأن ذلك سيتسبب في قصف مكثف وشامل على طهران.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "MlxPThAg4Ag:g5618",
+      "video_id": "MlxPThAg4Ag",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "غونغور يافوز أصلان",
+      "speaker_original": "Güngör Yavuzaslan",
+      "speaker_role": "صحفي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 5618.0,
+      "end": 5645.0,
+      "summary_ar": "رأى غونغور يافوز أصلان أن فرض الحصار في خليج عمان ومضيق هرمز يهدف لمنع إيران من بيع نفطها وتمويل عملياتها العسكرية.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "dj0kN4eWxBE:g801",
+      "video_id": "dj0kN4eWxBE",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "عقيل عباس",
+      "speaker_original": "عقيل عباس",
+      "speaker_role": "خبير وباحث سياسي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 801.0,
+      "end": 826.0,
+      "summary_ar": "عقيل عباس يرى أن إيران تريد استئناف الحرب لكسر الحصار البحري الذي لا تستطيع تحمله طويلاً.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "dj0kN4eWxBE:g874",
+      "video_id": "dj0kN4eWxBE",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "عقيل عباس",
+      "speaker_original": "عقيل عباس",
+      "speaker_role": "خبير وباحث سياسي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 874.0,
+      "end": 890.0,
+      "summary_ar": "عقيل عباس يوضح أن ترامب يستمع لنصائح وزير الخزانة الأمريكي بجدوى الحصار البحري وعدم استعجال الحرب.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "dj0kN4eWxBE:g891",
+      "video_id": "dj0kN4eWxBE",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "عبد الجليل مسعي",
+      "speaker_original": "عبد الجليل مسعي",
+      "speaker_role": "صحفي في شبكة العربية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 891.0,
+      "end": 920.0,
+      "summary_ar": "عبد الجليل مسعي يشير إلى اقتناع ترامب بجدوى الحصار البحري وإمهاله فرصة حتى مطلع العام الجديد.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "zwuu-HrL2Pg:g681",
+      "video_id": "zwuu-HrL2Pg",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "عريب الرنتاوي",
+      "speaker_original": "عريب الرنتاوي",
+      "speaker_role": "مدير مركز القدس للدراسات السياسية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 681.0,
+      "end": 711.0,
+      "summary_ar": "يرى عريب الرنتاوي أن واشنطن تهدف بالحصار البحري والعقوبات إلى تأليب الشارع الإيراني ضد قيادته.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "zwuu-HrL2Pg:g227",
+      "video_id": "zwuu-HrL2Pg",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "حسين محبي",
+      "speaker_original": "حسين محبي",
+      "speaker_role": "المتحدث باسم حرس الثورة الإيراني",
+      "is_host": false,
+      "type": "fact",
+      "start": 227.0,
+      "end": 255.96,
+      "summary_ar": "يوضح المتحدث باسم حرس الثورة الإيراني تصدي القوات الإيرانية لمحاولات العدو والمهربين في مضيق هرمز.",
+      "setting": "external",
+      "source_channel": "IRIBNEWS",
+      "voice": "actor",
+      "original_of": null,
+      "heard": true
+     }
+    ],
+    "error": "",
+    "extracted": 15,
+    "cost": {
+     "claude": {
+      "claude-haiku-5-5": 0.00152,
+      "claude-sonnet-5": 0.06189
+     },
+     "gemini": 0.8725,
+     "proxy_bytes": 8485106
+    }
+   }
   },
   {
    "id": "43c3ee0c3829",
