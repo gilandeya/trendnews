@@ -1,0 +1,752 @@
+{
+  "id": "95c9a32f8694",
+  "created_at": "2026-11-28T11:47:08.563125+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "حملات حوثية سعودية متبادلة في اليمن",
+  "event": "حملات حوثية سعودية متبادلة في اليمن",
+  "tier": 3,
+  "blocs": [
+    "arabic",
+    "english",
+    "turkish"
+  ],
+  "channels": [
+    "BBC News",
+    "CNN Türk",
+    "الجزيرة",
+    "العربية",
+    "الميادين"
+  ],
+  "agreement": "",
+  "score": 0,
+  "warnings": [
+    "⏱️ السياق 61 كلمة (الحد 49) فقُبل كما هو لأن المادة من اختيارك — راجعه",
+    "✏️ صيغ السؤال 1 ليتصل بالسياق: كان «ما حجة كل طرف في تجدد التصعيد بين السعودية والحوثيين؟» صار «ما حجة كل طرف في تجدد التصعيد الحالي؟»"
+  ],
+  "run_date": "2026-11-28",
+  "topic_date": "2026-11-28",
+  "arabic": {
+    "post_title": "لماذا عاد القتال بين السعودية والحوثيين الآن؟",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "BBC News",
+      "CNN Türk",
+      "الجزيرة",
+      "العربية",
+      "الميادين"
+    ]
+  },
+  "source_videos": [],
+  "meta_topic_id": "73e82aac3f1a",
+  "meta_issue": 2058,
+  "hook_pick": 3,
+  "cost_qa": {
+    "claude": {
+      "claude-haiku-5-5": 0.00149,
+      "claude-sonnet-5": 0.07273
+    },
+    "gemini": 0.7478,
+    "proxy_bytes": 23702478
+  },
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "1503f463d78d",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "حجتنا أنه قبل بضعة أشهر، حين كان قادتنا يهبطون في العاصمة صنعاء عائدين من جنازة المرشد الأعلى الإيراني، شن التحالف بقيادة السعودية غارات جوية متعددة على مطار صنعاء فرددنا على ذلك.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "بي بي سي نيوز"
+      },
+      {
+        "point_id": "c2b4d6a81c46",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "no",
+        "incomplete_reason": "ينتهي بأداة ربط («لكن... ولكن»؛ «zaten Hürmüz Boğazı kapanmışken» جملة معلّقة لم تكتمل)",
+        "channel": "سي إن إن ترك"
+      },
+      {
+        "point_id": "ea989c0558bf",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "بي بي سي نيوز"
+      },
+      {
+        "point_id": "dcaf1418471a",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الميادين"
+      },
+      {
+        "point_id": "ab18f9a91c39",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الميادين"
+      },
+      {
+        "point_id": "12e02815001f",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الميادين"
+      }
+    ]
+  },
+  "quote_retranslated": [
+    "1503f463d78d"
+  ],
+  "clip_dropped": [
+    {
+      "point_id": "c2b4d6a81c46",
+      "channel": "سي إن إن ترك",
+      "reason": "اقتباس مبتور — ينتهي بأداة ربط («لكن... ولكن»؛ «zaten Hürmüz Boğazı kapanmışken» جملة معلّقة لم تكتمل)"
+    }
+  ],
+  "names_audit": [
+    {
+      "arabic": "نوال المقحفي",
+      "latin": ""
+    },
+    {
+      "arabic": "غريغ هوليوك",
+      "latin": "Greg Hollyoak"
+    },
+    {
+      "arabic": "علي أبي رعد",
+      "latin": ""
+    },
+    {
+      "arabic": "حميد عاصم",
+      "latin": ""
+    },
+    {
+      "arabic": "يحيى سريع",
+      "latin": "Yahya Saree"
+    },
+    {
+      "arabic": "يحيى سريع",
+      "latin": ""
+    }
+  ],
+  "script_attempts": [
+    {
+      "attempt": 1,
+      "reasons": [
+        "تمهيد المقطع 2 لا يسمّي قائله «يحيى سريع» — سمِّه باسمه هذا حرفيًا ولا تسمِّ غيره"
+      ]
+    },
+    {
+      "attempt": 2,
+      "reasons": [
+        "السياق أطول من 49 كلمة (61)"
+      ]
+    }
+  ],
+  "headlines": [
+    "لماذا عاد القتال بين السعودية والحوثيين الآن؟",
+    "من يكسب ميدانياً في معارك الساحل الغربي وتعز؟",
+    "هل يحسم دعم تركيا وباكستان الحرب لصالح السعودية؟"
+  ],
+  "headline_selected": 0,
+  "script": {
+    "version": 2,
+    "narrator": "female",
+    "title": "لماذا عاد القتال بين السعودية والحوثيين الآن؟",
+    "question": "هل تستطيع السعودية إنهاء هذه الجولة دون تسوية شاملة في اليمن؟",
+    "event": "",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "لماذا عاد القتال بين السعودية والحوثيين الآن؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "عاد التصعيد بين السعودية وجماعة الحوثي بعد غارات التحالف على مطار صنعاء إثر عودة قادة حوثيين من جنازة المرشد الإيراني، فرد الحوثيون بقصف ميناء جدة."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "12e02815001f",
+        "q": "c0",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=gtCbSN4EHts",
+        "start": 1371.0,
+        "end": 1385.0,
+        "speaker_name": "يحيى سريع",
+        "speaker_role": "المتحدث باسم القوات المسلحة اليمنية",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "يحيى سريع",
+        "channel_display": "الميادين",
+        "channel_original": "الميادين",
+        "quote_arabic": "تؤكد القوات المسلحة اليمنية للعدو السعودي أنها لن تتردد في الرد المباشر والفوري على أي عدوان يستهدف ميناء الحديدة.",
+        "quote_original": "إن القوات المسلحة اليمنية تؤكد للعدو السعودي المجرم أنها لن تتردد في الرد المباشر والفوري على أي عدوان يستهدف ميناء الحديدة.",
+        "language": "ar",
+        "video_published": "2026-11-26T15:58:09Z",
+        "relay": "external",
+        "relay_source": "",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "وفي صنعاء، يتحدث عضو الوفد اليمني المفاوض حميد عاصم عمن يقف خلف الحرب على اليمن."
+      },
+      {
+        "kind": "clip",
+        "role": "context",
+        "point_id": "ab18f9a91c39",
+        "q": "c1",
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=YovMPFgHPJ0",
+        "start": 1578.0,
+        "end": 1598.4,
+        "speaker_name": "حميد عاصم",
+        "speaker_role": "عضو الوفد اليمني المفاوض",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Hameed Assem",
+        "channel_display": "الميادين",
+        "channel_original": "الميادين",
+        "quote_arabic": "ليس هناك مجرد تنسيق بل هو تحالف بين الولايات المتحدة الأمريكية والسعودية وإسرائيل، ودليل ذلك ما وجدناه في مخازن الأسلحة التي استولينا عليها ويؤكد مشاركة أمريكا وإسرائيل وبريطانيا، فضلًا عن وجود الخبراء العسكريين والأمنيين الأمريكيين والإسرائيليين.",
+        "quote_original": "هو ليس تنسيق وإنما تحالف بين أمريكا والسعودية وإسرائيل، ودل على ذلك ما وجدناه في مخازن الأسلحة التي استولينا عليها يدل على أن أمريكا مشاركة وإسرائيل مشاركة وبريطانيا مشاركة، وكذلك الخبراء الاستراتيجيين العسكريين والأمنيين الأمريكيين والإسرائيليين يدل على ذلك دلالة واضحة.",
+        "language": "ar",
+        "video_published": "2026-11-27T23:40:11Z",
+        "relay": "external",
+        "relay_source": "",
+        "exclusive": false,
+        "hide_channel": true
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "هذه الرواية تقابلها روايات أخرى لأسباب تجدد القتال."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 0,
+        "text": "ما حجة كل طرف في تجدد التصعيد الحالي؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "1503f463d78d",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=5MX21Y0IMTU",
+        "start": 439.8,
+        "end": 465.4,
+        "speaker_name": "نوال المقحفي",
+        "speaker_role": "مراسلة",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "Nawal Al-Maghafi",
+        "channel_display": "بي بي سي نيوز",
+        "channel_original": "BBC News",
+        "quote_arabic": "حجتنا أنه قبل بضعة أشهر، حين كان قادتنا يهبطون في العاصمة صنعاء عائدين من جنازة المرشد الأعلى الإيراني، شن التحالف بقيادة السعودية غارات جوية متعددة على مطار صنعاء فرددنا على ذلك.",
+        "quote_original": "The Houthis would say that that isn't the case. Their argument is that a couple of months ago, when Houthi leadership were landing in the capital Sanaa, they'd just returned from the supreme leader of Iran's funeral, the Saudi-led coalition attacked Sanaa's airport with multiple airstrikes, and the Houthis retaliated.",
+        "language": "en",
+        "video_published": "2026-11-27T22:00:32Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 1,
+        "text": "كيف تفسَّر هجمات الحوثيين على المنشآت النفطية والموانئ السعودية؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "ea989c0558bf",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=MpEcr0JLRTU",
+        "start": 245.6,
+        "end": 262.8,
+        "speaker_name": "غريغ هوليوك",
+        "speaker_role": "صحفي في بي بي سي للمراقبة",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "Greg Holyoke",
+        "channel_display": "بي بي سي نيوز",
+        "channel_original": "BBC News",
+        "quote_arabic": "قال الحوثيون إن الضربة على ميناء جدة الإسلامي الأكبر في المملكة كانت دقيقة وهي لغة اعتدنا أن تعني أنها تعرضت للاعتراض. ويا للمفارقة فقد أكدت السلطات السعودية لاحقا أنها دمرت المقذوف بالفعل قبل أن يصيب هدفه.",
+        "quote_original": "The Houthis said that the strike on the Jeddah Islamic Port, the largest in the kingdom, had been accurate—language we've come to know as meaning that it had been intercepted. Lo and behold, the Saudi authorities later confirmed that they had indeed destroyed the projectile before it hit its target.",
+        "language": "en",
+        "video_published": "2026-11-26T22:00:19Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "clip",
+        "point_id": "dcaf1418471a",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=gtCbSN4EHts",
+        "start": 1061.0,
+        "end": 1098.0,
+        "speaker_name": "علي أبي رعد",
+        "speaker_role": "خبير عسكري واستراتيجي لبناني",
+        "speaker_verified": true,
+        "speaker_verified_from": "gemini",
+        "speaker_name_latin": "علي أبي رعد",
+        "channel_display": "الميادين",
+        "channel_original": "الميادين",
+        "quote_arabic": "العمليات اليمنية وصلت إلى حد وضع الاقتصاد السعودي ككل أمام اختبارات وخيارات بالغة الدقة والتعقيد، خصوصا باستهداف المنشآت النفطية والمراكز المالية، وقد كشفت هذه العمليات بوضوح عن تنامي القدرات اليمنية في تحديد الأهداف والوصول إليها.",
+        "quote_original": "العمليات اليمنية وصلت إلى حد وضع الاقتصاد السعودي ككل أمام اختبارات وخيارات بالغة الدقة والتعقيد، وخصوصا بمنع واستهداف المنشآت النفطية والمراكز المالية. هذه العمليات كشفت بكل وضوح عن تنامي القدرات اليمنية أولا في تحديد الأهداف والوصول إليها.",
+        "language": "ar",
+        "video_published": "2026-11-26T15:58:09Z",
+        "relay": "",
+        "relay_source": "",
+        "exclusive": true
+      },
+      {
+        "kind": "question",
+        "text": "هل تستطيع السعودية إنهاء هذه الجولة دون تسوية شاملة في اليمن؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": [],
+    "narrator_voices": [
+      {
+        "id": "s7VusoUfleDWGRQNqsF6",
+        "name": "Woman2",
+        "gender": "female"
+      },
+      {
+        "id": "imSStoespHEDicyPMZ3i",
+        "name": "Man2",
+        "gender": "male"
+      }
+    ]
+  },
+  "editor_revision": {
+    "at": "2026-11-28T11:47:46.742280+00:00",
+    "applied": true,
+    "error": null,
+    "before": [
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "عاد التصعيد بين السعودية وجماعة الحوثي اليمنية، بعد غارات على مطار صنعاء وقصف ميناء الحديدة. وتبرر الجماعة استهداف ميناءي جدة وجازان السعوديين باستراتيجية ميناء مقابل ميناء، ويوجه المتحدث باسم القوات المسلحة اليمنية يحيى سريع رسالة بشأن ميناء الحديدة.",
+        "fix": "عاد التصعيد بين السعودية وجماعة الحوثي بعد غارات التحالف على مطار صنعاء إثر عودة قادة حوثيين من جنازة المرشد الإيراني، فرد الحوثيون بقصف ميناء جدة.",
+        "note": "مشهد السياق [2] تجاوز الحد المسموح (61 كلمة مقابل حد 25 كلمة و3 جمل)، ويحتوي 4 جمل. كما أن حديث وقائع الحدث المرفقة يشير إلى أن المقحفي توضح حجة الحوثيين بأن التصعيد رد على قصف التحالف لمطار صنعاء تحديدًا، لكن الفقرة توسعت بتفاصيل إضافية (ميناء جدة وجازان، رسالة سريع) غير مطابقة تمامًا لصياغة موجزة لواقعة واحدة.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "هذه الرواية تقابلها روايات أخرى لأسباب تجدد القتال.",
+        "fix": "",
+        "note": "مشهد السياق [6] يصف وجود «روايات أخرى» دون ذكر فعل محدد (من فعل ماذا ومتى)، وهذا يخالف شرط أن يصف السياق الحدث نفسه لا الإشارة العامة للنقاش/الروايات المتعددة.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "ما حجة كل طرف في تجدد التصعيد الحالي؟",
+        "fix": "",
+        "note": "صياغة السؤال بكلمة «الحالي» تجعل الإحالة غامضة بعد حذف ذكر الطرفين (السعودية والحوثيين) الذي كان في الصيغة الأصلية؛ لكن أي تعديل لإعادة الطرفين يتجاوز الحد المسموح (10 كلمات)، لذا يُترك الإصلاح فارغًا.",
+        "sources": []
+      }
+    ],
+    "unresolved": [
+      {
+        "n": 2,
+        "reason": "تعذّر ذكر تفاصيل الرسالة أو ميناء جازان ضمن حد 25 كلمة/3 جمل؛ تم الاقتصار على واقعة مطار صنعاء وقصف ميناء جدة كما وردت في وقائع الحدث المرفقة"
+      },
+      {
+        "n": 3,
+        "reason": "أي صياغة تعيد ذكر الطرفين (السعودية والحوثيين) تتجاوز حد 10 كلمات المسموح للسؤال، فتُرك كما هو"
+      }
+    ]
+  },
+  "editor_review": {
+    "at": "2026-11-28T11:47:46.742280+00:00",
+    "applied": [],
+    "notes": [
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "هذه الرواية تقابلها روايات أخرى لأسباب تجدد القتال.",
+        "fix": "",
+        "note": "مشهد السياق [6] يصف وجود «روايات أخرى» دون ذكر فعل محدد (من فعل ماذا ومتى)، وهذا يخالف شرط أن يصف السياق الحدث نفسه لا الإشارة العامة للنقاش/الروايات المتعددة.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "ما حجة كل طرف في تجدد التصعيد الحالي؟",
+        "fix": "",
+        "note": "صياغة السؤال بكلمة «الحالي» تجعل الإحالة غامضة بعد حذف ذكر الطرفين (السعودية والحوثيين) الذي كان في الصيغة الأصلية؛ لكن أي تعديل لإعادة الطرفين يتجاوز الحد المسموح (10 كلمات)، لذا يُترك الإصلاح فارغًا.",
+        "sources": []
+      }
+    ],
+    "error": null,
+    "searches": 0,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "reel_quote": {
+    "status": "none",
+    "tried": [
+      {
+        "name": "ابن خلدون",
+        "lang": "en",
+        "reason": "لم يجد النموذج جملة تناسب"
+      },
+      {
+        "name": "كارل فون كلاوزفيتس",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "كارل فون كلاوزفيتس",
+        "lang": "en",
+        "reason": "طول الاقتباس 50 كلمة خارج الحد"
+      },
+      {
+        "name": "توماس شيلينغ",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "توماس شيلينغ",
+        "lang": "en",
+        "reason": "طول الاقتباس 60 كلمة خارج الحد"
+      },
+      {
+        "name": "هنري كيسنجر",
+        "lang": "ar",
+        "reason": "لم يجد النموذج جملة تناسب"
+      },
+      {
+        "name": "هنري كيسنجر",
+        "lang": "en",
+        "reason": "لم يجد النموذج جملة تناسب"
+      },
+      {
+        "name": "صن تزو",
+        "lang": "ar",
+        "reason": "لا صفحة"
+      },
+      {
+        "name": "صن تزو",
+        "lang": "en",
+        "reason": "طول الاقتباس 1 كلمة خارج الحد"
+      },
+      {
+        "name": "—",
+        "lang": "",
+        "reason": "أقوى صلة 1 دون 2"
+      }
+    ],
+    "candidates": 1
+  },
+  "hook_cartoon": {
+    "status": "ready",
+    "scene_error": "طرف العلاقة «صاروخ الحوثيين» ليس من العناصر؛ طرف العلاقة «الميناء المعترض» ليس من العناصر",
+    "idea_ar": "تبادل ضربات: قادة حوثيون عائدون من جنازة المرشد الإيراني يقابلهم تصعيد سعودي على مطار صنعاء، فيرد الحوثيون بقصف ميناء جدة، في حلقة فعل ورد فعل",
+    "basis_ar": "[1] عودة قادة حوثيين من جنازة المرشد الإيراني وغارات التحالف بقيادة السعودية على مطار صنعاء ردًا على ذلك؛ [2] رد الحوثيين بقصف ميناء جدة الإسلامي الأكبر في السعودية",
+    "prompt_en": "Political cartoon style, bold ink outlines, satirical caricature, muted editorial color palette, dramatic lighting, figures standing full body head to toe, no background, no text, no flags with words, no maps",
+    "cost_usd": 0.129,
+    "path": "drafts/2026-11-28/95c9a32f8694-cartoon.png",
+    "model": "gemini-3.1-flash-image",
+    "pieces": [
+      {
+        "name_ar": "قائد حوثي عائد من الجنازة",
+        "prompt_en": "A Houthi military commander caricature, turban and military fatigues, somber expression, walking down an airplane staircase gesture, full body head to toe, no background",
+        "person_ar": "قادة حوثيون",
+        "person_en": "Houthi leaders",
+        "cue_ar": "المرشد الإيراني",
+        "x": 0.2,
+        "y": 0.55,
+        "width": 0.3,
+        "enter": "left",
+        "path": "drafts/2026-11-28/95c9a32f8694-cartoon-0.png"
+      },
+      {
+        "name_ar": "قائد التحالف السعودي",
+        "prompt_en": "A Saudi military general caricature in formal military uniform with medals, stern commanding posture, pointing forward decisively, full body head to toe, no background",
+        "person_ar": "التحالف بقيادة السعودية",
+        "person_en": "Saudi-led coalition commander",
+        "cue_ar": "السعودية",
+        "x": 0.5,
+        "y": 0.5,
+        "width": 0.3,
+        "enter": "right",
+        "path": "drafts/2026-11-28/95c9a32f8694-cartoon-1.png"
+      },
+      {
+        "name_ar": "محارب حوثي يقصف جدة",
+        "prompt_en": "A Houthi fighter caricature in military gear holding a missile-shaped object aimed outward, determined expression, full body head to toe, no background",
+        "person_ar": "الحوثيون",
+        "person_en": "Houthi fighters",
+        "cue_ar": "الحوثيين",
+        "x": 0.8,
+        "y": 0.6,
+        "width": 0.3,
+        "enter": "bottom",
+        "path": "drafts/2026-11-28/95c9a32f8694-cartoon-2.png"
+      }
+    ]
+  },
+  "reel_bg": {
+    "url": "",
+    "kind": "none",
+    "publisher": "",
+    "judged": true,
+    "rejected": [
+      {
+        "url": "https://jeddah24.net/wp-content/uploads/2026/11/article-623724.webp",
+        "shows": "شارع في مدينة جبلية يمنية بمبانٍ حجرية متراصة وجبال خلفها، مع لوحة نصية كبيرة وشعار جدة24",
+        "reason": "الصورة لمشهد عمراني يمني عام لا يمثل موضوع الريل (التصعيد السعودي الحوثي وقصف ميناء جدة)، وفيها نص عنوان خبر مركَّب فوقها وشعار الموقع، وهي أقرب لصورة مرفقة بخبر آخر."
+      },
+      {
+        "url": "https://hawarnews.com/ar/uploads/images/202609/image_870x_6a9fafaad41f4.webp",
+        "shows": "انفجار ضخم وأعمدة دخان أسود في منطقة صحراوية، مع مبانٍ ومركبات قريبة",
+        "reason": "الصورة تُظهر انفجارًا في صحراء ولا تحمل أي إشارة واضحة إلى السعودية أو الحوثيين أو ميناء جدة أو مطار صنعاء، فلا تمثل موضوع السؤال ولا أحد أطرافه أو مكانه بوضوح."
+      },
+      {
+        "url": "https://imgs.search.brave.com/YADjVleWV1ohVyRnJUou6kwBkAI34OEMOYkjSXRAoDI/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9oYXdh/cm5ld3MuY29tL2Fy/L3VwbG9hZHMvaW1h/Z2VzLzIwMjYwOS9p/bWFnZV84NzB4XzZh/OWZhZmFhZDQxZjQu/d2VicA",
+        "shows": "انفجار ضخم وعمود دخان أسود في منطقة صحراوية، مع منشآت ومركبات",
+        "reason": "الصورة تُظهر انفجارًا في منطقة صحراوية غير محددة المكان، ولا تتعلق بقصف ميناء جدة أو مطار صنعاء أو بالوفد اليمني، ولا يمكن التحقق من أنها لهذا الحدث."
+      },
+      {
+        "url": "https://www.aljazeera.net/wp-content/uploads/2026/10/afp_6adc8f254130-1792839461.jpg?resize=570,380&quality=80",
+        "shows": "عناصر مسلحون بزي عسكري في شاحنة بيك أب يحملون رشاشًا ثقيلًا، وخلفهم مبانٍ ولوحات طرق وألواح شمسية",
+        "reason": "الصورة تُظهر قوات مسلحة في مدينة غير محددة، وليست مرتبطة بتحديد موضوع السعودية أو الحوثيين أو ميناء جدة أو مطار صنعاء بشكل واضح، فلا تصلح كخلفية للريل المتعلق بالتصعيد السعودي الحوثي."
+      },
+      {
+        "url": "https://imgs.search.brave.com/0esJ3pn7kTffh66flgN8sD9PL8voRWdiqJQasUgZrlE/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/YWxqYXplZXJhLm5l/dC93cC1jb250ZW50/L3VwbG9hZHMvMjAy/Ni8xMC9hZnBfNmFk/YzhmMjU0MTMwLTE3/OTI4Mzk0NjEuanBn/P3Jlc2l6ZT01NzAs/MzgwJnF1YWxpdHk9/ODA",
+        "shows": "مسلحون على شاحنة بيك أب، أحدهم يمسك رشاشاً ثقيلاً مثبتاً على الشاحنة، في شارع بمدينة فيها ألواح شمسية ومبانٍ وجبال في ال",
+        "reason": "الصورة تُظهر مسلحين وشاحنة عسكرية في مشهد عام، لكنها لا تُظهر السعودية ولا الحوثيين ولا مطار صنعاء أو ميناء جدة بشكل محدد، ولا يمكن التأكد من أنها تخص موضوع الريل."
+      }
+    ]
+  },
+  "hook_candidates": [
+    {
+      "video_id": "yESTOVeEDLU",
+      "title": "حرب الموانئ تتصاعد.. هجمات حوثية على رأس تنورة وجدة وجازان، التحالف يقصف الحديدة ومعارك ضارية في تعز",
+      "channel": "العربي - أخبار ",
+      "views": 138603,
+      "duration": 163,
+      "published": "2026-11-26T00:50:19Z",
+      "views_per_hour": 2348.5,
+      "gemini": {
+        "start": 0,
+        "end": 6,
+        "impact": 3,
+        "desc": "تصاعد أعمدة دخان كثيف جراء قصف استهدف موقعاً في منطقة جبلية باليمن"
+      }
+    },
+    {
+      "video_id": "tp8cbRvY6CU",
+      "title": "التحالف يعترض صاروخ كروز و6 مسيرات حوثية في سماء السعودية",
+      "channel": "AlJazeera Arabic  قناة الجزيرة",
+      "views": 119954,
+      "duration": 127,
+      "published": "2026-11-26T04:15:30Z",
+      "views_per_hour": 2157.5
+    },
+    {
+      "video_id": "wptGNDmuIi4",
+      "title": "التحالف: تدمير صاروخين باليستيين للحوثيين باتجاه الرياض",
+      "channel": "AlJazeera Arabic  قناة الجزيرة",
+      "views": 25822,
+      "duration": 33,
+      "published": "2026-11-26T03:15:09Z",
+      "views_per_hour": 456.2
+    },
+    {
+      "video_id": "FiQ7p5ori5U",
+      "title": "الحوثيون: غارات جوية على مديريتي سامع بتعز والقبيطة بلحج",
+      "channel": "AlJazeera Arabic  قناة الجزيرة",
+      "views": 19936,
+      "duration": 170,
+      "published": "2026-11-26T10:57:23Z",
+      "views_per_hour": 407.7
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-11-26T00:00:00Z",
+          "2026-11-30T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "غارات على مطار صنعاء",
+            "raw": 2,
+            "channel_ok": 1
+          },
+          {
+            "query": "قصف ميناء جدة صواريخ",
+            "raw": 8,
+            "channel_ok": 4
+          },
+          {
+            "query": "Houthi missile strike Jeddah port smoke",
+            "raw": 24,
+            "channel_ok": 2
+          }
+        ],
+        "duration_ok": 7,
+        "judged_ok": 6,
+        "rejected_channels": [
+          "Times Now",
+          "أسامة جاويش - Osama Gaweesh",
+          "Trend Spark Arabia",
+          "منصة اليمن الإخباريه",
+          "AHMED IBRAHIM",
+          "Red Scope",
+          "Neon Bulletin",
+          "Spinless Spin"
+        ]
+      }
+    ],
+    "gemini_vet": {
+      "checked": 4,
+      "ok": 1,
+      "rejected": [
+        {
+          "video_id": "tp8cbRvY6CU",
+          "reason": "الفيديو بالكامل عبارة عن رسالة إخبارية للمراسل أمام الكاميرا دون أي لقطات ميدانية."
+        },
+        {
+          "video_id": "wptGNDmuIi4",
+          "reason": "الفيديو يقتصر بالكامل على مذيع في الأستوديو يليه مؤتمر صحفي لمتحدث التحالف ولا يتضمن أي لقطات ميدانية."
+        },
+        {
+          "video_id": "FiQ7p5ori5U",
+          "reason": "الفيديو عبارة عن رسالة كاملة للمراسل يظهر فيها متحدثاً طوال الوقت دون وجود لقطات ميدانية للأحداث"
+        }
+      ],
+      "errors": 0,
+      "cost": 0.0173
+    },
+    "picked": [
+      "yESTOVeEDLU",
+      "tp8cbRvY6CU",
+      "wptGNDmuIi4",
+      "FiQ7p5ori5U"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "عاد التصعيد بين السعودية وجماعة الحوثي بعد غارات التحالف على مطار صنعاء إثر عودة قادة حوثيين من جنازة المرشد الإيراني، فرد الحوثيون بقصف ميناء جدة.",
+      "visual": "غارات جوية على مطار صنعاء ودخان يتصاعد",
+      "map": {
+        "places": [
+          "صنعاء",
+          "جدة"
+        ],
+        "countries": [
+          "السعودية",
+          "اليمن"
+        ],
+        "arrows": [
+          {
+            "from": "السعودية",
+            "to": "صنعاء"
+          },
+          {
+            "from": "صنعاء",
+            "to": "جدة"
+          }
+        ]
+      }
+    },
+    {
+      "scene": 3,
+      "sentence": 0,
+      "text": "وفي صنعاء، يتحدث عضو الوفد اليمني المفاوض حميد عاصم عمن يقف خلف الحرب على اليمن.",
+      "visual": ""
+    },
+    {
+      "scene": 5,
+      "sentence": 0,
+      "text": "هذه الرواية تقابلها روايات أخرى لأسباب تجدد القتال.",
+      "visual": ""
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "text": "ما حجة كل طرف في تجدد التصعيد الحالي؟",
+      "visual": ""
+    },
+    {
+      "scene": 8,
+      "sentence": 0,
+      "text": "كيف تفسَّر هجمات الحوثيين على المنشآت النفطية والموانئ السعودية؟",
+      "visual": ""
+    }
+  ],
+  "cost_script": {
+    "claude": {
+      "claude-haiku-5-5": 0.00415,
+      "claude-sonnet-5": 0.34549,
+      "claude-opus-5": 0.3976,
+      "claude-opus-5-5": 0.00718
+    },
+    "gemini": 0.1463
+  },
+  "review_issue": 2059,
+  "stage2_issue": 2059
+}
