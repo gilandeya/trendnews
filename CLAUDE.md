@@ -1870,6 +1870,17 @@ step (`article.wide_days`).
 يحوّل كل «ةْ» باقية (من التشكيل) إلى «هْ» (`taa_sukun_to_ha`، `reel.tts.taa_marbuta_ha`)، وتعليمة التشكيل تمنع تسكينها في الوصل. نص النطق وحده؛
 المعروض كما هو. `render_version` بلا تغيير. الاختبار `tests/test_youtube.py:test_reel_taa_marbuta_2711`.
 
+## مقطع سياق يسقط في التركيب: يُعاد بناء السياق على الباقي (ريل 1647a40f7337، 28/11) — `src/reel_context.py`
+
+الحادثة: سقط مقطع سائق الشاحنة الأول (إيران إنترناشيونال، مقطع Gemini بنافذة تقديرية لم يطابق مسموعها كلامه: 0.4) فبقي تمهيده «سائق شاحنة
+إيراني يقارن…» يُقرأ بلا مقطع، و«…سائق شاحنة إيراني آخر» بعده. وكان صوته لم يُفحص قبل العرض (قُطع فيديوه بمهلة الفحص) فعُلِّم آليًا.
+- **إعادة البناء:** في `_assemble` بعد `_prune_mismatched`، `reel_context.rebuild`: `context_layout` (خالصة) تجد قسم السياق ومقاطعه الساقطة وفراغات
+  الراوي بين الباقية؛ نداء واحد (`reel.render.context_rebuild`، أداة `rebuild_context`) بكلام السياق الأصلي ومقاطعه (الساقط معلَّم) يعيد جزءًا لكل فراغ،
+  و`problems` تفحص العدد والفراغ بلا مكان وتسمية قائل المقطع المسمّى؛ المخالفة تُعاد مرة في المحادثة. النص في أول مشهد راوٍ من كل فراغ والباقي يُحذف
+  (`dead_scenes`) فلا تتغير فهارس المشاهد ولا `clips`؛ نسخة الذاكرة وحدها (السيناريو المحفوظ لا يُمسّ). سطر «🔁» أو «⚠️» و`render_context_rebuild`.
+  لقطات الجمل المعاد كتابتها تأخذ الصورة (خطة اللقطات بالنص). `tests.helpers.load_config` يطفئه؛ الاختبار `tests/test_youtube.py:test_reel_context_rebuild_2811`.
+- **الوقاية:** `meta_qa.pick_context` يقدّم ما طابق صوته (`qa.context.prefer_heard`). `render_version` = 97.
+
 ## Retired paths
 
 - **«مقال» (`src/article.py`, label `مقال`, `.github/workflows/article.yml`) and «طلب» (`src/request.py`, label `طلب`

@@ -8220,6 +8220,9 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
     stage_mark("speakers")
     clips, dead_scenes = _prune_mismatched(script, clips, cfg, deps, speakers if speakers is not None else {},
                                            notes if notes is not None else [], dropped if dropped is not None else [], meta)
+    # ريل 1647a40f7337 (28/11): مقطع سياق سقط فبقي تمهيده يُقرأ بلا مقطع بعده؛ كلام السياق يُعاد على المقاطع الباقية قبل أي صوت
+    from . import reel_context
+    dead_scenes = set(dead_scenes) | reel_context.rebuild(script, clips, cfg, notes if notes is not None else [], meta)
     _band_notes(script, clips, cfg, notes if notes is not None else [])
     names = list(dict.fromkeys(s.get("channel_display", "") for i, s in enumerate(script["scenes"])
                                if i in clips and s.get("channel_display")))
@@ -8748,7 +8751,8 @@ RENDER_META_KEYS = (("render_roster", "roster"), ("render_roster_source", "roste
                     ("render_speaker_map", "speaker_map"), ("render_map_assign", "map_assign"),
                     ("render_map_errors", "map_errors"), ("render_maps", "maps"), ("render_figures", "figures"),
                     ("render_gemini_speakers", "gemini_speakers"), ("render_gemini_errors", "gemini_errors"),
-                    ("render_gemini_cost", "gemini_cost"), ("render_bg_track", "bg_track"))
+                    ("render_gemini_cost", "gemini_cost"), ("render_bg_track", "bg_track"),
+                    ("render_context_rebuild", "context_rebuild"))
 RENDER_KEYS = tuple(k for k, _ in RENDER_META_KEYS) + ("render_exact_selfcheck", "render_budget", "render_timing")
 
 

@@ -612,7 +612,10 @@ def pick_context(actors: list[dict], cfg) -> list[dict]:
         return []
     shown_max, pick_max, sec_max = int(c.get("max_shown", 4)), int(c.get("max_clips", 2)), float(c.get("max_seconds", 30))
     # الظهور الأصلي (meta_original) قبل النقل: التصريح نفسه من قناة المسؤول لا من قناة نقلته
+    # ريل 1647a40f7337 (28/11): مقطع سياق لم يُفحص صوته عُلِّم فسقط في التركيب (لم يطابق مسموعه كلامه)؛ ما طابق صوته يتقدّم
+    heard = bool(c.get("prefer_heard", True))
     order = sorted(range(len(actors)), key=lambda i: (not (actors[i].get("speaker") or actors[i].get("speaker_original")),
+                                                      heard and not actors[i].get("heard"),
                                                       not actors[i].get("original_of"),
                                                       actors[i].get("audio_track", "original") != "original", _sec(actors[i])))
     out, seen = [], set()

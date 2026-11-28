@@ -12377,3 +12377,73 @@ def test_reel_taa_marbuta_2711() -> None:
     check("2711b: اسم شخص كلمته الأولى بتاء مربوطة لا تُعرّى", "فَاطِمَةُ" in bare, bare)
     check("2711c: تعليمة التشكيل تمنع تسكين التاء المربوطة في الوصل، والمفتاح مفعّل",
           "التاء المربوطة لا تُسكَّن" in cfg.path("reel.tts.diacritize.system") and cfg.path("reel.tts.taa_marbuta_ha") is True)
+
+
+def test_reel_context_rebuild_2811() -> None:
+    """ريل 1647a40f7337 (28/11): سقط مقطع سياق في التركيب فبقي تمهيده «سائق شاحنة إيراني يقارن…» بلا مقطع بعده. كلام السياق يُعاد
+    على المقاطع الباقية قبل الصوت، بلا تغيير فهارس المشاهد؛ وما طابق صوته يتقدّم في اختيار مقاطع السياق."""
+    import copy
+    from types import SimpleNamespace
+
+    from src import llm, meta_qa, reel_context, reel_render
+    from src.config import load_config as real_load
+
+    cfg = real_load()
+    script = {"version": 2, "title": "لماذا ينهار الريال الإيراني؟", "scenes": [
+        {"kind": "title_card", "text": "لماذا ينهار الريال الإيراني؟"},
+        {"kind": "narration", "role": "context", "text": "يتراجع الريال. سائق شاحنة إيراني يقارن ما دفعه العام الماضي بما يدفعه اليوم."},
+        {"kind": "clip", "role": "context", "q": "c0", "point_id": "p1", "channel_display": "إيران إنترناشيونال", "quote_arabic": "الجبن…"},
+        {"kind": "narration", "role": "context", "text": "ويشكو سائق شاحنة إيراني آخر من كلفة الصيانة."},
+        {"kind": "clip", "role": "context", "q": "c1", "point_id": "p2", "channel_display": "إيران إنترناشيونال", "quote_arabic": "الزيت…"},
+        {"kind": "narration", "role": "context", "text": "ويشكو حرفي إيراني من الأسعار."},
+        {"kind": "clip", "role": "context", "q": "c2", "point_id": "p3", "channel_display": "الجزيرة", "quote_arabic": "ماذا أفعل…"},
+        {"kind": "narration", "role": "context", "text": "ويحوّل إيرانيون مدخراتهم إلى الذهب."},
+        {"kind": "narration", "role": "question", "q": "0", "text": "ما الذي تسبب في تراجع الريال؟"},
+        {"kind": "clip", "q": "0", "point_id": "p4"}]}
+    clips = {4: {}, 6: {}, 9: {}}
+    lay = reel_context.context_layout(script, clips)
+    check("2811a: التخطيط — الساقط والباقي وفراغات الراوي", lay is not None and lay["lost"] == [2] and lay["kept"] == [4, 6]
+          and lay["gaps"] == [[1, 3], [5], [7]], lay)
+    check("2811a: لا سقوط ← لا تخطيط", reel_context.context_layout(script, {2: {}, 4: {}, 6: {}}) is None)
+
+    replies: list = []
+
+    def fake(client, **kw):
+        parts = replies.pop(0)
+        return SimpleNamespace(stop_reason="tool_use", content=[SimpleNamespace(
+            type="tool_use", name="rebuild_context", id="t1", input={"parts": parts})])
+    orig = llm.create
+    llm.create = fake
+    try:
+        s1 = copy.deepcopy(script)
+        replies[:] = [["يتراجع الريال. ويشكو سائق شاحنة إيراني من كلفة الصيانة.", "ويشكو حرفي إيراني من الأسعار.",
+                       "ويحوّل إيرانيون مدخراتهم إلى الذهب."]]
+        notes: list = []
+        meta: dict = {}
+        dead = reel_context.rebuild(s1, clips, cfg, notes, meta)
+        check("2811b: النص الجديد في أول مشهد من كل فراغ والزائد محذوف", dead == {3}
+              and "كلفة الصيانة" in s1["scenes"][1]["text"] and "يقارن" not in s1["scenes"][1]["text"], (dead, s1["scenes"][1]))
+        check("2811b: سطر التعليق والحفظ", notes and notes[0].startswith("🔁") and meta["context_rebuild"]["lost"] == ["p1"], notes)
+        check("2811b: السيناريو الأصلي لا يُمسّ", "يقارن" in script["scenes"][1]["text"])
+        s2 = copy.deepcopy(script)
+        replies[:] = [["نص واحد"], ["أ", "ب", "ج"]]
+        dead2 = reel_context.rebuild(s2, clips, cfg, [], {})
+        check("2811c: عدد خاطئ ← إعادة واحدة بالسبب ثم القبول", dead2 == {3} and s2["scenes"][5]["text"] == "ب", dead2)
+        s3 = copy.deepcopy(script)
+        replies[:] = [["x"], ["y"]]
+        n3: list = []
+        dead3 = reel_context.rebuild(s3, clips, cfg, n3, {})
+        check("2811d: فشل المحاولتين ← السياق كما كان وسطر ⚠️", dead3 == set() and s3["scenes"][1] == script["scenes"][1]
+              and n3 and n3[0].startswith("⚠️"), n3)
+        off = copy.deepcopy(cfg)
+        off["reel"]["render"]["context_rebuild"]["enabled"] = False
+        check("2811e: مطفأ ← لا شيء", reel_context.rebuild(copy.deepcopy(script), clips, off, [], {}) == set())
+    finally:
+        llm.create = orig
+    check("2811f: الحقل يُحفظ مع حقول التركيب", "render_context_rebuild" in reel_render.RENDER_KEYS)
+    actors = [{"bite_id": "a", "speaker": "", "seconds": 10}, {"bite_id": "b", "speaker": "", "seconds": 12, "heard": True},
+              {"bite_id": "c", "speaker": "", "seconds": 8}]
+    for b in actors:
+        b["start"], b["end"] = 0.0, b["seconds"]
+    ctx = meta_qa.pick_context(actors, cfg)
+    check("2811g: مقطع السياق المفحوص صوته يتقدّم ويُعلَّم أولًا", ctx and ctx[0]["n"] == 2 and ctx[0]["selected"], ctx)
