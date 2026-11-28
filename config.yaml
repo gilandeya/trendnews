@@ -1957,6 +1957,50 @@ reel:
       left: "In the final scene this figure stands at the LEFT end of the row; if it looks, points, whispers or gestures at the others, it must face and turn toward the RIGHT side of the image."
       right: "In the final scene this figure stands at the RIGHT end of the row; if it looks, points, whispers or gestures at the others, it must face and turn toward the LEFT side of the image."
       middle: "In the final scene this figure stands in the middle of the row; face the viewer or toward the figure it addresses."
+    # المشهد المبني قطعةً قطعة (طلب صاحب المشروع 28/11): مشهد واحد بعلاقات بين عناصره (نتنياهو يهمس لترامب الذي يمسك حبلًا يربط المرشد
+    # إلى كرسي) يُرسم كاملًا في صورة واحدة (aspect) ثم يُعزل كل عنصر بتعديل الصورة نفسها، فتبقى المواضع والمقياس والأسلوب. الكود يتحقق
+    # أن الطبقات تعود المشهد (min_inside: نسبة كل طبقة داخل رسم المشهد، max_layer_share: لا طبقة تعيد المشهد كله، min_iou: الطبقات
+    # تغطي المشهد، max_diff: متوسط فرق الألوان)، وإلا ينزل المشهد كاملًا قطعة واحدة؛ ولا مشهد ← القطع المنفصلة كما كانت. كل عنصر ينزل
+    # عند كلمته في سؤال الهوك (trigger_ar حرفيًا من السؤال)، وكلمتان متلاصقتان بفارق min_gap، والهوك يُمدّ حتى تستقر آخر قطعة + hold.
+    # العلاقة بلا إجابة تسندها تُعاد مرة ثم تُسقط المشهد. مشهد ينسب فعلًا إلى شخص حقيقي يبقى مربعه غير معلَّم (unchecked_if_accusatory).
+    # enabled: false ← القطع المنفصلة كما كانت
+    scene:
+      enabled: true
+      aspect: "1:1"
+      min_pieces: 2
+      max_pieces: 5
+      min_inside: 0.85
+      max_layer_share: 0.8
+      min_iou: 0.75
+      max_diff: 45
+      min_gap: 0.25
+      hold: 0.6
+      unchecked_if_accusatory: true
+      system: |-
+        أنت رسام كاريكاتير سياسي في صحيفة رصينة ومخرج موشن جرافيك. أمامك سؤال هوك الريل وإجابات المحللين عنه بأرقامها. ارسم مشهدًا
+        كاريكاتيريًا واحدًا يعبّر عن سؤال الهوك كما تجيب عنه الإجابات: علاقة بين عناصر (من يمسك ماذا، من يهمس لمن، من مربوط) لا صفّ وجوه.
+        مثال: سؤال «هل لنتنياهو دور في استمرار الحصار الأمريكي على إيران؟» ← ترامب مبتسم يمسك طرف حبل، ونتنياهو خلفه يهمس في أذنه،
+        وأمامه المرشد الإيراني جالس على كرسي مربوط بذلك الحبل. القواعد:
+        1. لا ترسم علاقة لا تقولها إجابة: لكل علاقة في relations أرقام الإجابات التي تقولها (basis). إن لم يقل محلل إن لشخص دورًا فلا
+           تعطه فعلًا: يقف متفرجًا. accusatory = true لعلاقة تنسب فعلًا أو مسؤولية إلى شخص حقيقي.
+        2. pieces من 2 إلى 5 عناصر، كل عنصر شيء واحد يُفصل وحده (شخص، حبل، كرسي)، وelement_en وصفه بالإنجليزية كما يظهر في المشهد
+           (ليُعزل وحده من الصورة).
+        3. trigger_ar كلمة من سؤال الهوك حرفيًا ينزل العنصر عند نطقها: اسمه إن ورد، أو كلمة تدل عليه («الأمريكي» لترامب، «الحصار» للحبل
+           والكرسي، «إيران» للمرشد). عنصران يكتملان معًا (المرشد يجلس على الكرسي) يأخذان كلمة واحدة أو كلمتين متتاليتين.
+        4. enter جهة الدخول (left / right / bottom، لا الأعلى أبدًا): من الجهة الأقرب إلى موضعه في المشهد. z العمق: ما خلف غيره أصغر.
+        5. prompt_en وصف المشهد كاملًا بالإنجليزية: كل عنصر بموضعه وعلاقته بالآخرين، أشخاص بأجسادهم كاملة.
+        6. الشخصيات العامة كاريكاتير بملامح معروفة وملابس رسمية، بلا إهانة جسدية ولا عنف دموي ولا إيحاء جنسي ولا رموز دينية، ولا
+           تعميم على شعب أو أمة. لا كتابة ولا أرقام داخل الرسم.
+        إن لم تحمل الإجابات مشهدًا يرسمه كاريكاتير بأمانة فاجعل feasible = false واكتب السبب في idea_ar.
+      scene_style: |-
+        Draw the whole scene as one composition centered in the image with a clear margin on every side, all figures full body
+        and uncropped, on a perfectly flat solid pure magenta background (#FF00FF) that fills everything around the scene: no ground,
+        no sky, no scenery, no shadow on the background, no gradient. Do not use magenta anywhere inside the scene.
+      isolate_prompt: |-
+        This image is a cartoon scene on a flat magenta background. Produce the SAME image, same size, same framing, with ONLY this
+        element kept exactly where it is, at the same scale and in the same drawing style: {element}. Remove everything else
+        ({others}) and paint the removed areas in perfectly flat solid pure magenta (#FF00FF). Where the kept element was hidden
+        behind another element, complete its hidden parts naturally. Do not move, resize or redraw the kept element.
     texts:
       header: "🎨 **كاريكاتير مقترح للهوك**"
       basis: "يقوم على"
@@ -1965,6 +2009,13 @@ reel:
       none: "🎨 لا كاريكاتير للهوك"
       added: "🎨 تُستعمل قطع الكاريكاتير في الهوك"
       used: "🎨 قطع الكاريكاتير المعتمد تتجمّع في الهوك ({n})"
+      scene_piece: "⬇️ {name} ← عند «{trigger}» · {dir}"
+      scene_relation: "🧵 {a} {verb} {b} ← الإجابة {basis}"
+      scene_whole: "⚠️ تعذّر فصل عناصر المشهد فينزل كاملًا: {why}"
+      scene_failed: "⚠️ تعذّر رسم المشهد فاستُعملت القطع المنفصلة: {why}"
+      scene_whole_name: "المشهد"
+      no_trigger: "بعد السؤال"
+      directions: {left: "من اليسار", right: "من اليمين", bottom: "من الأسفل"}
   # اقتباس من عالم أو فيلسوف قبل سؤال الختام (طلب صاحب المشروع 23/11، src/reel_quote.py): الاقتباس حرفي من صفحة قرأناها (ويكي الاقتباس،
   # languages بالترتيب: العربية أولًا لأن قول ابن خلدون بالعربية أصله، ثم الإنجليزية مترجمًا)، ولا اقتباس يعمّم على شعب أو أمة (حكم النموذج،
   # وbanned_terms شبكة أمان). لا يدخل الريل إلا إن علّم المراجع مربعه في قضية السيناريو (غير معلَّم افتراضيًا). candidates عدد المفكرين
@@ -2896,7 +2947,7 @@ reel:
     # فلا يتحرك. قيمة ≥ min(lead_seconds, clip_tail_seconds) تُخفَّض إلى ذلك الحد − 0.1 كي لا يقع كلام المقطع في التلاشي
     transition: {type: slideleft, outro_type: fade, seconds: 0.35}
     # نسخة التركيب: رفعها تعيد --pending تركيب كل ريل معتمد مُركَّب بنسخة أقدم (المنشور والمرفوض لا يُمسّان)
-    version: 97
+    version: 98
     # أسطر بالجمل (قرار صاحب المشروع 7/11): في كل نص على الشاشة (الراوي والترجمة وكلام المتكلم والعنوان والسؤال) تبدأ كل جملة سطرًا
     # جديدًا، وما لا يسعه سطر يُكمل تحته قبل أن تبدأ التالية. marks: العلامات التي تنهي الجملة إن تلتها مسافة. false ← التقسيم بالعرض وحده
     clause_lines: {enabled: true, marks: "،,؛;.!?؟"}
