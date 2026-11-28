@@ -1920,6 +1920,19 @@ step (`article.wide_days`).
 - **فرض الأداة (`llm.create`):** «tool_choice: type "tool" and "any" are not supported» (Opus 5.5 في `reel.quote.rank_model`) أسقط اقتباس
   المفكر في كل ريل. الرفض ← إعادة النداء بـ`tool_choice: auto` وتذكّر النموذج للعملية (`_TOOL_CHOICE_REJECTED`).
 
+## الهوك بلا رسم أفضل من رسم لم يُفحص (القضية 2059، 28/11) — `reel_cartoon.person_problem`
+
+الحادثة (المسودة `drafts/2026-11-28/95c9a32f8694.json`): مخطط المشهد سقط بـ«طرف العلاقة "صاروخ الحوثيين" ليس من العناصر»، فرجع الكود إلى القطع
+المنفصلة، وهي لا تمرّ بالقراءة العمياء (#2055): ثلاثة رجال بلا أسماء («قائد التحالف السعودي»، «محارب حوثي») أحدهم يصوّب قاذفًا نحو آخر. الاختبار
+`tests/test_youtube.py:test_reel_cartoon_safe_2059`. `render_version` بلا تغيير.
+- **طرف العلاقة:** `scene_problems` لا يرفض طرفًا ليس عنصرًا (يحمله عنصر آخر؛ الطرفان للعرض والقراءة وحدهما)، و`basis` يبقى شرطًا.
+- **لا رجوع إلى القطع:** `scene.fallback_pieces: false` ← مشهد سقط = لا كاريكاتير بسبب `texts.scene_no_fallback`؛ رسم قائل الاقتباس للسياق كما هو.
+- **«unsafe»:** حكم ما بعد القراءة (`JUDGE_TOOL`) يضيف unsafe (سلاح مصوَّب نحو شخص، دم، إهانة شخص عام، شخصية بلا اسم تمثّل شعبًا) ← لا كاريكاتير بلا
+  إعادة رسم (`texts.reading_unsafe`)، لأن العنف من الفكرة نفسها.
+- **الشخص مسمّى (`person_problem`):** `person_ar` فيه كلمة من `scene.group_words` أو لا يرد في مادة الريل (`reel_figures.name_in_sentence` على `material`)
+  ← مخالفة تُعاد في المحادثة ثم تُسقط المشهد. وقاعدتا المخطط 11 (العنف رمز) و12 (ما لا اسم له شيء بألوان علمه).
+- **القضية:** «🎨 لا كاريكاتير للهوك: السبب» ومعه «الفكرة التي جُرّبت».
+
 ## Retired paths
 
 - **«مقال» (`src/article.py`, label `مقال`, `.github/workflows/article.yml`) and «طلب» (`src/request.py`, label `طلب`
