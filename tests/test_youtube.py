@@ -10598,6 +10598,7 @@ def test_reel_cartoon_2311() -> None:
           and "magenta" in real.path("reel.cartoon.piece_style").lower())
     cfg = copy.deepcopy(load_config())
     cfg["reel"]["cartoon"] = copy.deepcopy(real.path("reel.cartoon"))
+    cfg["reel"]["cartoon"]["scene"]["fallback_pieces"] = True  # القطع المنفصلة هي ما يُختبر هنا (القضية 2059 أطفأت الرجوع إليها)
     # هذا الاختبار يثبّت قطع 2007 بمواضع النموذج؛ صفّ الأشخاص وتتبّع الراوي (قضية 2013) في test_reel_notes_2013
     cfg["reel"]["cartoon"].update(layout="model", persons_only=False, min_pieces=2, max_pieces=5)
     cfg["reel"]["cartoon"]["cast"]["enabled"] = False
@@ -11466,6 +11467,7 @@ def test_reel_notes_2013() -> None:
     for key in ("gemini_speaker", "background", "sizes"):
         cfg["reel"]["render"][key] = copy.deepcopy(real.path(f"reel.render.{key}"))
     cfg["reel"]["cartoon"] = copy.deepcopy(real.path("reel.cartoon"))
+    cfg["reel"]["cartoon"]["scene"]["fallback_pieces"] = True  # القطع المنفصلة هي ما يُختبر هنا (القضية 2059 أطفأت الرجوع إليها)
     cfg["reel"]["quote"] = copy.deepcopy(real.path("reel.quote"))
     cfg["reel"]["hook_search"]["topic_fallback"] = copy.deepcopy(real.path("reel.hook_search.topic_fallback"))
     W, H = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
