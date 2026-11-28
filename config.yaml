@@ -1902,6 +1902,10 @@ reel:
     # (tolerance) مساحتها ≥ min_px ومتوسط بُعدها عنه ≤ mean_distance تُزال: الخلفية المسطّحة بُعدها صفر تقريبًا، وشيء مرسوم بلون
     # قريب ومظلَّل يبقى. يُطبَّق عند القصّ وعلى القطع المحفوظة عند التركيب (نسخة مؤقتة)
     holes: {enabled: true, tolerance: 110, min_px: 6, mean_distance: 80}
+    # السيناريو 2054: ترس ونبتة وبقعة تحت القدم رُسمت «باهتة» قريبة من لون المفتاح فبقيت بقعًا بنفسجية. جزيرة رسم منفصلة ليست أكبرها،
+    # مساحتها ≤ max_share من الأكبر، ومتوسط ميلها إلى لون المفتاح ≥ min_tint تُحذف (قيس على صورة 2054: الترس 81 والنبتة 30 والبقعة 158،
+    # وقطرات الماء نحو 12 فتبقى). enabled: false ← كما هي
+    islands: {enabled: true, max_share: 0.05, min_tint: 25}
     # منطقة القطع بنسب الشاشة: تحت عنوان السؤال وحتى أسفل الصورة (ما تحت caption_top يغطيه نص منشور فيسبوك جزئيًا، والقطع صور لا نص)
     area: {left: 0.04, top: 0.5, right: 0.96, bottom: 0.94}
     # الدخول: كل قطعة تبدأ مع السؤال (hook_voice_at) بفارق stagger عن سابقتها، وتنزلق من خارج الشاشة إلى موضعها خلال enter_seconds
@@ -1964,9 +1968,43 @@ reel:
     # عند كلمته في سؤال الهوك (trigger_ar حرفيًا من السؤال)، وكلمتان متلاصقتان بفارق min_gap، والهوك يُمدّ حتى تستقر آخر قطعة + hold.
     # العلاقة بلا إجابة تسندها تُعاد مرة ثم تُسقط المشهد. مشهد ينسب فعلًا إلى شخص حقيقي يبقى مربعه غير معلَّم (unchecked_if_accusatory).
     # enabled: false ← القطع المنفصلة كما كانت
+    # السيناريو 2054: فشل عزل عنصر واحد فنزل المشهد كله قطعة واحدة. الطبقة الفاشلة (retry_hints بحسب سببها) تُعزل ثانيةً مرة، ثم يُقصّ ما
+    # بقي من رسم المشهد خارج الطبقات السليمة (أصغر من residual_min_share منه حواف تُهمل): يلامس طبقة (contact_px) ← يُدمج معها وتنزل عند
+    # أسبق كلمتيهما، ولا يلامس ← طبقته من بكسلات المشهد. أكثر من عنصر فاشل ← المشهد كاملًا. aspect 4:3 (كان 1:1) يتسع أفقيًا في حزامه.
+    # reading: قراءة عمياء بعد الرسم (read_model يرى الصورة وحدها بلا الفكرة ولا الأسماء، وjudge_model يقارن قراءته بالفكرة والسؤال)؛ غير
+    # المطابق يُعاد رسمه max_redraws مرة بالقراءة وسببها (redraw_note)، وبقاؤه ← لا كاريكاتير بسببه. عطل القراءة لا يمنع الرسم.
     scene:
       enabled: true
-      aspect: "1:1"
+      aspect: "4:3"
+      residual_min_share: 0.01
+      contact_px: 3
+      retry_hints:
+        whole: "Your previous attempt kept almost the whole scene. Keep ONLY {element}; every other figure and object must become flat magenta."
+        outside: "Your previous attempt moved or redrew the element. Keep {element} at exactly the same pixels, size and pose as in the input image."
+        empty: "Your previous attempt removed {element} too. Keep {element} visible, exactly as it is in the input image."
+        failed: "Your previous attempt failed. Keep ONLY {element}, exactly where it is, on flat magenta."
+      reading:
+        enabled: true
+        read_model: claude-sonnet-5
+        judge_model: claude-sonnet-5
+        max_tokens: 800
+        max_side: 800
+        max_redraws: 1
+        read_prompt: "ماذا يفهم من هذا الكاريكاتير مشاهد يراه لثانيتين على هاتفه ولم يقرأ عنه شيئًا؟"
+        read_system: |-
+          أنت مشاهد عادي يرى كاريكاتيرًا سياسيًا. صف ما تفهمه كما هو: من في الرسم (لا تسمِّ أحدًا إلا إن عرفته من ملامحه المشهورة، ولا
+          تسمِّ بلدًا إلا إن دلّت عليه ألوان علمه أو خريطته)، وماذا يحدث، ومن يغلب أو يخسر إن ظهر ذلك. لا تخمّن ما لا يظهر، واكتب ما لا
+          يُعرف من الرسم في unknown_ar.
+        judge_system: |-
+          أنت محرر يراجع كاريكاتيرًا قبل نشره. أمامك الفكرة المقصودة وسؤال الريل، وما فهمه مشاهد لم يقرأ شيئًا. احكم:
+          match: يفهم المشاهد الفكرة نفسها وأطرافها الأساسيين.
+          contradicts: يفهم معنى يخالف الفكرة (مثل: الفكرة أن الناقلة تنفلت، والمشاهد يرى أنها تُجرّ مستسلمة).
+          decides_open: سؤال الريل مفتوح والرسم يحسم جوابه (يُظهر فائزًا لم تحسمه الإجابات).
+          unclear: لا يعرف المشاهد طرفًا أساسيًا (لا يدري أن الناقلة إيرانية) أو لا يفهم ما يحدث.
+        redraw_note: |-
+          A viewer who saw the previous drawing understood: «{reading}». That is wrong because: {reason}. Redraw so a viewer understands
+          exactly this idea: {idea}. Identify every party at first glance (a famous leader by his features, a country by its flag colors on
+          its object), and if the question is open show the tension, not a winner.
       min_pieces: 2
       max_pieces: 5
       min_inside: 0.85
@@ -1991,11 +2029,18 @@ reel:
         5. prompt_en وصف المشهد كاملًا بالإنجليزية: كل عنصر بموضعه وعلاقته بالآخرين، أشخاص بأجسادهم كاملة.
         6. الشخصيات العامة كاريكاتير بملامح معروفة وملابس رسمية، بلا إهانة جسدية ولا عنف دموي ولا إيحاء جنسي ولا رموز دينية، ولا
            تعميم على شعب أو أمة. لا كتابة ولا أرقام داخل الرسم.
+        7. كل طرف يُعرف من النظرة الأولى بلا كتابة: زعيم بملامحه المشهورة، أو بلد بألوان علمه على شيئه (مدخنة ناقلة بألوان العلم). شيء
+           بلا ما يدل على صاحبه لا يُرسم ممثلًا لبلد (السيناريو 2054: ناقلة بلا علامة لم يعرف أحد أنها إيرانية).
+        8. سؤال الهوك المفتوح يُرسم توترًا لا نتيجة (حبل مشدود من الطرفين، لا طرف يجرّ الآخر مستسلمًا): الرسم لا يحسم ما لم تحسمه الإجابات.
+        9. لا رموز خلفية ولا زينة (تروس، نباتات، أسهم، سحب): العناصر التي في pieces وحدها، وكل ما في prompt_en منها.
+        10. الأداة التي تصل بين عنصرين (حبل، سلسلة، قيد، يد ممدودة) جزء من عنصر من يمسكها لا عنصر وحدها: element_en «Trump holding a
+            rope» لا «a rope»، لأن الحبل المتشابك بغيره لا يُعزل وحده.
         إن لم تحمل الإجابات مشهدًا يرسمه كاريكاتير بأمانة فاجعل feasible = false واكتب السبب في idea_ar.
       scene_style: |-
         Draw the whole scene as one composition centered in the image with a clear margin on every side, all figures full body
         and uncropped, on a perfectly flat solid pure magenta background (#FF00FF) that fills everything around the scene: no ground,
-        no sky, no scenery, no shadow on the background, no gradient. Do not use magenta anywhere inside the scene.
+        no sky, no scenery, no shadow on the background, no gradient. Do not use magenta, pink or purple anywhere inside the scene,
+        and draw nothing faint, translucent or background-like: no decorative symbols, only the elements described.
       isolate_prompt: |-
         This image is a cartoon scene on a flat magenta background. Produce the SAME image, same size, same framing, with ONLY this
         element kept exactly where it is, at the same scale and in the same drawing style: {element}. Remove everything else
@@ -2013,6 +2058,12 @@ reel:
       scene_relation: "🧵 {a} {verb} {b} ← الإجابة {basis}"
       scene_whole: "⚠️ تعذّر فصل عناصر المشهد فينزل كاملًا: {why}"
       scene_failed: "⚠️ تعذّر رسم المشهد فاستُعملت القطع المنفصلة: {why}"
+      reading: "👁️ يفهم المشاهد: {reading}"
+      reading_failed: "رُسم المشهد مرتين وفهمه المشاهد غير المقصود: {reading} ({reason})"
+      layer_merged: "🧩 تعذّر فصل {name} فدُمج مع {into} وينزلان معًا"
+      layer_from_scene: "🧩 تعذّر فصل {name} فقُصّ من المشهد نفسه"
+      layer_dropped: "🧩 تعذّر فصل {name} ولم يبقَ منه خارج غيره ما يُرسم"
+      one_layer: "لم يبقَ إلا عنصر واحد"
       scene_whole_name: "المشهد"
       no_trigger: "بعد السؤال"
       directions: {left: "من اليسار", right: "من اليمين", bottom: "من الأسفل"}

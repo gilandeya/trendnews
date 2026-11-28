@@ -29,6 +29,9 @@ _FALLBACK_LOGGED: set[str] = set()
 # المعرّفات المحلولة التي رفضها الـAPI لمعاملات 5.x: النداءات التالية تُرسَل بلا المعاملات مباشرة
 # بطلب واحد، وإلا دفعنا طلبين (مرفوض ثم معاد) عن كل نداء طوال التشغيل
 _PARAMS_REJECTED: set[str] = set()
+# السيناريو 2054: اقتباس المفكر سقط في كل ريل بـ«tool_choice: type "tool" and "any" are not supported…» لأن rank_model (Opus 5.5) يرفض
+# فرض الأداة. النموذج الذي يرفضه يُرسَل له tool_choice auto (يقرأ كل مستدعٍ أداته من الرد ويسلك طريق فشله إن لم يستعملها)
+_TOOL_CHOICE_REJECTED: set[str] = set()
 
 
 def with_notes(system: str, cfg) -> str:
@@ -57,6 +60,11 @@ def tool_json(value, kind: type):
 def _reset_for_tests() -> None:
     _FALLBACK_LOGGED.clear()
     _PARAMS_REJECTED.clear()
+    _TOOL_CHOICE_REJECTED.clear()
+
+
+def _forced(kwargs: dict) -> bool:
+    return isinstance(kwargs.get("tool_choice"), dict) and kwargs["tool_choice"].get("type") in ("tool", "any")
 
 
 def default_cfg():
@@ -121,8 +129,20 @@ def create(client, *, cfg=None, **kwargs):
             kwargs.update(params)
         else:
             params = {}
+    if model in _TOOL_CHOICE_REJECTED and _forced(kwargs):
+        kwargs["tool_choice"] = {"type": "auto"}
     try:
-        resp = client.messages.create(**kwargs)
+        try:
+            resp = client.messages.create(**kwargs)
+        except BadRequestError as exc:
+            if "tool_choice" not in str(exc).lower() or not _forced(kwargs):
+                raise
+            _TOOL_CHOICE_REJECTED.add(model)
+            if "tool_choice" not in _FALLBACK_LOGGED:
+                _FALLBACK_LOGGED.add("tool_choice")
+                log.error("رفض النموذج %s فرض الأداة (%s) — يُرسَل tool_choice auto", model, str(exc)[:200])
+            kwargs["tool_choice"] = {"type": "auto"}
+            resp = client.messages.create(**kwargs)
     except BadRequestError as exc:
         text = str(exc).lower()
         if not params or not any(w in text for w in _PARAM_WORDS):

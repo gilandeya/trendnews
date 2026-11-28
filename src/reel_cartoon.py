@@ -264,6 +264,7 @@ def cutout(img, cfg, crop: bool = True):
         for k in strong:
             out[..., k] = np.where(soft, np.minimum(out[..., k], cap), out[..., k])
     rgba = np.dstack([np.clip(out, 0, 255), alpha * 255]).astype(np.uint8)
+    rgba = drop_key_islands(rgba, key, cfg)
     if not crop:
         return Image.fromarray(rgba, "RGBA")
     ys, xs = np.where(alpha > 0.02)
@@ -271,6 +272,38 @@ def cutout(img, cfg, crop: bool = True):
     y0, y1 = max(int(ys.min()) - pad, 0), min(int(ys.max()) + pad + 1, rgba.shape[0])
     x0, x1 = max(int(xs.min()) - pad, 0), min(int(xs.max()) + pad + 1, rgba.shape[1])
     return Image.fromarray(rgba[y0:y1, x0:x1], "RGBA")
+
+
+def drop_key_islands(rgba, key, cfg):
+    """يحذف جزر الرسم الصغيرة المصبوغة بلون المفتاح (دالة خالصة على مصفوفة RGBA). السيناريو 2054: ترس ونبتة وبقعة تحت القدم رُسمت
+    «باهتة» فاقتربت من لون المفتاح فمحا القصّ بعضها وأبقى بقعًا بنفسجية. الجزيرة = مجموعة رسم متصلة ليست أكبرها، مساحتها ≤ max_share
+    من الأكبر، ومتوسط ميلها إلى لون المفتاح (أدنى قنواته القوية ناقص أعلى قنواته الضعيفة) ≥ min_tint؛ قطرات الماء والرذاذ الرمادية
+    ميلها قرب الصفر فتبقى. البرومبت يمنع هذه الألوان، وهذا حارس الكود لما يخالفه المولّد. enabled: false ← كما هي."""
+    import cv2
+    import numpy as np
+    ic = ccfg(cfg).get("islands") or {}
+    if not ic.get("enabled", False):
+        return rgba
+    mask = (rgba[..., 3] > 127).astype(np.uint8)
+    n, labels, stats, _ = cv2.connectedComponentsWithStats(mask, connectivity=8)
+    if n <= 2:
+        return rgba
+    strong = [k for k in range(3) if key[k] >= 200]
+    weak = [k for k in range(3) if key[k] < 200]
+    if not strong or not weak:
+        return rgba
+    rgb = rgba[..., :3].astype(np.float32)
+    tint = rgb[..., strong].min(axis=2) - rgb[..., weak].max(axis=2)
+    largest = int(stats[1:, cv2.CC_STAT_AREA].max())
+    out = rgba.copy()
+    for i in range(1, n):
+        area = int(stats[i, cv2.CC_STAT_AREA])
+        if area >= largest or area > float(ic.get("max_share", 0.05)) * largest:
+            continue
+        sel = labels == i
+        if float(tint[sel].mean()) >= float(ic.get("min_tint", 25)):
+            out[..., 3][sel] = 0
+    return out
 
 
 def key_holes(rgb, valid, cfg):
@@ -505,7 +538,9 @@ def plan(draft: dict, cfg: Any, client=None) -> dict | None:
     draw_thinker(draft, cfg, key)
     try:
         # 28/11: المشهد المبني قطعةً قطعة أولًا؛ فشله (لا مخطط، لا صورة) ← القطع المنفصلة كما كانت، وسببه في scene_error
-        if scene_mode(cfg) and _plan_scene(draft, cfg, client, key, rec):
+        # السيناريو 2054: مشهد رُسم وقرأه المشاهد غير المقصود ← لا كاريكاتير (stop)، لا القطع المنفصلة التي لا تُقرأ
+        outcome = _plan_scene(draft, cfg, client, key, rec) if scene_mode(cfg) else ""
+        if outcome:
             draft["hook_cartoon"] = rec
             return rec
         con, why = concept(draft["script"], cfg, client)
@@ -803,6 +838,26 @@ def isolate_prompt(piece: dict, con: dict, cfg) -> str:
     return str(scfg(cfg).get("isolate_prompt", "Keep only {element}.")).format(element=piece["element_en"], others=others)
 
 
+def layer_problems(scene, lay, k: int, cfg) -> list[tuple[str, str]]:
+    """مخالفات طبقة واحدة مقابل رسم المشهد (دالة خالصة): [(الرمز، النص)] — outside: نسبتها داخل رسم المشهد < min_inside (أزاحها
+    المولّد أو رسم غيرها)، whole: مساحتها من رسم المشهد > max_layer_share (أعاد المشهد كله)، empty: لا رسم. الرمز يختار تلميح إعادة العزل."""
+    import numpy as np
+    sc = scfg(cfg)
+    smask = np.asarray(scene)[..., 3] > 127
+    m = np.asarray(lay)[..., 3] > 127
+    area = int(m.sum())
+    if area == 0:
+        return [("empty", f"الطبقة {k + 1} فارغة")]
+    out = []
+    inside = round(float((m & smask).sum()) / area, 3)
+    share = round(area / max(int(smask.sum()), 1), 3)
+    if inside < float(sc.get("min_inside", 0.85)):
+        out.append(("outside", f"الطبقة {k + 1} خارج موضعها في المشهد ({inside})"))
+    if share > float(sc.get("max_layer_share", 0.8)):
+        out.append(("whole", f"الطبقة {k + 1} تكاد تكون المشهد كله ({share})"))
+    return out
+
+
 def verify_layers(scene, layers: list, cfg) -> dict:
     """هل تعود الطبقات المعزولة صورة المشهد نفسها؟ (دالة خالصة على مصفوفات RGBA بمقاس واحد، مرتّبة بالعمق من الخلف).
     inside: نسبة كل طبقة الواقعة داخل رسم المشهد (طبقة أزاحها المولّد أو رسم غيرها تقع خارجه) ≥ scene.min_inside؛ share: مساحتها من
@@ -825,12 +880,7 @@ def verify_layers(scene, layers: list, cfg) -> dict:
         union |= m
         al = a[..., 3:4] / 255.0
         comp = comp * (1 - al) + a[..., :3] * al
-        if inside[-1] < float(sc.get("min_inside", 0.85)):
-            reasons.append(f"الطبقة {k + 1} خارج موضعها في المشهد ({inside[-1]})")
-        if share[-1] > float(sc.get("max_layer_share", 0.8)):
-            reasons.append(f"الطبقة {k + 1} تكاد تكون المشهد كله ({share[-1]})")
-        if int(m.sum()) == 0:
-            reasons.append(f"الطبقة {k + 1} فارغة")
+        reasons += [text for _, text in layer_problems(scene, lay, k, cfg)]
     iou = round(float((union & smask).sum()) / max(int((union | smask).sum()), 1), 3)
     diff = round(float(np.abs(comp[smask & union] - s[..., :3][smask & union]).mean()) if (smask & union).any() else 255.0, 1)
     if iou < float(sc.get("min_iou", 0.75)):
@@ -840,6 +890,127 @@ def verify_layers(scene, layers: list, cfg) -> dict:
     return {"ok": not reasons, "reasons": reasons, "inside": inside, "share": share, "iou": iou, "diff": diff}
 
 
+def residual_layer(scene, layers: list, cfg) -> tuple[Any, int | None]:
+    """ما بقي من رسم المشهد خارج الطبقات السليمة حين فشل عزل عنصر واحد (دالة خالصة). السيناريو 2054: فشل عزل عنصر فسقطت معه طبقتان
+    سليمتان ونزل المشهد كله قطعة واحدة. البقية تُقصّ من بكسلات المشهد نفسه (لا رسم جديد)، والمجموعات أصغر من residual_min_share من رسم
+    المشهد تُهمل (حواف التنعيم). يعيد (طبقة RGBA بمقاس المشهد أو None إن لم يبقَ شيء، فهرس الطبقة التي تلامسها البقية أكثر أو None إن
+    لم تلامس شيئًا): الملامسة تعني أن العنصر متشابك بغيره (الحبل بين اليدين) فيُدمج معه، وغير الملامس عنصر قائم وحده فيصير طبقته."""
+    import cv2
+    import numpy as np
+    from PIL import Image
+    sc = scfg(cfg)
+    s = np.asarray(scene)
+    smask = s[..., 3] > 127
+    masks = [np.asarray(L)[..., 3] > 127 for L in layers]
+    union = np.zeros(smask.shape, bool)
+    for m in masks:
+        union |= m
+    rest = (smask & ~union).astype(np.uint8)
+    n, labels, stats, _ = cv2.connectedComponentsWithStats(rest, connectivity=8)
+    floor = float(sc.get("residual_min_share", 0.01)) * max(int(smask.sum()), 1)
+    keep = np.zeros(smask.shape, bool)
+    for i in range(1, n):
+        if stats[i, cv2.CC_STAT_AREA] >= floor:
+            keep |= labels == i
+    if not keep.any():
+        return None, None
+    px = int(sc.get("contact_px", 3))
+    grown = cv2.dilate(keep.astype(np.uint8), np.ones((2 * px + 1, 2 * px + 1), np.uint8)) > 0
+    contact = [int((grown & m).sum()) for m in masks]
+    into = max(range(len(masks)), key=lambda k: contact[k]) if contact and max(contact) > 0 else None
+    out = np.zeros_like(s)
+    out[keep] = s[keep]
+    return Image.fromarray(out, "RGBA"), into
+
+
+def merge_layers(base, extra):
+    """طبقة واحدة من طبقتين بمقاس واحد: الإضافة تُرسم فوق الأصل حيث لها رسم."""
+    from PIL import Image
+    out = base.copy()
+    out.alpha_composite(extra)
+    return out if out.mode == "RGBA" else out.convert("RGBA")
+
+
+def earliest_trigger(triggers: list[str], title: str, cfg) -> str:
+    """أسبق كلمة نزول في السؤال (دالة خالصة): القطعة المدموجة تنزل عند أسبق كلمتي عنصريها فلا تتأخر عن ذكر أحدهما."""
+    from . import reel_figures
+    best, at = "", None
+    for t in triggers:
+        j = reel_figures.mention_index(t, title, cfg) if t else None
+        if j is not None and (at is None or j < at):
+            best, at = t, j
+    return best
+
+
+# ───────────── القراءة العمياء (السيناريو 2054) ─────────────
+# الفكرة كُتبت «الناقلة تنفلت من قبضته» والمولّد رسم ترامب يجرّ ناقلة مربوطة، فقرأها المشاهد «الحصار ينجح» على سؤال مفتوح، ولا شيء في
+# السلسلة يقرأ الصورة بعد رسمها. نموذج يرى الصورة وحدها بلا الفكرة ولا الأسماء يقول ما يفهمه مشاهد لم يقرأ شيئًا (إن لم يعرف أن
+# الناقلة إيرانية فالمشاهد لن يعرف)، ثم حكم نصي يقارن القراءة بالفكرة والسؤال.
+
+READ_TOOL = {
+    "name": "read_cartoon",
+    "description": "ما يفهمه مشاهد يرى هذا الكاريكاتير لثانيتين ولم يقرأ عنه شيئًا",
+    "input_schema": {"type": "object", "properties": {
+        "reading_ar": {"type": "string", "description": "جملة أو جملتان: من في الرسم (كما يُعرف من ملامحه أو ألوانه فقط)، وماذا يحدث، ومن يغلب"},
+        "unknown_ar": {"type": "string", "description": "ما لا يُعرف من الرسم (طرف لا يدل عليه شيء)، وإلا فارغ"}},
+        "required": ["reading_ar", "unknown_ar"]},
+}
+
+JUDGE_TOOL = {
+    "name": "judge_reading",
+    "description": "هل يفهم المشاهد من الرسم ما أُريد منه؟",
+    "input_schema": {"type": "object", "properties": {
+        "verdict": {"type": "string", "enum": ["match", "contradicts", "decides_open", "unclear"]},
+        "reason_ar": {"type": "string", "description": "السبب بجملة واحدة"}},
+        "required": ["verdict", "reason_ar"]},
+}
+
+
+def rdcfg(cfg) -> dict:
+    return scfg(cfg).get("reading") or {}
+
+
+def _jpeg_block(img, cfg) -> dict:
+    from io import BytesIO
+    buf = BytesIO()
+    im = img.convert("RGB")
+    side = int(rdcfg(cfg).get("max_side", 800))
+    im.thumbnail((side, side))
+    im.save(buf, "JPEG", quality=85)
+    return {"type": "image", "source": {"type": "base64", "media_type": "image/jpeg",
+                                        "data": base64.b64encode(buf.getvalue()).decode()}}
+
+
+def read_scene(img, con: dict, title: str, cfg, client=None) -> dict:
+    """{reading, unknown, verdict, reason} أو {error}. القراءة بلا الفكرة ولا الأسماء، والحكم يراها مع الفكرة والسؤال وعلاقاته. لا يرفع."""
+    from .meta_topics import _tool_input
+    rd = rdcfg(cfg)
+    try:
+        r1 = _create(client, cfg=cfg, model=rd.get("read_model", "claude-sonnet-5"), max_tokens=int(rd.get("max_tokens", 800)),
+                     system=str(rd.get("read_system", "")), tools=[READ_TOOL],
+                     tool_choice={"type": "tool", "name": READ_TOOL["name"]},
+                     messages=[{"role": "user", "content": [_jpeg_block(img, cfg), {"type": "text", "text": str(rd.get("read_prompt", ""))}]}])
+        got = _tool_input(r1, READ_TOOL["name"]) or {}
+        reading = " ".join(str(got.get("reading_ar") or "").split())
+        if not reading:
+            return {"error": "لم تُرجع القراءة"}
+        unknown = " ".join(str(got.get("unknown_ar") or "").split())
+        rels = "؛ ".join(f"{r['a_ar']} {r['verb_ar']} {r['b_ar']}" for r in con.get("relations") or [])
+        msg = (f"سؤال الهوك: {title}\nالفكرة المقصودة: {con.get('idea_ar', '')}\nالعلاقات المقصودة: {rels}\n\n"
+               f"ما فهمه مشاهد لم يقرأ شيئًا: {reading}\nما لم يعرفه: {unknown or 'لا شيء'}")
+        r2 = _create(client, cfg=cfg, model=rd.get("judge_model", "claude-sonnet-5"), max_tokens=int(rd.get("max_tokens", 800)),
+                     system=str(rd.get("judge_system", "")), tools=[JUDGE_TOOL],
+                     tool_choice={"type": "tool", "name": JUDGE_TOOL["name"]}, messages=[{"role": "user", "content": msg}])
+        verdict = _tool_input(r2, JUDGE_TOOL["name"]) or {}
+        v = str(verdict.get("verdict") or "")
+        if v not in ("match", "contradicts", "decides_open", "unclear"):
+            return {"reading": reading, "unknown": unknown, "error": "لم يُرجع الحكم"}
+        return {"reading": reading, "unknown": unknown, "verdict": v, "reason": " ".join(str(verdict.get("reason_ar") or "").split())}
+    except Exception as exc:  # noqa: BLE001 -- القراءة تحسين: عطلها لا يُسقط الرسم
+        log.warning("تعذّرت قراءة الكاريكاتير: %s", str(exc)[:150])
+        return {"error": f"{type(exc).__name__}: {str(exc)[:120]}"}
+
+
 def _png_part(img) -> dict:
     from io import BytesIO
     buf = BytesIO()
@@ -847,69 +1018,145 @@ def _png_part(img) -> dict:
     return {"inlineData": {"mimeType": "image/png", "data": base64.b64encode(buf.getvalue()).decode()}}
 
 
-def _plan_scene(draft: dict, cfg, client, key: str, rec: dict) -> bool:
-    """المشهد: المخطط ← الصورة كاملة ← عزل كل عنصر ← التحقق. يملأ rec ويعيد True إن صار جاهزًا (scene أو whole)، وFalse ليجرّب
-    plan القطع المنفصلة. لا يرفع."""
+def _isolate(scene_rgb, scene, piece: dict, con: dict, cfg, key: str, hint: str = "") -> tuple[Any, float, str]:
+    """(طبقة RGBA بمقاس المشهد أو None، الكلفة، السبب): نداء عزل واحد بالصورة نفسها، وhint تلميح إعادة بعد مخالفة."""
     from PIL import Image
+    text = isolate_prompt(piece, con, cfg) + (f"\n\n{hint}" if hint else "")
+    img, cost, err = _gen_image([_png_part(scene_rgb), {"text": text}], cfg, key)
+    if img is not None and abs(img.size[0] / img.size[1] - scene.size[0] / scene.size[1]) > 0.02:
+        return None, cost, "مقاس الطبقة يخالف المشهد"
+    lay = cutout(img.resize(scene.size, Image.LANCZOS), cfg, crop=False) if img is not None else None
+    return lay, cost, ("" if lay is not None else (err or "لم تُفصل عن خلفيتها"))
 
+
+def _draw_read(con: dict, title: str, cfg, client, key: str, rec: dict) -> tuple[Any, Any, float, str]:
+    """يرسم المشهد ويقرؤه قراءة عمياء؛ غير المطابق يُعاد رسمه حتى max_redraws مرة بالقراءة وسببها. (صورة RGB، المشهد بلا خلفية، الكلفة،
+    سبب الإيقاف): سبب غير فارغ مع مشهد ← القراءة خالفت بعد كل المحاولات (لا كاريكاتير)؛ بلا مشهد ← فشل الرسم نفسه."""
+    rd = rdcfg(cfg)
+    usd, note, attempts = 0.0, "", []
+    tries = 1 + (int(rd.get("max_redraws", 1)) if rd.get("enabled", False) else 0)
+    scene_rgb = scene = None
+    for _ in range(tries):
+        prompt = scene_prompt(con, cfg) + (f"\n\n{note}" if note else "")
+        scene_rgb, cost, err = _gen_image([{"text": prompt}], cfg, key)
+        usd += cost
+        scene = cutout(scene_rgb, cfg, crop=False) if scene_rgb is not None else None
+        if scene is None:
+            return None, None, usd, err or "لم يُفصل المشهد عن خلفيته"
+        if not rd.get("enabled", False):
+            return scene_rgb, scene, usd, ""
+        got = read_scene(scene, con, title, cfg, client)
+        attempts.append(got)
+        rec["reading"] = {**got, "attempts": len(attempts)}
+        if got.get("error") or got.get("verdict") == "match":
+            return scene_rgb, scene, usd, ""
+        note = str(rd.get("redraw_note", "")).format(reading=got.get("reading", ""), reason=got.get("reason", ""),
+                                                     idea=con.get("idea_ar", ""))
+    last = attempts[-1] if attempts else {}
+    t = ccfg(cfg).get("texts") or {}
+    return scene_rgb, scene, usd, str(t.get("reading_failed", "يفهم المشاهد غير المقصود: {reading} ({reason})")).format(
+        reading=last.get("reading", ""), reason=last.get("reason", ""))
+
+
+def _plan_scene(draft: dict, cfg, client, key: str, rec: dict) -> str:
+    """المشهد: المخطط ← الصورة كاملة ← القراءة العمياء ← عزل كل عنصر ← التحقق. يعيد "ready" (scene أو whole)، أو "stop" (رُسم المشهد
+    وقرأه المشاهد غير المقصود: لا كاريكاتير، لأن القطع المنفصلة لا تُقرأ فتمرّ بالخطأ نفسه)، أو "" ليجرّب plan القطع المنفصلة. لا يرفع.
+    عنصر فشل عزله يُعاد مرة بتلميح سببه، ثم يُقصّ من بكسلات المشهد ما بقي خارج الطبقات السليمة: يُدمج مع ما يلامسه أو يصير طبقته
+    (السيناريو 2054: فشل عنصر واحد فنزل المشهد كله قطعة واحدة ورُميت طبقتان سليمتان)."""
     from . import costs, store
     con, why = scene_concept(draft["script"], cfg, client)
     if not con:
         rec["scene_error"] = why
-        return False
-    usd = 0.0
-    scene_rgb, cost, err = _gen_image([{"text": scene_prompt(con, cfg)}], cfg, key)
-    usd += cost
-    scene = cutout(scene_rgb, cfg, crop=False) if scene_rgb is not None else None
+        return ""
+    sc = scfg(cfg)
+    title = str(draft["script"].get("title") or "")
+    rec.update({"idea_ar": con["idea_ar"], "basis_ar": con["basis_ar"], "prompt_en": con["prompt_en"],
+                "relations": con["relations"], "model": str(ccfg(cfg).get("model", "")),
+                "scene_pieces": [{k: p[k] for k in ("name_ar", "element_en", "trigger_ar", "enter", "z")} for p in con["pieces"]]})
+    scene_rgb, scene, usd, stop = _draw_read(con, title, cfg, client, key, rec)
     if scene is None:
         costs.add("gemini", round(usd, 4))
-        rec["scene_error"] = err or "لم يُفصل المشهد عن خلفيته"
-        return False
+        rec["cost_usd"] = round(usd, 4)
+        rec["scene_error"] = stop
+        return ""
+    if stop:
+        costs.add("gemini", round(usd, 4))
+        rec.update(cost_usd=round(usd, 4), error=stop)
+        return "stop"
     out_dir = store.draft_dir()
     out_dir.mkdir(parents=True, exist_ok=True)
     rel = f"drafts/{out_dir.name}"
     full = out_dir / f"{draft['id']}-cartoon-scene.png"
     scene.save(full, "PNG")
-    layers, failed = [], ""
-    ordered = sorted(con["pieces"], key=lambda p: p["z"])
-    for k, piece in enumerate(ordered):
-        img, cost, err = _gen_image([_png_part(scene_rgb), {"text": isolate_prompt(piece, con, cfg)}], cfg, key)
+    hints = sc.get("retry_hints") or {}
+    good, bad, layers_log = [], [], []
+    for piece in sorted(con["pieces"], key=lambda p: p["z"]):
+        lay, cost, err = _isolate(scene_rgb, scene, piece, con, cfg, key)
         usd += cost
-        if img is not None and abs(img.size[0] / img.size[1] - scene.size[0] / scene.size[1]) > 0.02:
-            img, err = None, "مقاس الطبقة يخالف المشهد"
-        lay = cutout(img.resize(scene.size, Image.LANCZOS), cfg, crop=False) if img is not None else None
-        if lay is None:
-            failed = f"{piece['name_ar']}: {err or 'لم تُفصل عن خلفيتها'}"
-            break
-        layers.append((piece, lay))
-    check = verify_layers(scene, [lay for _, lay in layers], cfg) if layers and not failed else None
+        probs = layer_problems(scene, lay, len(good), cfg) if lay is not None else [("failed", err)]
+        retried = False
+        if probs:
+            retried = True
+            hint = str(hints.get(probs[0][0], hints.get("failed", ""))).format(element=piece["element_en"])
+            lay, cost, err = _isolate(scene_rgb, scene, piece, con, cfg, key, hint)
+            usd += cost
+            probs = layer_problems(scene, lay, len(good), cfg) if lay is not None else [("failed", err)]
+        layers_log.append({"name_ar": piece["name_ar"], "ok": not probs, "retried": retried, "reasons": [t for _, t in probs]})
+        if probs:
+            bad.append(piece)
+        else:
+            good.append([dict(piece), lay])
+    t = ccfg(cfg).get("texts") or {}
+    fallback = ""
+    if bad and len(bad) > 1:
+        fallback = "؛ ".join(f"{p['name_ar']}: {'، '.join(r for L in layers_log if L['name_ar'] == p['name_ar'] for r in L['reasons'])}"
+                            for p in bad)[:300]
+    elif bad and good:
+        extra, into = residual_layer(scene, [lay for _, lay in good], cfg)
+        piece = bad[0]
+        entry = next(L for L in layers_log if L["name_ar"] == piece["name_ar"])
+        if extra is None:
+            entry["dropped"] = True
+        elif into is None:
+            good.append([dict(piece, from_scene=True), extra])
+            good.sort(key=lambda g: g[0]["z"])
+            entry["from_scene"] = True
+        else:
+            host = good[into][0]
+            host["merged"] = host.get("merged", []) + [piece["name_ar"]]
+            host["trigger_ar"] = earliest_trigger([host["trigger_ar"], piece["trigger_ar"]], title, cfg)
+            good[into][1] = merge_layers(good[into][1], extra)
+            entry["merged_into"] = host["name_ar"]
+    elif bad:
+        fallback = "؛ ".join(layers_log[-1]["reasons"])[:300]
+    rec["layers"] = layers_log
+    check = verify_layers(scene, [lay for _, lay in good], cfg) if len(good) >= 2 and not fallback else None
     usd = round(usd, 4)
     costs.add("gemini", usd)
-    rec.update({"idea_ar": con["idea_ar"], "basis_ar": con["basis_ar"], "prompt_en": con["prompt_en"],
-                "relations": con["relations"], "cost_usd": usd, "model": str(ccfg(cfg).get("model", "")),
-                "scene_path": f"{rel}/{full.name}"})
+    rec.update({"cost_usd": usd, "scene_path": f"{rel}/{full.name}"})
     if check is not None:
         rec["scene_check"] = {k: v for k, v in check.items() if k != "ok"}
     prev = out_dir / f"{draft['id']}-cartoon.png"
     w, h = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
     if check is not None and check["ok"]:
         pieces = []
-        for k, (piece, lay) in enumerate(layers):
+        for k, (piece, lay) in enumerate(good):
             path = out_dir / f"{draft['id']}-cartoon-{k}.png"
             lay.save(path, "PNG")
             pieces.append({**piece, "path": f"{rel}/{path.name}", "canvas": True})
         rec.update(status="ready", mode="scene", pieces=pieces)
     else:
-        # سلّم التراجع: المشهد كاملًا قطعة واحدة تنزل عند أول كلمة نزول (أضعف من البناء، لكنه كاريكاتير المشهد نفسه)
-        rec["scene_fallback"] = failed or "؛ ".join((check or {}).get("reasons") or [])[:300]
-        first = next((p for p in con["pieces"] if p["trigger_ar"]), None)
+        # سلّم التراجع الأخير: المشهد كاملًا قطعة واحدة تنزل عند أسبق كلمة نزول (طبقة واحدة باقية هي المشهد نفسه)
+        rec["scene_fallback"] = fallback or "؛ ".join((check or {}).get("reasons") or []) or str(
+            t.get("one_layer", "لم يبقَ إلا عنصر واحد"))
+        rec["scene_fallback"] = rec["scene_fallback"][:300]
+        first = earliest_trigger([p["trigger_ar"] for p in con["pieces"]], title, cfg)
         rec.update(status="ready", mode="whole", pieces=[{
-            "name_ar": str((ccfg(cfg).get("texts") or {}).get("scene_whole_name", "المشهد")), "person_ar": "",
-            "trigger_ar": first["trigger_ar"] if first else "", "enter": "bottom", "z": 0,
+            "name_ar": str(t.get("scene_whole_name", "المشهد")), "person_ar": "", "trigger_ar": first, "enter": "bottom", "z": 0,
             "path": f"{rel}/{full.name}", "canvas": True}])
     scene_preview(scene, cfg, w, h).save(prev, "PNG")
     rec["path"] = f"{rel}/{prev.name}"
-    return True
+    return "ready"
 
 
 def scene_preview(scene, cfg, w: int, h: int):
@@ -956,10 +1203,19 @@ def scene_review_lines(rec: dict, cfg) -> list[str]:
     t = (ccfg(cfg).get("texts") or {})
     dirs = t.get("directions") or {"left": "من اليسار", "right": "من اليمين", "bottom": "من الأسفل"}
     out = []
+    rd = rec.get("reading") or {}
+    if rd.get("reading"):
+        out.append("  <sub>" + str(t.get("reading", "👁️ يفهم المشاهد: {reading}")).format(reading=rd["reading"]) + "</sub>")
     for p in rec.get("pieces") or []:
         trig = p.get("trigger_ar") or t.get("no_trigger", "بعد السؤال")
+        name = " + ".join([p.get("name_ar", "")] + list(p.get("merged") or []))
         out.append("  <sub>" + str(t.get("scene_piece", "⬇️ {name} ← عند «{trigger}» · {dir}")).format(
-            name=p.get("name_ar", ""), trigger=trig, dir=dirs.get(p.get("enter", "bottom"), "")) + "</sub>")
+            name=name, trigger=trig, dir=dirs.get(p.get("enter", "bottom"), "")) + "</sub>")
+    for L in rec.get("layers") or []:
+        key = "layer_merged" if L.get("merged_into") else "layer_from_scene" if L.get("from_scene") else \
+            "layer_dropped" if L.get("dropped") else ""
+        if key:
+            out.append("  <sub>" + str(t.get(key, "")).format(name=L.get("name_ar", ""), into=L.get("merged_into", "")) + "</sub>")
     for r in rec.get("relations") or []:
         out.append("  <sub>" + str(t.get("scene_relation", "🧵 {a} {verb} {b} ← الإجابة {basis}")).format(
             a=r.get("a_ar", ""), verb=r.get("verb_ar", ""), b=r.get("b_ar", ""),

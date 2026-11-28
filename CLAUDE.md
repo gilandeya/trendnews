@@ -1899,6 +1899,27 @@ step (`article.wide_days`).
 - `render_version` = 98. `tests.helpers.load_config` يطفئه؛ الاختبار `tests/test_youtube.py:test_reel_cartoon_scene_2811`. **لم يُجرَّب على Gemini حقيقي:**
   دقة العزل الموضعية مجهولة، وأرقام `scene_check` في المسودة هي القياس الأول.
 
+## كاريكاتير يُقرأ قبل أن يُعتمد، وعنصر فاشل لا يُسقط المشهد (السيناريو 2054، 28/11) — `reel_cartoon.read_scene`، `residual_layer`
+
+الحادثة (المسودة `drafts/2026-11-28/e7d352967a28.json`): الفكرة «ناقلة تنفلت من حبل ترامب» رُسمت ترامب يجرّ ناقلة مربوطة، فيُقرأ «الحصار ينجح» على
+سؤال مفتوح، والناقلة بلا علامة تدل على إيران؛ وبقع بنفسجية من «faint economic distress symbols» في الوصف؛ وفشل عزل عنصر واحد (الطبقة 1
+= 94% من المشهد) أنزل المشهد كله قطعة واحدة ورمى طبقتين سليمتين. الاختبار `tests/test_youtube.py:test_reel_cartoon_reading_2054`.
+`render_version` بلا تغيير (لا شيء في التركيب).
+- **القراءة العمياء (`scene.reading`):** بعد رسم المشهد وقبل العزل، `read_scene`: Sonnet يرى الصورة وحدها (بلا الفكرة ولا الأسماء) ويقول ما يفهمه
+  مشاهد لم يقرأ شيئًا، ثم حكم نصي بالفكرة والسؤال والعلاقات (match · contradicts · decides_open · unclear). غير المطابق يُعاد رسمه `max_redraws`
+  مرة بالقراءة وسببها (`redraw_note`)، وبقاؤه ← `status: none` بسبب `texts.reading_failed` ولا تُجرَّب القطع المنفصلة (`_plan_scene` يعيد "stop").
+  عطل القراءة لا يمنع الرسم. `hook_cartoon.reading` وسطر «👁️ يفهم المشاهد» في القضية.
+- **قواعد المخطط (`scene.system` 7–10):** كل طرف يُعرف بلا كتابة (زعيم بملامحه، بلد بألوان علمه على شيئه)؛ السؤال المفتوح توتر لا نتيجة؛ لا
+  رموز خلفية؛ الأداة الواصلة (حبل، قيد) جزء من عنصر من يمسكها. و`scene_style` يمنع الوردي والبنفسجي والباهت. `aspect` 4:3.
+- **الجزر (`islands`):** `drop_key_islands` في `cutout` (كل قصّ): جزيرة رسم ليست أكبرها، ≤ `max_share` منها، ومتوسط ميلها إلى لون المفتاح
+  ≥ `min_tint` ← تُحذف. على صورة 2054: الترس والنبتة والبقعة حُذفت والرذاذ بقي. `tests.helpers.load_config` يطفئه.
+- **عنصر فاشل:** `layer_problems` لكل طبقة؛ المخالف يُعزل ثانيةً بتلميح سببه (`scene.retry_hints`)، ثم `residual_layer` يقصّ ما بقي من رسم
+  المشهد خارج الطبقات السليمة: يلامس طبقة ← يُدمج معها (`merged`) وتنزل عند أسبق كلمتيهما (`earliest_trigger`)، لا يلامس ← طبقته من بكسلات
+  المشهد (`from_scene`)، لا شيء ← يُترك. عنصران فاشلان فأكثر ← المشهد كاملًا. `hook_cartoon.layers` و`scene_pieces` يُحفظان دائمًا، وسطر «🧩»
+  في القضية.
+- **فرض الأداة (`llm.create`):** «tool_choice: type "tool" and "any" are not supported» (Opus 5.5 في `reel.quote.rank_model`) أسقط اقتباس
+  المفكر في كل ريل. الرفض ← إعادة النداء بـ`tool_choice: auto` وتذكّر النموذج للعملية (`_TOOL_CHOICE_REJECTED`).
+
 ## Retired paths
 
 - **«مقال» (`src/article.py`, label `مقال`, `.github/workflows/article.yml`) and «طلب» (`src/request.py`, label `طلب`

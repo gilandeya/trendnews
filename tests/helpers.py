@@ -95,6 +95,9 @@ def load_config(path=None):
         # المشهد المبني قطعةً قطعة (28/11) يغيّر مسار الكاريكاتير الذي تثبّته اختبارات القطع المنفصلة؛ test_reel_cartoon_scene_2811 يطلبه
         if isinstance(cfg.get("reel", {}).get("cartoon", {}).get("scene"), dict):
             cfg["reel"]["cartoon"]["scene"]["enabled"] = False
+        # حذف الجزر المصبوغة بلون المفتاح (السيناريو 2054) يغيّر قصّ القطع المثبّت؛ test_reel_cartoon_reading_2054 يطلبه
+        if isinstance(cfg.get("reel", {}).get("cartoon", {}).get("islands"), dict):
+            cfg["reel"]["cartoon"]["islands"]["enabled"] = False
         # إعادة بناء السياق (28/11) نداء نموذج حين يسقط مقطع سياق؛ test_reel_context_rebuild_2811 يطلبه
         if isinstance(rcfg.get("context_rebuild"), dict):
             rcfg["context_rebuild"]["enabled"] = False
