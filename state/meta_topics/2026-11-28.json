@@ -1528,7 +1528,784 @@
     }
    ],
    "qa_requested_at": "2026-11-28T10:59:55.882675+00:00",
-   "selected_from": 2052
+   "selected_from": 2052,
+   "topic_issue": 2058,
+   "qa": {
+    "attempts": 1,
+    "at": "2026-11-28T11:02:36.141555+00:00",
+    "videos": [
+     {
+      "video_id": "gtCbSN4EHts",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "minutes": 51.0,
+      "bites": 12,
+      "rejected": 0
+     },
+     {
+      "video_id": "5MX21Y0IMTU",
+      "channel": "BBC News",
+      "bloc": "english",
+      "minutes": 11.6,
+      "bites": 5,
+      "rejected": 0
+     },
+     {
+      "video_id": "fc-39637-qo",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "minutes": 34.0,
+      "bites": 0,
+      "rejected": 0,
+      "error": "Gemini HTTP 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spike"
+     },
+     {
+      "video_id": "J3s0Yl3Ro2g",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "minutes": 25.9,
+      "bites": 0,
+      "rejected": 0
+     },
+     {
+      "video_id": "Z-uinCCyWuU",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "minutes": 15.2,
+      "bites": 4,
+      "rejected": 0
+     },
+     {
+      "video_id": "KumC103WOvI",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "minutes": 12.9,
+      "bites": 6,
+      "rejected": 0
+     },
+     {
+      "video_id": "MpEcr0JLRTU",
+      "channel": "BBC News",
+      "bloc": "english",
+      "minutes": 3.6,
+      "bites": 3,
+      "rejected": 0
+     },
+     {
+      "video_id": "qDnvIXWalKk",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "minutes": 14.9,
+      "bites": 6,
+      "rejected": 0,
+      "extra": true
+     },
+     {
+      "video_id": "YovMPFgHPJ0",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "minutes": 12.9,
+      "bites": 4,
+      "rejected": 0,
+      "extra": true
+     },
+     {
+      "video_id": "lBDzUhsTgXs",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "minutes": 13.4,
+      "bites": 6,
+      "rejected": 0,
+      "extra": true
+     }
+    ],
+    "video_scores": {
+     "MpEcr0JLRTU": 1,
+     "5MX21Y0IMTU": 2,
+     "fc-39637-qo": 1,
+     "qDnvIXWalKk": 1,
+     "qKBJMCIiO_A": 1,
+     "J3s0Yl3Ro2g": 2,
+     "_Vr3xs4GPMQ": 1,
+     "Z-uinCCyWuU": 1,
+     "aQL0psnAuho": 1,
+     "60l89KjiAQs": 1,
+     "BS_P7blHjZY": 1,
+     "lBDzUhsTgXs": 1,
+     "wveHDWqRKbQ": 1,
+     "gtCbSN4EHts": 2,
+     "McIO1KbC8f0": 2,
+     "KumC103WOvI": 2,
+     "YovMPFgHPJ0": 2
+    },
+    "gemini_cost": 0.7478,
+    "gemini_rejected": 0,
+    "channels": 4,
+    "answer_channels": 4,
+    "originals": [
+     {
+      "bite_id": "KumC103WOvI:g1235",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "محمد الفرح"
+      ],
+      "candidate": "5xK7UUIqVYY",
+      "candidates": [
+       "Gusr5sXklAg",
+       "fzSDLEKrguw",
+       "5xK7UUIqVYY"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "gtCbSN4EHts:g1218",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "عبدالله الوشلي كلمة العدو السعودي الإجرام",
+       "عبدالله الوشلي خطاب العدوان السعودي الشعب اليمني",
+       "Abdullah Al-Washli speech Saudi aggression Yemen",
+       "عبدالله الوشلي"
+      ],
+      "candidate": "shZIYOhX3Uc",
+      "candidates": [
+       "AoWQxqrh0v4",
+       "_HyjaLRIKZM",
+       "shZIYOhX3Uc"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "gtCbSN4EHts:g1266",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "عبدالله النعمي استهداف المركز المالي رأس تنورة",
+       "عبدالله النعمي خطاب السعودية ستعض أصابع الندم",
+       "عبدالله النعمي"
+      ],
+      "candidate": "I3taEPVAf0g",
+      "candidates": [
+       "NKNi61HBU7M",
+       "I3taEPVAf0g"
+      ],
+      "reason": "لم يُعثر على الكلام"
+     },
+     {
+      "bite_id": "gtCbSN4EHts:g1346",
+      "source_channel": "",
+      "found": false,
+      "queries": [
+       "يحيى سريع ميناء جدة ميناء جيزان بيان",
+       "Yahya Saree Jeddah port Jazan port operation statement",
+       "يحيى سريع"
+      ],
+      "candidate": "VqdwBk2JxWo",
+      "candidates": [
+       "ZjZOC-dRR00",
+       "wYRAUS5zr7M",
+       "VqdwBk2JxWo"
+      ],
+      "reason": "لا ناتج مقبول (MAX_TOKENS)"
+     }
+    ],
+    "originals_found": 0,
+    "read_dropped": 1,
+    "read_dropped_speakers": [
+     "محمد الفرح"
+    ],
+    "source": "gemini",
+    "failures": [
+     {
+      "video_id": "fc-39637-qo",
+      "channel": "CNN Türk",
+      "reason": "Gemini HTTP 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spike"
+     }
+    ],
+    "not_analysts": {
+     "host": 4
+    },
+    "plan": {
+     "attempts": [
+      {
+       "model": "claude-sonnet-5",
+       "stop_reason": "tool_use",
+       "bites": 35,
+       "rows": 5,
+       "raw_type": "list",
+       "answers": 24,
+       "bad_n": 0,
+       "error": ""
+      }
+     ]
+    },
+    "verify": {
+     "checked": 28,
+     "ok": 15,
+     "no_match": 2,
+     "failed": 11,
+     "no_text": 0,
+     "left": 2,
+     "audio_seconds": 919,
+     "skipped": "",
+     "cut_off": 3,
+     "seconds": 515
+    },
+    "capped": 9,
+    "echo": {
+     "stop_reason": "tool_use",
+     "rows": 3,
+     "questions": 0,
+     "per_question": [
+      {
+       "q": 1,
+       "rejected": {},
+       "spans": 5,
+       "answers": 4,
+       "shared": 0,
+       "reason": "no_shared"
+      },
+      {
+       "q": 2,
+       "rejected": {},
+       "spans": 4,
+       "answers": 2,
+       "reason": "one_per_side"
+      },
+      {
+       "q": 3,
+       "rejected": {},
+       "spans": 4,
+       "answers": 3,
+       "shared": 0,
+       "reason": "no_shared"
+      }
+     ]
+    },
+    "selected_seconds": 97.8,
+    "status": "ready",
+    "titles": [
+     "لماذا عاد القتال بين السعودية والحوثيين الآن؟",
+     "من يكسب ميدانياً في معارك الساحل الغربي وتعز؟",
+     "هل يحسم دعم تركيا وباكستان الحرب لصالح السعودية؟"
+    ],
+    "questions": [
+     {
+      "text": "ما حجة كل طرف في تجدد التصعيد بين السعودية والحوثيين؟",
+      "answers": [
+       {
+        "n": 3,
+        "fit": "direct",
+        "view": "الرد جاء على قصف مطار صنعاء",
+        "side": "الحوثيون",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "5MX21Y0IMTU:g441"
+       },
+       {
+        "n": 6,
+        "fit": "direct",
+        "view": "استراتيجية ميناء مقابل ميناء",
+        "side": "الحوثيون",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "MpEcr0JLRTU:g220"
+       },
+       {
+        "n": 9,
+        "fit": "weak",
+        "view": "الصراع انعكاس لأزمة إيران الإقليمية",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "qDnvIXWalKk:g25"
+       },
+       {
+        "n": 1,
+        "fit": "weak",
+        "view": "الغارات السعودية هستيريا وضغط اقتصادي",
+        "side": "الحوثيون",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "gtCbSN4EHts:g700"
+       }
+      ]
+     },
+     {
+      "text": "كيف تفسَّر هجمات الحوثيين على المنشآت النفطية والموانئ السعودية؟",
+      "answers": [
+       {
+        "n": 7,
+        "fit": "direct",
+        "view": "الضربة اعتُرضت رغم ادعاء الدقة",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "MpEcr0JLRTU:g246"
+       },
+       {
+        "n": 10,
+        "fit": "direct",
+        "view": "هجمات مرتبطة بضغوط إيران الإقليمية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "qDnvIXWalKk:g220"
+       },
+       {
+        "n": 2,
+        "fit": "direct",
+        "view": "تضع الاقتصاد السعودي أمام اختبارات دقيقة",
+        "side": "الحوثيون",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "gtCbSN4EHts:g1062"
+       }
+      ]
+     },
+     {
+      "text": "من يتقدم ميدانياً في معارك الساحل الغربي وباب المندب؟",
+      "answers": [
+       {
+        "n": 8,
+        "fit": "direct",
+        "view": "القوات المدعومة سعودياً تتراجع ميدانياً",
+        "side": "السعودية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "MpEcr0JLRTU:g302"
+       },
+       {
+        "n": 4,
+        "fit": "direct",
+        "view": "سيطرة اليمنيين أربكت القيادة السعودية",
+        "side": "الحوثيون",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "KumC103WOvI:g1344"
+       },
+       {
+        "n": 5,
+        "fit": "direct",
+        "view": "إعادة الهيكلة السعودية لن تغير شيئاً",
+        "side": "الحوثيون",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "KumC103WOvI:g1517"
+       }
+      ]
+     },
+     {
+      "text": "كيف تسير المعارك حالياً في جبهات تعز ولحج؟",
+      "answers": [
+       {
+        "n": 13,
+        "fit": "direct",
+        "view": "اشتباكات عنيفة دون اختراق حوثي",
+        "side": "السعودية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "lBDzUhsTgXs:g156"
+       }
+      ]
+     },
+     {
+      "text": "هل يمكن لتركيا وباكستان تغيير موازين الحرب لصالح السعودية؟",
+      "answers": [
+       {
+        "n": 11,
+        "fit": "direct",
+        "view": "ميثاق مكة سيوقف التمدد الحوثي",
+        "side": "السعودية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "qDnvIXWalKk:g435"
+       },
+       {
+        "n": 12,
+        "fit": "direct",
+        "view": "تحالف تركيا مع السعودية لن ينجح",
+        "side": "الحوثيون",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "YovMPFgHPJ0:g1676"
+       }
+      ]
+     }
+    ],
+    "context": [
+     {
+      "n": 14,
+      "selected": true,
+      "bite_id": "YovMPFgHPJ0:g1580"
+     },
+     {
+      "n": 15,
+      "selected": true,
+      "bite_id": "gtCbSN4EHts:g1372"
+     },
+     {
+      "n": 16,
+      "selected": false,
+      "bite_id": "gtCbSN4EHts:g1218"
+     },
+     {
+      "n": 17,
+      "selected": false,
+      "bite_id": "gtCbSN4EHts:g1266"
+     }
+    ],
+    "bites": [
+     {
+      "bite_id": "gtCbSN4EHts:g700",
+      "video_id": "gtCbSN4EHts",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "ياسر الحوري",
+      "speaker_original": "ياسر الحوري",
+      "speaker_role": "محلل سياسي يمني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 699.5,
+      "end": 723.22,
+      "summary_ar": "ياسر الحوري يعتبر أن الغارات السعودية على المنشآت المدنية تعكس حالة هستيريا تهدف للضغط الاقتصادي والصحي على اليمنيين.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "gtCbSN4EHts:g1062",
+      "video_id": "gtCbSN4EHts",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "علي أبي رعد",
+      "speaker_original": "علي أبي رعد",
+      "speaker_role": "خبير عسكري واستراتيجي لبناني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1062.0,
+      "end": 1098.0,
+      "summary_ar": "علي أبي رعد يوضح أن استهداف المنشآت النفطية والمراكز المالية وضع الاقتصاد السعودي أمام اختبارات معقدة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "5MX21Y0IMTU:g441",
+      "video_id": "5MX21Y0IMTU",
+      "channel": "BBC News",
+      "bloc": "english",
+      "orientation": "بريطاني عام",
+      "speaker": "نوال المقحفي",
+      "speaker_original": "Nawal Al-Maghafi",
+      "speaker_role": "مراسلة التحقيقات الدولية في بي بي سي",
+      "is_host": false,
+      "type": "fact",
+      "start": 440.8,
+      "end": 465.42,
+      "summary_ar": "نوال المقحفي توضح حجة الحوثيين في أن تصعيدهم جاء ردًا على قصف التحالف بقيادة السعودية لمطار صنعاء.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "KumC103WOvI:g1344",
+      "video_id": "KumC103WOvI",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "رشاد الوتيري",
+      "speaker_original": "رشاد الوتيري",
+      "speaker_role": "خبير عسكري يمني",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1344.0,
+      "end": 1369.0,
+      "summary_ar": "الوتيري يؤكد أن خسارة الساحل الغربي أثارت غضب القيادة السعودية وفشلت مساعيها لتغيير المعادلة.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "KumC103WOvI:g1517",
+      "video_id": "KumC103WOvI",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "عبد الله الفرح",
+      "speaker_original": "عبد الله الفرح",
+      "speaker_role": "مدير مكتب الميادين في اليمن",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1517.0,
+      "end": 1547.0,
+      "summary_ar": "الفرح يوضح أن صنعاء تعتبر محاولات الرياض لإعادة ترتيب ألويتها جزءًا من معركة واحدة متصلة خاسرة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "MpEcr0JLRTU:g220",
+      "video_id": "MpEcr0JLRTU",
+      "channel": "BBC News",
+      "bloc": "english",
+      "orientation": "بريطاني عام",
+      "speaker": "غريغ هوليوك",
+      "speaker_original": "Greg Holyoke",
+      "speaker_role": "صحفي في بي بي سي للمراقبة",
+      "is_host": false,
+      "type": "fact",
+      "start": 220.06,
+      "end": 245.1,
+      "summary_ar": "جماعة الحوثي اليمنية تبرر استهداف ميناءي جدة وجازان السعوديين على البحر الأحمر باعتباره جزءا من استراتيجية ميناء مقابل ميناء ردا على قصف ميناء الحديدة.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "MpEcr0JLRTU:g246",
+      "video_id": "MpEcr0JLRTU",
+      "channel": "BBC News",
+      "bloc": "english",
+      "orientation": "بريطاني عام",
+      "speaker": "غريغ هوليوك",
+      "speaker_original": "Greg Holyoke",
+      "speaker_role": "صحفي في بي بي سي للمراقبة",
+      "is_host": false,
+      "type": "opinion",
+      "start": 246.6,
+      "end": 262.84,
+      "summary_ar": "حديث الحوثيين عن دقة ضربتهم لميناء جدة الإسلامي يعني عمليا اعتراضها وهو ما أكدته السلطات السعودية بتدمير المقذوف قبل إصابة هدفه.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "MpEcr0JLRTU:g302",
+      "video_id": "MpEcr0JLRTU",
+      "channel": "BBC News",
+      "bloc": "english",
+      "orientation": "بريطاني عام",
+      "speaker": "غريغ هوليوك",
+      "speaker_original": "Greg Holyoke",
+      "speaker_role": "صحفي في بي بي سي للمراقبة",
+      "is_host": false,
+      "type": "forecast",
+      "start": 302.72,
+      "end": 330.52,
+      "summary_ar": "القوات الحكومية المدعومة سعوديا تتراجع بعدة جبهات يمنية وسط ترجيح أكاديمي مقرب من الرياض دراسة المملكة إرسال مئات آلاف الجنود إلى اليمن وتثبيت وجود دائم في باب المندب.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "qDnvIXWalKk:g25",
+      "video_id": "qDnvIXWalKk",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "فاتح فؤاد تونجر",
+      "speaker_original": "Fatih Fuat Tuncer",
+      "speaker_role": "أكاديمي تركي وأستاذ مشارك بجامعة تشاناكالي 18 مارت",
+      "is_host": false,
+      "type": "opinion",
+      "start": 25.0,
+      "end": 46.0,
+      "summary_ar": "يرى تونجر أن الصراع بين الحوثيين والسعودية مرتبط بالأزمة الإيرانية وسينعكس دوريًا في البحر الأحمر ما لم تُحل قضية طهران.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "qDnvIXWalKk:g220",
+      "video_id": "qDnvIXWalKk",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "فاتح فؤاد تونجر",
+      "speaker_original": "Fatih Fuat Tuncer",
+      "speaker_role": "أكاديمي تركي وأستاذ مشارك بجامعة تشاناكالي 18 مارت",
+      "is_host": false,
+      "type": "opinion",
+      "start": 220.14,
+      "end": 255.38,
+      "summary_ar": "يرى تونجر أن الحوثيين يستهدفون المنشآت النفطية السعودية بمساعٍ إيرانية كلما تعرضت مصالح طهران للضغط.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "qDnvIXWalKk:g435",
+      "video_id": "qDnvIXWalKk",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "أليهان ليمونجو أوغلو",
+      "speaker_original": "Alihan Limoncuoğlu",
+      "speaker_role": "أكاديمي تركي وعضو هيئة التدريس بجامعة مرمرة",
+      "is_host": false,
+      "type": "forecast",
+      "start": 435.06,
+      "end": 449.72,
+      "summary_ar": "يتوقع ليمونجو أوغلو أن التحالف بين السعودية وتركيا مع دول المنطقة سيضع حداً للتمدد الحوثي في البحر الأحمر.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "YovMPFgHPJ0:g1676",
+      "video_id": "YovMPFgHPJ0",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "موسى عاصي",
+      "speaker_original": "Mousa Assi",
+      "speaker_role": "محلل الميادين للشؤون الأوروبية والدولية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1676.26,
+      "end": 1708.74,
+      "summary_ar": "يستبعد موسى عاصي نجاح السعودية في التعويل على تحالفها مع تركيا في الحرب ضد اليمن، مشيرًا إلى أن بيان اجتماع باكستان استبعد مهاجمة أي طرف.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "lBDzUhsTgXs:g156",
+      "video_id": "lBDzUhsTgXs",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "ردفان الدبيس",
+      "speaker_original": "ردفان الدبيس",
+      "speaker_role": "محلل شؤون يمنية في قناة العربية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 155.18,
+      "end": 185.52,
+      "summary_ar": "يؤكد ردفان الدبيس اندلاع اشتباكات عنيفة في غراب وجبل حبشي ونجد قسيم بتعز مع عجز الحوثيين عن تحقيق اختراق.",
+      "setting": "studio",
+      "source_channel": "",
+      "voice": "analyst",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "YovMPFgHPJ0:g1580",
+      "video_id": "YovMPFgHPJ0",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "حميد عاصم",
+      "speaker_original": "Hameed Assem",
+      "speaker_role": "عضو الوفد اليمني المفاوض",
+      "is_host": false,
+      "type": "fact",
+      "start": 1579.0,
+      "end": 1598.36,
+      "summary_ar": "يؤكد حميد عاصم وجود تحالف عسكري مباشر يجمع السعودية بالولايات المتحدة وإسرائيل وبريطانيا في حرب اليمن بدليل الأسلحة المضبوطة والخبراء.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": true
+     },
+     {
+      "bite_id": "gtCbSN4EHts:g1372",
+      "video_id": "gtCbSN4EHts",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "يحيى سريع",
+      "speaker_original": "يحيى سريع",
+      "speaker_role": "المتحدث باسم القوات المسلحة اليمنية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1372.0,
+      "end": 1385.0,
+      "summary_ar": "يحيى سريع يؤكد استعداد القوات المسلحة اليمنية للرد الفوري والمباشر على أي استهداف لميناء الحديدة.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "gtCbSN4EHts:g1218",
+      "video_id": "gtCbSN4EHts",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "عبدالله الوشلي",
+      "speaker_original": "عبدالله الوشلي",
+      "speaker_role": "نائب وزير الثقافة والسياحة في حكومة صنعاء",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1218.0,
+      "end": 1239.0,
+      "summary_ar": "عبدالله الوشلي يؤكد أن الضربات والجرائم السعودية لن تثني اليمنيين عن مواصلة الدفاع ونيل حقوقهم الكاملة.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     },
+     {
+      "bite_id": "gtCbSN4EHts:g1266",
+      "video_id": "gtCbSN4EHts",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "مقربة من النظام الإيراني",
+      "speaker": "عبدالله النعمي",
+      "speaker_original": "عبدالله النعمي",
+      "speaker_role": "عضو المكتب السياسي لحركة أنصار الله اليمنية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1266.0,
+      "end": 1288.0,
+      "summary_ar": "عبدالله النعمي يحذر من أن استهداف رأس تنورة والمركز المالي ليس سوى بداية لبنك أهداف يمني دسم داخل السعودية.",
+      "setting": "external",
+      "source_channel": "",
+      "voice": "actor",
+      "original_of": null,
+      "heard": null
+     }
+    ],
+    "error": "",
+    "extracted": 35,
+    "cost": {
+     "claude": {
+      "claude-haiku-5-5": 0.00149,
+      "claude-sonnet-5": 0.07273
+     },
+     "gemini": 0.7478,
+     "proxy_bytes": 23702478
+    }
+   }
   },
   {
    "id": "58db5515762e",
