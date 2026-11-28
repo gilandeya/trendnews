@@ -12449,6 +12449,184 @@ def test_reel_context_rebuild_2811() -> None:
     check("2811g: مقطع السياق المفحوص صوته يتقدّم ويُعلَّم أولًا", ctx and ctx[0]["n"] == 2 and ctx[0]["selected"], ctx)
 
 
+def test_reel_cartoon_reading_2054() -> None:
+    """السيناريو 2054: ترامب يجرّ ناقلة على سؤال «هل ينجح الحصار؟» (قُرئ «الحصار ينجح»)، والناقلة لا يُعرف أنها إيرانية، وبقع
+    بنفسجية من رموز خلفية «باهتة»، وفشل عزل عنصر واحد أنزل المشهد كله قطعة واحدة، واقتباس المفكر سقط لأن Opus 5.5 يرفض فرض الأداة."""
+    import base64
+    import copy
+    import io
+    import os
+    from types import SimpleNamespace as NS
+
+    import numpy as np
+    from anthropic import BadRequestError
+    from PIL import Image
+
+    from src import llm, reel_cartoon
+    from src.config import load_config as real_load
+    real = real_load()
+    check("2054: config يفعّل القراءة العمياء وحذف الجزر ونسبة 4:3",
+          real.path("reel.cartoon.scene.reading.enabled") is True and real.path("reel.cartoon.islands.enabled") is True
+          and real.path("reel.cartoon.scene.aspect") == "4:3")
+    check("2054: برومبت المشهد يمنع الزينة ويطلب علامة كل طرف والتوتر للسؤال المفتوح والأداة مع من يمسكها",
+          all(w in real.path("reel.cartoon.scene.system") for w in ("ألوان علمه", "توترًا لا نتيجة", "لا رموز خلفية", "من يمسكها")))
+    cfg = copy.deepcopy(load_config())
+    cfg["reel"]["cartoon"] = copy.deepcopy(real.path("reel.cartoon"))
+    cfg["reel"]["cartoon"]["thinker"]["enabled"] = False
+    KEY = (255, 0, 255)
+
+    # (1) الجزر: جزيرة صغيرة مصبوغة بلون المفتاح تُحذف، وقطرة رمادية صغيرة تبقى، والجسم الأكبر يبقى، ومطفأً لا شيء
+    a = np.zeros((200, 200, 4), np.uint8)
+    a[40:160, 40:120] = (90, 95, 100, 255)
+    a[10:20, 150:160] = (121, 31, 112, 255)
+    a[180:186, 150:156] = (95, 85, 100, 255)
+    out = reel_cartoon.drop_key_islands(a, KEY, cfg)
+    check("2054: الترس البنفسجي يُحذف والقطرة الرمادية والجسم يبقيان",
+          out[15, 155, 3] == 0 and out[183, 153, 3] == 255 and out[100, 80, 3] == 255)
+    off = copy.deepcopy(cfg)
+    off["reel"]["cartoon"]["islands"]["enabled"] = False
+    check("2054: الحذف مطفأً ← كما هي", (reel_cartoon.drop_key_islands(a, KEY, off) == a).all())
+
+    # (2) البقية خارج الطبقات السليمة: تلامس طبقة ← تُدمج معها، لا تلامس ← طبقتها، صغيرة ← لا شيء
+    def rgba(boxes, size=(400, 400)):
+        z = np.zeros(size + (4,), np.uint8)
+        for (y0, y1, x0, x1), col in boxes:
+            z[y0:y1, x0:x1] = (*col, 255)
+        return Image.fromarray(z, "RGBA")
+    TR, RP, SH = ((60, 300, 60, 160), (30, 160, 60)), ((170, 180, 160, 300), (200, 170, 90)), ((150, 300, 300, 390), (40, 60, 200))
+    scene = rgba([TR, RP, SH])
+    extra, into = reel_cartoon.residual_layer(scene, [rgba([TR]), rgba([SH])], cfg)
+    check("2054: الحبل بين ترامب والناقلة يلامسهما فيُدمج مع أكثرهما ملامسة",
+          extra is not None and into in (0, 1) and np.asarray(extra)[175, 230, 3] == 255 and np.asarray(extra)[100, 100, 3] == 0)
+    far = rgba([TR, ((350, 390, 250, 330), (40, 60, 200))])
+    extra2, into2 = reel_cartoon.residual_layer(far, [rgba([TR])], cfg)
+    check("2054: عنصر لا يلامس غيره ← طبقته من بكسلات المشهد", extra2 is not None and into2 is None)
+    check("2054: لا بقية ذات شأن ← لا شيء",
+          reel_cartoon.residual_layer(rgba([TR]), [rgba([TR])], cfg) == (None, None))
+    title = "هل ينجح الحصار الأمريكي في إخضاع إيران؟"
+    check("2054: القطعة المدموجة تنزل عند أسبق الكلمتين",
+          reel_cartoon.earliest_trigger(["إيران", "الحصار", ""], title, cfg) == "الحصار")
+
+    # (3) الخطة كاملة بنداءات مزيَّفة
+    def arr(names):
+        z = np.zeros((300, 400, 3), np.uint8)
+        z[:] = KEY
+        boxes = {"trump": ((40, 260, 40, 150), (30, 160, 60)), "rope": ((140, 150, 150, 250), (200, 170, 90)),
+                 "tanker": ((120, 260, 250, 380), (40, 60, 200))}
+        for n in names:
+            (y0, y1, x0, x1), col = boxes[n]
+            z[y0:y1, x0:x1] = col
+        return z
+
+    def b64(x):
+        buf = io.BytesIO()
+        Image.fromarray(x).save(buf, "PNG")
+        return base64.b64encode(buf.getvalue()).decode()
+    beh = {"rope": "whole", "tanker": "ok"}
+    calls = []
+
+    def fake_gen(body, model, key, timeout):
+        parts = body["contents"][0]["parts"]
+        text = parts[-1]["text"]
+        calls.append(text)
+        if not any("inlineData" in p for p in parts):
+            x = arr(["trump", "rope", "tanker"])
+        else:
+            el = next(n for n in ("trump", "rope", "tanker") if f"in the same drawing style: {n}" in text.lower())
+            x = arr(["trump", "rope", "tanker"]) if beh.get(el) == "whole" else arr([el])
+        return 200, {"candidates": [{"finishReason": "STOP", "content": {"parts": [
+            {"inlineData": {"mimeType": "image/png", "data": b64(x)}}]}}], "usageMetadata": {"candidatesTokenCount": 10}}, 1.0
+    pieces = [{"name_ar": "ترامب", "element_en": "trump", "trigger_ar": "الأمريكي", "enter": "left", "z": 1},
+              {"name_ar": "الحبل", "element_en": "rope", "trigger_ar": "الحصار", "enter": "left", "z": 0},
+              {"name_ar": "الناقلة", "element_en": "tanker", "trigger_ar": "إيران", "enter": "right", "z": 2}]
+    concept = {"feasible": True, "idea_ar": "حبل مشدود بين ترامب وناقلة إيرانية تقاوم", "basis_ar": "1 و2",
+               "prompt_en": "Trump and an Iranian tanker pull a taut rope", "pieces": pieces,
+               "relations": [{"a_ar": "ترامب", "verb_ar": "يشدّ", "b_ar": "الحبل", "basis": [1], "accusatory": False}]}
+    verdicts: list = []
+    seen: dict = {"read": []}
+
+    def fake_create(client, **kw):
+        tool = kw["tools"][0]["name"]
+        if tool == "read_cartoon":
+            seen["read"].append(kw["messages"][0]["content"])
+            data = {"reading_ar": "رجل يجرّ سفينة مستسلمة", "unknown_ar": "لا يُعرف بلد السفينة"}
+        elif tool == "judge_reading":
+            data = verdicts.pop(0) if verdicts else {"verdict": "match", "reason_ar": ""}
+        else:
+            data = concept
+        return NS(stop_reason="tool_use", content=[NS(type="tool_use", name=tool, id="t1", input=data)])
+    script = {"title": title, "scenes": [
+        {"kind": "title_card", "text": title}, {"kind": "narration", "role": "question", "text": "؟", "q": 0},
+        {"kind": "clip", "q": 0, "speaker_name": "أ", "channel_display": "ق", "quote_arabic": "الحصار يخنق"},
+        {"kind": "clip", "q": 0, "speaker_name": "ب", "channel_display": "ق2", "quote_arabic": "إيران تقاوم"},
+        {"kind": "question", "text": "رأيك؟"}, {"kind": "outro", "text": ""}]}
+    old = (reel_cartoon._create, reel_cartoon._generate, os.environ.get("GEMINI_API_KEY"))
+    try:
+        os.environ["GEMINI_API_KEY"] = "k"
+        reel_cartoon._create, reel_cartoon._generate = fake_create, fake_gen
+        draft = {"id": "cafe2054a001", "script": script}
+        rec = reel_cartoon.plan(draft, cfg)
+        names = [(p["name_ar"], p.get("merged"), p["trigger_ar"]) for p in rec.get("pieces") or []]
+        check("2054: الحبل أعاد المشهد كله مرتين ← يُدمج مع ما يلامسه وتبقى طبقتان بدل المشهد كاملًا",
+              rec["mode"] == "scene" and len(rec["pieces"]) == 2 and any(m == ["الحبل"] for _, m, _ in names)
+              and rec["layers"][0]["retried"] and "المشهد كله" in rec["layers"][0]["reasons"][0], (names, rec.get("layers")))
+        host = next(p for p in rec["pieces"] if p.get("merged"))
+        check("2054: القطعة المدموجة تنزل عند أسبق كلمتي عنصريها", host["trigger_ar"] == "الحصار", host)
+        check("2054: إعادة العزل تحمل تلميح سببها",
+              sum("kept almost the whole scene" in c for c in calls) == 1 and len(calls) == 5, len(calls))
+        check("2054: القراءة لا ترى الفكرة ولا الأسماء", "ترامب" not in str(seen["read"][0]) and "حبل" not in str(seen["read"][0]))
+        lines = "\n".join(reel_cartoon.review_lines(draft, cfg))
+        check("2054: القضية تعرض قراءة المشاهد والدمج", "👁️ يفهم المشاهد: رجل يجرّ سفينة" in lines
+              and "تعذّر فصل الحبل فدُمج مع" in lines and "ترامب + الحبل" in lines, lines)
+
+        calls.clear()
+        verdicts[:] = [{"verdict": "decides_open", "reason_ar": "يحسم السؤال"}, {"verdict": "match", "reason_ar": ""}]
+        beh["rope"] = "ok"
+        r2 = reel_cartoon.plan({"id": "cafe2054a002", "script": script}, cfg)
+        check("2054: قراءة تحسم سؤالًا مفتوحًا ← يُعاد الرسم بالقراءة وسببها ثم يُقبل المطابق",
+              r2["status"] == "ready" and "رجل يجرّ سفينة مستسلمة" in calls[1] and "يحسم السؤال" in calls[1]
+              and r2["reading"]["attempts"] == 2 and r2["mode"] == "scene", calls[:2])
+
+        calls.clear()
+        verdicts[:] = [{"verdict": "contradicts", "reason_ar": "يخالف"}, {"verdict": "unclear", "reason_ar": "لا يُعرف البلد"}]
+        r3 = reel_cartoon.plan({"id": "cafe2054a003", "script": script}, cfg)
+        check("2054: المخالفة بعد الإعادة ← لا كاريكاتير (لا القطع المنفصلة) وسببه، بلا نداءات عزل",
+              r3["status"] == "none" and "لا يُعرف البلد" in r3["error"] and len(calls) == 2 and r3.get("mode") is None, r3)
+        check("2054: القضية تعرض سبب الغياب", "لا كاريكاتير" in "\n".join(reel_cartoon.review_lines({"id": "x", "hook_cartoon": r3}, cfg)))
+
+        calls.clear()
+        beh.update(rope="whole", tanker="whole")
+        r4 = reel_cartoon.plan({"id": "cafe2054a004", "script": script}, cfg)
+        check("2054: عنصران فشلا ← المشهد كاملًا عند أسبق كلمة نزول بسببهما",
+              r4["mode"] == "whole" and r4["pieces"][0]["trigger_ar"] == "الحصار" and "الحبل" in r4["scene_fallback"]
+              and "الناقلة" in r4["scene_fallback"], r4)
+    finally:
+        reel_cartoon._create, reel_cartoon._generate = old[0], old[1]
+        if old[2] is None:
+            os.environ.pop("GEMINI_API_KEY", None)
+        else:
+            os.environ["GEMINI_API_KEY"] = old[2]
+
+    # (4) نموذج يرفض فرض الأداة ← يُعاد النداء بـauto ويُذكر للنداءات التالية
+    llm._reset_for_tests()
+    sent = []
+
+    class Msgs:
+        def create(self, **kw):
+            sent.append(kw.get("tool_choice"))
+            if kw.get("tool_choice", {}).get("type") == "tool":
+                resp = NS(status_code=400, headers={}, request=NS(method="POST", url="x"))
+                raise BadRequestError('tool_choice: type "tool" and "any" are not supported for this model', response=resp, body=None)
+            return NS(stop_reason="tool_use", content=[], usage=None)
+    client = NS(messages=Msgs())
+    kw = dict(model="claude-opus-5-5", max_tokens=10, messages=[], tools=[{"name": "t"}], tool_choice={"type": "tool", "name": "t"})
+    llm.create(client, cfg=cfg, **kw)
+    llm.create(client, cfg=cfg, **dict(kw, tool_choice={"type": "tool", "name": "t"}))
+    check("2054: رفض فرض الأداة ← auto، والنداء التالي يُرسَل auto مباشرة",
+          sent == [{"type": "tool", "name": "t"}, {"type": "auto"}, {"type": "auto"}], sent)
+    llm._reset_for_tests()
+
+
 def test_reel_cartoon_scene_2811() -> None:
     """المشهد المبني قطعةً قطعة (طلب صاحب المشروع 28/11): مشهد واحد بعلاقات بين عناصره يُرسم كاملًا ثم تُعزل كل قطعة من الصورة
     نفسها، والكود يتحقق أن الطبقات تعود المشهد، وكل قطعة تنزل عند كلمتها في سؤال الهوك بترتيب العمق. مثال صاحب المشروع: «هل لنتنياهو
@@ -12599,9 +12777,10 @@ def test_reel_cartoon_scene_2811() -> None:
         shift["on"] = True
         r3 = reel_cartoon.plan({"id": "cafe2811s003", "script": script}, cfg)
         lines3 = "\n".join(reel_cartoon.review_lines({"id": "x", "hook_cartoon": r3}, cfg))
-        check("2811s: طبقة أزاحها المولّد ← المشهد كاملًا قطعة واحدة عند أول كلمة نزول، وسببه في القضية",
-              r3["status"] == "ready" and r3["mode"] == "whole" and len(r3["pieces"]) == 1 and r3["pieces"][0]["trigger_ar"] == "لنتنياهو"
-              and "خارج موضعها" in r3["scene_fallback"] and "ينزل كاملًا" in lines3, r3)
+        # السيناريو 2054: العنصر الذي يُزاح مرتين لا يُسقط الطبقتين السليمتين؛ الكرسي لا يلامس غيره فيُقصّ من المشهد نفسه
+        check("2811s: طبقة أزاحها المولّد مرتين ← تُقصّ من المشهد نفسه وتبقى الطبقتان السليمتان، وسببها في القضية",
+              r3["status"] == "ready" and r3["mode"] == "scene" and len(r3["pieces"]) == 3 and r3["pieces"][2].get("from_scene")
+              and r3["layers"][2]["retried"] and "خارج موضعها" in r3["layers"][2]["reasons"][0] and "قُصّ من المشهد" in lines3, r3)
         shift["on"] = False
         bad_rel = {**good, "relations": [{"a_ar": "نتنياهو", "verb_ar": "يهمس", "b_ar": "ترامب", "basis": [], "accusatory": True}]}
         replies[:] = [bad_rel, bad_rel]
