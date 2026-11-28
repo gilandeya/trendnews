@@ -12247,6 +12247,7 @@ def test_reel_notes_2044() -> None:
     """القضية 2044 (27/11، المسودة 4a750133f670): (1) ترامب ونتنياهو في الريل متعاكسان عمّا في المعاينة المعتمدة (المعاينة بترتيب
     الكتابة والتركيب يرتّب بـx)؛ (2) «نتائجه» تنزل والمشهد يتلاشى إلى ما بعده: نص الراوي متأخر عن صوته (قسمة المقاطع بنسبة الحروف)
     ولا شيء يضمن اكتمال آخر كلمة قبل الانتقال؛ (3) صوت مقطع إنجليزي وقف عند «and then if we have» والترجمة تكمل الجملة."""
+    import copy
     import tempfile as _tempfile
 
     from src import reel_cartoon, reel_clips, reel_render
@@ -12286,7 +12287,9 @@ def test_reel_notes_2044() -> None:
         reel_cartoon.draw_thinker = lambda *a, **k: None
         os.environ["GEMINI_API_KEY"] = "k"
         _store.draft_dir = lambda *a, **k: tmpd
-        pcfg = Config(dict(real))
+        pcfg = Config(copy.deepcopy(dict(real)))
+        # القطع المنفصلة هي ما يختبره هذا الفحص، وقد صارت لا تُرسم بعد مشهد فاشل إلا بهذا المفتاح (القضية 2059)
+        pcfg["reel"]["cartoon"]["scene"]["fallback_pieces"] = True
         rec = reel_cartoon.plan({"id": "d2044", "script": {"scenes": []}}, pcfg) or {}
     finally:
         reel_cartoon._draw_piece, reel_cartoon.concept, reel_cartoon.draw_thinker = old[:3]
