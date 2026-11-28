@@ -1881,6 +1881,24 @@ step (`article.wide_days`).
   لقطات الجمل المعاد كتابتها تأخذ الصورة (خطة اللقطات بالنص). `tests.helpers.load_config` يطفئه؛ الاختبار `tests/test_youtube.py:test_reel_context_rebuild_2811`.
 - **الوقاية:** `meta_qa.pick_context` يقدّم ما طابق صوته (`qa.context.prefer_heard`). `render_version` = 97.
 
+## كاريكاتير الهوك مشهدًا يُبنى قطعةً قطعة (طلب صاحب المشروع 28/11) — `reel_cartoon._plan_scene`، `reel_render._scene_layers`
+
+السبب: القطع المرسومة كلٌّ وحدها صفّ وجوه بلا علاقة («تشكيلة مشتبه بهم»)، ولا تصنع مشهدًا: لا يعرف ترامب أن في يده حبلًا ينتهي عند المرشد.
+المثال المرجعي: «هل لنتنياهو دور في استمرار الحصار الأمريكي على إيران؟» ← نتنياهو يهمس لترامب الذي يمسك حبلًا يربط المرشد إلى كرسي.
+- **المخطط (`scene_concept`، أداة `cartoon_scene`):** عناصر (2–5) لكلٍّ `element_en` و`trigger_ar` (كلمة من سؤال الهوك حرفيًا) و`enter` و`z` (العمق)،
+  وعلاقات لكلٍّ `basis` (أرقام الإجابات) و`accusatory`. `scene_problems` (خالصة): كلمة ليست في السؤال (`reel_figures.mention_index`) ← تُفرَّغ بعد
+  إعادة، وعلاقة بلا أساس أو بطرف مجهول أو عدد خارج الحد ← إعادة واحدة في المحادثة ثم القطع المنفصلة كما كانت (`scene_error`).
+- **الرسم:** المشهد كاملًا في صورة واحدة (`scene.aspect`، `scene_style`) ثم عزل كل عنصر **بتعديل الصورة نفسها** (`isolate_prompt` + الصورة inlineData)
+  فتبقى المواضع والمقياس والأسلوب؛ `cutout(crop=False)` بلوحة كاملة. `verify_layers` (خالصة): `min_inside` و`max_layer_share` و`min_iou` و`max_diff`.
+  فشل عزل أو تحقق ← `mode: whole` (المشهد كاملًا قطعة واحدة عند أول كلمة نزول، وسببه `scene_fallback`)؛ فشل المشهد ← القطع المنفصلة.
+  `hook_cartoon`: `mode` scene|whole، `pieces` (canvas، بترتيب العمق)، `relations`، `scene_check`، `scene_path`.
+- **التركيب:** `_scene_layers` تضع اللوحة في حزام الهوك (`canvas_box`) وكل طبقة مقصوصة إلى رسمها في موضعها منها؛ `scene_cues` (خالصة): زمن كلمة كل
+  طبقة، وكلمة واحدة لعنصرين ← معًا، والمتلاصقتان بفارق `scene.min_gap` للأمام، وبلا كلمة بعد السؤال؛ التراكب بترتيب العمق والظهور بالزمن؛ الهوك يُمدّ حتى
+  تستقر آخر طبقة + `hold` ضمن `max_seconds`. طبقات المشهد لا تنتقل إلى السياق (`cast_pieces`).
+- **القضية:** «⬇️ العنصر ← عند «الكلمة» · الجهة» و«🧵 العلاقة ← الإجابة n»، ومربع غير معلَّم لعلاقة اتهامية (`scene.unchecked_if_accusatory`).
+- `render_version` = 98. `tests.helpers.load_config` يطفئه؛ الاختبار `tests/test_youtube.py:test_reel_cartoon_scene_2811`. **لم يُجرَّب على Gemini حقيقي:**
+  دقة العزل الموضعية مجهولة، وأرقام `scene_check` في المسودة هي القياس الأول.
+
 ## Retired paths
 
 - **«مقال» (`src/article.py`, label `مقال`, `.github/workflows/article.yml`) and «طلب» (`src/request.py`, label `طلب`

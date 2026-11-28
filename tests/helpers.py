@@ -92,6 +92,9 @@ def load_config(path=None):
         # قضية 2044: مدّ آخر المقطع إلى ما سُمع بعد آخر كلمة طوبقت يغيّر حدود المقاطع المضبوطة المثبّتة؛ test_reel_notes_2044 يطلبه
         if isinstance(rcfg.get("exact"), dict) and isinstance(rcfg["exact"].get("tail"), dict):
             rcfg["exact"]["tail"] = {**rcfg["exact"]["tail"], "enabled": False}
+        # المشهد المبني قطعةً قطعة (28/11) يغيّر مسار الكاريكاتير الذي تثبّته اختبارات القطع المنفصلة؛ test_reel_cartoon_scene_2811 يطلبه
+        if isinstance(cfg.get("reel", {}).get("cartoon", {}).get("scene"), dict):
+            cfg["reel"]["cartoon"]["scene"]["enabled"] = False
         # إعادة بناء السياق (28/11) نداء نموذج حين يسقط مقطع سياق؛ test_reel_context_rebuild_2811 يطلبه
         if isinstance(rcfg.get("context_rebuild"), dict):
             rcfg["context_rebuild"]["enabled"] = False

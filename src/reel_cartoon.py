@@ -222,8 +222,9 @@ def row_enter(k: int, n: int, cfg) -> str:
     return "bottom"
 
 
-def cutout(img, cfg):
-    """القطعة بلا خلفية (RGBA مقصوصة إلى حدودها) أو None. لون المفتاح (key_color) يُزال حيث يتصل بحافة الصورة وحدها، فلون مشابه
+def cutout(img, cfg, crop: bool = True):
+    """القطعة بلا خلفية (RGBA مقصوصة إلى حدودها) أو None. crop=False (طبقات المشهد، 28/11): الصورة بمقاسها كاملة بلا قصّ ولا فحص
+    الحواف، لأن موضع الطبقة في لوحة المشهد هو ما يجعل الطبقات تعود صورة واحدة، والقدمان على حافة المشهد طبيعيتان. لون المفتاح (key_color) يُزال حيث يتصل بحافة الصورة وحدها، فلون مشابه
     داخل الرسم (علم أو بحر) لا يُمحى؛ ثم تنعيم الحافة وإزالة أثر اللون عنها. تغطية خارج [min_cover، max_cover] ← None (المولّد لم
     يرسم على اللون المسطّح أو لم يرسم شيئًا)."""
     import cv2
@@ -244,7 +245,7 @@ def cutout(img, cfg):
     cover = float((alpha > 0.5).mean())
     if not float(c.get("min_cover", 0.03)) <= cover <= float(c.get("max_cover", 0.95)):
         return None
-    if cropped(alpha > 0.5, cfg):
+    if crop and cropped(alpha > 0.5, cfg):
         return None
     # قضية 2020: هالة وردية بقيت حول القطع؛ ما قرب الخلفية (despill_px) ولونه يميل إلى لون المفتاح يُزال أيضًا
     dpx = int(c.get("despill_px", 3))
@@ -263,6 +264,8 @@ def cutout(img, cfg):
         for k in strong:
             out[..., k] = np.where(soft, np.minimum(out[..., k], cap), out[..., k])
     rgba = np.dstack([np.clip(out, 0, 255), alpha * 255]).astype(np.uint8)
+    if not crop:
+        return Image.fromarray(rgba, "RGBA")
     ys, xs = np.where(alpha > 0.02)
     pad = int(c.get("trim_pad", 4))
     y0, y1 = max(int(ys.min()) - pad, 0), min(int(ys.max()) + pad + 1, rgba.shape[0])
@@ -501,6 +504,10 @@ def plan(draft: dict, cfg: Any, client=None) -> dict | None:
         return rec
     draw_thinker(draft, cfg, key)
     try:
+        # 28/11: المشهد المبني قطعةً قطعة أولًا؛ فشله (لا مخطط، لا صورة) ← القطع المنفصلة كما كانت، وسببه في scene_error
+        if scene_mode(cfg) and _plan_scene(draft, cfg, client, key, rec):
+            draft["hook_cartoon"] = rec
+            return rec
         con, why = concept(draft["script"], cfg, client)
         if not con:
             rec["error"] = why
@@ -576,7 +583,10 @@ def cast_pieces(draft: dict, cfg) -> list[dict]:
     if not enabled(cfg) or not (ccfg(cfg).get("cast") or {}).get("enabled", False):
         return []
     out = []
-    for p in usable(draft, cfg) or []:
+    rec = draft.get("hook_cartoon") if isinstance(draft.get("hook_cartoon"), dict) else {}
+    # 28/11: طبقات المشهد مرسومة في وضع (يمسك حبلًا، يهمس) فلا تنتقل إلى السياق: ترامب يمسك حبلًا بلا مرشد. قائل الاقتباس كما هو
+    hook = [] if rec.get("mode") in ("scene", "whole") else (usable(draft, cfg) or [])
+    for p in hook:
         if p.get("person_ar"):
             out.append({"person_ar": p["person_ar"], "person_en": p.get("person_en", ""), "file": p["file"]})
     q = draft.get("reel_quote")
@@ -603,12 +613,358 @@ def review_lines(d: dict, cfg, image_url: str = "") -> list[str]:
     out = [f"  {t.get('header', '🎨 كاريكاتير مقترح للهوك')}: {rec.get('idea_ar', '')}",
            f"  <sub>{t.get('basis', 'الأساس')}: {rec.get('basis_ar', '')}</sub>"]
     names = [p.get("name_ar") for p in rec.get("pieces") or [] if isinstance(p, dict) and p.get("name_ar")]
-    if names:
+    if rec.get("mode") in ("scene", "whole"):
+        out += scene_review_lines(rec, cfg)
+    elif names:
         out.append(f"  <sub>{t.get('pieces', 'القطع')}: {' · '.join(names)}</sub>")
+    if rec.get("scene_error") and rec.get("mode") not in ("scene", "whole"):
+        out.append("  <sub>" + str(t.get("scene_failed", "⚠️ تعذّر رسم المشهد فاستُعملت القطع المنفصلة: {why}")).format(
+            why=rec["scene_error"]) + "</sub>")
     out.append("")
     if image_url:
         out += [f'  <img src="{image_url}" width="270">', ""]
-    # قضية 2031 (طلب صاحب المشروع): المربع معلَّم من البداية فيدخل الرسم ما لم يُلغِ المراجع تعليمه
+    # قضية 2031 (طلب صاحب المشروع): المربع معلَّم من البداية فيدخل الرسم ما لم يُلغِ المراجع تعليمه؛ 28/11: إلا مشهدًا ينسب فعلًا إلى
+    # شخص حقيقي (accusatory) فيبقى غير معلَّم حتى يراه المراجع
     mark = "x" if ccfg(cfg).get("default_checked", True) else " "
+    if scfg(cfg).get("unchecked_if_accusatory", True) and any(r.get("accusatory") for r in rec.get("relations") or []):
+        mark = " "
     out += [f"  - [{mark}] {t.get('approve', 'استعمله خلفيةً للهوك')} <!-- cartoonok:{d['id']} -->", ""]
+    return out
+
+
+# ───────────── المشهد المبني قطعةً قطعة (طلب صاحب المشروع 28/11) ─────────────
+# القطع المرسومة كلٌّ وحدها لا تصنع مشهدًا: لا يعرف ترامب أن في يده حبلًا ينتهي عند المرشد، ولا يعرف نتنياهو أين أذن ترامب ليهمس
+# فيها، ويختلف المقياس والخط بين القطع. فالمشهد يُرسم كاملًا في صورة واحدة أولًا، ثم تُعزل كل قطعة بتعديل الصورة نفسها («أبقِ X وحده
+# وأكمل المحجوب منه») فتبقى في موضعها ومقياسها وأسلوبها، والكود يتحقق أن الطبقات تعود الصورة نفسها. وفي الهوك تنزل كل قطعة عند نطق
+# كلمتها في السؤال، بترتيب العمق لا بترتيب الدخول. أي فشل في العزل ← المشهد كاملًا قطعة واحدة؛ فشل المشهد ← القطع المنفصلة كما كانت.
+
+SCENE_TOOL = {
+    "name": "cartoon_scene",
+    "description": "مشهد كاريكاتيري واحد يعبّر عن سؤال الهوك كما تجيب عنه إجابات المحللين، مقسومًا قطعًا تنزل كل منها عند كلمتها في السؤال",
+    "input_schema": {"type": "object", "properties": {
+        "feasible": {"type": "boolean", "description": "false إن لم تحمل الإجابات فكرة يرسمها مشهد بأمانة"},
+        "idea_ar": {"type": "string", "description": "المشهد بالعربية بجملة واحدة للمراجع"},
+        "basis_ar": {"type": "string", "description": "أي إجابات (بأرقامها) يقوم عليها المشهد وما تقوله"},
+        "prompt_en": {"type": "string", "description": "وصف المشهد كاملًا بالإنجليزية: كل عنصر وموضعه وعلاقته بالآخرين"},
+        "pieces": {"type": "array", "description": "عناصر المشهد التي تنزل منفصلة (2–5)", "items": {
+            "type": "object", "properties": {
+                "name_ar": {"type": "string", "description": "اسم العنصر بالعربية (ترامب، الحبل، الكرسي…)"},
+                "person_ar": {"type": "string", "description": "اسم الشخص إن كان العنصر شخصًا، وإلا فارغ"},
+                "element_en": {"type": "string", "description": "العنصر بالإنجليزية كما يظهر في المشهد، ليُعزل وحده من الصورة"},
+                "trigger_ar": {"type": "string", "description": "كلمة من سؤال الهوك حرفيًا ينزل العنصر عند نطقها"},
+                "enter": {"type": "string", "enum": ["left", "right", "bottom"]},
+                "z": {"type": "integer", "description": "العمق: الأصغر خلف الأكبر (نتنياهو خلف ترامب: أصغر)"}},
+            "required": ["name_ar", "element_en", "trigger_ar", "enter", "z"]}},
+        "relations": {"type": "array", "description": "كل علاقة يرسمها المشهد بين عنصرين (يهمس، يمسك، مربوط)", "items": {
+            "type": "object", "properties": {
+                "a_ar": {"type": "string"}, "verb_ar": {"type": "string"}, "b_ar": {"type": "string"},
+                "basis": {"type": "array", "items": {"type": "integer"}, "description": "أرقام الإجابات التي تقول هذه العلاقة"},
+                "accusatory": {"type": "boolean", "description": "true إن كانت العلاقة تنسب فعلًا أو مسؤولية إلى شخص حقيقي"}},
+            "required": ["a_ar", "verb_ar", "b_ar", "basis", "accusatory"]}}},
+        "required": ["feasible", "idea_ar", "basis_ar", "prompt_en", "pieces", "relations"]},
+}
+
+
+def scfg(cfg) -> dict:
+    return ccfg(cfg).get("scene") or {}
+
+
+def scene_mode(cfg) -> bool:
+    return bool(scfg(cfg).get("enabled", False))
+
+
+def answer_count(script: dict) -> int:
+    """عدد الإجابات المرقّمة في مدخل الفكرة (material): أرقام basis تُقبل ضمنها."""
+    return sum(1 for s in script.get("scenes") or [] if s.get("kind") in ("clip", "cold_open_clip") and s.get("role") != "context")
+
+
+def scene_problems(got: dict, title: str, n_answers: int, cfg) -> list[str]:
+    """ما يرفضه الكود من مخطط المشهد (دالة خالصة): عدد القطع، وكلمة نزول ليست حرفيًا في السؤال، وعلاقة بلا إجابة تسندها أو بطرف
+    ليس من القطع. الحكم بمعنى الكلمة (الأمريكي ← ترامب) للنموذج، ووجودها في النص للكود."""
+    from . import reel_figures
+    sc = scfg(cfg)
+    out: list[str] = []
+    pieces = [p for p in llm.tool_json(got.get("pieces"), list) or [] if isinstance(p, dict)]
+    lo, hi = int(sc.get("min_pieces", 2)), int(sc.get("max_pieces", 5))
+    if not lo <= len(pieces) <= hi:
+        out.append(f"عدد العناصر {len(pieces)} والمطلوب بين {lo} و{hi}")
+    names = {" ".join(str(p.get("name_ar") or "").split()) for p in pieces}
+    for p in pieces:
+        trig = " ".join(str(p.get("trigger_ar") or "").split())
+        if not trig or reel_figures.mention_index(trig, title, cfg) is None:
+            out.append(f"كلمة نزول «{p.get('name_ar', '')}» ليست في السؤال حرفيًا: «{trig}»")
+    for r in llm.tool_json(got.get("relations"), list) or []:
+        if not isinstance(r, dict):
+            continue
+        basis = [b for b in (r.get("basis") or []) if isinstance(b, int) and 1 <= b <= n_answers]
+        label = f"{r.get('a_ar', '')} {r.get('verb_ar', '')} {r.get('b_ar', '')}"
+        if not basis:
+            out.append(f"علاقة «{label}» بلا إجابة تسندها")
+        for side in ("a_ar", "b_ar"):
+            if " ".join(str(r.get(side) or "").split()) not in names:
+                out.append(f"طرف العلاقة «{r.get(side, '')}» ليس من العناصر")
+    return out
+
+
+def clean_scene(got: dict, title: str, cfg) -> dict:
+    """المخطط المقبول (دالة خالصة): القطع بعمقها وجهتها، وكلمة نزول لا ترد في السؤال تُفرَّغ (تنزل القطعة بعد السؤال)."""
+    from . import reel_figures
+    pieces = []
+    for k, p in enumerate([p for p in llm.tool_json(got.get("pieces"), list) or [] if isinstance(p, dict)]):
+        trig = " ".join(str(p.get("trigger_ar") or "").split())
+        if trig and reel_figures.mention_index(trig, title, cfg) is None:
+            trig = ""
+        enter = str(p.get("enter") or "bottom")
+        z = p.get("z")
+        pieces.append({"name_ar": " ".join(str(p.get("name_ar") or "").split()),
+                       "person_ar": " ".join(str(p.get("person_ar") or "").split()),
+                       "element_en": " ".join(str(p.get("element_en") or "").split()), "trigger_ar": trig,
+                       "enter": enter if enter in ("left", "right", "bottom") else "bottom",
+                       "z": int(z) if isinstance(z, (int, float)) else k})
+    rels = [{"a_ar": str(r.get("a_ar", "")), "verb_ar": str(r.get("verb_ar", "")), "b_ar": str(r.get("b_ar", "")),
+             "basis": [b for b in (r.get("basis") or []) if isinstance(b, int)], "accusatory": bool(r.get("accusatory"))}
+            for r in llm.tool_json(got.get("relations"), list) or [] if isinstance(r, dict)]
+    return {"idea_ar": " ".join(str(got.get("idea_ar") or "").split()),
+            "basis_ar": " ".join(str(got.get("basis_ar") or "").split()),
+            "prompt_en": " ".join(str(got.get("prompt_en") or "").split()),
+            "pieces": [p for p in pieces if p["element_en"]][: int(scfg(cfg).get("max_pieces", 5))], "relations": rels}
+
+
+def scene_concept(script: dict, cfg, client=None) -> tuple[dict | None, str]:
+    """(المخطط، "") أو (None، السبب). المخالفة تُعاد مرة في المحادثة بأسبابها (نهج Q8)؛ بقاء علاقة بلا أساس أو عدد قطع خارج الحد ←
+    None (القطع المنفصلة كما كانت)، وكلمة نزول ليست في السؤال ← تُفرَّغ وحدها."""
+    from .meta_topics import _tool_input
+    c, sc = ccfg(cfg), scfg(cfg)
+    title = str(script.get("title") or "")
+    n = answer_count(script)
+    messages: list = [{"role": "user", "content": f"سؤال الهوك (الكلمات التي ينزل عندها كل عنصر من هنا حرفيًا): {title}\n\n"
+                                                  + material(script)}]
+    got, problems = {}, ["لا رد"]
+    for _ in range(2):
+        resp = _create(client, cfg=cfg, model=c.get("concept_model", "claude-sonnet-5"),
+                       max_tokens=int(c.get("max_tokens", 2000)), system=llm.with_notes(str(sc.get("system", "")), cfg),
+                       tools=[SCENE_TOOL], tool_choice={"type": "tool", "name": SCENE_TOOL["name"]}, messages=messages)
+        if str(getattr(resp, "stop_reason", "") or "") == "max_tokens":
+            return None, "الرد مقطوع"
+        got = _tool_input(resp, SCENE_TOOL["name"]) or {}
+        if not got.get("feasible"):
+            return None, str(got.get("idea_ar") or "لا مشهد يرسمه كاريكاتير بأمانة")
+        problems = scene_problems(got, title, n, cfg)
+        if not problems:
+            break
+        block = next((b for b in getattr(resp, "content", []) or [] if getattr(b, "type", "") == "tool_use"), None)
+        if block is None:
+            break
+        messages += [{"role": "assistant", "content": [{"type": "tool_use", "id": block.id, "name": block.name, "input": got}]},
+                     {"role": "user", "content": [{"type": "tool_result", "tool_use_id": block.id, "is_error": True,
+                                                   "content": "صحّح: " + "؛ ".join(problems)}]}]
+    hard = [p for p in problems if not p.startswith("كلمة نزول")]
+    if hard:
+        return None, "؛ ".join(hard)[:300]
+    con = clean_scene(got, title, cfg)
+    if not con["prompt_en"] or len(con["pieces"]) < int(sc.get("min_pieces", 2)):
+        return None, "مشهد بلا وصف أو بعناصر أقل من الحد"
+    return con, ""
+
+
+def _image_body(parts: list, aspect: str) -> dict:
+    return {"contents": [{"parts": parts}],
+            "generationConfig": {"responseModalities": ["IMAGE"], "imageConfig": {"aspectRatio": aspect}}}
+
+
+def _cost(usage: dict, c: dict) -> float:
+    return int(usage.get("candidatesTokenCount") or 0) * float(c.get("usd_per_mtok_output", 30)) / 1e6 + float(c.get("usd_per_image", 0))
+
+
+def _gen_image(parts: list, cfg, key: str) -> tuple[Any, float, str]:
+    """(صورة PIL أو None، الكلفة، السبب): نداء Gemini واحد بمدخلات نصية أو صورة."""
+    from io import BytesIO
+
+    from PIL import Image
+    c = ccfg(cfg)
+    code, resp, _ = _generate(_image_body(parts, str(scfg(cfg).get("aspect", "1:1"))), str(c.get("model", "")), key,
+                              int(c.get("timeout", 180)))
+    if code != 200 or not isinstance(resp, dict):
+        return None, 0.0, f"HTTP {code}: {str(resp)[:150]}"
+    img, finish, usage = read_image(resp)
+    usd = _cost(usage, c)
+    if not img:
+        return None, usd, f"بلا صورة: {finish}"
+    return Image.open(BytesIO(img)).convert("RGB"), usd, ""
+
+
+def scene_prompt(con: dict, cfg) -> str:
+    sc, c = scfg(cfg), ccfg(cfg)
+    return f"{con['prompt_en']}\n\n{c.get('style', '')}\n{sc.get('scene_style', '')}".strip()
+
+
+def isolate_prompt(piece: dict, con: dict, cfg) -> str:
+    others = ", ".join(p["element_en"] for p in con["pieces"] if p is not piece)
+    return str(scfg(cfg).get("isolate_prompt", "Keep only {element}.")).format(element=piece["element_en"], others=others)
+
+
+def verify_layers(scene, layers: list, cfg) -> dict:
+    """هل تعود الطبقات المعزولة صورة المشهد نفسها؟ (دالة خالصة على مصفوفات RGBA بمقاس واحد، مرتّبة بالعمق من الخلف).
+    inside: نسبة كل طبقة الواقعة داخل رسم المشهد (طبقة أزاحها المولّد أو رسم غيرها تقع خارجه) ≥ scene.min_inside؛ share: مساحتها من
+    رسم المشهد ≤ max_layer_share (لا طبقة تعيد المشهد كله)؛ iou بين اتحاد الطبقات ورسم المشهد ≥ min_iou (لا عنصر ضاع)؛ diff متوسط
+    فرق ألوان تركيب الطبقات عن المشهد داخل رسمه ≤ max_diff (لم يُعِد المولّد رسم العنصر بثياب أخرى). يعيد {ok, reasons، والأرقام}."""
+    import numpy as np
+    sc = scfg(cfg)
+    s = np.asarray(scene, np.float32)
+    smask = s[..., 3] > 127
+    sarea = max(int(smask.sum()), 1)
+    union = np.zeros(smask.shape, bool)
+    comp = np.zeros(s.shape[:2] + (3,), np.float32)
+    inside, share, reasons = [], [], []
+    for k, lay in enumerate(layers):
+        a = np.asarray(lay, np.float32)
+        m = a[..., 3] > 127
+        area = max(int(m.sum()), 1)
+        inside.append(round(float((m & smask).sum()) / area, 3))
+        share.append(round(area / sarea, 3))
+        union |= m
+        al = a[..., 3:4] / 255.0
+        comp = comp * (1 - al) + a[..., :3] * al
+        if inside[-1] < float(sc.get("min_inside", 0.85)):
+            reasons.append(f"الطبقة {k + 1} خارج موضعها في المشهد ({inside[-1]})")
+        if share[-1] > float(sc.get("max_layer_share", 0.8)):
+            reasons.append(f"الطبقة {k + 1} تكاد تكون المشهد كله ({share[-1]})")
+        if int(m.sum()) == 0:
+            reasons.append(f"الطبقة {k + 1} فارغة")
+    iou = round(float((union & smask).sum()) / max(int((union | smask).sum()), 1), 3)
+    diff = round(float(np.abs(comp[smask & union] - s[..., :3][smask & union]).mean()) if (smask & union).any() else 255.0, 1)
+    if iou < float(sc.get("min_iou", 0.75)):
+        reasons.append(f"الطبقات لا تغطي المشهد ({iou})")
+    if diff > float(sc.get("max_diff", 45)):
+        reasons.append(f"الطبقات تختلف عن المشهد لونًا ({diff})")
+    return {"ok": not reasons, "reasons": reasons, "inside": inside, "share": share, "iou": iou, "diff": diff}
+
+
+def _png_part(img) -> dict:
+    from io import BytesIO
+    buf = BytesIO()
+    img.save(buf, "PNG")
+    return {"inlineData": {"mimeType": "image/png", "data": base64.b64encode(buf.getvalue()).decode()}}
+
+
+def _plan_scene(draft: dict, cfg, client, key: str, rec: dict) -> bool:
+    """المشهد: المخطط ← الصورة كاملة ← عزل كل عنصر ← التحقق. يملأ rec ويعيد True إن صار جاهزًا (scene أو whole)، وFalse ليجرّب
+    plan القطع المنفصلة. لا يرفع."""
+    from PIL import Image
+
+    from . import costs, store
+    con, why = scene_concept(draft["script"], cfg, client)
+    if not con:
+        rec["scene_error"] = why
+        return False
+    usd = 0.0
+    scene_rgb, cost, err = _gen_image([{"text": scene_prompt(con, cfg)}], cfg, key)
+    usd += cost
+    scene = cutout(scene_rgb, cfg, crop=False) if scene_rgb is not None else None
+    if scene is None:
+        costs.add("gemini", round(usd, 4))
+        rec["scene_error"] = err or "لم يُفصل المشهد عن خلفيته"
+        return False
+    out_dir = store.draft_dir()
+    out_dir.mkdir(parents=True, exist_ok=True)
+    rel = f"drafts/{out_dir.name}"
+    full = out_dir / f"{draft['id']}-cartoon-scene.png"
+    scene.save(full, "PNG")
+    layers, failed = [], ""
+    ordered = sorted(con["pieces"], key=lambda p: p["z"])
+    for k, piece in enumerate(ordered):
+        img, cost, err = _gen_image([_png_part(scene_rgb), {"text": isolate_prompt(piece, con, cfg)}], cfg, key)
+        usd += cost
+        if img is not None and abs(img.size[0] / img.size[1] - scene.size[0] / scene.size[1]) > 0.02:
+            img, err = None, "مقاس الطبقة يخالف المشهد"
+        lay = cutout(img.resize(scene.size, Image.LANCZOS), cfg, crop=False) if img is not None else None
+        if lay is None:
+            failed = f"{piece['name_ar']}: {err or 'لم تُفصل عن خلفيتها'}"
+            break
+        layers.append((piece, lay))
+    check = verify_layers(scene, [lay for _, lay in layers], cfg) if layers and not failed else None
+    usd = round(usd, 4)
+    costs.add("gemini", usd)
+    rec.update({"idea_ar": con["idea_ar"], "basis_ar": con["basis_ar"], "prompt_en": con["prompt_en"],
+                "relations": con["relations"], "cost_usd": usd, "model": str(ccfg(cfg).get("model", "")),
+                "scene_path": f"{rel}/{full.name}"})
+    if check is not None:
+        rec["scene_check"] = {k: v for k, v in check.items() if k != "ok"}
+    prev = out_dir / f"{draft['id']}-cartoon.png"
+    w, h = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
+    if check is not None and check["ok"]:
+        pieces = []
+        for k, (piece, lay) in enumerate(layers):
+            path = out_dir / f"{draft['id']}-cartoon-{k}.png"
+            lay.save(path, "PNG")
+            pieces.append({**piece, "path": f"{rel}/{path.name}", "canvas": True})
+        rec.update(status="ready", mode="scene", pieces=pieces)
+    else:
+        # سلّم التراجع: المشهد كاملًا قطعة واحدة تنزل عند أول كلمة نزول (أضعف من البناء، لكنه كاريكاتير المشهد نفسه)
+        rec["scene_fallback"] = failed or "؛ ".join((check or {}).get("reasons") or [])[:300]
+        first = next((p for p in con["pieces"] if p["trigger_ar"]), None)
+        rec.update(status="ready", mode="whole", pieces=[{
+            "name_ar": str((ccfg(cfg).get("texts") or {}).get("scene_whole_name", "المشهد")), "person_ar": "",
+            "trigger_ar": first["trigger_ar"] if first else "", "enter": "bottom", "z": 0,
+            "path": f"{rel}/{full.name}", "canvas": True}])
+    scene_preview(scene, cfg, w, h).save(prev, "PNG")
+    rec["path"] = f"{rel}/{prev.name}"
+    return True
+
+
+def scene_preview(scene, cfg, w: int, h: int):
+    """معاينة القضية: المشهد كاملًا في موضعه من حزام الرسم فوق لون العلامة."""
+    from PIL import Image
+
+    from . import imaging
+    base = Image.new("RGBA", (w, h), (*imaging.hex_rgb(str(cfg.path("brand.primary_color") or "#12203A")), 255))
+    al, at, ar, ab = area_px(cfg, w, h)
+    x, y, pw, ph = canvas_box(scene.size, (al, at, ar, ab))
+    base.alpha_composite(scene.resize((pw, ph), Image.LANCZOS), (x, y))
+    return base.convert("RGB")
+
+
+def canvas_box(size: tuple[int, int], area: tuple[int, int, int, int]) -> tuple[int, int, int, int]:
+    """موضع لوحة المشهد (x، y، عرض، ارتفاع) في المنطقة (دالة خالصة): أكبر مقياس يسعها، متوسطة أفقيًا وعلى أسفل المنطقة."""
+    l, t, r, b = area
+    cw, ch = max(int(size[0]), 1), max(int(size[1]), 1)
+    sc = min((r - l) / cw, (b - t) / ch)
+    pw, ph = max(int(round(cw * sc)), 2), max(int(round(ch * sc)), 2)
+    return l + (r - l - pw) // 2, b - ph, pw, ph
+
+
+def scene_cues(pieces: list[dict], title: str, times: list[float], fallback: float, cfg) -> list[float]:
+    """زمن نزول كل طبقة (دالة خالصة): زمن كلمة نزولها في السؤال؛ قطعتان على كلمة واحدة تنزلان معًا، وكلمتان متلاصقتان تُفصلان بـ
+    scene.min_gap بإزاحة اللاحقة للأمام لا للخلف (لا تظهر قطعة قبل كلمتها)؛ بلا كلمة ← fallback (بعد السؤال)."""
+    from . import reel_figures
+    gap = float(scfg(cfg).get("min_gap", 0.25))
+    words = str(title or "").split()
+    idx = []
+    for p in pieces:
+        j = reel_figures.mention_index(str(p.get("trigger_ar") or ""), title, cfg) if p.get("trigger_ar") else None
+        idx.append(j if j is not None and len(times) == len(words) else None)
+    at: dict[int, float] = {}
+    last = None
+    for j in sorted({j for j in idx if j is not None}):
+        t = times[j] if last is None else max(times[j], last + gap)
+        at[j] = last = t
+    return [at[j] if j is not None else fallback for j in idx]
+
+
+def scene_review_lines(rec: dict, cfg) -> list[str]:
+    """سطور المشهد في قضية السيناريو: كل عنصر وكلمة نزوله وجهته، وكل علاقة وأساسها، وسبب التراجع إلى المشهد كاملًا إن وقع."""
+    t = (ccfg(cfg).get("texts") or {})
+    dirs = t.get("directions") or {"left": "من اليسار", "right": "من اليمين", "bottom": "من الأسفل"}
+    out = []
+    for p in rec.get("pieces") or []:
+        trig = p.get("trigger_ar") or t.get("no_trigger", "بعد السؤال")
+        out.append("  <sub>" + str(t.get("scene_piece", "⬇️ {name} ← عند «{trigger}» · {dir}")).format(
+            name=p.get("name_ar", ""), trigger=trig, dir=dirs.get(p.get("enter", "bottom"), "")) + "</sub>")
+    for r in rec.get("relations") or []:
+        out.append("  <sub>" + str(t.get("scene_relation", "🧵 {a} {verb} {b} ← الإجابة {basis}")).format(
+            a=r.get("a_ar", ""), verb=r.get("verb_ar", ""), b=r.get("b_ar", ""),
+            basis="، ".join(str(b) for b in r.get("basis") or []) or "—") + "</sub>")
+    if rec.get("mode") == "whole":
+        out.append("  <sub>" + str(t.get("scene_whole", "⚠️ تعذّر فصل العناصر فينزل المشهد كاملًا: {why}")).format(
+            why=rec.get("scene_fallback", "")) + "</sub>")
     return out

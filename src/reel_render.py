@@ -5206,6 +5206,14 @@ def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None,
     if len(times) != len(title.split()):
         # التشكيل/الأسماء قد تغيّر عدد الكلمات: يوزَّع الزمن على كلمات العنوان المعروض بالحروف على مدة الكلام كله
         times = narration_word_times([(title, speech)], voice_at, cfg)
+    # المشهد المبني قطعةً قطعة (28/11): طبقات بلوحة واحدة تنزل كل منها عند كلمتها، ويُمدّ الهوك حتى تستقر آخرها (ضمن max_seconds)
+    scene_layers, scene_t = None, []
+    if cartoon and cartoon[0].get("canvas"):
+        scene_layers = _scene_layers(cartoon, cfg, tmp, i, _hook_band(cfg, title))
+        scene_t = reel_cartoon.scene_cues(cartoon, title, times, voice_at + speech, cfg)
+        settle = max(scene_t) + float(reel_cartoon.ccfg(cfg).get("enter_seconds", 0.7)) + float(
+            reel_cartoon.scfg(cfg).get("hold", 0.6))
+        seconds = min(max(seconds, settle), float(hk["max_seconds"]))
     frames = word_drop_frames(cfg, title, times, seconds, text_top, tmp, f"hw{i}")
     lst = tmp / f"hook_{i}_words.txt"
     lst.write_text("".join(f"file '{f}'\nduration {_fmt(d)}\n" for f, d in frames) + f"file '{frames[-1][0]}'\n", encoding="utf-8")
@@ -5219,7 +5227,15 @@ def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None,
     expr = _fog_alpha_expr(cfg, strong, var="T")
     # قطع الكاريكاتير فوق الضباب وتحت كلمات العنوان: تدخل من خارج الشاشة مع السؤال وتتجمّع في مواضعها (مدخلاتها بعد الصوت: 4…)
     piece_in, piece_f, top = [], "", "bf"
-    if cartoon:
+    if scene_layers:
+        for k, (png, sx, sy, x, y) in enumerate(scene_layers):
+            piece_in += [*loop_args(fps), "-i", str(png)]
+            # ترتيب التراكب بالعمق (الطبقات محفوظة من الخلف إلى الأمام) والظهور بالزمن وحده: ترامب أمام نتنياهو ولو نزل بعده
+            piece_f += (f";[{4 + k}:v]format=rgba[pc{k}];[{top}][pc{k}]overlay="
+                        f"x='{_enter_expr(sx, x, scene_t[k], cfg)}':y='{_enter_expr(sy, y, scene_t[k], cfg)}':shortest=1[pp{k}]")
+            top = f"pp{k}"
+        notes.append(str((reel_cartoon.ccfg(cfg).get("texts") or {}).get("used", "🎨 قطع الكاريكاتير ({n})")).format(n=len(cartoon)))
+    elif cartoon:
         # الحزام تحت آخر سطر من العنوان (قضية 2013): القطع لا تنزل على كلماته
         band = _hook_band(cfg, title)
         stagger = float(reel_cartoon.ccfg(cfg).get("stagger", 0.35))
@@ -5348,6 +5364,31 @@ def _cartoon_pieces(pieces: list[dict], cfg, tmp: Path, i: int,
         png = tmp / f"hook_piece_{i}_{k}.png"
         img.resize((box[2], box[3]), Image.LANCZOS).save(png, "PNG")
         out.append((png, sx, sy, box[0], box[1]))
+    return out
+
+
+def _scene_layers(pieces: list[dict], cfg, tmp: Path, i: int,
+                  band: tuple[int, int]) -> list[tuple[Path, int, int, int, int]]:
+    """طبقات المشهد (28/11): كل طبقة بلوحة المشهد كاملة؛ اللوحة تُوضع في الحزام تحت السؤال بين هامشي cast.side (canvas_box)، وكل طبقة
+    تُقصّ إلى حدود رسمها وتُحسب بموضعها في اللوحة، فتعود الطبقات معًا صورة المشهد. (ملف، بدء خارج الشاشة، الموضع النهائي)."""
+    from PIL import Image
+
+    from . import reel_cartoon
+    w, h = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
+    side = int((reel_cartoon.ccfg(cfg).get("cast") or {}).get("side", 60))
+    imgs = [Image.open(p["file"]).convert("RGBA") for p in pieces]
+    cx, cy, cw, ch = reel_cartoon.canvas_box(imgs[0].size, (side, int(band[0]), w - side, int(band[1])))
+    sc = cw / max(imgs[0].size[0], 1)
+    out = []
+    for k, (p, img) in enumerate(zip(pieces, imgs)):
+        bb = img.getbbox() or (0, 0, img.size[0], img.size[1])
+        part = img.crop(bb)
+        pw, ph = max(int(round(part.size[0] * sc)), 2), max(int(round(part.size[1] * sc)), 2)
+        x, y = cx + int(round(bb[0] * sc)), cy + int(round(bb[1] * sc))
+        sx, sy = reel_cartoon.start_pos(str(p.get("enter") or "bottom"), (x, y, pw, ph), w, h)
+        png = tmp / f"hook_layer_{i}_{k}.png"
+        part.resize((pw, ph), Image.LANCZOS).save(png, "PNG")
+        out.append((png, sx, sy, x, y))
     return out
 
 

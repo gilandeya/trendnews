@@ -12447,3 +12447,195 @@ def test_reel_context_rebuild_2811() -> None:
         b["start"], b["end"] = 0.0, b["seconds"]
     ctx = meta_qa.pick_context(actors, cfg)
     check("2811g: مقطع السياق المفحوص صوته يتقدّم ويُعلَّم أولًا", ctx and ctx[0]["n"] == 2 and ctx[0]["selected"], ctx)
+
+
+def test_reel_cartoon_scene_2811() -> None:
+    """المشهد المبني قطعةً قطعة (طلب صاحب المشروع 28/11): مشهد واحد بعلاقات بين عناصره يُرسم كاملًا ثم تُعزل كل قطعة من الصورة
+    نفسها، والكود يتحقق أن الطبقات تعود المشهد، وكل قطعة تنزل عند كلمتها في سؤال الهوك بترتيب العمق. مثال صاحب المشروع: «هل لنتنياهو
+    دور في استمرار الحصار الأمريكي على إيران؟»."""
+    import base64
+    import copy
+    import io
+    import os
+    import tempfile
+    from types import SimpleNamespace as NS
+
+    import numpy as np
+    from PIL import Image
+
+    from src import reel_cartoon, reel_render
+    from src.config import load_config as real_load
+    real = real_load()
+    check("2811s: config.yaml يفعّل المشهد ويرفع نسخة التركيب",
+          real.path("reel.cartoon.scene.enabled") is True and real.path("reel.render.version") >= 98)
+    cfg = copy.deepcopy(load_config())
+    cfg["reel"]["cartoon"] = copy.deepcopy(real.path("reel.cartoon"))
+    cfg["reel"]["cartoon"]["thinker"]["enabled"] = False
+    title = "هل لنتنياهو دور في استمرار الحصار الأمريكي على إيران؟"
+    words = title.split()
+    script = {"title": title, "scenes": [
+        {"kind": "title_card", "text": title},
+        {"kind": "narration", "role": "question", "text": "ما دور إسرائيل؟", "q": 0},
+        {"kind": "clip", "q": 0, "speaker_name": "محلل", "channel_display": "قناة", "quote_arabic": "نتنياهو يضغط على ترامب"},
+        {"kind": "clip", "q": 0, "speaker_name": "محلل آخر", "channel_display": "قناة 2", "quote_arabic": "الحصار يخنق إيران"},
+        {"kind": "question", "text": "ما رأيك؟"}, {"kind": "outro", "text": ""}]}
+
+    # (1) مخطط المشهد: كلمة نزول ليست في السؤال، وعلاقة بلا أساس أو بطرف مجهول، وعدد العناصر
+    pieces = [{"name_ar": "نتنياهو", "element_en": "Netanyahu whispering", "trigger_ar": "لنتنياهو", "enter": "right", "z": 0},
+              {"name_ar": "ترامب", "element_en": "Trump holding a rope", "trigger_ar": "الأمريكي", "enter": "bottom", "z": 1},
+              {"name_ar": "الكرسي", "element_en": "a chair", "trigger_ar": "الحصار", "enter": "left", "z": 2}]
+    good = {"feasible": True, "idea_ar": "ترامب يربط المرشد ونتنياهو يهمس له", "basis_ar": "الإجابتان 1 و2",
+            "prompt_en": "Trump holds a rope tying Iran's leader to a chair while Netanyahu whispers", "pieces": pieces,
+            "relations": [{"a_ar": "نتنياهو", "verb_ar": "يهمس لـ", "b_ar": "ترامب", "basis": [1], "accusatory": True}]}
+    check("2811s: مخطط سليم بلا مخالفة", reel_cartoon.scene_problems(good, title, 2, cfg) == [],
+          reel_cartoon.scene_problems(good, title, 2, cfg))
+    bad = {**good, "pieces": [dict(pieces[0], trigger_ar="الإسرائيلي")] + pieces[1:],
+           "relations": [{"a_ar": "نتنياهو", "verb_ar": "يهمس", "b_ar": "بايدن", "basis": [7], "accusatory": True}]}
+    probs = reel_cartoon.scene_problems(bad, title, 2, cfg)
+    check("2811s: كلمة ليست في السؤال وعلاقة بلا أساس وطرف مجهول",
+          any("ليست في السؤال" in p for p in probs) and any("بلا إجابة" in p for p in probs) and any("بايدن" in p for p in probs), probs)
+    check("2811s: عنصر واحد ← خارج الحد", any("عدد العناصر" in p for p in
+                                               reel_cartoon.scene_problems({**good, "pieces": pieces[:1]}, title, 2, cfg)))
+    check("2811s: التنظيف يفرّغ كلمة ليست في السؤال ولا يُسقط عنصرها",
+          [p["trigger_ar"] for p in reel_cartoon.clean_scene(bad, title, cfg)["pieces"]] == ["", "الأمريكي", "الحصار"])
+
+    # (2) زمن النزول: كل عنصر عند كلمته، وعنصران على كلمة واحدة معًا، والمتلاصقتان بفارق للأمام، وبلا كلمة بعد السؤال
+    times = [0.3 + 0.3 * k for k in range(len(words))]
+    cue_p = [{"trigger_ar": "لنتنياهو"}, {"trigger_ar": "الحصار"}, {"trigger_ar": "الحصار"}, {"trigger_ar": "الأمريكي"},
+             {"trigger_ar": "إيران"}, {"trigger_ar": ""}]
+    cfg["reel"]["cartoon"]["scene"]["min_gap"] = 0.4
+    cues = reel_cartoon.scene_cues(cue_p, title, times, 9.0, cfg)
+    j = {w.strip("؟"): k for k, w in enumerate(words)}
+    check("2811s: النزول عند الكلمة، والمتلاصقتان بفارق للأمام، وبلا كلمة بعد السؤال",
+          cues[0] == times[j["لنتنياهو"]] and cues[1] == cues[2] == times[j["الحصار"]]
+          and abs(cues[3] - (times[j["الحصار"]] + 0.4)) < 1e-9 and cues[4] == times[j["إيران"]] and cues[5] == 9.0, (cues, times))
+    check("2811s: لا قطعة قبل كلمتها", all(c >= times[j[p["trigger_ar"].strip("؟")]] for c, p in zip(cues[:5], cue_p[:5])))
+    cfg["reel"]["cartoon"]["scene"]["min_gap"] = 0.25
+
+    # (3) اللوحة في المنطقة، والتحقق من الطبقات
+    check("2811s: اللوحة بأكبر مقياس متوسطة أفقيًا وعلى أسفل المنطقة",
+          reel_cartoon.canvas_box((400, 400), (60, 900, 1020, 1700)) == (140, 900, 800, 800)
+          and reel_cartoon.canvas_box((800, 400), (60, 900, 1020, 1700)) == (60, 1220, 960, 480))
+    KEY = (255, 0, 255)
+    rects = {"netanyahu": ((50, 250, 40, 140), (200, 30, 30)), "trump": ((60, 300, 120, 240), (30, 160, 60)),
+             "chair": ((250, 350, 260, 360), (40, 60, 200))}
+
+    def canvas(names):
+        a = np.zeros((400, 400, 3), np.uint8)
+        a[:] = KEY
+        for n in names:
+            (y0, y1, x0, x1), col = rects[n]
+            a[y0:y1, x0:x1] = col
+        return a
+    scene_rgb = canvas(["netanyahu", "trump", "chair"])
+    scene = reel_cartoon.cutout(Image.fromarray(scene_rgb), cfg, crop=False)
+    lay = [reel_cartoon.cutout(Image.fromarray(canvas([n])), cfg, crop=False) for n in ("netanyahu", "trump", "chair")]
+    check("2811s: طبقات بلوحة كاملة غير مقصوصة", scene.size == (400, 400) and all(L.size == (400, 400) for L in lay))
+    ok = reel_cartoon.verify_layers(scene, lay, cfg)
+    check("2811s: الطبقات تعود المشهد ← مقبولة", ok["ok"] and ok["iou"] > 0.95 and ok["diff"] < 5, ok)
+    moved = np.roll(np.asarray(lay[2]), 120, axis=0)
+    bad1 = reel_cartoon.verify_layers(scene, [lay[0], lay[1], Image.fromarray(moved, "RGBA")], cfg)
+    check("2811s: طبقة أُزيحت ← مرفوضة", not bad1["ok"] and any("خارج موضعها" in r for r in bad1["reasons"]), bad1)
+    bad2 = reel_cartoon.verify_layers(scene, [scene, lay[2]], cfg)
+    check("2811s: طبقة تعيد المشهد كله ← مرفوضة", not bad2["ok"] and any("كله" in r for r in bad2["reasons"]), bad2)
+
+    # (4) الخطة: مشهد ← عزل كل عنصر من الصورة نفسها ← طبقات بترتيب العمق؛ وتراجع إلى المشهد كاملًا ثم إلى القطع المنفصلة
+    def b64(arr):
+        buf = io.BytesIO()
+        Image.fromarray(arr).save(buf, "PNG")
+        return base64.b64encode(buf.getvalue()).decode()
+    calls, shift = [], {"on": False}
+
+    def fake_gen(body, model, key, timeout):
+        parts = body["contents"][0]["parts"]
+        calls.append(parts)
+        if not any("inlineData" in p for p in parts):
+            arr = scene_rgb
+        else:
+            text = parts[-1]["text"].lower()
+            name = next(n for n in ("netanyahu", "trump", "chair") if f"{n}" in text.split("only this")[1].split(".")[0].lower()
+                        or text.split(":")[1].strip().startswith(n))
+            arr = canvas([name])
+            if shift["on"] and name == "chair":
+                arr = np.roll(arr, 150, axis=1)
+        return 200, {"candidates": [{"finishReason": "STOP", "content": {"parts": [
+            {"inlineData": {"mimeType": "image/png", "data": b64(arr)}}]}}], "usageMetadata": {"candidatesTokenCount": 100}}, 1.0
+    replies = []
+
+    def fake_create(client, **kw):
+        tool = kw["tools"][0]["name"]
+        data = replies.pop(0) if tool == "cartoon_scene" and replies else good
+        return NS(stop_reason="tool_use", content=[NS(type="tool_use", name=tool, id="t1", input=data)])
+    pieces_en = [dict(p, element_en=e) for p, e in zip(pieces, ("netanyahu whispering", "trump holding a rope", "chair"))]
+    good["pieces"] = pieces_en
+    old = (reel_cartoon._create, reel_cartoon._generate, os.environ.get("GEMINI_API_KEY"))
+    try:
+        os.environ["GEMINI_API_KEY"] = "k"
+        reel_cartoon._create, reel_cartoon._generate = fake_create, fake_gen
+        draft = {"id": "cafe2811s001", "script": script}
+        rec = reel_cartoon.plan(draft, cfg)
+        check("2811s: نداء للمشهد ثم نداء عزل لكل عنصر بالصورة نفسها",
+              len(calls) == 4 and "inlineData" not in str(calls[0]) and all("inlineData" in str(c) for c in calls[1:])
+              and "magenta" in calls[0][0]["text"].lower(), len(calls))
+        check("2811s: طبقات المشهد بترتيب العمق وكلماتها وعلاقاتها",
+              rec["status"] == "ready" and rec["mode"] == "scene" and [p["name_ar"] for p in rec["pieces"]] == ["نتنياهو", "ترامب", "الكرسي"]
+              and all(p["canvas"] for p in rec["pieces"]) and rec["relations"][0]["basis"] == [1]
+              and rec["scene_check"]["iou"] > 0.95 and reel_cartoon.local_path(rec) is not None, rec)
+        lines = "\n".join(reel_cartoon.review_lines(draft, cfg, "https://raw/x.png"))
+        check("2811s: القضية تعرض كل عنصر بكلمته وجهته وكل علاقة بأساسها، ومربعًا غير معلَّم لعلاقة اتهامية",
+              "⬇️ نتنياهو ← عند «لنتنياهو» · من اليمين" in lines and "🧵 نتنياهو يهمس لـ ترامب ← الإجابة 1" in lines
+              and "- [ ] " in lines, lines)
+        neutral = copy.deepcopy(draft)
+        neutral["hook_cartoon"]["relations"][0]["accusatory"] = False
+        check("2811s: علاقة محايدة ← المربع معلَّم كما كان", "- [x] " in "\n".join(reel_cartoon.review_lines(neutral, cfg)))
+        approved = dict(rec, approved=True)
+        check("2811s: طبقات المشهد لا تنتقل إلى السياق",
+              reel_cartoon.usable({"hook_cartoon": approved}, cfg) and reel_cartoon.cast_pieces({"hook_cartoon": approved}, cfg) == [])
+
+        calls.clear()
+        replies[:] = [{**good, "relations": [{"a_ar": "نتنياهو", "verb_ar": "يهمس", "b_ar": "ترامب", "basis": [], "accusatory": True}]}]
+        r2 = reel_cartoon.plan({"id": "cafe2811s002", "script": script}, cfg)
+        check("2811s: علاقة بلا أساس تُعاد مرة بالسبب ثم يُقبل المصحَّح", r2["mode"] == "scene" and not replies, r2.get("scene_error"))
+        shift["on"] = True
+        r3 = reel_cartoon.plan({"id": "cafe2811s003", "script": script}, cfg)
+        lines3 = "\n".join(reel_cartoon.review_lines({"id": "x", "hook_cartoon": r3}, cfg))
+        check("2811s: طبقة أزاحها المولّد ← المشهد كاملًا قطعة واحدة عند أول كلمة نزول، وسببه في القضية",
+              r3["status"] == "ready" and r3["mode"] == "whole" and len(r3["pieces"]) == 1 and r3["pieces"][0]["trigger_ar"] == "لنتنياهو"
+              and "خارج موضعها" in r3["scene_fallback"] and "ينزل كاملًا" in lines3, r3)
+        shift["on"] = False
+        bad_rel = {**good, "relations": [{"a_ar": "نتنياهو", "verb_ar": "يهمس", "b_ar": "ترامب", "basis": [], "accusatory": True}]}
+        replies[:] = [bad_rel, bad_rel]
+        r4 = reel_cartoon.plan({"id": "cafe2811s004", "script": script}, cfg)
+        check("2811s: علاقة بلا أساس بعد الإعادة ← القطع المنفصلة وسبب المشهد", r4.get("mode") is None and "بلا إجابة" in r4["scene_error"], r4)
+    finally:
+        reel_cartoon._create, reel_cartoon._generate = old[0], old[1]
+        if old[2] is None:
+            os.environ.pop("GEMINI_API_KEY", None)
+        else:
+            os.environ["GEMINI_API_KEY"] = old[2]
+
+    # (5) التركيب: الطبقات مدخلات بترتيب العمق، وكل طبقة تنزل عند زمن كلمتها
+    cmds = []
+
+    def run(cmd):
+        cmds.append([str(c) for c in cmd])
+        Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+        Path(cmd[-1]).write_bytes(b"x")
+    deps = reel_render.Deps(
+        download_clip=lambda *a, **k: None, synthesize=lambda t, v: {"ok": True, "audio": b"mp3", "chars": len(t)},
+        diacritize=lambda t: (t, None), run=run, probe=lambda p: 3.0, sleep=lambda s: None,
+        faces=lambda f, fr: (640, 360, []), frames=lambda p, fr: [np.full((360, 640), 100, np.uint8)] * len(fr),
+        streams=lambda p: {"video", "audio"}).resolved(cfg)
+    work = Path(tempfile.mkdtemp())
+    notes: list = []
+    reel_render._hook_scene(0, script["scenes"][0], script, {"hook_cartoon": approved}, None, "female", cfg, deps, work,
+                            work / "o.mp4", notes)
+    fs = " ".join([c for c in cmds if c[-1].endswith("o.mp4")][-1])
+    check("2811s: ثلاث طبقات بترتيب العمق فوق الضباب وتحت الكلمات",
+          fs.count("hook_layer_0_") == 3 and "[bf][pc0]overlay" in fs and "[pp1][pc2]overlay" in fs and "[pp2][t]overlay" in fs, fs[-700:])
+    lays = reel_render._scene_layers(reel_cartoon.usable({"hook_cartoon": approved}, cfg), cfg, work, 9,
+                                     reel_render._hook_band(cfg, title))
+    check("2811s: الطبقات في مواضعها من اللوحة (ترامب يبدأ يمين نتنياهو كما في المشهد)",
+          lays[1][3] > lays[0][3] and lays[2][4] > lays[0][4], [x[1:] for x in lays])
+    check("2811s: النزول من خارج الشاشة بجهته", lays[0][1] == int(cfg.path("reel.render.width")) and lays[2][1] < 0
+          and lays[1][2] == int(cfg.path("reel.render.height")), [x[1:3] for x in lays])
