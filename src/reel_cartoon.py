@@ -543,6 +543,13 @@ def plan(draft: dict, cfg: Any, client=None) -> dict | None:
         if outcome:
             draft["hook_cartoon"] = rec
             return rec
+        # القضية 2059: المشهد سقط فرجعت القطع المنفصلة (لا تمرّ بالقراءة ولا بحارس الأسماء) فخرجت تشكيلة رجال بلا أسماء أحدهم يصوّب
+        # على الآخر. الهوك بلا رسم أفضل من رسم لم يُفحص: fallback_pieces false ← لا كاريكاتير بسبب المشهد
+        if scene_mode(cfg) and not scfg(cfg).get("fallback_pieces", True):
+            rec["error"] = str((ccfg(cfg).get("texts") or {}).get("scene_no_fallback", "لم يُرسم المشهد: {why}")).format(
+                why=rec.get("scene_error", ""))
+            draft["hook_cartoon"] = rec
+            return rec
         con, why = concept(draft["script"], cfg, client)
         if not con:
             rec["error"] = why
@@ -644,7 +651,9 @@ def review_lines(d: dict, cfg, image_url: str = "") -> list[str]:
         return []
     t = ccfg(cfg).get("texts") or {}
     if rec.get("status") != "ready":
-        return [f"  {t.get('none', '🎨 لا كاريكاتير للهوك')}: {rec.get('error', '')}", ""]
+        # القضية 2059: السبب وحده لا يقول ماذا حاولنا؛ الفكرة معه كي يُعرف أن الرسم تُرك عن قصد
+        idea = [f"  <sub>{t.get('tried', 'الفكرة التي جُرّبت')}: {rec['idea_ar']}</sub>"] if rec.get("idea_ar") else []
+        return [f"  {t.get('none', '🎨 لا كاريكاتير للهوك')}: {rec.get('error', '')}", *idea, ""]
     out = [f"  {t.get('header', '🎨 كاريكاتير مقترح للهوك')}: {rec.get('idea_ar', '')}",
            f"  <sub>{t.get('basis', 'الأساس')}: {rec.get('basis_ar', '')}</sub>"]
     names = [p.get("name_ar") for p in rec.get("pieces") or [] if isinstance(p, dict) and p.get("name_ar")]
@@ -713,9 +722,26 @@ def answer_count(script: dict) -> int:
     return sum(1 for s in script.get("scenes") or [] if s.get("kind") in ("clip", "cold_open_clip") and s.get("role") != "context")
 
 
-def scene_problems(got: dict, title: str, n_answers: int, cfg) -> list[str]:
-    """ما يرفضه الكود من مخطط المشهد (دالة خالصة): عدد القطع، وكلمة نزول ليست حرفيًا في السؤال، وعلاقة بلا إجابة تسندها أو بطرف
-    ليس من القطع. الحكم بمعنى الكلمة (الأمريكي ← ترامب) للنموذج، ووجودها في النص للكود."""
+def person_problem(person: str, source: str, cfg) -> str:
+    """سبب رفض شخص في المشهد أو "" (دالة خالصة). القضية 2059: «قائد التحالف السعودي» و«محارب حوثي» رُسما قوالب بلا اسم، فصار الرسم
+    يمثّل شعبًا لا شخصًا. الشخص المرسوم شخص عام يرد اسمه في مادة الريل، والاسم الذي فيه كلمة جماعة أو صفة عامة (scene.group_words) ليس
+    اسم شخص؛ وما لا اسم له يُرسم شيئًا بألوان علمه لا رجلًا."""
+    from . import reel_figures
+    person = " ".join(str(person or "").split())
+    if not person:
+        return ""
+    words = set(person.split())
+    if words & set(scfg(cfg).get("group_words") or []):
+        return f"«{person}» ليس اسم شخص (جماعة أو صفة عامة): ارسم شيئًا بألوان علمه لا رجلًا"
+    if not reel_figures.name_in_sentence(person, source, cfg):
+        return f"«{person}» لا يرد شخصًا في مادة الريل"
+    return ""
+
+
+def scene_problems(got: dict, title: str, n_answers: int, cfg, source: str = "") -> list[str]:
+    """ما يرفضه الكود من مخطط المشهد (دالة خالصة): عدد القطع، وكلمة نزول ليست حرفيًا في السؤال، وعلاقة بلا إجابة تسندها، وشخص ليس
+    شخصًا عامًا مسمّى في المادة (source؛ فارغ ← لا فحص). الحكم بمعنى الكلمة (الأمريكي ← ترامب) للنموذج، ووجودها في النص للكود. طرف العلاقة
+    لا يُشترط أن يكون عنصرًا (القضية 2059: «صاروخ الحوثيين» يحمله محارب فأسقط المشهد كله، وطرفاها للعرض والقراءة وحدهما)."""
     from . import reel_figures
     sc = scfg(cfg)
     out: list[str] = []
@@ -723,7 +749,6 @@ def scene_problems(got: dict, title: str, n_answers: int, cfg) -> list[str]:
     lo, hi = int(sc.get("min_pieces", 2)), int(sc.get("max_pieces", 5))
     if not lo <= len(pieces) <= hi:
         out.append(f"عدد العناصر {len(pieces)} والمطلوب بين {lo} و{hi}")
-    names = {" ".join(str(p.get("name_ar") or "").split()) for p in pieces}
     for p in pieces:
         trig = " ".join(str(p.get("trigger_ar") or "").split())
         if not trig or reel_figures.mention_index(trig, title, cfg) is None:
@@ -735,9 +760,8 @@ def scene_problems(got: dict, title: str, n_answers: int, cfg) -> list[str]:
         label = f"{r.get('a_ar', '')} {r.get('verb_ar', '')} {r.get('b_ar', '')}"
         if not basis:
             out.append(f"علاقة «{label}» بلا إجابة تسندها")
-        for side in ("a_ar", "b_ar"):
-            if " ".join(str(r.get(side) or "").split()) not in names:
-                out.append(f"طرف العلاقة «{r.get(side, '')}» ليس من العناصر")
+    if source:
+        out += [w for w in (person_problem(p.get("person_ar", ""), source, cfg) for p in pieces) if w]
     return out
 
 
@@ -784,7 +808,7 @@ def scene_concept(script: dict, cfg, client=None) -> tuple[dict | None, str]:
         got = _tool_input(resp, SCENE_TOOL["name"]) or {}
         if not got.get("feasible"):
             return None, str(got.get("idea_ar") or "لا مشهد يرسمه كاريكاتير بأمانة")
-        problems = scene_problems(got, title, n, cfg)
+        problems = scene_problems(got, title, n, cfg, source=material(script))
         if not problems:
             break
         block = next((b for b in getattr(resp, "content", []) or [] if getattr(b, "type", "") == "tool_use"), None)
@@ -960,7 +984,7 @@ JUDGE_TOOL = {
     "name": "judge_reading",
     "description": "هل يفهم المشاهد من الرسم ما أُريد منه؟",
     "input_schema": {"type": "object", "properties": {
-        "verdict": {"type": "string", "enum": ["match", "contradicts", "decides_open", "unclear"]},
+        "verdict": {"type": "string", "enum": ["match", "contradicts", "decides_open", "unclear", "unsafe"]},
         "reason_ar": {"type": "string", "description": "السبب بجملة واحدة"}},
         "required": ["verdict", "reason_ar"]},
 }
@@ -1003,7 +1027,7 @@ def read_scene(img, con: dict, title: str, cfg, client=None) -> dict:
                      tool_choice={"type": "tool", "name": JUDGE_TOOL["name"]}, messages=[{"role": "user", "content": msg}])
         verdict = _tool_input(r2, JUDGE_TOOL["name"]) or {}
         v = str(verdict.get("verdict") or "")
-        if v not in ("match", "contradicts", "decides_open", "unclear"):
+        if v not in ("match", "contradicts", "decides_open", "unclear", "unsafe"):
             return {"reading": reading, "unknown": unknown, "error": "لم يُرجع الحكم"}
         return {"reading": reading, "unknown": unknown, "verdict": v, "reason": " ".join(str(verdict.get("reason_ar") or "").split())}
     except Exception as exc:  # noqa: BLE001 -- القراءة تحسين: عطلها لا يُسقط الرسم
@@ -1050,6 +1074,11 @@ def _draw_read(con: dict, title: str, cfg, client, key: str, rec: dict) -> tuple
         rec["reading"] = {**got, "attempts": len(attempts)}
         if got.get("error") or got.get("verdict") == "match":
             return scene_rgb, scene, usd, ""
+        if got.get("verdict") == "unsafe":
+            # القضية 2059: العنف من الفكرة نفسها (تبادل ضربات ← سلاح مصوَّب)، فإعادة الرسم تعيده؛ لا كاريكاتير بسببه
+            t = ccfg(cfg).get("texts") or {}
+            return scene_rgb, scene, usd, str(t.get("reading_unsafe", "لا يصلح للنشر: {reason}")).format(
+                reading=got.get("reading", ""), reason=got.get("reason", ""))
         note = str(rd.get("redraw_note", "")).format(reading=got.get("reading", ""), reason=got.get("reason", ""),
                                                      idea=con.get("idea_ar", ""))
     last = attempts[-1] if attempts else {}

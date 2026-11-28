@@ -1977,6 +1977,10 @@ reel:
       enabled: true
       aspect: "4:3"
       residual_min_share: 0.01
+      # القضية 2059: المشهد سقط فرجعت القطع المنفصلة (بلا قراءة ولا حارس أسماء) فخرجت تشكيلة رجال بلا أسماء؛ false ← لا كاريكاتير
+      fallback_pieces: false
+      # كلمات جماعة أو صفة عامة: شخص المشهد الذي في اسمه إحداها ليس شخصًا مسمّى فيُعاد المخطط بالسبب (person_problem)
+      group_words: [قادة, قائد, محارب, محاربون, مقاتل, مقاتلون, جندي, جنود, عناصر, التحالف, الحوثيون, الحوثيين, حوثي, مسؤول, مسؤولون, جنرال, زعيم, زعماء, ميليشيا, متظاهر, متظاهرون]
       contact_px: 3
       retry_hints:
         whole: "Your previous attempt kept almost the whole scene. Keep ONLY {element}; every other figure and object must become flat magenta."
@@ -2001,6 +2005,8 @@ reel:
           contradicts: يفهم معنى يخالف الفكرة (مثل: الفكرة أن الناقلة تنفلت، والمشاهد يرى أنها تُجرّ مستسلمة).
           decides_open: سؤال الريل مفتوح والرسم يحسم جوابه (يُظهر فائزًا لم تحسمه الإجابات).
           unclear: لا يعرف المشاهد طرفًا أساسيًا (لا يدري أن الناقلة إيرانية) أو لا يفهم ما يحدث.
+          unsafe: لا يصلح للنشر أيًّا كانت الفكرة: سلاح مصوَّب نحو شخص، أو دم أو جثث، أو شخص عام يُضرب أو يُهان، أو شخصية بلا اسم تمثّل
+          شعبًا بقوالب (كوفية وأوسمة وكرش). هذا الحكم يسبق الأربعة: إن انطبق فاختره ولو طابقت الفكرة.
         redraw_note: |-
           A viewer who saw the previous drawing understood: «{reading}». That is wrong because: {reason}. Redraw so a viewer understands
           exactly this idea: {idea}. Identify every party at first glance (a famous leader by his features, a country by its flag colors on
@@ -2035,6 +2041,10 @@ reel:
         9. لا رموز خلفية ولا زينة (تروس، نباتات، أسهم، سحب): العناصر التي في pieces وحدها، وكل ما في prompt_en منها.
         10. الأداة التي تصل بين عنصرين (حبل، سلسلة، قيد، يد ممدودة) جزء من عنصر من يمسكها لا عنصر وحدها: element_en «Trump holding a
             rope» لا «a rope»، لأن الحبل المتشابك بغيره لا يُعزل وحده.
+        11. العنف يُرسم رمزًا لا فعلًا: لا سلاح مصوَّب نحو شخص، ولا ضربة تصيب أحدًا، ولا دم. تبادل الضربات مباراة أو كرة يتقاذفها طرفان أو رقعة
+            شطرنج (القضية 2059: «تبادل ضربات» رُسم محاربًا يصوّب قاذفًا نحو جنرال).
+        12. كل شخص في المشهد شخص عام مسمّى في person_ar ويرد اسمه في المادة، لا «قائد حوثي» ولا «جنرال سعودي» ولا «مقاتل»: الشخصية بلا
+            اسم تمثّل شعبًا. ما لا اسم له يُرسم شيئًا بألوان علمه (طائرة، ميناء، صاروخ) وperson_ar فارغ.
         إن لم تحمل الإجابات مشهدًا يرسمه كاريكاتير بأمانة فاجعل feasible = false واكتب السبب في idea_ar.
       scene_style: |-
         Draw the whole scene as one composition centered in the image with a clear margin on every side, all figures full body
@@ -2060,6 +2070,9 @@ reel:
       scene_failed: "⚠️ تعذّر رسم المشهد فاستُعملت القطع المنفصلة: {why}"
       reading: "👁️ يفهم المشاهد: {reading}"
       reading_failed: "رُسم المشهد مرتين وفهمه المشاهد غير المقصود: {reading} ({reason})"
+      reading_unsafe: "الرسم لا يصلح للنشر: {reason} (يفهم المشاهد: {reading})"
+      scene_no_fallback: "لم يُرسم المشهد: {why}"
+      tried: "الفكرة التي جُرّبت"
       layer_merged: "🧩 تعذّر فصل {name} فدُمج مع {into} وينزلان معًا"
       layer_from_scene: "🧩 تعذّر فصل {name} فقُصّ من المشهد نفسه"
       layer_dropped: "🧩 تعذّر فصل {name} ولم يبقَ منه خارج غيره ما يُرسم"

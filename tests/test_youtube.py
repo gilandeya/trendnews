@@ -12627,6 +12627,106 @@ def test_reel_cartoon_reading_2054() -> None:
     llm._reset_for_tests()
 
 
+def test_reel_cartoon_safe_2059() -> None:
+    """القضية 2059: طرف علاقة ليس عنصرًا («صاروخ الحوثيين») أسقط المشهد فرجعت القطع المنفصلة بلا قراءة ولا حارس: ثلاثة رجال بلا
+    أسماء («قائد التحالف السعودي»، «محارب حوثي») أحدهم يصوّب قاذفًا نحو آخر."""
+    import base64
+    import copy
+    import io
+    import os
+    from types import SimpleNamespace as NS
+
+    import numpy as np
+    from PIL import Image
+
+    from src import reel_cartoon
+    from src.config import load_config as real_load
+    real = real_load()
+    check("2059: config يوقف رجوع الهوك إلى القطع المنفصلة ويمنع العنف والشخص بلا اسم",
+          real.path("reel.cartoon.scene.fallback_pieces") is False
+          and "رمزًا لا فعلًا" in real.path("reel.cartoon.scene.system") and "unsafe" in real.path("reel.cartoon.scene.reading.judge_system"))
+    cfg = copy.deepcopy(load_config())
+    cfg["reel"]["cartoon"] = copy.deepcopy(real.path("reel.cartoon"))
+    cfg["reel"]["cartoon"]["thinker"]["enabled"] = False
+    title = "لماذا عاد القتال بين السعودية والحوثيين الآن؟"
+    script = {"title": title, "scenes": [
+        {"kind": "title_card", "text": title}, {"kind": "narration", "role": "question", "text": "من بدأ؟", "q": 0},
+        {"kind": "clip", "q": 0, "speaker_name": "عبد الملك الحوثي", "channel_display": "المسيرة", "quote_arabic": "سنرد على كل غارة"},
+        {"kind": "clip", "q": 0, "speaker_name": "محمد بن سلمان", "channel_display": "العربية", "quote_arabic": "أمن المملكة خط أحمر"},
+        {"kind": "question", "text": "رأيك؟"}, {"kind": "outro", "text": ""}]}
+    source = reel_cartoon.material(script)
+
+    # (1) مخطط 2059 الحقيقي: طرفا علاقة ليسا عنصرين لم يعودا سببًا للرفض، والأساس يبقى شرطًا
+    p2059 = [{"name_ar": "عبد الملك الحوثي", "person_ar": "عبد الملك الحوثي", "element_en": "al-Houthi holding a rocket",
+              "trigger_ar": "الحوثيين", "enter": "right", "z": 0},
+             {"name_ar": "محمد بن سلمان", "person_ar": "محمد بن سلمان", "element_en": "MBS with a tennis racket",
+              "trigger_ar": "السعودية", "enter": "left", "z": 1}]
+    got = {"feasible": True, "idea_ar": "x", "basis_ar": "1", "prompt_en": "x", "pieces": p2059,
+           "relations": [{"a_ar": "صاروخ الحوثيين", "verb_ar": "يضرب", "b_ar": "الميناء المعترض", "basis": [2], "accusatory": False}]}
+    check("2059: طرفا العلاقة المجهولان لا يُسقطان المشهد", reel_cartoon.scene_problems(got, title, 2, cfg, source=source) == [],
+          reel_cartoon.scene_problems(got, title, 2, cfg, source=source))
+    # (2) الشخص بلا اسم: كلمة جماعة أو اسم لا يرد في المادة
+    check("2059: «قائد التحالف السعودي» و«محارب حوثي» ليسا اسمَي شخصين",
+          "ليس اسم شخص" in reel_cartoon.person_problem("قائد التحالف السعودي", source, cfg)
+          and "ليس اسم شخص" in reel_cartoon.person_problem("محارب حوثي", source, cfg))
+    check("2059: شخص لا يرد في المادة يُرفض، والمسمّى فيها يُقبل، والشيء بلا شخص يُقبل",
+          "لا يرد" in reel_cartoon.person_problem("جو بايدن", source, cfg)
+          and reel_cartoon.person_problem("محمد بن سلمان", source, cfg) == "" and reel_cartoon.person_problem("", source, cfg) == "")
+    bad = {**got, "pieces": [dict(p2059[0], person_ar="محارب حوثي")] + p2059[1:]}
+    check("2059: المخطط بشخص بلا اسم يُعاد بالسبب",
+          any("ليس اسم شخص" in w for w in reel_cartoon.scene_problems(bad, title, 2, cfg, source=source)))
+
+    # (3) الأنبوب: قراءة «unsafe» ← لا كاريكاتير بلا إعادة رسم ولا عزل؛ ومشهد فاشل ← لا قطع منفصلة
+    KEY = (255, 0, 255)
+
+    def b64(x):
+        buf = io.BytesIO()
+        Image.fromarray(x).save(buf, "PNG")
+        return base64.b64encode(buf.getvalue()).decode()
+    calls = []
+
+    def fake_gen(body, model, key, timeout):
+        calls.append(body["contents"][0]["parts"][-1].get("text", ""))
+        z = np.zeros((300, 400, 3), np.uint8)
+        z[:] = KEY
+        z[60:260, 40:160] = (30, 160, 60)
+        z[60:260, 240:360] = (40, 60, 200)
+        return 200, {"candidates": [{"finishReason": "STOP", "content": {"parts": [
+            {"inlineData": {"mimeType": "image/png", "data": b64(z)}}]}}], "usageMetadata": {"candidatesTokenCount": 10}}, 1.0
+    state = {"concept": got, "verdict": {"verdict": "unsafe", "reason_ar": "سلاح مصوَّب نحو شخص"}}
+
+    def fake_create(client, **kw):
+        tool = kw["tools"][0]["name"]
+        data = ({"reading_ar": "رجل يصوّب صاروخًا نحو آخر", "unknown_ar": ""} if tool == "read_cartoon"
+                else state["verdict"] if tool == "judge_reading" else state["concept"])
+        return NS(stop_reason="tool_use", content=[NS(type="tool_use", name=tool, id="t1", input=data)])
+    old = (reel_cartoon._create, reel_cartoon._generate, os.environ.get("GEMINI_API_KEY"))
+    try:
+        os.environ["GEMINI_API_KEY"] = "k"
+        reel_cartoon._create, reel_cartoon._generate = fake_create, fake_gen
+        r = reel_cartoon.plan({"id": "cafe2059a001", "script": script}, cfg)
+        check("2059: قراءة لا تصلح للنشر ← لا كاريكاتير، بلا إعادة رسم ولا عزل",
+              r["status"] == "none" and "لا يصلح للنشر" in r["error"] and len(calls) == 1, (r, len(calls)))
+        lines = "\n".join(reel_cartoon.review_lines({"id": "x", "hook_cartoon": r}, cfg))
+        check("2059: القضية تذكر السبب والفكرة التي جُرّبت", "لا كاريكاتير" in lines and "الفكرة التي جُرّبت" in lines, lines)
+        calls.clear()
+        state["concept"] = {**got, "relations": [dict(got["relations"][0], basis=[])]}
+        r2 = reel_cartoon.plan({"id": "cafe2059a002", "script": script}, cfg)
+        check("2059: مشهد سقط ← لا كاريكاتير (لا القطع المنفصلة) وسببه",
+              r2["status"] == "none" and "لم يُرسم المشهد" in r2["error"] and "بلا إجابة" in r2["error"] and not calls, (r2, calls))
+        fb = copy.deepcopy(cfg)
+        fb["reel"]["cartoon"]["scene"]["fallback_pieces"] = True
+        r3 = reel_cartoon.plan({"id": "cafe2059a003", "script": script}, fb)
+        check("2059: fallback_pieces true ← القطع المنفصلة كما كانت (سبب المشهد محفوظ والخطأ خطأ القطع)",
+              r3.get("scene_error") and "لم يُرسم المشهد" not in str(r3.get("error", "")), r3)
+    finally:
+        reel_cartoon._create, reel_cartoon._generate = old[0], old[1]
+        if old[2] is None:
+            os.environ.pop("GEMINI_API_KEY", None)
+        else:
+            os.environ["GEMINI_API_KEY"] = old[2]
+
+
 def test_reel_cartoon_scene_2811() -> None:
     """المشهد المبني قطعةً قطعة (طلب صاحب المشروع 28/11): مشهد واحد بعلاقات بين عناصره يُرسم كاملًا ثم تُعزل كل قطعة من الصورة
     نفسها، والكود يتحقق أن الطبقات تعود المشهد، وكل قطعة تنزل عند كلمتها في سؤال الهوك بترتيب العمق. مثال صاحب المشروع: «هل لنتنياهو
@@ -12670,8 +12770,9 @@ def test_reel_cartoon_scene_2811() -> None:
     bad = {**good, "pieces": [dict(pieces[0], trigger_ar="الإسرائيلي")] + pieces[1:],
            "relations": [{"a_ar": "نتنياهو", "verb_ar": "يهمس", "b_ar": "بايدن", "basis": [7], "accusatory": True}]}
     probs = reel_cartoon.scene_problems(bad, title, 2, cfg)
-    check("2811s: كلمة ليست في السؤال وعلاقة بلا أساس وطرف مجهول",
-          any("ليست في السؤال" in p for p in probs) and any("بلا إجابة" in p for p in probs) and any("بايدن" in p for p in probs), probs)
+    # القضية 2059: طرف العلاقة المجهول لم يعد سببًا للرفض (يحمله عنصر آخر)، والأساس يبقى شرطًا
+    check("2811s: كلمة ليست في السؤال وعلاقة بلا أساس، والطرف المجهول وحده لا يُرفض",
+          any("ليست في السؤال" in p for p in probs) and any("بلا إجابة" in p for p in probs) and not any("ليس من العناصر" in p for p in probs), probs)
     check("2811s: عنصر واحد ← خارج الحد", any("عدد العناصر" in p for p in
                                                reel_cartoon.scene_problems({**good, "pieces": pieces[:1]}, title, 2, cfg)))
     check("2811s: التنظيف يفرّغ كلمة ليست في السؤال ولا يُسقط عنصرها",
